@@ -10,9 +10,6 @@
 #import "JVFloatingDrawerViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
 #import "CourtesyQRScanViewController.h"
-#import "LBXScanView.h"
-#import "LBXScanResult.h"
-#import "LBXScanWrapper.h"
 #import "Colours.h"
 
 static NSString * const kJVDrawersStoryboardName = @"Drawers";
@@ -129,19 +126,7 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 
 - (CourtesyQRScanViewController *)scanViewController {
     if (!_scanViewController) {
-        LBXScanViewStyle *style = [[LBXScanViewStyle alloc] init];
-        style.centerUpOffset = 44;
-        style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle_Outer;
-        style.photoframeLineW = 6;
-        style.photoframeAngleW = 24;
-        style.photoframeAngleH = 24;
-        style.colorRetangleLine = [UIColor magicColor];
-        style.colorAngle = [UIColor magicColor];
-        style.animationStyle = LBXScanViewAnimationStyle_LineMove;
-        style.animationImage = [UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_magic_red"];
         _scanViewController = [CourtesyQRScanViewController new];
-        _scanViewController.style = style;
-        _scanViewController.isQQSimulator = YES;
     }
     return _scanViewController;
 }

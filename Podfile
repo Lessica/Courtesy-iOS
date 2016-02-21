@@ -4,4 +4,5 @@ target 'Courtesy', :exclusive => true do
 	pod "ZXingObjC"
 	pod 'Colours'
 	pod "LBXScan"
+	pod 'LGAlertView'
 end
