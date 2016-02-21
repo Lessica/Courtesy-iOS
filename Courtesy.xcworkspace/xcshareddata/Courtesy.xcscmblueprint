@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "5767303A0B5FF242AAFF2202279CAA80FA477071",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5767303A0B5FF242AAFF2202279CAA80FA477071" : 0,
+    "69E67661CA5ADF74816A919E8ABB255FF119E223" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "09AD1CDA-71AA-4649-9722-09137C2F39A2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5767303A0B5FF242AAFF2202279CAA80FA477071" : "Courtesy\/",
+    "69E67661CA5ADF74816A919E8ABB255FF119E223" : "..\/..\/..\/..\/..\/opt\/theos"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Courtesy",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Courtesy.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Lessica\/Courtesy-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5767303A0B5FF242AAFF2202279CAA80FA477071"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/rpetrich\/theos.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "69E67661CA5ADF74816A919E8ABB255FF119E223"
+    }
+  ]
+}

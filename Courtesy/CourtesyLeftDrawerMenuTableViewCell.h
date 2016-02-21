@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CourtesyLeftDrawerTableViewCell : UITableViewCell
+@interface CourtesyLeftDrawerMenuTableViewCell : UITableViewCell
 
 @property (nonatomic, copy) NSString *titleText;
 @property (nonatomic, strong) UIImage *iconImage;

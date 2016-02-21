@@ -20,8 +20,9 @@
 
 @property (nonatomic, strong) UITableViewController *leftDrawerViewController;
 @property (nonatomic, strong) UITableViewController *rightDrawerViewController;
-@property (nonatomic, strong) UIViewController *githubViewController;
+@property (nonatomic, strong) UIViewController *mainViewController;
 @property (nonatomic, strong) UIViewController *drawerSettingsViewController;
+@property (nonatomic, strong) UIViewController *githubViewController;
 
 + (AppDelegate *)globalDelegate;
 

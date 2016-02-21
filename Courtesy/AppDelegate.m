@@ -11,22 +11,21 @@
 #import "JVFloatingDrawerSpringAnimator.h"
 
 static NSString * const kJVDrawersStoryboardName = @"Drawers";
-
 static NSString * const kJVLeftDrawerStoryboardID = @"JVLeftDrawerViewControllerStoryboardID";
 static NSString * const kJVRightDrawerStoryboardID = @"JVRightDrawerViewControllerStoryboardID";
-
-static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGitHubProjectPageViewControllerStoryboardID";
+static NSString * const kCourtesyMainTableViewControllerStoryboardID = @"CourtesyMainTableViewControllerStoryboardID";
 static NSString * const kJVDrawerSettingsViewControllerStoryboardID = @"JVDrawerSettingsViewControllerStoryboardID";
+static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGitHubProjectPageViewControllerStoryboardID";
 
 @interface AppDelegate ()
-
 @property (nonatomic, strong, readonly) UIStoryboard *drawersStoryboard;
-
 @end
 
 @implementation AppDelegate
 
 @synthesize drawersStoryboard = _drawersStoryboard;
+
+#pragma mark - 继承应用状态响应方法
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
@@ -40,16 +39,44 @@ static NSString * const kJVDrawerSettingsViewControllerStoryboardID = @"JVDrawer
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {}
-
 - (void)applicationDidEnterBackground:(UIApplication *)application {}
-
 - (void)applicationWillEnterForeground:(UIApplication *)application {}
-
 - (void)applicationDidBecomeActive:(UIApplication *)application {}
-
 - (void)applicationWillTerminate:(UIApplication *)application {}
 
-#pragma mark - Drawer View Controllers
+#pragma mark - 注册框架故事板
+
+- (UIStoryboard *)drawersStoryboard {
+    if(!_drawersStoryboard) {
+        _drawersStoryboard = [UIStoryboard storyboardWithName:kJVDrawersStoryboardName bundle:nil];
+    }
+    
+    return _drawersStoryboard;
+}
+
+- (JVFloatingDrawerSpringAnimator *)drawerAnimator {
+    if (!_drawerAnimator) {
+        _drawerAnimator = [[JVFloatingDrawerSpringAnimator alloc] init];
+    }
+    
+    return _drawerAnimator;
+}
+
+#pragma mark - 全局操作控制
+
++ (AppDelegate *)globalDelegate {
+    return (AppDelegate *)[UIApplication sharedApplication].delegate;
+}
+
+- (void)toggleLeftDrawer:(id)sender animated:(BOOL)animated {
+    [self.drawerViewController toggleDrawerWithSide:JVFloatingDrawerSideLeft animated:animated completion:nil];
+}
+
+- (void)toggleRightDrawer:(id)sender animated:(BOOL)animated {
+    [self.drawerViewController toggleDrawerWithSide:JVFloatingDrawerSideRight animated:animated completion:nil];
+}
+
+#pragma mark - 注册框架视图控制器
 
 - (JVFloatingDrawerViewController *)drawerViewController {
     if (!_drawerViewController) {
@@ -59,7 +86,7 @@ static NSString * const kJVDrawerSettingsViewControllerStoryboardID = @"JVDrawer
     return _drawerViewController;
 }
 
-#pragma mark Sides
+#pragma mark - 注册两侧视图控制器
 
 - (UITableViewController *)leftDrawerViewController {
     if (!_leftDrawerViewController) {
@@ -77,14 +104,24 @@ static NSString * const kJVDrawerSettingsViewControllerStoryboardID = @"JVDrawer
     return _rightDrawerViewController;
 }
 
-#pragma mark Center
+#pragma mark - 注册中央视图控制器
 
-- (UIViewController *)githubViewController {
-    if (!_githubViewController) {
-        _githubViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kJVGitHubProjectPageViewControllerStoryboardID];
+- (void)configureDrawerViewController {
+    self.drawerViewController.leftViewController = self.leftDrawerViewController;
+    self.drawerViewController.rightViewController = self.rightDrawerViewController;
+    self.drawerViewController.centerViewController = self.mainViewController;
+    
+    self.drawerViewController.animator = self.drawerAnimator;
+    
+    self.drawerViewController.backgroundImage = [UIImage imageNamed:@"sky"];
+}
+
+- (UIViewController *)mainViewController {
+    if (!_mainViewController) {
+        _mainViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyMainTableViewControllerStoryboardID];
     }
     
-    return _githubViewController;
+    return _mainViewController;
 }
 
 - (UIViewController *)drawerSettingsViewController {
@@ -95,44 +132,12 @@ static NSString * const kJVDrawerSettingsViewControllerStoryboardID = @"JVDrawer
     return _drawerSettingsViewController;
 }
 
-- (JVFloatingDrawerSpringAnimator *)drawerAnimator {
-    if (!_drawerAnimator) {
-        _drawerAnimator = [[JVFloatingDrawerSpringAnimator alloc] init];
+- (UIViewController *)githubViewController {
+    if (!_githubViewController) {
+        _githubViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kJVGitHubProjectPageViewControllerStoryboardID];
     }
     
-    return _drawerAnimator;
-}
-
-- (UIStoryboard *)drawersStoryboard {
-    if(!_drawersStoryboard) {
-        _drawersStoryboard = [UIStoryboard storyboardWithName:kJVDrawersStoryboardName bundle:nil];
-    }
-    
-    return _drawersStoryboard;
-}
-
-- (void)configureDrawerViewController {
-    self.drawerViewController.leftViewController = self.leftDrawerViewController;
-    self.drawerViewController.rightViewController = self.rightDrawerViewController;
-    self.drawerViewController.centerViewController = self.drawerSettingsViewController;
-    
-    self.drawerViewController.animator = self.drawerAnimator;
-    
-    self.drawerViewController.backgroundImage = [UIImage imageNamed:@"sky"];
-}
-
-#pragma mark - Global Access Helper
-
-+ (AppDelegate *)globalDelegate {
-    return (AppDelegate *)[UIApplication sharedApplication].delegate;
-}
-
-- (void)toggleLeftDrawer:(id)sender animated:(BOOL)animated {
-    [self.drawerViewController toggleDrawerWithSide:JVFloatingDrawerSideLeft animated:animated completion:nil];
-}
-
-- (void)toggleRightDrawer:(id)sender animated:(BOOL)animated {
-    [self.drawerViewController toggleDrawerWithSide:JVFloatingDrawerSideRight animated:animated completion:nil];
+    return _githubViewController;
 }
 
 @end

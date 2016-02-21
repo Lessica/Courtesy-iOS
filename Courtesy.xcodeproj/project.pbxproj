@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F18A0D01C7965D500FDFDF5 /* CourtesyMainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18A0CF1C7965D500FDFDF5 /* CourtesyMainTableViewController.m */; };
+		0F18A0D31C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18A0D21C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m */; };
 		0FBBF7231C78BD4700A0A2D1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF7131C78BD4700A0A2D1 /* AppDelegate.m */; };
 		0FBBF7241C78BD4700A0A2D1 /* Drawers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */; };
 		0FBBF7251C78BD4700A0A2D1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7161C78BD4700A0A2D1 /* LaunchScreen.xib */; };
 		0FBBF7261C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF7191C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m */; };
-		0FBBF7271C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF71B1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.m */; };
+		0FBBF7271C78BD4700A0A2D1 /* CourtesyLeftDrawerMenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF71B1C78BD4700A0A2D1 /* CourtesyLeftDrawerMenuTableViewCell.m */; };
 		0FBBF7281C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF71D1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m */; };
 		0FBBF7291C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF71F1C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.m */; };
 		0FBBF72A1C78BD4700A0A2D1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7201C78BD4700A0A2D1 /* Images.xcassets */; };
@@ -22,14 +24,18 @@
 
 /* Begin PBXFileReference section */
 		05940789181F806AF4D4F3D2 /* Pods-Courtesy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Courtesy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Courtesy/Pods-Courtesy.release.xcconfig"; sourceTree = "<group>"; };
+		0F18A0CE1C7965D500FDFDF5 /* CourtesyMainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMainTableViewController.h; sourceTree = "<group>"; };
+		0F18A0CF1C7965D500FDFDF5 /* CourtesyMainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMainTableViewController.m; sourceTree = "<group>"; };
+		0F18A0D11C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLeftDrawerAvatarTableViewCell.h; sourceTree = "<group>"; };
+		0F18A0D21C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLeftDrawerAvatarTableViewCell.m; sourceTree = "<group>"; };
 		0FBBF7121C78BD4700A0A2D1 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0FBBF7131C78BD4700A0A2D1 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0FBBF7151C78BD4700A0A2D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawers.storyboard; sourceTree = "<group>"; };
 		0FBBF7171C78BD4700A0A2D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		0FBBF7181C78BD4700A0A2D1 /* CourtesyGithubWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyGithubWebViewController.h; sourceTree = "<group>"; };
 		0FBBF7191C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyGithubWebViewController.m; sourceTree = "<group>"; };
-		0FBBF71A1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLeftDrawerTableViewCell.h; sourceTree = "<group>"; };
-		0FBBF71B1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLeftDrawerTableViewCell.m; sourceTree = "<group>"; };
+		0FBBF71A1C78BD4700A0A2D1 /* CourtesyLeftDrawerMenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLeftDrawerMenuTableViewCell.h; sourceTree = "<group>"; };
+		0FBBF71B1C78BD4700A0A2D1 /* CourtesyLeftDrawerMenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLeftDrawerMenuTableViewCell.m; sourceTree = "<group>"; };
 		0FBBF71C1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLeftDrawerTableViewController.h; sourceTree = "<group>"; };
 		0FBBF71D1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLeftDrawerTableViewController.m; sourceTree = "<group>"; };
 		0FBBF71E1C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAnimationSettingsTableViewController.h; sourceTree = "<group>"; };
@@ -60,8 +66,10 @@
 		0F18A0C51C795CCC00FDFDF5 /* LeftDrawerTable */ = {
 			isa = PBXGroup;
 			children = (
-				0FBBF71A1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.h */,
-				0FBBF71B1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.m */,
+				0F18A0D11C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.h */,
+				0F18A0D21C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m */,
+				0FBBF71A1C78BD4700A0A2D1 /* CourtesyLeftDrawerMenuTableViewCell.h */,
+				0FBBF71B1C78BD4700A0A2D1 /* CourtesyLeftDrawerMenuTableViewCell.m */,
 				0FBBF71C1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.h */,
 				0FBBF71D1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m */,
 			);
@@ -86,12 +94,22 @@
 			name = AnimationSettings;
 			sourceTree = "<group>";
 		};
+		0F18A0C81C79653300FDFDF5 /* Main View */ = {
+			isa = PBXGroup;
+			children = (
+				0F18A0CE1C7965D500FDFDF5 /* CourtesyMainTableViewController.h */,
+				0F18A0CF1C7965D500FDFDF5 /* CourtesyMainTableViewController.m */,
+			);
+			name = "Main View";
+			sourceTree = "<group>";
+		};
 		0FBBF7111C78BD4700A0A2D1 /* Courtesy */ = {
 			isa = PBXGroup;
 			children = (
 				0FBBF7121C78BD4700A0A2D1 /* AppDelegate.h */,
 				0FBBF7131C78BD4700A0A2D1 /* AppDelegate.m */,
 				0F18A0C51C795CCC00FDFDF5 /* LeftDrawerTable */,
+				0F18A0C81C79653300FDFDF5 /* Main View */,
 				0F18A0C71C795D0F00FDFDF5 /* AnimationSettings */,
 				0F18A0C61C795CF400FDFDF5 /* GithubWebView */,
 				0FBBF72D1C78BD6C00A0A2D1 /* Supporting Files */,
@@ -261,8 +279,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F18A0D01C7965D500FDFDF5 /* CourtesyMainTableViewController.m in Sources */,
 				0FBBF7261C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m in Sources */,
-				0FBBF7271C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.m in Sources */,
+				0F18A0D31C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m in Sources */,
+				0FBBF7271C78BD4700A0A2D1 /* CourtesyLeftDrawerMenuTableViewCell.m in Sources */,
 				0FBBF7291C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.m in Sources */,
 				0FBBF7231C78BD4700A0A2D1 /* AppDelegate.m in Sources */,
 				0FBBF72C1C78BD4700A0A2D1 /* main.m in Sources */,

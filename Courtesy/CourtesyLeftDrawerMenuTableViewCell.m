@@ -6,16 +6,16 @@
 //  Copyright (c) 2016 82Flex. All rights reserved.
 //
 
-#import "CourtesyLeftDrawerTableViewCell.h"
+#import "CourtesyLeftDrawerMenuTableViewCell.h"
 
-@interface CourtesyLeftDrawerTableViewCell ()
+@interface CourtesyLeftDrawerMenuTableViewCell ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end
 
-@implementation CourtesyLeftDrawerTableViewCell
+@implementation CourtesyLeftDrawerMenuTableViewCell
 
 - (void)awakeFromNib {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -33,7 +33,7 @@
 
 - (void)highlightCell:(BOOL)highlight {
     UIColor *tintColor = [UIColor colorWithWhite:1.0 alpha:0.6];
-    if(highlight) {
+    if (highlight) {
         tintColor = [UIColor whiteColor];
     }
     
