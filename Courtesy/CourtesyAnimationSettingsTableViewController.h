@@ -1,5 +1,5 @@
 //
-//  CourtesySettingsTableViewController.h
+//  CourtesyAnimationSettingsTableViewController.h
 //  Courtesy
 //
 //  Created by i_82 on 2016-02-20.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CourtesySettingsTableViewController : UITableViewController
+@interface CourtesyAnimationSettingsTableViewController : UITableViewController
 
 @end

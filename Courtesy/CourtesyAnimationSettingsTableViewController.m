@@ -1,18 +1,22 @@
 //
-//  CourtesySettingsTableViewController.m
+//  CourtesyAnimationSettingsTableViewController.m
 //  Courtesy
 //
 //  Created by i_82 on 2016-02-20.
 //  Copyright (c) 2016 82Flex. All rights reserved.
 //
 
-#import "CourtesySettingsTableViewController.h"
+#import "CourtesyAnimationSettingsTableViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
 #import "AppDelegate.h"
 
-@interface CourtesySettingsTableViewController ()
+@interface CourtesyAnimationSettingsTableViewController ()
 
 @property (nonatomic, strong, readonly) JVFloatingDrawerSpringAnimator *drawerAnimator;
+
+#pragma mark Buttons
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *rightNavButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *leftNavButton;
 
 #pragma mark Labels
 
@@ -30,7 +34,7 @@
 
 @end
 
-@implementation CourtesySettingsTableViewController
+@implementation CourtesyAnimationSettingsTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

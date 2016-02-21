@@ -52,7 +52,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     CourtesyLeftDrawerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kJVDrawerCellReuseIdentifier forIndexPath:indexPath];
     
     if(indexPath.row == kJVDrawerSettingsIndex) {
-        cell.titleText = @"设置";
+        cell.titleText = @"动画设置";
         cell.iconImage = [UIImage imageNamed:@"665-gear"];
         
     } else {

@@ -13,7 +13,7 @@
 		0FBBF7261C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF7191C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m */; };
 		0FBBF7271C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF71B1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.m */; };
 		0FBBF7281C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF71D1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m */; };
-		0FBBF7291C78BD4700A0A2D1 /* CourtesySettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF71F1C78BD4700A0A2D1 /* CourtesySettingsTableViewController.m */; };
+		0FBBF7291C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF71F1C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.m */; };
 		0FBBF72A1C78BD4700A0A2D1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7201C78BD4700A0A2D1 /* Images.xcassets */; };
 		0FBBF72C1C78BD4700A0A2D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF7221C78BD4700A0A2D1 /* main.m */; };
 		0FBBF72F1C78BFA200A0A2D1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FBBF72E1C78BFA200A0A2D1 /* AudioToolbox.framework */; };
@@ -32,8 +32,8 @@
 		0FBBF71B1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLeftDrawerTableViewCell.m; sourceTree = "<group>"; };
 		0FBBF71C1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLeftDrawerTableViewController.h; sourceTree = "<group>"; };
 		0FBBF71D1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLeftDrawerTableViewController.m; sourceTree = "<group>"; };
-		0FBBF71E1C78BD4700A0A2D1 /* CourtesySettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesySettingsTableViewController.h; sourceTree = "<group>"; };
-		0FBBF71F1C78BD4700A0A2D1 /* CourtesySettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesySettingsTableViewController.m; sourceTree = "<group>"; };
+		0FBBF71E1C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAnimationSettingsTableViewController.h; sourceTree = "<group>"; };
+		0FBBF71F1C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAnimationSettingsTableViewController.m; sourceTree = "<group>"; };
 		0FBBF7201C78BD4700A0A2D1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0FBBF7211C78BD4700A0A2D1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0FBBF7221C78BD4700A0A2D1 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -57,19 +57,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F18A0C51C795CCC00FDFDF5 /* LeftDrawerTable */ = {
+			isa = PBXGroup;
+			children = (
+				0FBBF71A1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.h */,
+				0FBBF71B1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.m */,
+				0FBBF71C1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.h */,
+				0FBBF71D1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m */,
+			);
+			name = LeftDrawerTable;
+			sourceTree = "<group>";
+		};
+		0F18A0C61C795CF400FDFDF5 /* GithubWebView */ = {
+			isa = PBXGroup;
+			children = (
+				0FBBF7181C78BD4700A0A2D1 /* CourtesyGithubWebViewController.h */,
+				0FBBF7191C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m */,
+			);
+			name = GithubWebView;
+			sourceTree = "<group>";
+		};
+		0F18A0C71C795D0F00FDFDF5 /* AnimationSettings */ = {
+			isa = PBXGroup;
+			children = (
+				0FBBF71E1C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.h */,
+				0FBBF71F1C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.m */,
+			);
+			name = AnimationSettings;
+			sourceTree = "<group>";
+		};
 		0FBBF7111C78BD4700A0A2D1 /* Courtesy */ = {
 			isa = PBXGroup;
 			children = (
 				0FBBF7121C78BD4700A0A2D1 /* AppDelegate.h */,
 				0FBBF7131C78BD4700A0A2D1 /* AppDelegate.m */,
-				0FBBF7181C78BD4700A0A2D1 /* CourtesyGithubWebViewController.h */,
-				0FBBF7191C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m */,
-				0FBBF71A1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.h */,
-				0FBBF71B1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.m */,
-				0FBBF71C1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.h */,
-				0FBBF71D1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m */,
-				0FBBF71E1C78BD4700A0A2D1 /* CourtesySettingsTableViewController.h */,
-				0FBBF71F1C78BD4700A0A2D1 /* CourtesySettingsTableViewController.m */,
+				0F18A0C51C795CCC00FDFDF5 /* LeftDrawerTable */,
+				0F18A0C71C795D0F00FDFDF5 /* AnimationSettings */,
+				0F18A0C61C795CF400FDFDF5 /* GithubWebView */,
 				0FBBF72D1C78BD6C00A0A2D1 /* Supporting Files */,
 			);
 			path = Courtesy;
@@ -239,7 +263,7 @@
 			files = (
 				0FBBF7261C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m in Sources */,
 				0FBBF7271C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewCell.m in Sources */,
-				0FBBF7291C78BD4700A0A2D1 /* CourtesySettingsTableViewController.m in Sources */,
+				0FBBF7291C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.m in Sources */,
 				0FBBF7231C78BD4700A0A2D1 /* AppDelegate.m in Sources */,
 				0FBBF72C1C78BD4700A0A2D1 /* main.m in Sources */,
 				0FBBF7281C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m in Sources */,

@@ -32,9 +32,9 @@
 }
 
 - (void)highlightCell:(BOOL)highlight {
-    UIColor *tintColor = [UIColor whiteColor];
+    UIColor *tintColor = [UIColor colorWithWhite:1.0 alpha:0.6];
     if(highlight) {
-        tintColor = [UIColor colorWithWhite:1.0 alpha:0.6];
+        tintColor = [UIColor whiteColor];
     }
     
     self.titleLabel.textColor = tintColor;

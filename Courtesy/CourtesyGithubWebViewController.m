@@ -1,5 +1,5 @@
 //
-//  CourtesyAboutViewController.m
+//  CourtesyGithubWebViewController.m
 //  Courtesy
 //
 //  Created by i_82 on 2016-02-20.

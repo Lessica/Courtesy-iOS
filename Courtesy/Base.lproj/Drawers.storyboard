@@ -134,22 +134,22 @@
         <!--(Center) Drawer Settings-->
         <scene sceneID="NbS-OD-Kk1">
             <objects>
-                <tableViewController id="lFn-gS-Wcx" userLabel="(Center) Drawer Settings" customClass="CourtesySettingsTableViewController" sceneMemberID="viewController">
+                <tableViewController id="lFn-gS-Wcx" userLabel="(Center) Drawer Settings" customClass="CourtesyAnimationSettingsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="60" sectionHeaderHeight="10" sectionFooterHeight="10" id="g5a-bi-LPc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
-                            <tableViewSection headerTitle="Animation Duration" id="DHM-C8-hS2">
+                            <tableViewSection headerTitle="持续时间" id="DHM-C8-hS2">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="0UX-sl-yVQ">
                                         <rect key="frame" x="0.0" y="114" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0UX-sl-yVQ" id="fNk-Mv-fTC">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="JDh-8k-ezu">
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="JDh-8k-ezu">
                                                     <rect key="frame" x="40" y="15" width="266" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="hV1-JC-Qyd"/>
@@ -159,7 +159,7 @@
                                                         <action selector="actionAnimationDurationValueChanged:" destination="lFn-gS-Wcx" eventType="valueChanged" id="8Le-1F-EGz"/>
                                                     </connections>
                                                 </slider>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IdI-Yr-v69">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IdI-Yr-v69">
                                                     <rect key="frame" x="16" y="19" width="10" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -177,16 +177,16 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Animation Delay" id="fjy-a5-lff">
+                            <tableViewSection headerTitle="延迟时间" id="fjy-a5-lff">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="R0u-wQ-ehs">
-                                        <rect key="frame" x="0.0" y="217" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="216" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R0u-wQ-ehs" id="XG0-iL-ouP">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="pVE-jK-TaN">
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="pVE-jK-TaN">
                                                     <rect key="frame" x="40" y="15" width="266" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="6Ji-OQ-TLQ"/>
@@ -196,7 +196,7 @@
                                                         <action selector="actionAnimationDelayValueChanged:" destination="lFn-gS-Wcx" eventType="valueChanged" id="Mgd-ui-lyk"/>
                                                     </connections>
                                                 </slider>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yd7-Rt-RvW">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yd7-Rt-RvW">
                                                     <rect key="frame" x="16" y="19" width="10" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -214,16 +214,16 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Initial Spring Velocity" id="tXI-1E-PxK">
+                            <tableViewSection headerTitle="初始弹性速度" id="tXI-1E-PxK">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="q4e-hE-uYO">
-                                        <rect key="frame" x="0.0" y="320" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="318" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q4e-hE-uYO" id="Ykc-Fy-Ktr">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="0.0" maxValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="klQ-Rb-qtz">
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="0.0" maxValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="klQ-Rb-qtz">
                                                     <rect key="frame" x="40" y="15" width="266" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="nIZ-ev-9tE"/>
@@ -233,7 +233,7 @@
                                                         <action selector="actionInitialSpringVelocityValueChanged:" destination="lFn-gS-Wcx" eventType="valueChanged" id="flr-pt-PXc"/>
                                                     </connections>
                                                 </slider>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hQ4-q9-d86">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hQ4-q9-d86">
                                                     <rect key="frame" x="16" y="19" width="10" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -251,16 +251,16 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Spring Damping" id="6Ag-8Z-ZRG">
+                            <tableViewSection headerTitle="弹簧阻尼" id="6Ag-8Z-ZRG">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="fxj-IA-5kU">
-                                        <rect key="frame" x="0.0" y="423" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="420" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fxj-IA-5kU" id="fxK-Gd-k34">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2.5" minValue="0.0" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="VWn-fS-2d7">
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2.5" minValue="0.0" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="VWn-fS-2d7">
                                                     <rect key="frame" x="40" y="15" width="266" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="zKP-qT-9WN"/>
@@ -270,7 +270,7 @@
                                                         <action selector="actionSpringDampingValueChanged:" destination="lFn-gS-Wcx" eventType="valueChanged" id="U3E-Ot-x6X"/>
                                                     </connections>
                                                 </slider>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jn1-Cg-HNm">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jn1-Cg-HNm">
                                                     <rect key="frame" x="16" y="19" width="10" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -294,7 +294,7 @@
                             <outlet property="delegate" destination="lFn-gS-Wcx" id="bg7-mq-czw"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="设置" id="Ajm-nZ-Rmq">
+                    <navigationItem key="navigationItem" title="动画设置" id="Ajm-nZ-Rmq">
                         <barButtonItem key="leftBarButtonItem" image="399-list1" id="nxf-Sx-70Y">
                             <connections>
                                 <action selector="actionToggleLeftDrawer:" destination="lFn-gS-Wcx" id="fv5-NA-N9h"/>
@@ -313,6 +313,8 @@
                         <outlet property="animationDurationSlider" destination="JDh-8k-ezu" id="4Uo-c2-IER"/>
                         <outlet property="initialSpringVelocityLabel" destination="hQ4-q9-d86" id="TQU-RV-D3y"/>
                         <outlet property="initialSpringVelocitySlider" destination="klQ-Rb-qtz" id="41g-yw-8go"/>
+                        <outlet property="leftNavButton" destination="nxf-Sx-70Y" id="QyL-OX-gJd"/>
+                        <outlet property="rightNavButton" destination="z8N-HY-GAJ" id="SLh-xW-J3n"/>
                         <outlet property="springDampingLabel" destination="jn1-Cg-HNm" id="00X-67-Lgt"/>
                         <outlet property="springDampingSlider" destination="VWn-fS-2d7" id="jZ3-Rm-TPN"/>
                     </connections>
