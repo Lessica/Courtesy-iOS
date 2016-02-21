@@ -9,6 +9,11 @@
 #import "AppDelegate.h"
 #import "JVFloatingDrawerViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
+#import "CourtesyQRScanViewController.h"
+#import "LBXScanView.h"
+#import "LBXScanResult.h"
+#import "LBXScanWrapper.h"
+#import "Colours.h"
 
 static NSString * const kJVDrawersStoryboardName = @"Drawers";
 static NSString * const kJVLeftDrawerStoryboardID = @"JVLeftDrawerViewControllerStoryboardID";
@@ -76,6 +81,10 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     [self.drawerViewController toggleDrawerWithSide:JVFloatingDrawerSideRight animated:animated completion:nil];
 }
 
+- (void)toggleScanView:(UIViewController *)sender animated:(BOOL)animated {
+    [sender.navigationController pushViewController:self.scanViewController animated:animated];
+}
+
 #pragma mark - 注册框架视图控制器
 
 - (JVFloatingDrawerViewController *)drawerViewController {
@@ -115,6 +124,29 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     
     self.drawerViewController.backgroundImage = [UIImage imageNamed:@"sky"];
 }
+
+#pragma mark - 二维码视图
+
+- (CourtesyQRScanViewController *)scanViewController {
+    if (!_scanViewController) {
+        LBXScanViewStyle *style = [[LBXScanViewStyle alloc] init];
+        style.centerUpOffset = 44;
+        style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle_Outer;
+        style.photoframeLineW = 6;
+        style.photoframeAngleW = 24;
+        style.photoframeAngleH = 24;
+        style.colorRetangleLine = [UIColor magicColor];
+        style.colorAngle = [UIColor magicColor];
+        style.animationStyle = LBXScanViewAnimationStyle_LineMove;
+        style.animationImage = [UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_magic_red"];
+        _scanViewController = [CourtesyQRScanViewController new];
+        _scanViewController.style = style;
+        _scanViewController.isQQSimulator = YES;
+    }
+    return _scanViewController;
+}
+
+#pragma mark - 各个菜单视图
 
 - (UIViewController *)mainViewController {
     if (!_mainViewController) {

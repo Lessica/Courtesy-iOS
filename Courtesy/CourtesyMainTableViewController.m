@@ -24,4 +24,8 @@
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
 }
 
+- (IBAction)actionScanQRCode:(id)sender {
+    [[AppDelegate globalDelegate] toggleScanView:self animated:YES];
+}
+
 @end

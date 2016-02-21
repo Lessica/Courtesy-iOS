@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class CourtesyQRScanViewController;
 @class JVFloatingDrawerViewController;
 @class JVFloatingDrawerSpringAnimator;
 
@@ -20,6 +21,7 @@
 
 @property (nonatomic, strong) UITableViewController *leftDrawerViewController;
 @property (nonatomic, strong) UITableViewController *rightDrawerViewController;
+@property (nonatomic, strong) CourtesyQRScanViewController *scanViewController;
 @property (nonatomic, strong) UIViewController *mainViewController;
 @property (nonatomic, strong) UIViewController *drawerSettingsViewController;
 @property (nonatomic, strong) UIViewController *githubViewController;
@@ -28,6 +30,7 @@
 
 - (void)toggleLeftDrawer:(id)sender animated:(BOOL)animated;
 - (void)toggleRightDrawer:(id)sender animated:(BOOL)animated;
+- (void)toggleScanView:(UIViewController *)sender animated:(BOOL)animated;
 
 @end
 
