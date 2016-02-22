@@ -22,8 +22,8 @@ enum {
 };
 
 enum {
-    kCourtesyMainIndex        = 0,
-    kCourtesyGalleryIndex     = 1,
+    kCourtesyGalleryIndex     = 0,
+    kCourtesyMainIndex        = 1,
     kCourtesySettingsIndex    = 2,
     kJVDrawerSettingsIndex    = 3,
     kJVGitHubProjectPageIndex = 4
@@ -49,7 +49,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCourtesyMainIndex inSection:kMenuSection] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCourtesyGalleryIndex inSection:kMenuSection] animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
 
 #pragma mark - 侧边栏表格数据源
@@ -77,18 +77,18 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         CourtesyLeftDrawerMenuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kJVDrawerCellReuseIdentifier forIndexPath:indexPath];
         
         if (indexPath.row == kCourtesyMainIndex) {
-            cell.titleText = @"个人";
-            cell.iconImage = [UIImage imageNamed:@"1-gift"];
-        } else if (indexPath.row == kCourtesyGalleryIndex) {
-            cell.titleText = @"画廊";
+            cell.titleText = @"收藏夹";
             cell.iconImage = [UIImage imageNamed:@"5-gallery"];
+        } else if (indexPath.row == kCourtesyGalleryIndex) {
+            cell.titleText = @"探索";
+            cell.iconImage = [UIImage imageNamed:@"1-gift"];
         } else if (indexPath.row == kCourtesySettingsIndex) {
             cell.titleText = @"设置";
             cell.iconImage = [UIImage imageNamed:@"665-gear"];
         } else if (indexPath.row == kJVDrawerSettingsIndex) {
             cell.titleText = @"动画";
             cell.iconImage = [UIImage imageNamed:@"2-magic"];
-        } else {
+        } else if (indexPath.row == kJVGitHubProjectPageIndex) {
             cell.titleText = @"Github Page";
             cell.iconImage = [UIImage imageNamed:@"488-github"];
         }
@@ -110,12 +110,12 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         if (indexPath.row == kCourtesyMainIndex) {
             destinationViewController = [[AppDelegate globalDelegate] mainViewController];
         } else if (indexPath.row == kCourtesyGalleryIndex) {
-            
+            destinationViewController = [[AppDelegate globalDelegate] galleryViewController];
         } else if (indexPath.row == kCourtesySettingsIndex) {
             destinationViewController = [[AppDelegate globalDelegate] settingsViewController];
         } else if (indexPath.row == kJVDrawerSettingsIndex) {
             destinationViewController = [[AppDelegate globalDelegate] drawerSettingsViewController];
-        } else {
+        } else if (indexPath.row == kJVGitHubProjectPageIndex) {
             destinationViewController = [[AppDelegate globalDelegate] githubViewController];
         }
         

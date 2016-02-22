@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UITableViewController *rightDrawerViewController;
 @property (nonatomic, strong) CourtesyQRScanViewController *scanViewController;
 @property (nonatomic, strong) UIViewController *mainViewController;
+@property (nonatomic, strong) UIViewController *galleryViewController;
 @property (nonatomic, strong) UIViewController *settingsViewController;
 @property (nonatomic, strong) UIViewController *drawerSettingsViewController;
 @property (nonatomic, strong) UIViewController *githubViewController;

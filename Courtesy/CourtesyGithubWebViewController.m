@@ -36,8 +36,4 @@ static NSString * const kJVGithubProjectPage = @"https://github.com/Lessica/Cour
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
 }
 
-- (IBAction)actionToggleRightDrawer:(id)sender {
-    [[AppDelegate globalDelegate] toggleRightDrawer:self animated:YES];
-}
-
 @end

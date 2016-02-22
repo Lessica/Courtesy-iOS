@@ -8,11 +8,14 @@
 
 #import "CourtesyAboutViewController.h"
 #import "GlobalDefine.h"
+#import "UMSocial.h"
 
-@interface CourtesyAboutViewController () <UIGestureRecognizerDelegate>
+@interface CourtesyAboutViewController () <UIGestureRecognizerDelegate, UMSocialUIDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *appLabel;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
+
 
 @end
 
@@ -32,6 +35,17 @@
 
 - (void)detailLabelClicked:(UITapGestureRecognizer *)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://82flex.com"]];
+}
+
+- (IBAction)shareButtonClicked:(id)sender {
+    if (sender == _shareButton) {
+        [UMSocialSnsService presentSnsIconSheetView:self
+                                             appKey:nil
+                                          shareText:@"礼记之谊，记礼之情。"
+                                         shareImage:[UIImage imageNamed:@"11-appicon"]
+                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToEmail, nil]
+                                           delegate:self];
+    }
 }
 
 @end

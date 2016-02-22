@@ -10,6 +10,7 @@
 #import "GlobalDefine.h"
 #import "NotificationUtils.h"
 #import "UMessage.h"
+#import "UMSocial.h"
 #import "JVFloatingDrawerViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
 #import "CourtesyQRScanViewController.h"
@@ -19,6 +20,7 @@ static NSString * const kJVDrawersStoryboardName = @"Drawers";
 static NSString * const kJVLeftDrawerStoryboardID = @"JVLeftDrawerViewControllerStoryboardID";
 static NSString * const kJVRightDrawerStoryboardID = @"JVRightDrawerViewControllerStoryboardID";
 static NSString * const kCourtesyMainTableViewControllerStoryboardID = @"CourtesyMainTableViewControllerStoryboardID";
+static NSString * const kCourtesyGalleryTableViewControllerStoryboardID = @"CourtesyGalleryTableViewControllerStoryboardID";
 static NSString * const kJVDrawerSettingsViewControllerStoryboardID = @"JVDrawerSettingsViewControllerStoryboardID";
 static NSString * const kCourtesySettingsViewControllerStoryboardID = @"CourtesySettingsViewControllerStoryboardID";
 static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGitHubProjectPageViewControllerStoryboardID";
@@ -40,6 +42,8 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     // 友盟推送
     [UMessage startWithAppkey:umengAppKey launchOptions:launchOptions];
     [UMessage registerRemoteNotificationAndUserNotificationSettings:[NotificationUtils requestForNotifications]];
+    // 友盟社会化分享
+    [UMSocialData setAppKey:umengAppKey];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.drawerViewController;
@@ -132,7 +136,7 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 - (void)configureDrawerViewController {
     self.drawerViewController.leftViewController = self.leftDrawerViewController;
     self.drawerViewController.rightViewController = self.rightDrawerViewController;
-    self.drawerViewController.centerViewController = self.mainViewController;
+    self.drawerViewController.centerViewController = self.galleryViewController;
     
     self.drawerViewController.animator = self.drawerAnimator;
     
@@ -156,6 +160,14 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     }
     
     return _mainViewController;
+}
+
+- (UIViewController *)galleryViewController {
+    if (!_galleryViewController) {
+        _galleryViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyGalleryTableViewControllerStoryboardID];
+    }
+    
+    return _galleryViewController;
 }
 
 - (UIViewController *)settingsViewController {
