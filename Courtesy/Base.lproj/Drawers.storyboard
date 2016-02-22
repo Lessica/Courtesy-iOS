@@ -363,7 +363,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="zBR-A5-h7w" kind="show" id="ZFK-mT-Zn1"/>
+                                            <segue destination="1ZI-S5-umq" kind="show" id="5NV-Su-FOT"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="jUa-ij-QDQ" style="IBUITableViewCellStyleDefault" id="mBc-ue-Ums">
@@ -503,83 +503,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H4S-Kx-hOF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1984" y="361"/>
-        </scene>
-        <!--About View-->
-        <scene sceneID="po3-2C-Dfu">
-            <objects>
-                <viewController id="zBR-A5-h7w" userLabel="About View" customClass="CourtesyAboutViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Fxp-vM-jz8"/>
-                        <viewControllerLayoutGuide type="bottom" id="ZrI-60-ctS"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="w7p-Pe-IcK">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="11-appicon" translatesAutoresizingMaskIntoConstraints="NO" id="KT8-1W-HkL">
-                                <rect key="frame" x="120" y="98" width="80" height="80"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="ivP-Dw-ysT"/>
-                                    <constraint firstAttribute="height" constant="80" id="zxg-r5-xAE"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="礼记 V1.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3c9-IO-jbW">
-                                <rect key="frame" x="100" y="190" width="120" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="jXC-Bg-tLH"/>
-                                    <constraint firstAttribute="height" constant="21" id="sbU-MJ-EEu"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                <color key="textColor" red="0.85098039219999999" green="0.098039215690000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="82Flex 版权所有" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Urt-8P-zkv">
-                                <rect key="frame" x="100" y="215" width="120" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="BJV-Jc-k06"/>
-                                    <constraint firstAttribute="width" constant="120" id="r9r-Jy-tTU"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8NR-h8-Rnr">
-                                <rect key="frame" x="10" y="250" width="300" height="120"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="XV8-Cg-OS9"/>
-                                    <constraint firstAttribute="width" constant="300" id="nzg-4h-tFB"/>
-                                </constraints>
-                                <string key="text">官方网站：https://82flex.com
-
-2013-2016. 保留所有权利
-82Flex, 82Flex.com, 礼记 are trademarks of
-Beijing XunYing Technology Inc.
-All rights reserved.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="3c9-IO-jbW" firstAttribute="centerX" secondItem="w7p-Pe-IcK" secondAttribute="centerX" id="2c5-Cn-siS"/>
-                            <constraint firstItem="8NR-h8-Rnr" firstAttribute="centerX" secondItem="w7p-Pe-IcK" secondAttribute="centerX" id="5j8-G6-ZOk"/>
-                            <constraint firstItem="8NR-h8-Rnr" firstAttribute="top" secondItem="Urt-8P-zkv" secondAttribute="bottom" constant="14" id="Me7-Wt-kbA"/>
-                            <constraint firstItem="3c9-IO-jbW" firstAttribute="top" secondItem="KT8-1W-HkL" secondAttribute="bottom" constant="12" id="WFu-Qj-7Ag"/>
-                            <constraint firstItem="KT8-1W-HkL" firstAttribute="centerX" secondItem="w7p-Pe-IcK" secondAttribute="centerX" id="cBb-j4-WBY"/>
-                            <constraint firstItem="Urt-8P-zkv" firstAttribute="centerX" secondItem="w7p-Pe-IcK" secondAttribute="centerX" id="rdg-3e-Rug"/>
-                            <constraint firstItem="KT8-1W-HkL" firstAttribute="top" secondItem="Fxp-vM-jz8" secondAttribute="bottom" constant="34" id="whG-Go-qdn"/>
-                            <constraint firstItem="Urt-8P-zkv" firstAttribute="top" secondItem="3c9-IO-jbW" secondAttribute="bottom" constant="4" id="yQ1-6t-oBQ"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="关于礼记" id="HmA-Qs-TpX"/>
-                    <connections>
-                        <outlet property="detailLabel" destination="8NR-h8-Rnr" id="ceE-DG-4Jc"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HDR-Mw-vTK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2356" y="361"/>
         </scene>
         <!--(Nav-Center) Settings-->
         <scene sceneID="cVh-U4-K3b">
@@ -933,10 +856,10 @@ All rights reserved.</string>
             </objects>
             <point key="canvasLocation" x="526" y="-335"/>
         </scene>
-        <!--About View-->
+        <!--User Agreement View-->
         <scene sceneID="kH6-CQ-Jdw">
             <objects>
-                <viewController id="Yxn-96-Cp6" userLabel="About View" customClass="CourtesyUserAgreementWebViewController" sceneMemberID="viewController">
+                <viewController id="Yxn-96-Cp6" userLabel="User Agreement View" customClass="CourtesyUserAgreementWebViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iL8-z8-GX7"/>
                         <viewControllerLayoutGuide type="bottom" id="9Pg-Gb-Q2K"/>
@@ -958,7 +881,7 @@ All rights reserved.</string>
                             <constraint firstItem="l9N-yS-VxR" firstAttribute="leading" secondItem="6ld-1T-vaN" secondAttribute="leading" id="oZE-Sg-gqX"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="关于礼记" id="b7z-Ub-0Z6"/>
+                    <navigationItem key="navigationItem" title="用户协议" id="b7z-Ub-0Z6"/>
                     <connections>
                         <outlet property="agreementWebView" destination="l9N-yS-VxR" id="c6l-6s-cy5"/>
                     </connections>
@@ -966,6 +889,114 @@ All rights reserved.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E4m-2L-OgV" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1611" y="1014"/>
+        </scene>
+        <!--About View-->
+        <scene sceneID="cLk-iQ-H7C">
+            <objects>
+                <tableViewController id="1ZI-S5-umq" userLabel="About View" customClass="CourtesyAboutViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Sys-yw-Bui">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <sections>
+                            <tableViewSection id="Oh3-hC-CFQ">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="600" id="COd-3R-meT">
+                                        <rect key="frame" x="0.0" y="64" width="320" height="600"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="COd-3R-meT" id="rXk-WF-pMQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="600"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="11-appicon" translatesAutoresizingMaskIntoConstraints="NO" id="zFR-tv-UEZ">
+                                                    <rect key="frame" x="120" y="20" width="80" height="80"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="8dy-S1-9VX"/>
+                                                        <constraint firstAttribute="height" constant="80" id="pcW-yG-PWg"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="礼记 V1.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xiI-kt-aSr">
+                                                    <rect key="frame" x="100" y="112" width="120" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="120" id="PNu-If-Pd0"/>
+                                                        <constraint firstAttribute="height" constant="21" id="Qtd-8B-TkX"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                                    <color key="textColor" red="0.85098039219999999" green="0.098039215690000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="82Flex 版权所有" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tnu-XS-G1V">
+                                                    <rect key="frame" x="100" y="137" width="120" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="FCt-NW-KKY"/>
+                                                        <constraint firstAttribute="width" constant="120" id="NkQ-Ah-a8i"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="25" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrX-aL-Ouy">
+                                                    <rect key="frame" x="10" y="172" width="300" height="365"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="300" id="3OB-Uq-2tR"/>
+                                                        <constraint firstAttribute="height" constant="365" id="8aK-fw-9OS"/>
+                                                    </constraints>
+                                                    <mutableString key="text">官方网站：https://82flex.com
+
+2013-2016. 保留所有权利
+82Flex, 82Flex.com, 礼记 are trademarks of
+Beijing XunYing Technology Inc.
+All rights reserved.
+
+Special thanks to:
+AFNetworking (MIT)
+Colours (MIT)
+FCFileManager (MIT)
+FMDB (MIT)
+JDStatusBarNotification (MIT)
+JSONModel (MIT)
+JVFloatingDrawer (MIT)
+LBXScan (MIT)
+LGAlertView (MIT)
+LKDBHelper (MIT)
+NJKWebViewProcess (MIT)
+Toast (MIT)
+ZXingObjC (Apache 2.0)
+</mutableString>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="zFR-tv-UEZ" firstAttribute="centerX" secondItem="rXk-WF-pMQ" secondAttribute="centerX" id="43q-E4-FcP"/>
+                                                <constraint firstItem="zrX-aL-Ouy" firstAttribute="top" secondItem="tnu-XS-G1V" secondAttribute="bottom" constant="14" id="EUy-rx-vgt"/>
+                                                <constraint firstItem="zrX-aL-Ouy" firstAttribute="centerX" secondItem="rXk-WF-pMQ" secondAttribute="centerX" id="HhO-a9-Oel"/>
+                                                <constraint firstItem="tnu-XS-G1V" firstAttribute="top" secondItem="xiI-kt-aSr" secondAttribute="bottom" constant="4" id="JPT-Ko-gnF"/>
+                                                <constraint firstItem="xiI-kt-aSr" firstAttribute="centerX" secondItem="rXk-WF-pMQ" secondAttribute="centerX" id="eQ2-zI-hyf"/>
+                                                <constraint firstItem="tnu-XS-G1V" firstAttribute="centerX" secondItem="rXk-WF-pMQ" secondAttribute="centerX" id="ivX-QB-fwQ"/>
+                                                <constraint firstItem="zFR-tv-UEZ" firstAttribute="top" secondItem="rXk-WF-pMQ" secondAttribute="topMargin" constant="12" id="t5X-gc-Bl3"/>
+                                                <constraint firstItem="xiI-kt-aSr" firstAttribute="top" secondItem="zFR-tv-UEZ" secondAttribute="bottom" constant="12" id="yvF-zK-QtL"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="1ZI-S5-umq" id="i5q-oC-jSE"/>
+                            <outlet property="delegate" destination="1ZI-S5-umq" id="rF7-dj-eQC"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="关于礼记" id="kBO-gZ-f75"/>
+                    <connections>
+                        <outlet property="appLabel" destination="xiI-kt-aSr" id="5rz-b2-iaf"/>
+                        <outlet property="detailLabel" destination="zrX-aL-Ouy" id="k1d-8Z-vtl"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pwd-rk-Awb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1984" y="1014"/>
         </scene>
     </scenes>
     <resources>

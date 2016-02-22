@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CourtesyAboutViewController : UIViewController
+@interface CourtesyAboutViewController : UITableViewController
 
 @end
