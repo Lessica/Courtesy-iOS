@@ -5,4 +5,12 @@ target 'Courtesy', :exclusive => true do
 	pod 'Colours'
 	pod "LBXScan"
 	pod 'LGAlertView'
+    pod 'JSONModel'
+    pod 'JDStatusBarNotification'
+    pod 'UMengMessage'
+    pod 'NJKWebViewProgress'
+    pod 'AFNetworking'
+    pod 'FCFileManager'
+    pod 'Toast'
+    pod 'LKDBHelper'
 end

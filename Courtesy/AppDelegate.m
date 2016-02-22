@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "GlobalDefine.h"
+#import "NotificationUtils.h"
+#import "UMessage.h"
 #import "JVFloatingDrawerViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
 #import "CourtesyQRScanViewController.h"
@@ -17,6 +20,7 @@ static NSString * const kJVLeftDrawerStoryboardID = @"JVLeftDrawerViewController
 static NSString * const kJVRightDrawerStoryboardID = @"JVRightDrawerViewControllerStoryboardID";
 static NSString * const kCourtesyMainTableViewControllerStoryboardID = @"CourtesyMainTableViewControllerStoryboardID";
 static NSString * const kJVDrawerSettingsViewControllerStoryboardID = @"JVDrawerSettingsViewControllerStoryboardID";
+static NSString * const kCourtesySettingsViewControllerStoryboardID = @"CourtesySettingsViewControllerStoryboardID";
 static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGitHubProjectPageViewControllerStoryboardID";
 
 @interface AppDelegate ()
@@ -29,15 +33,28 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 
 #pragma mark - 继承应用状态响应方法
 
+#pragma mark - 注册友盟SDK及推送消息
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+    // 设置应用标识符
+    NSString *umengAppKey = UMENG_APP_KEY;
+    // 友盟推送
+    [UMessage startWithAppkey:umengAppKey launchOptions:launchOptions];
+    [UMessage registerRemoteNotificationAndUserNotificationSettings:[NotificationUtils requestForNotifications]];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.drawerViewController;
+    self.window.tintColor = [UIColor magicColor];
     [self configureDrawerViewController];
-    
     [self.window makeKeyAndVisible];
-    
     return YES;
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [UMessage registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {}
@@ -139,6 +156,14 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     }
     
     return _mainViewController;
+}
+
+- (UIViewController *)settingsViewController {
+    if (!_settingsViewController) {
+        _settingsViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesySettingsViewControllerStoryboardID];
+    }
+    
+    return _settingsViewController;
 }
 
 - (UIViewController *)drawerSettingsViewController {
