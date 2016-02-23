@@ -7,22 +7,27 @@
 //
 
 #import <AudioToolbox/AudioToolbox.h>
+#import <QBImagePickerController/QBImagePickerController.h>
 #import "CourtesyQRScanViewController.h"
 #import "LBXScanResult.h"
 #import "LBXScanWrapper.h"
 #import "Colours.h"
 #import "LGAlertView.h"
 
+// 振动系统声音
 static SystemSoundID shake_sound_male_id = 0;
 
-@interface CourtesyQRScanViewController () <LGAlertViewDelegate>
+@interface CourtesyQRScanViewController () <LGAlertViewDelegate, QBImagePickerControllerDelegate>
 
 @end
 
 @implementation CourtesyQRScanViewController 
 
+#pragma mark - 初始化扫描界面
+
 - (instancetype)init {
     if (self = [super init]) {
+        // 初始化扫描样式
         LBXScanViewStyle *style = [[LBXScanViewStyle alloc] init];
         style.centerUpOffset = 44;
         style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle_Outer;
@@ -45,6 +50,18 @@ static SystemSoundID shake_sound_male_id = 0;
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     self.view.backgroundColor = [UIColor blackColor];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (_isQQSimulator) {
+        [self drawBottomItems];
+        [self drawTitle];
+        [self.view bringSubviewToFront:_topTitle];
+    } else {
+        _topTitle.hidden = YES;
+    }
 }
 
 - (void)drawTitle {
@@ -92,31 +109,9 @@ static SystemSoundID shake_sound_male_id = 0;
     [_bottomItemsView addSubview:_btnPhoto];
 }
 
-- (void)showError:(NSString *)str {
-    LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"错误"
-                                                        message:str
-                                                          style:LGAlertViewStyleAlert
-                                                   buttonTitles:nil
-                                              cancelButtonTitle:@"好"
-                                         destructiveButtonTitle:nil];
-    [alertView showAnimated:YES completionHandler:nil];
-}
+#pragma mark - 扫描结果处理
 
-- (void)showSucceed:(NSString *)str {
-    LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"提示"
-                                                        message:str
-                                                          style:LGAlertViewStyleAlert
-                                                   buttonTitles:nil
-                                              cancelButtonTitle:@"好"
-                                         destructiveButtonTitle:nil];
-    alertView.delegate = self;
-    [alertView showAnimated:YES completionHandler:nil];
-}
-
-- (void)alertViewCancelled:(LGAlertView *)alertView {
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
+// 处理扫描结果回调
 - (void)scanResultWithArray:(NSArray <LBXScanResult*>*)array {
     if (array.count < 1) {
         // Pop-error
@@ -136,23 +131,50 @@ static SystemSoundID shake_sound_male_id = 0;
     [self showSucceed:strResult];
 }
 
+// 扫描成功
+- (void)showSucceed:(NSString *)str {
+    LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"提示"
+                                                        message:str
+                                                          style:LGAlertViewStyleAlert
+                                                   buttonTitles:nil
+                                              cancelButtonTitle:@"好"
+                                         destructiveButtonTitle:nil];
+    alertView.delegate = self;
+    [alertView showAnimated:YES completionHandler:nil];
+}
+
+// 扫描成功回调
+- (void)alertViewCancelled:(LGAlertView *)alertView {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+// 扫描失败
+- (void)showError:(NSString *)str {
+    LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"错误"
+                                                        message:str
+                                                          style:LGAlertViewStyleAlert
+                                                   buttonTitles:nil
+                                              cancelButtonTitle:@"好"
+                                         destructiveButtonTitle:nil];
+    [alertView showAnimated:YES completionHandler:nil];
+}
+
+#pragma mark - 扫描相关功能性方法
+
+// 播放振动
 - (void)playShakeSound {
+    if (shake_sound_male_id != 0) {
+        AudioServicesPlaySystemSound(shake_sound_male_id);
+        return;
+    }
     NSString *path = [[NSBundle mainBundle] pathForResource:@"kisssound" ofType:@"wav"];
     if (path) {
         AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &shake_sound_male_id);
         AudioServicesPlaySystemSound(shake_sound_male_id);
     }
-    AudioServicesPlaySystemSound(shake_sound_male_id);
 }
 
-- (void)openPhoto {
-    if ([LBXScanWrapper isGetPhotoPermission]) {
-        [self openLocalPhoto];
-    } else {
-        [self showError:@"请到「设置 - 隐私」中，找到应用程序「礼记」开启应用相册访问权限。"];
-    }
-}
-
+// 打开或关闭闪光灯
 - (void)openOrCloseFlash {
     [super openOrCloseFlash];
     if (self.isOpenFlash) {
@@ -162,15 +184,12 @@ static SystemSoundID shake_sound_male_id = 0;
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    if (_isQQSimulator) {
-        [self drawBottomItems];
-        [self drawTitle];
-        [self.view bringSubviewToFront:_topTitle];
+// 检查权限并打开相册
+- (void)openPhoto {
+    if ([LBXScanWrapper isGetPhotoPermission]) {
+        [self openLocalPhoto];
     } else {
-        _topTitle.hidden = YES;
+        [self showError:@"请到「设置 - 隐私」中，找到应用程序「礼记」开启应用相册访问权限。"];
     }
 }
 

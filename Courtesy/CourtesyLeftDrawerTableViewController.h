@@ -10,4 +10,7 @@
 
 @interface CourtesyLeftDrawerTableViewController : UITableViewController
 
+// 更新侧边栏头像
+- (void)reloadAvatar;
+
 @end

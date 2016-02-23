@@ -7,19 +7,20 @@
 //
 
 #import "AppDelegate.h"
-#import "GlobalDefine.h"
 #import "NotificationUtils.h"
 #import "UMessage.h"
 #import "UMSocial.h"
 #import "JVFloatingDrawerViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
 #import "CourtesyQRScanViewController.h"
+#import "CourtesyLeftDrawerTableViewController.h"
 #import "Colours.h"
 
 static NSString * const kJVDrawersStoryboardName = @"Drawers";
 static NSString * const kJVLeftDrawerStoryboardID = @"JVLeftDrawerViewControllerStoryboardID";
 static NSString * const kJVRightDrawerStoryboardID = @"JVRightDrawerViewControllerStoryboardID";
-static NSString * const kCourtesyMainTableViewControllerStoryboardID = @"CourtesyMainTableViewControllerStoryboardID";
+static NSString * const kCourtesyMyTabViewControllerStoryboardID = @"CourtesyMyTabViewControllerStoryboardID";
+static NSString * const kCourtesyStarTableViewControllerStoryboardID = @"CourtesyStarTableViewControllerStoryboardID";
 static NSString * const kCourtesyGalleryTableViewControllerStoryboardID = @"CourtesyGalleryTableViewControllerStoryboardID";
 static NSString * const kJVDrawerSettingsViewControllerStoryboardID = @"JVDrawerSettingsViewControllerStoryboardID";
 static NSString * const kCourtesySettingsViewControllerStoryboardID = @"CourtesySettingsViewControllerStoryboardID";
@@ -154,12 +155,20 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 
 #pragma mark - 各个菜单视图
 
-- (UIViewController *)mainViewController {
-    if (!_mainViewController) {
-        _mainViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyMainTableViewControllerStoryboardID];
+- (UIViewController *)myViewController {
+    if (!_myViewController) {
+        _myViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyMyTabViewControllerStoryboardID];
     }
     
-    return _mainViewController;
+    return _myViewController;
+}
+
+- (UIViewController *)starViewController {
+    if (!_starViewController) {
+        _starViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyStarTableViewControllerStoryboardID];
+    }
+    
+    return _starViewController;
 }
 
 - (UIViewController *)galleryViewController {
@@ -192,6 +201,16 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     }
     
     return _githubViewController;
+}
+
+#pragma mark - 登录任务代理
+
+- (void)reloadLeftDrawerAvatarCell {
+    UIViewController *leftDrawer = [self leftDrawerViewController];
+    if (!leftDrawer) {
+        return;
+    }
+    [(CourtesyLeftDrawerTableViewController *)leftDrawer reloadAvatar];
 }
 
 @end

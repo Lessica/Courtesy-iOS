@@ -7,8 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0F18A0D01C7965D500FDFDF5 /* CourtesyMyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18A0CF1C7965D500FDFDF5 /* CourtesyMyTableViewController.m */; };
+		0F18A0D01C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18A0CF1C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m */; };
 		0F18A0D31C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18A0D21C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m */; };
+		0F62D3C61C7C6BFC0024F72E /* CourtesyMyTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F62D3C51C7C6BFC0024F72E /* CourtesyMyTabBarController.m */; };
+		0F9E1D891C7C19CD0024FC4F /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E1D881C7C19CD0024FC4F /* GlobalSettings.m */; };
+		0F9E1D8E1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E1D8D1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.m */; };
+		0F9E1D911C7C58580024FC4F /* CourtesyMyOutboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E1D901C7C58580024FC4F /* CourtesyMyOutboxTableViewController.m */; };
+		0F9E1D971C7C59550024FC4F /* CourtesyMyInboxEmptyTipTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E1D961C7C59550024FC4F /* CourtesyMyInboxEmptyTipTableViewCell.m */; };
+		0F9E1D9D1C7C598D0024FC4F /* CourtesyMyOutboxEmptyTipTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E1D9C1C7C598D0024FC4F /* CourtesyMyOutboxEmptyTipTableViewCell.m */; };
 		0FBA715A1C7ABA9C00053696 /* CourtesyMessageNotificationSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBA71591C7ABA9C00053696 /* CourtesyMessageNotificationSettingsTableViewController.m */; };
 		0FBA715D1C7ABC3E00053696 /* NotificationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBA715C1C7ABC3E00053696 /* NotificationUtils.m */; };
 		0FBA71641C7AF97900053696 /* CourtesyAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBA71631C7AF97900053696 /* CourtesyAboutViewController.m */; };
@@ -30,7 +36,7 @@
 		0FBBF72F1C78BFA200A0A2D1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FBBF72E1C78BFA200A0A2D1 /* AudioToolbox.framework */; };
 		0FC6CF011C79B127007B666B /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FC6CF001C79B127007B666B /* CodeScan.bundle */; };
 		0FC6CF041C79B161007B666B /* CourtesyQRScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC6CF031C79B161007B666B /* CourtesyQRScanViewController.m */; };
-		0FC6CF071C79DF7B007B666B /* CourtesyMyEmptyTipTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC6CF061C79DF7B007B666B /* CourtesyMyEmptyTipTableViewCell.m */; };
+		0FC6CF071C79DF7B007B666B /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC6CF061C79DF7B007B666B /* CourtesyMyStarEmptyTipTableViewCell.m */; };
 		0FC6CF0B1C79F4B0007B666B /* CourtesySettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC6CF0A1C79F4B0007B666B /* CourtesySettingsTableViewController.m */; };
 		0FC6CF0F1C7A01E8007B666B /* kisssound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC6CF0E1C7A01E8007B666B /* kisssound.wav */; };
 		BC703599663B4BCB91E9CC88 /* libPods-Courtesy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F634EFABF4A9FFF86FA2638 /* libPods-Courtesy.a */; };
@@ -38,10 +44,23 @@
 
 /* Begin PBXFileReference section */
 		05940789181F806AF4D4F3D2 /* Pods-Courtesy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Courtesy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Courtesy/Pods-Courtesy.release.xcconfig"; sourceTree = "<group>"; };
-		0F18A0CE1C7965D500FDFDF5 /* CourtesyMyTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyTableViewController.h; sourceTree = "<group>"; };
-		0F18A0CF1C7965D500FDFDF5 /* CourtesyMyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyTableViewController.m; sourceTree = "<group>"; };
+		0F18A0CE1C7965D500FDFDF5 /* CourtesyMyStarTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyStarTableViewController.h; sourceTree = "<group>"; };
+		0F18A0CF1C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyStarTableViewController.m; sourceTree = "<group>"; };
 		0F18A0D11C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLeftDrawerAvatarTableViewCell.h; sourceTree = "<group>"; };
 		0F18A0D21C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLeftDrawerAvatarTableViewCell.m; sourceTree = "<group>"; };
+		0F62D3C41C7C6BFC0024F72E /* CourtesyMyTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyTabBarController.h; sourceTree = "<group>"; };
+		0F62D3C51C7C6BFC0024F72E /* CourtesyMyTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyTabBarController.m; sourceTree = "<group>"; };
+		0F9E1D871C7C19CD0024FC4F /* GlobalSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalSettings.h; sourceTree = "<group>"; };
+		0F9E1D881C7C19CD0024FC4F /* GlobalSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalSettings.m; sourceTree = "<group>"; };
+		0F9E1D8B1C7C51CE0024FC4F /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		0F9E1D8C1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyInboxTableViewController.h; sourceTree = "<group>"; };
+		0F9E1D8D1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyInboxTableViewController.m; sourceTree = "<group>"; };
+		0F9E1D8F1C7C58580024FC4F /* CourtesyMyOutboxTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyOutboxTableViewController.h; sourceTree = "<group>"; };
+		0F9E1D901C7C58580024FC4F /* CourtesyMyOutboxTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyOutboxTableViewController.m; sourceTree = "<group>"; };
+		0F9E1D951C7C59550024FC4F /* CourtesyMyInboxEmptyTipTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyInboxEmptyTipTableViewCell.h; sourceTree = "<group>"; };
+		0F9E1D961C7C59550024FC4F /* CourtesyMyInboxEmptyTipTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyInboxEmptyTipTableViewCell.m; sourceTree = "<group>"; };
+		0F9E1D9B1C7C598D0024FC4F /* CourtesyMyOutboxEmptyTipTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyOutboxEmptyTipTableViewCell.h; sourceTree = "<group>"; };
+		0F9E1D9C1C7C598D0024FC4F /* CourtesyMyOutboxEmptyTipTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyOutboxEmptyTipTableViewCell.m; sourceTree = "<group>"; };
 		0FBA71581C7ABA9C00053696 /* CourtesyMessageNotificationSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMessageNotificationSettingsTableViewController.h; sourceTree = "<group>"; };
 		0FBA71591C7ABA9C00053696 /* CourtesyMessageNotificationSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMessageNotificationSettingsTableViewController.m; sourceTree = "<group>"; };
 		0FBA715B1C7ABC3E00053696 /* NotificationUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationUtils.h; sourceTree = "<group>"; };
@@ -54,7 +73,6 @@
 		0FBA71701C7B24F900053696 /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
 		0FBA71711C7B24F900053696 /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
 		0FBA71731C7B2A0400053696 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		0FBA71751C7B2B0700053696 /* GlobalDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalDefine.h; sourceTree = "<group>"; };
 		0FBA71771C7B492300053696 /* CourtesyGalleryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyGalleryTableViewController.h; sourceTree = "<group>"; };
 		0FBA71781C7B492300053696 /* CourtesyGalleryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyGalleryTableViewController.m; sourceTree = "<group>"; };
 		0FBA717E1C7B5CD700053696 /* CourtesyGalleryEmptyTipTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyGalleryEmptyTipTableViewCell.h; sourceTree = "<group>"; };
@@ -79,8 +97,8 @@
 		0FC6CF001C79B127007B666B /* CodeScan.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CodeScan.bundle; sourceTree = "<group>"; };
 		0FC6CF021C79B161007B666B /* CourtesyQRScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyQRScanViewController.h; sourceTree = "<group>"; };
 		0FC6CF031C79B161007B666B /* CourtesyQRScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyQRScanViewController.m; sourceTree = "<group>"; };
-		0FC6CF051C79DF7B007B666B /* CourtesyMyEmptyTipTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyEmptyTipTableViewCell.h; sourceTree = "<group>"; };
-		0FC6CF061C79DF7B007B666B /* CourtesyMyEmptyTipTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyEmptyTipTableViewCell.m; sourceTree = "<group>"; };
+		0FC6CF051C79DF7B007B666B /* CourtesyMyStarEmptyTipTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyStarEmptyTipTableViewCell.h; sourceTree = "<group>"; };
+		0FC6CF061C79DF7B007B666B /* CourtesyMyStarEmptyTipTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyStarEmptyTipTableViewCell.m; sourceTree = "<group>"; };
 		0FC6CF091C79F4B0007B666B /* CourtesySettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesySettingsTableViewController.h; sourceTree = "<group>"; };
 		0FC6CF0A1C79F4B0007B666B /* CourtesySettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesySettingsTableViewController.m; sourceTree = "<group>"; };
 		0FC6CF0E1C7A01E8007B666B /* kisssound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = kisssound.wav; sourceTree = "<group>"; };
@@ -134,16 +152,56 @@
 			name = "Animation Settings View";
 			sourceTree = "<group>";
 		};
-		0F18A0C81C79653300FDFDF5 /* Main View */ = {
+		0F18A0C81C79653300FDFDF5 /* My View */ = {
 			isa = PBXGroup;
 			children = (
+				0F62D3C41C7C6BFC0024F72E /* CourtesyMyTabBarController.h */,
+				0F62D3C51C7C6BFC0024F72E /* CourtesyMyTabBarController.m */,
 				0FBBCD5E1C798FFE008476FC /* QRCode View */,
-				0F18A0CE1C7965D500FDFDF5 /* CourtesyMyTableViewController.h */,
-				0F18A0CF1C7965D500FDFDF5 /* CourtesyMyTableViewController.m */,
-				0FC6CF051C79DF7B007B666B /* CourtesyMyEmptyTipTableViewCell.h */,
-				0FC6CF061C79DF7B007B666B /* CourtesyMyEmptyTipTableViewCell.m */,
+				0F9E1D931C7C586C0024FC4F /* Outbox View */,
+				0F9E1D921C7C58600024FC4F /* Inbox View */,
 			);
-			name = "Main View";
+			name = "My View";
+			sourceTree = "<group>";
+		};
+		0F9E1D8A1C7C4E760024FC4F /* Login View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Login View";
+			sourceTree = "<group>";
+		};
+		0F9E1D921C7C58600024FC4F /* Inbox View */ = {
+			isa = PBXGroup;
+			children = (
+				0F9E1D951C7C59550024FC4F /* CourtesyMyInboxEmptyTipTableViewCell.h */,
+				0F9E1D961C7C59550024FC4F /* CourtesyMyInboxEmptyTipTableViewCell.m */,
+				0F9E1D8C1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.h */,
+				0F9E1D8D1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.m */,
+			);
+			name = "Inbox View";
+			sourceTree = "<group>";
+		};
+		0F9E1D931C7C586C0024FC4F /* Outbox View */ = {
+			isa = PBXGroup;
+			children = (
+				0F9E1D9B1C7C598D0024FC4F /* CourtesyMyOutboxEmptyTipTableViewCell.h */,
+				0F9E1D9C1C7C598D0024FC4F /* CourtesyMyOutboxEmptyTipTableViewCell.m */,
+				0F9E1D8F1C7C58580024FC4F /* CourtesyMyOutboxTableViewController.h */,
+				0F9E1D901C7C58580024FC4F /* CourtesyMyOutboxTableViewController.m */,
+			);
+			name = "Outbox View";
+			sourceTree = "<group>";
+		};
+		0F9E1D941C7C58850024FC4F /* Star View */ = {
+			isa = PBXGroup;
+			children = (
+				0FC6CF051C79DF7B007B666B /* CourtesyMyStarEmptyTipTableViewCell.h */,
+				0FC6CF061C79DF7B007B666B /* CourtesyMyStarEmptyTipTableViewCell.m */,
+				0F18A0CE1C7965D500FDFDF5 /* CourtesyMyStarTableViewController.h */,
+				0F18A0CF1C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m */,
+			);
+			name = "Star View";
 			sourceTree = "<group>";
 		};
 		0FBA71601C7ACF5000053696 /* About View */ = {
@@ -177,12 +235,14 @@
 			isa = PBXGroup;
 			children = (
 				0FBA717A1C7B4BFA00053696 /* Common View */,
+				0F9E1D8A1C7C4E760024FC4F /* Login View */,
 				0F18A0C51C795CCC00FDFDF5 /* Left Drawer Table */,
-				0F18A0C81C79653300FDFDF5 /* Main View */,
 				0FBA71761C7B447C00053696 /* Gallery View */,
+				0F18A0C81C79653300FDFDF5 /* My View */,
+				0F9E1D941C7C58850024FC4F /* Star View */,
 				0FC6CF081C79F483007B666B /* Settings View */,
-				0F18A0C61C795CF400FDFDF5 /* Github Web View */,
 				0F18A0C71C795D0F00FDFDF5 /* Animation Settings View */,
+				0F18A0C61C795CF400FDFDF5 /* Github Web View */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -209,9 +269,11 @@
 		0FBA716E1C7B24B600053696 /* Global */ = {
 			isa = PBXGroup;
 			children = (
-				0FBA71751C7B2B0700053696 /* GlobalDefine.h */,
+				0F9E1D8B1C7C51CE0024FC4F /* PrefixHeader.pch */,
 				0FBBF7121C78BD4700A0A2D1 /* AppDelegate.h */,
 				0FBBF7131C78BD4700A0A2D1 /* AppDelegate.m */,
+				0F9E1D871C7C19CD0024FC4F /* GlobalSettings.h */,
+				0F9E1D881C7C19CD0024FC4F /* GlobalSettings.m */,
 			);
 			name = Global;
 			sourceTree = "<group>";
@@ -443,19 +505,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F9E1D891C7C19CD0024FC4F /* GlobalSettings.m in Sources */,
 				0FBA71801C7B5CD700053696 /* CourtesyGalleryEmptyTipTableViewCell.m in Sources */,
-				0F18A0D01C7965D500FDFDF5 /* CourtesyMyTableViewController.m in Sources */,
+				0F18A0D01C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m in Sources */,
+				0F62D3C61C7C6BFC0024F72E /* CourtesyMyTabBarController.m in Sources */,
 				0FBA715A1C7ABA9C00053696 /* CourtesyMessageNotificationSettingsTableViewController.m in Sources */,
+				0F9E1D911C7C58580024FC4F /* CourtesyMyOutboxTableViewController.m in Sources */,
+				0F9E1D9D1C7C598D0024FC4F /* CourtesyMyOutboxEmptyTipTableViewCell.m in Sources */,
 				0FBBF7261C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m in Sources */,
 				0FBA71791C7B492300053696 /* CourtesyGalleryTableViewController.m in Sources */,
 				0FBA715D1C7ABC3E00053696 /* NotificationUtils.m in Sources */,
 				0F18A0D31C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m in Sources */,
 				0FBA71691C7B104400053696 /* CourtesyUserAgreementWebViewController.m in Sources */,
 				0FBBF7271C78BD4700A0A2D1 /* CourtesyLeftDrawerMenuTableViewCell.m in Sources */,
+				0F9E1D8E1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.m in Sources */,
+				0F9E1D971C7C59550024FC4F /* CourtesyMyInboxEmptyTipTableViewCell.m in Sources */,
 				0FBA71721C7B24F900053696 /* FileUtils.m in Sources */,
 				0FBBF7291C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.m in Sources */,
 				0FBBF7231C78BD4700A0A2D1 /* AppDelegate.m in Sources */,
-				0FC6CF071C79DF7B007B666B /* CourtesyMyEmptyTipTableViewCell.m in Sources */,
+				0FC6CF071C79DF7B007B666B /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */,
 				0FBA71641C7AF97900053696 /* CourtesyAboutViewController.m in Sources */,
 				0FC6CF0B1C79F4B0007B666B /* CourtesySettingsTableViewController.m in Sources */,
 				0FC6CF041C79B161007B666B /* CourtesyQRScanViewController.m in Sources */,
@@ -511,6 +579,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/PrefixHeader.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -553,6 +622,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/PrefixHeader.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

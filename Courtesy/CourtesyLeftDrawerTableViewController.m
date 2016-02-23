@@ -24,9 +24,10 @@ enum {
 enum {
     kCourtesyGalleryIndex     = 0,
     kCourtesyMainIndex        = 1,
-    kCourtesySettingsIndex    = 2,
-    kJVDrawerSettingsIndex    = 3,
-    kJVGitHubProjectPageIndex = 4
+    kCourtesyStarIndex        = 2,
+    kCourtesySettingsIndex    = 3,
+    kJVDrawerSettingsIndex    = 4,
+    kJVGitHubProjectPageIndex = 5
 };
 
 static const CGFloat kJVTableViewTopInset = 80.0;
@@ -34,6 +35,8 @@ static NSString * const kCourtesyDrawerAvatarViewCellReuseIdentifier = @"Courtes
 static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdentifier";
 
 @interface CourtesyLeftDrawerTableViewController ()
+
+@property (nonatomic, strong) CourtesyLeftDrawerAvatarTableViewCell *avatarCell;
 
 @end
 
@@ -69,7 +72,15 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     if (section == kAvatarSection) {
         return 1;
     }
-    return 5;
+    return 6;
+}
+
+- (void)reloadAvatar {
+    if (!_avatarCell) {
+        return;
+    }
+    _avatarCell.nickLabelText = @"未登录";
+    _avatarCell.avatarImage = [UIImage imageNamed:@"3-avatar"];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -77,11 +88,11 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         CourtesyLeftDrawerMenuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kJVDrawerCellReuseIdentifier forIndexPath:indexPath];
         
         if (indexPath.row == kCourtesyMainIndex) {
-            cell.titleText = @"收藏夹";
-            cell.iconImage = [UIImage imageNamed:@"5-gallery"];
+            cell.titleText = @"我的";
+            cell.iconImage = [UIImage imageNamed:@"1-gift"];
         } else if (indexPath.row == kCourtesyGalleryIndex) {
             cell.titleText = @"探索";
-            cell.iconImage = [UIImage imageNamed:@"1-gift"];
+            cell.iconImage = [UIImage imageNamed:@"5-gallery"];
         } else if (indexPath.row == kCourtesySettingsIndex) {
             cell.titleText = @"设置";
             cell.iconImage = [UIImage imageNamed:@"665-gear"];
@@ -91,14 +102,16 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         } else if (indexPath.row == kJVGitHubProjectPageIndex) {
             cell.titleText = @"Github Page";
             cell.iconImage = [UIImage imageNamed:@"488-github"];
+        } else if (indexPath.row == kCourtesyStarIndex) {
+            cell.titleText = @"收藏";
+            cell.iconImage = [UIImage imageNamed:@"19-star"];
         }
         
         return cell;
     }
     CourtesyLeftDrawerAvatarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourtesyDrawerAvatarViewCellReuseIdentifier forIndexPath:indexPath];
-    
-    cell.nickLabelText = @"未登录";
-    cell.avatarImage = [UIImage imageNamed:@"3-avatar"];
+    self.avatarCell = cell;
+    [self reloadAvatar];
     
     return cell;
 }
@@ -108,7 +121,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         UIViewController *destinationViewController = nil;
         
         if (indexPath.row == kCourtesyMainIndex) {
-            destinationViewController = [[AppDelegate globalDelegate] mainViewController];
+            destinationViewController = [[AppDelegate globalDelegate] myViewController];
         } else if (indexPath.row == kCourtesyGalleryIndex) {
             destinationViewController = [[AppDelegate globalDelegate] galleryViewController];
         } else if (indexPath.row == kCourtesySettingsIndex) {
@@ -117,6 +130,8 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
             destinationViewController = [[AppDelegate globalDelegate] drawerSettingsViewController];
         } else if (indexPath.row == kJVGitHubProjectPageIndex) {
             destinationViewController = [[AppDelegate globalDelegate] githubViewController];
+        } else if (indexPath.row == kCourtesyStarIndex) {
+            destinationViewController = [[AppDelegate globalDelegate] starViewController];
         }
         
         if (!destinationViewController) {

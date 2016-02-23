@@ -15,4 +15,6 @@ target 'Courtesy', :exclusive => true do
     pod 'Toast'
     pod 'UMengSocial', '4.3'
     pod 'LKDBHelper'
+    pod 'MJRefresh'
+    pod 'QBImagePickerController'
 end

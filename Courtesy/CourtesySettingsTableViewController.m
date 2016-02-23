@@ -10,7 +10,6 @@
 #import "AppDelegate.h"
 #import "UIView+Toast.h"
 #import "FileUtils.h"
-#import "GlobalDefine.h"
 
 // 表格分区及索引设置
 enum {
