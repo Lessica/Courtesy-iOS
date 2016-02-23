@@ -1,0 +1,31 @@
+//
+//  PrefixHeader.pch
+//  Courtesy
+//
+//  Created by Zheng on 2/23/16.
+//  Copyright © 2016 82Flex. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+// 日志输出
+#ifdef DEBUG
+#define CYLog(...) NSLog(__VA_ARGS__);
+#else
+#define CYLog(...);
+#endif
+
+// 方法输出
+#define CYLogFunc CYLog(@"%s", __func__);
+
+#define APP_NAME_EN @"Courtesy"
+#define APP_NAME_CN @"礼记"
+#define VERSION_STRING @"1.0"
+#define SERVICE_EMAIL @"i.82@me.com"
+#define UMENG_APP_KEY @"56ca911667e58ec982000f95"
+
+#endif /* PrefixHeader_pch */
