@@ -44,6 +44,27 @@ static SystemSoundID shake_sound_male_id = 0;
     return self;
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+         [self.topTitle removeFromSuperview];
+         self.topTitle = nil;
+         [self.bottomItemsView removeFromSuperview];
+         self.bottomItemsView = nil;
+         [self.qRScanView removeFromSuperview];
+         self.qRScanView = nil;
+         [self stopCapture];
+         self.scanObj = nil;
+         [self drawTitle];
+         [self drawScanView];
+         [self drawBottomItems];
+         [self performSelector:@selector(startScan) withObject:nil afterDelay:0.2];
+     }];
+    
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {

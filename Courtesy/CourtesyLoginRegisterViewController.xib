@@ -230,7 +230,7 @@
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_rgister_textfield_bg" translatesAutoresizingMaskIntoConstraints="NO" id="R1E-Cc-cWO" userLabel="背景">
                                     <rect key="frame" x="0.0" y="0.0" width="266" height="92"/>
                                 </imageView>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="电子邮箱" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="xH1-IQ-oJH" customClass="CourtesyLoginRegisterTextField">
+                                <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="电子邮箱" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="xH1-IQ-oJH" customClass="CourtesyLoginRegisterTextField">
                                     <rect key="frame" x="10" y="0.0" width="246" height="46"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>

@@ -19,6 +19,7 @@
 
 - (void)awakeFromNib {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.backgroundColor = [UIColor clearColor];
     // 绘制圆形头像
     self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.size.height / 2;
     self.avatarImageView.layer.masksToBounds = YES;

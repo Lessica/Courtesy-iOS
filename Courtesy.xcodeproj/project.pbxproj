@@ -44,6 +44,7 @@
 		0FC6CF071C79DF7B007B666B /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC6CF061C79DF7B007B666B /* CourtesyMyStarEmptyTipTableViewCell.m */; };
 		0FC6CF0B1C79F4B0007B666B /* CourtesySettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC6CF0A1C79F4B0007B666B /* CourtesySettingsTableViewController.m */; };
 		0FC6CF0F1C7A01E8007B666B /* kisssound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC6CF0E1C7A01E8007B666B /* kisssound.wav */; };
+		0FC910D11C7C955700CEF533 /* CourtesyAccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC910D01C7C955700CEF533 /* CourtesyAccountModel.m */; };
 		BC703599663B4BCB91E9CC88 /* libPods-Courtesy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F634EFABF4A9FFF86FA2638 /* libPods-Courtesy.a */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +117,8 @@
 		0FC6CF091C79F4B0007B666B /* CourtesySettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesySettingsTableViewController.h; sourceTree = "<group>"; };
 		0FC6CF0A1C79F4B0007B666B /* CourtesySettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesySettingsTableViewController.m; sourceTree = "<group>"; };
 		0FC6CF0E1C7A01E8007B666B /* kisssound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = kisssound.wav; sourceTree = "<group>"; };
+		0FC910CF1C7C955700CEF533 /* CourtesyAccountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAccountModel.h; sourceTree = "<group>"; };
+		0FC910D01C7C955700CEF533 /* CourtesyAccountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAccountModel.m; sourceTree = "<group>"; };
 		2CE7E65D1A62D8470072121A /* 礼记.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "礼记.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F634EFABF4A9FFF86FA2638 /* libPods-Courtesy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Courtesy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F79D89D6F986E82FABAC7E77 /* Pods-Courtesy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Courtesy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Courtesy/Pods-Courtesy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -190,13 +193,13 @@
 		0F9E1D8A1C7C4E760024FC4F /* Login View */ = {
 			isa = PBXGroup;
 			children = (
+				0F3DA7D61C7C791B00448055 /* CourtesyLoginRegisterViewController.xib */,
 				0F3DA7D91C7C797D00448055 /* CourtesyQuickLoginButton.h */,
 				0F3DA7DA1C7C797D00448055 /* CourtesyQuickLoginButton.m */,
 				0F3DA7DF1C7C7CED00448055 /* CourtesyLoginRegisterTextField.h */,
 				0F3DA7E01C7C7CED00448055 /* CourtesyLoginRegisterTextField.m */,
 				0F3DA7DC1C7C7B2600448055 /* CourtesyLoginRegisterViewController.h */,
 				0F3DA7DD1C7C7B2600448055 /* CourtesyLoginRegisterViewController.m */,
-				0F3DA7D61C7C791B00448055 /* CourtesyLoginRegisterViewController.xib */,
 			);
 			name = "Login View";
 			sourceTree = "<group>";
@@ -290,8 +293,8 @@
 		0FBA716D1C7B247700053696 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0FBBF7201C78BD4700A0A2D1 /* Images.xcassets */,
 				0FC6CF0E1C7A01E8007B666B /* kisssound.wav */,
+				0FBBF7201C78BD4700A0A2D1 /* Images.xcassets */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				0FBA716E1C7B24B600053696 /* Global */,
 				0FBA716D1C7B247700053696 /* Resources */,
 				0FBA716C1C7B245D00053696 /* Layouts */,
+				0FC910CD1C7C951F00CEF533 /* Models */,
 				0FBA716B1C7B244000053696 /* Views */,
 				0FBA716F1C7B24D500053696 /* Utils */,
 				0FBBF72D1C78BD6C00A0A2D1 /* Supporting Files */,
@@ -381,6 +385,23 @@
 				0FC6CF0A1C79F4B0007B666B /* CourtesySettingsTableViewController.m */,
 			);
 			name = "Settings View";
+			sourceTree = "<group>";
+		};
+		0FC910CD1C7C951F00CEF533 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0FC910CE1C7C952900CEF533 /* Account */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		0FC910CE1C7C952900CEF533 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				0FC910CF1C7C955700CEF533 /* CourtesyAccountModel.h */,
+				0FC910D01C7C955700CEF533 /* CourtesyAccountModel.m */,
+			);
+			name = Account;
 			sourceTree = "<group>";
 		};
 		2CE7E6541A62D8470072121A = {
@@ -564,6 +585,7 @@
 				0FC6CF0B1C79F4B0007B666B /* CourtesySettingsTableViewController.m in Sources */,
 				0FC6CF041C79B161007B666B /* CourtesyQRScanViewController.m in Sources */,
 				0FBBF72C1C78BD4700A0A2D1 /* main.m in Sources */,
+				0FC910D11C7C955700CEF533 /* CourtesyAccountModel.m in Sources */,
 				0FBBF7281C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -691,7 +713,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = "礼记";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -713,7 +735,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = "礼记";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

@@ -50,10 +50,13 @@
         <scene sceneID="xi4-yp-hfF">
             <objects>
                 <tableViewController storyboardIdentifier="JVLeftDrawerViewControllerStoryboardID" id="7ba-Zg-Ilc" userLabel="(Left) Left Drawer" customClass="CourtesyLeftDrawerTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="60" sectionHeaderHeight="10" sectionFooterHeight="10" id="php-L1-MgB">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="60" sectionHeaderHeight="10" sectionFooterHeight="10" id="php-L1-MgB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CourtesyDrawerAvatarViewCellReuseIdentifier" rowHeight="124" id="PeT-9c-Vkm" customClass="CourtesyLeftDrawerAvatarTableViewCell">
                                 <rect key="frame" x="0.0" y="50" width="320" height="124"/>
@@ -64,6 +67,7 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QKy-m0-1ve">
                                             <rect key="frame" x="120" y="12" width="80" height="80"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="80" id="rJi-zk-xMN"/>
                                                 <constraint firstAttribute="width" constant="80" id="z3M-fb-KfJ"/>
@@ -71,6 +75,7 @@
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ocQ-B9-i7l" userLabel="Nick Label">
                                             <rect key="frame" x="139" y="104" width="42" height="21"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="9gP-N0-TxB"/>
                                             </constraints>
@@ -79,6 +84,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="QKy-m0-1ve" firstAttribute="top" secondItem="0CT-y7-y54" secondAttribute="topMargin" constant="4" id="04o-SZ-AdS"/>
                                         <constraint firstItem="QKy-m0-1ve" firstAttribute="centerX" secondItem="0CT-y7-y54" secondAttribute="centerX" id="L4C-b3-nMw"/>
@@ -101,6 +107,7 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="btd-T8-3OA">
                                             <rect key="frame" x="40" y="15" width="30" height="30"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="30" id="ApD-xP-ZsY"/>
                                                 <constraint firstAttribute="height" constant="30" id="v0S-CC-Zbk"/>
@@ -108,6 +115,7 @@
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDX-7d-CaN">
                                             <rect key="frame" x="90" y="19" width="222" height="21"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="teS-cs-dqd"/>
                                             </constraints>
@@ -116,6 +124,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="NDX-7d-CaN" secondAttribute="trailing" constant="8" id="LXr-t3-UN7"/>
                                         <constraint firstItem="NDX-7d-CaN" firstAttribute="leading" secondItem="btd-T8-3OA" secondAttribute="trailing" constant="20" id="dF6-fc-ZMH"/>
@@ -166,7 +175,7 @@
         <scene sceneID="b6O-TP-YlV">
             <objects>
                 <tableViewController id="92c-nT-XTf" userLabel="(Center) Settings View" customClass="CourtesySettingsTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="vue-lB-QeC">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="vue-lB-QeC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>

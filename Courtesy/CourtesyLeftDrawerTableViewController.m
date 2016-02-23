@@ -89,7 +89,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         CourtesyLeftDrawerMenuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kJVDrawerCellReuseIdentifier forIndexPath:indexPath];
         
         if (indexPath.row == kCourtesyMainIndex) {
-            cell.titleText = @"我的";
+            cell.titleText = @"我的卡片";
             cell.iconImage = [UIImage imageNamed:@"1-gift"];
         } else if (indexPath.row == kCourtesyGalleryIndex) {
             cell.titleText = @"探索";
@@ -104,7 +104,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
             cell.titleText = @"Github Page";
             cell.iconImage = [UIImage imageNamed:@"488-github"];
         } else if (indexPath.row == kCourtesyStarIndex) {
-            cell.titleText = @"收藏";
+            cell.titleText = @"收藏夹";
             cell.iconImage = [UIImage imageNamed:@"19-star"];
         }
         
