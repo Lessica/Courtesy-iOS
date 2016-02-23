@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		0F18A0D01C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18A0CF1C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m */; };
 		0F18A0D31C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18A0D21C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m */; };
+		0F3DA7D71C7C791B00448055 /* CourtesyLoginRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F3DA7D61C7C791B00448055 /* CourtesyLoginRegisterViewController.xib */; };
+		0F3DA7DB1C7C797D00448055 /* CourtesyQuickLoginButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3DA7DA1C7C797D00448055 /* CourtesyQuickLoginButton.m */; };
+		0F3DA7DE1C7C7B2600448055 /* CourtesyLoginRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3DA7DD1C7C7B2600448055 /* CourtesyLoginRegisterViewController.m */; };
+		0F3DA7E11C7C7CED00448055 /* CourtesyLoginRegisterTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3DA7E01C7C7CED00448055 /* CourtesyLoginRegisterTextField.m */; };
+		0F3DA7E61C7C807000448055 /* UIView+FrameMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3DA7E51C7C807000448055 /* UIView+FrameMethods.m */; };
 		0F62D3C61C7C6BFC0024F72E /* CourtesyMyTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F62D3C51C7C6BFC0024F72E /* CourtesyMyTabBarController.m */; };
 		0F9E1D891C7C19CD0024FC4F /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E1D881C7C19CD0024FC4F /* GlobalSettings.m */; };
 		0F9E1D8E1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E1D8D1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.m */; };
@@ -48,6 +53,15 @@
 		0F18A0CF1C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyStarTableViewController.m; sourceTree = "<group>"; };
 		0F18A0D11C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLeftDrawerAvatarTableViewCell.h; sourceTree = "<group>"; };
 		0F18A0D21C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLeftDrawerAvatarTableViewCell.m; sourceTree = "<group>"; };
+		0F3DA7D61C7C791B00448055 /* CourtesyLoginRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CourtesyLoginRegisterViewController.xib; sourceTree = "<group>"; };
+		0F3DA7D91C7C797D00448055 /* CourtesyQuickLoginButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyQuickLoginButton.h; sourceTree = "<group>"; };
+		0F3DA7DA1C7C797D00448055 /* CourtesyQuickLoginButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyQuickLoginButton.m; sourceTree = "<group>"; };
+		0F3DA7DC1C7C7B2600448055 /* CourtesyLoginRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLoginRegisterViewController.h; sourceTree = "<group>"; };
+		0F3DA7DD1C7C7B2600448055 /* CourtesyLoginRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLoginRegisterViewController.m; sourceTree = "<group>"; };
+		0F3DA7DF1C7C7CED00448055 /* CourtesyLoginRegisterTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLoginRegisterTextField.h; sourceTree = "<group>"; };
+		0F3DA7E01C7C7CED00448055 /* CourtesyLoginRegisterTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLoginRegisterTextField.m; sourceTree = "<group>"; };
+		0F3DA7E41C7C807000448055 /* UIView+FrameMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FrameMethods.h"; sourceTree = "<group>"; };
+		0F3DA7E51C7C807000448055 /* UIView+FrameMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FrameMethods.m"; sourceTree = "<group>"; };
 		0F62D3C41C7C6BFC0024F72E /* CourtesyMyTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyTabBarController.h; sourceTree = "<group>"; };
 		0F62D3C51C7C6BFC0024F72E /* CourtesyMyTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyTabBarController.m; sourceTree = "<group>"; };
 		0F9E1D871C7C19CD0024FC4F /* GlobalSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalSettings.h; sourceTree = "<group>"; };
@@ -164,9 +178,25 @@
 			name = "My View";
 			sourceTree = "<group>";
 		};
+		0F3DA7E71C7C807800448055 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0F3DA7E41C7C807000448055 /* UIView+FrameMethods.h */,
+				0F3DA7E51C7C807000448055 /* UIView+FrameMethods.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		0F9E1D8A1C7C4E760024FC4F /* Login View */ = {
 			isa = PBXGroup;
 			children = (
+				0F3DA7D91C7C797D00448055 /* CourtesyQuickLoginButton.h */,
+				0F3DA7DA1C7C797D00448055 /* CourtesyQuickLoginButton.m */,
+				0F3DA7DF1C7C7CED00448055 /* CourtesyLoginRegisterTextField.h */,
+				0F3DA7E01C7C7CED00448055 /* CourtesyLoginRegisterTextField.m */,
+				0F3DA7DC1C7C7B2600448055 /* CourtesyLoginRegisterViewController.h */,
+				0F3DA7DD1C7C7B2600448055 /* CourtesyLoginRegisterViewController.m */,
+				0F3DA7D61C7C791B00448055 /* CourtesyLoginRegisterViewController.xib */,
 			);
 			name = "Login View";
 			sourceTree = "<group>";
@@ -225,6 +255,7 @@
 		0FBA71661C7B101B00053696 /* User Agreement View */ = {
 			isa = PBXGroup;
 			children = (
+				0FBA71651C7B0E4E00053696 /* tos.html */,
 				0FBA71671C7B104400053696 /* CourtesyUserAgreementWebViewController.h */,
 				0FBA71681C7B104400053696 /* CourtesyUserAgreementWebViewController.m */,
 			);
@@ -250,9 +281,8 @@
 		0FBA716C1C7B245D00053696 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
-				0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */,
 				0FBBF7161C78BD4700A0A2D1 /* LaunchScreen.xib */,
-				0FBA71651C7B0E4E00053696 /* tos.html */,
+				0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */,
 			);
 			name = Layouts;
 			sourceTree = "<group>";
@@ -281,6 +311,7 @@
 		0FBA716F1C7B24D500053696 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				0F3DA7E71C7C807800448055 /* Extensions */,
 				0FBA715B1C7ABC3E00053696 /* NotificationUtils.h */,
 				0FBA715C1C7ABC3E00053696 /* NotificationUtils.m */,
 				0FBA71701C7B24F900053696 /* FileUtils.h */,
@@ -457,6 +488,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FBA716A1C7B14AC00053696 /* tos.html in Resources */,
+				0F3DA7D71C7C791B00448055 /* CourtesyLoginRegisterViewController.xib in Resources */,
 				0FC6CF0F1C7A01E8007B666B /* kisssound.wav in Resources */,
 				0FBBF7251C78BD4700A0A2D1 /* LaunchScreen.xib in Resources */,
 				0FBBF7241C78BD4700A0A2D1 /* Drawers.storyboard in Resources */,
@@ -506,6 +538,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F9E1D891C7C19CD0024FC4F /* GlobalSettings.m in Sources */,
+				0F3DA7DE1C7C7B2600448055 /* CourtesyLoginRegisterViewController.m in Sources */,
+				0F3DA7E11C7C7CED00448055 /* CourtesyLoginRegisterTextField.m in Sources */,
+				0F3DA7E61C7C807000448055 /* UIView+FrameMethods.m in Sources */,
 				0FBA71801C7B5CD700053696 /* CourtesyGalleryEmptyTipTableViewCell.m in Sources */,
 				0F18A0D01C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m in Sources */,
 				0F62D3C61C7C6BFC0024F72E /* CourtesyMyTabBarController.m in Sources */,
@@ -521,6 +556,7 @@
 				0F9E1D8E1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.m in Sources */,
 				0F9E1D971C7C59550024FC4F /* CourtesyMyInboxEmptyTipTableViewCell.m in Sources */,
 				0FBA71721C7B24F900053696 /* FileUtils.m in Sources */,
+				0F3DA7DB1C7C797D00448055 /* CourtesyQuickLoginButton.m in Sources */,
 				0FBBF7291C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.m in Sources */,
 				0FBBF7231C78BD4700A0A2D1 /* AppDelegate.m in Sources */,
 				0FC6CF071C79DF7B007B666B /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */,
@@ -642,6 +678,7 @@
 			baseConfigurationReference = F79D89D6F986E82FABAC7E77 /* Pods-Courtesy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Courtesy/Courtesy.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -663,6 +700,7 @@
 			baseConfigurationReference = 05940789181F806AF4D4F3D2 /* Pods-Courtesy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Courtesy/Courtesy.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

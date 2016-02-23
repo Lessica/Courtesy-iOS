@@ -9,6 +9,7 @@
 #import "CourtesyLeftDrawerTableViewController.h"
 #import "CourtesyLeftDrawerMenuTableViewCell.h"
 #import "CourtesyLeftDrawerAvatarTableViewCell.h"
+#import "CourtesyLoginRegisterViewController.h"
 #import "AppDelegate.h"
 #import "JVFloatingDrawerViewController.h"
 
@@ -139,6 +140,9 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         }
         [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:destinationViewController];
         [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
+    } else if (indexPath.section == kAvatarSection) {
+        CourtesyLoginRegisterViewController *vc = [CourtesyLoginRegisterViewController new];
+        [self presentViewController:vc animated:YES completion:nil];
     }
     //TODO: Avatar Reuse
 }
