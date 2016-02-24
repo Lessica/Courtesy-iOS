@@ -126,6 +126,14 @@ POST /api/courtesy
 
 - 登录成功 Login Succeed (SESSION in Cookie)
 
+### 注销 Logout
+```json
+{
+    "action": "user_logout",
+    "version": 2
+}
+```
+
 ### 获取用户信息 Get User Info
 ```json
 {
