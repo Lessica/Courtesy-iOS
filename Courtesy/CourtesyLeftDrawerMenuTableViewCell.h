@@ -6,8 +6,6 @@
 //  Copyright (c) 2016 82Flex. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 @interface CourtesyLeftDrawerMenuTableViewCell : UITableViewCell
 
 @property (nonatomic, copy) NSString *titleText;

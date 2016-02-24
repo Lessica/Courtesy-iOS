@@ -7,17 +7,14 @@
 //
 
 #import <AudioToolbox/AudioToolbox.h>
-#import <QBImagePickerController/QBImagePickerController.h>
 #import "CourtesyQRScanViewController.h"
 #import "LBXScanResult.h"
 #import "LBXScanWrapper.h"
-#import "Colours.h"
-#import "LGAlertView.h"
 
 // 振动系统声音
 static SystemSoundID shake_sound_male_id = 0;
 
-@interface CourtesyQRScanViewController () <LGAlertViewDelegate, QBImagePickerControllerDelegate>
+@interface CourtesyQRScanViewController () <LGAlertViewDelegate>
 
 @end
 

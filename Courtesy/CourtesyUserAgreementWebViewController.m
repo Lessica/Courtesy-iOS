@@ -6,9 +6,9 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "CourtesyUserAgreementWebViewController.h"
-#import "NJKWebViewProgressView.h"
 #import "NJKWebViewProgress.h"
+#import "NJKWebViewProgressView.h"
+#import "CourtesyUserAgreementWebViewController.h"
 
 @interface CourtesyUserAgreementWebViewController () <UIWebViewDelegate, NJKWebViewProgressDelegate>
 

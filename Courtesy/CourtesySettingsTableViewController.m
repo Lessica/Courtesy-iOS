@@ -6,10 +6,9 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "CourtesySettingsTableViewController.h"
 #import "AppDelegate.h"
-#import "UIView+Toast.h"
-#import "FileUtils.h"
+#import "CourtesySettingsTableViewController.h"
+#import <MessageUI/MessageUI.h>
 
 // 表格分区及索引设置
 enum {
@@ -51,11 +50,13 @@ enum {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [CSToastManager setTapToDismissEnabled:YES];
+    [CSToastManager setQueueEnabled:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    _cleanCacheTitleLabel.text = [NSString stringWithFormat:@"清除缓存 (%@ )", [FileUtils formattedCacheSize]];
+    [self reloadCacheSizeLabelText:NO];
 }
 
 #pragma mark - 导航栏按钮
@@ -129,6 +130,7 @@ enum {
     [self.navigationController.view makeToast:@"缓存清除成功"
                                      duration:1.2
                                      position:CSToastPositionCenter];
+    [self reloadCacheSizeLabelText:YES];
 }
 
 // 发送邮件
@@ -140,6 +142,14 @@ enum {
     [picker setToRecipients:toRecipients];
     [self presentViewController:picker animated:YES completion:nil];
     
+}
+
+- (void)reloadCacheSizeLabelText:(BOOL)clear {
+    if (clear) {
+        _cleanCacheTitleLabel.text = @"清除缓存";
+        return;
+    }
+    _cleanCacheTitleLabel.text = [NSString stringWithFormat:@"清除缓存 %@", [FileUtils formattedCacheSize]];
 }
 
 #pragma mark - 开关设置项

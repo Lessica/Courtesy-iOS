@@ -8,7 +8,24 @@
 
 #import "GlobalSettings.h"
 
+@interface GlobalSettings ()
+
+@end
+
 @implementation GlobalSettings
+
+- (instancetype)init {
+    if (self = [super init]) {
+        // 检查是否有会话
+        if ([SessionUtils hasSessionKey]) {
+            _hasLogin = YES;
+        } else {
+            _hasLogin = NO;
+        }
+        _currentAccount = nil;
+    }
+    return self;
+}
 
 + (id)sharedInstance {
     static GlobalSettings *sharedInstance = nil;
@@ -19,7 +36,5 @@
     
     return sharedInstance;
 }
-
-
 
 @end

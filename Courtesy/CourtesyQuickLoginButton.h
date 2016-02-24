@@ -6,9 +6,6 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "UIView+FrameMethods.h"
-
 @interface CourtesyQuickLoginButton : UIButton
 
 @end

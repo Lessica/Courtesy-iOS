@@ -10,6 +10,13 @@
 
 @implementation NotificationUtils
 
++ (void)sendNotification:(NSString *)identifier
+              withObject:(id)object
+                withInfo:(NSDictionary *)userInfo {
+    NSNotification *notification = [NSNotification notificationWithName:identifier object:object userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+
 + (BOOL)allowNotifications {
     UIUserNotificationSettings *setting = [[UIApplication sharedApplication] currentUserNotificationSettings];
     if (UIUserNotificationTypeNone != setting.types) {

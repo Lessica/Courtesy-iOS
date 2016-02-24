@@ -6,12 +6,18 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#import "CourtesyAccountModel.h"
 #import "CourtesyLoginRegisterViewController.h"
-#import "UIView+Toast.h"
+#import "CourtesyLoginRegisterTextField.h"
+#import "CourtesyLoginRegisterModel.h"
 
-@interface CourtesyLoginRegisterViewController ()
+@interface CourtesyLoginRegisterViewController () <CourtesyLoginRegisterDelegate>
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leadingSpace;
+@property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *loginEmailTextField;
+@property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *loginPasswordTextField;
+@property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *registerEmailTextField;
+@property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *registerPasswordTextField;
 
 @end
 
@@ -21,6 +27,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [CSToastManager setTapToDismissEnabled:YES];
+    [CSToastManager setQueueEnabled:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,34 +67,86 @@
 
 #pragma mark - 按钮事件
 
-- (IBAction)forgetButtonClicked:(id)sender {
-    // 跳转到忘记密码页面
-}
-
 - (IBAction)loginFromQQ:(id)sender {
+    [self.view endEditing:YES];
     [self.view makeToast:@"暂时无法提供此服务"
                 duration:1.2
                 position:CSToastPositionCenter];
 }
 
 - (IBAction)loginFromWeibo:(id)sender {
+    [self.view endEditing:YES];
     [self.view makeToast:@"暂时无法提供此服务"
                 duration:1.2
                 position:CSToastPositionCenter];
 }
 
 - (IBAction)loginFromTencent:(id)sender {
+    [self.view endEditing:YES];
     [self.view makeToast:@"暂时无法提供此服务"
                 duration:1.2
                 position:CSToastPositionCenter];
 }
 
 - (IBAction)loginCourtesyAccount:(id)sender {
-    
+    [self.view endEditing:YES];
+    [self.view makeToastActivity:CSToastPositionCenter];
+    CourtesyLoginRegisterModel *loginModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:_loginEmailTextField.text password:_loginPasswordTextField.text delegate:self];
+    [loginModel sendRequestLogin];
 }
 
 - (IBAction)registerCourtesyAccount:(id)sender {
-    
+    [self.view endEditing:YES];
+    [self.view makeToastActivity:CSToastPositionCenter];
+    CourtesyLoginRegisterModel *regModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:_registerEmailTextField.text password:_registerPasswordTextField.text delegate:self];
+    [regModel sendRequestRegister];
+}
+
+- (IBAction)forgetPasswordClicked:(id)sender {
+    [NetworkUtils openURL:API_FORGET_PASSWORD];
+}
+
+#pragma mark - CourtesyLoginRegisterDelegate 注册登录委托方法
+
+- (void)loginRegisterFailed:(CourtesyLoginRegisterModel *)sender
+               errorMessage:(NSString *)message
+                    isLogin:(BOOL)login {
+    [self.view hideToastActivity];
+    [self.view makeToast:message
+                duration:1.2
+                position:CSToastPositionCenter];
+}
+
+- (void)loginRegisterSucceed:(CourtesyLoginRegisterModel *)sender
+                     isLogin:(BOOL)login {
+    [self.view hideToastActivity];
+    if (login) {
+        [self.view makeToast:@"登录成功"
+                    duration:3.0
+                    position:CSToastPositionCenter
+                       title:nil
+                       image:nil
+                       style:nil
+                  completion:^(BOOL didTap) {
+                      [self close];
+                  }];
+    } else {
+        [self.view makeToast:@"注册成功"
+                    duration:3.0
+                    position:CSToastPositionCenter
+                       title:nil
+                       image:nil
+                       style:nil
+                  completion:^(BOOL didTap) {
+                      [self close];
+                  }];
+    }
+    // 设置登录成功状态
+    CourtesyAccountModel *newLoginAccount = [CourtesyAccountModel new];
+    [newLoginAccount setEmail:[sender email]];
+    [[GlobalSettings sharedInstance] setCurrentAccount:newLoginAccount];
+    // 发送全局登录成功通知
+    [NotificationUtils sendNotification:NOTIFICATION_LOGIN_SUCCEED withObject:nil withInfo:nil];
 }
 
 @end

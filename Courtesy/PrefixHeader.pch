@@ -12,20 +12,52 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
-// 日志输出
-#ifdef DEBUG
-#define CYLog(...) NSLog(__VA_ARGS__);
-#else
-#define CYLog(...);
+#ifndef DEBUG
+# define NSLog(...);
 #endif
 
-// 方法输出
-#define CYLogFunc CYLog(@"%s", __func__);
+// 日志输出
+#ifdef DEBUG
+# define CYLog(fmt, ...) NSLog((@"[%@:%d] " fmt), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, ##__VA_ARGS__);
+#else
+# define CYLog(...);
+#endif
 
 #define APP_NAME_EN @"Courtesy"
 #define APP_NAME_CN @"礼记"
 #define VERSION_STRING @"1.0"
+#define VERSION_BUILD 2
 #define SERVICE_EMAIL @"i.82@me.com"
 #define UMENG_APP_KEY @"56ca911667e58ec982000f95"
+
+#define API_DOMAIN @"10.0.1.222"
+#define API_URL @"http://10.0.1.222/api/courtesy"
+#define API_FORGET_PASSWORD @"http://10.0.1.222/courtesy/reset"
+
+// 基础头文件
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+// 共享头文件
+#import "GlobalSettings.h"
+#import "FileUtils.h"
+#import "ValidateUtils.h"
+#import "NetworkUtils.h"
+#import "ExceptionUtils.h"
+#import "NotificationUtils.h"
+#import "SessionUtils.h"
+#import "UIView+FrameMethods.h"
+#import "NSData+Encrypt.h"
+#import "NSString+Encrypt.h"
+#import "NSDictionary+Subscript.h"
+
+// 第三方库
+#import "UMessage.h"
+#import "UMSocial.h"
+#import "Colours.h"
+#import "JSONModel.h"
+#import "JSONHTTPClient.h"
+#import "UIView+Toast.h"
+#import "LGAlertView.h"
 
 #endif /* PrefixHeader_pch */

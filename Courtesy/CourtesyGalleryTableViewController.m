@@ -6,9 +6,9 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "CourtesyGalleryTableViewController.h"
 #import "CourtesyGalleryEmptyTipTableViewCell.h"
-#import "AppDelegate.h"
 
 static NSString * const kCourtesyGalleryEmptyTipCellReuseIdentifier = @"CourtesyGalleryEmptyTipCellReuseIdentifier";
 

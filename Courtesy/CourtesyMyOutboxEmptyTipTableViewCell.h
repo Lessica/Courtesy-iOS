@@ -6,8 +6,6 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 @interface CourtesyMyOutboxEmptyTipTableViewCell : UITableViewCell
 
 @property (nonatomic, copy) NSString *titleText;

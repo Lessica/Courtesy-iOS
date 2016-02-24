@@ -7,8 +7,6 @@
 //
 
 #import "CourtesyMessageNotificationSettingsTableViewController.h"
-#import "LGAlertView.h"
-#import "NotificationUtils.h"
 
 @interface CourtesyMessageNotificationSettingsTableViewController ()
 

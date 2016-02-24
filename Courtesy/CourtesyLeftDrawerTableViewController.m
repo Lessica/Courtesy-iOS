@@ -6,11 +6,11 @@
 //  Copyright (c) 2016 82Flex. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "CourtesyLeftDrawerTableViewController.h"
 #import "CourtesyLeftDrawerMenuTableViewCell.h"
 #import "CourtesyLeftDrawerAvatarTableViewCell.h"
 #import "CourtesyLoginRegisterViewController.h"
-#import "AppDelegate.h"
 #import "JVFloatingDrawerViewController.h"
 
 enum {
@@ -141,10 +141,13 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:destinationViewController];
         [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
     } else if (indexPath.section == kAvatarSection) {
-        CourtesyLoginRegisterViewController *vc = [CourtesyLoginRegisterViewController new];
-        [self presentViewController:vc animated:YES completion:nil];
+        if (![[GlobalSettings sharedInstance] hasLogin]) {
+            CourtesyLoginRegisterViewController *vc = [CourtesyLoginRegisterViewController new];
+            [self presentViewController:vc animated:YES completion:nil];
+            return;
+        }
+        CYLog(@"Should toggle profile editing page! Current account: %@", [[[GlobalSettings sharedInstance] currentAccount] email]);
     }
-    //TODO: Avatar Reuse
 }
 
 - (void)didReceiveMemoryWarning {

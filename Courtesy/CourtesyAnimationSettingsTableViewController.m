@@ -6,9 +6,9 @@
 //  Copyright (c) 2016 82Flex. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "CourtesyAnimationSettingsTableViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
-#import "AppDelegate.h"
 
 @interface CourtesyAnimationSettingsTableViewController ()
 

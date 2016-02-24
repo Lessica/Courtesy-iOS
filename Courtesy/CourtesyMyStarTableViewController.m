@@ -6,9 +6,9 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "CourtesyMyStarTableViewController.h"
 #import "CourtesyMyStarEmptyTipTableViewCell.h"
-#import "AppDelegate.h"
 
 enum {
     kProfileSection  = 0,

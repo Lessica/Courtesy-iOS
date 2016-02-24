@@ -7,14 +7,10 @@
 //
 
 #import "AppDelegate.h"
-#import "NotificationUtils.h"
-#import "UMessage.h"
-#import "UMSocial.h"
 #import "JVFloatingDrawerViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
 #import "CourtesyQRScanViewController.h"
 #import "CourtesyLeftDrawerTableViewController.h"
-#import "Colours.h"
 
 static NSString * const kJVDrawersStoryboardName = @"Drawers";
 static NSString * const kJVLeftDrawerStoryboardID = @"JVLeftDrawerViewControllerStoryboardID";
@@ -38,14 +34,16 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 
 #pragma mark - 注册友盟SDK及推送消息
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // 设置应用标识符
-    NSString *umengAppKey = UMENG_APP_KEY;
     // 友盟推送
-    [UMessage startWithAppkey:umengAppKey launchOptions:launchOptions];
+    [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
     [UMessage registerRemoteNotificationAndUserNotificationSettings:[NotificationUtils requestForNotifications]];
     // 友盟社会化分享
-    [UMSocialData setAppKey:umengAppKey];
-    
+    [UMSocialData setAppKey:UMENG_APP_KEY];
+    // 初始化全局设置
+    [GlobalSettings sharedInstance];
+    // 设置网络模块
+    [NetworkUtils setNetworkConfig];
+    // 初始化界面
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.drawerViewController;
     self.window.tintColor = [UIColor magicColor];
@@ -58,9 +56,7 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     [UMessage registerDeviceToken:deviceToken];
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    
-}
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {}
 
 - (void)applicationWillResignActive:(UIApplication *)application {}
 - (void)applicationDidEnterBackground:(UIApplication *)application {}
