@@ -152,9 +152,10 @@ POST /api/courtesy
         "registered_at": 1456283003,
         "last_login_at": 1456283003,
         "card_count": 2,
+        "has_profile": true,
         "profile": {
             "nick": "\u6211\u53eb i_82",
-            "avatar": "aaca0f5eb4d2d98a6ce6dffa99f8254b",
+            "avatar": "\\static\\avatar\\aaca0f5eb4d2d98a6ce6dffa99f8254b_300.png",
             "mobile": "13270593207",
             "birthday": "1996-06-18",
             "gender": 1,
@@ -174,7 +175,7 @@ POST /api/courtesy
     "version": 2,
     "profile": {
         "nick": "\u6211\u53eb i_82",
-        "avatar": "aaca0f5eb4d2d98a6ce6dffa99f8254b",
+        "avatar": "\\static\\avatar\\aaca0f5eb4d2d98a6ce6dffa99f8254b_300.png",
         "mobile": "13270593207",
         "birthday": "1996-06-18",
         "gender": 1,
@@ -182,5 +183,34 @@ POST /api/courtesy
         "city": "\u5357\u4eac",
         "constellation": "\u53cc\u5b50\u5ea7"
     }
+}
+```
+
+### 上传用户头像
+POST /upload/avatar (Field: file)
+
+```json
+{
+    "origin": {
+        "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6.jpg"
+    },
+    "60px": {
+        "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6_60.png"
+    },
+    "150px": {
+        "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6_150.png"
+    },
+    "300px": {
+        "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6_300.png"
+    },
+    "error": 0
+}
+```
+
+- 尺寸不合要求 Size Dismatch
+```json
+{
+    "error": 422,
+    "timestamp": 1456283003
 }
 ```
