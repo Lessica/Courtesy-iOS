@@ -184,3 +184,29 @@ POST /api/courtesy
     }
 }
 ```
+
+### 上传接口
+
+用户头像
+upload/avatar
+
+表单
+    Avatar
+
+```
+{
+    "origin": {
+        "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6.jpg"
+    },
+    "60px": {
+        "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6_60.png"
+    },
+    "150px": {
+        "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6_150.png"
+    },
+    "300px": {
+        "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6_300.png"
+    },
+    "error": 0
+}
+```
