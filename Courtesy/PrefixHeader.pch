@@ -23,41 +23,58 @@
 # define CYLog(...);
 #endif
 
+// 处理异常
+#define NSException(_name, _reason) [[NSException alloc] initWithName:_name reason:_reason userInfo:nil]
+#define kCourtesyInvalidHttpResponse @"kCourtesyInvalidHttpResponse"
+#define kCourtesyUnexceptedObject @"kCourtesyUnexceptedObject"
+#define kCourtesyUnexceptedStatus @"kCourtesyUnexceptedStatus"
+#define kCourtesyForbidden @"kCourtesyForbidden"
+#define kCourtesyAllocFailed @"kCourtesyAllocFailed"
+#define kLogin [[GlobalSettings sharedInstance] hasLogin]
+#define kAccount [[GlobalSettings sharedInstance] currentAccount]
+#define kProfile [[[GlobalSettings sharedInstance] currentAccount] profile]
+
+// 常用常量
 #define APP_NAME_EN @"Courtesy"
-#define APP_NAME_CN @"礼记"
-#define VERSION_STRING @"1.0"
-#define VERSION_BUILD 2
+#define APP_NAME_CN [[UIApplication sharedApplication] appBundleName]
+#define VERSION_STRING [[UIApplication sharedApplication] appVersion]
+#define VERSION_BUILD [[UIApplication sharedApplication] appBuildVersion]
 #define SERVICE_EMAIL @"i.82@me.com"
 #define UMENG_APP_KEY @"56ca911667e58ec982000f95"
 
+// 接口常量
 #define API_DOMAIN @"10.0.1.222"
+#define API_TIMEOUT 20.0
 #define API_URL @"http://10.0.1.222/api/courtesy"
 #define API_FORGET_PASSWORD @"http://10.0.1.222/courtesy/reset"
+
+// 推送常量
+#define kCourtesyNotificationInfo @"kCourtesyNotificationInfo"
+#define kActionLogin @"login"
+#define kActionLogout @"logout"
+#define kActionFetching @"fetching"
+#define kActionFetchSucceed @"fetchInfoSucceed"
+#define kActionFetchFailed @"fetchInfoFailed"
 
 // 基础头文件
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <YYKit/YYKit.h>
 
 // 共享头文件
 #import "GlobalSettings.h"
-#import "FileUtils.h"
-#import "ValidateUtils.h"
-#import "NetworkUtils.h"
-#import "ExceptionUtils.h"
-#import "NotificationUtils.h"
-#import "SessionUtils.h"
-#import "UIView+FrameMethods.h"
-#import "NSData+Encrypt.h"
-#import "NSString+Encrypt.h"
 #import "NSDictionary+Subscript.h"
+#import "UIView+FrameMethods.h"
+#import "NSNotificationCenter+Action.h"
 
 // 第三方库
 #import "UMessage.h"
 #import "UMSocial.h"
 #import "Colours.h"
-#import "JSONModel.h"
-#import "JSONHTTPClient.h"
 #import "UIView+Toast.h"
 #import "LGAlertView.h"
+#import "FCFileManager.h"
+#import "NSString+CJStringValidator.h"
+#import "JDStatusBarNotification.h"
 
 #endif /* PrefixHeader_pch */

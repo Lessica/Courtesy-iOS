@@ -49,11 +49,70 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.contentInset = UIEdgeInsetsMake(kJVTableViewTopInset, 0.0, 0.0, 0.0);
     self.clearsSelectionOnViewWillAppear = NO;
+    // 注册接收通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveLocalNotification:)
+                                                 name:kCourtesyNotificationInfo object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCourtesyGalleryIndex inSection:kMenuSection] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [self showActivityMessage:@"登录中"];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - 响应通知事件
+
+- (void)didReceiveLocalNotification:(NSNotification *)notification {
+    if (!notification.userInfo || ![notification.userInfo hasKey:@"action"]) {
+        return;
+    }
+    NSString *action = [notification.userInfo objectForKey:@"action"];
+    if ([action isEqualToString:kActionLogin]) {
+        [self reloadAvatar:YES];
+    } else if ([action isEqualToString:kActionLogout]) {
+        [self reloadAvatar:NO];
+    } else if ([action isEqualToString:kActionFetchSucceed]) {
+        [self reloadAvatar:YES];
+        [JDStatusBarNotification showWithStatus:@"登录成功" dismissAfter:2.0
+                                      styleName:JDStatusBarStyleSuccess];
+    } else if ([action isEqualToString:kActionFetchFailed]) {
+        NSString *message = [notification.userInfo hasKey:@"message"] ? [notification.userInfo objectForKey:@"message"] : @"";
+        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"登录失败 - %@", message] dismissAfter:2.0
+                                      styleName:JDStatusBarStyleError];
+    } else if ([action isEqualToString:kActionFetching]) {
+        [self showActivityMessage:@"登录中"];
+    }
+}
+
+#pragma mark - 动态更新数据源
+
+- (void)reloadAvatar:(BOOL)login {
+    if (!_avatarCell) {
+        return;
+    }
+    if (login) {
+        [_avatarCell setNickLabelText:kAccount.profile.nick];
+        if (!kAccount.profile.avatar) {
+            [_avatarCell setAvatarImage:[UIImage imageNamed:@"3-avatar"]];
+        }
+    } else {
+        [_avatarCell setNickLabelText:@"未登录"];
+        [_avatarCell setAvatarImage:[UIImage imageNamed:@"3-avatar"]];
+    }
+}
+
+- (void)showActivityMessage:(NSString *)message {
+    if (kLogin && [kAccount isFetching]) {
+        [JDStatusBarNotification showWithStatus:message
+                                      styleName:JDStatusBarStyleDefault];
+        [JDStatusBarNotification showActivityIndicator:YES indicatorStyle:UIActivityIndicatorViewStyleGray];
+    }
 }
 
 #pragma mark - 侧边栏表格数据源
@@ -74,14 +133,6 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         return 1;
     }
     return 6;
-}
-
-- (void)reloadAvatar {
-    if (!_avatarCell) {
-        return;
-    }
-    _avatarCell.nickLabelText = @"未登录";
-    _avatarCell.avatarImage = [UIImage imageNamed:@"3-avatar"];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -112,7 +163,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     }
     CourtesyLeftDrawerAvatarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourtesyDrawerAvatarViewCellReuseIdentifier forIndexPath:indexPath];
     self.avatarCell = cell;
-    [self reloadAvatar];
+    [self reloadAvatar:kLogin];
     
     return cell;
 }
@@ -141,18 +192,13 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:destinationViewController];
         [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
     } else if (indexPath.section == kAvatarSection) {
-        if (![[GlobalSettings sharedInstance] hasLogin]) {
+        if (!kLogin) {
             CourtesyLoginRegisterViewController *vc = [CourtesyLoginRegisterViewController new];
             [self presentViewController:vc animated:YES completion:nil];
             return;
         }
         CYLog(@"Should toggle profile editing page! Current account: %@", [[[GlobalSettings sharedInstance] currentAccount] email]);
     }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

@@ -22,7 +22,7 @@
 }
 
 - (void)changeStatusLabel {
-    if ([NotificationUtils allowNotifications]) {
+    if ([[GlobalSettings sharedInstance] hasNotificationPermission]) {
         _allowNewNotificationsLabel.text = @"已开启";
     } else {
         _allowNewNotificationsLabel.text = @"已关闭";
@@ -40,12 +40,6 @@
         [alertView showAnimated:YES completionHandler:^() {
             [self changeStatusLabel];
         }];
-    }
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if (![NotificationUtils allowNotifications]) {
-        [NotificationUtils requestForNotifications];
     }
 }
 

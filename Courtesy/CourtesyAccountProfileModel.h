@@ -6,16 +6,18 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-@interface CourtesyAccountProfileModel : NSObject
+#import "JSONModel.h"
 
-@property (nonatomic, copy) NSString *nick;
-@property (nonatomic, copy) NSString *avatar;
-@property (nonatomic, copy) NSString *mobile;
-@property (nonatomic, copy) NSString *birthday;
-@property (nonatomic, copy) NSString *province;
-@property (nonatomic, copy) NSString *city;
-@property (nonatomic, copy) NSString *constellation;
-@property (nonatomic, copy) NSString *hemotype;
+@interface CourtesyAccountProfileModel : JSONModel
+
+@property (nonatomic, copy) NSString<Optional> *nick;
+@property (nonatomic, copy) NSString<Optional> *avatar;
+@property (nonatomic, copy) NSString<Optional> *mobile;
+@property (nonatomic, copy) NSString<Optional> *birthday;
+@property (nonatomic, copy) NSString<Optional> *province;
+@property (nonatomic, copy) NSString<Optional> *city;
+@property (nonatomic, copy) NSString<Optional> *constellation;
+@property (nonatomic, copy) NSString<Optional> *hemotype;
 // ... any profile info
 
 @end

@@ -12,7 +12,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _version = VERSION_BUILD;
+        _version = [VERSION_BUILD integerValue];
     }
     return self;
 }

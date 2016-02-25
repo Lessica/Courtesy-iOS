@@ -14,7 +14,9 @@ target 'Courtesy', :exclusive => true do
     pod 'FCFileManager'
     pod 'Toast'
     pod 'UMengSocial', '4.3'
-    pod 'LKDBHelper'
     pod 'MJRefresh'
+    pod 'YYKit'
+    pod 'CJStringValidator'
+    pod 'FMDB'
     pod 'QBImagePickerController'
 end

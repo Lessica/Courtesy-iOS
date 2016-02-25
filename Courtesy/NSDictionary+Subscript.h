@@ -6,8 +6,6 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @interface NSDictionary (Subscript)
 - (BOOL)hasKey:(NSString *)key;
 

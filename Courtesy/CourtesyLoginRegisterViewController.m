@@ -52,6 +52,7 @@
 
 // 切换注册登录区域
 - (IBAction)loginOrRegister:(UIButton *)button {
+    [self.view endEditing:YES];
     if (self.leadingSpace.constant == 0) {
         self.leadingSpace.constant = -self.view.frame.size.width;
         button.selected = YES;
@@ -103,7 +104,7 @@
 }
 
 - (IBAction)forgetPasswordClicked:(id)sender {
-    [NetworkUtils openURL:API_FORGET_PASSWORD];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:API_FORGET_PASSWORD]];
 }
 
 #pragma mark - CourtesyLoginRegisterDelegate 注册登录委托方法
@@ -142,11 +143,10 @@
                   }];
     }
     // 设置登录成功状态
-    CourtesyAccountModel *newLoginAccount = [CourtesyAccountModel new];
-    [newLoginAccount setEmail:[sender email]];
-    [[GlobalSettings sharedInstance] setCurrentAccount:newLoginAccount];
+    [[[GlobalSettings sharedInstance] currentAccount] setEmail:[sender email]];
+    [[GlobalSettings sharedInstance] setHasLogin:YES];
     // 发送全局登录成功通知
-    [NotificationUtils sendNotification:NOTIFICATION_LOGIN_SUCCEED withObject:nil withInfo:nil];
+    [NSNotificationCenter sendCTAction:kActionLogin message:nil];
 }
 
 @end

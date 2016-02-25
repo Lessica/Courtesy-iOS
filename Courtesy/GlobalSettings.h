@@ -14,6 +14,12 @@
 + (id)sharedInstance;
 
 @property (nonatomic, assign) BOOL hasLogin;
+@property (nonatomic, copy) NSString *sessionKey;
+@property (nonatomic, readonly) UIUserNotificationSettings *requestedNotifications;
+@property (nonatomic, assign) BOOL hasNotificationPermission;
 @property (nonatomic, strong) CourtesyAccountModel* currentAccount;
+
+- (void)fetchCurrentAccountInfo;
+- (void)reloadAccount;
 
 @end

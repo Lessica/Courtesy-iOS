@@ -34,15 +34,13 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 
 #pragma mark - 注册友盟SDK及推送消息
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // 友盟推送
-    [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
-    [UMessage registerRemoteNotificationAndUserNotificationSettings:[NotificationUtils requestForNotifications]];
-    // 友盟社会化分享
-    [UMSocialData setAppKey:UMENG_APP_KEY];
     // 初始化全局设置
     [GlobalSettings sharedInstance];
-    // 设置网络模块
-    [NetworkUtils setNetworkConfig];
+    // 友盟推送
+    [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
+    [UMessage registerRemoteNotificationAndUserNotificationSettings:[[GlobalSettings sharedInstance] requestedNotifications]];
+    // 友盟社会化分享
+    [UMSocialData setAppKey:UMENG_APP_KEY];
     // 初始化界面
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.drawerViewController;
@@ -60,7 +58,19 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 
 - (void)applicationWillResignActive:(UIApplication *)application {}
 - (void)applicationDidEnterBackground:(UIApplication *)application {}
-- (void)applicationWillEnterForeground:(UIApplication *)application {}
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    YYReachability *reachability = [YYReachability reachability];
+    if (reachability.status == YYReachabilityStatusNone) {
+        [JDStatusBarNotification showWithStatus:@"网络连接失败" dismissAfter:2.0
+                                      styleName:JDStatusBarStyleError];
+    } else if (reachability.status == YYReachabilityStatusWWAN) {
+        [JDStatusBarNotification showWithStatus:@"正在使用蜂窝数据网络" dismissAfter:2.0
+                                      styleName:JDStatusBarStyleSuccess];
+    } else if (reachability.status == YYReachabilityStatusWiFi) {
+        [JDStatusBarNotification showWithStatus:@"正在使用无线局域网" dismissAfter:2.0
+                                      styleName:JDStatusBarStyleSuccess];
+    }
+}
 - (void)applicationDidBecomeActive:(UIApplication *)application {}
 - (void)applicationWillTerminate:(UIApplication *)application {}
 
@@ -197,16 +207,6 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     }
     
     return _githubViewController;
-}
-
-#pragma mark - 登录任务代理
-
-- (void)reloadLeftDrawerAvatarCell {
-    UIViewController *leftDrawer = [self leftDrawerViewController];
-    if (!leftDrawer) {
-        return;
-    }
-    [(CourtesyLeftDrawerTableViewController *)leftDrawer reloadAvatar];
 }
 
 @end

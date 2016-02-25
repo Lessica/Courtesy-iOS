@@ -42,6 +42,7 @@ enum {
 @property (weak, nonatomic) IBOutlet UISwitch *autoSaveSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *autoPublicSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *cleanCacheTitleLabel;
+@property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;
 
 
 @end
@@ -52,11 +53,33 @@ enum {
     [super viewDidLoad];
     [CSToastManager setTapToDismissEnabled:YES];
     [CSToastManager setQueueEnabled:NO];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveLocalNotification:)
+                                                 name:kCourtesyNotificationInfo object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self reloadCacheSizeLabelText:NO];
+    if (kLogin) {
+        [_logoutCell setHidden:NO];
+    } else {
+        [_logoutCell setHidden:YES];
+    }
+}
+
+#pragma mark - 响应通知事件
+
+- (void)didReceiveLocalNotification:(NSNotification *)notification {
+    if (!notification.userInfo || ![notification.userInfo hasKey:@"action"]) {
+        return;
+    }
+    NSString *action = [notification.userInfo objectForKey:@"action"];
+    if ([action isEqualToString:kActionLogin]) {
+        [_logoutCell setHidden:NO];
+    } else if ([action isEqualToString:kActionLogout]) {
+        [_logoutCell setHidden:YES];
+    }
 }
 
 #pragma mark - 导航栏按钮
@@ -68,14 +91,15 @@ enum {
 #pragma mark - 全局设置表格数据源
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // return 4;
-    // 尚未登录
-    return 3;
+    return 4;
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == kServiceSection && indexPath.row == kUserCleanCacheIndex) {
-        [self.navigationController.view makeToast:[NSString stringWithFormat:@"设备可用空间：%@", [FileUtils freeDiskSpace]]
+        [self.navigationController.view makeToast:[NSString stringWithFormat:@"设备可用空间：%@\n设备总空间：%@",
+                                                   [FCFileManager sizeFormatted:[NSNumber numberWithLongLong:[[UIDevice currentDevice] diskSpaceFree]]],
+                                                   [FCFileManager sizeFormatted:[NSNumber numberWithLongLong:[[UIDevice currentDevice] diskSpace]]]
+                                                   ]
                                          duration:1.2
                                          position:CSToastPositionCenter];
     }
@@ -109,7 +133,7 @@ enum {
             break;
         case kLogoutSection:
             if (indexPath.row == kUserLogoutIndex) {
-                
+                [self logoutClicked];
             }
             break;
         default:
@@ -121,7 +145,9 @@ enum {
 
 // 清理缓存
 - (void)cleanCacheClicked {
-    if ([FileUtils cleanCache] != nil) {
+    NSError *error = nil;
+    [FCFileManager removeFilesInDirectoryAtPath:[[UIApplication sharedApplication] cachesPath] error:&error];
+    if (!error) {
         [self.navigationController.view makeToast:@"缓存清除失败"
                                          duration:1.2
                                          position:CSToastPositionCenter];
@@ -133,6 +159,14 @@ enum {
     [self reloadCacheSizeLabelText:YES];
 }
 
+- (void)reloadCacheSizeLabelText:(BOOL)clear {
+    if (clear) {
+        _cleanCacheTitleLabel.text = @"清除缓存";
+        return;
+    }
+    _cleanCacheTitleLabel.text = [NSString stringWithFormat:@"清除缓存 %@", [FCFileManager sizeFormattedOfDirectoryAtPath:[[UIApplication sharedApplication] cachesPath]]];
+}
+
 // 发送邮件
 - (void)displayComposerSheet {
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
@@ -141,15 +175,14 @@ enum {
     NSArray *toRecipients = [NSArray arrayWithObject:SERVICE_EMAIL];
     [picker setToRecipients:toRecipients];
     [self presentViewController:picker animated:YES completion:nil];
-    
 }
 
-- (void)reloadCacheSizeLabelText:(BOOL)clear {
-    if (clear) {
-        _cleanCacheTitleLabel.text = @"清除缓存";
-        return;
-    }
-    _cleanCacheTitleLabel.text = [NSString stringWithFormat:@"清除缓存 %@", [FileUtils formattedCacheSize]];
+// 退出登录
+- (void)logoutClicked {
+    [[GlobalSettings sharedInstance] setHasLogin:NO];
+    [self.navigationController.view makeToast:@"退出登录成功"
+                                     duration:1.2
+                                     position:CSToastPositionCenter];
 }
 
 #pragma mark - 开关设置项
