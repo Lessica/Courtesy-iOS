@@ -193,7 +193,7 @@ upload/avatar
 表单
     Avatar
 
-```
+```json
 {
     "origin": {
         "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6.jpg"
@@ -210,3 +210,9 @@ upload/avatar
     "error": 0
 }
 ```
+尺寸不合要求
+```
+{
+    "error": 422,
+    "timestamp": 1456283003
+}
