@@ -18,5 +18,6 @@ target 'Courtesy', :exclusive => true do
     pod 'YYKit'
     pod 'CJStringValidator'
     pod 'FMDB'
+    pod 'CNCityPickerView'
     pod 'QBImagePickerController'
 end

@@ -12,10 +12,19 @@
 		0F176CD11C7DAEC300172928 /* CourtesyLoginRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F176CD01C7DAEC300172928 /* CourtesyLoginRegisterModel.m */; };
 		0F18A0D01C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18A0CF1C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m */; };
 		0F18A0D31C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18A0D21C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m */; };
+		0F2B4DA11C7FF72D00B65E48 /* CourtesyProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2B4DA01C7FF72D00B65E48 /* CourtesyProfileTableViewController.m */; };
 		0F3DA7D71C7C791B00448055 /* CourtesyLoginRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F3DA7D61C7C791B00448055 /* CourtesyLoginRegisterViewController.xib */; };
 		0F3DA7DB1C7C797D00448055 /* CourtesyQuickLoginButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3DA7DA1C7C797D00448055 /* CourtesyQuickLoginButton.m */; };
 		0F3DA7DE1C7C7B2600448055 /* CourtesyLoginRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3DA7DD1C7C7B2600448055 /* CourtesyLoginRegisterViewController.m */; };
 		0F3DA7E11C7C7CED00448055 /* CourtesyLoginRegisterTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3DA7E01C7C7CED00448055 /* CourtesyLoginRegisterTextField.m */; };
+		0F575C9B1C8020A30035BD6C /* CourtesyProfileBirthdayTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F575C9A1C8020A30035BD6C /* CourtesyProfileBirthdayTableViewController.m */; };
+		0F575C9F1C80285C0035BD6C /* CourtesyProfileCityTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F575C9E1C80285C0035BD6C /* CourtesyProfileCityTableViewController.m */; };
+		0F575CA11C802CA50035BD6C /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F575CA01C802CA50035BD6C /* area.plist */; };
+		0F575CA71C803C020035BD6C /* NSDate+Astro.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F575CA61C803C020035BD6C /* NSDate+Astro.m */; };
+		0F5CB16C1C800DA60098DA14 /* CourtesyProfileNickTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5CB16B1C800DA60098DA14 /* CourtesyProfileNickTableViewController.m */; };
+		0F5CB1701C800EA90098DA14 /* CourtesyProfileGenderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5CB16F1C800EA90098DA14 /* CourtesyProfileGenderTableViewController.m */; };
+		0F5CB1741C8011C70098DA14 /* CourtesyProfileMobileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5CB1731C8011C70098DA14 /* CourtesyProfileMobileTableViewController.m */; };
+		0F5CB1781C8012790098DA14 /* CourtesyProfileIntroductionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5CB1771C8012790098DA14 /* CourtesyProfileIntroductionTableViewController.m */; };
 		0F62D3C61C7C6BFC0024F72E /* CourtesyMyTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F62D3C51C7C6BFC0024F72E /* CourtesyMyTabBarController.m */; };
 		0F6FE82E1C7F37F200AE178A /* NSNotificationCenter+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6FE82D1C7F37F200AE178A /* NSNotificationCenter+Action.m */; };
 		0F9E1D891C7C19CD0024FC4F /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E1D881C7C19CD0024FC4F /* GlobalSettings.m */; };
@@ -63,6 +72,8 @@
 		0F18A0CF1C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyStarTableViewController.m; sourceTree = "<group>"; };
 		0F18A0D11C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLeftDrawerAvatarTableViewCell.h; sourceTree = "<group>"; };
 		0F18A0D21C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLeftDrawerAvatarTableViewCell.m; sourceTree = "<group>"; };
+		0F2B4D9F1C7FF72D00B65E48 /* CourtesyProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyProfileTableViewController.h; sourceTree = "<group>"; };
+		0F2B4DA01C7FF72D00B65E48 /* CourtesyProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyProfileTableViewController.m; sourceTree = "<group>"; };
 		0F3DA7D61C7C791B00448055 /* CourtesyLoginRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CourtesyLoginRegisterViewController.xib; sourceTree = "<group>"; };
 		0F3DA7D91C7C797D00448055 /* CourtesyQuickLoginButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyQuickLoginButton.h; sourceTree = "<group>"; };
 		0F3DA7DA1C7C797D00448055 /* CourtesyQuickLoginButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyQuickLoginButton.m; sourceTree = "<group>"; };
@@ -70,6 +81,21 @@
 		0F3DA7DD1C7C7B2600448055 /* CourtesyLoginRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CourtesyLoginRegisterViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0F3DA7DF1C7C7CED00448055 /* CourtesyLoginRegisterTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLoginRegisterTextField.h; sourceTree = "<group>"; };
 		0F3DA7E01C7C7CED00448055 /* CourtesyLoginRegisterTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLoginRegisterTextField.m; sourceTree = "<group>"; };
+		0F575C991C8020A30035BD6C /* CourtesyProfileBirthdayTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyProfileBirthdayTableViewController.h; sourceTree = "<group>"; };
+		0F575C9A1C8020A30035BD6C /* CourtesyProfileBirthdayTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyProfileBirthdayTableViewController.m; sourceTree = "<group>"; };
+		0F575C9D1C80285C0035BD6C /* CourtesyProfileCityTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyProfileCityTableViewController.h; sourceTree = "<group>"; };
+		0F575C9E1C80285C0035BD6C /* CourtesyProfileCityTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyProfileCityTableViewController.m; sourceTree = "<group>"; };
+		0F575CA01C802CA50035BD6C /* area.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = area.plist; sourceTree = "<group>"; };
+		0F575CA51C803C020035BD6C /* NSDate+Astro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Astro.h"; sourceTree = "<group>"; };
+		0F575CA61C803C020035BD6C /* NSDate+Astro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Astro.m"; sourceTree = "<group>"; };
+		0F5CB16A1C800DA60098DA14 /* CourtesyProfileNickTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyProfileNickTableViewController.h; sourceTree = "<group>"; };
+		0F5CB16B1C800DA60098DA14 /* CourtesyProfileNickTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyProfileNickTableViewController.m; sourceTree = "<group>"; };
+		0F5CB16E1C800EA90098DA14 /* CourtesyProfileGenderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyProfileGenderTableViewController.h; sourceTree = "<group>"; };
+		0F5CB16F1C800EA90098DA14 /* CourtesyProfileGenderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyProfileGenderTableViewController.m; sourceTree = "<group>"; };
+		0F5CB1721C8011C70098DA14 /* CourtesyProfileMobileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyProfileMobileTableViewController.h; sourceTree = "<group>"; };
+		0F5CB1731C8011C70098DA14 /* CourtesyProfileMobileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyProfileMobileTableViewController.m; sourceTree = "<group>"; };
+		0F5CB1761C8012790098DA14 /* CourtesyProfileIntroductionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyProfileIntroductionTableViewController.h; sourceTree = "<group>"; };
+		0F5CB1771C8012790098DA14 /* CourtesyProfileIntroductionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyProfileIntroductionTableViewController.m; sourceTree = "<group>"; };
 		0F62D3C41C7C6BFC0024F72E /* CourtesyMyTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyTabBarController.h; sourceTree = "<group>"; };
 		0F62D3C51C7C6BFC0024F72E /* CourtesyMyTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyTabBarController.m; sourceTree = "<group>"; };
 		0F6FE82C1C7F37F200AE178A /* NSNotificationCenter+Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+Action.h"; sourceTree = "<group>"; };
@@ -217,8 +243,64 @@
 				0FBD32D41C7DEAF80025D501 /* NSDictionary+Subscript.m */,
 				0F6FE82C1C7F37F200AE178A /* NSNotificationCenter+Action.h */,
 				0F6FE82D1C7F37F200AE178A /* NSNotificationCenter+Action.m */,
+				0F575CA51C803C020035BD6C /* NSDate+Astro.h */,
+				0F575CA61C803C020035BD6C /* NSDate+Astro.m */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		0F575C951C8020470035BD6C /* Birthday View */ = {
+			isa = PBXGroup;
+			children = (
+				0F575C991C8020A30035BD6C /* CourtesyProfileBirthdayTableViewController.h */,
+				0F575C9A1C8020A30035BD6C /* CourtesyProfileBirthdayTableViewController.m */,
+			);
+			name = "Birthday View";
+			sourceTree = "<group>";
+		};
+		0F575C9C1C8028470035BD6C /* City View */ = {
+			isa = PBXGroup;
+			children = (
+				0F575C9D1C80285C0035BD6C /* CourtesyProfileCityTableViewController.h */,
+				0F575C9E1C80285C0035BD6C /* CourtesyProfileCityTableViewController.m */,
+			);
+			name = "City View";
+			sourceTree = "<group>";
+		};
+		0F5CB1691C800D880098DA14 /* Nick View */ = {
+			isa = PBXGroup;
+			children = (
+				0F5CB16A1C800DA60098DA14 /* CourtesyProfileNickTableViewController.h */,
+				0F5CB16B1C800DA60098DA14 /* CourtesyProfileNickTableViewController.m */,
+			);
+			name = "Nick View";
+			sourceTree = "<group>";
+		};
+		0F5CB16D1C800E8D0098DA14 /* Gender View */ = {
+			isa = PBXGroup;
+			children = (
+				0F5CB16E1C800EA90098DA14 /* CourtesyProfileGenderTableViewController.h */,
+				0F5CB16F1C800EA90098DA14 /* CourtesyProfileGenderTableViewController.m */,
+			);
+			name = "Gender View";
+			sourceTree = "<group>";
+		};
+		0F5CB1711C8011A80098DA14 /* Mobile View */ = {
+			isa = PBXGroup;
+			children = (
+				0F5CB1721C8011C70098DA14 /* CourtesyProfileMobileTableViewController.h */,
+				0F5CB1731C8011C70098DA14 /* CourtesyProfileMobileTableViewController.m */,
+			);
+			name = "Mobile View";
+			sourceTree = "<group>";
+		};
+		0F5CB1751C80125F0098DA14 /* Introduction View */ = {
+			isa = PBXGroup;
+			children = (
+				0F5CB1761C8012790098DA14 /* CourtesyProfileIntroductionTableViewController.h */,
+				0F5CB1771C8012790098DA14 /* CourtesyProfileIntroductionTableViewController.m */,
+			);
+			name = "Introduction View";
 			sourceTree = "<group>";
 		};
 		0F9E1D8A1C7C4E760024FC4F /* Login View */ = {
@@ -299,8 +381,8 @@
 		0FBA716B1C7B244000053696 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0FBA717A1C7B4BFA00053696 /* Common View */,
 				0F9E1D8A1C7C4E760024FC4F /* Login View */,
+				0FBA717A1C7B4BFA00053696 /* Profile View */,
 				0F18A0C51C795CCC00FDFDF5 /* Left Drawer Table */,
 				0FBA71761C7B447C00053696 /* Gallery View */,
 				0F18A0C81C79653300FDFDF5 /* My View */,
@@ -361,11 +443,19 @@
 			name = "Gallery View";
 			sourceTree = "<group>";
 		};
-		0FBA717A1C7B4BFA00053696 /* Common View */ = {
+		0FBA717A1C7B4BFA00053696 /* Profile View */ = {
 			isa = PBXGroup;
 			children = (
+				0F575C9C1C8028470035BD6C /* City View */,
+				0F575C951C8020470035BD6C /* Birthday View */,
+				0F5CB1751C80125F0098DA14 /* Introduction View */,
+				0F5CB1711C8011A80098DA14 /* Mobile View */,
+				0F5CB16D1C800E8D0098DA14 /* Gender View */,
+				0F5CB1691C800D880098DA14 /* Nick View */,
+				0F2B4D9F1C7FF72D00B65E48 /* CourtesyProfileTableViewController.h */,
+				0F2B4DA01C7FF72D00B65E48 /* CourtesyProfileTableViewController.m */,
 			);
-			name = "Common View";
+			name = "Profile View";
 			sourceTree = "<group>";
 		};
 		0FBBCD5E1C798FFE008476FC /* QRCode View */ = {
@@ -396,6 +486,7 @@
 			isa = PBXGroup;
 			children = (
 				0FBBF7301C78BFA200A0A2D1 /* Courtesy.entitlements */,
+				0F575CA01C802CA50035BD6C /* area.plist */,
 				0FBBF7211C78BD4700A0A2D1 /* Info.plist */,
 				0FBBF7221C78BD4700A0A2D1 /* main.m */,
 			);
@@ -552,6 +643,7 @@
 				0FC6CF0F1C7A01E8007B666B /* kisssound.wav in Resources */,
 				0FBBF7251C78BD4700A0A2D1 /* LaunchScreen.xib in Resources */,
 				0FBBF7241C78BD4700A0A2D1 /* Drawers.storyboard in Resources */,
+				0F575CA11C802CA50035BD6C /* area.plist in Resources */,
 				0FBBF72A1C78BD4700A0A2D1 /* Images.xcassets in Resources */,
 				0FC6CF011C79B127007B666B /* CodeScan.bundle in Resources */,
 			);
@@ -597,9 +689,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F575C9B1C8020A30035BD6C /* CourtesyProfileBirthdayTableViewController.m in Sources */,
 				0F9E1D891C7C19CD0024FC4F /* GlobalSettings.m in Sources */,
 				0F3DA7DE1C7C7B2600448055 /* CourtesyLoginRegisterViewController.m in Sources */,
 				0F3DA7E11C7C7CED00448055 /* CourtesyLoginRegisterTextField.m in Sources */,
+				0F575CA71C803C020035BD6C /* NSDate+Astro.m in Sources */,
 				0FBA71801C7B5CD700053696 /* CourtesyGalleryEmptyTipTableViewCell.m in Sources */,
 				0FBC36B31C7D664400057EBE /* CourtesyAccountProfileModel.m in Sources */,
 				0F18A0D01C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m in Sources */,
@@ -607,12 +701,17 @@
 				0FBA715A1C7ABA9C00053696 /* CourtesyMessageNotificationSettingsTableViewController.m in Sources */,
 				0F9E1D911C7C58580024FC4F /* CourtesyMyOutboxTableViewController.m in Sources */,
 				0F9E1D9D1C7C598D0024FC4F /* CourtesyMyOutboxEmptyTipTableViewCell.m in Sources */,
+				0F575C9F1C80285C0035BD6C /* CourtesyProfileCityTableViewController.m in Sources */,
 				0F6FE82E1C7F37F200AE178A /* NSNotificationCenter+Action.m in Sources */,
+				0F5CB1741C8011C70098DA14 /* CourtesyProfileMobileTableViewController.m in Sources */,
+				0F2B4DA11C7FF72D00B65E48 /* CourtesyProfileTableViewController.m in Sources */,
 				0FBBF7261C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m in Sources */,
 				0FBA71791C7B492300053696 /* CourtesyGalleryTableViewController.m in Sources */,
+				0F5CB16C1C800DA60098DA14 /* CourtesyProfileNickTableViewController.m in Sources */,
 				0F18A0D31C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m in Sources */,
 				0F176CD11C7DAEC300172928 /* CourtesyLoginRegisterModel.m in Sources */,
 				0FBA71691C7B104400053696 /* CourtesyUserAgreementWebViewController.m in Sources */,
+				0F5CB1781C8012790098DA14 /* CourtesyProfileIntroductionTableViewController.m in Sources */,
 				0FBD32D51C7DEAF80025D501 /* NSDictionary+Subscript.m in Sources */,
 				0FBBF7271C78BD4700A0A2D1 /* CourtesyLeftDrawerMenuTableViewCell.m in Sources */,
 				0F9E1D8E1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.m in Sources */,
@@ -620,6 +719,7 @@
 				0F3DA7DB1C7C797D00448055 /* CourtesyQuickLoginButton.m in Sources */,
 				0FBBF7291C78BD4700A0A2D1 /* CourtesyAnimationSettingsTableViewController.m in Sources */,
 				0FBBF7231C78BD4700A0A2D1 /* AppDelegate.m in Sources */,
+				0F5CB1701C800EA90098DA14 /* CourtesyProfileGenderTableViewController.m in Sources */,
 				0FC6CF071C79DF7B007B666B /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */,
 				0F0493231C7EB72800BCCBD2 /* UIView+FrameMethods.m in Sources */,
 				0FBA71641C7AF97900053696 /* CourtesyAboutViewController.m in Sources */,

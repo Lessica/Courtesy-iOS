@@ -14,11 +14,14 @@
 @implementation CourtesyAccountModel {
     CourtesyCommonRequestModel *fetchDict;
     BOOL isFetching;
+    BOOL fetched;
 }
 
 - (instancetype)init {
     if (self = [super init]) {
         _profile = [CourtesyAccountProfileModel new];
+        isFetching = NO;
+        fetched = NO;
     }
     return self;
 }
@@ -44,6 +47,10 @@
 
 - (BOOL)isFetching {
     return isFetching;
+}
+
+- (BOOL)fetched {
+    return fetched;
 }
 
 #pragma mark - 构造请求
@@ -101,11 +108,11 @@
                     [[GlobalSettings sharedInstance] setCurrentAccount:newAccount];
                 }
                 [[GlobalSettings sharedInstance] reloadAccount];
-                
+                fetched = YES;
                 [self callbackDelegateSucceed];
                 return;
             }
-            @throw NSException(kCourtesyUnexceptedStatus, @"未知错误");
+            @throw NSException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", errorCode]));
         }
         @catch (NSException *exception) {
             if ([exception.name isEqualToString:kCourtesyForbidden]) {

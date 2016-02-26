@@ -24,7 +24,7 @@
 #endif
 
 // 处理异常
-#define NSException(_name, _reason) [[NSException alloc] initWithName:_name reason:_reason userInfo:nil]
+#define NSException(_name, _reason) ([[NSException alloc] initWithName:_name reason:_reason userInfo:nil])
 #define kCourtesyInvalidHttpResponse @"kCourtesyInvalidHttpResponse"
 #define kCourtesyUnexceptedObject @"kCourtesyUnexceptedObject"
 #define kCourtesyUnexceptedStatus @"kCourtesyUnexceptedStatus"
@@ -66,6 +66,7 @@
 #import "NSDictionary+Subscript.h"
 #import "UIView+FrameMethods.h"
 #import "NSNotificationCenter+Action.h"
+#import "NSDate+Astro.h"
 
 // 第三方库
 #import "UMessage.h"

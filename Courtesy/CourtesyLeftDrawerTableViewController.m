@@ -197,7 +197,17 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
             [self presentViewController:vc animated:YES completion:nil];
             return;
         }
-        CYLog(@"Should toggle profile editing page! Current account: %@", [[[GlobalSettings sharedInstance] currentAccount] email]);
+        UIViewController *destinationViewController = nil;
+        
+        if (indexPath.row == kProfileSettingsIndex) {
+            destinationViewController = [[AppDelegate globalDelegate] profileViewController];
+        }
+        
+        if (!destinationViewController) {
+            return;
+        }
+        [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:destinationViewController];
+        [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
     }
 }
 

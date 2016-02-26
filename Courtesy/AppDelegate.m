@@ -15,6 +15,7 @@
 static NSString * const kJVDrawersStoryboardName = @"Drawers";
 static NSString * const kJVLeftDrawerStoryboardID = @"JVLeftDrawerViewControllerStoryboardID";
 static NSString * const kJVRightDrawerStoryboardID = @"JVRightDrawerViewControllerStoryboardID";
+static NSString * const kCourtesyProfileTableViewControllerStoryboardID = @"CourtesyProfileTableViewControllerStoryboardID";
 static NSString * const kCourtesyMyTabViewControllerStoryboardID = @"CourtesyMyTabViewControllerStoryboardID";
 static NSString * const kCourtesyStarTableViewControllerStoryboardID = @"CourtesyStarTableViewControllerStoryboardID";
 static NSString * const kCourtesyGalleryTableViewControllerStoryboardID = @"CourtesyGalleryTableViewControllerStoryboardID";
@@ -58,19 +59,27 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 
 - (void)applicationWillResignActive:(UIApplication *)application {}
 - (void)applicationDidEnterBackground:(UIApplication *)application {}
+
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     YYReachability *reachability = [YYReachability reachability];
     if (reachability.status == YYReachabilityStatusNone) {
         [JDStatusBarNotification showWithStatus:@"网络连接失败" dismissAfter:2.0
                                       styleName:JDStatusBarStyleError];
-    } else if (reachability.status == YYReachabilityStatusWWAN) {
+        return;
+    }
+    if (reachability.status == YYReachabilityStatusWWAN) {
         [JDStatusBarNotification showWithStatus:@"正在使用蜂窝数据网络" dismissAfter:2.0
                                       styleName:JDStatusBarStyleSuccess];
     } else if (reachability.status == YYReachabilityStatusWiFi) {
         [JDStatusBarNotification showWithStatus:@"正在使用无线局域网" dismissAfter:2.0
                                       styleName:JDStatusBarStyleSuccess];
     }
+    if (![kAccount isFetching] && ![kAccount fetched]) {
+        [[GlobalSettings sharedInstance] fetchCurrentAccountInfo];
+    }
 }
+
+// Bug: http://stackoverflow.com/questions/32344082/error-handlenonlaunchspecificactions-in-ios9
 - (void)applicationDidBecomeActive:(UIApplication *)application {}
 - (void)applicationWillTerminate:(UIApplication *)application {}
 
@@ -207,6 +216,13 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     }
     
     return _githubViewController;
+}
+
+- (UIViewController *)profileViewController {
+    if (!_profileViewController) {
+        _profileViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyProfileTableViewControllerStoryboardID];
+    }
+    return _profileViewController;
 }
 
 @end

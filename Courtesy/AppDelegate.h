@@ -26,6 +26,7 @@
 @property (nonatomic, strong) UIViewController *settingsViewController;
 @property (nonatomic, strong) UIViewController *drawerSettingsViewController;
 @property (nonatomic, strong) UIViewController *githubViewController;
+@property (nonatomic, strong) UIViewController *profileViewController;
 
 + (AppDelegate *)globalDelegate;
 

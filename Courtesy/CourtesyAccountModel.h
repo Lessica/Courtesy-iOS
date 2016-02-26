@@ -34,6 +34,7 @@
 
 - (instancetype)initWithDelegate:(id)delegate;
 - (BOOL)isFetching;
+- (BOOL)fetched;
 - (void)fetchAccountInfo;
 
 @end

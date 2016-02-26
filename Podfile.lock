@@ -15,6 +15,7 @@ PODS:
   - AFNetworking/UIKit (3.0.4):
     - AFNetworking/NSURLSession
   - CJStringValidator (1.0.1)
+  - CNCityPickerView (0.0.3)
   - Colours (5.13.0):
     - Colours/ObjC (= 5.13.0)
   - Colours/ObjC (5.13.0)
@@ -48,6 +49,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking
   - CJStringValidator
+  - CNCityPickerView
   - Colours
   - FCFileManager
   - FMDB
@@ -68,6 +70,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
   CJStringValidator: 8138094f1f9702b5b1f43c289e6c9bf51ae2b465
+  CNCityPickerView: c56aa7a5fa0918fd27946d2186234b6fd0ffa511
   Colours: f24220c38f13deac88612667e9b4a7fb96b871d4
   FCFileManager: 8bfc931ce2a6223676147e9baf0e8a65c691eca6
   FMDB: c1968bab3ab0aed38f66cb778ae1e7fa9a652b6e

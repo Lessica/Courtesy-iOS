@@ -104,7 +104,7 @@
             } else if (errorCode == 407) {
                 @throw NSException(kCourtesyUnexceptedStatus, @"账户被禁用");
             }
-            @throw NSException(kCourtesyUnexceptedStatus, @"未知错误");
+            @throw NSException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", errorCode]));
         }
         @catch (NSException *exception) {
             [self callbackDelegateWithErrorMessage:exception.reason isLogin:YES];
@@ -142,7 +142,7 @@
             } else if (errorCode == 405) {
                 @throw NSException(kCourtesyUnexceptedStatus, @"电子邮箱已被占用");
             }
-            @throw NSException(kCourtesyUnexceptedStatus, @"未知错误");
+            @throw NSException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", errorCode]));
         }
         @catch (NSException *exception) {
             [self callbackDelegateWithErrorMessage:exception.reason isLogin:NO];
