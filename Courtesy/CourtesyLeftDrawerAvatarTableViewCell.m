@@ -50,4 +50,10 @@
     self.avatarImageView.image = [avatar imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 
+#pragma mark - Remote
+
+- (void)loadRemoteImage {
+    _avatarImageView.imageURL = kProfile.avatar_url;
+}
+
 @end

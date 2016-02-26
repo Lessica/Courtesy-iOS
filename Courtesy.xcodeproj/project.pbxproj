@@ -41,7 +41,6 @@
 		0FBA71801C7B5CD700053696 /* CourtesyGalleryEmptyTipTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBA717F1C7B5CD700053696 /* CourtesyGalleryEmptyTipTableViewCell.m */; };
 		0FBBF7231C78BD4700A0A2D1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF7131C78BD4700A0A2D1 /* AppDelegate.m */; };
 		0FBBF7241C78BD4700A0A2D1 /* Drawers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */; };
-		0FBBF7251C78BD4700A0A2D1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7161C78BD4700A0A2D1 /* LaunchScreen.xib */; };
 		0FBBF7261C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF7191C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m */; };
 		0FBBF7271C78BD4700A0A2D1 /* CourtesyLeftDrawerMenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF71B1C78BD4700A0A2D1 /* CourtesyLeftDrawerMenuTableViewCell.m */; };
 		0FBBF7281C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBBF71D1C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m */; };
@@ -126,7 +125,6 @@
 		0FBBF7121C78BD4700A0A2D1 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0FBBF7131C78BD4700A0A2D1 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0FBBF7151C78BD4700A0A2D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawers.storyboard; sourceTree = "<group>"; };
-		0FBBF7171C78BD4700A0A2D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		0FBBF7181C78BD4700A0A2D1 /* CourtesyGithubWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyGithubWebViewController.h; sourceTree = "<group>"; };
 		0FBBF7191C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyGithubWebViewController.m; sourceTree = "<group>"; };
 		0FBBF71A1C78BD4700A0A2D1 /* CourtesyLeftDrawerMenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLeftDrawerMenuTableViewCell.h; sourceTree = "<group>"; };
@@ -397,7 +395,6 @@
 		0FBA716C1C7B245D00053696 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
-				0FBBF7161C78BD4700A0A2D1 /* LaunchScreen.xib */,
 				0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */,
 			);
 			name = Layouts;
@@ -599,6 +596,7 @@
 		2CE7E6551A62D8470072121A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = Courtesy;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = 82Flex;
 				TargetAttributes = {
@@ -641,7 +639,6 @@
 				0FBA716A1C7B14AC00053696 /* tos.html in Resources */,
 				0F3DA7D71C7C791B00448055 /* CourtesyLoginRegisterViewController.xib in Resources */,
 				0FC6CF0F1C7A01E8007B666B /* kisssound.wav in Resources */,
-				0FBBF7251C78BD4700A0A2D1 /* LaunchScreen.xib in Resources */,
 				0FBBF7241C78BD4700A0A2D1 /* Drawers.storyboard in Resources */,
 				0F575CA11C802CA50035BD6C /* area.plist in Resources */,
 				0FBBF72A1C78BD4700A0A2D1 /* Images.xcassets in Resources */,
@@ -741,14 +738,6 @@
 				0FBBF7151C78BD4700A0A2D1 /* Base */,
 			);
 			name = Drawers.storyboard;
-			sourceTree = "<group>";
-		};
-		0FBBF7161C78BD4700A0A2D1 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0FBBF7171C78BD4700A0A2D1 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -21,11 +21,22 @@
 
 @end
 
+@protocol CourtesyUploadAvatarDelegate <NSObject>
+
+@optional
+- (void)uploadAvatarSucceed:(CourtesyAccountProfileModel *)sender;
+@optional
+- (void)uploadAvatarFailed:(CourtesyAccountProfileModel *)sender
+              errorMessage:(NSString *)message;
+
+@end
+
 @interface CourtesyAccountProfileModel : JSONModel
 
 @property (nonatomic, copy) NSString<Optional> *nick;
 @property (nonatomic, assign) NSUInteger gender;
 @property (nonatomic, copy) NSString<Optional> *avatar;
+@property (nonatomic, copy) NSURL<Ignore> *avatar_url;
 @property (nonatomic, copy) NSString<Optional> *mobile;
 @property (nonatomic, copy) NSString<Optional> *birthday;
 @property (nonatomic, copy) NSString<Optional> *province;
@@ -34,9 +45,10 @@
 @property (nonatomic, copy) NSString<Optional> *introduction;
 // ... any profile info
 
-@property (nonatomic, weak) id<Ignore, CourtesyEditProfileDelegate> delegate;
+@property (nonatomic, weak) id<Ignore, CourtesyEditProfileDelegate, CourtesyUploadAvatarDelegate> delegate;
 
 - (void)editProfile;
+- (void)uploadAvatar:(UIImage *)avatar;
 - (BOOL)isEditing;
 
 @end

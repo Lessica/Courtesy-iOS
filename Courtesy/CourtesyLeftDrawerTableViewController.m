@@ -87,6 +87,8 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
                                       styleName:JDStatusBarStyleError];
     } else if ([action isEqualToString:kActionFetching]) {
         [self showActivityMessage:@"登录中"];
+    } else if ([action isEqualToString:kActionAvatarUploaded]) {
+        [self reloadAvatar:YES];
     }
 }
 
@@ -100,6 +102,8 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         [_avatarCell setNickLabelText:kAccount.profile.nick];
         if (!kAccount.profile.avatar) {
             [_avatarCell setAvatarImage:[UIImage imageNamed:@"3-avatar"]];
+        } else {
+            [_avatarCell loadRemoteImage];
         }
     } else {
         [_avatarCell setNickLabelText:@"未登录"];

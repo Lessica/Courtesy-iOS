@@ -11,4 +11,6 @@
 @property (nonatomic, copy) NSString *nickLabelText;
 @property (nonatomic, strong) UIImage *avatarImage;
 
+- (void)loadRemoteImage;
+
 @end

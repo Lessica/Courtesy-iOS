@@ -112,7 +112,7 @@
                 [self callbackDelegateSucceed];
                 return;
             }
-            @throw NSException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", errorCode]));
+            @throw NSException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
         }
         @catch (NSException *exception) {
             if ([exception.name isEqualToString:kCourtesyForbidden]) {

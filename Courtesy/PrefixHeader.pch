@@ -46,6 +46,8 @@
 #define API_DOMAIN @"10.0.1.222"
 #define API_TIMEOUT 20.0
 #define API_URL @"http://10.0.1.222/api/courtesy"
+#define API_UPLOAD_AVATAR @"http://10.0.1.222/upload/avatar"
+#define API_DOWNLOAD_AVATAR @"http://10.0.1.222/static/avatar"
 #define API_FORGET_PASSWORD @"http://10.0.1.222/courtesy/reset"
 
 // 推送常量
@@ -55,6 +57,7 @@
 #define kActionFetching @"fetching"
 #define kActionFetchSucceed @"fetchInfoSucceed"
 #define kActionFetchFailed @"fetchInfoFailed"
+#define kActionAvatarUploaded @"avatarUploaded"
 
 // 基础头文件
 #import <Foundation/Foundation.h>

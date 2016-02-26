@@ -35,7 +35,9 @@ enum {
     kIntroductionIndex
 };
 
-@interface CourtesyProfileTableViewController () <CourtesyEditProfileDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface CourtesyProfileTableViewController () <CourtesyEditProfileDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyUploadAvatarDelegate>
+
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *avatarNickLabel;
 @property (weak, nonatomic) IBOutlet UILabel *avatarDetailLabel;
@@ -60,10 +62,13 @@ enum {
 - (void)viewDidLoad {
     [super viewDidLoad];
     last_hash = [[kProfile toDictionary] mutableCopy];
+    self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.size.height / 2;
+    self.avatarImageView.layer.masksToBounds = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    _avatarImageView.imageURL = kProfile.avatar_url;
     _avatarNickLabel.text = kProfile.nick;
     _avatarDetailLabel.text = kAccount.email;
     _nickDetailLabel.text = kProfile.nick;
@@ -146,15 +151,23 @@ enum {
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+- (void)imagePickerController:(UIImagePickerController*)picker
+didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     [picker dismissViewControllerAnimated:YES completion:nil];
     __block UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
-    if (!image){
+    if (!image) {
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
     
     // 上传
+    [JDStatusBarNotification showWithStatus:@"上传头像中"
+                                  styleName:JDStatusBarStyleDefault];
+    [JDStatusBarNotification showActivityIndicator:YES indicatorStyle:UIActivityIndicatorViewStyleGray];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
+        [kProfile setDelegate:self]; // 设置请求代理
+        [kProfile uploadAvatar:image];
+    });
 }
 
 #pragma mark - 修改资料请求回调
@@ -169,5 +182,23 @@ enum {
     [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"资料更新失败 - %@", message] dismissAfter:2.0
                                   styleName:JDStatusBarStyleError];
 }
+
+#pragma mark - 上传头像请求回调
+
+- (void)uploadAvatarSucceed:(CourtesyAccountProfileModel *)sender {
+    [JDStatusBarNotification showWithStatus:@"头像上传成功"
+                               dismissAfter:2.0
+                                  styleName:JDStatusBarStyleSuccess];
+    _avatarImageView.imageURL = kProfile.avatar_url;
+    [NSNotificationCenter sendCTAction:kActionAvatarUploaded message:nil];
+}
+
+- (void)uploadAvatarFailed:(CourtesyAccountProfileModel *)sender
+              errorMessage:(NSString *)message {
+    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"头像上传失败 - %@", message]
+                               dismissAfter:2.0
+                                  styleName:JDStatusBarStyleError];
+}
+
 
 @end
