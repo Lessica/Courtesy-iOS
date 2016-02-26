@@ -1,0 +1,88 @@
+PODS:
+  - AFNetworking (3.0.4):
+    - AFNetworking/NSURLSession (= 3.0.4)
+    - AFNetworking/Reachability (= 3.0.4)
+    - AFNetworking/Security (= 3.0.4)
+    - AFNetworking/Serialization (= 3.0.4)
+    - AFNetworking/UIKit (= 3.0.4)
+  - AFNetworking/NSURLSession (3.0.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.0.4)
+  - AFNetworking/Security (3.0.4)
+  - AFNetworking/Serialization (3.0.4)
+  - AFNetworking/UIKit (3.0.4):
+    - AFNetworking/NSURLSession
+  - CJStringValidator (1.0.1)
+  - Colours (5.13.0):
+    - Colours/ObjC (= 5.13.0)
+  - Colours/ObjC (5.13.0)
+  - FCFileManager (1.0.17)
+  - FMDB (2.6):
+    - FMDB/standard (= 2.6)
+  - FMDB/standard (2.6)
+  - JDStatusBarNotification (1.5.3)
+  - JSONModel (1.2.0)
+  - JVFloatingDrawer (0.1.0)
+  - LBXScan (1.1.1):
+    - ZXingObjC (~> 3.0)
+  - LGAlertView (2.0.13)
+  - MJRefresh (3.1.0)
+  - NJKWebViewProgress (0.2.3):
+    - NJKWebViewProgress/Core (= 0.2.3)
+    - NJKWebViewProgress/ProgressView (= 0.2.3)
+  - NJKWebViewProgress/Core (0.2.3)
+  - NJKWebViewProgress/ProgressView (0.2.3)
+  - QBImagePickerController (3.4.0)
+  - Toast (3.0)
+  - UMengMessage (1.1.0.2)
+  - UMengSocial (4.3)
+  - YYKit (0.9.11):
+    - YYKit/no-arc (= 0.9.11)
+  - YYKit/no-arc (0.9.11)
+  - ZXingObjC (3.1.0):
+    - ZXingObjC/All (= 3.1.0)
+  - ZXingObjC/All (3.1.0)
+
+DEPENDENCIES:
+  - AFNetworking
+  - CJStringValidator
+  - Colours
+  - FCFileManager
+  - FMDB
+  - JDStatusBarNotification
+  - JSONModel
+  - JVFloatingDrawer
+  - LBXScan
+  - LGAlertView
+  - MJRefresh
+  - NJKWebViewProgress
+  - QBImagePickerController
+  - Toast
+  - UMengMessage
+  - UMengSocial (= 4.3)
+  - YYKit
+  - ZXingObjC
+
+SPEC CHECKSUMS:
+  AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
+  CJStringValidator: 8138094f1f9702b5b1f43c289e6c9bf51ae2b465
+  Colours: f24220c38f13deac88612667e9b4a7fb96b871d4
+  FCFileManager: 8bfc931ce2a6223676147e9baf0e8a65c691eca6
+  FMDB: c1968bab3ab0aed38f66cb778ae1e7fa9a652b6e
+  JDStatusBarNotification: 29413865af11c862c17180610b0f46a21118b412
+  JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
+  JVFloatingDrawer: 4782b1df21411aef2c1818f3b346cace02cc2e24
+  LBXScan: dfb4d8ae8e4cff2aa0c9e1771e43954dce1469a9
+  LGAlertView: 9a5dcbf4f81b02b718083539d7f222280adc9547
+  MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
+  NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
+  Toast: 32c59229abfcf41850162b83bb9259dc84372473
+  UMengMessage: 48fac77da8a71729c3d9c40eed16151d8917d9b3
+  UMengSocial: e649f30dd9a3686c74daba880e83f818f66bd890
+  YYKit: 76c3f2cee1a72d3c5b1d7fd8d170ee507fe5df68
+  ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
+
+COCOAPODS: 0.37.2
