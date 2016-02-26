@@ -161,7 +161,8 @@ POST /api/courtesy
             "gender": 1,
             "province": "\u6c5f\u82cf",
             "city": "\u5357\u4eac",
-            "constellation": "\u53cc\u5b50\u5ea7"
+            "constellation": "\u53cc\u5b50\u5ea7",
+            "introduction": ""
         }
     },
     "timestamp": 1456283003
@@ -181,7 +182,8 @@ POST /api/courtesy
         "gender": 1,
         "province": "\u6c5f\u82cf",
         "city": "\u5357\u4eac",
-        "constellation": "\u53cc\u5b50\u5ea7"
+        "constellation": "\u53cc\u5b50\u5ea7",
+        "introduction": ""
     }
 }
 ```
