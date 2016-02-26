@@ -161,7 +161,7 @@ POST /api/courtesy
             "gender": 1,
             "province": "\u6c5f\u82cf",
             "city": "\u5357\u4eac",
-            "constellation": "\u53cc\u5b50\u5ea7",
+            "area": "\u9097\u6c5f\u533a",
             "introduction": ""
         }
     },
@@ -182,7 +182,7 @@ POST /api/courtesy
         "gender": 1,
         "province": "\u6c5f\u82cf",
         "city": "\u5357\u4eac",
-        "constellation": "\u53cc\u5b50\u5ea7",
+        "area": "\u9097\u6c5f\u533a",
         "introduction": ""
     }
 }
