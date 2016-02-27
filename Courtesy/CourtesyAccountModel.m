@@ -21,7 +21,6 @@
     if (self = [super init]) {
         _profile = [CourtesyAccountProfileModel new];
         isFetching = NO;
-        fetched = NO;
     }
     return self;
 }
@@ -43,22 +42,40 @@
     [_profile setNick:_email];
 }
 
-#pragma mark - 获取请求状态
-
-- (BOOL)isFetching {
-    return isFetching;
+- (BOOL)hasQQAccount {
+    if (!_qq_openid || [_qq_openid isEmpty]) {
+        return NO;
+    }
+    return YES;
 }
 
-- (BOOL)fetched {
-    return fetched;
+- (BOOL)hasWeiboAccount {
+    if (!_weibo_openid || [_weibo_openid isEmpty]) {
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)hasTencentAccount {
+    if (!_tencent_openid || [_tencent_openid isEmpty]) {
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark - 获取请求状态
+
+- (BOOL)isRequestingFetchAccountInfo {
+    return isFetching;
 }
 
 #pragma mark - 构造请求
 
-- (void)makeRequest {
+- (BOOL)makeRequest {
     fetchDict = [CourtesyCommonRequestModel new];
     fetchDict.action = @"user_info";
     CYLog(@"%@", [fetchDict toJSONString]);
+    return YES;
 }
 
 #pragma mark - 发送委托方法
@@ -79,8 +96,10 @@
 
 #pragma mark - 发送请求
 
-- (void)fetchAccountInfo {
-    [self makeRequest];
+- (void)sendRequestFetchAccountInfo {
+    if ([self isRequestingFetchAccountInfo] || ![self makeRequest]) {
+        return;
+    }
     JSONObjectBlock handler = ^(id json, JSONModelError *err) {
         CYLog(@"%@", json);
         @try {
@@ -104,11 +123,10 @@
                 CourtesyAccountModel *newAccount = [[CourtesyAccountModel alloc] initWithDictionary:dict error:&error];
                 if (error) {
                     @throw NSException(kCourtesyUnexceptedObject, @"数据解析失败");
-                } else {
-                    [[GlobalSettings sharedInstance] setCurrentAccount:newAccount];
                 }
-                [[GlobalSettings sharedInstance] reloadAccount];
-                fetched = YES;
+                [sharedSettings setCurrentAccount:newAccount];
+                [sharedSettings setFetchedCurrentAccount:YES];
+                [sharedSettings reloadAccount];
                 [self callbackDelegateSucceed];
                 return;
             }
@@ -116,7 +134,7 @@
         }
         @catch (NSException *exception) {
             if ([exception.name isEqualToString:kCourtesyForbidden]) {
-                [[GlobalSettings sharedInstance] setHasLogin:NO];
+                [sharedSettings setHasLogin:NO];
             }
             [self callbackDelegateWithErrorMessage:exception.reason];
             return;

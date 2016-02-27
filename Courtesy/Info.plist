@@ -62,7 +62,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>为实现定位当前城市功能，我们需要获取您的地理位置。</string>
+	<string>为实现定位当前城市功能，「礼记」需要获取您的地理位置。</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

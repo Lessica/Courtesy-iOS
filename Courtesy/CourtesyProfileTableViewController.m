@@ -61,9 +61,12 @@ enum {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    last_hash = [[kProfile toDictionary] mutableCopy];
+    last_hash = [[kProfile toDictionary] mutableCopy]; // 初始化备份
     self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.size.height / 2;
     self.avatarImageView.layer.masksToBounds = YES;
+    UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressToCopy:)];
+    longPress.minimumPressDuration = 1.0;
+    [self.tableView addGestureRecognizer:longPress];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -81,29 +84,28 @@ enum {
     }
     _birthdayDetailLabel.text = kProfile.birthday;
     _mobileDetailLabel.text = kProfile.mobile;
-    _fromWhereDetailLabel.text = [NSString stringWithFormat:@"%@ - %@ - %@", kProfile.province, kProfile.city, kProfile.area];
     if (![[kProfile birthday] isEmpty]) {
         @try {
-            NSDate *birthday = [NSDate dateWithString:kProfile.birthday format:@"yyyy-MM-dd"];
-            _constellationDetailLabel.text = [birthday constellationString];
+            _fromWhereDetailLabel.text = [NSString stringWithFormat:@"%@ - %@ - %@", kProfile.province, kProfile.city, kProfile.area];
+            _constellationDetailLabel.text = [[NSDate dateWithString:kProfile.birthday format:@"yyyy-MM-dd"] constellationString];
+            _registeredAtDetailLabel.text = [[NSDate dateWithTimeIntervalSince1970:(float)kAccount.registered_at] stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+            _lastLoginAtDetailLabel.text = [[NSDate dateWithTimeIntervalSince1970:(float)kAccount.last_login_at] stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];
         }
         @catch (NSException *exception) {}
         @finally {}
     }
     _introductionLabel.text = kProfile.introduction;
     _emailDetailLabel.text = kAccount.email;
-    _registeredAtDetailLabel.text = [[NSDate dateWithTimeIntervalSince1970:(float)kAccount.registered_at] stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];
-    _lastLoginAtDetailLabel.text = [[NSDate dateWithTimeIntervalSince1970:(float)kAccount.last_login_at] stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [self.tableView reloadData];
     if (![[kProfile toDictionary] isEqual:last_hash]) { // 判断是否进行过修改
-        [self.tableView reloadData];
         last_hash = [[kProfile toDictionary] mutableCopy]; // 更新备份
-        if (![kProfile isEditing]) {
+        if (![kProfile isRequestingEditProfile]) {
             [JDStatusBarNotification showWithStatus:@"资料更新中"
                                           styleName:JDStatusBarStyleDefault];
             [JDStatusBarNotification showActivityIndicator:YES indicatorStyle:UIActivityIndicatorViewStyleGray];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
                 [kProfile setDelegate:self]; // 设置请求代理
-                [kProfile editProfile];
+                [kProfile sendRequestEditProfile];
             });
         }
     }
@@ -128,6 +130,32 @@ enum {
     }
 }
 
+- (void)longPressToCopy:(UILongPressGestureRecognizer *)gesture {
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        CGPoint point = [gesture locationInView:self.tableView];
+        NSIndexPath * indexPath = [self.tableView indexPathForRowAtPoint:point];
+        if (indexPath == nil) return;
+        if (indexPath.section == kReadonlySection) {
+            if (indexPath.row == 0) {
+                [[UIPasteboard generalPasteboard] setString:_emailDetailLabel.text];
+                [self.navigationController.view makeToast:@"注册邮箱已被复制到剪贴板"
+                                                 duration:2.0
+                                                 position:CSToastPositionCenter];
+            } else if (indexPath.row == 1) {
+                [[UIPasteboard generalPasteboard] setString:_registeredAtDetailLabel.text];
+                [self.navigationController.view makeToast:@"注册时间已被复制到剪贴板"
+                                                 duration:2.0
+                                                 position:CSToastPositionCenter];
+            } else if (indexPath.row == 2) {
+                [[UIPasteboard generalPasteboard] setString:_lastLoginAtDetailLabel.text];
+                [self.navigationController.view makeToast:@"最后登录已被复制到剪贴板"
+                                                 duration:2.0
+                                                 position:CSToastPositionCenter];
+            }
+        }
+    }
+}
+
 - (void)openMenu {
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"上传头像" message:@"请选择一种方式" style:LGAlertViewStyleActionSheet buttonTitles:@[@"相机", @"本地相册"] cancelButtonTitle:@"取消" destructiveButtonTitle:nil actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
         if (index == 0) {
@@ -147,6 +175,8 @@ enum {
     [alert showAnimated:YES completionHandler:nil];
 }
 
+#pragma mark - UIImagePickerControllerDelegate
+
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -161,25 +191,28 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     }
     
     // 上传
-    [JDStatusBarNotification showWithStatus:@"上传头像中"
-                                  styleName:JDStatusBarStyleDefault];
-    [JDStatusBarNotification showActivityIndicator:YES indicatorStyle:UIActivityIndicatorViewStyleGray];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
-        [kProfile setDelegate:self]; // 设置请求代理
-        [kProfile uploadAvatar:image];
-    });
+    if (![kProfile isRequestingUploadAvatar]) {
+        [JDStatusBarNotification showWithStatus:@"上传头像中"
+                                      styleName:JDStatusBarStyleDefault];
+        [JDStatusBarNotification showActivityIndicator:YES indicatorStyle:UIActivityIndicatorViewStyleGray];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
+            [kProfile setDelegate:self]; // 设置请求代理
+            [kProfile sendRequestUploadAvatar:image];
+        });
+    }
 }
 
 #pragma mark - 修改资料请求回调
 
 - (void)editProfileSucceed:(CourtesyAccountProfileModel *)sender {
-    [JDStatusBarNotification showWithStatus:@"资料更新成功" dismissAfter:2.0
+    [JDStatusBarNotification showWithStatus:@"资料更新成功" dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleSuccess];
 }
 
 - (void)editProfileFailed:(CourtesyAccountProfileModel *)sender
              errorMessage:(NSString *)message {
-    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"资料更新失败 - %@", message] dismissAfter:2.0
+    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"资料更新失败 - %@", message]
+                               dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleError];
 }
 
@@ -187,7 +220,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 
 - (void)uploadAvatarSucceed:(CourtesyAccountProfileModel *)sender {
     [JDStatusBarNotification showWithStatus:@"头像上传成功"
-                               dismissAfter:2.0
+                               dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleSuccess];
     _avatarImageView.imageURL = kProfile.avatar_url;
     [NSNotificationCenter sendCTAction:kActionAvatarUploaded message:nil];
@@ -196,7 +229,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 - (void)uploadAvatarFailed:(CourtesyAccountProfileModel *)sender
               errorMessage:(NSString *)message {
     [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"头像上传失败 - %@", message]
-                               dismissAfter:2.0
+                               dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleError];
 }
 

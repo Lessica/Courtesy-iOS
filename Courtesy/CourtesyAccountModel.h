@@ -28,13 +28,19 @@
 @property (nonatomic, assign) NSUInteger registered_at;
 @property (nonatomic, assign) NSUInteger last_login_at;
 @property (nonatomic, assign) NSUInteger card_count;
+@property (nonatomic, copy) NSString<Optional> *qq_openid;
+@property (nonatomic, copy) NSString<Optional> *weibo_openid;
+@property (nonatomic, copy) NSString<Optional> *tencent_openid;
 @property (nonatomic, assign) BOOL has_profile;
 @property (nonatomic, strong) CourtesyAccountProfileModel<Optional> *profile;
 @property (nonatomic, weak) id<Ignore, CourtesyFetchAccountInfoDelegate> delegate;
 
 - (instancetype)initWithDelegate:(id)delegate;
-- (BOOL)isFetching;
-- (BOOL)fetched;
-- (void)fetchAccountInfo;
+- (void)sendRequestFetchAccountInfo;
+- (BOOL)isRequestingFetchAccountInfo;
+
+- (BOOL)hasQQAccount;
+- (BOOL)hasWeiboAccount;
+- (BOOL)hasTencentAccount;
 
 @end

@@ -36,12 +36,13 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 #pragma mark - 注册友盟SDK及推送消息
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // 初始化全局设置
-    [GlobalSettings sharedInstance];
+    sharedSettings;
     // 友盟推送
     [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
-    [UMessage registerRemoteNotificationAndUserNotificationSettings:[[GlobalSettings sharedInstance] requestedNotifications]];
+    [UMessage registerRemoteNotificationAndUserNotificationSettings:[sharedSettings requestedNotifications]];
     // 友盟社会化分享
     [UMSocialData setAppKey:UMENG_APP_KEY];
+    
     // 初始化界面
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.drawerViewController;
@@ -60,22 +61,10 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 - (void)applicationWillResignActive:(UIApplication *)application {}
 - (void)applicationDidEnterBackground:(UIApplication *)application {}
 
+// 从后台唤醒
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    YYReachability *reachability = [YYReachability reachability];
-    if (reachability.status == YYReachabilityStatusNone) {
-        [JDStatusBarNotification showWithStatus:@"网络连接失败" dismissAfter:2.0
-                                      styleName:JDStatusBarStyleError];
-        return;
-    }
-    if (reachability.status == YYReachabilityStatusWWAN) {
-        [JDStatusBarNotification showWithStatus:@"正在使用蜂窝数据网络" dismissAfter:2.0
-                                      styleName:JDStatusBarStyleSuccess];
-    } else if (reachability.status == YYReachabilityStatusWiFi) {
-        [JDStatusBarNotification showWithStatus:@"正在使用无线局域网" dismissAfter:2.0
-                                      styleName:JDStatusBarStyleSuccess];
-    }
-    if (![kAccount isFetching] && ![kAccount fetched]) {
-        [[GlobalSettings sharedInstance] fetchCurrentAccountInfo];
+    if (![kAccount isRequestingFetchAccountInfo] && ![sharedSettings fetchedCurrentAccount]) {
+        [sharedSettings fetchCurrentAccountInfo];
     }
 }
 
@@ -101,7 +90,7 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     return _drawerAnimator;
 }
 
-#pragma mark - 全局操作控制
+#pragma mark - 全局视图操作控制
 
 + (AppDelegate *)globalDelegate {
     return (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -161,7 +150,7 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 
 #pragma mark - 二维码视图
 
-- (CourtesyQRScanViewController *)scanViewController {
+- (UIViewController *)scanViewController {
     if (!_scanViewController) {
         _scanViewController = [CourtesyQRScanViewController new];
     }

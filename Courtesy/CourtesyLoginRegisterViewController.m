@@ -143,8 +143,8 @@
                   }];
     }
     // 设置登录成功状态
-    [[[GlobalSettings sharedInstance] currentAccount] setEmail:[sender email]];
-    [[GlobalSettings sharedInstance] setHasLogin:YES];
+    [kAccount setEmail:[sender email]];
+    [sharedSettings setHasLogin:YES];
     // 发送全局登录成功通知
     [NSNotificationCenter sendCTAction:kActionLogin message:nil];
 }

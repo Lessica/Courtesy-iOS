@@ -10,6 +10,7 @@
 #import "CourtesyLeftDrawerTableViewController.h"
 #import "CourtesyLeftDrawerMenuTableViewCell.h"
 #import "CourtesyLeftDrawerAvatarTableViewCell.h"
+#import "CourtesyPortraitViewController.h"
 #import "CourtesyLoginRegisterViewController.h"
 #import "JVFloatingDrawerViewController.h"
 
@@ -79,11 +80,13 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         [self reloadAvatar:NO];
     } else if ([action isEqualToString:kActionFetchSucceed]) {
         [self reloadAvatar:YES];
-        [JDStatusBarNotification showWithStatus:@"登录成功" dismissAfter:2.0
+        [JDStatusBarNotification showWithStatus:@"登录成功"
+                                   dismissAfter:kStatusBarNotificationTime
                                       styleName:JDStatusBarStyleSuccess];
     } else if ([action isEqualToString:kActionFetchFailed]) {
         NSString *message = [notification.userInfo hasKey:@"message"] ? [notification.userInfo objectForKey:@"message"] : @"";
-        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"登录失败 - %@", message] dismissAfter:2.0
+        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"登录失败 - %@", message]
+                                   dismissAfter:kStatusBarNotificationTime
                                       styleName:JDStatusBarStyleError];
     } else if ([action isEqualToString:kActionFetching]) {
         [self showActivityMessage:@"登录中"];
@@ -112,7 +115,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
 }
 
 - (void)showActivityMessage:(NSString *)message {
-    if (kLogin && [kAccount isFetching]) {
+    if (kLogin && [kAccount isRequestingFetchAccountInfo]) {
         [JDStatusBarNotification showWithStatus:message
                                       styleName:JDStatusBarStyleDefault];
         [JDStatusBarNotification showActivityIndicator:YES indicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -198,7 +201,8 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     } else if (indexPath.section == kAvatarSection) {
         if (!kLogin) {
             CourtesyLoginRegisterViewController *vc = [CourtesyLoginRegisterViewController new];
-            [self presentViewController:vc animated:YES completion:nil];
+            CourtesyPortraitViewController *navc = [[CourtesyPortraitViewController alloc] initWithRootViewController:vc];
+            [self presentViewController:navc animated:YES completion:nil];
             return;
         }
         UIViewController *destinationViewController = nil;

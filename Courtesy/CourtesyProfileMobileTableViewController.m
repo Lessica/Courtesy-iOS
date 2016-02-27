@@ -23,6 +23,12 @@
 }
 
 - (IBAction)saveButtonClicked:(id)sender {
+    if (![_mobileField.text isMaxLength:128]) {
+        [self.navigationController.view makeToast:@"哪里有这么长的手机号……"
+                                         duration:2.0
+                                         position:CSToastPositionBottom
+                                            style:nil];
+    }
     [kProfile setMobile:_mobileField.text];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

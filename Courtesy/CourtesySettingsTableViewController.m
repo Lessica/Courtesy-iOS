@@ -43,6 +43,7 @@ enum {
 @property (weak, nonatomic) IBOutlet UISwitch *autoPublicSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *cleanCacheTitleLabel;
 @property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;
+@property (weak, nonatomic) IBOutlet UILabel *aboutLabel;
 
 
 @end
@@ -51,6 +52,7 @@ enum {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _aboutLabel.text = [NSString stringWithFormat:@"关于礼记 (V%@)", VERSION_STRING];
     [CSToastManager setTapToDismissEnabled:YES];
     [CSToastManager setQueueEnabled:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -147,7 +149,7 @@ enum {
 - (void)cleanCacheClicked {
     NSError *error = nil;
     [FCFileManager removeFilesInDirectoryAtPath:[[UIApplication sharedApplication] cachesPath] error:&error];
-    if (!error) {
+    if (error) {
         [self.navigationController.view makeToast:@"缓存清除失败"
                                          duration:1.2
                                          position:CSToastPositionCenter];
@@ -164,7 +166,10 @@ enum {
         _cleanCacheTitleLabel.text = @"清除缓存";
         return;
     }
-    _cleanCacheTitleLabel.text = [NSString stringWithFormat:@"清除缓存 %@", [FCFileManager sizeFormattedOfDirectoryAtPath:[[UIApplication sharedApplication] cachesPath]]];
+    NSNumber *size = [FCFileManager sizeOfDirectoryAtPath:[[UIApplication sharedApplication] cachesPath]];
+    if ([size integerValue] > 10e7) { // 10M
+        _cleanCacheTitleLabel.text = [NSString stringWithFormat:@"清除缓存 %@", [FCFileManager sizeFormattedOfDirectoryAtPath:[[UIApplication sharedApplication] cachesPath]]];
+    }
 }
 
 // 发送邮件
@@ -179,7 +184,7 @@ enum {
 
 // 退出登录
 - (void)logoutClicked {
-    [[GlobalSettings sharedInstance] setHasLogin:NO];
+    [sharedSettings setHasLogin:NO];
     [self.navigationController.view makeToast:@"退出登录成功"
                                      duration:1.2
                                      position:CSToastPositionCenter];

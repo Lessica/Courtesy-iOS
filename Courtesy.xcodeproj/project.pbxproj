@@ -12,6 +12,7 @@
 		0F176CD11C7DAEC300172928 /* CourtesyLoginRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F176CD01C7DAEC300172928 /* CourtesyLoginRegisterModel.m */; };
 		0F18A0D01C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18A0CF1C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m */; };
 		0F18A0D31C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F18A0D21C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m */; };
+		0F1EC3051C819E66005BDB72 /* CourtesyPortraitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1EC3041C819E66005BDB72 /* CourtesyPortraitViewController.m */; };
 		0F2B4DA11C7FF72D00B65E48 /* CourtesyProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2B4DA01C7FF72D00B65E48 /* CourtesyProfileTableViewController.m */; };
 		0F3DA7D71C7C791B00448055 /* CourtesyLoginRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F3DA7D61C7C791B00448055 /* CourtesyLoginRegisterViewController.xib */; };
 		0F3DA7DB1C7C797D00448055 /* CourtesyQuickLoginButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3DA7DA1C7C797D00448055 /* CourtesyQuickLoginButton.m */; };
@@ -56,6 +57,7 @@
 		0FC6CF0B1C79F4B0007B666B /* CourtesySettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC6CF0A1C79F4B0007B666B /* CourtesySettingsTableViewController.m */; };
 		0FC6CF0F1C7A01E8007B666B /* kisssound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FC6CF0E1C7A01E8007B666B /* kisssound.wav */; };
 		0FC910D11C7C955700CEF533 /* CourtesyAccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC910D01C7C955700CEF533 /* CourtesyAccountModel.m */; };
+		0FD0205B1C8144F80069AB72 /* CourtesyAccountSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD0205A1C8144F80069AB72 /* CourtesyAccountSettingsTableViewController.m */; };
 		BC703599663B4BCB91E9CC88 /* libPods-Courtesy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F634EFABF4A9FFF86FA2638 /* libPods-Courtesy.a */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +73,8 @@
 		0F18A0CF1C7965D500FDFDF5 /* CourtesyMyStarTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyStarTableViewController.m; sourceTree = "<group>"; };
 		0F18A0D11C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLeftDrawerAvatarTableViewCell.h; sourceTree = "<group>"; };
 		0F18A0D21C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLeftDrawerAvatarTableViewCell.m; sourceTree = "<group>"; };
+		0F1EC3031C819E66005BDB72 /* CourtesyPortraitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyPortraitViewController.h; sourceTree = "<group>"; };
+		0F1EC3041C819E66005BDB72 /* CourtesyPortraitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyPortraitViewController.m; sourceTree = "<group>"; };
 		0F2B4D9F1C7FF72D00B65E48 /* CourtesyProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyProfileTableViewController.h; sourceTree = "<group>"; };
 		0F2B4DA01C7FF72D00B65E48 /* CourtesyProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyProfileTableViewController.m; sourceTree = "<group>"; };
 		0F3DA7D61C7C791B00448055 /* CourtesyLoginRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CourtesyLoginRegisterViewController.xib; sourceTree = "<group>"; };
@@ -152,6 +156,9 @@
 		0FC6CF0E1C7A01E8007B666B /* kisssound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = kisssound.wav; sourceTree = "<group>"; };
 		0FC910CF1C7C955700CEF533 /* CourtesyAccountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAccountModel.h; sourceTree = "<group>"; };
 		0FC910D01C7C955700CEF533 /* CourtesyAccountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAccountModel.m; sourceTree = "<group>"; };
+		0FD020591C8144F80069AB72 /* CourtesyAccountSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAccountSettingsTableViewController.h; sourceTree = "<group>"; };
+		0FD0205A1C8144F80069AB72 /* CourtesyAccountSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAccountSettingsTableViewController.m; sourceTree = "<group>"; };
+		0FD0205C1C81733E0069AB72 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		2CE7E65D1A62D8470072121A /* 礼记.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "礼记.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F634EFABF4A9FFF86FA2638 /* libPods-Courtesy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Courtesy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F79D89D6F986E82FABAC7E77 /* Pods-Courtesy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Courtesy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Courtesy/Pods-Courtesy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -171,22 +178,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0F0493241C7EDA7D00BCCBD2 /* Profile */ = {
+		0F0493241C7EDA7D00BCCBD2 /* Profile and Avatar */ = {
 			isa = PBXGroup;
 			children = (
 				0FBC36B11C7D664400057EBE /* CourtesyAccountProfileModel.h */,
 				0FBC36B21C7D664400057EBE /* CourtesyAccountProfileModel.m */,
 			);
-			name = Profile;
+			name = "Profile and Avatar";
 			sourceTree = "<group>";
 		};
-		0F176CD21C7DB13200172928 /* Login or Register */ = {
+		0F176CD21C7DB13200172928 /* Login and Register */ = {
 			isa = PBXGroup;
 			children = (
 				0F176CCF1C7DAEC300172928 /* CourtesyLoginRegisterModel.h */,
 				0F176CD01C7DAEC300172928 /* CourtesyLoginRegisterModel.m */,
 			);
-			name = "Login or Register";
+			name = "Login and Register";
 			sourceTree = "<group>";
 		};
 		0F18A0C51C795CCC00FDFDF5 /* Left Drawer Table */ = {
@@ -232,7 +239,16 @@
 			name = "My View";
 			sourceTree = "<group>";
 		};
-		0F3DA7E71C7C807800448055 /* Extensions */ = {
+		0F1EC3021C819E09005BDB72 /* Common View */ = {
+			isa = PBXGroup;
+			children = (
+				0F1EC3031C819E66005BDB72 /* CourtesyPortraitViewController.h */,
+				0F1EC3041C819E66005BDB72 /* CourtesyPortraitViewController.m */,
+			);
+			name = "Common View";
+			sourceTree = "<group>";
+		};
+		0F3DA7E71C7C807800448055 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
 				0F0493211C7EB72800BCCBD2 /* UIView+FrameMethods.h */,
@@ -244,7 +260,7 @@
 				0F575CA51C803C020035BD6C /* NSDate+Astro.h */,
 				0F575CA61C803C020035BD6C /* NSDate+Astro.m */,
 			);
-			name = Extensions;
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		0F575C951C8020470035BD6C /* Birthday View */ = {
@@ -379,6 +395,7 @@
 		0FBA716B1C7B244000053696 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0F1EC3021C819E09005BDB72 /* Common View */,
 				0F9E1D8A1C7C4E760024FC4F /* Login View */,
 				0FBA717A1C7B4BFA00053696 /* Profile View */,
 				0F18A0C51C795CCC00FDFDF5 /* Left Drawer Table */,
@@ -424,7 +441,7 @@
 		0FBA716F1C7B24D500053696 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				0F3DA7E71C7C807800448055 /* Extensions */,
+				0F3DA7E71C7C807800448055 /* Categories */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -502,6 +519,7 @@
 		0FC6CF081C79F483007B666B /* Settings View */ = {
 			isa = PBXGroup;
 			children = (
+				0FD020581C8144C20069AB72 /* Account Settings */,
 				0FBA71661C7B101B00053696 /* User Agreement View */,
 				0FBA71611C7ACF5A00053696 /* Message Notification Settings View */,
 				0FBA71601C7ACF5000053696 /* About View */,
@@ -515,20 +533,29 @@
 			isa = PBXGroup;
 			children = (
 				0FBC36BE1C7D73AC00057EBE /* Common */,
-				0F176CD21C7DB13200172928 /* Login or Register */,
-				0F0493241C7EDA7D00BCCBD2 /* Profile */,
-				0FC910CE1C7C952900CEF533 /* Account */,
+				0F176CD21C7DB13200172928 /* Login and Register */,
+				0F0493241C7EDA7D00BCCBD2 /* Profile and Avatar */,
+				0FC910CE1C7C952900CEF533 /* Account Info */,
 			);
 			name = Models;
 			sourceTree = "<group>";
 		};
-		0FC910CE1C7C952900CEF533 /* Account */ = {
+		0FC910CE1C7C952900CEF533 /* Account Info */ = {
 			isa = PBXGroup;
 			children = (
 				0FC910CF1C7C955700CEF533 /* CourtesyAccountModel.h */,
 				0FC910D01C7C955700CEF533 /* CourtesyAccountModel.m */,
 			);
-			name = Account;
+			name = "Account Info";
+			sourceTree = "<group>";
+		};
+		0FD020581C8144C20069AB72 /* Account Settings */ = {
+			isa = PBXGroup;
+			children = (
+				0FD020591C8144F80069AB72 /* CourtesyAccountSettingsTableViewController.h */,
+				0FD0205A1C8144F80069AB72 /* CourtesyAccountSettingsTableViewController.m */,
+			);
+			name = "Account Settings";
 			sourceTree = "<group>";
 		};
 		2CE7E6541A62D8470072121A = {
@@ -552,6 +579,7 @@
 		45444505B80B6AF6A0D335BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0FD0205C1C81733E0069AB72 /* SystemConfiguration.framework */,
 				0FBA71731C7B2A0400053696 /* MessageUI.framework */,
 				0FBBF72E1C78BFA200A0A2D1 /* AudioToolbox.framework */,
 				4F634EFABF4A9FFF86FA2638 /* libPods-Courtesy.a */,
@@ -724,7 +752,9 @@
 				0FC6CF041C79B161007B666B /* CourtesyQRScanViewController.m in Sources */,
 				0F176CC71C7DAAE300172928 /* CourtesyCommonRequestModel.m in Sources */,
 				0FBBF72C1C78BD4700A0A2D1 /* main.m in Sources */,
+				0FD0205B1C8144F80069AB72 /* CourtesyAccountSettingsTableViewController.m in Sources */,
 				0FC910D11C7C955700CEF533 /* CourtesyAccountModel.m in Sources */,
+				0F1EC3051C819E66005BDB72 /* CourtesyPortraitViewController.m in Sources */,
 				0FBBF7281C78BD4700A0A2D1 /* CourtesyLeftDrawerTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

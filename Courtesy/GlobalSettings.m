@@ -18,15 +18,39 @@
 
 @implementation GlobalSettings {
     YYCache *appStorage;
+    YYReachability *localReachability;
 }
 
 - (instancetype)init {
     if (self = [super init]) {
+        // 初始化基本设置
+        _switchAutoSave = NO;
+        _switchAutoPublic = NO;
+        _fetchedCurrentAccount = NO;
         // 初始化网络设置
         [JSONHTTPClient setDefaultTextEncoding:NSUTF8StringEncoding];
         [JSONHTTPClient setRequestContentType:@"application/json"];
         [JSONHTTPClient setCachingPolicy:NSURLRequestReloadIgnoringCacheData];
         [JSONHTTPClient setTimeoutInSeconds:20];
+        // 初始化网络状态监听
+        localReachability = [YYReachability reachability];
+        localReachability.notifyBlock = ^(YYReachability *reachability) {
+            if (reachability.status == YYReachabilityStatusNone) {
+                [JDStatusBarNotification showWithStatus:@"网络连接失败"
+                                           dismissAfter:kStatusBarNotificationTime
+                                              styleName:JDStatusBarStyleError];
+                return;
+            }
+            if (reachability.status == YYReachabilityStatusWWAN) {
+                [JDStatusBarNotification showWithStatus:@"正在使用蜂窝数据网络"
+                                           dismissAfter:kStatusBarNotificationTime
+                                              styleName:JDStatusBarStyleSuccess];
+            } else if (reachability.status == YYReachabilityStatusWiFi) {
+                [JDStatusBarNotification showWithStatus:@"正在使用无线局域网"
+                                           dismissAfter:kStatusBarNotificationTime
+                                              styleName:JDStatusBarStyleSuccess];
+            }
+        };
         // 初始化推送通知
         if (![self hasNotificationPermission]) [self requestedNotifications];
         // 初始化数据库设置
@@ -77,16 +101,20 @@
 
 #pragma mark - 账户相关
 
-- (BOOL)hasLogin {
-    return (_currentAccount != nil && [_currentAccount email] != nil);
-}
-
 - (CourtesyAccountModel *)currentAccount {
     if (!_currentAccount) {
         _currentAccount = [[CourtesyAccountModel alloc] initWithDelegate:self];
     }
     return _currentAccount;
 }
+
+#pragma mark - 登录
+
+- (BOOL)hasLogin {
+    return (_currentAccount != nil && [_currentAccount email] != nil);
+}
+
+// 将当前账户及其 Profile 存入账户
 
 - (void)reloadAccount {
     [appStorage setObject:[_currentAccount toDictionary] forKey:kCourtesyDBCurrentLoginAccount];
@@ -110,12 +138,16 @@
     }
 }
 
+#pragma mark - 获取用户信息
+
 - (void)fetchCurrentAccountInfo {
     [NSNotificationCenter sendCTAction:kActionFetching message:nil];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
-        [_currentAccount fetchAccountInfo];
+        [_currentAccount sendRequestFetchAccountInfo];
     });
 }
+
+#pragma mark - CourtesyFetchAccountInfoDelegate
 
 - (void)fetchAccountInfoSucceed:(CourtesyAccountModel *)sender {
     [NSNotificationCenter sendCTAction:kActionFetchSucceed message:nil];
@@ -127,6 +159,7 @@
 }
 
 #pragma mark - 会话相关
+// 从系统原生 CookieJar 中取得 Cookie
 - (NSString *)sessionKey {
     NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     for (NSHTTPCookie *cookie in [cookieJar cookies]) {
@@ -138,6 +171,7 @@
     return nil;
 }
 
+// 移除 CookieJar 中所有 Cookie
 - (void)removeCookies {
     NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     for (NSHTTPCookie *cookie in [storage cookies]) {

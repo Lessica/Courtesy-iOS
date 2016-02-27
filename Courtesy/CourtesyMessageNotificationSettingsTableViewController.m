@@ -22,7 +22,7 @@
 }
 
 - (void)changeStatusLabel {
-    if ([[GlobalSettings sharedInstance] hasNotificationPermission]) {
+    if ([sharedSettings hasNotificationPermission]) {
         _allowNewNotificationsLabel.text = @"已开启";
     } else {
         _allowNewNotificationsLabel.text = @"已关闭";

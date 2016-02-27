@@ -18,7 +18,7 @@
 
 // 日志输出
 #ifdef DEBUG
-# define CYLog(fmt, ...) NSLog((@"[%@:%d] " fmt), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, ##__VA_ARGS__);
+# define CYLog(fmt, ...) NSLog((@"[%@:%d], %s " fmt), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
 #else
 # define CYLog(...);
 #endif
@@ -30,9 +30,6 @@
 #define kCourtesyUnexceptedStatus @"kCourtesyUnexceptedStatus"
 #define kCourtesyForbidden @"kCourtesyForbidden"
 #define kCourtesyAllocFailed @"kCourtesyAllocFailed"
-#define kLogin [[GlobalSettings sharedInstance] hasLogin]
-#define kAccount [[GlobalSettings sharedInstance] currentAccount]
-#define kProfile [[[GlobalSettings sharedInstance] currentAccount] profile]
 
 // 常用常量
 #define APP_NAME_EN @"Courtesy"
@@ -42,6 +39,11 @@
 #define SERVICE_EMAIL @"i.82@me.com"
 #define UMENG_APP_KEY @"56ca911667e58ec982000f95"
 
+#define sharedSettings [GlobalSettings sharedInstance]
+#define kLogin [sharedSettings hasLogin]
+#define kAccount [sharedSettings currentAccount]
+#define kProfile [kAccount profile]
+
 // 接口常量
 #define API_DOMAIN @"10.0.1.222"
 #define API_TIMEOUT 20.0
@@ -49,6 +51,14 @@
 #define API_UPLOAD_AVATAR @"http://10.0.1.222/upload/avatar"
 #define API_DOWNLOAD_AVATAR @"http://10.0.1.222/static/avatar"
 #define API_FORGET_PASSWORD @"http://10.0.1.222/courtesy/reset"
+
+// 头像尺寸相关
+#define kAvatarSizeSmall @"_60.png"
+#define kAvatarSizeMiddle @"_150.png"
+#define kAvatarSizeLarge @"_300.png"
+
+// 状态栏推送条相关
+#define kStatusBarNotificationTime 2.0
 
 // 推送常量
 #define kCourtesyNotificationInfo @"kCourtesyNotificationInfo"

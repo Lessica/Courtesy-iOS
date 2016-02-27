@@ -37,10 +37,11 @@
     return self;
 }
 
-#pragma mark - 发送委托方法
+#pragma mark - Send Message to CourtesyLoginRegisterDelegate
 
 - (void)callbackDelegateWithErrorMessage:(NSString *)message isLogin:(BOOL)login {
     if (!_delegate || ![_delegate respondsToSelector:@selector(loginRegisterFailed:errorMessage:isLogin:)]) {
+        CYLog(@"No delegate found!");
         return;
     }
     [_delegate loginRegisterFailed:self errorMessage:message isLogin:login];
@@ -48,6 +49,7 @@
 
 - (void)callbackDelegateWithSucceedAccount:(NSString *)email isLogin:(BOOL)login {
     if (!_delegate || ![_delegate respondsToSelector:@selector(loginRegisterSucceed:isLogin:)]) {
+        CYLog(@"No delegate found!");
         return;
     }
     [_delegate loginRegisterSucceed:self isLogin:login];
@@ -55,14 +57,14 @@
 
 #pragma mark - 检查并生成请求
 
-- (void)makeRequest:(BOOL)login {
+- (BOOL)makeRequest:(BOOL)login {
     if (![_email isEmail]) {
         [self callbackDelegateWithErrorMessage:@"电子邮箱格式错误" isLogin:login];
-        return;
+        return NO;
     }
     if ([originalPassword isEmpty]) {
         [self callbackDelegateWithErrorMessage:@"密码不能为空" isLogin:login];
-        return;
+        return NO;
     }
     accountDict = [CourtesyLoginRegisterAccountRequestModel new];
     accountDict.email = _email;
@@ -75,12 +77,15 @@
     }
     loginRegisterDict.account = accountDict;
     CYLog(@"%@", [loginRegisterDict toJSONString]);
+    return YES;
 }
 
 #pragma mark - 发送请求
 
 - (void)sendRequestLogin {
-    [self makeRequest:YES];
+    if (![self makeRequest:YES]) {
+        return;
+    }
     JSONObjectBlock handler = ^(id json, JSONModelError *err) {
         CYLog(@"%@", json);
         @try {
@@ -120,7 +125,9 @@
 }
 
 - (void)sendRequestRegister {
-    [self makeRequest:NO];
+    if (![self makeRequest:NO]) {
+        return;
+    }
     JSONObjectBlock handler = ^(id json, JSONModelError *err) {
         CYLog(@"%@", json);
         @try {

@@ -47,9 +47,10 @@
 
 @property (nonatomic, weak) id<Ignore, CourtesyEditProfileDelegate, CourtesyUploadAvatarDelegate> delegate;
 
-- (void)editProfile;
-- (void)uploadAvatar:(UIImage *)avatar;
-- (BOOL)isEditing;
+- (void)sendRequestEditProfile;
+- (void)sendRequestUploadAvatar:(UIImage *)avatar;
+- (BOOL)isRequestingEditProfile;
+- (BOOL)isRequestingUploadAvatar;
 
 @end
 

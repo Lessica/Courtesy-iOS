@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "CourtesyGithubWebViewController.h"
 
-static NSString * const kJVGithubProjectPage = @"https://github.com/Lessica/Courtesy-iOS";
+static NSString * const kJVGithubProjectPage = @"https://github.com/Lessica";
 
 @interface CourtesyGithubWebViewController ()
 

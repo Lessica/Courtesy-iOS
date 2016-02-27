@@ -18,6 +18,10 @@
 @property (nonatomic, readonly) UIUserNotificationSettings *requestedNotifications;
 @property (nonatomic, assign) BOOL hasNotificationPermission;
 @property (nonatomic, strong) CourtesyAccountModel* currentAccount;
+@property (nonatomic, assign) BOOL fetchedCurrentAccount;
+
+@property (nonatomic, assign) BOOL switchAutoSave;
+@property (nonatomic, assign) BOOL switchAutoPublic;
 
 - (void)fetchCurrentAccountInfo;
 - (void)reloadAccount;

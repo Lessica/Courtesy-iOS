@@ -16,12 +16,13 @@
 
 @implementation CourtesyAccountProfileModel {
     CourtesyEditProfileRequestModel *fetchDict;
-    BOOL isEditing;
+    BOOL isRequestingEditProfile;
+    BOOL isRequestingUploadAvatar;
 }
 
 - (instancetype)init {
     if (self = [super init]) {
-        isEditing = NO;
+        isRequestingEditProfile = NO;
     }
     return self;
 }
@@ -33,20 +34,17 @@
     return self;
 }
 
-- (BOOL)isEditing {
-    return isEditing;
+#pragma mark - 获取请求状态
+
+- (BOOL)isRequestingEditProfile {
+    return isRequestingEditProfile;
 }
 
-#pragma mark - 构造请求
-
-- (void)makeRequest {
-    fetchDict = [CourtesyEditProfileRequestModel new];
-    fetchDict.action = @"user_edit_profile";
-    fetchDict.profile = kProfile;
-    CYLog(@"%@", [fetchDict toJSONString]);
+- (BOOL)isRequestingUploadAvatar {
+    return isRequestingUploadAvatar;
 }
 
-#pragma mark - 发送委托方法
+#pragma mark - Send Message to CourtesyEditProfileDelegate
 
 - (void)callbackDelegateWithErrorMessage:(NSString *)message {
     if (!_delegate || ![_delegate respondsToSelector:@selector(editProfileFailed:errorMessage:)]) {
@@ -62,6 +60,8 @@
     [_delegate editProfileSucceed:self];
 }
 
+#pragma mark - Send Message to CourtesyUploadAvatarDelegate
+
 - (void)callbackAvatarDelegateWithErrorMessage:(NSString *)message {
     if (!_delegate || ![_delegate respondsToSelector:@selector(uploadAvatarFailed:errorMessage:)]) {
         return;
@@ -76,10 +76,22 @@
     [_delegate uploadAvatarSucceed:self];
 }
 
+#pragma mark - 构造请求
+
+- (BOOL)makeRequest {
+    fetchDict = [CourtesyEditProfileRequestModel new];
+    fetchDict.action = @"user_edit_profile";
+    fetchDict.profile = kProfile;
+    CYLog(@"%@", [fetchDict toJSONString]);
+    return YES;
+}
+
 #pragma mark - 发送请求
 
-- (void)editProfile {
-    [self makeRequest];
+- (void)sendRequestEditProfile {
+    if (isRequestingEditProfile || ![self makeRequest]) {
+        return;
+    }
     JSONObjectBlock handler = ^(id json, JSONModelError *err) {
         CYLog(@"%@", json);
         @try {
@@ -105,16 +117,16 @@
         }
         @catch (NSException *exception) {
             if ([exception.name isEqualToString:kCourtesyForbidden]) {
-                [[GlobalSettings sharedInstance] setHasLogin:NO];
+                [sharedSettings setHasLogin:NO];
             }
             [self callbackDelegateWithErrorMessage:exception.reason];
             return;
         }
         @finally {
-            isEditing = NO;
+            isRequestingEditProfile = NO;
         }
     };
-    isEditing = YES;
+    isRequestingEditProfile = YES;
     [JSONHTTPClient postJSONFromURLWithString:API_URL
                                    bodyString:[fetchDict toJSONString]
                                    completion:handler];
@@ -122,7 +134,10 @@
 
 #pragma mark - 上传头像
 
-- (void)uploadAvatar:(UIImage *)avatar {
+- (void)sendRequestUploadAvatar:(UIImage *)avatar {
+    if (isRequestingUploadAvatar) {
+        return;
+    }
     NSError *error = nil;
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:API_UPLOAD_AVATAR parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:UIImagePNGRepresentation(avatar) name:@"avatar" fileName:@"fake.png" mimeType:@"image/png"];
@@ -133,6 +148,7 @@
     
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
+    isRequestingUploadAvatar = YES;
     NSURLSessionUploadTask *uploadTask;
     uploadTask = [manager
                   uploadTaskWithStreamedRequest:request
@@ -144,31 +160,43 @@
                           [JDStatusBarNotification showProgress:uploadProgress.fractionCompleted];
                       });
                   }
-                  completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-                      if (error) {
-                          [self callbackAvatarDelegateWithErrorMessage:[error localizedDescription]];
-                          CYLog(@"Error: %@", error);
-                      } else {
-                          CYLog(@"Response: %@\nObject: %@", response, responseObject);
+                  completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable err) {
+                      CYLog(@"%@", responseObject);
+                      @try {
+                          if (err) {
+                              @throw NSException(kCourtesyInvalidHttpResponse, [err localizedDescription]);
+                          }
                           if (!responseObject ||
                               ![responseObject isKindOfClass:[NSDictionary class]] ||
                               ![responseObject hasKey:@"error"] ||
                               ![responseObject hasKey:@"id"]) {
-                              [self callbackAvatarDelegateWithErrorMessage:@"服务器错误"];
+                              @throw NSException(kCourtesyInvalidHttpResponse, @"服务器错误");
                           }
                           NSInteger errorCode = [[responseObject objectForKey:@"error"] integerValue];
                           if (errorCode == 0) {
                               NSString *recv = [responseObject objectForKey:@"id"];
-                              self.avatar = [recv stringByAppendingString:@"_300.png"];
+                              self.avatar = [recv stringByAppendingString:kAvatarSizeLarge];
                               [self callbackAvatarDelegateSucceed];
+                              return;
+                          } else if (errorCode == 403) {
+                              @throw NSException(kCourtesyForbidden, @"请重新登录");
                           } else if (errorCode == 422) {
-                              [self callbackAvatarDelegateWithErrorMessage:[NSString stringWithFormat:@"图片尺寸不正确"]];
+                              @throw NSException(kCourtesyUnexceptedStatus, [NSString stringWithFormat:@"图片尺寸不正确"]);
                           } else {
-                              [self callbackAvatarDelegateWithErrorMessage:[NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]];
+                              @throw NSException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
                           }
                       }
+                      @catch (NSException *exception) {
+                          if ([exception.name isEqualToString:kCourtesyForbidden]) {
+                              [sharedSettings setHasLogin:NO];
+                          }
+                          [self callbackAvatarDelegateWithErrorMessage:exception.reason];
+                          return;
+                      }
+                      @finally {
+                          isRequestingUploadAvatar = NO;
+                      }
                   }];
-    
     [uploadTask resume];
 }
 
