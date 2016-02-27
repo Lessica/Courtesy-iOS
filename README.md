@@ -204,3 +204,126 @@ POST /upload/avatar (Field: file)
     "time": 1456503286
 }
 ```
+##主体业务逻辑
+
+![flow](http://i11.tietuku.com/2a2298b1fb4a5f4c.png "flow")
+
+### qr_query
+```json
+{
+    "action":"qr_query",
+    "qr_id":"xxxx",
+}
+```
+
+- 成功 Succeed
+```json
+{
+    "error": 0,
+    "qr_info":json(QRInfo)
+    "card_info":json(CardInfo) //if is_recorded
+    "timestamp": 1456283003
+}
+
+```
+
+json(QRInfo)
+```json
+{
+    "is_recorded": false,
+    "scan_count": 0,
+    "created_at": 1456457567,
+    "channel": 0,
+    "recorded_at": [null],
+    "card_token": null,
+    "unique_id": "3a0137fbecf5a7bfbc25af10c27c54b4",
+    "time": 1456566037,
+    "error": 0
+}
+```
+
+json(CardInfo)
+```json
+{
+    "read_by": "xxx", //or ""
+    "is_editable": true,
+    "is_public": true,
+    "local_template": "you will do it :)",
+    "view_count": 0,
+    "author": "test004@126.com",
+    "created_at": 1456547164,
+    "modified_at": 1456547164,
+    "first_read_at": null,
+    "token": "3a0137fbecf5a7bfbc25af10c27c54b4",
+    "edited_count": 0,
+    "stars": 0
+}
+
+### card_query
+```json
+{
+    "action": "card_query",
+    "token": "00b3eed3b733afba6e45cdedf0036801",
+}
+```
+
+- 成功 Succeed
+```json
+{
+    "error": 0,
+    "card_info":json(CardInfo)
+    "timestamp": 1456283003
+}
+
+```
+
+### card_edit
+```
+{
+    "action": "card_edit",
+    "token": "00b3eed3b733afba6e45cdedf0036801",
+    "card_info": {
+        "local_template": "you will do it :)",
+        "is_editable": true,
+        "is_public": true,
+        "visible_at": "1999-02-02 00:00:00"
+    }
+}
+```
+
+- 成功 Succeed
+```json
+{
+    "error": 0,
+    "card_info":json(CardInfo)
+    "timestamp": 1456283003
+}
+```
+
+### card_create
+```json
+{
+    "action": "card_create",
+    "qr_id": "3a0137fbecf5a7bfbc25af10c27c54b4",
+    "card_info": {
+        "local_template": "you will do it :)",
+        "is_editable": true,
+        "is_public": true,
+        "visible_at": "1999-02-02 00:00:00"
+    }
+}
+```
+- 成功 Succeed
+```json
+{
+    "error": 0,
+    "card_info":json(CardInfo)
+    "timestamp": 1456283003
+}
+```
+
+error
+424 已有记录
+423 资源不存在
+425 修改用户无权限
+426 卡片被禁用
