@@ -9,9 +9,6 @@
 ## 描述
 礼记是一个基于阿里公有云的腾讯互联轻应用。
 
-## TODOs
-- 不支持 iPad 横屏显示 (LBXScan)
-
 ## 协议 Protocol
 
 ### 通用 Common
@@ -188,31 +185,22 @@ POST /api/courtesy
 }
 ```
 
-### 上传用户头像
+### 上传用户头像 Upload Avatar
 POST /upload/avatar (Field: file)
-
-```json
-{
-    "origin": {
-        "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6.jpg"
-    },
-    "60px": {
-        "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6_60.png"
-    },
-    "150px": {
-        "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6_150.png"
-    },
-    "300px": {
-        "url": "\\static\\avatar\\fa722e8aeea9d10b3650170a1fb8c5e6_300.png"
-    },
-    "error": 0
-}
-```
 
 - 尺寸不合要求 Size Dismatch
 ```json
 {
     "error": 422,
     "timestamp": 1456283003
+}
+```
+
+- 上传成功 Upload Succeed
+```json
+{
+    "error": 0,
+    "id": "59d632f13aef67deace793df18174dc0",
+    "time": 1456503286
 }
 ```
