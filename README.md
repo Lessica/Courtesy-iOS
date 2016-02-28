@@ -265,13 +265,26 @@ POST /upload/avatar (Field: file)
 {
     "error": 0,
     "card_info": {
-        "read_by": 1001,
+        "read_by": {
+            "user_id": 5,
+            "email": "test005@126.com",
+            "profile": {
+                "nick": "test005",
+                "avatar": "f7ba6151aadf2379394678ac754c9b28"
+            }
+        },
         "is_editable": true,
         "is_public": true,
         "local_template": "you will do it :)",
         "view_count": 1,
-        "author_id": 4,
-        "author": "test004",
+        "author": {
+            "user_id": 4,
+            "email": "test004@126.com",
+            "profile": {
+                "nick": "test004",
+                "avatar": "1a86a0de6143dfa55d87a70ab0f302ce"
+            }
+        },
         "created_at": 1456547164,
         "modified_at": 1456547164,
         "first_read_at": null,
@@ -312,13 +325,26 @@ POST /upload/avatar (Field: file)
 {
     "error": 0,
     "card_info": {
-        "read_by": 1001,
+        "read_by": {
+            "user_id": 5,
+            "email": "test005@126.com",
+            "profile": {
+                "nick": "test005",
+                "avatar": "f7ba6151aadf2379394678ac754c9b28"
+            }
+        },
         "is_editable": true,
         "is_public": true,
         "local_template": "you will do it :)",
         "view_count": 1,
-        "author_id": 4,
-        "author": "test004",
+        "author": {
+            "user_id": 4,
+            "email": "test004@126.com",
+            "profile": {
+                "nick": "test004",
+                "avatar": "1a86a0de6143dfa55d87a70ab0f302ce"
+            }
+        },
         "created_at": 1456547164,
         "modified_at": 1456548900,
         "first_read_at": null,
@@ -364,8 +390,14 @@ POST /upload/avatar (Field: file)
         "is_public": true,
         "local_template": "you will do it :)",
         "view_count": 0,
-        "author_id": 4,
-        "author": "test004",
+        "author": {
+            "user_id": 4,
+            "email": "test004@126.com",
+            "profile": {
+                "nick": "test004",
+                "avatar": "1a86a0de6143dfa55d87a70ab0f302ce"
+            }
+        },
         "created_at": 1456628015,
         "modified_at": 1456628015,
         "first_read_at": null,
