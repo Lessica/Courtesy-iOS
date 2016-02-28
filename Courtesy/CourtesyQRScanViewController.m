@@ -8,13 +8,14 @@
 
 #import <AudioToolbox/AudioToolbox.h>
 #import "CourtesyQRScanViewController.h"
+#import "CourtesyQRCodeModel.h"
 #import "LBXScanResult.h"
 #import "LBXScanWrapper.h"
 
 // 振动系统声音
 static SystemSoundID shake_sound_male_id = 0;
 
-@interface CourtesyQRScanViewController () <LGAlertViewDelegate>
+@interface CourtesyQRScanViewController () <LGAlertViewDelegate, CourtesyQRCodeQueryDelegate>
 
 @end
 
@@ -168,19 +169,73 @@ static SystemSoundID shake_sound_male_id = 0;
 
 // 扫描成功
 - (void)showSucceed:(NSString *)str {
-    LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"提示"
-                                                        message:str
-                                                          style:LGAlertViewStyleAlert
-                                                   buttonTitles:nil
-                                              cancelButtonTitle:@"好"
-                                         destructiveButtonTitle:nil];
-    alertView.delegate = self;
-    [alertView showAnimated:YES completionHandler:nil];
+    NSURL *url = [NSURL URLWithString:str];
+    if (!url
+        || ![[url host] isEqualToString:API_DOMAIN]
+        || ![[url path] isEqualToString:API_QRCODE_PATH]) {
+        if ([[UIApplication sharedApplication] canOpenURL:url]) {
+            LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"跳转提示"
+                                                                message:str
+                                                                  style:LGAlertViewStyleAlert
+                                                           buttonTitles:@[@"前往"]
+                                                      cancelButtonTitle:@"取消"
+                                                 destructiveButtonTitle:nil
+                                                          actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                              if (index == 0) {
+                                                                  [[UIApplication sharedApplication] openURL:url];
+                                                              }
+                                                          }
+                                                          cancelHandler:nil
+                                                     destructiveHandler:nil];
+            alertView.delegate = self;
+            [alertView showAnimated:YES completionHandler:nil];
+        } else {
+            [[UIPasteboard generalPasteboard] setString:str];
+            [self.navigationController.view makeToast:@"二维码数据已储存到剪贴板"
+                                             duration:2.0
+                                             position:CSToastPositionCenter];
+        }
+        [self performSelector:@selector(restartCapture) withObject:nil afterDelay:2.0];
+        return;
+    }
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url
+                                                resolvingAgainstBaseURL:NO];
+    NSArray *queryItems = urlComponents.queryItems;
+    NSString *qrcode_id = [queryItems valueForQueryKey:@"id"];
+    if (!qrcode_id || [qrcode_id isEmpty] || [qrcode_id length] != 32) {
+        [self.navigationController.view makeToast:@"「礼记」二维码标识符不正确"
+                                         duration:2.0
+                                         position:CSToastPositionCenter];
+        [self performSelector:@selector(restartCapture) withObject:nil afterDelay:2.0];
+        return;
+    }
+    [self.navigationController.view makeToastActivity:CSToastPositionCenter];
+    CourtesyQRCodeModel *newQRCode = [[CourtesyQRCodeModel alloc] initWithDelegate:self
+                                                                               uid:qrcode_id];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
+        [newQRCode sendRequestQuery];
+    });
 }
 
-// 扫描成功回调
-- (void)alertViewCancelled:(LGAlertView *)alertView {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+// 扫描获取信息成功回调
+- (void)queryQRCodeSucceed:(CourtesyQRCodeModel *)qrcode {
+    [self.navigationController.view hideToastActivity];
+    [self.navigationController.view makeToast:@"扫描成功"
+                                     duration:2.0
+                                     position:CSToastPositionCenter];
+    [self performSelector:@selector(restartCapture) withObject:nil afterDelay:2.0];
+    return;
+}
+
+// 扫描获取信息失败回调
+- (void)queryQRCodeFailed:(CourtesyQRCodeModel *)qrcode
+             errorMessage:(NSString *)message {
+    [self.navigationController.view hideToastActivity];
+    [self.navigationController.view makeToast:message
+                                     duration:2.0
+                                     position:CSToastPositionCenter];
+    [self performSelector:@selector(restartCapture) withObject:nil afterDelay:2.0];
+    return;
 }
 
 // 扫描失败

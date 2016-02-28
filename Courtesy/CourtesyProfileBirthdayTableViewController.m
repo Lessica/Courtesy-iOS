@@ -36,6 +36,7 @@
 }
 
 - (IBAction)saveButtonClicked:(id)sender {
+    [self.view endEditing:YES];
     [kProfile setBirthday:_birthdayField.text];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

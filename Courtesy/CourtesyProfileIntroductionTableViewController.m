@@ -24,6 +24,7 @@
 }
 
 - (IBAction)saveButtonClicked:(id)sender {
+    [self.view endEditing:YES];
     if (![_introductionField.text isMaxLength:(4096 * 8)]) {
         [self.navigationController.view makeToast:@"你居然真的往这里面粘贴了一部小说！？"
                                          duration:2.0

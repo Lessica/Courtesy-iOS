@@ -82,6 +82,7 @@
 
 - (void)callbackDelegateWithErrorMessage:(NSString *)message {
     if (!_delegate || ![_delegate respondsToSelector:@selector(fetchAccountInfoFailed:errorMessage:)]) {
+        CYLog(@"No delegate found!");
         return;
     }
     [_delegate fetchAccountInfoFailed:self errorMessage:message];
@@ -89,6 +90,7 @@
 
 - (void)callbackDelegateSucceed {
     if (!_delegate || ![_delegate respondsToSelector:@selector(fetchAccountInfoSucceed:)]) {
+        CYLog(@"No delegate found!");
         return;
     }
     [_delegate fetchAccountInfoSucceed:self];

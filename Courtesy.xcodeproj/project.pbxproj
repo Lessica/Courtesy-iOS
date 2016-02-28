@@ -28,6 +28,8 @@
 		0F5CB1781C8012790098DA14 /* CourtesyProfileIntroductionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5CB1771C8012790098DA14 /* CourtesyProfileIntroductionTableViewController.m */; };
 		0F62D3C61C7C6BFC0024F72E /* CourtesyMyTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F62D3C51C7C6BFC0024F72E /* CourtesyMyTabBarController.m */; };
 		0F6FE82E1C7F37F200AE178A /* NSNotificationCenter+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6FE82D1C7F37F200AE178A /* NSNotificationCenter+Action.m */; };
+		0F8ED1211C82A70800371879 /* CourtesyQRCodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8ED1201C82A70800371879 /* CourtesyQRCodeModel.m */; };
+		0F8ED1271C82C33500371879 /* NSArray+QueryItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8ED1261C82C33500371879 /* NSArray+QueryItems.m */; };
 		0F9E1D891C7C19CD0024FC4F /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E1D881C7C19CD0024FC4F /* GlobalSettings.m */; };
 		0F9E1D8E1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E1D8D1C7C583C0024FC4F /* CourtesyMyInboxTableViewController.m */; };
 		0F9E1D911C7C58580024FC4F /* CourtesyMyOutboxTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9E1D901C7C58580024FC4F /* CourtesyMyOutboxTableViewController.m */; };
@@ -103,6 +105,10 @@
 		0F62D3C51C7C6BFC0024F72E /* CourtesyMyTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyTabBarController.m; sourceTree = "<group>"; };
 		0F6FE82C1C7F37F200AE178A /* NSNotificationCenter+Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+Action.h"; sourceTree = "<group>"; };
 		0F6FE82D1C7F37F200AE178A /* NSNotificationCenter+Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSNotificationCenter+Action.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0F8ED11F1C82A70800371879 /* CourtesyQRCodeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyQRCodeModel.h; sourceTree = "<group>"; };
+		0F8ED1201C82A70800371879 /* CourtesyQRCodeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyQRCodeModel.m; sourceTree = "<group>"; };
+		0F8ED1251C82C33500371879 /* NSArray+QueryItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+QueryItems.h"; sourceTree = "<group>"; };
+		0F8ED1261C82C33500371879 /* NSArray+QueryItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+QueryItems.m"; sourceTree = "<group>"; };
 		0F9E1D871C7C19CD0024FC4F /* GlobalSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalSettings.h; sourceTree = "<group>"; };
 		0F9E1D881C7C19CD0024FC4F /* GlobalSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalSettings.m; sourceTree = "<group>"; };
 		0F9E1D8B1C7C51CE0024FC4F /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
@@ -259,6 +265,8 @@
 				0F6FE82D1C7F37F200AE178A /* NSNotificationCenter+Action.m */,
 				0F575CA51C803C020035BD6C /* NSDate+Astro.h */,
 				0F575CA61C803C020035BD6C /* NSDate+Astro.m */,
+				0F8ED1251C82C33500371879 /* NSArray+QueryItems.h */,
+				0F8ED1261C82C33500371879 /* NSArray+QueryItems.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -315,6 +323,62 @@
 				0F5CB1771C8012790098DA14 /* CourtesyProfileIntroductionTableViewController.m */,
 			);
 			name = "Introduction View";
+			sourceTree = "<group>";
+		};
+		0F8ED11D1C82A6E500371879 /* QRCode */ = {
+			isa = PBXGroup;
+			children = (
+				0F8ED11F1C82A70800371879 /* CourtesyQRCodeModel.h */,
+				0F8ED1201C82A70800371879 /* CourtesyQRCodeModel.m */,
+			);
+			name = QRCode;
+			sourceTree = "<group>";
+		};
+		0F8ED1281C82C95C00371879 /* Card View */ = {
+			isa = PBXGroup;
+			children = (
+				0F8ED12C1C82C9D700371879 /* Common View */,
+				0F8ED12B1C82C9CB00371879 /* Edit View */,
+				0F8ED12A1C82C97800371879 /* Explore View */,
+				0F8ED12D1C82CA0000371879 /* Locked View */,
+				0F8ED1291C82C96D00371879 /* Publish View */,
+			);
+			name = "Card View";
+			sourceTree = "<group>";
+		};
+		0F8ED1291C82C96D00371879 /* Publish View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Publish View";
+			sourceTree = "<group>";
+		};
+		0F8ED12A1C82C97800371879 /* Explore View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Explore View";
+			sourceTree = "<group>";
+		};
+		0F8ED12B1C82C9CB00371879 /* Edit View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Edit View";
+			sourceTree = "<group>";
+		};
+		0F8ED12C1C82C9D700371879 /* Common View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Common View";
+			sourceTree = "<group>";
+		};
+		0F8ED12D1C82CA0000371879 /* Locked View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Locked View";
 			sourceTree = "<group>";
 		};
 		0F9E1D8A1C7C4E760024FC4F /* Login View */ = {
@@ -396,6 +460,7 @@
 			isa = PBXGroup;
 			children = (
 				0F1EC3021C819E09005BDB72 /* Common View */,
+				0F8ED1281C82C95C00371879 /* Card View */,
 				0F9E1D8A1C7C4E760024FC4F /* Login View */,
 				0FBA717A1C7B4BFA00053696 /* Profile View */,
 				0F18A0C51C795CCC00FDFDF5 /* Left Drawer Table */,
@@ -536,6 +601,7 @@
 				0F176CD21C7DB13200172928 /* Login and Register */,
 				0F0493241C7EDA7D00BCCBD2 /* Profile and Avatar */,
 				0FC910CE1C7C952900CEF533 /* Account Info */,
+				0F8ED11D1C82A6E500371879 /* QRCode */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -726,11 +792,13 @@
 				0FBA715A1C7ABA9C00053696 /* CourtesyMessageNotificationSettingsTableViewController.m in Sources */,
 				0F9E1D911C7C58580024FC4F /* CourtesyMyOutboxTableViewController.m in Sources */,
 				0F9E1D9D1C7C598D0024FC4F /* CourtesyMyOutboxEmptyTipTableViewCell.m in Sources */,
+				0F8ED1211C82A70800371879 /* CourtesyQRCodeModel.m in Sources */,
 				0F575C9F1C80285C0035BD6C /* CourtesyProfileCityTableViewController.m in Sources */,
 				0F6FE82E1C7F37F200AE178A /* NSNotificationCenter+Action.m in Sources */,
 				0F5CB1741C8011C70098DA14 /* CourtesyProfileMobileTableViewController.m in Sources */,
 				0F2B4DA11C7FF72D00B65E48 /* CourtesyProfileTableViewController.m in Sources */,
 				0FBBF7261C78BD4700A0A2D1 /* CourtesyGithubWebViewController.m in Sources */,
+				0F8ED1271C82C33500371879 /* NSArray+QueryItems.m in Sources */,
 				0FBA71791C7B492300053696 /* CourtesyGalleryTableViewController.m in Sources */,
 				0F5CB16C1C800DA60098DA14 /* CourtesyProfileNickTableViewController.m in Sources */,
 				0F18A0D31C7982E900FDFDF5 /* CourtesyLeftDrawerAvatarTableViewCell.m in Sources */,

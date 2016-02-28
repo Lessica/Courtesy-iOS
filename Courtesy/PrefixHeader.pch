@@ -51,6 +51,7 @@
 #define API_UPLOAD_AVATAR @"http://10.0.1.222/upload/avatar"
 #define API_DOWNLOAD_AVATAR @"http://10.0.1.222/static/avatar"
 #define API_FORGET_PASSWORD @"http://10.0.1.222/courtesy/reset"
+#define API_QRCODE_PATH @"/qrcode"
 
 // 头像尺寸相关
 #define kAvatarSizeSmall @"_60.png"
@@ -80,6 +81,7 @@
 #import "UIView+FrameMethods.h"
 #import "NSNotificationCenter+Action.h"
 #import "NSDate+Astro.h"
+#import "NSArray+QueryItems.h"
 
 // 第三方库
 #import "UMessage.h"

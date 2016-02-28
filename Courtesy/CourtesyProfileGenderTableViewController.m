@@ -43,6 +43,7 @@
 }
 
 - (IBAction)saveButtonClicked:(id)sender {
+    [self.view endEditing:YES];
     [kProfile setGender:lastIndexPath.row];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

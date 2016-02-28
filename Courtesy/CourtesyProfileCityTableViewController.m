@@ -34,6 +34,7 @@
 }
 
 - (IBAction)saveButtonCliced:(id)sender {
+    [self.view endEditing:YES];
     NSArray *arr = [_cityField.text componentsSeparatedByString:@" - "];
     if ([arr count] == 3) {
         [kProfile setProvince:[arr objectAtIndex:0]];
