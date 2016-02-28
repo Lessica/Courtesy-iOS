@@ -204,11 +204,12 @@ POST /upload/avatar (Field: file)
     "time": 1456503286
 }
 ```
-##主体业务逻辑
+
+## 二维码业务逻辑 QRCode Workflow
 
 ![flow](http://i11.tietuku.com/48d5269a16f36722.png "flow")
 
-### qr_query
+### 查询二维码状态 Query QRCode Status
 ```json
 {
     "action":"qr_query",
@@ -216,54 +217,60 @@ POST /upload/avatar (Field: file)
 }
 ```
 
-- 成功 Succeed
+- 二维码未录入数据 Not Recorded
 ```json
 {
     "error": 0,
-    "qr_info":json(QRInfo)
-    "card_info":json(CardInfo) //if is_recorded
+    "qr_info": {
+        "is_recorded": false,
+        "scan_count": 0,
+        "created_at": 1456457567,
+        "channel": 0,
+        "recorded_at": null,
+        "card_token": null,
+        "unique_id": "3a0137fbecf5a7bfbc25af10c27c54b4"
+    },
+    "card_info": null,
     "timestamp": 1456283003
 }
-
 ```
 
-json(QRInfo)
+- 二维码已录入数据 Published Card
 ```json
 {
-    "is_recorded": false,
-    "scan_count": 0,
-    "created_at": 1456457567,
-    "channel": 0,
-    "recorded_at": [null],
-    "card_token": null,
-    "unique_id": "3a0137fbecf5a7bfbc25af10c27c54b4",
-    "time": 1456566037,
-    "error": 0
+    "error": 0,
+    "qr_info": {
+        "is_recorded": true,
+        "scan_count": 0,
+        "created_at": 1456457567,
+        "channel": 0,
+        "recorded_at": 1456457593,
+        "card_token": "daffed346e29c5654f54133d1fc65ccb",
+        "unique_id": "3a0137fbecf5a7bfbc25af10c27c54b4"
+    },
+    "card_info": {
+        "read_by": 1001,
+        "is_editable": true,
+        "is_public": true,
+        "local_template": "you will do it :)",
+        "view_count": 1,
+        "author": "test004@126.com",
+        "created_at": 1456547164,
+        "modified_at": 1456547164,
+        "first_read_at": null,
+        "token": "daffed346e29c5654f54133d1fc65ccb",
+        "edited_count": 0,
+        "stars": 0
+    },
+    "timestamp": 1456283003
 }
 ```
 
-json(CardInfo)
-```json
-{
-    "read_by": "xxx", //or ""
-    "is_editable": true,
-    "is_public": true,
-    "local_template": "you will do it :)",
-    "view_count": 0,
-    "author": "test004@126.com",
-    "created_at": 1456547164,
-    "modified_at": 1456547164,
-    "first_read_at": null,
-    "token": "3a0137fbecf5a7bfbc25af10c27c54b4",
-    "edited_count": 0,
-    "stars": 0
-}
-
-### card_query
+### 查询卡片状态 Query Card Status
 ```json
 {
     "action": "card_query",
-    "token": "00b3eed3b733afba6e45cdedf0036801",
+    "token": "00b3eed3b733afba6e45cdedf0036801"
 }
 ```
 
@@ -271,14 +278,36 @@ json(CardInfo)
 ```json
 {
     "error": 0,
-    "card_info":json(CardInfo)
+    "card_info": {
+        "read_by": 1001,
+        "is_editable": true,
+        "is_public": true,
+        "local_template": "you will do it :)",
+        "view_count": 1,
+        "author": "test004@126.com",
+        "created_at": 1456547164,
+        "modified_at": 1456547164,
+        "first_read_at": null,
+        "token": "00b3eed3b733afba6e45cdedf0036801",
+        "edited_count": 0,
+        "stars": 0
+    },
     "timestamp": 1456283003
 }
-
 ```
 
-### card_edit
+- 卡片被禁用 Banned Card
+```json
+{
+    "error": 426,
+    "timestamp": 1456283198
+}
 ```
+
+- 卡片未到查询时间 Card Not Visible (local_template = null)
+
+### 修改卡片内容 Edit Card
+```json
 {
     "action": "card_edit",
     "token": "00b3eed3b733afba6e45cdedf0036801",
@@ -295,12 +324,35 @@ json(CardInfo)
 ```json
 {
     "error": 0,
-    "card_info":json(CardInfo)
+    "card_info": {
+        "read_by": 1001,
+        "is_editable": true,
+        "is_public": true,
+        "local_template": "you will do it :)",
+        "view_count": 1,
+        "author": "test004@126.com",
+        "created_at": 1456547164,
+        "modified_at": 1456548900,
+        "first_read_at": null,
+        "token": "00b3eed3b733afba6e45cdedf0036801",
+        "edited_count": 1,
+        "stars": 0
+    },
     "timestamp": 1456283003
 }
 ```
 
-### card_create
+- 修改用户无权限 No Card Privilege
+```json
+{
+    "error": 425,
+    "timestamp": 1456283098
+}
+```
+
+- 卡片被禁用 Banned Card (同上)
+
+### 发布卡片 Publish New Card
 ```json
 {
     "action": "card_create",
@@ -313,20 +365,55 @@ json(CardInfo)
     }
 }
 ```
+
 - 成功 Succeed
 ```json
 {
     "error": 0,
-    "card_info":json(CardInfo)
-    "timestamp": 1456283003
+    "card_info": {
+        "read_by": null,
+        "is_editable": true,
+        "is_public": true,
+        "local_template": "you will do it :)",
+        "view_count": 0,
+        "author": "test004@126.com",
+        "created_at": 1456628015,
+        "modified_at": 1456628015,
+        "first_read_at": null,
+        "token": "080f651e3fcca17df3a47c2cecfcb880",
+        "edited_count": 0,
+        "stars": 0
+    },
+    "timestamp": 1456628016
 }
 ```
 
-### POST upload/card_res
+- QRCode 已被自己使用 Recorded QRCode
+```json
+{
+    "error": 424,
+    "qr_info": {
+        "is_recorded": true,
+        "scan_count": 0,
+        "created_at": 1456457567,
+        "channel": 0,
+        "recorded_at": 1456457593,
+        "unique_id": "3a0137fbecf5a7bfbc25af10c27c54b4",
+        "card_token": "daffed346e29c5654f54133d1fc65ccb"
+    },
+    "timestamp": 1456628034
+}
+```
 
-Card res=资源
+### 检查卡片资源是否存在 Query Card Resources
+```json
+{
+    "action": "res_query",
+    "hash": "a9993e364706816aba3e25717850c26c9cd0d89d"
+}
+```
 
-Return
+- 资源存在 File Exists
 ```json
 {
     "time": 1456622272,
@@ -335,9 +422,16 @@ Return
 }
 ```
 
+- 资源不存在 File Not Exists (404)
 
-error
-424 已有记录
-423 资源不存在
-425 修改用户无权限
-426 卡片被禁用
+### 上传卡片资源 Upload Card Resources
+POST /upload/card_res (Field: res)
+
+- 成功 Succeed
+```json
+{
+    "time": 1456622272,
+    "id": "6859b83bcb97c0a4690ccb950cf3c0da",
+    "error": 0
+}
+```
