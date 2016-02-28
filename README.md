@@ -248,20 +248,6 @@ POST /upload/avatar (Field: file)
         "card_token": "daffed346e29c5654f54133d1fc65ccb",
         "unique_id": "3a0137fbecf5a7bfbc25af10c27c54b4"
     },
-    "card_info": {
-        "read_by": 1001,
-        "is_editable": true,
-        "is_public": true,
-        "local_template": "you will do it :)",
-        "view_count": 1,
-        "author": "test004@126.com",
-        "created_at": 1456547164,
-        "modified_at": 1456547164,
-        "first_read_at": null,
-        "token": "daffed346e29c5654f54133d1fc65ccb",
-        "edited_count": 0,
-        "stars": 0
-    },
     "timestamp": 1456283003
 }
 ```
