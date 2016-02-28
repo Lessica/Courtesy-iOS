@@ -206,7 +206,7 @@ POST /upload/avatar (Field: file)
 ```
 ##主体业务逻辑
 
-![flow](http://i11.tietuku.com/2a2298b1fb4a5f4c.png "flow")
+![flow](http://i11.tietuku.com/48d5269a16f36722.png "flow")
 
 ### qr_query
 ```json
@@ -321,6 +321,20 @@ json(CardInfo)
     "timestamp": 1456283003
 }
 ```
+
+### POST upload/card_res
+
+Card res=资源
+
+Return
+```json
+{
+    "time": 1456622272,
+    "id": "6859b83bcb97c0a4690ccb950cf3c0da",
+    "error": 0
+}
+```
+
 
 error
 424 已有记录
