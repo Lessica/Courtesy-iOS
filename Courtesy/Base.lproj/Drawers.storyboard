@@ -996,7 +996,7 @@
                                         <rect key="frame" x="0.0" y="99" width="320" height="88"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ffk-Hb-4ei" id="z9r-F7-Swq">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="87.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="88"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BSn-pk-jz5">
@@ -1885,7 +1885,7 @@
                                                         <constraint firstAttribute="width" constant="300" id="3OB-Uq-2tR"/>
                                                         <constraint firstAttribute="height" constant="260" id="8aK-fw-9OS"/>
                                                     </constraints>
-                                                    <mutableString key="text">官方网站：https://82flex.com
+                                                    <string key="text">官方网站：https://82flex.com
 
 iOS Engineer: @i_82
 Django Engineer: @Anemone
@@ -1894,7 +1894,7 @@ Designer: @teaz
 
 Special thanks to:
 AFNetworking (MIT), Colours (MIT), FCFileManager (MIT), FDFullscreenPopGesture (MIT), FMDB (MIT), JDStatusBarNotification (MIT), JSONModel (MIT), JVFloatingDrawer (MIT), LBXScan (MIT), LGAlertView (MIT), NJKWebViewProcess (MIT), Toast (MIT), YYKit (MIT), ZXingObjC (Apache 2.0)
-</mutableString>
+</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
