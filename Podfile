@@ -20,6 +20,7 @@ target 'Courtesy', :exclusive => true do
     pod 'FMDB'
     pod 'CNCityPickerView'
     pod 'WebViewJavascriptBridge', '~> 5.0'
+    pod 'FDFullscreenPopGesture'
     pod 'oc-timestamp', :git => 'https://github.com/lbj96347/oc-timestamp.git'
     pod 'SwipeView'
     pod 'QBImagePickerController'

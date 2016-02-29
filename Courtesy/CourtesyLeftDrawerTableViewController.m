@@ -74,7 +74,8 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         return;
     }
     NSString *action = [notification.userInfo objectForKey:@"action"];
-    if ([action isEqualToString:kActionLogin]) {
+    if ([action isEqualToString:kActionLogin] ||
+        [action isEqualToString:kActionProfileEdited]) {
         [self reloadAvatar:YES];
     } else if ([action isEqualToString:kActionLogout]) {
         [self reloadAvatar:NO];
@@ -90,8 +91,6 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
                                       styleName:JDStatusBarStyleError];
     } else if ([action isEqualToString:kActionFetching]) {
         [self showActivityMessage:@"登录中"];
-    } else if ([action isEqualToString:kActionAvatarUploaded]) {
-        [self reloadAvatar:YES];
     }
 }
 

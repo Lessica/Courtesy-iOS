@@ -18,7 +18,6 @@
 
 @property (nonatomic, strong) UITableViewController *leftDrawerViewController;
 @property (nonatomic, strong) UITableViewController *rightDrawerViewController;
-@property (nonatomic, strong) UIViewController *scanViewController;
 @property (nonatomic, strong) UIViewController *myViewController;
 @property (nonatomic, strong) UIViewController *starViewController;
 @property (nonatomic, strong) UIViewController *galleryViewController;
@@ -31,7 +30,6 @@
 
 - (void)toggleLeftDrawer:(id)sender animated:(BOOL)animated;
 - (void)toggleRightDrawer:(id)sender animated:(BOOL)animated;
-- (void)toggleScanView:(UIViewController *)sender animated:(BOOL)animated;
 
 @end
 

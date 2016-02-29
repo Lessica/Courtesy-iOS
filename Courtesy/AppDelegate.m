@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "JVFloatingDrawerViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
-#import "CourtesyQRScanViewController.h"
 #import "CourtesyLeftDrawerTableViewController.h"
 
 static NSString * const kJVDrawersStoryboardName = @"Drawers";
@@ -104,10 +103,6 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     [self.drawerViewController toggleDrawerWithSide:JVFloatingDrawerSideRight animated:animated completion:nil];
 }
 
-- (void)toggleScanView:(UIViewController *)sender animated:(BOOL)animated {
-    [sender.navigationController pushViewController:self.scanViewController animated:animated];
-}
-
 #pragma mark - 注册框架视图控制器
 
 - (JVFloatingDrawerViewController *)drawerViewController {
@@ -146,15 +141,6 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     self.drawerViewController.animator = self.drawerAnimator;
     
     self.drawerViewController.backgroundImage = [UIImage imageNamed:@"sky"];
-}
-
-#pragma mark - 二维码视图
-
-- (UIViewController *)scanViewController {
-    if (!_scanViewController) {
-        _scanViewController = [CourtesyQRScanViewController new];
-    }
-    return _scanViewController;
 }
 
 #pragma mark - 各个菜单视图

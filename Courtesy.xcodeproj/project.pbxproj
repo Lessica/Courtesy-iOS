@@ -941,7 +941,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = "礼记";
-				PROVISIONING_PROFILE = "2a812471-116e-4ad4-a717-d5b7d4ac2b3d";
+				PROVISIONING_PROFILE = "0cba3284-9c0c-4447-84f6-c2facec8e6e9";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -963,7 +963,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = "礼记";
-				PROVISIONING_PROFILE = "2a812471-116e-4ad4-a717-d5b7d4ac2b3d";
+				PROVISIONING_PROFILE = "0cba3284-9c0c-4447-84f6-c2facec8e6e9";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

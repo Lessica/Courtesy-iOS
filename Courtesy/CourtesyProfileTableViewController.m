@@ -207,6 +207,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 - (void)editProfileSucceed:(CourtesyAccountProfileModel *)sender {
     [JDStatusBarNotification showWithStatus:@"资料更新成功" dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleSuccess];
+    [NSNotificationCenter sendCTAction:kActionProfileEdited message:nil];
 }
 
 - (void)editProfileFailed:(CourtesyAccountProfileModel *)sender
@@ -223,7 +224,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
                                dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleSuccess];
     _avatarImageView.imageURL = kProfile.avatar_url;
-    [NSNotificationCenter sendCTAction:kActionAvatarUploaded message:nil];
+    [NSNotificationCenter sendCTAction:kActionProfileEdited message:nil];
 }
 
 - (void)uploadAvatarFailed:(CourtesyAccountProfileModel *)sender

@@ -171,7 +171,7 @@ static SystemSoundID shake_sound_male_id = 0;
 - (void)showSucceed:(NSString *)str {
     NSURL *url = [NSURL URLWithString:str];
     if (!url
-        || ![[url host] isEqualToString:API_DOMAIN]
+       /* || ![[url host] isEqualToString:API_DOMAIN] */
         || ![[url path] isEqualToString:API_QRCODE_PATH]) {
         if ([[UIApplication sharedApplication] canOpenURL:url]) {
             LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"跳转提示"
@@ -223,7 +223,13 @@ static SystemSoundID shake_sound_male_id = 0;
     [self.navigationController.view makeToast:@"扫描成功"
                                      duration:2.0
                                      position:CSToastPositionCenter];
-    [self performSelector:@selector(restartCapture) withObject:nil afterDelay:2.0];
+    // 返回上层并通知其弹出发布界面
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    if (!_delegate || ![_delegate respondsToSelector:@selector(scanWithResult:)]) {
+        CYLog(@"Delegate not found!");
+        return;
+    }
+    [_delegate scanWithResult:qrcode];
     return;
 }
 

@@ -6,6 +6,8 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-@interface CourtesyMyTabBarController : UITabBarController
+#import "CourtesyQRScanViewController.h"
+
+@interface CourtesyMyTabBarController : UITabBarController <CourtesyQRCodeScanDelegate>
 
 @end

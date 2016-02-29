@@ -15,6 +15,18 @@
 
 @implementation CourtesyMyTabBarController
 
+#pragma mark - CourtesyQRCodeScanDelegate
+
+- (void)scanWithResult:(CourtesyQRCodeModel *)qrcode {
+    if (!qrcode) {
+        return;
+    }
+    // 发布、修改或查看
+    if (qrcode.is_recorded == NO) {
+        // 发布新卡片界面
+    }
+}
+
 #pragma mark - 收藏夹收件箱导航栏按钮
 
 - (IBAction)actionToggleLeftDrawer:(id)sender {
@@ -22,7 +34,9 @@
 }
 
 - (IBAction)actionScanQRCode:(id)sender {
-    [[AppDelegate globalDelegate] toggleScanView:self animated:YES];
+    CourtesyQRScanViewController *vc = [CourtesyQRScanViewController new];
+    vc.delegate = self;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

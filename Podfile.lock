@@ -20,6 +20,7 @@ PODS:
     - Colours/ObjC (= 5.13.0)
   - Colours/ObjC (5.13.0)
   - FCFileManager (1.0.17)
+  - FDFullscreenPopGesture (1.1)
   - FMDB (2.6):
     - FMDB/standard (= 2.6)
   - FMDB/standard (2.6)
@@ -55,6 +56,7 @@ DEPENDENCIES:
   - CNCityPickerView
   - Colours
   - FCFileManager
+  - FDFullscreenPopGesture
   - FMDB
   - JDStatusBarNotification
   - JSONModel
@@ -88,6 +90,7 @@ SPEC CHECKSUMS:
   CNCityPickerView: c56aa7a5fa0918fd27946d2186234b6fd0ffa511
   Colours: f24220c38f13deac88612667e9b4a7fb96b871d4
   FCFileManager: 8bfc931ce2a6223676147e9baf0e8a65c691eca6
+  FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   FMDB: c1968bab3ab0aed38f66cb778ae1e7fa9a652b6e
   JDStatusBarNotification: 29413865af11c862c17180610b0f46a21118b412
   JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c

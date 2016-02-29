@@ -95,6 +95,8 @@
                 }
                 [self callbackQueryDelegateSucceed];
                 return;
+            } else if (errorCode == 404) {
+                @throw NSException(kCourtesyUnexceptedStatus, @"「礼记」二维码不存在");
             }
             @throw NSException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
         }
