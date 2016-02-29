@@ -63,11 +63,9 @@ enum {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self reloadCacheSizeLabelText:NO];
-    if (kLogin) {
-        [_logoutCell setHidden:NO];
-    } else {
-        [_logoutCell setHidden:YES];
-    }
+    [_logoutCell setHidden:!kLogin];
+    _autoPublicSwitch.on = [sharedSettings switchAutoPublic];
+    _autoSaveSwitch.on = [sharedSettings switchAutoSave];
 }
 
 #pragma mark - 响应通知事件
@@ -194,9 +192,9 @@ enum {
 
 - (IBAction)switchTriggered:(id)sender {
     if (sender == _autoSaveSwitch) {
-        
+        [sharedSettings setSwitchAutoSave:_autoSaveSwitch.on];
     } else if (sender == _autoPublicSwitch) {
-        
+        [sharedSettings setSwitchAutoPublic:_autoPublicSwitch.on];
     }
 }
 

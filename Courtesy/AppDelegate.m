@@ -62,7 +62,7 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 
 // 从后台唤醒
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    if (![kAccount isRequestingFetchAccountInfo] && ![sharedSettings fetchedCurrentAccount]) {
+    if ([sharedSettings hasLogin] && ![kAccount isRequestingFetchAccountInfo] && ![sharedSettings fetchedCurrentAccount]) {
         [sharedSettings fetchCurrentAccountInfo];
     }
 }

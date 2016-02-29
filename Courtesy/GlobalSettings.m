@@ -11,6 +11,8 @@
 
 #define kCourtesyDB @"kCourtesyDB"
 #define kCourtesyDBCurrentLoginAccount @"kCourtesyDBCurrentLoginAccount"
+#define kSwitchAutoSave @"switchAutoSave"
+#define kSwitchAutoPublic @"switchAutoPublic"
 
 @interface GlobalSettings () <CourtesyFetchAccountInfoDelegate>
 
@@ -24,8 +26,8 @@
 - (instancetype)init {
     if (self = [super init]) {
         // 初始化基本设置
-        _switchAutoSave = NO;
-        _switchAutoPublic = NO;
+        self.switchAutoPublic = NO;
+        self.switchAutoPublic = NO;
         _fetchedCurrentAccount = NO;
         // 初始化网络设置
         [JSONHTTPClient setDefaultTextEncoding:NSUTF8StringEncoding];
@@ -207,6 +209,24 @@
                                                                                  categories:[NSSet setWithObject:categorys]];
     
     return userSettings;
+}
+
+#pragma mark - 个性化设置相关
+
+- (BOOL)switchAutoPublic {
+    return [(NSNumber *)[appStorage objectForKey:kSwitchAutoPublic] isEqualToNumber:@0] ? NO : YES;
+}
+
+- (void)setSwitchAutoPublic:(BOOL)switchAutoPublic {
+    [appStorage setObject:(switchAutoPublic ? @1 : @0) forKey:kSwitchAutoPublic];
+}
+
+- (BOOL)switchAutoSave {
+    return [(NSNumber *)[appStorage objectForKey:kSwitchAutoSave] isEqualToNumber:@0] ? NO : YES;
+}
+
+- (void)setSwitchAutoSave:(BOOL)switchAutoSave {
+    [appStorage setObject:(switchAutoSave ? @1 : @0) forKey:kSwitchAutoSave];
 }
 
 @end

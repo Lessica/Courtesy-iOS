@@ -26,7 +26,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self setNavigationBarHidden:YES animated:NO];
 }
 
 - (BOOL)shouldAutorotate

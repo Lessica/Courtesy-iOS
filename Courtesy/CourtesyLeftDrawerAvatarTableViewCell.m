@@ -23,9 +23,6 @@
     // 绘制圆形头像
     self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.size.height / 2;
     self.avatarImageView.layer.masksToBounds = YES;
-    self.avatarImageView.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.avatarImageView.layer.shadowOffset = CGSizeMake(5.0, 5.0);
-    self.avatarImageView.layer.shadowOpacity = 0.8;
 }
 
 #pragma mark - Accessors

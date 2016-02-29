@@ -6,6 +6,7 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#import "JSONModel.h"
 #import "CourtesyAccountModel.h"
 
 @interface GlobalSettings : NSObject
@@ -14,10 +15,10 @@
 + (id)sharedInstance;
 
 @property (nonatomic, assign) BOOL hasLogin;
-@property (nonatomic, copy) NSString *sessionKey;
-@property (nonatomic, readonly) UIUserNotificationSettings *requestedNotifications;
+@property (nonatomic, copy) NSString<Ignore> *sessionKey;
+@property (nonatomic, readonly) UIUserNotificationSettings<Ignore> *requestedNotifications;
 @property (nonatomic, assign) BOOL hasNotificationPermission;
-@property (nonatomic, strong) CourtesyAccountModel* currentAccount;
+@property (nonatomic, strong) CourtesyAccountModel<Ignore> *currentAccount;
 @property (nonatomic, assign) BOOL fetchedCurrentAccount;
 
 @property (nonatomic, assign) BOOL switchAutoSave;

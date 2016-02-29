@@ -76,11 +76,11 @@ enum {
     _avatarDetailLabel.text = kAccount.email;
     _nickDetailLabel.text = kProfile.nick;
     if (kProfile.gender == 0) {
-        _genderDetailLabel.text = @"Boy";
+        _genderDetailLabel.text = @"男生";
     } else if (kProfile.gender == 1) {
-        _genderDetailLabel.text = @"Girl";
+        _genderDetailLabel.text = @"女生";
     } else if (kProfile.gender == 2) {
-        _genderDetailLabel.text = @"Androgynous";
+        _genderDetailLabel.text = @"保密";
     }
     _birthdayDetailLabel.text = kProfile.birthday;
     _mobileDetailLabel.text = kProfile.mobile;
