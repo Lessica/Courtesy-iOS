@@ -55,8 +55,16 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
     [UMessage registerDeviceToken:deviceToken];
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {}
+// 快捷方式
+- (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
+    if ([shortcutItem.type isEqualToString:@"Scan"]) {
+#warning TODO
+    } else if ([shortcutItem.type isEqualToString:@"Compose"]) {
+        
+    }
+}
 
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {}
 - (void)applicationWillResignActive:(UIApplication *)application {}
 - (void)applicationDidEnterBackground:(UIApplication *)application {}
 

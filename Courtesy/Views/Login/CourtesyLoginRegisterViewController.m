@@ -147,6 +147,7 @@
                       [self close];
                   }];
     }
+    [self.view setUserInteractionEnabled:NO];
     // 设置登录成功状态
     [kAccount setEmail:[sender email]];
     [sharedSettings setHasLogin:YES];

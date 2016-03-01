@@ -139,17 +139,17 @@ enum {
             if (indexPath.row == 0) {
                 [[UIPasteboard generalPasteboard] setString:_emailDetailLabel.text];
                 [self.navigationController.view makeToast:@"注册邮箱已被复制到剪贴板"
-                                                 duration:2.0
+                                                 duration:kStatusBarNotificationTime
                                                  position:CSToastPositionCenter];
             } else if (indexPath.row == 1) {
                 [[UIPasteboard generalPasteboard] setString:_registeredAtDetailLabel.text];
                 [self.navigationController.view makeToast:@"注册时间已被复制到剪贴板"
-                                                 duration:2.0
+                                                 duration:kStatusBarNotificationTime
                                                  position:CSToastPositionCenter];
             } else if (indexPath.row == 2) {
                 [[UIPasteboard generalPasteboard] setString:_lastLoginAtDetailLabel.text];
                 [self.navigationController.view makeToast:@"最后登录已被复制到剪贴板"
-                                                 duration:2.0
+                                                 duration:kStatusBarNotificationTime
                                                  position:CSToastPositionCenter];
             }
         }

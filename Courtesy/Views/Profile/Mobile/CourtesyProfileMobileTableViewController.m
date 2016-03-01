@@ -26,7 +26,7 @@
     [self.view endEditing:YES];
     if (![_mobileField.text isMaxLength:128]) {
         [self.navigationController.view makeToast:@"哪里有这么长的手机号……"
-                                         duration:2.0
+                                         duration:kStatusBarNotificationTime
                                          position:CSToastPositionBottom
                                             style:nil];
     }

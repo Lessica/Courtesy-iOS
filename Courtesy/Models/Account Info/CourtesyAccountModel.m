@@ -26,7 +26,7 @@
 }
 
 - (instancetype)initWithDelegate:(id)delegate {
-    if ([self init]) {
+    if (self = [self init]) {
         _delegate = delegate;
     }
     return self;

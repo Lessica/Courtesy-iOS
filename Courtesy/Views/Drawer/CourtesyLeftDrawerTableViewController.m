@@ -12,6 +12,7 @@
 #import "CourtesyLeftDrawerAvatarTableViewCell.h"
 #import "CourtesyPortraitViewController.h"
 #import "CourtesyLoginRegisterViewController.h"
+#import "CourtesyCardComposeViewController.h"
 #import "JVFloatingDrawerViewController.h"
 
 enum {
@@ -24,12 +25,13 @@ enum {
 };
 
 enum {
-    kCourtesyGalleryIndex     = 0,
-    kCourtesyMainIndex        = 1,
-    kCourtesyStarIndex        = 2,
-    kCourtesySettingsIndex    = 3,
-    kJVDrawerSettingsIndex    = 4,
-    kJVGitHubProjectPageIndex = 5
+    kCourtesyScanIndex        = 0,
+    kCourtesyGalleryIndex     = 1,
+    kCourtesyMainIndex        = 2,
+    kCourtesyStarIndex        = 3,
+    kCourtesySettingsIndex    = 4,
+    kJVDrawerSettingsIndex    = 5,
+    kJVGitHubProjectPageIndex = 6
 };
 
 static const CGFloat kJVTableViewTopInset = 80.0;
@@ -138,7 +140,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     if (section == kAvatarSection) {
         return 1;
     }
-    return 6;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -163,6 +165,9 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         } else if (indexPath.row == kCourtesyStarIndex) {
             cell.titleText = @"收藏夹";
             cell.iconImage = [UIImage imageNamed:@"19-star"];
+        } else if (indexPath.row == kCourtesyScanIndex) {
+            cell.titleText = @"扫一扫";
+            cell.iconImage = [UIImage imageNamed:@"38-scan"];
         }
         
         return cell;
@@ -190,6 +195,11 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
             destinationViewController = [[AppDelegate globalDelegate] githubViewController];
         } else if (indexPath.row == kCourtesyStarIndex) {
             destinationViewController = [[AppDelegate globalDelegate] starViewController];
+        } else if (indexPath.row == kCourtesyScanIndex) {
+            CourtesyQRScanViewController *vc = [CourtesyQRScanViewController new];
+            vc.delegate = self;
+            CourtesyPortraitViewController *navc = [[CourtesyPortraitViewController alloc] initWithRootViewController:vc];
+            destinationViewController = navc;
         }
         
         if (!destinationViewController) {
@@ -215,6 +225,22 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         }
         [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:destinationViewController];
         [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
+    }
+}
+
+#pragma mark - CourtesyQRCodeScanDelegate
+
+- (void)scanWithResult:(CourtesyQRCodeModel *)qrcode {
+    if (!qrcode) {
+        return;
+    }
+    // 发布、修改或查看
+    if (qrcode.is_recorded == NO) {
+        // 发布新卡片界面
+        CourtesyCardComposeViewController *vc = [CourtesyCardComposeViewController new];
+        // 从扫码界面进入，设置初始模型
+        vc.qrcode = qrcode;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 

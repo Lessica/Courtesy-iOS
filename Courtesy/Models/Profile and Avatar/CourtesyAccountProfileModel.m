@@ -20,15 +20,9 @@
     BOOL isRequestingUploadAvatar;
 }
 
-- (instancetype)init {
+- (instancetype)initWithDelegate:(id)delegate {
     if (self = [super init]) {
         isRequestingEditProfile = NO;
-    }
-    return self;
-}
-
-- (instancetype)initWithDelegate:(id)delegate {
-    if ([self init]) {
         _delegate = delegate;
     }
     return self;

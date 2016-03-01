@@ -18,7 +18,7 @@
 }
 
 - (instancetype)initWithDelegate:(id)delegate uid:(NSString *)unique_id {
-    if ([self init]) {
+    if (self = [super init]) {
         _delegate = delegate;
         _unique_id = unique_id;
     }

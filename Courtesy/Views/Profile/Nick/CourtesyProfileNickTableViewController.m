@@ -27,7 +27,7 @@
     [self.view endEditing:YES];
     if (![_nickField.text isMinLength:4 andMaxLength:21]) {
         [self.navigationController.view makeToast:@"昵称至少 4 个字符，至多 21 个字符"
-                                         duration:2.0
+                                         duration:kStatusBarNotificationTime
                                          position:CSToastPositionCenter
                                             style:nil];
         return;

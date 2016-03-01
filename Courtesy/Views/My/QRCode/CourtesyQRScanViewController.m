@@ -50,6 +50,18 @@ static SystemSoundID shake_sound_male_id = 0;
     self.view.backgroundColor = [UIColor blackColor];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesEnded:touches withEvent:event];
+    [self.navigationController.view makeToast:@"向右划动以返回"
+                                     duration:kStatusBarNotificationTime
+                                     position:CSToastPositionCenter];
+}
+
 #pragma mark - 处理相机旋转事件
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -100,16 +112,16 @@ static SystemSoundID shake_sound_male_id = 0;
 
 - (void)drawTitle {
     if (!_topTitle) {
-        self.topTitle = [[UILabel alloc] init];
-        _topTitle.bounds = CGRectMake(0, 0, 145, 60);
-        _topTitle.center = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, 50);
+        _topTitle = [[UILabel alloc] init];
+        _topTitle.bounds = CGRectMake(0, 0, 210, 120);
+        _topTitle.center = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, 100);
         if ([UIScreen mainScreen].bounds.size.height <= 568) {
-            _topTitle.center = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, 38);
+            _topTitle.center = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, 76);
             _topTitle.font = [UIFont systemFontOfSize:14];
         }
         _topTitle.textAlignment = NSTextAlignmentCenter;
-        _topTitle.numberOfLines = 0;
-        _topTitle.text = @"将取景框对准二维码即可自动扫描";
+        _topTitle.numberOfLines = 2;
+        _topTitle.text = @"将取景框对准二维码\n即可自动扫描";
         _topTitle.textColor = [UIColor whiteColor];
         [self.view addSubview:_topTitle];
     }
@@ -192,7 +204,7 @@ static SystemSoundID shake_sound_male_id = 0;
         } else {
             [[UIPasteboard generalPasteboard] setString:str];
             [self.navigationController.view makeToast:@"二维码数据已储存到剪贴板"
-                                             duration:2.0
+                                             duration:kStatusBarNotificationTime
                                              position:CSToastPositionCenter];
         }
         [self performSelector:@selector(restartCapture) withObject:nil afterDelay:2.0];
@@ -204,7 +216,7 @@ static SystemSoundID shake_sound_male_id = 0;
     NSString *qrcode_id = [queryItems valueForQueryKey:@"id"];
     if (!qrcode_id || [qrcode_id isEmpty] || [qrcode_id length] != 32) {
         [self.navigationController.view makeToast:@"「礼记」二维码标识符不正确"
-                                         duration:2.0
+                                         duration:kStatusBarNotificationTime
                                          position:CSToastPositionCenter];
         [self performSelector:@selector(restartCapture) withObject:nil afterDelay:2.0];
         return;
@@ -221,7 +233,7 @@ static SystemSoundID shake_sound_male_id = 0;
 - (void)queryQRCodeSucceed:(CourtesyQRCodeModel *)qrcode {
     [self.navigationController.view hideToastActivity];
     [self.navigationController.view makeToast:@"扫描成功"
-                                     duration:2.0
+                                     duration:kStatusBarNotificationTime
                                      position:CSToastPositionCenter];
     // 返回上层并通知其弹出发布界面
     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -238,7 +250,7 @@ static SystemSoundID shake_sound_male_id = 0;
              errorMessage:(NSString *)message {
     [self.navigationController.view hideToastActivity];
     [self.navigationController.view makeToast:message
-                                     duration:2.0
+                                     duration:kStatusBarNotificationTime
                                      position:CSToastPositionCenter];
     [self performSelector:@selector(restartCapture) withObject:nil afterDelay:2.0];
     return;

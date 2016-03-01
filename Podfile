@@ -23,5 +23,7 @@ target 'Courtesy', :exclusive => true do
     pod 'FDFullscreenPopGesture'
     pod 'oc-timestamp', :git => 'https://github.com/lbj96347/oc-timestamp.git'
     pod 'SwipeView'
+    pod 'AFSoundManager'
+    pod 'Bohr'
     pod 'QBImagePickerController'
 end

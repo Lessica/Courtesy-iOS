@@ -6,6 +6,8 @@
 //  Copyright (c) 2016 82Flex. All rights reserved.
 //
 
-@interface CourtesyLeftDrawerTableViewController : UITableViewController
+#import "CourtesyQRScanViewController.h"
+
+@interface CourtesyLeftDrawerTableViewController : UITableViewController <CourtesyQRCodeScanDelegate>
 
 @end

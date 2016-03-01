@@ -7,11 +7,16 @@
 		<key>Courtesy App.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0F439DF71C8463A00002CA99</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>2CE7E65C1A62D8470072121A</key>
 		<dict>
 			<key>primary</key>

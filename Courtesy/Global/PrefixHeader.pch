@@ -85,7 +85,7 @@
 // 基础头文件
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <YYKit/YYKit.h>
+#import "YYKit.h"
 
 // 共享头文件
 #import "GlobalSettings.h"
@@ -105,5 +105,6 @@
 #import "NSString+CJStringValidator.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import "JDStatusBarNotification.h"
+#import <Bohr/Bohr.h>
 
 #endif /* PrefixHeader_pch */
