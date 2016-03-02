@@ -58,9 +58,9 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 // 快捷方式
 - (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
     if ([shortcutItem.type isEqualToString:@"Scan"]) {
-#warning TODO
+        [(CourtesyLeftDrawerTableViewController *)_leftDrawerViewController shortcutScan];
     } else if ([shortcutItem.type isEqualToString:@"Compose"]) {
-        
+        [(CourtesyLeftDrawerTableViewController *)_leftDrawerViewController shortcutCompose];
     }
 }
 

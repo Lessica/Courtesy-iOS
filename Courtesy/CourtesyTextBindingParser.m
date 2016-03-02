@@ -17,13 +17,14 @@
 @implementation CourtesyTextBindingParser
 
 - (instancetype)init {
-    self = [super init];
-    NSString *pattern_email = @"[a-zA-Z0-9.\\-_]{2,32}@[a-zA-Z0-9.\\-_]{2,32}\\.[A-Za-z]{2,4}\\s+";
-    NSString *pattern_url = @"((http|ftp|https)://)(([a-zA-Z0-9\\._-]+\\.[a-zA-Z]{2,6})|([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\\&%_\\./-~-]*)?\\s+";
-    NSString *pattern_at = @"[^a-zA-Z0-9.\\-_]+@[a-zA-Z0-9.\\-_]{2,32}\\s+";
-    self.regex_email = [[NSRegularExpression alloc] initWithPattern:pattern_email options:kNilOptions error:nil];
-    self.regex_url = [[NSRegularExpression alloc] initWithPattern:pattern_url options:kNilOptions error:nil];
-    self.regex_at = [[NSRegularExpression alloc] initWithPattern:pattern_at options:kNilOptions error:nil];
+    if (self = [super init]) {
+        NSString *pattern_email = @"[a-zA-Z0-9.\\-_]{2,32}@[a-zA-Z0-9.\\-_]{2,32}\\.[A-Za-z]{2,4}\\s+";
+        NSString *pattern_url = @"((http|ftp|https)://)(([a-zA-Z0-9\\._-]+\\.[a-zA-Z]{2,6})|([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\\&%_\\./-~-]*)?\\s+";
+        NSString *pattern_at = @"[^a-zA-Z0-9.\\-_]+@[a-zA-Z0-9.\\-_]{2,32}\\s+";
+        self.regex_email = [[NSRegularExpression alloc] initWithPattern:pattern_email options:kNilOptions error:nil];
+        self.regex_url = [[NSRegularExpression alloc] initWithPattern:pattern_url options:kNilOptions error:nil];
+        self.regex_at = [[NSRegularExpression alloc] initWithPattern:pattern_at options:kNilOptions error:nil];
+    }
     return self;
 }
 

@@ -9,5 +9,6 @@
 #import "CourtesyQRScanViewController.h"
 
 @interface CourtesyLeftDrawerTableViewController : UITableViewController <CourtesyQRCodeScanDelegate>
-
+- (void)shortcutScan;
+- (void)shortcutCompose;
 @end

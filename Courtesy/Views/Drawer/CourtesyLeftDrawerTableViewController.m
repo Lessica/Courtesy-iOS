@@ -44,7 +44,9 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
 
 @end
 
-@implementation CourtesyLeftDrawerTableViewController
+@implementation CourtesyLeftDrawerTableViewController {
+    CourtesyPortraitViewController *qrscanView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -196,10 +198,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         } else if (indexPath.row == kCourtesyStarIndex) {
             destinationViewController = [[AppDelegate globalDelegate] starViewController];
         } else if (indexPath.row == kCourtesyScanIndex) {
-            CourtesyQRScanViewController *vc = [CourtesyQRScanViewController new];
-            vc.delegate = self;
-            CourtesyPortraitViewController *navc = [[CourtesyPortraitViewController alloc] initWithRootViewController:vc];
-            destinationViewController = navc;
+            destinationViewController = [self scanPortraitView];
         }
         
         if (!destinationViewController) {
@@ -248,6 +247,29 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         vc.qrcode = qrcode;
         [self presentViewController:vc animated:YES completion:nil];
     }
+}
+
+#pragma mark - Views
+
+- (CourtesyPortraitViewController *)scanPortraitView {
+    if (!qrscanView) {
+        CourtesyQRScanViewController *vc = [CourtesyQRScanViewController new];
+        vc.delegate = self;
+        qrscanView = [[CourtesyPortraitViewController alloc] initWithRootViewController:vc];
+    }
+    return qrscanView;
+}
+
+#pragma mark - ShortCuts
+
+- (void)shortcutScan {
+    [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:NO];
+    [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:[self scanPortraitView]];
+    [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:NO];
+}
+
+- (void)shortcutCompose {
+    // Not implemented yet. 
 }
 
 @end

@@ -34,7 +34,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = NO;
     //self.modalPresentationCapturesStatusBarAppearance = NO;
-    self.edgesForExtendedLayout = UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
+    self.edgesForExtendedLayout =  UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
     //__weak typeof(self) _self = self;
     
     /* Init of Navigation Bar Items (if there is a navigation bar actually) */
