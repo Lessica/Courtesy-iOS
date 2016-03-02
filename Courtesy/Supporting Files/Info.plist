@@ -114,6 +114,21 @@
 				<string>firstShortcutKeyValue2</string>
 			</dict>
 		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>Share</string>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeShare</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>分享我的卡片</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>与小伙伴们分享你的喜悦</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>firstShorcutKey3</key>
+				<string>firstShortcutKeyValue3</string>
+			</dict>
+		</dict>
 	</array>
 </dict>
 </plist>

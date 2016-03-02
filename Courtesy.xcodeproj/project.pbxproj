@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0F03A42E1C85317000C32FC8 /* CourtesyCardComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F03A42D1C85317000C32FC8 /* CourtesyCardComposeViewController.m */; };
+		0F1167671C8748F10078AD37 /* UIImagePickerController+LandScapeImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1167661C8748F10078AD37 /* UIImagePickerController+LandScapeImagePicker.m */; };
 		0F90DC171C844A5B00607277 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90DC131C844A5B00607277 /* AppDelegate.m */; };
 		0F90DC181C844A5B00607277 /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90DC151C844A5B00607277 /* GlobalSettings.m */; };
 		0F90DC1B1C844A9D00607277 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F90DC191C844A9D00607277 /* Images.xcassets */; };
@@ -72,6 +73,8 @@
 		05940789181F806AF4D4F3D2 /* Pods-Courtesy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Courtesy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Courtesy/Pods-Courtesy.release.xcconfig"; sourceTree = "<group>"; };
 		0F03A42C1C85317000C32FC8 /* CourtesyCardComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyCardComposeViewController.h; path = Views/Card/CourtesyCardComposeViewController.h; sourceTree = "<group>"; };
 		0F03A42D1C85317000C32FC8 /* CourtesyCardComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyCardComposeViewController.m; path = Views/Card/CourtesyCardComposeViewController.m; sourceTree = "<group>"; };
+		0F1167651C8748F10078AD37 /* UIImagePickerController+LandScapeImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImagePickerController+LandScapeImagePicker.h"; sourceTree = "<group>"; };
+		0F1167661C8748F10078AD37 /* UIImagePickerController+LandScapeImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImagePickerController+LandScapeImagePicker.m"; sourceTree = "<group>"; };
 		0F90DC121C844A5B00607277 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Global/AppDelegate.h; sourceTree = "<group>"; };
 		0F90DC131C844A5B00607277 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Global/AppDelegate.m; sourceTree = "<group>"; };
 		0F90DC141C844A5B00607277 /* GlobalSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlobalSettings.h; path = Global/GlobalSettings.h; sourceTree = "<group>"; };
@@ -279,6 +282,8 @@
 				0F90DC331C844B9800607277 /* NSNotificationCenter+Action.m */,
 				0F90DC341C844B9800607277 /* UIView+FrameMethods.h */,
 				0F90DC351C844B9800607277 /* UIView+FrameMethods.m */,
+				0F1167651C8748F10078AD37 /* UIImagePickerController+LandScapeImagePicker.h */,
+				0F1167661C8748F10078AD37 /* UIImagePickerController+LandScapeImagePicker.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -795,6 +800,7 @@
 				0F90DCB31C844FB700607277 /* CourtesyGithubWebViewController.m in Sources */,
 				0F90DC691C844E2C00607277 /* CourtesyProfileGenderTableViewController.m in Sources */,
 				0F90DC741C844E4600607277 /* CourtesyLeftDrawerMenuTableViewCell.m in Sources */,
+				0F1167671C8748F10078AD37 /* UIImagePickerController+LandScapeImagePicker.m in Sources */,
 				0F93CAF21C85F73300249BD8 /* CourtesyQRScanViewController.m in Sources */,
 				0F90DC681C844E2C00607277 /* CourtesyProfileCityTableViewController.m in Sources */,
 				0F90DC731C844E4600607277 /* CourtesyLeftDrawerAvatarTableViewCell.m in Sources */,

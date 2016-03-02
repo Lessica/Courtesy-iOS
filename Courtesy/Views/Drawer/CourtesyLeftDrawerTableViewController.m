@@ -236,9 +236,9 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     // 发布、修改或查看
     if (qrcode.is_recorded == NO) {
         if (![sharedSettings hasLogin]) { // 未登录
-            [self.navigationController.view makeToast:@"登录后才能发布新卡片"
-                                             duration:2.0
-                                             position:CSToastPositionCenter];
+            [self.view makeToast:@"登录后才能发布新卡片"
+                        duration:2.0
+                        position:CSToastPositionCenter];
             return;
         }
         // 发布新卡片界面
@@ -262,14 +262,35 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
 
 #pragma mark - ShortCuts
 
-- (void)shortcutScan {
+- (BOOL)shortcutScan {
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:NO];
     [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:[self scanPortraitView]];
+    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCourtesyScanIndex inSection:kMenuSection] animated:NO scrollPosition:UITableViewScrollPositionNone];
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:NO];
+    return YES;
 }
 
-- (void)shortcutCompose {
-    // Not implemented yet. 
+- (BOOL)shortcutCompose {
+    if (![sharedSettings fetchedCurrentAccount]) {
+        return NO;
+    } else if (![sharedSettings hasLogin]) {
+        [self.view makeToast:@"登录后才能发布新卡片"
+                    duration:2.0
+                    position:CSToastPositionCenter];
+        return NO;
+    }
+    CourtesyCardComposeViewController *vc = [CourtesyCardComposeViewController new];
+    [self presentViewController:vc animated:YES completion:nil];
+    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCourtesyMainIndex inSection:kMenuSection] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    return YES;
+}
+
+- (BOOL)shortcutShare {
+    [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:NO];
+    [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:[[AppDelegate globalDelegate] myViewController]];
+    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCourtesyMainIndex inSection:kMenuSection] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:NO];
+    return YES;
 }
 
 @end

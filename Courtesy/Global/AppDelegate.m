@@ -33,21 +33,27 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 #pragma mark - 继承应用状态响应方法
 
 #pragma mark - 注册友盟SDK及推送消息
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (void)globalInit {
     // 初始化全局设置
     sharedSettings;
-    // 友盟推送
-    [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
-    [UMessage registerRemoteNotificationAndUserNotificationSettings:[sharedSettings requestedNotifications]];
-    // 友盟社会化分享
-    [UMSocialData setAppKey:UMENG_APP_KEY];
-    
     // 初始化界面
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.drawerViewController;
     self.window.tintColor = [UIColor magicColor];
     [self configureDrawerViewController];
     [self.window makeKeyAndVisible];
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // 友盟推送
+    [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
+    [UMessage registerRemoteNotificationAndUserNotificationSettings:[sharedSettings requestedNotifications]];
+    // 友盟社会化分享
+    [UMSocialData setAppKey:UMENG_APP_KEY];
+    [self globalInit];
+    if ([launchOptions hasKey:UIApplicationLaunchOptionsShortcutItemKey]) {
+        // Some thing that should not respond to immediately...
+    }
     return YES;
 }
 
@@ -56,17 +62,26 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 }
 
 // 快捷方式
+// Thanks: http://www.jianshu.com/p/74fe6cbc542b
 - (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
-    if ([shortcutItem.type isEqualToString:@"Scan"]) {
-        [(CourtesyLeftDrawerTableViewController *)_leftDrawerViewController shortcutScan];
-    } else if ([shortcutItem.type isEqualToString:@"Compose"]) {
-        [(CourtesyLeftDrawerTableViewController *)_leftDrawerViewController shortcutCompose];
+    if (shortcutItem) {
+        SEL selector;
+        if ([shortcutItem.type isEqualToString:@"Scan"]) {
+            selector = @selector(shortcutScan);
+        } else if ([shortcutItem.type isEqualToString:@"Compose"]) {
+            selector = @selector(shortcutCompose);
+        } else if ([shortcutItem.type isEqualToString:@"Share"]) {
+            selector = @selector(shortcutShare);
+        }
+        [(CourtesyLeftDrawerTableViewController *)_leftDrawerViewController performSelector:selector withObject:nil afterDelay:1.0];
+        if (completionHandler) {
+            completionHandler(YES);
+        }
+        return;
+    } else if (completionHandler) {
+        completionHandler(NO);
     }
 }
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {}
-- (void)applicationWillResignActive:(UIApplication *)application {}
-- (void)applicationDidEnterBackground:(UIApplication *)application {}
 
 // 从后台唤醒
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -78,6 +93,9 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
 // Bug: http://stackoverflow.com/questions/32344082/error-handlenonlaunchspecificactions-in-ios9
 - (void)applicationDidBecomeActive:(UIApplication *)application {}
 - (void)applicationWillTerminate:(UIApplication *)application {}
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {}
+- (void)applicationWillResignActive:(UIApplication *)application {}
+- (void)applicationDidEnterBackground:(UIApplication *)application {}
 
 #pragma mark - 注册框架故事板
 

@@ -32,7 +32,14 @@
 }
 
 - (void)detailLabelClicked:(UITapGestureRecognizer *)sender {
+#if DEBUG
+    // This could also live in a handler for a keyboard shortcut, debug menu item, etc.
+    [self.navigationController.view makeToast:@"Debug Enabled"
+                                     duration:kStatusBarNotificationTime position:CSToastPositionCenter];
+    [[FLEXManager sharedManager] showExplorer];
+#else
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://82flex.com"]];
+#endif
 }
 
 - (IBAction)shareButtonClicked:(id)sender {

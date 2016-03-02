@@ -9,9 +9,12 @@
 #import "CourtesyTextBindingParser.h"
 #import "CourtesyCardComposeViewController.h"
 
-@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver>
+@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic, assign) YYTextView *textView;
+@property (nonatomic, strong) CourtesyTextBindingParser *bindingParser;
 @property (nonatomic, strong) UIView *fakeBar;
+@property (nonatomic, strong) UIFont *font;
+@property (nonatomic, strong) NSDictionary *originalAttributes;
 
 @end
 
@@ -100,13 +103,16 @@
     
     /* Initial text */
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:@"说点什么吧……"];
-    text.font = [UIFont fontWithName:@"Times New Roman" size:16];
+    _font = [UIFont fontWithName:@"Times New Roman" size:16];
+    text.font = _font;
     text.lineSpacing = 8;
     text.lineBreakMode = NSLineBreakByWordWrapping;
+    _originalAttributes = text.attributes;
     
     /* Init of text view */
     YYTextView *textView = [YYTextView new];
     textView.delegate = self;
+    textView.typingAttributes = _originalAttributes;
     textView.backgroundColor = [UIColor clearColor];
     textView.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -316,7 +322,29 @@
         [textView becomeFirstResponder];
     });
     
+    /* Init of Text Binding Parser */
+    _bindingParser = [CourtesyTextBindingParser new];
+    
+    [_textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
     [[YYTextKeyboardManager defaultManager] addObserver:self];
+}
+
+// 监听输入属性的改变，禁止继承前文属性 (Fuck)
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSString *,id> *)change
+                       context:(void *)context
+{
+    if ([keyPath isEqualToString:@"typingAttributes"]) {
+        _textView.typingAttributes = _originalAttributes;
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (void)dealloc {
+    [_textView removeObserver:self forKeyPath:@"typingAttributes"];
+    [[YYTextKeyboardManager defaultManager] removeObserver:self];
 }
 
 #pragma mark - Rotate
@@ -378,14 +406,6 @@
 
 #pragma mark - YYTextViewDelegate
 
-- (void)textViewDidBeginEditing:(YYTextView *)textView {
-    
-}
-
-- (void)textViewDidEndEditing:(YYTextView *)textView {
-    
-}
-
 - (void)textViewDidChange:(YYTextView *)textView {
     if (textView.text.length == 0) {
         textView.textColor = [UIColor darkGrayColor];
@@ -395,8 +415,11 @@
 #pragma mark - Toolbar Actions
 
 - (void)setRangeBold:(UIBarButtonItem *)sender {
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
     NSRange range = _textView.selectedRange;
+    if (range.length <= 0) {
+        return;
+    }
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
     NSAttributedString *sub = [string attributedSubstringFromRange:range];
     UIFont *font = [sub font];
     if (![font isBold]) {
@@ -410,8 +433,11 @@
 }
 
 - (void)setRangeItalic:(UIBarButtonItem *)sender {
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
     NSRange range = _textView.selectedRange;
+    if (range.length <= 0) {
+        return;
+    }
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
     NSAttributedString *sub = [string attributedSubstringFromRange:range];
     UIFont *font = [sub font];
     if (![font isItalic]) {
@@ -425,11 +451,41 @@
 }
 
 - (void)addUrl:(UIBarButtonItem *)sender {
-    
+    NSRange range = _textView.selectedRange;
+    if (range.length <= 0) {
+        return;
+    }
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
+    [_bindingParser parseText:string selectedRange:&range];
+    _textView.attributedText = string;
+    [_textView setSelectedRange:range];
+    [_textView scrollRangeToVisible:range];
 }
 
 - (void)addNewFrame:(UIBarButtonItem *)sender {
-    
+    if (_textView.isFirstResponder) {
+        [_textView resignFirstResponder];
+    }
+    LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入图像" message:@"请选择一种方式" style:LGAlertViewStyleActionSheet buttonTitles:@[@"相机", @"本地相册"] cancelButtonTitle:@"取消" destructiveButtonTitle:nil actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+        if (index == 0) {
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            picker.delegate = self;
+            picker.allowsEditing = NO;
+            [self presentViewController:picker animated:YES completion:nil];
+        } else {
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            picker.delegate = self;
+            picker.allowsEditing = NO;
+            [self presentViewController:picker animated:YES completion:nil];
+        }
+    } cancelHandler:^(LGAlertView *alertView) {
+        if (!_textView.isFirstResponder) {
+            [_textView becomeFirstResponder];
+        }
+    } destructiveHandler:nil];
+    [alert showAnimated:YES completionHandler:nil];
 }
 
 - (void)addNewVoice:(UIBarButtonItem *)sender {
@@ -438,6 +494,80 @@
 
 - (void)addNewVideo:(UIBarButtonItem *)sender {
     
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:^() {
+        if (!_textView.isFirstResponder) {
+            [_textView becomeFirstResponder];
+        }
+    }];
+}
+
+- (void)imagePickerController:(UIImagePickerController*)picker
+didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    __block UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
+    if (!image) {
+        image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
+    
+    [self addNewImageFrame:image];
+}
+
+#pragma mark - Image Frame Builder
+
+- (void)addNewImageFrame:(UIImage *)image {
+    // Calculate Image Scaled Height
+    CGFloat maxWidth = _textView.contentSize.width - 60;
+    CGFloat scaleValue = 0;
+    CGFloat height = 0;
+    
+    // Init of Image View
+    UIImageView *imageView = nil;
+    if (image.size.width > maxWidth) {
+        scaleValue = maxWidth / image.size.width;
+        height = image.size.height * scaleValue;
+        imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, height)];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+    } else {
+        height = image.size.height;
+        imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, height)];
+        imageView.contentMode = UIViewContentModeCenter;
+    }
+    imageView.clipsToBounds = YES;
+    imageView.userInteractionEnabled = YES;
+    imageView.image = image;
+    
+    
+    // Init of Frame View
+    UIView *frameView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - 48, imageView.height + 12)];
+    frameView.backgroundColor = [UIColor whiteColor];
+    frameView.layer.shadowColor = [UIColor blackColor].CGColor;
+    frameView.layer.shadowOffset = CGSizeMake(2, 2);
+    frameView.layer.shadowOpacity = 0.65;
+    frameView.layer.shadowRadius = 2;
+    
+    // Add Image View to Frame View
+    [frameView addSubview:imageView];
+    imageView.center = frameView.center;
+    
+    // Add Frame View to Text View
+    NSRange range = _textView.selectedRange;
+    NSMutableAttributedString *attachText = [NSMutableAttributedString attachmentStringWithContent:frameView
+                                                                                       contentMode:UIViewContentModeScaleAspectFit
+                                                                                             width:frameView.size.width
+                                                                                            ascent:0
+                                                                                           descent:frameView.size.height];
+    
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:_textView.attributedText];
+    [text insertAttributedString:attachText atIndex:range.location];
+    
+    _textView.attributedText = text;
+    [_textView scrollRangeToVisible:range];
 }
 
 #pragma mark - YYTextKeyboardObserver
