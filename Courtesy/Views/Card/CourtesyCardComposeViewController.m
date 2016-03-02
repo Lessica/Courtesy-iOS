@@ -11,6 +11,7 @@
 
 @interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver>
 @property (nonatomic, assign) YYTextView *textView;
+@property (nonatomic, strong) UIView *fakeBar;
 
 @end
 
@@ -32,10 +33,11 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture"]];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = NO;
+    //self.modalPresentationCapturesStatusBarAppearance = NO;
     self.edgesForExtendedLayout = UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
     //__weak typeof(self) _self = self;
     
-    /* Init of Navigation Bar Items */
+    /* Init of Navigation Bar Items (if there is a navigation bar actually) */
     UIBarButtonItem *item = [UIBarButtonItem new];
     item.image = [UIImage imageNamed:@"30-send"];
     item.target = self;
@@ -44,7 +46,9 @@
     
     /* Init of toolbar */
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 40)];
-    toolbar.alpha = 0.85;
+    toolbar.barStyle = UIBarStyleBlackTranslucent;
+    toolbar.barTintColor = [UIColor whiteColor];
+    toolbar.backgroundColor = [UIColor clearColor];
     
     /* Elements of tool bar items */
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -60,7 +64,7 @@
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"34-music"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVoice:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideo:)]];
-    [toolbar setTintColor:[UIColor blueberryColor]];
+    [toolbar setTintColor:[UIColor grayColor]];
     [toolbar setItems:myToolBarItems animated:YES];
     
 //    toolbar.translatesAutoresizingMaskIntoConstraints = NO;
@@ -113,7 +117,11 @@
     
     /* Margin */
     textView.textContainerInset = UIEdgeInsetsMake(24, 24, 24, 24);
-    textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+        textView.contentInset = UIEdgeInsetsMake(48, 0, 0, 0);
+    } else {
+        textView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    }
     textView.scrollIndicatorInsets = textView.contentInset;
     textView.selectedRange = NSMakeRange(text.length, 0);
     
@@ -145,6 +153,10 @@
     /* Text binding */
     /* [textView setTextParser:[CourtesyTextBindingParser new]]; */
     
+    /* Indicator (Tint Color) */
+    textView.tintColor = [UIColor darkGrayColor];
+    
+    /* Layout of Text View */
     self.textView = textView;
     [self.view addSubview:textView];
     
@@ -177,11 +189,155 @@
                                                           attribute:NSLayoutAttributeLeading
                                                          multiplier:1
                                                            constant:0]];
+    
+    /* Init of Fake Status Bar */
+    CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
+    _fakeBar = [[UIView alloc] initWithFrame:frame];
+    _fakeBar.alpha = 0.65;
+    _fakeBar.backgroundColor = [UIColor blackColor];
+    _fakeBar.hidden = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
+    
+    /* Tap Gesture of Fake Status Bar */
+    UITapGestureRecognizer *tapFakeBar = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
+        if (_textView) {
+            [_textView scrollToTopAnimated:YES];
+        }
+    }];
+    tapFakeBar.numberOfTouchesRequired = 1;
+    tapFakeBar.numberOfTapsRequired = 1;
+    [_fakeBar addGestureRecognizer:tapFakeBar];
+    [_fakeBar setUserInteractionEnabled:YES];
+    
+    /* Layouts of Fake Status Bar */
+    [self.view addSubview:_fakeBar];
+    [self.view bringSubviewToFront:_fakeBar];
+    
+    /* Init of close circle button */
+    UIImageView *circleCloseBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+    circleCloseBtn.backgroundColor = [UIColor blackColor];
+    circleCloseBtn.tintColor = [UIColor whiteColor];
+    circleCloseBtn.alpha = 0.45;
+    circleCloseBtn.image = [[UIImage imageNamed:@"39-close-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    circleCloseBtn.layer.masksToBounds = YES;
+    circleCloseBtn.layer.cornerRadius = circleCloseBtn.frame.size.height / 2;
+    circleCloseBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    /* Tap gesture of close button */
+    UITapGestureRecognizer *tapCloseBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                  action:@selector(closeComposeView:)];
+    tapCloseBtn.numberOfTouchesRequired = 1;
+    tapCloseBtn.numberOfTapsRequired = 1;
+    [circleCloseBtn addGestureRecognizer:tapCloseBtn];
+    [circleCloseBtn setUserInteractionEnabled:YES];
+    
+    /* Auto layouts of close button */
+    [self.view addSubview:circleCloseBtn];
+    [self.view bringSubviewToFront:circleCloseBtn];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleCloseBtn
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1
+                                                           constant:32]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleCloseBtn
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1
+                                                           constant:32]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleCloseBtn
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_fakeBar
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1
+                                                           constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleCloseBtn
+                                                          attribute:NSLayoutAttributeLeading
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeadingMargin
+                                                         multiplier:1
+                                                           constant:0]];
+    
+    /* Init of approve circle buttons */
+    UIImageView *circleApproveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+    circleApproveBtn.backgroundColor = [UIColor blackColor];
+    circleApproveBtn.tintColor = [UIColor whiteColor];
+    circleApproveBtn.alpha = 0.45;
+    circleApproveBtn.image = [[UIImage imageNamed:@"40-approve-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    circleApproveBtn.layer.masksToBounds = YES;
+    circleApproveBtn.layer.cornerRadius = circleApproveBtn.frame.size.height / 2;
+    circleApproveBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    /* Tap gesture of approve button */
+    UITapGestureRecognizer *tapApproveBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                    action:@selector(done:)];
+    tapApproveBtn.numberOfTouchesRequired = 1;
+    tapApproveBtn.numberOfTapsRequired = 1;
+    [circleApproveBtn addGestureRecognizer:tapApproveBtn];
+    [circleApproveBtn setUserInteractionEnabled:YES];
+    
+    /* Auto layouts of approve button */
+    [self.view addSubview:circleApproveBtn];
+    [self.view bringSubviewToFront:circleApproveBtn];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleApproveBtn
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1
+                                                           constant:32]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleApproveBtn
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1
+                                                           constant:32]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleApproveBtn
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_fakeBar
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1
+                                                           constant:20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleApproveBtn
+                                                          attribute:NSLayoutAttributeTrailing
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeTrailingMargin
+                                                         multiplier:1
+                                                           constant:0]];
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [textView becomeFirstResponder];
     });
     
     [[YYTextKeyboardManager defaultManager] addObserver:self];
+}
+
+#pragma mark - Rotate
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+        [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            _fakeBar.hidden = NO;
+        } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            _fakeBar.top = 0;
+            _textView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+        }];
+    } else {
+        [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            _fakeBar.hidden = YES;
+        } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            _fakeBar.top = - _fakeBar.height;
+            _textView.contentInset = UIEdgeInsetsMake(48, 0, 0, 0);
+        }];
+    }
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
 #pragma mark - Selection Menu
@@ -202,15 +358,22 @@
     return NO;
 }
 
-#pragma mark - Navigation Bar Items
+#pragma mark - Floating Actions & Navigation Bar Items
 
-- (void)done:(UIBarButtonItem *)item {
+- (void)closeComposeView:(id)sender {
     if (_textView.isFirstResponder) {
         [_textView resignFirstResponder];
     }
-    [self.navigationController.view makeToast:@"暂时还不能发布"
-                                     duration:kStatusBarNotificationTime
-                                     position:CSToastPositionCenter];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)done:(id)sender {
+    if (_textView.isFirstResponder) {
+        [_textView resignFirstResponder];
+    }
+    [self.view makeToast:@"暂时还不能发布"
+                duration:kStatusBarNotificationTime
+                position:CSToastPositionCenter];
 }
 
 #pragma mark - YYTextViewDelegate

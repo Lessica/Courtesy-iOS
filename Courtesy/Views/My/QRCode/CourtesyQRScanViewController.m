@@ -7,6 +7,7 @@
 //
 
 #import <AudioToolbox/AudioToolbox.h>
+#import "AppDelegate.h"
 #import "CourtesyQRScanViewController.h"
 #import "CourtesyQRCodeModel.h"
 #import "LBXScanResult.h"
@@ -236,13 +237,17 @@ static SystemSoundID shake_sound_male_id = 0;
                                      duration:kStatusBarNotificationTime
                                      position:CSToastPositionCenter];
     // 返回上层并通知其弹出发布界面
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self performSelector:@selector(autobackToDrawer) withObject:nil afterDelay:kStatusBarNotificationTime];
     if (!_delegate || ![_delegate respondsToSelector:@selector(scanWithResult:)]) {
         CYLog(@"Delegate not found!");
         return;
     }
     [_delegate scanWithResult:qrcode];
     return;
+}
+
+- (void)autobackToDrawer {
+    [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
 }
 
 // 扫描获取信息失败回调

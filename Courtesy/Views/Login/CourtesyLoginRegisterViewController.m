@@ -27,8 +27,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [CSToastManager setTapToDismissEnabled:YES];
-    [CSToastManager setQueueEnabled:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

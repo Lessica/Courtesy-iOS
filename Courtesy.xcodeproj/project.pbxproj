@@ -283,6 +283,20 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
+		0F5002DF1C868362007BF221 /* Compose Queue */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Compose Queue";
+			sourceTree = "<group>";
+		};
+		0F5002E01C868382007BF221 /* Card */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Card;
+			sourceTree = "<group>";
+		};
 		0F8ED11D1C82A6E500371879 /* QRCode */ = {
 			isa = PBXGroup;
 			children = (
@@ -577,8 +591,10 @@
 		0FC910CD1C7C951F00CEF533 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0F5002E01C868382007BF221 /* Card */,
 				0FBC36BE1C7D73AC00057EBE /* Common */,
 				0F176CD21C7DB13200172928 /* Login and Register */,
+				0F5002DF1C868362007BF221 /* Compose Queue */,
 				0F0493241C7EDA7D00BCCBD2 /* Profile and Avatar */,
 				0FC910CE1C7C952900CEF533 /* Account Info */,
 				0F8ED11D1C82A6E500371879 /* QRCode */,

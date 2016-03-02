@@ -29,6 +29,9 @@
         self.switchAutoPublic = NO;
         self.switchAutoPublic = NO;
         self.fetchedCurrentAccount = NO;
+        // 初始化提示消息
+        [CSToastManager setTapToDismissEnabled:YES];
+        [CSToastManager setQueueEnabled:NO];
         // 初始化网络设置
         [JSONHTTPClient setDefaultTextEncoding:NSUTF8StringEncoding];
         [JSONHTTPClient setRequestContentType:@"application/json"];

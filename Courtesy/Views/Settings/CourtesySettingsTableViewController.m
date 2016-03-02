@@ -53,8 +53,6 @@ enum {
 - (void)viewDidLoad {
     [super viewDidLoad];
     _aboutLabel.text = [NSString stringWithFormat:@"关于礼记 (V%@)", VERSION_STRING];
-    [CSToastManager setTapToDismissEnabled:YES];
-    [CSToastManager setQueueEnabled:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveLocalNotification:)
                                                  name:kCourtesyNotificationInfo object:nil];

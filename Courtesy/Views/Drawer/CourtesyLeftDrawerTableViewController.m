@@ -236,11 +236,17 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     }
     // 发布、修改或查看
     if (qrcode.is_recorded == NO) {
+        if (![sharedSettings hasLogin]) { // 未登录
+            [self.navigationController.view makeToast:@"登录后才能发布新卡片"
+                                             duration:2.0
+                                             position:CSToastPositionCenter];
+            return;
+        }
         // 发布新卡片界面
         CourtesyCardComposeViewController *vc = [CourtesyCardComposeViewController new];
         // 从扫码界面进入，设置初始模型
         vc.qrcode = qrcode;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self presentViewController:vc animated:YES completion:nil];
     }
 }
 
