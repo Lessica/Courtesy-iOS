@@ -16,6 +16,16 @@
 
 @implementation CourtesyTextBindingParser
 
++ (id)sharedInstance {
+    static CourtesyTextBindingParser *sharedInstance = nil;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    
+    return sharedInstance;
+}
+
 - (instancetype)init {
     if (self = [super init]) {
         NSString *pattern_email = @"[a-zA-Z0-9.\\-_]{2,32}@[a-zA-Z0-9.\\-_]{2,32}\\.[A-Za-z]{2,4}";

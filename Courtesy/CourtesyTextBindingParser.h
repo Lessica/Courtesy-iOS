@@ -8,4 +8,6 @@
 
 @interface CourtesyTextBindingParser : NSObject <YYTextParser>
 
++ (id)sharedInstance;
+
 @end

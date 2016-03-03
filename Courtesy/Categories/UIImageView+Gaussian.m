@@ -32,7 +32,7 @@
                          animations:^() {
                              self.nl_gaussianView.effect = nil;
                          } completion:^(BOOL finished) {
-                             [self.nl_gaussianView removeFromSuperview];
+                             if (finished) [self.nl_gaussianView removeFromSuperview];
                          }];
     }
 }

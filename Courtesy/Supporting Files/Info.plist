@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>6</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wechat</string>
@@ -63,6 +63,54 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>为实现定位当前城市功能，「礼记」需要获取您的地理位置。</string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeAdd</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>添加一张新的「礼记」卡片</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>扫描二维码</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>Scan</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>firstShorcutKey1</key>
+				<string>firstShortcutKeyValue1</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeCompose</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>记录下每天发生的事情吧</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>发布新卡片</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>Compose</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>firstShorcutKey2</key>
+				<string>firstShortcutKeyValue2</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeShare</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>与小伙伴们分享你的喜悦</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>分享我的卡片</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>Share</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>firstShorcutKey3</key>
+				<string>firstShortcutKeyValue3</string>
+			</dict>
+		</dict>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -82,53 +130,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemType</key>
-			<string>Scan</string>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeAdd</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>扫描二维码</string>
-			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>添加一张新的「礼记」卡片</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict>
-				<key>firstShorcutKey1</key>
-				<string>firstShortcutKeyValue1</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemType</key>
-			<string>Compose</string>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeCompose</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>发布新卡片</string>
-			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>记录下每天发生的事情吧</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict>
-				<key>firstShorcutKey2</key>
-				<string>firstShortcutKeyValue2</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemType</key>
-			<string>Share</string>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeShare</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>分享我的卡片</string>
-			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>与小伙伴们分享你的喜悦</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict>
-				<key>firstShorcutKey3</key>
-				<string>firstShortcutKeyValue3</string>
-			</dict>
-		</dict>
-	</array>
 </dict>
 </plist>
