@@ -41,8 +41,7 @@ enum {
 UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 CourtesyUploadAvatarDelegate,
-RSKImageCropViewControllerDelegate,
-RSKImageCropViewControllerDataSource>
+RSKImageCropViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
@@ -199,7 +198,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     // 裁剪
     RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:image];
     imageCropVC.delegate = self;
-    imageCropVC.dataSource = self;
     [self.navigationController pushViewController:imageCropVC animated:YES];
 }
 

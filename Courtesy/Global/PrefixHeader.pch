@@ -100,6 +100,7 @@
 #import "NSArray+QueryItems.h"
 
 // 第三方库
+#import "TimeStamp.h"
 #import "UMessage.h"
 #import "UMSocial.h"
 #import "Colours.h"
@@ -109,5 +110,6 @@
 #import "NSString+CJStringValidator.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import "JDStatusBarNotification.h"
+#import "UIImageView+Gaussian.h"
 
 #endif /* PrefixHeader_pch */

@@ -40,8 +40,13 @@
         [text insertAttributedString:[[NSAttributedString alloc] initWithString:@" " attributes:[text attributes]] atIndex:range.location + range.length];
         NSRange bindlingRange = NSMakeRange(range.location, range.length + 1);
         YYTextBinding *binding = [YYTextBinding bindingWithDeleteConfirm:YES];
-        [text setTextBinding:binding range:bindlingRange]; // Text binding
-        [text setColor:[UIColor blueberryColor] range:NSMakeRange(bindlingRange.location, bindlingRange.length - 1)];
+        [text setTextBinding:binding range:NSMakeRange(bindlingRange.location, bindlingRange.length - 1)]; // Text binding
+        [text setTextHighlightRange:bindlingRange
+                              color:[UIColor blueberryColor]
+                    backgroundColor:[UIColor clearColor]
+                          tapAction:^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+                              CYLog(@"Tapped Highlight Target!")
+                          }];
         changed = YES;
     };
     [_regex_email enumerateMatchesInString:text.string options:NSMatchingWithoutAnchoringBounds range:*range usingBlock:handler];

@@ -6,10 +6,18 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#import "CourtesyImageFrameView.h"
 #import "CourtesyTextBindingParser.h"
 #import "CourtesyCardComposeViewController.h"
+#import "PECropViewController.h"
 
-@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+#define kComposeLineHeight 36
+#define kComposeTopInsect 24
+#define kComposeBottomInsect 24
+#define kComposeLeftInsect 24
+#define kComposeRightInsect 24
+
+@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PECropViewControllerDelegate>
 @property (nonatomic, assign) YYTextView *textView;
 @property (nonatomic, strong) CourtesyTextBindingParser *bindingParser;
 @property (nonatomic, strong) UIView *fakeBar;
@@ -103,7 +111,7 @@
     
     /* Initial text */
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:@"说点什么吧……"];
-    _font = [UIFont fontWithName:@"Times New Roman" size:16];
+    _font = [UIFont systemFontOfSize:16];
     text.font = _font;
     text.lineSpacing = 8;
     text.lineBreakMode = NSLineBreakByWordWrapping;
@@ -122,7 +130,7 @@
     [textView setTypingAttributes:[text attributes]];
     
     /* Margin */
-    textView.textContainerInset = UIEdgeInsetsMake(24, 24, 24, 24);
+    textView.textContainerInset = UIEdgeInsetsMake(kComposeTopInsect, kComposeLeftInsect, kComposeBottomInsect, kComposeRightInsect);
     if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
         textView.contentInset = UIEdgeInsetsMake(48, 0, 0, 0);
     } else {
@@ -136,16 +144,16 @@
     textView.autocorrectionType = UITextAutocorrectionTypeNo;
     
     /* Paste */
-    textView.allowsUndoAndRedo = YES;
     textView.allowsPasteImage = NO;
+    textView.allowsPasteAttributedString = YES; // 允许粘贴富文本
     
     /* Undo */
-    textView.allowsPasteAttributedString = NO;
+    textView.allowsUndoAndRedo = YES;
     textView.maximumUndoLevel = 10;
     
     /* Line height fixed */
     YYTextLinePositionSimpleModifier *mod = [YYTextLinePositionSimpleModifier new];
-    mod.fixedLineHeight = 28;
+    mod.fixedLineHeight = kComposeLineHeight;
     textView.linePositionModifier = mod;
     
     /* Toolbar */
@@ -318,12 +326,55 @@
                                                          multiplier:1
                                                            constant:0]];
     
+    /* Init of Title Label */
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, 24)];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.textColor = [UIColor darkGrayColor];
+    titleLabel.font = [UIFont systemFontOfSize:12];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    /* Init of Current Date */
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    [dateFormatter setDateFormat:@"yyyy年M月d日 EEEE h:m"];
+    [dateFormatter setLocale:[NSLocale currentLocale]];
+    titleLabel.text = [dateFormatter stringFromDate:[NSDate date]];
+    
+    /* Auto layouts of Title Label */
+    [_textView addSubview:titleLabel];
+    [_textView bringSubviewToFront:titleLabel];
+    [_textView addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1
+                                                           constant:240]];
+    [_textView addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1
+                                                           constant:24]];
+    [_textView addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_textView
+                                                          attribute:NSLayoutAttributeTop
+                                                         multiplier:1
+                                                           constant:0]];
+    [_textView addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:_textView
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1
+                                                           constant:0]];
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [textView becomeFirstResponder];
     });
-    
-    /* Init of Text Binding Parser */
-    _bindingParser = [CourtesyTextBindingParser new];
     
     [_textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
     [[YYTextKeyboardManager defaultManager] addObserver:self];
@@ -345,6 +396,13 @@
 - (void)dealloc {
     [_textView removeObserver:self forKeyPath:@"typingAttributes"];
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
+}
+
+- (CourtesyTextBindingParser *)bindingParser {
+    if (!_bindingParser) {
+        _bindingParser = [CourtesyTextBindingParser new];
+    }
+    return _bindingParser;
 }
 
 #pragma mark - Rotate
@@ -417,6 +475,9 @@
 - (void)setRangeBold:(UIBarButtonItem *)sender {
     NSRange range = _textView.selectedRange;
     if (range.length <= 0) {
+        [self.view makeToast:@"请选择需要设置粗体的文字"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
         return;
     }
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
@@ -435,6 +496,9 @@
 - (void)setRangeItalic:(UIBarButtonItem *)sender {
     NSRange range = _textView.selectedRange;
     if (range.length <= 0) {
+        [self.view makeToast:@"请选择需要设置斜体的文字"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
         return;
     }
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
@@ -453,6 +517,9 @@
 - (void)addUrl:(UIBarButtonItem *)sender {
     NSRange range = _textView.selectedRange;
     if (range.length <= 0) {
+        [self.view makeToast:@"请选择需要设置为链接的文字"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
         return;
     }
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
@@ -515,53 +582,69 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
     
-    [self addNewImageFrame:image];
+    PECropViewController *cropViewController = [[PECropViewController alloc] init];
+    cropViewController.delegate = self;
+    cropViewController.keepingCropAspectRatio = YES;
+    cropViewController.image = image;
+    
+    UINavigationController *navc = [[UINavigationController alloc] initWithRootViewController:cropViewController];
+    [self presentViewController:navc animated:YES completion:NULL];
 }
 
 #pragma mark - Image Frame Builder
 
 - (void)addNewImageFrame:(UIImage *)image {
-    // Calculate Image Scaled Height
-    CGFloat maxWidth = _textView.contentSize.width - 60;
-    CGFloat scaleValue = 0;
-    CGFloat height = 0;
-    
-    // Init of Image View
-    UIImageView *imageView = nil;
-    if (image.size.width > maxWidth) {
-        scaleValue = maxWidth / image.size.width;
-        height = image.size.height * scaleValue;
-        imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, height)];
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
-    } else {
-        height = image.size.height;
-        imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, height)];
-        imageView.contentMode = UIViewContentModeCenter;
-    }
-    imageView.clipsToBounds = YES;
-    imageView.userInteractionEnabled = YES;
-    imageView.image = image;
-    
-    
-    // Init of Frame View
-    UIView *frameView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - 48, imageView.height + 12)];
-    frameView.backgroundColor = [UIColor whiteColor];
-    frameView.layer.shadowColor = [UIColor blackColor].CGColor;
-    frameView.layer.shadowOffset = CGSizeMake(1, 1);
-    frameView.layer.shadowOpacity = 0.45;
-    frameView.layer.shadowRadius = 1;
-    
-    // Add Image View to Frame View
-    [frameView addSubview:imageView];
-    imageView.center = frameView.center;
-    
-    
+//    // Calculate Image Scaled Height
+//    CGFloat maxWidth = _textView.contentSize.width - 60;
+//    CGFloat scaleValue = 0;
+//    CGFloat height = 0;
+//    
+//    // Init of Image View
+//    UIImageView *imageView = nil;
+//    if (image.size.width > maxWidth) {
+//        scaleValue = maxWidth / image.size.width;
+//        height = image.size.height * scaleValue;
+//        imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, height)];
+//        imageView.contentMode = UIViewContentModeScaleAspectFit;
+//    } else {
+//        height = image.size.height;
+//        imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, maxWidth, height)];
+//        imageView.contentMode = UIViewContentModeCenter;
+//    }
+//    imageView.clipsToBounds = YES;
+//    imageView.userInteractionEnabled = YES;
+//    imageView.image = image;
+//    
+//    // Init of Frame View
+//    UIView *frameView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - 48, imageView.height + 12)];
+//    frameView.backgroundColor = [UIColor whiteColor];
+//    frameView.layer.shadowColor = [UIColor blackColor].CGColor;
+//    frameView.layer.shadowOffset = CGSizeMake(1, 1);
+//    frameView.layer.shadowOpacity = 0.45;
+//    frameView.layer.shadowRadius = 1;
+//    
+//    // Add Image View to Frame View
+//    [frameView addSubview:imageView];
+//    imageView.center = frameView.center;
+//    imageView.nl_hasGaussian = NO;
+//    
+//    // Add Image Tap Gesture Recognizer
+//    UITapGestureRecognizer *g = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
+//        if (imageView.nl_hasGaussian) {
+//            [imageView setHasGaussian:NO];
+//        } else {
+//            [imageView setHasGaussian:YES];
+//        }
+//    }];
+//    [frameView addGestureRecognizer:g];
+    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - 48, 0)];
+    [frameView setCenterImage:image];
     
     NSRange range = _textView.selectedRange;
     
     // Add Frame View to Text View (Method 1)
     NSMutableString *insertHelper = [[NSMutableString alloc] initWithString:@"\n"];
-    int t = floor(frameView.height / 28);
+    int t = floor(frameView.height / kComposeLineHeight);
     for (int i = 0; i < t; i++) {
         [insertHelper appendString:@"\n"];
     }
@@ -577,6 +660,21 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     _textView.attributedText = text;
     
     [_textView scrollRangeToVisible:range];
+}
+
+#pragma mark - PECropViewControllerDelegate
+
+- (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage {
+    if (controller) {
+        [controller dismissViewControllerAnimated:YES completion:nil];
+        [self addNewImageFrame:croppedImage];
+    }
+}
+
+- (void)cropViewControllerDidCancel:(PECropViewController *)controller {
+    if (controller) {
+        [controller dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 #pragma mark - YYTextKeyboardObserver

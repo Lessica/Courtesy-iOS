@@ -21,6 +21,7 @@ static NSString * const kCourtesyGalleryTableViewControllerStoryboardID = @"Cour
 static NSString * const kJVDrawerSettingsViewControllerStoryboardID = @"JVDrawerSettingsViewControllerStoryboardID";
 static NSString * const kCourtesySettingsViewControllerStoryboardID = @"CourtesySettingsViewControllerStoryboardID";
 static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGitHubProjectPageViewControllerStoryboardID";
+static NSString * const kCourtesyEmptyViewControllerStoryboardID = @"CourtesyEmptyViewControllerStoryboardID";
 
 @interface AppDelegate ()
 @property (nonatomic, strong, readonly) UIStoryboard *drawersStoryboard;
@@ -224,6 +225,13 @@ static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGit
         _profileViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyProfileTableViewControllerStoryboardID];
     }
     return _profileViewController;
+}
+
+- (UIViewController *)emptyViewController {
+    if (!_emptyViewController) {
+        _emptyViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyEmptyViewControllerStoryboardID];
+    }
+    return _emptyViewController;
 }
 
 @end
