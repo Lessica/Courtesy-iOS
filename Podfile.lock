@@ -15,7 +15,6 @@ PODS:
   - AFNetworking/UIKit (3.0.4):
     - AFNetworking/NSURLSession
   - AFSoundManager (2.1)
-  - Bohr (3.0.0)
   - CJStringValidator (1.0.1)
   - CNCityPickerView (0.0.3)
   - Colours (5.13.0):
@@ -39,13 +38,13 @@ PODS:
     - NJKWebViewProgress/ProgressView (= 0.2.3)
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
-  - oc-timestamp (0.0.1)
+  - PEPhotoCropEditor (1.3.1)
   - QBImagePickerController (3.4.0)
+  - RSKImageCropper (1.5.1)
   - SwipeView (1.3.2)
   - Toast (3.0)
   - UMengMessage (1.1.0.2)
   - UMengSocial (5.0)
-  - WebViewJavascriptBridge (5.0.5)
   - YYKit (0.9.11):
     - YYKit/no-arc (= 0.9.11)
   - YYKit/no-arc (0.9.11)
@@ -56,7 +55,6 @@ PODS:
 DEPENDENCIES:
   - AFNetworking
   - AFSoundManager
-  - Bohr
   - CJStringValidator
   - CNCityPickerView
   - Colours
@@ -71,29 +69,19 @@ DEPENDENCIES:
   - LGAlertView
   - MJRefresh
   - NJKWebViewProgress
-  - oc-timestamp (from `https://github.com/lbj96347/oc-timestamp.git`)
+  - PEPhotoCropEditor
   - QBImagePickerController
+  - RSKImageCropper
   - SwipeView
   - Toast
   - UMengMessage
   - UMengSocial (~> 5.0)
-  - WebViewJavascriptBridge (~> 5.0)
   - YYKit
   - ZXingObjC
-
-EXTERNAL SOURCES:
-  oc-timestamp:
-    :git: https://github.com/lbj96347/oc-timestamp.git
-
-CHECKOUT OPTIONS:
-  oc-timestamp:
-    :commit: 620ca326a5f398961150f0dbbc568c589e8ef013
-    :git: https://github.com/lbj96347/oc-timestamp.git
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
   AFSoundManager: 232af6154e736e6b2d8c93fafebfafd14fad7510
-  Bohr: 17b150766e54e1fb8ff417d85b830c7caafa8b4a
   CJStringValidator: 8138094f1f9702b5b1f43c289e6c9bf51ae2b465
   CNCityPickerView: c56aa7a5fa0918fd27946d2186234b6fd0ffa511
   Colours: f24220c38f13deac88612667e9b4a7fb96b871d4
@@ -108,13 +96,13 @@ SPEC CHECKSUMS:
   LGAlertView: 9a5dcbf4f81b02b718083539d7f222280adc9547
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
-  oc-timestamp: 9c43714e7ea93f7d90815343e5975808a76a3dda
+  PEPhotoCropEditor: 613292fce009efd085e7aed975f1ebb3fec8bb7b
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
+  RSKImageCropper: edd65fedb3734332818deb139906d6b7f54b8a44
   SwipeView: bd67cfaf7760c036438446b3ccb28a3b84fce009
   Toast: 32c59229abfcf41850162b83bb9259dc84372473
   UMengMessage: 48fac77da8a71729c3d9c40eed16151d8917d9b3
   UMengSocial: 48b67179c492a8cf7803fbb0438b8f55432e2fc1
-  WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
   YYKit: 76c3f2cee1a72d3c5b1d7fd8d170ee507fe5df68
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 

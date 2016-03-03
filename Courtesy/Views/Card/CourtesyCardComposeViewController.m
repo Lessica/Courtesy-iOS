@@ -547,26 +547,35 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     UIView *frameView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - 48, imageView.height + 12)];
     frameView.backgroundColor = [UIColor whiteColor];
     frameView.layer.shadowColor = [UIColor blackColor].CGColor;
-    frameView.layer.shadowOffset = CGSizeMake(2, 2);
-    frameView.layer.shadowOpacity = 0.65;
-    frameView.layer.shadowRadius = 2;
+    frameView.layer.shadowOffset = CGSizeMake(1, 1);
+    frameView.layer.shadowOpacity = 0.45;
+    frameView.layer.shadowRadius = 1;
     
     // Add Image View to Frame View
     [frameView addSubview:imageView];
     imageView.center = frameView.center;
     
-    // Add Frame View to Text View
-    NSRange range = _textView.selectedRange;
-    NSMutableAttributedString *attachText = [NSMutableAttributedString attachmentStringWithContent:frameView
-                                                                                       contentMode:UIViewContentModeScaleAspectFit
-                                                                                             width:frameView.size.width
-                                                                                            ascent:0
-                                                                                           descent:frameView.size.height];
     
+    
+    NSRange range = _textView.selectedRange;
+    
+    // Add Frame View to Text View (Method 1)
+    NSMutableString *insertHelper = [[NSMutableString alloc] initWithString:@"\n"];
+    int t = floor(frameView.height / 28);
+    for (int i = 0; i < t; i++) {
+        [insertHelper appendString:@"\n"];
+    }
+    NSMutableAttributedString *attachText = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSAttributedString alloc] initWithString:insertHelper attributes:_originalAttributes]];
+    [attachText appendAttributedString:[NSMutableAttributedString attachmentStringWithContent:frameView
+                                                                                  contentMode:UIViewContentModeCenter
+                                                                               attachmentSize:frameView.size alignToFont:_font alignment:YYTextVerticalAlignmentBottom]];
+    [attachText appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:_originalAttributes]];
+    YYTextBinding *binding = [YYTextBinding bindingWithDeleteConfirm:YES];
+    [attachText setTextBinding:binding range:NSMakeRange(0, attachText.length)];
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:_textView.attributedText];
     [text insertAttributedString:attachText atIndex:range.location];
-    
     _textView.attributedText = text;
+    
     [_textView scrollRangeToVisible:range];
 }
 

@@ -5,6 +5,8 @@ target 'Courtesy', :exclusive => true do
     pod 'ZXingObjC'
     pod 'Colours'
     pod 'LBXScan'
+    pod 'PEPhotoCropEditor'
+    pod 'RSKImageCropper'
     pod 'LGAlertView'
     pod 'JSONModel'
     pod 'JDStatusBarNotification'
@@ -19,12 +21,9 @@ target 'Courtesy', :exclusive => true do
     pod 'CJStringValidator'
     pod 'FMDB'
     pod 'CNCityPickerView'
-    pod 'WebViewJavascriptBridge', '~> 5.0'
     pod 'FDFullscreenPopGesture'
-    pod 'oc-timestamp', :git => 'https://github.com/lbj96347/oc-timestamp.git'
     pod 'SwipeView'
     pod 'FLEX', '~> 2.0', :configurations => ['Debug']
     pod 'AFSoundManager'
-    pod 'Bohr'
     pod 'QBImagePickerController'
 end

@@ -109,6 +109,5 @@
 #import "NSString+CJStringValidator.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import "JDStatusBarNotification.h"
-#import <Bohr/Bohr.h>
 
 #endif /* PrefixHeader_pch */

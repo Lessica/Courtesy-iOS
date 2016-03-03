@@ -6,9 +6,10 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "CourtesyProfileTableViewController.h"
 #import "CourtesyAccountProfileModel.h"
-#import "AppDelegate.h"
+#import <RSKImageCropper/RSKImageCropper.h>
 
 #define kProfileAvatarReuseIdentifier @"kProfileAvatarReuseIdentifier"
 #define kProfileNickReuseIdentifier @"kProfileNickReuseIdentifier"
@@ -35,7 +36,13 @@ enum {
     kIntroductionIndex
 };
 
-@interface CourtesyProfileTableViewController () <CourtesyEditProfileDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyUploadAvatarDelegate>
+@interface CourtesyProfileTableViewController ()
+<CourtesyEditProfileDelegate,
+UIImagePickerControllerDelegate,
+UINavigationControllerDelegate,
+CourtesyUploadAvatarDelegate,
+RSKImageCropViewControllerDelegate,
+RSKImageCropViewControllerDataSource>
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
@@ -162,13 +169,13 @@ enum {
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];
             picker.sourceType = UIImagePickerControllerSourceTypeCamera;
             picker.delegate = self;
-            picker.allowsEditing = YES;
+            picker.allowsEditing = NO;
             [self presentViewController:picker animated:YES completion:nil];
         } else {
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];
             picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             picker.delegate = self;
-            picker.allowsEditing = YES;
+            picker.allowsEditing = NO;
             [self presentViewController:picker animated:YES completion:nil];
         }
     } cancelHandler:nil destructiveHandler:nil];
@@ -189,17 +196,69 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     if (!image) {
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
-    
+    // 裁剪
+    RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:image];
+    imageCropVC.delegate = self;
+    imageCropVC.dataSource = self;
+    [self.navigationController pushViewController:imageCropVC animated:YES];
+}
+
+#pragma mark - RSKImageCropViewControllerDelegate
+
+// Crop image has been canceled.
+- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+// The original image has been cropped.
+- (void)imageCropViewController:(RSKImageCropViewController *)controller
+                   didCropImage:(UIImage *)croppedImage
+                  usingCropRect:(CGRect)cropRect
+{
     // 上传
     if (![kProfile isRequestingUploadAvatar]) {
-        [JDStatusBarNotification showWithStatus:@"上传头像中"
-                                      styleName:JDStatusBarStyleDefault];
-        [JDStatusBarNotification showActivityIndicator:YES indicatorStyle:UIActivityIndicatorViewStyleGray];
+        dispatch_async(dispatch_get_main_queue(), ^() {
+            [JDStatusBarNotification showWithStatus:@"上传头像中"
+                                          styleName:JDStatusBarStyleDefault];
+            [JDStatusBarNotification showActivityIndicator:YES indicatorStyle:UIActivityIndicatorViewStyleGray];
+        });
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
             [kProfile setDelegate:self]; // 设置请求代理
-            [kProfile sendRequestUploadAvatar:image];
+            [kProfile sendRequestUploadAvatar:croppedImage];
         });
     }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - RSKImageCropViewControllerDataSource
+
+// Returns a custom rect for the mask.
+- (CGRect)imageCropViewControllerCustomMaskRect:(RSKImageCropViewController *)controller
+{
+    CGSize maskSize;
+    if ([controller isPortraitInterfaceOrientation]) {
+        maskSize = CGSizeMake(250, 250);
+    } else {
+        maskSize = CGSizeMake(220, 220);
+    }
+    
+    CGFloat viewWidth = CGRectGetWidth(controller.view.frame);
+    CGFloat viewHeight = CGRectGetHeight(controller.view.frame);
+    
+    CGRect maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
+                                 (viewHeight - maskSize.height) * 0.5f,
+                                 maskSize.width,
+                                 maskSize.height);
+    
+    return maskRect;
+}
+
+// Returns a custom rect in which the image can be moved.
+- (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller
+{
+    // If the image is not rotated, then the movement rect coincides with the mask rect.
+    return controller.maskRect;
 }
 
 #pragma mark - 修改资料请求回调
@@ -225,6 +284,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
                                   styleName:JDStatusBarStyleSuccess];
     _avatarImageView.imageURL = kProfile.avatar_url;
     [NSNotificationCenter sendCTAction:kActionProfileEdited message:nil];
+    last_hash = [[kProfile toDictionary] mutableCopy]; // 头像更新以后需要更新备份
 }
 
 - (void)uploadAvatarFailed:(CourtesyAccountProfileModel *)sender
