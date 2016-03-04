@@ -23,15 +23,15 @@ PODS:
   - FCFileManager (1.0.17)
   - FDFullscreenPopGesture (1.1)
   - FLEX (2.3.0)
-  - FMDB (2.6):
-    - FMDB/standard (= 2.6)
-  - FMDB/standard (2.6)
   - JDStatusBarNotification (1.5.3)
+  - jot (0.1.5):
+    - Masonry (~> 0.6.1)
   - JSONModel (1.2.0)
   - JVFloatingDrawer (0.1.0)
   - LBXScan (1.1.1):
     - ZXingObjC (~> 3.0)
   - LGAlertView (2.0.13)
+  - Masonry (0.6.4)
   - MJRefresh (3.1.0)
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
@@ -62,8 +62,8 @@ DEPENDENCIES:
   - FCFileManager
   - FDFullscreenPopGesture
   - FLEX (~> 2.0)
-  - FMDB
   - JDStatusBarNotification
+  - jot
   - JSONModel
   - JVFloatingDrawer
   - LBXScan
@@ -99,12 +99,13 @@ SPEC CHECKSUMS:
   FCFileManager: 8bfc931ce2a6223676147e9baf0e8a65c691eca6
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
-  FMDB: c1968bab3ab0aed38f66cb778ae1e7fa9a652b6e
   JDStatusBarNotification: 29413865af11c862c17180610b0f46a21118b412
+  jot: 0f5dc333defa6ad805d01adc3834b201c22510a7
   JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
   JVFloatingDrawer: 4782b1df21411aef2c1818f3b346cace02cc2e24
   LBXScan: dfb4d8ae8e4cff2aa0c9e1771e43954dce1469a9
   LGAlertView: 9a5dcbf4f81b02b718083539d7f222280adc9547
+  Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   oc-timestamp: 9c43714e7ea93f7d90815343e5975808a76a3dda

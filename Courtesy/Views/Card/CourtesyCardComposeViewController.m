@@ -19,7 +19,7 @@
 #define kComposeTopBarInsectPortrait 64
 #define kComposeTopBarInsectLandscape 48
 
-@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, PECropViewControllerDelegate>
+@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate>
 @property (nonatomic, assign) YYTextView *textView;
 @property (nonatomic, strong) UIView *fakeBar;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -76,7 +76,7 @@
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewFrame:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"34-music"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVoice:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVoice:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideo:)]];
     [toolbar setTintColor:[UIColor grayColor]];
@@ -381,27 +381,40 @@
     }
 }
 
-- (void)imageFrameDidBeginEditing:(CourtesyImageFrameView *)imageFrame {
-    
+- (void)imageFrameShouldReplaced:(CourtesyImageFrameView *)imageFrame
+                              by:(UIImage *)image {
+    [self imageFrameShouldDeleted:imageFrame
+                         animated:NO];
+    [self addNewImageFrame:image
+                        at:imageFrame.selfRange
+                  animated:NO];
 }
 
-- (void)imageFrameShouldDeleted:(CourtesyImageFrameView *)imageFrame {
-    CYLog(@"%@", _textView.textLayout.attachments);
-    CYLog(@"%@", _textView.textLayout.attachmentRanges);
-    int index = 0;
-    for (YYTextAttachment *atta in _textView.textLayout.attachments) {
-        if (atta && atta.content && atta.content == imageFrame) {
-            [imageFrame removeFromSuperview];
-            break;
-        }
-        index++;
+- (void)imageFrameShouldDeleted:(CourtesyImageFrameView *)imageFrame
+                       animated:(BOOL)animated {
+    if (!animated) {
+        [self removeImageFrameFromTextView:imageFrame];
+    } else {
+        [UIView animateWithDuration:0.2 animations:^{
+            imageFrame.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            if (finished) {
+                [self removeImageFrameFromTextView:imageFrame];
+            }
+        }];
     }
-    NSValue *target = [_textView.textLayout.attachmentRanges objectAtIndex:index];
-    NSRange targetRange = [target rangeValue];
+}
+
+- (void)removeImageFrameFromTextView:(CourtesyImageFrameView *)imageFrame {
+    CYLog(@"%@", _textView.textLayout.attachments);
+    [imageFrame removeFromSuperview];
     NSMutableAttributedString *mStr = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
-    [mStr deleteCharactersInRange:targetRange];
-    [_textView setAttributedText:mStr];
-    [_textView scrollRangeToVisible:targetRange];
+    NSRange allRange = [mStr rangeOfAll];
+    if (imageFrame.selfRange.location >= allRange.location &&
+        imageFrame.selfRange.location + imageFrame.selfRange.length <= allRange.location + allRange.length) {
+        [mStr deleteCharactersInRange:imageFrame.selfRange];
+        [_textView setAttributedText:mStr];
+    }
 }
 
 - (void)imageFrameShouldCropped:(CourtesyImageFrameView *)imageFrame {
@@ -411,7 +424,7 @@
     cropViewController.image = imageFrame.centerImage;
     
     UINavigationController *navc = [[UINavigationController alloc] initWithRootViewController:cropViewController];
-    [self presentViewController:navc animated:YES completion:NULL];
+    [self presentViewController:navc animated:YES completion:nil];
 }
 
 #pragma mark - Rotate
@@ -577,45 +590,31 @@
 - (void)imagePickerController:(UIImagePickerController*)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    [picker dismissViewControllerAnimated:YES completion:nil];
     __block UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) {
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
     
-    PECropViewController *cropViewController = [[PECropViewController alloc] init];
-    cropViewController.delegate = self;
-    cropViewController.keepingCropAspectRatio = YES;
-    cropViewController.image = image;
-    
-    UINavigationController *navc = [[UINavigationController alloc] initWithRootViewController:cropViewController];
-    [self presentViewController:navc animated:YES completion:NULL];
-}
-
-#pragma mark - PECropViewControllerDelegate
-
-- (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage {
-    if (controller) {
-        [controller dismissViewControllerAnimated:YES completion:nil];
-        [self addNewImageFrame:croppedImage];
-    }
-}
-
-- (void)cropViewControllerDidCancel:(PECropViewController *)controller {
-    if (controller) {
-        [controller dismissViewControllerAnimated:YES completion:nil];
-    }
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [self addNewImageFrame:image
+                            at:_textView.selectedRange
+                      animated:YES];
+    }];
 }
 
 #pragma mark - Image Frame Builder
 
-- (void)addNewImageFrame:(UIImage *)image {
+- (CourtesyImageFrameView *)addNewImageFrame:(UIImage *)image
+                                          at:(NSRange)range
+                                    animated:(BOOL)animated {
     CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - 48, 0)];
     [frameView setDelegate:self];
     [frameView setCenterImage:image];
+    if (animated) {
+        [frameView setAlpha:0.0];
+    }
     
     // Add Frame View to Text View (Method 1)
-    NSRange range = _textView.selectedRange;
     NSMutableString *insertHelper = [[NSMutableString alloc] initWithString:@"\n"];
     int t = floor(frameView.height / kComposeLineHeight);
     for (int i = 0; i < t; i++) {
@@ -631,8 +630,18 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     [attachText setTextBinding:binding range:NSMakeRange(0, attachText.length)];
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:_textView.attributedText];
     [text insertAttributedString:attachText atIndex:range.location];
-    _textView.attributedText = text;
+    [frameView setSelfRange:NSMakeRange(range.location, attachText.length)];
+    [_textView setAttributedText:text];
     [_textView scrollRangeToVisible:range];
+    
+    if (animated) {
+        [UIView animateWithDuration:0.2 animations:^{
+            [frameView setAlpha:1.0];
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    return frameView;
 }
 
 #pragma mark - YYTextKeyboardObserver

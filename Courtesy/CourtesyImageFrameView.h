@@ -12,10 +12,25 @@
 
 @protocol CourtesyImageFrameDelegate <NSObject>
 
+@optional
 - (void)imageFrameTapped:(CourtesyImageFrameView *)imageFrame;
+
+@optional
 - (void)imageFrameDidBeginEditing:(CourtesyImageFrameView *)imageFrame;
-- (void)imageFrameShouldDeleted:(CourtesyImageFrameView *)imageFrame;
+
+@optional
+- (void)imageFrameShouldDeleted:(CourtesyImageFrameView *)imageFrame
+                       animated:(BOOL)animated;
+
+@optional
 - (void)imageFrameShouldCropped:(CourtesyImageFrameView *)imageFrame;
+
+@optional
+- (void)imageFrameDidEndEditing:(CourtesyImageFrameView *)imageFrame;
+
+@optional
+- (void)imageFrameShouldReplaced:(CourtesyImageFrameView *)imageFrame
+                              by:(UIImage *)image;
 
 @end
 
@@ -24,6 +39,7 @@
 @property (nonatomic, strong) UIImage *centerImage;
 @property (nonatomic, strong) UITextField *bottomLabel;
 @property (nonatomic, weak) id<CourtesyImageFrameDelegate> delegate;
+@property (nonatomic, assign) NSRange selfRange;
 
 - (void)toggleBottomLabelView:(BOOL)on;
 
