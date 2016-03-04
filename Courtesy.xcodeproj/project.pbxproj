@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0F03A42E1C85317000C32FC8 /* CourtesyCardComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F03A42D1C85317000C32FC8 /* CourtesyCardComposeViewController.m */; };
+		0F155EBE1C89776F009D1B03 /* CourtesyJotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F155EBD1C89776F009D1B03 /* CourtesyJotViewController.m */; };
 		0F1C91F01C885A4F00378172 /* CourtesyImageFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1C91EF1C885A4F00378172 /* CourtesyImageFrameView.m */; };
 		0F90DC171C844A5B00607277 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90DC131C844A5B00607277 /* AppDelegate.m */; };
 		0F90DC181C844A5B00607277 /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90DC151C844A5B00607277 /* GlobalSettings.m */; };
@@ -79,6 +80,8 @@
 		05940789181F806AF4D4F3D2 /* Pods-Courtesy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Courtesy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Courtesy/Pods-Courtesy.release.xcconfig"; sourceTree = "<group>"; };
 		0F03A42C1C85317000C32FC8 /* CourtesyCardComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyCardComposeViewController.h; path = Views/Card/CourtesyCardComposeViewController.h; sourceTree = "<group>"; };
 		0F03A42D1C85317000C32FC8 /* CourtesyCardComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyCardComposeViewController.m; path = Views/Card/CourtesyCardComposeViewController.m; sourceTree = "<group>"; };
+		0F155EBC1C89776F009D1B03 /* CourtesyJotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyJotViewController.h; sourceTree = "<group>"; };
+		0F155EBD1C89776F009D1B03 /* CourtesyJotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyJotViewController.m; sourceTree = "<group>"; };
 		0F1C91EE1C885A4F00378172 /* CourtesyImageFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyImageFrameView.h; sourceTree = "<group>"; };
 		0F1C91EF1C885A4F00378172 /* CourtesyImageFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyImageFrameView.m; sourceTree = "<group>"; };
 		0F90DC121C844A5B00607277 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Global/AppDelegate.h; sourceTree = "<group>"; };
@@ -660,6 +663,8 @@
 				0F1C91EF1C885A4F00378172 /* CourtesyImageFrameView.m */,
 				0FC76BAC1C85B718003DCAA9 /* CourtesyTextBindingParser.h */,
 				0FC76BAD1C85B718003DCAA9 /* CourtesyTextBindingParser.m */,
+				0F155EBC1C89776F009D1B03 /* CourtesyJotViewController.h */,
+				0F155EBD1C89776F009D1B03 /* CourtesyJotViewController.m */,
 				0F03A42C1C85317000C32FC8 /* CourtesyCardComposeViewController.h */,
 				0F03A42D1C85317000C32FC8 /* CourtesyCardComposeViewController.m */,
 			);
@@ -847,6 +852,7 @@
 				0F90DC1F1C844AEE00607277 /* CourtesyCommonRequestModel.m in Sources */,
 				0FD0C3DF1C8838CE00090066 /* NLPropertyDescriptor.m in Sources */,
 				0F90DCAC1C844F9600607277 /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */,
+				0F155EBE1C89776F009D1B03 /* CourtesyJotViewController.m in Sources */,
 				0FD0C3D51C8834A700090066 /* UIImageView+Gaussian.m in Sources */,
 				0FD0C3CC1C88346100090066 /* UIImagePickerController+LandScapeImagePicker.m in Sources */,
 				0F90DC511C844D4F00607277 /* CourtesyQuickLoginButton.m in Sources */,

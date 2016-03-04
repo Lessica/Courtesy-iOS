@@ -9,6 +9,7 @@
 #import "CourtesyImageFrameView.h"
 #import "CourtesyTextBindingParser.h"
 #import "CourtesyCardComposeViewController.h"
+#import "CourtesyJotViewController.h"
 #import "PECropViewController.h"
 
 #define kComposeLineHeight 36
@@ -25,6 +26,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *circleCloseBtn;
 @property (nonatomic, strong) UIImageView *circleApproveBtn;
+@property (nonatomic, strong) CourtesyJotViewController *jotViewController;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSDictionary *originalAttributes;
 @property (nonatomic, strong) UIFont *font;
@@ -59,8 +61,16 @@
     item.action = @selector(done:);
     self.navigationItem.rightBarButtonItem = item;
     
+    /* Init of toolbar container view */
+    UIScrollView *toolbarContainerView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 40)];
+    toolbarContainerView.scrollEnabled = YES;
+    toolbarContainerView.alwaysBounceHorizontal = YES;
+    toolbarContainerView.showsHorizontalScrollIndicator = NO;
+    toolbarContainerView.showsVerticalScrollIndicator = NO;
+    toolbarContainerView.backgroundColor = [UIColor whiteColor];
+    
     /* Init of toolbar */
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 40)];
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width * 2, 40)];
     toolbar.barStyle = UIBarStyleBlackTranslucent;
     toolbar.barTintColor = [UIColor whiteColor];
     toolbar.backgroundColor = [UIColor clearColor];
@@ -68,17 +78,24 @@
     /* Elements of tool bar items */
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSMutableArray *myToolBarItems = [NSMutableArray array];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"33-bold"] style:UIBarButtonItemStylePlain target:self action:@selector(setRangeBold:)]];
-    [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"32-italic"] style:UIBarButtonItemStylePlain target:self action:@selector(setRangeItalic:)]];
-    [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrl:)]];
-    [myToolBarItems addObject:flexibleSpace];
+    
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewFrame:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVoice:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideo:)]];
+    [myToolBarItems addObject:flexibleSpace];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrl:)]];
+    [myToolBarItems addObject:flexibleSpace];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"33-bold"] style:UIBarButtonItemStylePlain target:self action:@selector(setRangeBold:)]];
+    [myToolBarItems addObject:flexibleSpace];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"32-italic"] style:UIBarButtonItemStylePlain target:self action:@selector(setRangeItalic:)]];
+    [myToolBarItems addObject:flexibleSpace];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"46-align-left"] style:UIBarButtonItemStylePlain target:self action:@selector(setAlignLeft:)]];
+    [myToolBarItems addObject:flexibleSpace];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"48-align-center"] style:UIBarButtonItemStylePlain target:self action:@selector(setAlignCenter:)]];
+    [myToolBarItems addObject:flexibleSpace];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"47-align-right"] style:UIBarButtonItemStylePlain target:self action:@selector(setAlignRight:)]];
     [toolbar setTintColor:[UIColor grayColor]];
     [toolbar setItems:myToolBarItems animated:YES];
     
@@ -132,7 +149,9 @@
     textView.linePositionModifier = mod;
     
     /* Toolbar */
-    textView.inputAccessoryView = toolbar;
+    [toolbarContainerView setContentSize:toolbar.frame.size];
+    [toolbarContainerView addSubview:toolbar];
+    textView.inputAccessoryView = toolbarContainerView;
     textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     
     /* Place holder */
@@ -362,7 +381,7 @@
                        context:(void *)context
 {
     if ([keyPath isEqualToString:@"typingAttributes"]) {
-        _textView.typingAttributes = _originalAttributes;
+        //_textView.typingAttributes = _originalAttributes;
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -420,7 +439,6 @@
 - (void)imageFrameShouldCropped:(CourtesyImageFrameView *)imageFrame {
     PECropViewController *cropViewController = [[PECropViewController alloc] init];
     cropViewController.delegate = imageFrame;
-    cropViewController.keepingCropAspectRatio = YES;
     cropViewController.image = imageFrame.centerImage;
     
     UINavigationController *navc = [[UINavigationController alloc] initWithRootViewController:cropViewController];
@@ -547,25 +565,34 @@
     if (_textView.isFirstResponder) {
         [_textView resignFirstResponder];
     }
-    LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入图像" message:@"请选择一种方式" style:LGAlertViewStyleActionSheet buttonTitles:@[@"相机", @"本地相册"] cancelButtonTitle:@"取消" destructiveButtonTitle:nil actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
-        if (index == 0) {
-            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            picker.delegate = self;
-            picker.allowsEditing = NO;
-            [self presentViewController:picker animated:YES completion:nil];
-        } else {
-            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            picker.delegate = self;
-            picker.allowsEditing = NO;
-            [self presentViewController:picker animated:YES completion:nil];
-        }
-    } cancelHandler:^(LGAlertView *alertView) {
-        if (!_textView.isFirstResponder) {
-            [_textView becomeFirstResponder];
-        }
-    } destructiveHandler:nil];
+    LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入图像"
+                                                    message:@"请选择一种方式"
+                                                      style:LGAlertViewStyleActionSheet
+                                               buttonTitles:@[@"相机", @"本地相册", @"涂鸦"]
+                                          cancelButtonTitle:@"取消"
+                                     destructiveButtonTitle:nil
+                                              actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                                if (index == 0) {
+                                                                    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                                                                    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                                                                    picker.delegate = self;
+                                                                    picker.allowsEditing = NO;
+                                                                    [self presentViewController:picker animated:YES completion:nil];
+                                                                } else if (index == 1) {
+                                                                    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                                                                    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                                                                    picker.delegate = self;
+                                                                    picker.allowsEditing = NO;
+                                                                    [self presentViewController:picker animated:YES completion:nil];
+                                                                } else {
+                                                                    
+                                                                }
+                                                            }
+                                              cancelHandler:^(LGAlertView *alertView) {
+                                                                if (!_textView.isFirstResponder) {
+                                                                    [_textView becomeFirstResponder];
+                                                                }
+                                                            } destructiveHandler:nil];
     [alert showAnimated:YES completionHandler:nil];
 }
 
@@ -575,6 +602,36 @@
 
 - (void)addNewVideo:(UIBarButtonItem *)sender {
     
+}
+
+- (void)setAlignLeft:(UIBarButtonItem *)sender {
+    [self setTextViewAlignment:NSTextAlignmentLeft];
+}
+
+- (void)setAlignCenter:(UIBarButtonItem *)sender {
+    [self setTextViewAlignment:NSTextAlignmentCenter];
+}
+
+- (void)setAlignRight:(UIBarButtonItem *)sender {
+    [self setTextViewAlignment:NSTextAlignmentRight];
+}
+
+- (void)setTextViewAlignment:(NSTextAlignment)alignment {
+    NSRange range = _textView.selectedRange;
+    if (range.length <= 0 && [_textView.typingAttributes hasKey:NSParagraphStyleAttributeName]) {
+        NSParagraphStyle *paragraphStyle = [_textView.typingAttributes objectForKey:NSParagraphStyleAttributeName];
+        NSMutableParagraphStyle *newParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [newParagraphStyle setParagraphStyle:paragraphStyle];
+        newParagraphStyle.alignment = alignment;
+        NSMutableDictionary *newTypingAttributes = [[NSMutableDictionary alloc] initWithDictionary:_textView.typingAttributes];
+        [newTypingAttributes setObject:newParagraphStyle forKey:NSParagraphStyleAttributeName];
+        [_textView setTypingAttributes:newTypingAttributes];
+    }
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
+    [string setAlignment:alignment];
+    [_textView setAttributedText:string];
+    [_textView setSelectedRange:range];
+    //[_textView scrollRangeToVisible:range];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
