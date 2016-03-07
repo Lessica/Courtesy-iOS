@@ -13,6 +13,8 @@
 #define kCourtesyDBCurrentLoginAccount @"kCourtesyDBCurrentLoginAccount"
 #define kSwitchAutoSave @"switchAutoSave"
 #define kSwitchAutoPublic @"switchAutoPublic"
+#define kPreferredImageQuality @"preferredImageQuality"
+#define kPreferredVideoQuality @"preferredVideoQuality"
 
 @interface GlobalSettings () <CourtesyFetchAccountInfoDelegate>
 
@@ -28,6 +30,8 @@
         // 初始化基本设置
         self.switchAutoPublic = NO;
         self.switchAutoPublic = NO;
+        self.preferredImageQuality = UIImagePickerControllerQualityTypeMedium;
+        self.preferredVideoQuality = UIImagePickerControllerQualityTypeMedium;
         self.fetchedCurrentAccount = NO;
         // 初始化提示消息
         [CSToastManager setTapToDismissEnabled:YES];
@@ -230,6 +234,22 @@
 
 - (void)setSwitchAutoSave:(BOOL)switchAutoSave {
     [appStorage setObject:(switchAutoSave ? @1 : @0) forKey:kSwitchAutoSave];
+}
+
+- (NSInteger)preferredImageQuality {
+    return [(NSNumber *)[appStorage objectForKey:kPreferredImageQuality] integerValue];
+}
+
+- (void)setPreferredImageQuality:(NSInteger)preferredImageQuality {
+    [appStorage setObject:[NSNumber numberWithInteger:preferredImageQuality] forKey:kPreferredImageQuality];
+}
+
+- (NSInteger)preferredVideoQuality {
+    return [(NSNumber *)[appStorage objectForKey:kPreferredVideoQuality] integerValue];
+}
+
+- (void)setPreferredVideoQuality:(NSInteger)preferredVideoQuality {
+    [appStorage setObject:[NSNumber numberWithInteger:preferredVideoQuality] forKey:kPreferredVideoQuality];
 }
 
 @end

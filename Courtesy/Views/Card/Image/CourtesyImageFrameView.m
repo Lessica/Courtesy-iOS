@@ -8,20 +8,7 @@
 
 #import "CourtesyImageFrameView.h"
 
-#define kImageFrameLabelHeight 24
-#define kImageFrameLabelTextHeight 16
-#define kImageFrameBorderWidth 6
-#define kImageFrameBtnBorderWidth 16
-#define kImageFrameBtnWidth 27
-#define kImageFrameBtnInterval 12
-
-@implementation CourtesyImageFrameView {
-    BOOL optionsOpen;
-    BOOL labelOpen;
-    UIImageView *deleteBtn;
-    UIImageView *editBtn;
-    UIImageView *cropBtn;
-}
+@implementation CourtesyImageFrameView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -32,49 +19,9 @@
         self.layer.shadowOpacity = 0.45;
         self.layer.shadowRadius = 1;
         // Init of Small Option Buttons
-        deleteBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
-        deleteBtn.backgroundColor = [UIColor clearColor];
-        deleteBtn.image = [UIImage imageNamed:@"41-unbrella-delete"];
-        deleteBtn.alpha = 0;
-        deleteBtn.hidden = YES;
-        deleteBtn.userInteractionEnabled = YES;
-        UITapGestureRecognizer *deleteGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
-            if (_delegate && [_delegate respondsToSelector:@selector(imageFrameShouldDeleted:animated:)]) {
-                [_delegate imageFrameShouldDeleted:self animated:YES];
-            }
-        }];
-        [deleteBtn addGestureRecognizer:deleteGesture];
-        [self addSubview:deleteBtn];
-        editBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth + kImageFrameBtnWidth + kImageFrameBtnInterval, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
-        editBtn.backgroundColor = [UIColor clearColor];
-        editBtn.image = [UIImage imageNamed:@"43-unbrella-edit"];
-        editBtn.alpha = 0;
-        editBtn.hidden = YES;
-        editBtn.userInteractionEnabled = YES;
-        UITapGestureRecognizer *editGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
-            [self frameTapped:g];
-            if (!labelOpen) {
-                [self toggleBottomLabelView:YES];
-            } else {
-                [self toggleBottomLabelView:NO];
-            }
-        }];
-        [editBtn addGestureRecognizer:editGesture];
-        [self addSubview:editBtn];
-        cropBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth + (kImageFrameBtnWidth + kImageFrameBtnInterval) * 2, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
-        cropBtn.backgroundColor = [UIColor clearColor];
-        cropBtn.image = [UIImage imageNamed:@"42-unbrella-insert"];
-        cropBtn.alpha = 0;
-        cropBtn.hidden = YES;
-        cropBtn.userInteractionEnabled = YES;
-        UITapGestureRecognizer *cropGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
-            [self frameTapped:g];
-            if (_delegate && [_delegate respondsToSelector:@selector(imageFrameShouldCropped:)]) {
-                [_delegate imageFrameShouldCropped:self];
-            }
-        }];
-        [cropBtn addGestureRecognizer:cropGesture];
-        [self addSubview:cropBtn];
+        for (UIImageView *btn in [self optionButtons]) {
+            [self addSubview:btn];
+        }
         // Init of Gesture Recognizer
         UITapGestureRecognizer *g = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(frameTapped:)];
         [self addGestureRecognizer:g];
@@ -84,12 +31,86 @@
         _bottomLabel.font = [UIFont systemFontOfSize:12];
         _bottomLabel.textColor = [UIColor darkGrayColor];
         _bottomLabel.textAlignment = NSTextAlignmentCenter;
-        _bottomLabel.placeholder = @"图片描述";
+        _bottomLabel.placeholder = [self labelHolder];
         _bottomLabel.userInteractionEnabled = YES;
         _bottomLabel.delegate = self;
-        labelOpen = NO;
+        _labelOpen = NO;
     }
     return self;
+}
+
+- (NSString *)labelHolder {
+    return @"图片描述";
+}
+
+- (NSArray *)optionButtons {
+    return @[[self deleteBtn],
+             [self editBtn],
+             [self cropBtn]];
+}
+
+- (UIImageView *)cropBtn {
+    if (!_cropBtn) {
+        _cropBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth + (kImageFrameBtnWidth + kImageFrameBtnInterval) * 2, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
+        _cropBtn.backgroundColor = [UIColor clearColor];
+        _cropBtn.image = [UIImage imageNamed:@"42-unbrella-insert"];
+        _cropBtn.alpha = 0;
+        _cropBtn.hidden = YES;
+        _cropBtn.userInteractionEnabled = YES;
+        __weak typeof(self) _self = self;
+        UITapGestureRecognizer *cropGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
+            __strong typeof(_self) self = _self;
+            [self frameTapped:g];
+            if (_delegate && [_delegate respondsToSelector:@selector(imageFrameShouldCropped:)]) {
+                [_delegate imageFrameShouldCropped:self];
+            }
+        }];
+        [_cropBtn addGestureRecognizer:cropGesture];
+    }
+    return _cropBtn;
+}
+
+- (UIImageView *)editBtn {
+    if (!_editBtn) {
+        _editBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth + kImageFrameBtnWidth + kImageFrameBtnInterval, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
+        _editBtn.backgroundColor = [UIColor clearColor];
+        _editBtn.image = [UIImage imageNamed:@"43-unbrella-edit"];
+        _editBtn.alpha = 0;
+        _editBtn.hidden = YES;
+        _editBtn.userInteractionEnabled = YES;
+        __weak typeof(self) _self = self;
+        UITapGestureRecognizer *editGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
+            __strong typeof(_self) self = _self;
+            [self frameTapped:g];
+            if (!_labelOpen) {
+                [self toggleBottomLabelView:YES];
+            } else {
+                [self toggleBottomLabelView:NO];
+            }
+        }];
+        [_editBtn addGestureRecognizer:editGesture];
+    }
+    return _editBtn;
+}
+
+- (UIImageView *)deleteBtn {
+    if (!_deleteBtn) {
+        _deleteBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
+        _deleteBtn.backgroundColor = [UIColor clearColor];
+        _deleteBtn.image = [UIImage imageNamed:@"41-unbrella-delete"];
+        _deleteBtn.alpha = 0;
+        _deleteBtn.hidden = YES;
+        _deleteBtn.userInteractionEnabled = YES;
+        __weak typeof(self) _self = self;
+        UITapGestureRecognizer *deleteGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
+            __strong typeof(_self) self = _self;
+            if (_delegate && [_delegate respondsToSelector:@selector(imageFrameShouldDeleted:animated:)]) {
+                [_delegate imageFrameShouldDeleted:self animated:YES];
+            }
+        }];
+        [_deleteBtn addGestureRecognizer:deleteGesture];
+    }
+    return _deleteBtn;
 }
 
 - (void)setCenterImage:(UIImage *)centerImage {
@@ -118,7 +139,7 @@
     _centerImageView.image = _centerImage;
     _centerImageView.nl_hasGaussian = NO;
     // Reset Frame View
-    if (labelOpen) {
+    if (_labelOpen) {
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, _centerImageView.height + kImageFrameBorderWidth * 2 + kImageFrameLabelHeight);
         _centerImageView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2 - kImageFrameLabelHeight);
     } else {
@@ -130,21 +151,21 @@
 }
 
 - (void)frameTapped:(id)sender {
-        optionsOpen = !optionsOpen;
+        _optionsOpen = !_optionsOpen;
         if (_bottomLabel && [_bottomLabel isFirstResponder]) {
             [_bottomLabel resignFirstResponder];
         }
         if (_centerImageView) {
-            if (optionsOpen) {
+            if (_optionsOpen) {
                 [_centerImageView setHasGaussian:YES];
-                deleteBtn.hidden = NO;
-                editBtn.hidden = NO;
-                cropBtn.hidden = NO;
+                for (UIImageView *btn in [self optionButtons]) {
+                    btn.hidden = NO;
+                }
                 [UIView animateWithDuration:0.2
                                  animations:^{
-                                     deleteBtn.alpha = 1;
-                                     editBtn.alpha = 1;
-                                     cropBtn.alpha = 1;
+                                     for (UIImageView *btn in [self optionButtons]) {
+                                         btn.alpha = 1.0;
+                                     }
                                  } completion:^(BOOL finished) {
                                      
                                  }];
@@ -152,14 +173,14 @@
                 [_centerImageView setHasGaussian:NO];
                 [UIView animateWithDuration:0.2
                                  animations:^{
-                                     deleteBtn.alpha = 0;
-                                     editBtn.alpha = 0;
-                                     cropBtn.alpha = 0;
+                                     for (UIImageView *btn in [self optionButtons]) {
+                                         btn.alpha = 0.0;
+                                     }
                                  } completion:^(BOOL finished) {
                                      if (finished) {
-                                         deleteBtn.hidden = YES;
-                                         editBtn.hidden = YES;
-                                         cropBtn.hidden = YES;
+                                         for (UIImageView *btn in [self optionButtons]) {
+                                             btn.hidden = YES;
+                                         }
                                      }
                                  }];
             }
@@ -170,8 +191,8 @@
 }
 
 - (void)toggleBottomLabelView:(BOOL)on {
-    if (on && !labelOpen) {
-        labelOpen = YES;
+    if (on && !_labelOpen) {
+        _labelOpen = YES;
         CGFloat targetHeight = self.height + kImageFrameLabelHeight;
         // Reset Label View
         _bottomLabel.frame = CGRectMake(kImageFrameBorderWidth, targetHeight - kImageFrameBorderWidth - kImageFrameLabelTextHeight, self.frame.size.width - kImageFrameBorderWidth * 2, kImageFrameLabelTextHeight);
@@ -186,8 +207,8 @@
                                  }
                              }
                          }];
-    } else if (!on && labelOpen) {
-        labelOpen = NO;
+    } else if (!on && _labelOpen) {
+        _labelOpen = NO;
         if ([_bottomLabel isFirstResponder]) {
             [_bottomLabel resignFirstResponder];
         }
@@ -234,8 +255,8 @@
 - (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage {
     if (controller) {
         [controller dismissViewControllerAnimated:YES completion:nil];
-        if (_delegate && [_delegate respondsToSelector:@selector(imageFrameShouldReplaced:by:)]) {
-            [_delegate imageFrameShouldReplaced:self by:croppedImage];
+        if (_delegate && [_delegate respondsToSelector:@selector(imageFrameShouldReplaced:by:userinfo:)]) {
+            [_delegate imageFrameShouldReplaced:self by:croppedImage userinfo:_userinfo];
         }
     }
 }

@@ -13,15 +13,13 @@
 @interface CourtesyUserAgreementWebViewController () <UIWebViewDelegate, NJKWebViewProgressDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *agreementWebView;
+@property (nonatomic, strong) NJKWebViewProgressView *progressView;
+@property (nonatomic, strong) NJKWebViewProgress *progressProxy;
 
 @end
 
 
 @implementation CourtesyUserAgreementWebViewController
-{
-    NJKWebViewProgressView *_progressView;
-    NJKWebViewProgress *_progressProxy;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -50,7 +48,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
     // Remove progress view
     // because UINavigationBar is shared with other ViewControllers
     [_progressView removeFromSuperview];

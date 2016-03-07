@@ -7,12 +7,18 @@
 //
 
 #import "CourtesyImageFrameView.h"
+#import "CourtesyVideoFrameView.h"
 #import "CourtesyTextBindingParser.h"
 #import "CourtesyCardComposeViewController.h"
 #import "CourtesyJotViewController.h"
+#import "QBImagePickerController.h"
+#import "WechatShortVideoController.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 #import "PECropViewController.h"
 
-#define kComposeLineHeight 36
+#define kComposeDefaultFontSize 16
+#define kComposeDefaultLineSpacing 8
+#define kComposeLineHeight 28
 #define kComposeTopInsect 24
 #define kComposeBottomInsect 24
 #define kComposeLeftInsect 24
@@ -20,7 +26,7 @@
 #define kComposeTopBarInsectPortrait 64
 #define kComposeTopBarInsectLandscape 48
 
-@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate>
+@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, WechatShortVideoDelegate>
 @property (nonatomic, assign) YYTextView *textView;
 @property (nonatomic, strong) UIView *fakeBar;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -29,7 +35,7 @@
 @property (nonatomic, strong) CourtesyJotViewController *jotViewController;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSDictionary *originalAttributes;
-@property (nonatomic, strong) UIFont *font;
+@property (nonatomic, strong) UIFont *originalFont;
 
 @end
 
@@ -48,7 +54,7 @@
     // Do any additional setup after loading the view.
     
     /* Init of main view */
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture"]];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = NO;
     //self.modalPresentationCapturesStatusBarAppearance = NO;
@@ -79,13 +85,17 @@
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSMutableArray *myToolBarItems = [NSMutableArray array];
     
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewFrame:)]];
-    [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVoice:)]];
+    [myToolBarItems addObject:flexibleSpace];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewFrame:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideo:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrl:)]];
+    [myToolBarItems addObject:flexibleSpace];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleFreehand:)]];
+    [myToolBarItems addObject:flexibleSpace];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(setFont:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"33-bold"] style:UIBarButtonItemStylePlain target:self action:@selector(setRangeBold:)]];
     [myToolBarItems addObject:flexibleSpace];
@@ -101,17 +111,17 @@
     
     /* Initial text */
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:@"说点什么吧……"];
-    text.font = [UIFont systemFontOfSize:16];
-    text.lineSpacing = 8;
+    text.font = [UIFont systemFontOfSize:kComposeDefaultFontSize];
+    text.lineSpacing = kComposeDefaultLineSpacing;
     text.lineBreakMode = NSLineBreakByWordWrapping;
-    _font = text.font;
+    _originalFont = text.font;
     _originalAttributes = text.attributes;
     
     /* Init of text view */
     YYTextView *textView = [YYTextView new];
     textView.delegate = self;
     textView.typingAttributes = _originalAttributes;
-    textView.backgroundColor = [UIColor clearColor];
+    textView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture"]];
     textView.alwaysBounceVertical = YES;
     textView.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -136,7 +146,7 @@
     textView.autocorrectionType = UITextAutocorrectionTypeNo;
     
     /* Paste */
-    textView.allowsPasteImage = NO;
+    textView.allowsPasteImage = NO; // 不允许粘贴图片
     textView.allowsPasteAttributedString = YES; // 允许粘贴富文本
     
     /* Undo */
@@ -381,7 +391,7 @@
                        context:(void *)context
 {
     if ([keyPath isEqualToString:@"typingAttributes"]) {
-        //_textView.typingAttributes = _originalAttributes;
+        _textView.typingAttributes = _originalAttributes;
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -401,12 +411,14 @@
 }
 
 - (void)imageFrameShouldReplaced:(CourtesyImageFrameView *)imageFrame
-                              by:(UIImage *)image {
+                              by:(UIImage *)image
+                        userinfo:(NSDictionary *)userinfo {
     [self imageFrameShouldDeleted:imageFrame
                          animated:NO];
     [self addNewImageFrame:image
                         at:imageFrame.selfRange
-                  animated:NO];
+                  animated:NO
+                  userinfo:userinfo];
 }
 
 - (void)imageFrameShouldDeleted:(CourtesyImageFrameView *)imageFrame
@@ -568,7 +580,7 @@
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入图像"
                                                     message:@"请选择一种方式"
                                                       style:LGAlertViewStyleActionSheet
-                                               buttonTitles:@[@"相机", @"本地相册", @"涂鸦"]
+                                               buttonTitles:@[@"相机", @"本地相册"]
                                           cancelButtonTitle:@"取消"
                                      destructiveButtonTitle:nil
                                               actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
@@ -601,7 +613,45 @@
 }
 
 - (void)addNewVideo:(UIBarButtonItem *)sender {
-    
+    if (_textView.isFirstResponder) {
+        [_textView resignFirstResponder];
+    }
+    LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入视频"
+                                                    message:@"请选择一种方式"
+                                                      style:LGAlertViewStyleActionSheet
+                                               buttonTitles:@[@"随手录", @"相机", @"本地相册"]
+                                          cancelButtonTitle:@"取消"
+                                     destructiveButtonTitle:nil
+                                              actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                  if (index == 0) {
+                                                      WechatShortVideoController *shortVideoController = [WechatShortVideoController new];
+                                                      shortVideoController.delegate = self;
+                                                      [self presentViewController:shortVideoController animated:YES completion:nil];
+                                                  } else if (index == 1) {
+                                                      UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                                                      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                                                      picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
+                                                      picker.videoMaximumDuration = 30.0;
+                                                      picker.delegate = self;
+                                                      picker.allowsEditing = YES;
+                                                      [self presentViewController:picker animated:YES completion:nil];
+                                                  } else if (index == 2) {
+                                                      UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                                                      picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                                                      picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
+                                                      picker.videoMaximumDuration = 30.0;
+                                                      picker.videoQuality = [sharedSettings preferredVideoQuality];
+                                                      picker.delegate = self;
+                                                      picker.allowsEditing = YES;
+                                                      [self presentViewController:picker animated:YES completion:nil];
+                                                  }
+                                              }
+                                              cancelHandler:^(LGAlertView *alertView) {
+                                                  if (!_textView.isFirstResponder) {
+                                                      [_textView becomeFirstResponder];
+                                                  }
+                                              } destructiveHandler:nil];
+    [alert showAnimated:YES completionHandler:nil];
 }
 
 - (void)setAlignLeft:(UIBarButtonItem *)sender {
@@ -614,6 +664,16 @@
 
 - (void)setAlignRight:(UIBarButtonItem *)sender {
     [self setTextViewAlignment:NSTextAlignmentRight];
+}
+
+- (void)toggleFreehand:(UIBarButtonItem *)sender {
+    if (_textView.isFirstResponder) {
+        [_textView resignFirstResponder];
+    }
+}
+
+- (void)setFont:(UIBarButtonItem *)sender {
+    
 }
 
 - (void)setTextViewAlignment:(NSTextAlignment)alignment {
@@ -631,7 +691,7 @@
     [string setAlignment:alignment];
     [_textView setAttributedText:string];
     [_textView setSelectedRange:range];
-    //[_textView scrollRangeToVisible:range];
+    [_textView scrollRangeToVisible:range];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -647,26 +707,61 @@
 - (void)imagePickerController:(UIImagePickerController*)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    __block UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
-    if (!image) {
-        image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    if ([info hasKey:UIImagePickerControllerEditedImage] || [info hasKey:UIImagePickerControllerOriginalImage]) {
+        __block UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
+        if (!image) {
+            image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        }
+        [picker dismissViewControllerAnimated:YES completion:^{
+            [self addNewImageFrame:image
+                                at:_textView.selectedRange
+                          animated:YES
+                          userinfo:info];
+        }];
+    } else if ([info hasKey:UIImagePickerControllerMediaType] && [info hasKey:UIImagePickerControllerMediaURL]
+               && (
+                   [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeMovie] ||
+                   [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeVideo]
+                  )) {
+                   __block NSURL *mediaURL = [info objectForKey:UIImagePickerControllerMediaURL];
+                   [picker dismissViewControllerAnimated:YES completion:^{
+                       [self addNewVideoFrame:mediaURL
+                                           at:_textView.selectedRange
+                                     animated:YES
+                                     userinfo:info];
+                   }];
     }
-    
-    [picker dismissViewControllerAnimated:YES completion:^{
-        [self addNewImageFrame:image
-                            at:_textView.selectedRange
-                      animated:YES];
-    }];
+}
+
+#pragma mark - WeChatShortVideoDelegate
+
+- (void)finishWechatShortVideoCapture:(WechatShortVideoController *)controller
+                                 path:(NSURL *)filePath {
+    [controller dismissViewControllerAnimated:YES
+                                   completion:^{
+                                       [self addNewVideoFrame:filePath
+                                                           at:_textView.selectedRange
+                                                     animated:YES
+                                                     userinfo:@{
+                                                                UIImagePickerControllerMediaType: (NSString *)kUTTypeMovie,
+                                                                UIImagePickerControllerMediaURL: [filePath path]
+                                                                }];
+                                   }];
 }
 
 #pragma mark - Image Frame Builder
 
 - (CourtesyImageFrameView *)addNewImageFrame:(UIImage *)image
                                           at:(NSRange)range
-                                    animated:(BOOL)animated {
-    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - 48, 0)];
+                                    animated:(BOOL)animated
+                                    userinfo:(NSDictionary *)info {
+    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, 0)];
     [frameView setDelegate:self];
     [frameView setCenterImage:image];
+    [frameView setUserinfo:info];
+    if (frameView.frame.size.height < kComposeLineHeight) { // 添加失败
+        return nil;
+    }
     if (animated) {
         [frameView setAlpha:0.0];
     }
@@ -680,8 +775,53 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     NSMutableAttributedString *attachText = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSAttributedString alloc] initWithString:insertHelper attributes:_originalAttributes]];
     [attachText appendAttributedString:[NSMutableAttributedString attachmentStringWithContent:frameView
                                                                                   contentMode:UIViewContentModeCenter
-                                                                               attachmentSize:frameView.size alignToFont:_font alignment:YYTextVerticalAlignmentBottom]];
-#warning Set Userinfo Inside Above
+                                                                               attachmentSize:frameView.size alignToFont:_originalFont alignment:YYTextVerticalAlignmentBottom]];
+    [attachText appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:_originalAttributes]];
+    YYTextBinding *binding = [YYTextBinding bindingWithDeleteConfirm:YES];
+    [attachText setTextBinding:binding range:NSMakeRange(0, attachText.length)];
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:_textView.attributedText];
+    [text insertAttributedString:attachText atIndex:range.location];
+    [frameView setSelfRange:NSMakeRange(range.location, attachText.length)];
+    [_textView setAttributedText:text];
+    [_textView scrollRangeToVisible:range];
+    
+    if (animated) {
+        [UIView animateWithDuration:0.2 animations:^{
+            [frameView setAlpha:1.0];
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    return frameView;
+}
+
+#pragma mark - Video Frame Builder
+
+- (CourtesyVideoFrameView *)addNewVideoFrame:(NSURL *)url
+                                          at:(NSRange)range
+                                    animated:(BOOL)animated
+                                    userinfo:(NSDictionary *)userinfo {
+    CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - 48, 0)];
+    [frameView setDelegate:self];
+    [frameView setVideoURL:url];
+    [frameView setUserinfo:userinfo];
+    if (frameView.frame.size.height < kComposeLineHeight) { // 添加失败
+        return nil;
+    }
+    if (animated) {
+        [frameView setAlpha:0.0];
+    }
+    
+    // Add Frame View to Text View (Method 1)
+    NSMutableString *insertHelper = [[NSMutableString alloc] initWithString:@"\n"];
+    int t = floor(frameView.height / kComposeLineHeight);
+    for (int i = 0; i < t; i++) {
+        [insertHelper appendString:@"\n"];
+    }
+    NSMutableAttributedString *attachText = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSAttributedString alloc] initWithString:insertHelper attributes:_originalAttributes]];
+    [attachText appendAttributedString:[NSMutableAttributedString attachmentStringWithContent:frameView
+                                                                                  contentMode:UIViewContentModeCenter
+                                                                               attachmentSize:frameView.size alignToFont:_originalFont alignment:YYTextVerticalAlignmentBottom]];
     [attachText appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:_originalAttributes]];
     YYTextBinding *binding = [YYTextBinding bindingWithDeleteConfirm:YES];
     [attachText setTextBinding:binding range:NSMakeRange(0, attachText.length)];
@@ -705,6 +845,12 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 
 - (void)keyboardChangedWithTransition:(YYTextKeyboardTransition)transition {
     
+}
+
+#pragma mark - Memory Leaks
+
+- (void)didReceiveMemoryWarning {
+    CYLog(@"Memory warning!");
 }
 
 @end

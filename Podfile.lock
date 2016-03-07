@@ -32,6 +32,7 @@ PODS:
     - ZXingObjC (~> 3.0)
   - LGAlertView (2.0.13)
   - Masonry (0.6.4)
+  - MBProgressHUD (0.9.2)
   - MJRefresh (3.1.0)
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
@@ -42,10 +43,14 @@ PODS:
   - PEPhotoCropEditor (1.3.1)
   - QBImagePickerController (3.4.0)
   - RSKImageCropper (1.5.1)
+  - SCRecorder (2.6.1)
   - SwipeView (1.3.2)
   - Toast (3.0)
   - UMengMessage (1.1.0.2)
   - UMengSocial (5.0)
+  - WechatShortVideo (0.1.9):
+    - MBProgressHUD (~> 0.9.1)
+    - SCRecorder (~> 2.6.1)
   - YYKit (0.9.11):
     - YYKit/no-arc (= 0.9.11)
   - YYKit/no-arc (0.9.11)
@@ -78,6 +83,7 @@ DEPENDENCIES:
   - Toast
   - UMengMessage
   - UMengSocial (~> 5.0)
+  - WechatShortVideo
   - YYKit
   - ZXingObjC
 
@@ -106,16 +112,19 @@ SPEC CHECKSUMS:
   LBXScan: dfb4d8ae8e4cff2aa0c9e1771e43954dce1469a9
   LGAlertView: 9a5dcbf4f81b02b718083539d7f222280adc9547
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   oc-timestamp: 9c43714e7ea93f7d90815343e5975808a76a3dda
   PEPhotoCropEditor: 613292fce009efd085e7aed975f1ebb3fec8bb7b
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   RSKImageCropper: edd65fedb3734332818deb139906d6b7f54b8a44
+  SCRecorder: ef11bc34094c43201cc7c94fa9aeb5266e5b9cf7
   SwipeView: bd67cfaf7760c036438446b3ccb28a3b84fce009
   Toast: 32c59229abfcf41850162b83bb9259dc84372473
   UMengMessage: 48fac77da8a71729c3d9c40eed16151d8917d9b3
   UMengSocial: 48b67179c492a8cf7803fbb0438b8f55432e2fc1
+  WechatShortVideo: 641329195e972b9e1d697d2d3417e74a05d36b11
   YYKit: 76c3f2cee1a72d3c5b1d7fd8d170ee507fe5df68
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 

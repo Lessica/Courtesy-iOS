@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "FCFileManager.h"
 #import "CourtesySettingsTableViewController.h"
 #import <MessageUI/MessageUI.h>
 

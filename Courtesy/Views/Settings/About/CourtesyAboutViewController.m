@@ -7,6 +7,7 @@
 //
 
 #import "CourtesyAboutViewController.h"
+#import "UMSocial.h"
 
 @interface CourtesyAboutViewController () <UIGestureRecognizerDelegate, UMSocialUIDelegate>
 

@@ -23,6 +23,8 @@
 
 @property (nonatomic, assign) BOOL switchAutoSave;
 @property (nonatomic, assign) BOOL switchAutoPublic;
+@property (nonatomic, assign) NSInteger preferredImageQuality;
+@property (nonatomic, assign) NSInteger preferredVideoQuality;
 
 - (void)fetchCurrentAccountInfo;
 - (void)reloadAccount;

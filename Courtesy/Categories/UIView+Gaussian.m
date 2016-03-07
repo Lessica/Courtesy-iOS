@@ -1,14 +1,14 @@
 //
-//  UIImageView+Gaussian.m
+//  UIView+Gaussian.m
 //  Courtesy
 //
 //  Created by Zheng on 3/3/16.
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "UIImageView+Gaussian.h"
+#import "UIView+Gaussian.h"
 
-@implementation UIImageView (Gaussian)
+@implementation UIView (Gaussian)
 @dynamic nl_hasGaussian;
 @dynamic nl_gaussianView;
 

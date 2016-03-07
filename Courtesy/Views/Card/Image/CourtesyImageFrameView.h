@@ -8,6 +8,13 @@
 
 #import "PECropViewController.h"
 
+#define kImageFrameLabelHeight 24
+#define kImageFrameLabelTextHeight 16
+#define kImageFrameBorderWidth 6
+#define kImageFrameBtnBorderWidth 16
+#define kImageFrameBtnWidth 27
+#define kImageFrameBtnInterval 12
+
 @class CourtesyImageFrameView;
 
 @protocol CourtesyImageFrameDelegate <NSObject>
@@ -30,7 +37,8 @@
 
 @optional
 - (void)imageFrameShouldReplaced:(CourtesyImageFrameView *)imageFrame
-                              by:(UIImage *)image;
+                              by:(UIImage *)image
+                        userinfo:(NSDictionary *)userinfo;
 
 @end
 
@@ -40,7 +48,16 @@
 @property (nonatomic, strong) UITextField *bottomLabel;
 @property (nonatomic, weak) id<CourtesyImageFrameDelegate> delegate;
 @property (nonatomic, assign) NSRange selfRange;
+@property (nonatomic, strong) NSDictionary *userinfo;
+@property (nonatomic, strong) UIImageView *deleteBtn;
+@property (nonatomic, strong) UIImageView *editBtn;
+@property (nonatomic, strong) UIImageView *cropBtn;
+@property (nonatomic, assign) BOOL optionsOpen;
+@property (nonatomic, assign) BOOL labelOpen;
+@property (nonatomic, strong) NSArray *optionButtons;
 
 - (void)toggleBottomLabelView:(BOOL)on;
+- (NSString *)labelHolder;
+- (void)frameTapped:(id)sender;
 
 @end

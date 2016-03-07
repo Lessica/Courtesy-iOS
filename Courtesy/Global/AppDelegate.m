@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "UMessage.h"
+#import "UMSocial.h"
 #import "JVFloatingDrawerViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
 #import "CourtesyLeftDrawerTableViewController.h"
@@ -66,7 +68,7 @@ static NSString * const kCourtesyEmptyViewControllerStoryboardID = @"CourtesyEmp
 // Thanks: http://www.jianshu.com/p/74fe6cbc542b
 - (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
     if (shortcutItem) {
-        SEL selector;
+        SEL selector = nil;
         if ([shortcutItem.type isEqualToString:@"Scan"]) {
             selector = @selector(shortcutScan);
         } else if ([shortcutItem.type isEqualToString:@"Compose"]) {

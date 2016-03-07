@@ -1,6 +1,7 @@
 source 'https://gitcafe.com/akuandev/Specs.git'
 target 'Courtesy', :exclusive => true do
     inhibit_all_warnings!
+    pod 'WechatShortVideo'
     pod 'jot'
     pod 'JVFloatingDrawer'
     pod 'ZXingObjC'
