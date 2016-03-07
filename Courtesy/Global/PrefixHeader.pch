@@ -13,8 +13,9 @@
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
 #ifndef DEBUG
-    #import "FLEXManager.h"
     #define NSLog(...);
+#else
+    #import "FLEXManager.h"
 #endif
 
 // 日志输出

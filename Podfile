@@ -21,6 +21,8 @@ target 'Courtesy', :exclusive => true do
     pod 'UMengSocial', '~> 5.0'
     pod 'MJRefresh'
     pod 'YYKit'
+    pod 'PMAudioRecorderViewController'
+    pod 'FDWaveformView'
     pod 'CJStringValidator'
     pod 'CNCityPickerView'
     pod 'FDFullscreenPopGesture'

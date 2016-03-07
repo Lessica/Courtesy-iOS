@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0F03A42E1C85317000C32FC8 /* CourtesyCardComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F03A42D1C85317000C32FC8 /* CourtesyCardComposeViewController.m */; };
+		0F24BB0D1C8D658700A4B5C0 /* CourtesyAudioFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F24BB0C1C8D658700A4B5C0 /* CourtesyAudioFrameView.m */; };
 		0F2A36731C8D325200028E96 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2A36721C8D325200028E96 /* AVKit.framework */; };
 		0F2A36751C8D397D00028E96 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */; };
 		0F2A36831C8D513700028E96 /* CourtesyJotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2A36791C8D513700028E96 /* CourtesyJotViewController.m */; };
@@ -83,6 +84,8 @@
 		05940789181F806AF4D4F3D2 /* Pods-Courtesy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Courtesy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Courtesy/Pods-Courtesy.release.xcconfig"; sourceTree = "<group>"; };
 		0F03A42C1C85317000C32FC8 /* CourtesyCardComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyCardComposeViewController.h; path = Views/Card/CourtesyCardComposeViewController.h; sourceTree = "<group>"; };
 		0F03A42D1C85317000C32FC8 /* CourtesyCardComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyCardComposeViewController.m; path = Views/Card/CourtesyCardComposeViewController.m; sourceTree = "<group>"; };
+		0F24BB0B1C8D658700A4B5C0 /* CourtesyAudioFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAudioFrameView.h; sourceTree = "<group>"; };
+		0F24BB0C1C8D658700A4B5C0 /* CourtesyAudioFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAudioFrameView.m; sourceTree = "<group>"; };
 		0F2A36721C8D325200028E96 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		0F2A36781C8D513700028E96 /* CourtesyJotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyJotViewController.h; sourceTree = "<group>"; };
@@ -342,6 +345,8 @@
 		0F2A36871C8D514C00028E96 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				0F24BB0B1C8D658700A4B5C0 /* CourtesyAudioFrameView.h */,
+				0F24BB0C1C8D658700A4B5C0 /* CourtesyAudioFrameView.m */,
 			);
 			name = Audio;
 			path = Views/Card/Audio;
@@ -946,6 +951,7 @@
 				0F90DC671C844E2C00607277 /* CourtesyProfileBirthdayTableViewController.m in Sources */,
 				0F90DC371C844B9800607277 /* NSDate+Astro.m in Sources */,
 				0F2A36851C8D513700028E96 /* CourtesyTextBindingParser.m in Sources */,
+				0F24BB0D1C8D658700A4B5C0 /* CourtesyAudioFrameView.m in Sources */,
 				0F90DC8F1C844EDB00607277 /* CourtesyMyOutboxEmptyTipTableViewCell.m in Sources */,
 				0F90DC8C1C844EDB00607277 /* CourtesyMyTabBarController.m in Sources */,
 				0F90DCA31C844F6600607277 /* CourtesyAccountSettingsTableViewController.m in Sources */,

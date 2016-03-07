@@ -21,6 +21,7 @@
             self.nl_gaussianView.frame = self.bounds;
         }
         [self addSubview:self.nl_gaussianView];
+        [self.superview bringSubviewToFront:self.nl_gaussianView];
         [UIView animateWithDuration:0.2
                          animations:^() {
                              self.nl_gaussianView.effect = blurEffect;

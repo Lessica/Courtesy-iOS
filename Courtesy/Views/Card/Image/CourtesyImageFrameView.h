@@ -14,6 +14,7 @@
 #define kImageFrameBtnBorderWidth 16
 #define kImageFrameBtnWidth 27
 #define kImageFrameBtnInterval 12
+#define kImageFrameMinHeight 80
 
 @class CourtesyImageFrameView;
 
@@ -59,5 +60,6 @@
 - (void)toggleBottomLabelView:(BOOL)on;
 - (NSString *)labelHolder;
 - (void)frameTapped:(id)sender;
+- (UIImageView *)centerBtn;
 
 @end

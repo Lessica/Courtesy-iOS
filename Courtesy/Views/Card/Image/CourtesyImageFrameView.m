@@ -49,6 +49,10 @@
              [self cropBtn]];
 }
 
+- (UIImageView *)centerBtn {
+    return nil;
+}
+
 - (UIImageView *)cropBtn {
     if (!_cropBtn) {
         _cropBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth + (kImageFrameBtnWidth + kImageFrameBtnInterval) * 2, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
@@ -130,10 +134,15 @@
         _centerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
         _centerImageView.contentMode = UIViewContentModeScaleAspectFill;
     } else {
-        height = _centerImage.size.height;
+        if (_centerImage.size.height < kImageFrameMinHeight) {
+            height = kImageFrameMinHeight; // 最小高度
+        } else {
+            height = _centerImage.size.height;
+        }
         _centerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
         _centerImageView.contentMode = UIViewContentModeCenter;
     }
+    _centerImageView.tintColor = [UIColor whiteColor];
     _centerImageView.clipsToBounds = YES;
     _centerImageView.userInteractionEnabled = YES;
     _centerImageView.image = _centerImage;
@@ -148,6 +157,9 @@
     }
     [self addSubview:_centerImageView];
     [self sendSubviewToBack:_centerImageView];
+    if ([self centerBtn]) {
+        [_centerImageView addSubview:[self centerBtn]];
+    }
 }
 
 - (void)frameTapped:(id)sender {
@@ -185,9 +197,9 @@
                                  }];
             }
         }
-        if (_delegate && [_delegate respondsToSelector:@selector(imageFrameTapped:)]) {
-            [_delegate imageFrameTapped:self];
-        }
+    if (_delegate && [_delegate respondsToSelector:@selector(imageFrameTapped:)]) {
+        [_delegate imageFrameTapped:self];
+    }
 }
 
 - (void)toggleBottomLabelView:(BOOL)on {

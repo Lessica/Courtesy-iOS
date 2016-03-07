@@ -11,7 +11,7 @@
 @implementation NSDictionary (Subscript)
 
 - (BOOL)hasKey:(NSString *)key {
-    if(![self objectForKey:key]){
+    if (![self objectForKey:key]) {
         return NO;
     }
     id obj = [self objectForKey:key];

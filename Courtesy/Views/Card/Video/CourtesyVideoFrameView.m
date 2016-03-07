@@ -22,6 +22,7 @@
 
 - (UIImage*)thumbnailImageForVideo:(NSURL *)videoURL
                             atTime:(NSTimeInterval)time {
+    CYLog(@"%@", videoURL);
     AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:self.videoURL options:nil];
     NSParameterAssert(asset);
     AVAssetImageGenerator *assetImageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
@@ -45,7 +46,17 @@
     
     CGRect targetRect = CGRectMake(0, 0, thumbnailImage.size.width, thumbnailImage.size.width * (9.0 / 16));
     CGImageRelease(thumbnailImageRef);
-    return [thumbnailImage imageByCropToRect:targetRect];
+    UIImage *croppedImage = [thumbnailImage imageByCropToRect:targetRect];
+//    UIImage *maskImage = [[UIImage imageNamed:@"53-play-center"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//    
+//    UIGraphicsBeginImageContext(croppedImage.size);
+//    [croppedImage drawInRect:CGRectMake(0, 0, croppedImage.size.width, croppedImage.size.height)];
+//    [maskImage drawInRect:CGRectMake((croppedImage.size.width - maskImage.size.width) / 2, (croppedImage.size.height - maskImage.size.height) / 2, maskImage.size.width, maskImage.size.height)];
+//    
+//    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+    
+    return croppedImage;
 }
 
 - (NSString *)labelHolder {
@@ -56,6 +67,24 @@
     return @[[self deleteBtn],
              [self editBtn],
              [self playBtn]];
+}
+
+- (UIImageView *)centerBtn {
+    if (!_centerBtn) {
+        _centerBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
+        _centerBtn.center = CGPointMake(self.centerImageView.frame.size.width / 2, self.centerImageView.frame.size.height / 2);
+        _centerBtn.backgroundColor = [UIColor clearColor];
+        _centerBtn.tintColor = [UIColor whiteColor];
+        _centerBtn.userInteractionEnabled = YES;
+        _centerBtn.image = [[UIImage imageNamed:@"53-play-center"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        __weak typeof(self) _self = self;
+        UITapGestureRecognizer *playGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
+            __strong typeof(_self) self = _self;
+            [self playVideo];
+        }];
+        [_centerBtn addGestureRecognizer:playGesture];
+    }
+    return _centerBtn;
 }
 
 - (UIImageView *)playBtn {
