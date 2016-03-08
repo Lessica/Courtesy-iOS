@@ -568,7 +568,9 @@
                                      destructiveButtonTitle:nil
                                               actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
                                                   if (index == 0) {
-                                                      [AudioNoteRecorderViewController showRecorderWithMasterViewController:self withDelegate:self];
+                                                      AudioNoteRecorderViewController *vc = [[AudioNoteRecorderViewController alloc] initWithMasterViewController:self];
+                                                      vc.delegate = self;
+                                                      [self presentViewController:vc animated:YES completion:nil];
                                                   } else {
                                                       MPMediaPickerController * mediaPicker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
                                                       mediaPicker.delegate = self;
@@ -679,14 +681,16 @@
 
 - (void)audioNoteRecorderDidTapDone:(AudioNoteRecorderViewController *)audioNoteRecorder
                     withRecordedURL:(NSURL *)recordedURL {
-    [self addNewAudioFrame:recordedURL
-                        at:_textView.selectedRange
-                  animated:YES
-                  userinfo:@{
-                             @"title": @"新录音",
-                             @"type": @"audio",
-                             @"url": recordedURL
-                             }];
+    [audioNoteRecorder dismissViewControllerAnimated:YES completion:^() {
+        [self addNewAudioFrame:recordedURL
+                            at:_textView.selectedRange
+                      animated:YES
+                      userinfo:@{
+                                 @"title": @"新录音",
+                                 @"type": @"audio",
+                                 @"url": recordedURL
+                                 }];
+    }];
 }
 
 #pragma mark - MPMediaPickerControllerDelegate

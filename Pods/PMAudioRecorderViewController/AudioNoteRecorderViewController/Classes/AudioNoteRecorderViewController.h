@@ -22,12 +22,8 @@ typedef void (^AudioNoteRecorderFinishBlock) (BOOL wasRecordingTaken, NSURL *rec
 @interface AudioNoteRecorderViewController : UIViewController <AVAudioRecorderDelegate, AVAudioPlayerDelegate>
 
 @property (nonatomic, weak) id<AudioNoteRecorderDelegate> delegate;
-
 @property (nonatomic, copy) AudioNoteRecorderFinishBlock finishedBlock;
 
-//- (id) initWithMasterViewController:(UIViewController *) masterViewController;
-
-+ (id) showRecorderWithMasterViewController:(UIViewController *) masterViewController withDelegate:(id<AudioNoteRecorderDelegate>) delegate;
-+ (id) showRecorderMasterViewController:(UIViewController *) masterViewController withFinishedBlock:(AudioNoteRecorderFinishBlock) finishedBlock;
+- (id) initWithMasterViewController:(UIViewController *) masterViewController;
 
 @end

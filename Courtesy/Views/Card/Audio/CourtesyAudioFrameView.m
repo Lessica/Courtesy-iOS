@@ -81,6 +81,9 @@
         return;
     }
     _audioQueue = [[AFSoundPlayback alloc] initWithItem:_audioItem];
+    if (_audioItem.duration == 0) {
+        return;
+    }
     _scale = self.waveform.totalSamples / _audioItem.duration;
 }
 
