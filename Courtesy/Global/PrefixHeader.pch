@@ -33,6 +33,9 @@
 #define kCourtesyForbidden @"kCourtesyForbidden"
 #define kCourtesyAllocFailed @"kCourtesyAllocFailed"
 
+// 快速赋值
+#define tryValue(property, value) (property = property ? property : value)
+
 // 常用常量
 #define APP_NAME_EN @"Courtesy"
 #define APP_NAME_CN [[UIApplication sharedApplication] appBundleName]

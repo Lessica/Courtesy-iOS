@@ -53,5 +53,11 @@
 @property (nonatomic, strong) AFSoundItem *audioItem;
 @property (nonatomic, strong) AFSoundPlayback *audioQueue;
 @property (nonatomic, assign) float scale;
+@property (nonatomic, assign) BOOL autoPlay;
+@property (nonatomic, strong) UIColor *cardBackgroundColor;
+@property (nonatomic, strong) UIColor *cardTintColor;
+@property (nonatomic, strong) UIColor *cardTextColor;
+@property (nonatomic, strong) UIColor *cardShadowColor;
+@property (nonatomic, strong) UIColor *cardTintFocusColor;
 
 @end

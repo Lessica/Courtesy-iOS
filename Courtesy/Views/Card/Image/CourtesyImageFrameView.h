@@ -56,8 +56,15 @@
 @property (nonatomic, assign) BOOL optionsOpen;
 @property (nonatomic, assign) BOOL labelOpen;
 @property (nonatomic, strong) NSArray *optionButtons;
+@property (nonatomic, assign, getter=isEditable) BOOL editable;
+@property (nonatomic, strong) UIColor *cardBackgroundColor;
+@property (nonatomic, strong) UIColor *cardTintColor;
+@property (nonatomic, strong) UIColor *cardTextColor;
+@property (nonatomic, strong) UIColor *cardShadowColor;
+@property (nonatomic, strong) NSString *labelText;
 
-- (void)toggleBottomLabelView:(BOOL)on;
+- (void)toggleBottomLabelView:(BOOL)on
+                     animated:(BOOL)animated;
 - (NSString *)labelHolder;
 - (void)frameTapped:(id)sender;
 - (UIImageView *)centerBtn;

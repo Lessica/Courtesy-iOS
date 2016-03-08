@@ -13,8 +13,8 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         // Init of Frame View
-        self.backgroundColor = [UIColor whiteColor];
-        self.layer.shadowColor = [UIColor blackColor].CGColor;
+        [self setCardBackgroundColor:nil];
+        [self setCardShadowColor:nil];
         self.layer.shadowOffset = CGSizeMake(1, 1);
         self.layer.shadowOpacity = 0.45;
         self.layer.shadowRadius = 1;
@@ -24,14 +24,45 @@
         _playBtn.layer.cornerRadius = _playBtn.frame.size.width / 2;
         _playBtn.layer.masksToBounds = YES;
         _playBtn.backgroundColor = [UIColor clearColor];
-        [_playBtn setImage:[UIImage imageNamed:@"54-play-audio"] forState:UIControlStateNormal];
-        [_playBtn setImage:[UIImage imageNamed:@"55-pause-audio"] forState:UIControlStateSelected];
+        [self setCardTintColor:nil];
+        [_playBtn setImage:[[UIImage imageNamed:@"54-play-audio"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [_playBtn setImage:[[UIImage imageNamed:@"55-pause-audio"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
         [_playBtn addTarget:self action:@selector(playButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         _isPlaying = NO;
         [_playBtn setSelected:NO];
         [self addSubview:_playBtn];
     }
     return self;
+}
+
+- (void)setCardBackgroundColor:(UIColor *)cardBackgroundColor {
+    _cardBackgroundColor = cardBackgroundColor;
+    self.backgroundColor = tryValue(_cardBackgroundColor, [UIColor whiteColor]);
+}
+
+- (void)setCardShadowColor:(UIColor *)cardShadowColor {
+    _cardShadowColor = cardShadowColor;
+    self.layer.shadowColor = tryValue(_cardShadowColor, [UIColor blackColor]).CGColor;
+}
+
+- (void)setCardTintColor:(UIColor *)cardTintColor {
+    _cardTintColor = cardTintColor;
+    if (!_playBtn) return;
+    _playBtn.tintColor = tryValue(_cardTintColor, [UIColor darkGrayColor]);
+    if (!_waveform) return;
+    _waveform.progressColor = tryValue(_cardTintColor, [UIColor darkGrayColor]);
+}
+
+- (void)setCardTintFocusColor:(UIColor *)cardTintFocusColor {
+    _cardTintFocusColor = cardTintFocusColor;
+    if (!_waveform) return;
+    _waveform.wavesColor = tryValue(_cardTintFocusColor, [UIColor grayColor]);
+}
+
+- (void)setCardTextColor:(UIColor *)cardTextColor {
+    _cardTextColor = cardTextColor;
+    if (!_titleLabel) return;
+    _titleLabel.textColor = tryValue(_cardTextColor, [UIColor blackColor]);
 }
 
 - (void)removeFromSuperview {
@@ -59,8 +90,8 @@
     self.waveform.zoomStartSamples = 0;
     self.waveform.zoomEndSamples = self.waveform.totalSamples / 4;
     self.waveform.doesAllowScrubbing = YES;
-    self.waveform.wavesColor = [UIColor grayColor];
-    self.waveform.progressColor = [UIColor darkGrayColor];
+    self.waveform.wavesColor = tryValue(_cardTintFocusColor, [UIColor grayColor]);
+    self.waveform.progressColor = tryValue(_cardTintColor, [UIColor darkGrayColor]);
     [self addSubview:_waveform];
     [self sendSubviewToBack:_waveform];
     // Init of Title Label
@@ -69,7 +100,7 @@
     self.titleLabel.backgroundColor = [UIColor clearColor];
     self.titleLabel.font = [UIFont systemFontOfSize:12];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
-    self.titleLabel.textColor = [UIColor blackColor];
+    self.titleLabel.textColor = tryValue(_cardTextColor, [UIColor blackColor]);
     self.titleLabel.text = @"正在载入波形……";
     [self addSubview:self.titleLabel];
     // Init of Audio Player
@@ -85,6 +116,9 @@
         return;
     }
     _scale = self.waveform.totalSamples / _audioItem.duration;
+    if (self.autoPlay) {
+        [self playButtonTapped:nil];
+    }
 }
 
 - (void)playButtonTapped:(UIButton *)button {

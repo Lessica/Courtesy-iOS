@@ -596,6 +596,7 @@
 		0FBA716D1C7B247700053696 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0FBE98351C8ED95900C8A0C0 /* Fonts */,
 				0F90DC191C844A9D00607277 /* Images.xcassets */,
 				0F90DC1A1C844A9D00607277 /* kisssound.wav */,
 			);
@@ -672,6 +673,13 @@
 				0F90DC1E1C844AEE00607277 /* CourtesyCommonRequestModel.m */,
 			);
 			name = Common;
+			sourceTree = "<group>";
+		};
+		0FBE98351C8ED95900C8A0C0 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		0FC6CF081C79F483007B666B /* Settings */ = {
@@ -1075,6 +1083,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Global/PrefixHeader.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
@@ -1109,6 +1118,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Global/PrefixHeader.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;

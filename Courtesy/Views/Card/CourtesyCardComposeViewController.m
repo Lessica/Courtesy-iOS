@@ -6,6 +6,7 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#import <objc/message.h>
 #import "CourtesyAudioFrameView.h"
 #import "CourtesyImageFrameView.h"
 #import "CourtesyVideoFrameView.h"
@@ -46,7 +47,14 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.fd_interactivePopDisabled = YES;
+        self.fd_interactivePopDisabled = YES; // 禁用全屏手势
+        tryValue(self.maxAudioNum, [NSNumber numberWithInteger:1]);
+        tryValue(self.maxVideoNum, [NSNumber numberWithInteger:1]);
+        tryValue(self.maxImageNum, [NSNumber numberWithInteger:20]);
+        tryValue(self.maxContentLength, [NSNumber numberWithInteger:2048]);
+        // Debug
+        self.newcard = YES;
+        self.editable = YES;
         self.title = @"新卡片";
     }
     return self;
@@ -57,13 +65,13 @@
     // Do any additional setup after loading the view.
     
     /* Init of main view */
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = tryValue(self.mainViewColor, [UIColor whiteColor]); // 卡片背景在 textview 中设置
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = NO;
     //self.modalPresentationCapturesStatusBarAppearance = NO;
     self.edgesForExtendedLayout =  UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
     
-    /* Init of Navigation Bar Items (if there is a navigation bar actually) */
+    /* Init of Navigation Bar Items (if there is a navigation bar actually) */ // 这部分没有什么用
     UIBarButtonItem *item = [UIBarButtonItem new];
     item.image = [UIImage imageNamed:@"30-send"];
     item.target = self;
@@ -76,23 +84,22 @@
     toolbarContainerView.alwaysBounceHorizontal = YES;
     toolbarContainerView.showsHorizontalScrollIndicator = NO;
     toolbarContainerView.showsVerticalScrollIndicator = NO;
-    toolbarContainerView.backgroundColor = [UIColor whiteColor];
+    toolbarContainerView.backgroundColor = tryValue(self.toolbarColor, [UIColor whiteColor]);;
     
     /* Init of toolbar */
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width * 2, 40)];
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width * 2, 40)]; // 根据按钮数量调整，暂时定为两倍
     toolbar.barStyle = UIBarStyleBlackTranslucent;
-    toolbar.barTintColor = [UIColor whiteColor];
-    toolbar.backgroundColor = [UIColor clearColor];
+    toolbar.barTintColor = tryValue(self.toolbarBarTintColor, [UIColor whiteColor]);
+    toolbar.backgroundColor = [UIColor clearColor]; // 工具栏颜色在 toolbarContainerView 中定义
     
-    /* Elements of tool bar items */
+    /* Elements of tool bar items */ // 定义按钮元素及其样式
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSMutableArray *myToolBarItems = [NSMutableArray array];
-    
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVoice:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewAudioMenu:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewFrame:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewImageMenu:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideo:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideoMenu:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrl:)]];
     [myToolBarItems addObject:flexibleSpace];
@@ -109,29 +116,28 @@
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"48-align-center"] style:UIBarButtonItemStylePlain target:self action:@selector(setAlignCenter:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"47-align-right"] style:UIBarButtonItemStylePlain target:self action:@selector(setAlignRight:)]];
-    [toolbar setTintColor:[UIColor grayColor]];
+    [toolbar setTintColor:tryValue(self.toolbarTintColor, [UIColor grayColor])];
     [toolbar setItems:myToolBarItems animated:YES];
     
     /* Initial text */
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:@"说点什么吧……"];
-    text.font = [UIFont systemFontOfSize:kComposeDefaultFontSize];
-    text.lineSpacing = kComposeDefaultLineSpacing;
+    NSMutableAttributedString *text = tryValue(self.cardContent, [[NSMutableAttributedString alloc] initWithString:@"说点什么吧……"]);
+    text.font = [UIFont systemFontOfSize:[tryValue(self.cardFontSize, [NSNumber numberWithInt:kComposeDefaultFontSize]) intValue]];
+    text.color = tryValue(self.cardTextColor, [UIColor darkGrayColor]);
+    text.lineSpacing = [tryValue(self.cardLineSpacing, [NSNumber numberWithInt:kComposeDefaultLineSpacing]) intValue];
     text.lineBreakMode = NSLineBreakByWordWrapping;
-    _originalFont = text.font;
-    _originalAttributes = text.attributes;
+    _originalFont = tryValue(self.cardFont, text.font);
+    _originalAttributes = tryValue(self.cardContentAttributes, text.attributes);
     
     /* Init of text view */
     YYTextView *textView = [YYTextView new];
     textView.delegate = self;
-    textView.typingAttributes = _originalAttributes;
-    textView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture"]];
+    textView.typingAttributes = tryValue(self.cardContentAttributes, _originalAttributes);
+    textView.backgroundColor = tryValue(self.cardBackgroundColor, [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture"]]);
     textView.alwaysBounceVertical = YES;
     textView.translatesAutoresizingMaskIntoConstraints = NO;
     
     /* Set initial text */
     textView.attributedText = text;
-    textView.textColor = [UIColor darkGrayColor];
-    [textView setTypingAttributes:[text attributes]];
     
     /* Margin */
     textView.minContentSize = CGSizeMake(0, self.view.frame.size.height);
@@ -150,7 +156,7 @@
     
     /* Paste */
     textView.allowsPasteImage = NO; // 不允许粘贴图片
-    textView.allowsPasteAttributedString = YES; // 允许粘贴富文本
+    textView.allowsPasteAttributedString = NO; // 不允许粘贴富文本
     
     /* Undo */
     textView.allowsUndoAndRedo = YES;
@@ -158,21 +164,24 @@
     
     /* Line height fixed */
     YYTextLinePositionSimpleModifier *mod = [YYTextLinePositionSimpleModifier new];
-    mod.fixedLineHeight = kComposeLineHeight;
+    mod.fixedLineHeight = [tryValue(self.cardLineHeight, [NSNumber numberWithInt:kComposeLineHeight]) intValue];
     textView.linePositionModifier = mod;
     
     /* Toolbar */
     [toolbarContainerView setContentSize:toolbar.frame.size];
     [toolbarContainerView addSubview:toolbar];
-    textView.inputAccessoryView = toolbarContainerView;
+    textView.inputAccessoryView = self.editable ? toolbarContainerView : nil;
     textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     
     /* Place holder */
-    textView.placeholderText = @"说点什么吧……";
-    textView.placeholderTextColor = [UIColor lightGrayColor];
+    textView.placeholderText = tryValue(self.placeholderText, @"说点什么吧……");
+    textView.placeholderTextColor = tryValue(self.placeholderColor, [UIColor lightGrayColor]);
     
     /* Indicator (Tint Color) */
-    textView.tintColor = [UIColor darkGrayColor];
+    textView.tintColor = tryValue(self.indicatorColor, [UIColor darkGrayColor]);
+    
+    /* Edit ability */
+    textView.editable = self.editable;
     
     /* Layout of Text View */
     self.textView = textView;
@@ -213,7 +222,7 @@
     CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
     _fakeBar = [[UIView alloc] initWithFrame:frame];
     _fakeBar.alpha = 0.65;
-    _fakeBar.backgroundColor = [UIColor blackColor];
+    _fakeBar.backgroundColor = tryValue(self.statusBarColor, [UIColor blackColor]);
     _fakeBar.hidden = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
     
     /* Tap Gesture of Fake Status Bar */
@@ -233,8 +242,8 @@
     
     /* Init of close circle button */
     _circleCloseBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    _circleCloseBtn.backgroundColor = [UIColor blackColor];
-    _circleCloseBtn.tintColor = [UIColor whiteColor];
+    _circleCloseBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
+    _circleCloseBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
     _circleCloseBtn.alpha = 0.45;
     _circleCloseBtn.image = [[UIImage imageNamed:@"39-close-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     _circleCloseBtn.layer.masksToBounds = YES;
@@ -283,8 +292,8 @@
     
     /* Init of approve circle buttons */
     _circleApproveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    _circleApproveBtn.backgroundColor = [UIColor blackColor];
-    _circleApproveBtn.tintColor = [UIColor whiteColor];
+    _circleApproveBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
+    _circleApproveBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
     _circleApproveBtn.alpha = 0.45;
     _circleApproveBtn.image = [[UIImage imageNamed:@"40-approve-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     _circleApproveBtn.layer.masksToBounds = YES;
@@ -334,16 +343,16 @@
     /* Init of Title Label */
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, 24)];
     _titleLabel.backgroundColor = [UIColor clearColor];
-    _titleLabel.textColor = [UIColor darkGrayColor];
+    _titleLabel.textColor = tryValue(self.dateLabelTextColor, [UIColor darkGrayColor]);
     _titleLabel.font = [UIFont systemFontOfSize:12];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     /* Init of Current Date */
     _dateFormatter = [NSDateFormatter new];
-    [_dateFormatter setDateFormat:@"yyyy年M月d日 EEEE h:m"];
+    [_dateFormatter setDateFormat:tryValue(self.cardCreateTimeFormat, @"yyyy年M月d日 EEEE ah:mm")];
     [_dateFormatter setLocale:[NSLocale currentLocale]];
-    _titleLabel.text = [_dateFormatter stringFromDate:[NSDate date]];
+    _titleLabel.text = [_dateFormatter stringFromDate:tryValue(self.cardModifyTime, tryValue(self.cardCreateTime, [NSDate date]))];
     
     /* Auto layouts of Title Label */
     [_textView addSubview:_titleLabel];
@@ -459,7 +468,13 @@
     if (_textView.isFirstResponder) {
         [_textView resignFirstResponder];
     }
-    [self.view makeToast:@"暂时还不能发布"
+    if (_textView.text.length >= [self.maxContentLength integerValue]) {
+        [self.view makeToast:@"卡片内容太多了喔 (2000)"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
+    [self.view makeToast:@"卡片发布功能还没做好"
                 duration:kStatusBarNotificationTime
                 position:CSToastPositionCenter];
 }
@@ -467,6 +482,7 @@
 #pragma mark - Toolbar Actions
 
 - (void)setRangeBold:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
     NSRange range = _textView.selectedRange;
     if (range.length <= 0) {
         [self.view makeToast:@"请选择需要设置粗体的文字"
@@ -488,6 +504,7 @@
 }
 
 - (void)setRangeItalic:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
     NSRange range = _textView.selectedRange;
     if (range.length <= 0) {
         [self.view makeToast:@"请选择需要设置斜体的文字"
@@ -509,6 +526,7 @@
 }
 
 - (void)addUrl:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
     NSRange range = _textView.selectedRange;
     if (range.length <= 0) {
         [self.view makeToast:@"请选择需要设置为链接的文字"
@@ -523,7 +541,14 @@
     [_textView scrollRangeToVisible:range];
 }
 
-- (void)addNewFrame:(UIBarButtonItem *)sender {
+- (void)addNewImageMenu:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
+    if ([self countOfImageFrame] >= [self.maxImageNum integerValue]) {
+        [self.view makeToast:@"图片数量已达上限"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
     if (_textView.isFirstResponder) {
         [_textView resignFirstResponder];
     }
@@ -556,7 +581,14 @@
     [alert showAnimated:YES completionHandler:nil];
 }
 
-- (void)addNewVoice:(UIBarButtonItem *)sender {
+- (void)addNewAudioMenu:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
+    if ([self countOfAudioFrame] >= [self.maxAudioNum integerValue]) {
+        [self.view makeToast:@"音频数量已达上限"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
     if (_textView.isFirstResponder) {
         [_textView resignFirstResponder];
     }
@@ -570,7 +602,7 @@
                                                   if (index == 0) {
                                                       AudioNoteRecorderViewController *vc = [[AudioNoteRecorderViewController alloc] initWithMasterViewController:self];
                                                       vc.delegate = self;
-                                                      [self presentViewController:vc animated:YES completion:nil];
+                                                      [self presentViewController:vc animated:NO completion:nil];
                                                   } else {
                                                       MPMediaPickerController * mediaPicker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
                                                       mediaPicker.delegate = self;
@@ -586,7 +618,14 @@
     [alert showAnimated:YES completionHandler:nil];
 }
 
-- (void)addNewVideo:(UIBarButtonItem *)sender {
+- (void)addNewVideoMenu:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
+    if ([self countOfVideoFrame] >= [self.maxVideoNum integerValue]) {
+        [self.view makeToast:@"视频数量已达上限"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
     if (_textView.isFirstResponder) {
         [_textView resignFirstResponder];
     }
@@ -629,29 +668,38 @@
 }
 
 - (void)setAlignLeft:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
     [self setTextViewAlignment:NSTextAlignmentLeft];
 }
 
 - (void)setAlignCenter:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
     [self setTextViewAlignment:NSTextAlignmentCenter];
 }
 
 - (void)setAlignRight:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
     [self setTextViewAlignment:NSTextAlignmentRight];
 }
 
 - (void)toggleFreehand:(UIBarButtonItem *)sender {
-    if (_textView.isFirstResponder) {
-        [_textView resignFirstResponder];
-    }
+    if (!self.editable) return;
     // TODO: 添加涂鸦
+    [self.view makeToast:@"Demo 版本中无法添加涂鸦"
+                duration:kStatusBarNotificationTime
+                position:CSToastPositionCenter];
 }
 
 - (void)setFont:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
     // TODO: 更改字体
+    [self.view makeToast:@"Demo 版本中无法切换字体"
+                duration:kStatusBarNotificationTime
+                position:CSToastPositionCenter];
 }
 
 - (void)setTextViewAlignment:(NSTextAlignment)alignment {
+    if (!self.editable) return;
     NSRange range = _textView.selectedRange;
     if (range.length <= 0 && [_textView.typingAttributes hasKey:NSParagraphStyleAttributeName]) {
         NSParagraphStyle *paragraphStyle = [_textView.typingAttributes objectForKey:NSParagraphStyleAttributeName];
@@ -672,7 +720,7 @@
 #pragma mark - AudioNoteRecorderDelegate
 
 - (void)audioNoteRecorderDidCancel:(AudioNoteRecorderViewController *)audioNoteRecorder {
-    [audioNoteRecorder dismissViewControllerAnimated:YES completion:^() {
+    [audioNoteRecorder dismissViewControllerAnimated:NO completion:^() {
         if (!_textView.isFirstResponder) {
             [_textView becomeFirstResponder];
         }
@@ -681,12 +729,13 @@
 
 - (void)audioNoteRecorderDidTapDone:(AudioNoteRecorderViewController *)audioNoteRecorder
                     withRecordedURL:(NSURL *)recordedURL {
-    [audioNoteRecorder dismissViewControllerAnimated:YES completion:^() {
+    if (!self.editable) return;
+    [audioNoteRecorder dismissViewControllerAnimated:NO completion:^() {
         [self addNewAudioFrame:recordedURL
                             at:_textView.selectedRange
                       animated:YES
                       userinfo:@{
-                                 @"title": @"新录音",
+                                 @"title": @"新录音", // TODO: 修改录音描述
                                  @"type": @"audio",
                                  @"url": recordedURL
                                  }];
@@ -705,9 +754,8 @@
 
 - (void)mediaPicker:(MPMediaPickerController *)mediaPicker
  didPickMediaItems:(MPMediaItemCollection *)mediaItemCollection {
-    if (!mediaItemCollection) {
-        return;
-    }
+    if (!self.editable) return;
+    if (!mediaItemCollection) return;
     if (mediaItemCollection.count == 1) {
         if (mediaItemCollection.mediaTypes <= MPMediaTypeAnyAudio) {
             for (MPMediaItem *item in [mediaItemCollection items]) {
@@ -739,15 +787,13 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:^() {
-        if (!_textView.isFirstResponder) {
-            [_textView becomeFirstResponder];
-        }
+        if (!_textView.isFirstResponder) [_textView becomeFirstResponder];
     }];
 }
 
 - (void)imagePickerController:(UIImagePickerController*)picker
-didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
+didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    if (!self.editable) return;
     if ([info hasKey:UIImagePickerControllerEditedImage] || [info hasKey:UIImagePickerControllerOriginalImage]) {
         __block UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
         if (!image) {
@@ -780,6 +826,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 
 - (void)finishWechatShortVideoCapture:(WechatShortVideoController *)controller
                                  path:(NSURL *)filePath {
+    if (!self.editable) return;
     [controller dismissViewControllerAnimated:YES
                                    completion:^{
                                        [self addNewVideoFrame:filePath
@@ -798,11 +845,17 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
                                           at:(NSRange)range
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
+    if (!self.editable) return nil;
     CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, kComposeLineHeight * 2)];
     [frameView setDelegate:self];
     [frameView setUserinfo:info];
+    [frameView setCardTintColor:self.cardElementTintColor];
+    [frameView setCardTintFocusColor:self.cardElementTintFocusColor];
+    [frameView setCardTextColor:self.cardElementTextColor];
+    [frameView setCardShadowColor:self.cardElementShadowColor];
+    [frameView setCardBackgroundColor:self.cardElementBackgroundColor];
+    [frameView setAutoPlay:self.shouldAutoPlayAudio];
     [frameView setAudioURL:url];
-    
     return [self insertFrameToTextView:frameView
                                     at:range
                               animated:animated];
@@ -814,10 +867,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
                                           at:(NSRange)range
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
+    if (!self.editable) return nil;
     CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, 0)];
     [frameView setDelegate:self];
     [frameView setUserinfo:info];
+    [frameView setCardTintColor:self.cardElementTintColor];
+    [frameView setCardTextColor:self.cardElementTextColor];
+    [frameView setCardShadowColor:self.cardElementShadowColor];
+    [frameView setCardBackgroundColor:self.cardElementBackgroundColor];
     [frameView setCenterImage:image];
+    [frameView setEditable:self.editable];
     if (frameView.frame.size.height < kComposeLineHeight) { // 添加失败
         return nil;
     }
@@ -832,11 +891,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
                                           at:(NSRange)range
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
+    if (!self.editable) return nil;
     CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - 48, 0)];
     [frameView setDelegate:self];
     [frameView setUserinfo:info];
+    [frameView setCardTintColor:self.cardElementTintColor];
+    [frameView setCardTextColor:self.cardElementTextColor];
+    [frameView setCardShadowColor:self.cardElementShadowColor];
+    [frameView setCardBackgroundColor:self.cardElementBackgroundColor];
     [frameView setVideoURL:url];
-    
+    [frameView setEditable:self.editable];
     return [self insertFrameToTextView:frameView
                                     at:range
                               animated:animated];
@@ -847,19 +911,18 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 - (id)insertFrameToTextView:(UIView *)frameView
                            at:(NSRange)range
                      animated:(BOOL)animated {
-    if (animated) {
-        [frameView setAlpha:0.0];
-    }
+    if (!self.editable) return nil;
+    if (animated) [frameView setAlpha:0.0];
     // Add Frame View to Text View (Method 1)
     NSMutableString *insertHelper = [[NSMutableString alloc] initWithString:@"\n"];
     int t = floor(frameView.height / kComposeLineHeight);
-    for (int i = 0; i < t; i++) {
-        [insertHelper appendString:@"\n"];
-    }
+    for (int i = 0; i < t; i++) [insertHelper appendString:@"\n"];
     NSMutableAttributedString *attachText = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSAttributedString alloc] initWithString:insertHelper attributes:_originalAttributes]];
     [attachText appendAttributedString:[NSMutableAttributedString attachmentStringWithContent:frameView
                                                                                   contentMode:UIViewContentModeCenter
-                                                                               attachmentSize:frameView.size alignToFont:_originalFont alignment:YYTextVerticalAlignmentBottom]];
+                                                                               attachmentSize:frameView.size
+                                                                                  alignToFont:_originalFont
+                                                                                    alignment:YYTextVerticalAlignmentBottom]];
     [attachText appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:_originalAttributes]];
     YYTextBinding *binding = [YYTextBinding bindingWithDeleteConfirm:YES];
     [attachText setTextBinding:binding range:NSMakeRange(0, attachText.length)];
@@ -876,9 +939,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     if (animated) {
         [UIView animateWithDuration:0.2 animations:^{
             [frameView setAlpha:1.0];
-        } completion:^(BOOL finished) {
-            
-        }];
+        } completion:nil];
     }
     return frameView;
 }
@@ -886,22 +947,19 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 #pragma mark - CourtesyAudioFrameDelegate
 
 - (void)audioFrameTapped:(CourtesyAudioFrameView *)audioFrame {
-    if (_textView.isFirstResponder) {
-        [_textView resignFirstResponder];
-    }
+    if (_textView.isFirstResponder) [_textView resignFirstResponder];
 }
 
 #pragma mark - CourtesyImageFrameDelegate
 
 - (void)imageFrameTapped:(CourtesyImageFrameView *)imageFrame {
-    if (_textView.isFirstResponder) {
-        [_textView resignFirstResponder];
-    }
+    if (_textView.isFirstResponder) [_textView resignFirstResponder];
 }
 
 - (void)imageFrameShouldReplaced:(CourtesyImageFrameView *)imageFrame
                               by:(UIImage *)image
                         userinfo:(NSDictionary *)userinfo {
+    if (!self.editable) return;
     [self imageFrameShouldDeleted:imageFrame
                          animated:NO];
     [self addNewImageFrame:image
@@ -912,6 +970,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 
 - (void)imageFrameShouldDeleted:(CourtesyImageFrameView *)imageFrame
                        animated:(BOOL)animated {
+    if (!self.editable) return;
     if (!animated) {
         [self removeImageFrameFromTextView:imageFrame];
     } else {
@@ -926,6 +985,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 }
 
 - (void)removeImageFrameFromTextView:(CourtesyImageFrameView *)imageFrame {
+    if (!self.editable) return;
     CYLog(@"%@", _textView.textLayout.attachments);
     [imageFrame removeFromSuperview];
     NSMutableAttributedString *mStr = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
@@ -938,12 +998,62 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 }
 
 - (void)imageFrameShouldCropped:(CourtesyImageFrameView *)imageFrame {
+    if (!self.editable) return;
     PECropViewController *cropViewController = [[PECropViewController alloc] init];
     cropViewController.delegate = imageFrame;
     cropViewController.image = imageFrame.centerImage;
     
     UINavigationController *navc = [[UINavigationController alloc] initWithRootViewController:cropViewController];
     [self presentViewController:navc animated:YES completion:nil];
+}
+
+#pragma mark - Elements Control
+
+#ifdef DEBUG
+- (void)listAttachments {
+    for (id object in _textView.textLayout.attachments) {
+        if (![object isKindOfClass:[YYTextAttachment class]]) {
+            continue;
+        }
+        YYTextAttachment *attachment = (YYTextAttachment *)object;
+        if (attachment.content) {
+            if ([attachment.content respondsToSelector:@selector(userinfo)]) {
+                CYLog(@"%@\n%@", [attachment.content description], objc_msgSend(attachment.content, @selector(userinfo)));
+            }
+        }
+    }
+}
+#endif
+
+- (NSUInteger)countOfAudioFrame {
+    return [self countOfClass:[CourtesyAudioFrameView class]];
+}
+
+- (NSUInteger)countOfImageFrame {
+    return [self countOfClass:[CourtesyImageFrameView class]];
+}
+
+- (NSUInteger)countOfVideoFrame {
+    return [self countOfClass:[CourtesyVideoFrameView class]];
+}
+
+- (NSUInteger)countOfClass:(Class)class {
+#ifdef DEBUG
+    [self listAttachments];
+#endif
+    NSUInteger num = 0;
+    for (id object in _textView.textLayout.attachments) {
+        if (![object isKindOfClass:[YYTextAttachment class]]) {
+            continue;
+        }
+        YYTextAttachment *attachment = (YYTextAttachment *)object;
+        if (attachment.content && [attachment.content isKindOfClass:class]) {
+            num++;
+        } else {
+            CYLog(@"%@", [attachment.content description]);
+        }
+    }
+    return num;
 }
 
 #pragma mark - YYTextKeyboardObserver

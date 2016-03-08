@@ -46,6 +46,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    UIView *tapView = [[UIView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:tapView];
+    UITapGestureRecognizer *g = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancel:)];
+    [tapView addGestureRecognizer:g];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -156,7 +160,7 @@
         [UIView animateWithDuration:0.5 animations:^{
             _controlsBg.center = CGPointMake(_controlsBg.center.x, _controlsBg.center.y + self.view.frame.size.height);
         } completion:^(BOOL finished) {
-            if (self.delegate) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(audioNoteRecorderDidCancel:)]) {
                 [self.delegate audioNoteRecorderDidTapDone:self withRecordedURL:_recorder.url];
             }
             if (self.finishedBlock) {

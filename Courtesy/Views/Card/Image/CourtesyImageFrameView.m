@@ -8,35 +8,82 @@
 
 #import "CourtesyImageFrameView.h"
 
-@implementation CourtesyImageFrameView
+@implementation CourtesyImageFrameView {
+    UITapGestureRecognizer *tapGesture;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         // Init of Frame View
-        self.backgroundColor = [UIColor whiteColor];
-        self.layer.shadowColor = [UIColor blackColor].CGColor;
+        [self setCardBackgroundColor:nil];
+        [self setCardShadowColor:nil];
         self.layer.shadowOffset = CGSizeMake(1, 1);
         self.layer.shadowOpacity = 0.45;
         self.layer.shadowRadius = 1;
         // Init of Small Option Buttons
-        for (UIImageView *btn in [self optionButtons]) {
-            [self addSubview:btn];
-        }
-        // Init of Gesture Recognizer
-        UITapGestureRecognizer *g = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(frameTapped:)];
-        [self addGestureRecognizer:g];
+        for (UIImageView *btn in [self optionButtons]) [self addSubview:btn];
+        [self setEditable:NO];
         // Init of Bottom Label View
         _bottomLabel = [UITextField new];
-        _bottomLabel.tintColor = [UIColor darkGrayColor];
+        [self setCardTintColor:nil];
         _bottomLabel.font = [UIFont systemFontOfSize:12];
-        _bottomLabel.textColor = [UIColor darkGrayColor];
+        [self setCardTextColor:nil];
         _bottomLabel.textAlignment = NSTextAlignmentCenter;
         _bottomLabel.placeholder = [self labelHolder];
-        _bottomLabel.userInteractionEnabled = YES;
         _bottomLabel.delegate = self;
         _labelOpen = NO;
     }
     return self;
+}
+
+- (void)setCardTextColor:(UIColor *)cardTextColor {
+    _cardTextColor = cardTextColor;
+    if (!_bottomLabel) return;
+    _bottomLabel.textColor = tryValue(_cardTextColor, [UIColor darkGrayColor]);
+}
+
+- (void)setCardTintColor:(UIColor *)cardTintColor {
+    _cardTintColor = cardTintColor;
+    if (!_bottomLabel) return;
+    _bottomLabel.tintColor = tryValue(_cardTintColor, [UIColor darkGrayColor]);
+}
+
+- (void)setCardShadowColor:(UIColor *)cardShadowColor {
+    _cardShadowColor = cardShadowColor;
+    self.layer.shadowColor = tryValue(_cardShadowColor, [UIColor blackColor]).CGColor;
+}
+
+- (void)setCardBackgroundColor:(UIColor *)cardBackgroundColor {
+    _cardBackgroundColor = cardBackgroundColor;
+    self.backgroundColor = tryValue(_cardBackgroundColor, [UIColor whiteColor]);
+}
+
+- (void)setEditable:(BOOL)editable {
+    _editable = editable;
+    _bottomLabel.userInteractionEnabled = _editable;
+    if (_editable) {
+        if (!tapGesture) {
+            // Init of Gesture Recognizer
+            tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(frameTapped:)];
+        }
+        if (tapGesture) {
+            [self addGestureRecognizer:tapGesture];
+        }
+    } else {
+        if (tapGesture) {
+            [self removeGestureRecognizer:tapGesture];
+        }
+    }
+}
+
+- (void)setLabelText:(NSString *)labelText {
+    _labelText = labelText;
+    if ([labelText isEmpty]) {
+        [self toggleBottomLabelView:NO animated:NO];
+    } else {
+        self.bottomLabel.text = _labelText;
+        [self toggleBottomLabelView:YES animated:NO];
+    }
 }
 
 - (NSString *)labelHolder {
@@ -87,9 +134,9 @@
             __strong typeof(_self) self = _self;
             [self frameTapped:g];
             if (!_labelOpen) {
-                [self toggleBottomLabelView:YES];
+                [self toggleBottomLabelView:YES animated:YES];
             } else {
-                [self toggleBottomLabelView:NO];
+                [self toggleBottomLabelView:NO animated:YES];
             }
         }];
         [_editBtn addGestureRecognizer:editGesture];
@@ -202,23 +249,32 @@
     }
 }
 
-- (void)toggleBottomLabelView:(BOOL)on {
+- (void)toggleBottomLabelView:(BOOL)on
+                     animated:(BOOL)animated {
     if (on && !_labelOpen) {
         _labelOpen = YES;
         CGFloat targetHeight = self.height + kImageFrameLabelHeight;
         // Reset Label View
         _bottomLabel.frame = CGRectMake(kImageFrameBorderWidth, targetHeight - kImageFrameBorderWidth - kImageFrameLabelTextHeight, self.frame.size.width - kImageFrameBorderWidth * 2, kImageFrameLabelTextHeight);
-        [UIView animateWithDuration:0.2
-                         animations:^{
-                             [self setHeight:targetHeight];
-                         } completion:^(BOOL finished) {
-                             if (finished) {
-                                 [self addSubview:_bottomLabel];
-                                 if (![_bottomLabel isFirstResponder]) {
-                                     [_bottomLabel becomeFirstResponder];
+        if (animated) {
+            [UIView animateWithDuration:0.2
+                             animations:^{
+                                 [self setHeight:targetHeight];
+                             } completion:^(BOOL finished) {
+                                 if (finished) {
+                                     [self addSubview:_bottomLabel];
+                                     if (![_bottomLabel isFirstResponder]) {
+                                         [_bottomLabel becomeFirstResponder];
+                                     }
                                  }
-                             }
-                         }];
+                             }];
+        } else {
+            [self setHeight:targetHeight];
+            [self addSubview:_bottomLabel];
+            if (![_bottomLabel isFirstResponder]) {
+                [_bottomLabel becomeFirstResponder];
+            }
+        }
     } else if (!on && _labelOpen) {
         _labelOpen = NO;
         if ([_bottomLabel isFirstResponder]) {
@@ -226,12 +282,14 @@
         }
         CGFloat targetHeight = self.height - kImageFrameLabelHeight;
         [_bottomLabel removeFromSuperview];
-        [UIView animateWithDuration:0.2
-                         animations:^{
-                             [self setHeight:targetHeight];
-                         } completion:^(BOOL finished) {
-                             
-                         }];
+        if (animated) {
+            [UIView animateWithDuration:0.2
+                             animations:^{
+                                 [self setHeight:targetHeight];
+                             } completion:nil];
+        } else {
+            [self setHeight:targetHeight];
+        }
     }
 }
 
@@ -242,7 +300,7 @@
         [textField resignFirstResponder];
     }
     if ([textField.text isEmpty]) {
-        [self toggleBottomLabelView:NO];
+        [self toggleBottomLabelView:NO animated:YES];
     }
     return YES;
 }
@@ -254,8 +312,9 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+    _labelText = textField.text;
     if ([textField.text isEmpty]) {
-        [self toggleBottomLabelView:NO];
+        [self toggleBottomLabelView:NO animated:YES];
     }
     if (_delegate && [_delegate respondsToSelector:@selector(imageFrameDidEndEditing:)]) {
         [_delegate imageFrameDidEndEditing:self];
