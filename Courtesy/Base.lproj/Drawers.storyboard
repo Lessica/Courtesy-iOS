@@ -189,14 +189,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="账户设置" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qi0-bJ-jFB">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="账户设置" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qi0-bJ-jFB">
                                                     <rect key="frame" x="46" y="0.0" width="239" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="10-gear2" id="tZ9-Np-IEZ">
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="10-gear2" id="tZ9-Np-IEZ">
                                                     <rect key="frame" x="15" y="13" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -213,14 +213,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="草稿箱" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oKB-4C-lrs">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="草稿箱" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oKB-4C-lrs">
                                                     <rect key="frame" x="46" y="0.0" width="239" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="9-box" id="3IF-ns-C5i">
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="9-box" id="3IF-ns-C5i">
                                                     <rect key="frame" x="15" y="13" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -238,14 +238,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="消息通知" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vEl-Io-SuI">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="消息通知" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vEl-Io-SuI">
                                                     <rect key="frame" x="46" y="0.0" width="239" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="6-messages" id="SOs-gJ-jGp">
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="6-messages" id="SOs-gJ-jGp">
                                                     <rect key="frame" x="15" y="16" width="16" height="11"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
@@ -262,15 +262,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="7-cloud" translatesAutoresizingMaskIntoConstraints="NO" id="5Tf-21-EXf">
-                                                    <rect key="frame" x="20" y="14" width="16" height="16"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="7-cloud" translatesAutoresizingMaskIntoConstraints="NO" id="5Tf-21-EXf">
+                                                    <rect key="frame" x="16" y="14" width="16" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="16" id="9IO-D4-TZL"/>
                                                         <constraint firstAttribute="height" constant="16" id="x5P-JC-iFf"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="自动保存卡片到相册" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWx-yc-HfY">
-                                                    <rect key="frame" x="50" y="13" width="126" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="自动保存卡片到相册" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWx-yc-HfY">
+                                                    <rect key="frame" x="46" y="13" width="126" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -285,10 +285,10 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="JWx-yc-HfY" firstAttribute="centerY" secondItem="Gs1-37-Eqf" secondAttribute="centerY" id="Kpa-K9-8sn"/>
-                                                <constraint firstItem="5Tf-21-EXf" firstAttribute="leading" secondItem="Gs1-37-Eqf" secondAttribute="leadingMargin" constant="12" id="ZR3-ik-gTo"/>
+                                                <constraint firstItem="5Tf-21-EXf" firstAttribute="leading" secondItem="Gs1-37-Eqf" secondAttribute="leadingMargin" constant="8" id="ZR3-ik-gTo"/>
                                                 <constraint firstItem="5Tf-21-EXf" firstAttribute="centerY" secondItem="Gs1-37-Eqf" secondAttribute="centerY" id="ety-do-vDK"/>
                                                 <constraint firstItem="LFc-fn-iar" firstAttribute="trailing" secondItem="Gs1-37-Eqf" secondAttribute="trailingMargin" constant="-10" id="kNk-45-gh5"/>
-                                                <constraint firstItem="JWx-yc-HfY" firstAttribute="leading" secondItem="Gs1-37-Eqf" secondAttribute="leadingMargin" constant="42" id="nhG-8W-P0B"/>
+                                                <constraint firstItem="JWx-yc-HfY" firstAttribute="leading" secondItem="Gs1-37-Eqf" secondAttribute="leadingMargin" constant="38" id="nhG-8W-P0B"/>
                                                 <constraint firstItem="LFc-fn-iar" firstAttribute="centerY" secondItem="Gs1-37-Eqf" secondAttribute="centerY" id="qmn-5P-cZG"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -300,15 +300,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="8-public" translatesAutoresizingMaskIntoConstraints="NO" id="qSE-ke-qQW">
-                                                    <rect key="frame" x="20" y="14" width="16" height="16"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="8-public" translatesAutoresizingMaskIntoConstraints="NO" id="qSE-ke-qQW">
+                                                    <rect key="frame" x="16" y="14" width="16" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="16" id="42U-M0-Cj9"/>
                                                         <constraint firstAttribute="height" constant="16" id="gcc-rl-kmm"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="默认公开卡片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mjy-Pg-Q1F">
-                                                    <rect key="frame" x="50" y="13" width="84" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="默认公开卡片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mjy-Pg-Q1F">
+                                                    <rect key="frame" x="46" y="13" width="84" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -324,10 +324,10 @@
                                             <constraints>
                                                 <constraint firstItem="FlM-c5-Vxa" firstAttribute="trailing" secondItem="rPG-iH-AFd" secondAttribute="trailingMargin" constant="-10" id="29s-6b-JOi"/>
                                                 <constraint firstItem="FlM-c5-Vxa" firstAttribute="centerY" secondItem="rPG-iH-AFd" secondAttribute="centerY" id="3eg-La-kB1"/>
-                                                <constraint firstItem="qSE-ke-qQW" firstAttribute="leading" secondItem="rPG-iH-AFd" secondAttribute="leadingMargin" constant="12" id="Mwp-fe-zFp"/>
+                                                <constraint firstItem="qSE-ke-qQW" firstAttribute="leading" secondItem="rPG-iH-AFd" secondAttribute="leadingMargin" constant="8" id="Mwp-fe-zFp"/>
                                                 <constraint firstItem="mjy-Pg-Q1F" firstAttribute="centerY" secondItem="rPG-iH-AFd" secondAttribute="centerY" id="NH7-NL-gB4"/>
                                                 <constraint firstItem="qSE-ke-qQW" firstAttribute="centerY" secondItem="rPG-iH-AFd" secondAttribute="centerY" id="ioZ-eS-qaN"/>
-                                                <constraint firstItem="mjy-Pg-Q1F" firstAttribute="leading" secondItem="rPG-iH-AFd" secondAttribute="leadingMargin" constant="42" id="jCW-3D-FZ2"/>
+                                                <constraint firstItem="mjy-Pg-Q1F" firstAttribute="leading" secondItem="rPG-iH-AFd" secondAttribute="leadingMargin" constant="38" id="jCW-3D-FZ2"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -2267,7 +2267,7 @@ AFNetworking (MIT), Colours (MIT), FCFileManager (MIT), FDFullscreenPopGesture (
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <datePicker key="tableFooterView" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" id="TVi-kA-ZgL">
-                            <rect key="frame" x="0.0" y="169.5" width="320" height="220"/>
+                            <rect key="frame" x="0.0" y="170" width="320" height="220"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <date key="date" timeIntervalSinceReferenceDate="478159181.32658398">

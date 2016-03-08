@@ -46,7 +46,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, weak) id<CourtesyAudioFrameDelegate> delegate;
 @property (nonatomic, assign) NSRange selfRange;
-@property (nonatomic, strong) MPMediaItem *userinfo;
+@property (nonatomic, strong) NSDictionary *userinfo;
 @property (nonatomic, assign) BOOL isPlaying;
 @property (nonatomic, strong) NSURL *audioURL;
 @property (nonatomic, strong) FDWaveformView *waveform;

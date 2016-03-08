@@ -17,6 +17,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "PECropViewController.h"
+#import "AudioNoteRecorderViewController.h"
 
 #define kComposeDefaultFontSize 16
 #define kComposeDefaultLineSpacing 8
@@ -28,7 +29,7 @@
 #define kComposeTopBarInsectPortrait 64
 #define kComposeTopBarInsectLandscape 48
 
-@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, WechatShortVideoDelegate, MPMediaPickerControllerDelegate, CourtesyAudioFrameDelegate>
+@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, WechatShortVideoDelegate, MPMediaPickerControllerDelegate, CourtesyAudioFrameDelegate, AudioNoteRecorderDelegate>
 @property (nonatomic, assign) YYTextView *textView;
 @property (nonatomic, strong) UIView *fakeBar;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -567,7 +568,7 @@
                                      destructiveButtonTitle:nil
                                               actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
                                                   if (index == 0) {
-                                                      // TODO: 录音
+                                                      [AudioNoteRecorderViewController showRecorderWithMasterViewController:self withDelegate:self];
                                                   } else {
                                                       MPMediaPickerController * mediaPicker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
                                                       mediaPicker.delegate = self;
@@ -590,7 +591,7 @@
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入视频"
                                                     message:@"请选择一种方式"
                                                       style:LGAlertViewStyleActionSheet
-                                               buttonTitles:@[@"随手录", @"相机", @"从相册选取", @"从视频库选取"]
+                                               buttonTitles:@[@"随手录", @"相机", @"从相册选取"]
                                           cancelButtonTitle:@"取消"
                                      destructiveButtonTitle:nil
                                               actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
@@ -615,8 +616,6 @@
                                                       picker.delegate = self;
                                                       picker.allowsEditing = YES;
                                                       [self presentViewController:picker animated:YES completion:nil];
-                                                  } else {
-                                                      // TODO: 从视频库选取
                                                   }
                                               }
                                               cancelHandler:^(LGAlertView *alertView) {
@@ -647,7 +646,7 @@
 }
 
 - (void)setFont:(UIBarButtonItem *)sender {
-    
+    // TODO: 更改字体
 }
 
 - (void)setTextViewAlignment:(NSTextAlignment)alignment {
@@ -666,6 +665,28 @@
     [_textView setAttributedText:string];
     [_textView setSelectedRange:range];
     [_textView scrollRangeToVisible:range];
+}
+
+#pragma mark - AudioNoteRecorderDelegate
+
+- (void)audioNoteRecorderDidCancel:(AudioNoteRecorderViewController *)audioNoteRecorder {
+    [audioNoteRecorder dismissViewControllerAnimated:YES completion:^() {
+        if (!_textView.isFirstResponder) {
+            [_textView becomeFirstResponder];
+        }
+    }];
+}
+
+- (void)audioNoteRecorderDidTapDone:(AudioNoteRecorderViewController *)audioNoteRecorder
+                    withRecordedURL:(NSURL *)recordedURL {
+    [self addNewAudioFrame:recordedURL
+                        at:_textView.selectedRange
+                  animated:YES
+                  userinfo:@{
+                             @"title": @"新录音",
+                             @"type": @"audio",
+                             @"url": recordedURL
+                             }];
 }
 
 #pragma mark - MPMediaPickerControllerDelegate
@@ -692,7 +713,11 @@
                     [self addNewAudioFrame:[item assetURL]
                                         at:_textView.selectedRange
                                   animated:YES
-                                  userinfo:item];
+                                  userinfo:@{
+                                             @"title": [item title],
+                                             @"type": @"audio",
+                                             @"url": [item assetURL]
+                                             }];
                 } else {
                     [self.view makeToast:@"请勿选择有版权保护的音乐"
                                 duration:kStatusBarNotificationTime
@@ -700,7 +725,7 @@
                 }
             }
         } else {
-            // TODO: 视频库
+            
         }
     }
     [mediaPicker dismissViewControllerAnimated:YES completion:nil];
@@ -758,7 +783,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
                                                      animated:YES
                                                      userinfo:@{
                                                                 UIImagePickerControllerMediaType: (NSString *)kUTTypeMovie,
-                                                                UIImagePickerControllerMediaURL: [filePath path]
+                                                                UIImagePickerControllerMediaURL: filePath
                                                                 }];
                                    }];
 }
@@ -768,7 +793,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 - (CourtesyAudioFrameView *)addNewAudioFrame:(NSURL *)url
                                           at:(NSRange)range
                                     animated:(BOOL)animated
-                                    userinfo:(MPMediaItem *)info {
+                                    userinfo:(NSDictionary *)info {
     CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, kComposeLineHeight * 2)];
     [frameView setDelegate:self];
     [frameView setUserinfo:info];

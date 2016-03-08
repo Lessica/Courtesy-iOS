@@ -130,7 +130,18 @@
         return;
     }
     _titleLabel.textColor = [UIColor whiteColor];
-    _titleLabel.text = [self.userinfo title];
+    if (!_userinfo || ![_userinfo hasKey:@"title"]) {
+        return;
+    }
+    _titleLabel.text = [_userinfo objectForKey:@"title"];
+}
+
+- (void)waveformViewDidFailedLoading:(FDWaveformView *)waveformView
+                        errorMessage:(NSString *)string {
+    if (!_titleLabel) {
+        return;
+    }
+    _titleLabel.text = [NSString stringWithFormat:@"载入失败 - %@", string];
 }
 
 - (void)waveformTapped:(FDWaveformView *)waveformView {

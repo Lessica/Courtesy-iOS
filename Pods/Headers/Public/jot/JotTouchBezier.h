@@ -1,0 +1,1 @@
+../../../jot/jot/JotTouchBezier.h
