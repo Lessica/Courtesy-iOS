@@ -47,14 +47,6 @@
     CGRect targetRect = CGRectMake(0, 0, thumbnailImage.size.width, thumbnailImage.size.width * (9.0 / 16));
     CGImageRelease(thumbnailImageRef);
     UIImage *croppedImage = [thumbnailImage imageByCropToRect:targetRect];
-//    UIImage *maskImage = [[UIImage imageNamed:@"53-play-center"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-//    
-//    UIGraphicsBeginImageContext(croppedImage.size);
-//    [croppedImage drawInRect:CGRectMake(0, 0, croppedImage.size.width, croppedImage.size.height)];
-//    [maskImage drawInRect:CGRectMake((croppedImage.size.width - maskImage.size.width) / 2, (croppedImage.size.height - maskImage.size.height) / 2, maskImage.size.width, maskImage.size.height)];
-//    
-//    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
     
     return croppedImage;
 }

@@ -18,21 +18,27 @@
         self.layer.shadowOffset = CGSizeMake(1, 1);
         self.layer.shadowOpacity = 0.45;
         self.layer.shadowRadius = 1;
-        // Init of Play Button
-        _playBtn = [UIButton new];
-        _playBtn.frame = CGRectMake(kAudioFrameBtnInterval, kAudioFrameBorderWidth, kAudioFrameBtnWidth, kAudioFrameBtnWidth);
-        _playBtn.layer.cornerRadius = _playBtn.frame.size.width / 2;
-        _playBtn.layer.masksToBounds = YES;
-        _playBtn.backgroundColor = [UIColor clearColor];
         [self setCardTintColor:nil];
-        [_playBtn setImage:[[UIImage imageNamed:@"54-play-audio"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        [_playBtn setImage:[[UIImage imageNamed:@"55-pause-audio"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
-        [_playBtn addTarget:self action:@selector(playButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        _isPlaying = NO;
-        [_playBtn setSelected:NO];
-        [self addSubview:_playBtn];
+        self.isPlaying = NO;
+        [self addSubview:self.playBtn];
     }
     return self;
+}
+
+- (UIButton *)playBtn {
+    if (!_playBtn) {
+        UIButton *playBtn = [UIButton new];
+        playBtn.frame = CGRectMake(kAudioFrameBtnInterval, kAudioFrameBorderWidth, kAudioFrameBtnWidth, kAudioFrameBtnWidth);
+        playBtn.layer.cornerRadius = playBtn.frame.size.width / 2;
+        playBtn.layer.masksToBounds = YES;
+        playBtn.backgroundColor = [UIColor clearColor];
+        [playBtn setImage:[[UIImage imageNamed:@"54-play-audio"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [playBtn setImage:[[UIImage imageNamed:@"55-pause-audio"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+        [playBtn addTarget:self action:@selector(playButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [playBtn setSelected:NO];
+        _playBtn = playBtn;
+    }
+    return _playBtn;
 }
 
 - (void)setCardBackgroundColor:(UIColor *)cardBackgroundColor {
@@ -71,91 +77,97 @@
 }
 
 - (void)pausePlaying {
-    if (_isPlaying) {
-        _isPlaying = NO;
-        [_playBtn setSelected:_isPlaying];
-        [_audioQueue pause];
+    if (self.isPlaying) {
+        self.isPlaying = NO;
+        [self.playBtn setSelected:self.isPlaying];
+        [self.audioQueue pause];
     }
 }
 
 - (void)setAudioURL:(NSURL *)audioURL {
+    if (!audioURL) return;
     _audioURL = audioURL;
-    if (self.waveform) {
-        [self.waveform removeFromSuperview];
+    if (_waveform) { // Remove old wave form
+        [_waveform removeFromSuperview]; _waveform = nil;
     }
-    // Init of Wave View
-    self.waveform = [[FDWaveformView alloc] initWithFrame:CGRectMake(kAudioFrameBtnInterval + kAudioFrameBtnWidth + kAudioFrameBtnInterval, kAudioFrameBorderWidth, self.frame.size.width - kAudioFrameBtnInterval * 3 - kAudioFrameBtnWidth, self.frame.size.height - kAudioFrameBorderWidth * 2)];
-    self.waveform.delegate = self;
     self.waveform.audioURL = audioURL;
-    self.waveform.zoomStartSamples = 0;
-    self.waveform.zoomEndSamples = self.waveform.totalSamples / 4;
-    self.waveform.doesAllowScrubbing = YES;
-    self.waveform.wavesColor = tryValue(_cardTintFocusColor, [UIColor grayColor]);
-    self.waveform.progressColor = tryValue(_cardTintColor, [UIColor darkGrayColor]);
-    [self addSubview:_waveform];
-    [self sendSubviewToBack:_waveform];
-    // Init of Title Label
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kAudioFrameBtnInterval * 3 - kAudioFrameBtnWidth, kAudioFrameLabelHeight)];
-    self.titleLabel.center = self.waveform.center;
-    self.titleLabel.backgroundColor = [UIColor clearColor];
-    self.titleLabel.font = [UIFont systemFontOfSize:12];
-    self.titleLabel.textAlignment = NSTextAlignmentCenter;
-    self.titleLabel.textColor = tryValue(_cardTextColor, [UIColor blackColor]);
-    self.titleLabel.text = @"正在载入波形……";
+    [self addSubview:self.waveform];
+    [self sendSubviewToBack:self.waveform];
     [self addSubview:self.titleLabel];
     // Init of Audio Player
-    if (!_audioURL) {
-        return;
+    AFSoundItem *audioItem = [[AFSoundItem alloc] initWithStreamingURL:audioURL];
+    if (!audioItem) return;
+    AFSoundPlayback *audioQueue = [[AFSoundPlayback alloc] initWithItem:audioItem];
+    if (audioItem.duration == 0) return;
+    self.scale = self.waveform.totalSamples / audioItem.duration;
+    if (self.autoPlay) [self playButtonTapped:nil];
+    self.audioItem = audioItem;
+    self.audioQueue = audioQueue;
+}
+
+- (UILabel *)titleLabel {
+    if (!_titleLabel) {
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kAudioFrameBtnInterval * 3 - kAudioFrameBtnWidth, kAudioFrameLabelHeight)];
+        titleLabel.center = _waveform.center;
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.font = [UIFont systemFontOfSize:12];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.textColor = tryValue(_cardTextColor, [UIColor blackColor]);
+        titleLabel.text = @"正在载入波形……";
+        _titleLabel = titleLabel;
     }
-    _audioItem = [[AFSoundItem alloc] initWithStreamingURL:_audioURL];
-    if (!_audioItem) {
-        return;
+    return _titleLabel;
+}
+
+- (FDWaveformView *)waveform {
+    if (!_waveform) {
+        FDWaveformView *waveform = [[FDWaveformView alloc] initWithFrame:CGRectMake(kAudioFrameBtnInterval + kAudioFrameBtnWidth + kAudioFrameBtnInterval, kAudioFrameBorderWidth, self.frame.size.width - kAudioFrameBtnInterval * 3 - kAudioFrameBtnWidth, self.frame.size.height - kAudioFrameBorderWidth * 2)];
+        waveform.delegate = self;
+        waveform.zoomStartSamples = 0;
+        waveform.zoomEndSamples = waveform.totalSamples / 4;
+        waveform.doesAllowScrubbing = YES;
+        waveform.wavesColor = tryValue(_cardTintFocusColor, [UIColor grayColor]);
+        waveform.progressColor = tryValue(_cardTintColor, [UIColor darkGrayColor]);
+        _waveform = waveform;
     }
-    _audioQueue = [[AFSoundPlayback alloc] initWithItem:_audioItem];
-    if (_audioItem.duration == 0) {
-        return;
-    }
-    _scale = self.waveform.totalSamples / _audioItem.duration;
-    if (self.autoPlay) {
-        [self playButtonTapped:nil];
-    }
+    return _waveform;
 }
 
 - (void)playButtonTapped:(UIButton *)button {
-    if (_delegate && [_delegate respondsToSelector:@selector(audioFrameTapped:)]) {
-        [_delegate audioFrameTapped:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(audioFrameTapped:)]) {
+        [self.delegate audioFrameTapped:self];
     }
-    if (!_audioQueue) {
+    if (!self.audioQueue) {
         return;
     }
-    if (!_isPlaying) {
-        _isPlaying = YES;
-        [_playBtn setSelected:_isPlaying];
-        [_audioQueue listenFeedbackUpdatesWithBlock:^(AFSoundItem *item) {
+    if (!self.isPlaying) {
+        self.isPlaying = YES;
+        [self.playBtn setSelected:self.isPlaying];
+        [self.audioQueue listenFeedbackUpdatesWithBlock:^(AFSoundItem *item) {
             [UIView animateWithDuration:1.0 animations:^{
-                self.waveform.progressSamples = _scale * item.timePlayed;
+                self.waveform.progressSamples = self.scale * item.timePlayed;
             }];
             CYLog(@"Item duration: %ld - time elapsed: %ld", (long)item.duration, (long)item.timePlayed);
         } andFinishedBlock:^() {
-            _isPlaying = NO;
-            [_audioQueue pause];
-            [_audioQueue restart];
-            [_playBtn setSelected:_isPlaying];
+            self.isPlaying = NO;
+            [self.audioQueue pause];
+            [self.audioQueue restart];
+            [self.playBtn setSelected:self.isPlaying];
             [UIView animateWithDuration:0.2 animations:^{
                 self.waveform.progressSamples = 0;
             }];
             CYLog(@"Track finished playing!");
         }];
-        [_audioQueue play];
-        if (_delegate && [_delegate respondsToSelector:@selector(audioFrameDidBeginPlaying:)]) {
-            [_delegate audioFrameDidBeginPlaying:self];
+        [self.audioQueue play];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(audioFrameDidBeginPlaying:)]) {
+            [self.delegate audioFrameDidBeginPlaying:self];
         }
     } else {
-        _isPlaying = NO;
-        [_playBtn setSelected:_isPlaying];
-        [_audioQueue pause];
-        if (_delegate && [_delegate respondsToSelector:@selector(audioFrameDidEndPlaying:)]) {
-            [_delegate audioFrameDidEndPlaying:self];
+        self.isPlaying = NO;
+        [self.playBtn setSelected:self.isPlaying];
+        [self.audioQueue pause];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(audioFrameDidEndPlaying:)]) {
+            [self.delegate audioFrameDidEndPlaying:self];
         }
     }
 }
@@ -163,40 +175,40 @@
 #pragma mark - FDWaveformViewDelegate
 
 - (void)waveformViewDidRender:(FDWaveformView *)waveformView {
-    if (!_titleLabel) {
+    if (!self.titleLabel) {
         return;
     }
-    _titleLabel.textColor = [UIColor whiteColor];
-    if (!_userinfo || ![_userinfo hasKey:@"title"]) {
+    self.titleLabel.textColor = [UIColor whiteColor];
+    if (!self.userinfo || ![self.userinfo hasKey:@"title"]) {
         return;
     }
-    _titleLabel.text = [_userinfo objectForKey:@"title"];
+    self.titleLabel.text = [self.userinfo objectForKey:@"title"];
 }
 
 - (void)waveformViewDidFailedLoading:(FDWaveformView *)waveformView
                         errorMessage:(NSString *)string {
-    if (!_titleLabel) {
+    if (!self.titleLabel) {
         return;
     }
-    _titleLabel.text = [NSString stringWithFormat:@"载入失败 - %@", string];
+    self.titleLabel.text = [NSString stringWithFormat:@"载入失败 - %@", string];
 }
 
 - (void)waveformTapped:(FDWaveformView *)waveformView {
-    if (_delegate && [_delegate respondsToSelector:@selector(audioFrameTapped:)]) {
-        [_delegate audioFrameTapped:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(audioFrameTapped:)]) {
+        [self.delegate audioFrameTapped:self];
     }
     [self startPlaying];
 }
 
 - (void)startPlaying {
-    if (!_audioQueue || !_waveform) {
+    if (!self.audioQueue || !self.waveform) {
         return;
     }
-    _isPlaying = YES;
-    [_playBtn setSelected:_isPlaying];
-    _audioItem.timePlayed = (((float)_waveform.progressSamples / _waveform.totalSamples) * [_audioQueue currentItem].duration);
-    [_audioQueue playAtSecond:_audioItem.timePlayed];
-    [_audioQueue play];
+    self.isPlaying = YES;
+    [self.playBtn setSelected:self.isPlaying];
+    self.audioItem.timePlayed = (((float)self.waveform.progressSamples / self.waveform.totalSamples) * [self.audioQueue currentItem].duration);
+    [self.audioQueue playAtSecond:self.audioItem.timePlayed];
+    [self.audioQueue play];
 }
 
 @end

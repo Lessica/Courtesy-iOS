@@ -59,9 +59,9 @@
                           }];
         changed = YES;
     };
-    [_regex_email enumerateMatchesInString:text.string options:NSMatchingWithoutAnchoringBounds range:*range usingBlock:handler];
-    [_regex_url enumerateMatchesInString:text.string options:NSMatchingWithoutAnchoringBounds range:*range usingBlock:handler];
-    [_regex_at enumerateMatchesInString:text.string options:NSMatchingWithoutAnchoringBounds range:*range usingBlock:handler];
+    [self.regex_email enumerateMatchesInString:text.string options:NSMatchingWithoutAnchoringBounds range:*range usingBlock:handler];
+    [self.regex_url enumerateMatchesInString:text.string options:NSMatchingWithoutAnchoringBounds range:*range usingBlock:handler];
+    [self.regex_at enumerateMatchesInString:text.string options:NSMatchingWithoutAnchoringBounds range:*range usingBlock:handler];
     return changed;
 }
 

@@ -158,7 +158,7 @@
         self.textContainer.hidden = !isEditing;
         self.userInteractionEnabled = isEditing;
         if (isEditing) {
-            self.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.5f];
+            self.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.5f];
             [self.textView becomeFirstResponder];
         } else {
             self.backgroundColor = [UIColor clearColor];

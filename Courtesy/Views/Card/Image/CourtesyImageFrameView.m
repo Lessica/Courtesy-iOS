@@ -24,28 +24,35 @@
         for (UIImageView *btn in [self optionButtons]) [self addSubview:btn];
         [self setEditable:NO];
         // Init of Bottom Label View
-        _bottomLabel = [UITextField new];
         [self setCardTintColor:nil];
-        _bottomLabel.font = [UIFont systemFontOfSize:12];
         [self setCardTextColor:nil];
-        _bottomLabel.textAlignment = NSTextAlignmentCenter;
-        _bottomLabel.placeholder = [self labelHolder];
-        _bottomLabel.delegate = self;
-        _labelOpen = NO;
+        self.labelOpen = NO;
     }
     return self;
 }
 
+- (UITextField *)bottomLabel {
+    if (!_bottomLabel) {
+        UITextField *bottomLabel = [UITextField new];
+        bottomLabel.font = [UIFont systemFontOfSize:12];
+        bottomLabel.textAlignment = NSTextAlignmentCenter;
+        bottomLabel.placeholder = [self labelHolder];
+        bottomLabel.delegate = self;
+        _bottomLabel = bottomLabel;
+    }
+    return _bottomLabel;
+}
+
 - (void)setCardTextColor:(UIColor *)cardTextColor {
     _cardTextColor = cardTextColor;
-    if (!_bottomLabel) return;
-    _bottomLabel.textColor = tryValue(_cardTextColor, [UIColor darkGrayColor]);
+    if (!self.bottomLabel) return;
+    self.bottomLabel.textColor = tryValue(_cardTextColor, [UIColor darkGrayColor]);
 }
 
 - (void)setCardTintColor:(UIColor *)cardTintColor {
     _cardTintColor = cardTintColor;
-    if (!_bottomLabel) return;
-    _bottomLabel.tintColor = tryValue(_cardTintColor, [UIColor darkGrayColor]);
+    if (!self.bottomLabel) return;
+    self.bottomLabel.tintColor = tryValue(_cardTintColor, [UIColor darkGrayColor]);
 }
 
 - (void)setCardShadowColor:(UIColor *)cardShadowColor {
@@ -60,7 +67,7 @@
 
 - (void)setEditable:(BOOL)editable {
     _editable = editable;
-    _bottomLabel.userInteractionEnabled = _editable;
+    self.bottomLabel.userInteractionEnabled = _editable;
     if (_editable) {
         if (!tapGesture) {
             // Init of Gesture Recognizer
@@ -102,12 +109,12 @@
 
 - (UIImageView *)cropBtn {
     if (!_cropBtn) {
-        _cropBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth + (kImageFrameBtnWidth + kImageFrameBtnInterval) * 2, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
-        _cropBtn.backgroundColor = [UIColor clearColor];
-        _cropBtn.image = [UIImage imageNamed:@"42-unbrella-insert"];
-        _cropBtn.alpha = 0;
-        _cropBtn.hidden = YES;
-        _cropBtn.userInteractionEnabled = YES;
+        UIImageView *cropBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth + (kImageFrameBtnWidth + kImageFrameBtnInterval) * 2, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
+        cropBtn.backgroundColor = [UIColor clearColor];
+        cropBtn.image = [UIImage imageNamed:@"42-unbrella-insert"];
+        cropBtn.alpha = 0;
+        cropBtn.hidden = YES;
+        cropBtn.userInteractionEnabled = YES;
         __weak typeof(self) _self = self;
         UITapGestureRecognizer *cropGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
             __strong typeof(_self) self = _self;
@@ -116,42 +123,44 @@
                 [_delegate imageFrameShouldCropped:self]; // 这里可能产生循环引用？
             }
         }];
-        [_cropBtn addGestureRecognizer:cropGesture];
+        [cropBtn addGestureRecognizer:cropGesture];
+        _cropBtn = cropBtn;
     }
     return _cropBtn;
 }
 
 - (UIImageView *)editBtn {
     if (!_editBtn) {
-        _editBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth + kImageFrameBtnWidth + kImageFrameBtnInterval, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
-        _editBtn.backgroundColor = [UIColor clearColor];
-        _editBtn.image = [UIImage imageNamed:@"43-unbrella-edit"];
-        _editBtn.alpha = 0;
-        _editBtn.hidden = YES;
-        _editBtn.userInteractionEnabled = YES;
+        UIImageView *editBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth + kImageFrameBtnWidth + kImageFrameBtnInterval, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
+        editBtn.backgroundColor = [UIColor clearColor];
+        editBtn.image = [UIImage imageNamed:@"43-unbrella-edit"];
+        editBtn.alpha = 0;
+        editBtn.hidden = YES;
+        editBtn.userInteractionEnabled = YES;
         __weak typeof(self) _self = self;
         UITapGestureRecognizer *editGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
             __strong typeof(_self) self = _self;
             [self frameTapped:g]; // 循环引用？
-            if (!_labelOpen) {
+            if (!self.labelOpen) {
                 [self toggleBottomLabelView:YES animated:YES];
             } else {
                 [self toggleBottomLabelView:NO animated:YES];
             }
         }];
-        [_editBtn addGestureRecognizer:editGesture];
+        [editBtn addGestureRecognizer:editGesture];
+        _editBtn = editBtn;
     }
     return _editBtn;
 }
 
 - (UIImageView *)deleteBtn {
     if (!_deleteBtn) {
-        _deleteBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
-        _deleteBtn.backgroundColor = [UIColor clearColor];
-        _deleteBtn.image = [UIImage imageNamed:@"41-unbrella-delete"];
-        _deleteBtn.alpha = 0;
-        _deleteBtn.hidden = YES;
-        _deleteBtn.userInteractionEnabled = YES;
+        UIImageView *deleteBtn = [[UIImageView alloc] initWithFrame:CGRectMake(kImageFrameBtnBorderWidth, kImageFrameBtnBorderWidth, kImageFrameBtnWidth, kImageFrameBtnWidth)];
+        deleteBtn.backgroundColor = [UIColor clearColor];
+        deleteBtn.image = [UIImage imageNamed:@"41-unbrella-delete"];
+        deleteBtn.alpha = 0;
+        deleteBtn.hidden = YES;
+        deleteBtn.userInteractionEnabled = YES;
         __weak typeof(self) _self = self;
         UITapGestureRecognizer *deleteGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
             __strong typeof(_self) self = _self;
@@ -159,85 +168,87 @@
                 [_delegate imageFrameShouldDeleted:self animated:YES]; // 循环引用？
             }
         }];
-        [_deleteBtn addGestureRecognizer:deleteGesture];
+        [deleteBtn addGestureRecognizer:deleteGesture];
+        _deleteBtn = deleteBtn;
     }
     return _deleteBtn;
 }
 
 - (void)setCenterImage:(UIImage *)centerImage {
     // Remove Old Image View
-    if (_centerImageView) {
-        [_centerImageView removeFromSuperview];
+    if (self.centerImageView) {
+        [self.centerImageView removeFromSuperview];
     }
     // Calculate Image Scaled Height
     CGFloat scaleValue = 0;
     CGFloat height = 0;
     // Set New Image View
-    _centerImage = centerImage;
-    _centerImageView = nil;
-    if (_centerImage.size.width > self.frame.size.width) {
-        scaleValue = self.frame.size.width / _centerImage.size.width;
-        height = _centerImage.size.height * scaleValue;
-        _centerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
-        _centerImageView.contentMode = UIViewContentModeScaleAspectFill;
+    UIImageView *centerImageView = nil;
+    if (centerImage.size.width > self.frame.size.width) {
+        scaleValue = self.frame.size.width / centerImage.size.width;
+        height = centerImage.size.height * scaleValue;
+        centerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
+        centerImageView.contentMode = UIViewContentModeScaleAspectFill;
     } else {
-        if (_centerImage.size.height < kImageFrameMinHeight) {
+        if (centerImage.size.height < kImageFrameMinHeight) {
             height = kImageFrameMinHeight; // 最小高度
         } else {
-            height = _centerImage.size.height;
+            height = centerImage.size.height;
         }
-        _centerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
-        _centerImageView.contentMode = UIViewContentModeCenter;
+        centerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
+        centerImageView.contentMode = UIViewContentModeCenter;
     }
-    _centerImageView.tintColor = [UIColor whiteColor];
-    _centerImageView.clipsToBounds = YES;
-    _centerImageView.userInteractionEnabled = YES;
-    _centerImageView.image = _centerImage;
-    _centerImageView.nl_hasGaussian = NO;
+    centerImageView.tintColor = [UIColor whiteColor];
+    centerImageView.clipsToBounds = YES;
+    centerImageView.userInteractionEnabled = YES;
+    centerImageView.image = centerImage;
+    centerImageView.nl_hasGaussian = NO;
     // Reset Frame View
     if (_labelOpen) {
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, _centerImageView.height + kImageFrameBorderWidth * 2 + kImageFrameLabelHeight);
-        _centerImageView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2 - kImageFrameLabelHeight);
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, centerImageView.frame.size.height + kImageFrameBorderWidth * 2 + kImageFrameLabelHeight);
+        centerImageView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2 - kImageFrameLabelHeight);
     } else {
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, _centerImageView.height + kImageFrameBorderWidth * 2);
-        _centerImageView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, centerImageView.frame.size.height + kImageFrameBorderWidth * 2);
+        centerImageView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
     }
-    [self addSubview:_centerImageView];
-    [self sendSubviewToBack:_centerImageView];
-    if ([self centerBtn]) {
-        [_centerImageView addSubview:[self centerBtn]];
+    _centerImage = centerImage;
+    _centerImageView = centerImageView;
+    [self addSubview:centerImageView];
+    [self sendSubviewToBack:centerImageView];
+    if (self.centerBtn) {
+        [centerImageView addSubview:self.centerBtn];
     }
 }
 
 - (void)frameTapped:(id)sender {
-        _optionsOpen = !_optionsOpen;
-        if (_bottomLabel && [_bottomLabel isFirstResponder]) {
-            [_bottomLabel resignFirstResponder];
+        self.optionsOpen = !self.optionsOpen;
+        if (self.bottomLabel && [self.bottomLabel isFirstResponder]) {
+            [self.bottomLabel resignFirstResponder];
         }
-        if (_centerImageView) {
-            if (_optionsOpen) {
-                [_centerImageView setHasGaussian:YES];
-                for (UIImageView *btn in [self optionButtons]) {
+        if (self.centerImageView) {
+            if (self.optionsOpen) {
+                [self.centerImageView setHasGaussian:YES];
+                for (UIImageView *btn in self.optionButtons) {
                     btn.hidden = NO;
                 }
                 [UIView animateWithDuration:0.2
                                  animations:^{
-                                     for (UIImageView *btn in [self optionButtons]) {
+                                     for (UIImageView *btn in self.optionButtons) {
                                          btn.alpha = 1.0;
                                      }
                                  } completion:^(BOOL finished) {
                                      
                                  }];
             } else {
-                [_centerImageView setHasGaussian:NO];
+                [self.centerImageView setHasGaussian:NO];
                 [UIView animateWithDuration:0.2
                                  animations:^{
-                                     for (UIImageView *btn in [self optionButtons]) {
+                                     for (UIImageView *btn in self.optionButtons) {
                                          btn.alpha = 0.0;
                                      }
                                  } completion:^(BOOL finished) {
                                      if (finished) {
-                                         for (UIImageView *btn in [self optionButtons]) {
+                                         for (UIImageView *btn in self.optionButtons) {
                                              btn.hidden = YES;
                                          }
                                      }
@@ -251,37 +262,37 @@
 
 - (void)toggleBottomLabelView:(BOOL)on
                      animated:(BOOL)animated {
-    if (on && !_labelOpen) {
-        _labelOpen = YES;
-        CGFloat targetHeight = self.height + kImageFrameLabelHeight;
+    if (on && !self.labelOpen) {
+        self.labelOpen = YES;
+        CGFloat targetHeight = self.frame.size.height + kImageFrameLabelHeight;
         // Reset Label View
-        _bottomLabel.frame = CGRectMake(kImageFrameBorderWidth, targetHeight - kImageFrameBorderWidth - kImageFrameLabelTextHeight, self.frame.size.width - kImageFrameBorderWidth * 2, kImageFrameLabelTextHeight);
+        self.bottomLabel.frame = CGRectMake(kImageFrameBorderWidth, targetHeight - kImageFrameBorderWidth - kImageFrameLabelTextHeight, self.frame.size.width - kImageFrameBorderWidth * 2, kImageFrameLabelTextHeight);
         if (animated) {
             [UIView animateWithDuration:0.2
                              animations:^{
                                  [self setHeight:targetHeight];
                              } completion:^(BOOL finished) {
                                  if (finished) {
-                                     [self addSubview:_bottomLabel];
-                                     if (![_bottomLabel isFirstResponder]) {
-                                         [_bottomLabel becomeFirstResponder];
+                                     [self addSubview:self.bottomLabel];
+                                     if (![self.bottomLabel isFirstResponder]) {
+                                         [self.bottomLabel becomeFirstResponder];
                                      }
                                  }
                              }];
         } else {
             [self setHeight:targetHeight];
-            [self addSubview:_bottomLabel];
-            if (![_bottomLabel isFirstResponder]) {
-                [_bottomLabel becomeFirstResponder];
+            [self addSubview:self.bottomLabel];
+            if (![self.bottomLabel isFirstResponder]) {
+                [self.bottomLabel becomeFirstResponder];
             }
         }
-    } else if (!on && _labelOpen) {
-        _labelOpen = NO;
-        if ([_bottomLabel isFirstResponder]) {
-            [_bottomLabel resignFirstResponder];
+    } else if (!on && self.labelOpen) {
+        self.labelOpen = NO;
+        if ([self.bottomLabel isFirstResponder]) {
+            [self.bottomLabel resignFirstResponder];
         }
         CGFloat targetHeight = self.height - kImageFrameLabelHeight;
-        [_bottomLabel removeFromSuperview];
+        [self.bottomLabel removeFromSuperview];
         if (animated) {
             [UIView animateWithDuration:0.2
                              animations:^{
@@ -312,7 +323,7 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    _labelText = textField.text;
+    self.labelText = textField.text;
     if ([textField.text isEmpty]) {
         [self toggleBottomLabelView:NO animated:YES];
     }

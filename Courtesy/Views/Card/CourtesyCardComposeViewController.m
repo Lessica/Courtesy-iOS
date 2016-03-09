@@ -30,13 +30,15 @@
 #define kComposeTopBarInsectPortrait 64.0
 #define kComposeTopBarInsectLandscape 48.0
 
-@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, WechatShortVideoDelegate, MPMediaPickerControllerDelegate, CourtesyAudioFrameDelegate, AudioNoteRecorderDelegate>
+@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, WechatShortVideoDelegate, MPMediaPickerControllerDelegate, CourtesyAudioFrameDelegate, AudioNoteRecorderDelegate, JotViewControllerDelegate>
 @property (nonatomic, assign) YYTextView *textView;
 @property (nonatomic, strong) UIView *fakeBar;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *circleCloseBtn;
 @property (nonatomic, strong) UIImageView *circleApproveBtn;
+@property (nonatomic, strong) UIImageView *circleBackBtn;
 @property (nonatomic, strong) CourtesyJotViewController *jotViewController;
+@property (nonatomic, strong) UIView *jotView;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSDictionary *originalAttributes;
 @property (nonatomic, strong) UIFont *originalFont;
@@ -65,7 +67,7 @@
     // Do any additional setup after loading the view.
     
     /* Init of main view */
-    self.view.backgroundColor = tryValue(self.mainViewColor, [UIColor whiteColor]); // 卡片背景在 textview 中设置
+    self.view.backgroundColor = tryValue(self.mainViewColor, [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture"]]); // 卡片背景在 textview 中设置
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = NO;
     //self.modalPresentationCapturesStatusBarAppearance = NO;
@@ -103,7 +105,7 @@
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrl:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleFreehand:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(openFreehand:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(setFont:)]];
     [myToolBarItems addObject:flexibleSpace];
@@ -125,14 +127,14 @@
     text.color = tryValue(self.cardTextColor, [UIColor darkGrayColor]);
     text.lineSpacing = [tryValue(self.cardLineSpacing, [NSNumber numberWithFloat:kComposeDefaultLineSpacing]) floatValue];
     text.lineBreakMode = NSLineBreakByWordWrapping;
-    _originalFont = tryValue(self.cardFont, text.font);
-    _originalAttributes = tryValue(self.cardContentAttributes, text.attributes);
+    self.originalFont = tryValue(self.cardFont, text.font);
+    self.originalAttributes = tryValue(self.cardContentAttributes, text.attributes);
     
     /* Init of text view */
     YYTextView *textView = [YYTextView new];
     textView.delegate = self;
-    textView.typingAttributes = tryValue(self.cardContentAttributes, _originalAttributes);
-    textView.backgroundColor = tryValue(self.cardBackgroundColor, [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture"]]);
+    textView.typingAttributes = tryValue(self.cardContentAttributes, self.originalAttributes);
+    textView.backgroundColor = tryValue(self.cardBackgroundColor, [UIColor clearColor]);
     textView.alwaysBounceVertical = YES;
     textView.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -218,73 +220,123 @@
                                                          multiplier:1
                                                            constant:0]];
     
+    /* Init of Jot Scroll View */
+    UIView *jotView = [[UIView alloc] initWithFrame:self.textView.frame];
+    jotView.backgroundColor = [UIColor clearColor];
+    jotView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    /* Layout of Jot Scroll View */
+    self.jotView = jotView;
+    [self.view insertSubview:jotView belowSubview:textView];
+    
+    /* Position & Size */
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:jotView
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeTopMargin
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:jotView
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeBottomMargin
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:jotView
+                                                          attribute:NSLayoutAttributeTrailing
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeTrailing
+                                                         multiplier:1
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:jotView
+                                                          attribute:NSLayoutAttributeLeading
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeading
+                                                         multiplier:1
+                                                           constant:0]];
+    
+    /* Init of Jot View */
+    CourtesyJotViewController *jotViewController = [CourtesyJotViewController new];
+    jotViewController.delegate = self;
+    [self addChildViewController:jotViewController];
+    jotViewController.view.frame = jotView.frame;
+    [jotView addSubview:jotViewController.view];
+    [jotViewController didMoveToParentViewController:self];
+    self.jotViewController = jotViewController;
+    
     /* Init of Fake Status Bar */
     CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
-    _fakeBar = [[UIView alloc] initWithFrame:frame];
-    _fakeBar.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue];
-    _fakeBar.backgroundColor = tryValue(self.statusBarColor, [UIColor blackColor]);
-    _fakeBar.hidden = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
+    UIView *fakeBar = [[UIView alloc] initWithFrame:frame];
+    fakeBar.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue];
+    fakeBar.backgroundColor = tryValue(self.statusBarColor, [UIColor blackColor]);
+    fakeBar.hidden = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
     
     /* Tap Gesture of Fake Status Bar */
     UITapGestureRecognizer *tapFakeBar = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
-        if (_textView) {
-            [_textView scrollToTopAnimated:YES];
+        if (textView) {
+            [textView scrollToTopAnimated:YES];
         }
     }];
     tapFakeBar.numberOfTouchesRequired = 1;
     tapFakeBar.numberOfTapsRequired = 1;
-    [_fakeBar addGestureRecognizer:tapFakeBar];
-    [_fakeBar setUserInteractionEnabled:YES];
+    [fakeBar addGestureRecognizer:tapFakeBar];
+    [fakeBar setUserInteractionEnabled:YES];
     
     /* Layouts of Fake Status Bar */
-    [self.view addSubview:_fakeBar];
-    [self.view bringSubviewToFront:_fakeBar];
+    self.fakeBar = fakeBar;
+    [self.view addSubview:fakeBar];
+    [self.view bringSubviewToFront:fakeBar];
     
     /* Init of close circle button */
-    _circleCloseBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    _circleCloseBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-    _circleCloseBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
-    _circleCloseBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
-    _circleCloseBtn.image = [[UIImage imageNamed:@"39-close-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    _circleCloseBtn.layer.masksToBounds = YES;
-    _circleCloseBtn.layer.cornerRadius = _circleCloseBtn.frame.size.height / 2;
-    _circleCloseBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    UIImageView *circleCloseBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+    circleCloseBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
+    circleCloseBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
+    circleCloseBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+    circleCloseBtn.image = [[UIImage imageNamed:@"39-close-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    circleCloseBtn.layer.masksToBounds = YES;
+    circleCloseBtn.layer.cornerRadius = circleCloseBtn.frame.size.height / 2;
+    circleCloseBtn.translatesAutoresizingMaskIntoConstraints = NO;
     
     /* Tap gesture of close button */
     UITapGestureRecognizer *tapCloseBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                   action:@selector(closeComposeView:)];
     tapCloseBtn.numberOfTouchesRequired = 1;
     tapCloseBtn.numberOfTapsRequired = 1;
-    [_circleCloseBtn addGestureRecognizer:tapCloseBtn];
+    [circleCloseBtn addGestureRecognizer:tapCloseBtn];
     
     /* Enable interaction for close button */
-    [_circleCloseBtn setUserInteractionEnabled:YES];
+    [circleCloseBtn setUserInteractionEnabled:YES];
     
     /* Auto layouts of close button */
-    [self.view addSubview:_circleCloseBtn];
-    [self.view bringSubviewToFront:_circleCloseBtn];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_circleCloseBtn
+    self.circleCloseBtn = circleCloseBtn;
+    [self.view addSubview:circleCloseBtn];
+    [self.view bringSubviewToFront:circleCloseBtn];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleCloseBtn
                                                           attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:nil
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1
                                                            constant:32]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_circleCloseBtn
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleCloseBtn
                                                           attribute:NSLayoutAttributeHeight
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:nil
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1
                                                            constant:32]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_circleCloseBtn
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleCloseBtn
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
-                                                             toItem:_fakeBar
+                                                             toItem:fakeBar
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1
                                                            constant:20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_circleCloseBtn
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleCloseBtn
                                                           attribute:NSLayoutAttributeLeading
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
@@ -292,51 +344,52 @@
                                                          multiplier:1
                                                            constant:0]];
     
-    /* Init of approve circle buttons */
-    _circleApproveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    _circleApproveBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-    _circleApproveBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
-    _circleApproveBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
-    _circleApproveBtn.image = [[UIImage imageNamed:@"40-approve-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    _circleApproveBtn.layer.masksToBounds = YES;
-    _circleApproveBtn.layer.cornerRadius = _circleApproveBtn.frame.size.height / 2;
-    _circleApproveBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    /* Init of approve circle button */
+    UIImageView *circleApproveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+    circleApproveBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
+    circleApproveBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
+    circleApproveBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+    circleApproveBtn.image = [[UIImage imageNamed:@"40-approve-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    circleApproveBtn.layer.masksToBounds = YES;
+    circleApproveBtn.layer.cornerRadius = circleApproveBtn.frame.size.height / 2;
+    circleApproveBtn.translatesAutoresizingMaskIntoConstraints = NO;
     
     /* Tap gesture of approve button */
     UITapGestureRecognizer *tapApproveBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                     action:@selector(doneComposeView:)];
     tapApproveBtn.numberOfTouchesRequired = 1;
     tapApproveBtn.numberOfTapsRequired = 1;
-    [_circleApproveBtn addGestureRecognizer:tapApproveBtn];
+    [circleApproveBtn addGestureRecognizer:tapApproveBtn];
     
     /* Enable interaction for approve button */
-    [_circleApproveBtn setUserInteractionEnabled:YES];
+    [circleApproveBtn setUserInteractionEnabled:YES];
     
     /* Auto layouts of approve button */
-    [self.view addSubview:_circleApproveBtn];
-    [self.view bringSubviewToFront:_circleApproveBtn];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_circleApproveBtn
+    self.circleApproveBtn = circleApproveBtn;
+    [self.view addSubview:circleApproveBtn];
+    [self.view bringSubviewToFront:circleApproveBtn];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleApproveBtn
                                                           attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:nil
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1
                                                            constant:32]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_circleApproveBtn
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleApproveBtn
                                                           attribute:NSLayoutAttributeHeight
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:nil
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1
                                                            constant:32]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_circleApproveBtn
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleApproveBtn
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
-                                                             toItem:_fakeBar
+                                                             toItem:fakeBar
                                                           attribute:NSLayoutAttributeBottom
                                                          multiplier:1
                                                            constant:20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_circleApproveBtn
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleApproveBtn
                                                           attribute:NSLayoutAttributeTrailing
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
@@ -344,48 +397,107 @@
                                                          multiplier:1
                                                            constant:0]];
     
+    /* Init of approve back button */
+    UIImageView *circleBackBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+    circleBackBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
+    circleBackBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
+    circleBackBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+    circleBackBtn.image = [[UIImage imageNamed:@"56-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    circleBackBtn.layer.masksToBounds = YES;
+    circleBackBtn.layer.cornerRadius = circleBackBtn.frame.size.height / 2;
+    circleBackBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    /* Back button is not visible */
+    circleBackBtn.alpha = 0.0;
+    circleBackBtn.hidden = YES;
+    
+    /* Tap gesture of back button */
+    UITapGestureRecognizer *tapBackBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(closeFreehand:)];
+    tapBackBtn.numberOfTouchesRequired = 1;
+    tapBackBtn.numberOfTapsRequired = 1;
+    [circleBackBtn addGestureRecognizer:tapBackBtn];
+    
+    /* Enable interaction for approve button */
+    [circleBackBtn setUserInteractionEnabled:YES];
+    
+    /* Auto layouts of approve button */
+    self.circleBackBtn = circleBackBtn;
+    [self.view addSubview:circleBackBtn];
+    [self.view bringSubviewToFront:circleBackBtn];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBackBtn
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1
+                                                           constant:32]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBackBtn
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1
+                                                           constant:32]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBackBtn
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeBottomMargin
+                                                         multiplier:1
+                                                           constant:-20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBackBtn
+                                                          attribute:NSLayoutAttributeLeading
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeadingMargin
+                                                         multiplier:1
+                                                           constant:0]];
+    
     /* Init of Title Label */
-    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, 24)];
-    _titleLabel.backgroundColor = [UIColor clearColor];
-    _titleLabel.textColor = tryValue(self.dateLabelTextColor, [UIColor darkGrayColor]);
-    _titleLabel.font = [UIFont systemFontOfSize:[tryValue(self.cardTitleFontSize, [NSNumber numberWithFloat:12.0]) floatValue]];
-    _titleLabel.textAlignment = NSTextAlignmentCenter;
-    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, 24)];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.textColor = tryValue(self.dateLabelTextColor, [UIColor darkGrayColor]);
+    titleLabel.font = [UIFont systemFontOfSize:[tryValue(self.cardTitleFontSize, [NSNumber numberWithFloat:12.0]) floatValue]];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     /* Init of Current Date */
-    _dateFormatter = [NSDateFormatter new];
-    [_dateFormatter setDateFormat:tryValue(self.cardCreateTimeFormat, @"yyyy年M月d日 EEEE ah:mm")];
-    [_dateFormatter setLocale:[NSLocale currentLocale]];
-    _titleLabel.text = [_dateFormatter stringFromDate:tryValue(self.cardModifyTime, tryValue(self.cardCreateTime, [NSDate date]))];
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    [dateFormatter setDateFormat:tryValue(self.cardCreateTimeFormat, @"yyyy年M月d日 EEEE ah:mm")];
+    [dateFormatter setLocale:[NSLocale currentLocale]];
+    titleLabel.text = [dateFormatter stringFromDate:tryValue(self.cardModifyTime, tryValue(self.cardCreateTime, [NSDate date]))];
     
     /* Auto layouts of Title Label */
-    [_textView addSubview:_titleLabel];
-    [_textView bringSubviewToFront:_titleLabel];
-    [_textView addConstraint:[NSLayoutConstraint constraintWithItem:_titleLabel
+    self.dateFormatter = dateFormatter;
+    self.titleLabel = titleLabel;
+    [textView addSubview:titleLabel];
+    [textView bringSubviewToFront:titleLabel];
+    [textView addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel
                                                           attribute:NSLayoutAttributeWidth
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:nil
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1
                                                            constant:240]];
-    [_textView addConstraint:[NSLayoutConstraint constraintWithItem:_titleLabel
+    [textView addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel
                                                           attribute:NSLayoutAttributeHeight
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:nil
                                                           attribute:NSLayoutAttributeNotAnAttribute
                                                          multiplier:1
                                                            constant:24]];
-    [_textView addConstraint:[NSLayoutConstraint constraintWithItem:_titleLabel
+    [textView addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel
                                                           attribute:NSLayoutAttributeTop
                                                           relatedBy:NSLayoutRelationEqual
-                                                             toItem:_textView
+                                                             toItem:textView
                                                           attribute:NSLayoutAttributeTop
                                                          multiplier:1
                                                            constant:0]];
-    [_textView addConstraint:[NSLayoutConstraint constraintWithItem:_titleLabel
+    [textView addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel
                                                           attribute:NSLayoutAttributeCenterX
                                                           relatedBy:NSLayoutRelationEqual
-                                                             toItem:_textView
+                                                             toItem:textView
                                                           attribute:NSLayoutAttributeCenterX
                                                          multiplier:1
                                                            constant:0]];
@@ -394,7 +506,7 @@
         [textView becomeFirstResponder];
     });
     
-    [_textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
+    [textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
     [[YYTextKeyboardManager defaultManager] addObserver:self];
 }
 
@@ -407,14 +519,14 @@
                        context:(void *)context
 {
     if ([keyPath isEqualToString:@"typingAttributes"]) {
-        _textView.typingAttributes = _originalAttributes;
+        self.textView.typingAttributes = self.originalAttributes;
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 
 - (void)dealloc {
-    [_textView removeObserver:self forKeyPath:@"typingAttributes"];
+    [self.textView removeObserver:self forKeyPath:@"typingAttributes"];
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
 }
 
@@ -423,17 +535,17 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
         [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            _fakeBar.hidden = NO;
+            self.fakeBar.hidden = NO;
         } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            _fakeBar.top = 0;
-            _textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectPortrait, 0, 0, 0);
+            self.fakeBar.top = 0;
+            self.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectPortrait, 0, 0, 0);
         }];
     } else {
         [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            _fakeBar.hidden = YES;
+            self.fakeBar.hidden = YES;
         } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            _fakeBar.top = - _fakeBar.height;
-            _textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectLandscape, 0, 0, 0);
+            self.fakeBar.top = - self.fakeBar.height;
+            self.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectLandscape, 0, 0, 0);
         }];
     }
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
@@ -460,8 +572,8 @@
 #pragma mark - Floating Actions & Navigation Bar Items
 
 - (void)closeComposeView:(id)sender {
-    if (_textView.isFirstResponder) {
-        [_textView resignFirstResponder];
+    if (self.textView.isFirstResponder) {
+        [self.textView resignFirstResponder];
     }
     [self dismissViewControllerAnimated:YES completion:^() {
         [self.view removeAllSubviews];
@@ -469,10 +581,10 @@
 }
 
 - (void)doneComposeView:(id)sender {
-    if (_textView.isFirstResponder) {
-        [_textView resignFirstResponder];
+    if (self.textView.isFirstResponder) {
+        [self.textView resignFirstResponder];
     }
-    if (_textView.text.length >= [self.maxContentLength integerValue]) {
+    if (self.textView.text.length >= [self.maxContentLength integerValue]) {
         [self.view makeToast:@"卡片内容太多了喔"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
@@ -487,14 +599,14 @@
 
 - (void)setRangeBold:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    NSRange range = _textView.selectedRange;
+    NSRange range = self.textView.selectedRange;
     if (range.length <= 0) {
         [self.view makeToast:@"请选择需要设置粗体的文字"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
         return;
     }
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
     NSAttributedString *sub = [string attributedSubstringFromRange:range];
     UIFont *font = [sub font];
     if (![font isBold]) {
@@ -502,21 +614,21 @@
     } else {
         [string setFont:[font fontWithNormal] range:range];
     }
-    [_textView setAttributedText:string];
-    [_textView setSelectedRange:range];
-    [_textView scrollRangeToVisible:range];
+    [self.textView setAttributedText:string];
+    [self.textView setSelectedRange:range];
+    [self.textView scrollRangeToVisible:range];
 }
 
 - (void)setRangeItalic:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    NSRange range = _textView.selectedRange;
+    NSRange range = self.textView.selectedRange;
     if (range.length <= 0) {
         [self.view makeToast:@"请选择需要设置斜体的文字"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
         return;
     }
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
     NSAttributedString *sub = [string attributedSubstringFromRange:range];
     UIFont *font = [sub font];
     if (![font isItalic]) {
@@ -524,25 +636,25 @@
     } else {
         [string setFont:[font fontWithNormal] range:range];
     }
-    [_textView setAttributedText:string];
-    [_textView setSelectedRange:range];
-    [_textView scrollRangeToVisible:range];
+    [self.textView setAttributedText:string];
+    [self.textView setSelectedRange:range];
+    [self.textView scrollRangeToVisible:range];
 }
 
 - (void)addUrl:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    NSRange range = _textView.selectedRange;
+    NSRange range = self.textView.selectedRange;
     if (range.length <= 0) {
         [self.view makeToast:@"请选择需要设置为链接的文字"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
         return;
     }
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
     [[CourtesyTextBindingParser sharedInstance] parseText:string selectedRange:&range];
-    [_textView setAttributedText:string];
-    [_textView setSelectedRange:range];
-    [_textView scrollRangeToVisible:range];
+    [self.textView setAttributedText:string];
+    [self.textView setSelectedRange:range];
+    [self.textView scrollRangeToVisible:range];
 }
 
 - (void)addNewImageMenu:(UIBarButtonItem *)sender {
@@ -553,8 +665,8 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (_textView.isFirstResponder) {
-        [_textView resignFirstResponder];
+    if (self.textView.isFirstResponder) {
+        [self.textView resignFirstResponder];
     }
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入图像"
                                                     message:@"请选择一种方式"
@@ -578,8 +690,8 @@
                                                                 }
                                                             }
                                               cancelHandler:^(LGAlertView *alertView) {
-                                                                if (!_textView.isFirstResponder) {
-                                                                    [_textView becomeFirstResponder];
+                                                                if (!self.textView.isFirstResponder) {
+                                                                    [self.textView becomeFirstResponder];
                                                                 }
                                                             } destructiveHandler:nil];
     [alert showAnimated:YES completionHandler:nil];
@@ -593,8 +705,8 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (_textView.isFirstResponder) {
-        [_textView resignFirstResponder];
+    if (self.textView.isFirstResponder) {
+        [self.textView resignFirstResponder];
     }
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入音频"
                                                     message:@"请选择一种方式"
@@ -615,8 +727,8 @@
                                                   }
                                               }
                                               cancelHandler:^(LGAlertView *alertView) {
-                                                  if (!_textView.isFirstResponder) {
-                                                      [_textView becomeFirstResponder];
+                                                  if (!self.textView.isFirstResponder) {
+                                                      [self.textView becomeFirstResponder];
                                                   }
                                               } destructiveHandler:nil];
     [alert showAnimated:YES completionHandler:nil];
@@ -630,8 +742,8 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (_textView.isFirstResponder) {
-        [_textView resignFirstResponder];
+    if (self.textView.isFirstResponder) {
+        [self.textView resignFirstResponder];
     }
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入视频"
                                                     message:@"请选择一种方式"
@@ -664,8 +776,8 @@
                                                   }
                                               }
                                               cancelHandler:^(LGAlertView *alertView) {
-                                                  if (!_textView.isFirstResponder) {
-                                                      [_textView becomeFirstResponder];
+                                                  if (!self.textView.isFirstResponder) {
+                                                      [self.textView becomeFirstResponder];
                                                   }
                                               } destructiveHandler:nil];
     [alert showAnimated:YES completionHandler:nil];
@@ -686,12 +798,51 @@
     [self setTextViewAlignment:NSTextAlignmentRight];
 }
 
-- (void)toggleFreehand:(UIBarButtonItem *)sender {
+- (void)closeFreehand:(UIGestureRecognizer *)sender {
+    [self.jotViewController setState:JotViewStateDefault];
+    [self.jotViewController setControlEnabled:NO];
+    [self.view sendSubviewToBack:self.jotView];
+    self.circleApproveBtn.hidden = NO;
+    self.circleCloseBtn.hidden = NO;
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.circleBackBtn.alpha = 0.0;
+                         self.circleApproveBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+                         self.circleCloseBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+                     } completion:^(BOOL finished) {
+                         if (finished) {
+                             self.circleBackBtn.hidden = YES;
+                             self.circleApproveBtn.userInteractionEnabled = YES;
+                             self.circleCloseBtn.userInteractionEnabled = YES;
+                             if (!self.textView.isFirstResponder) {
+                                 [self.textView becomeFirstResponder];
+                             }
+                         }
+                     }];
+}
+
+- (void)openFreehand:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    // TODO: 添加涂鸦
-    [self.view makeToast:@"Demo 版本中无法添加涂鸦"
-                duration:kStatusBarNotificationTime
-                position:CSToastPositionCenter];
+    if (self.textView.isFirstResponder) {
+        [self.textView resignFirstResponder];
+    }
+    [self.jotViewController setState:JotViewStateDrawing];
+    [self.jotViewController setControlEnabled:YES];
+    [self.view sendSubviewToBack:self.textView];
+    self.circleBackBtn.hidden = NO;
+    self.circleApproveBtn.userInteractionEnabled = NO;
+    self.circleCloseBtn.userInteractionEnabled = NO;
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.circleBackBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+                         self.circleApproveBtn.alpha = 0;
+                         self.circleCloseBtn.alpha = 0;
+                     } completion:^(BOOL finished) {
+                         if (finished) {
+                             self.circleApproveBtn.hidden = YES;
+                             self.circleCloseBtn.hidden = YES;
+                         }
+                     }];
 }
 
 - (void)setFont:(UIBarButtonItem *)sender {
@@ -704,29 +855,29 @@
 
 - (void)setTextViewAlignment:(NSTextAlignment)alignment {
     if (!self.editable) return;
-    NSRange range = _textView.selectedRange;
-    if (range.length <= 0 && [_textView.typingAttributes hasKey:NSParagraphStyleAttributeName]) {
-        NSParagraphStyle *paragraphStyle = [_textView.typingAttributes objectForKey:NSParagraphStyleAttributeName];
+    NSRange range = self.textView.selectedRange;
+    if (range.length <= 0 && [self.textView.typingAttributes hasKey:NSParagraphStyleAttributeName]) {
+        NSParagraphStyle *paragraphStyle = [self.textView.typingAttributes objectForKey:NSParagraphStyleAttributeName];
         NSMutableParagraphStyle *newParagraphStyle = [[NSMutableParagraphStyle alloc] init];
         [newParagraphStyle setParagraphStyle:paragraphStyle];
         newParagraphStyle.alignment = alignment;
-        NSMutableDictionary *newTypingAttributes = [[NSMutableDictionary alloc] initWithDictionary:_textView.typingAttributes];
+        NSMutableDictionary *newTypingAttributes = [[NSMutableDictionary alloc] initWithDictionary:self.textView.typingAttributes];
         [newTypingAttributes setObject:newParagraphStyle forKey:NSParagraphStyleAttributeName];
-        [_textView setTypingAttributes:newTypingAttributes];
+        [self.textView setTypingAttributes:newTypingAttributes];
     }
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
     [string setAlignment:alignment];
-    [_textView setAttributedText:string];
-    [_textView setSelectedRange:range];
-    [_textView scrollRangeToVisible:range];
+    [self.textView setAttributedText:string];
+    [self.textView setSelectedRange:range];
+    [self.textView scrollRangeToVisible:range];
 }
 
 #pragma mark - AudioNoteRecorderDelegate
 
 - (void)audioNoteRecorderDidCancel:(AudioNoteRecorderViewController *)audioNoteRecorder {
     [audioNoteRecorder dismissViewControllerAnimated:NO completion:^() {
-        if (!_textView.isFirstResponder) {
-            [_textView becomeFirstResponder];
+        if (!self.textView.isFirstResponder) {
+            [self.textView becomeFirstResponder];
         }
     }];
 }
@@ -736,7 +887,7 @@
     if (!self.editable) return;
     [audioNoteRecorder dismissViewControllerAnimated:NO completion:^() {
         [self addNewAudioFrame:recordedURL
-                            at:_textView.selectedRange
+                            at:self.textView.selectedRange
                       animated:YES
                       userinfo:@{
                                  @"title": @"新录音", // TODO: 修改录音描述
@@ -750,8 +901,8 @@
 
 - (void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker {
     [mediaPicker dismissViewControllerAnimated:YES completion:^() {
-        if (!_textView.isFirstResponder) {
-            [_textView becomeFirstResponder];
+        if (!self.textView.isFirstResponder) {
+            [self.textView becomeFirstResponder];
         }
     }];
 }
@@ -767,7 +918,7 @@
                     CYLog(@"%@", [item title]);
                     CYLog(@"%@", [item assetURL]);
                     [self addNewAudioFrame:[item assetURL]
-                                        at:_textView.selectedRange
+                                        at:self.textView.selectedRange
                                   animated:YES
                                   userinfo:@{
                                              @"title": [item title],
@@ -791,7 +942,7 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:^() {
-        if (!_textView.isFirstResponder) [_textView becomeFirstResponder];
+        if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
     }];
 }
 
@@ -805,7 +956,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         }
         [picker dismissViewControllerAnimated:YES completion:^{
             [self addNewImageFrame:image
-                                at:_textView.selectedRange
+                                at:self.textView.selectedRange
                           animated:YES
                           userinfo:info];
         }];
@@ -817,7 +968,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
        __block NSURL *mediaURL = [info objectForKey:UIImagePickerControllerMediaURL];
        [picker dismissViewControllerAnimated:YES completion:^{
            [self addNewVideoFrame:mediaURL
-                               at:_textView.selectedRange
+                               at:self.textView.selectedRange
                          animated:YES
                          userinfo:info];
        }];
@@ -834,7 +985,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [controller dismissViewControllerAnimated:YES
                                    completion:^{
                                        [self addNewVideoFrame:filePath
-                                                           at:_textView.selectedRange
+                                                           at:self.textView.selectedRange
                                                      animated:YES
                                                      userinfo:@{
                                                                 UIImagePickerControllerMediaType: (NSString *)kUTTypeMovie,
@@ -850,7 +1001,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, kComposeLineHeight * 2)];
+    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, kComposeLineHeight * 2)];
     [frameView setDelegate:self];
     [frameView setUserinfo:info];
     [frameView setCardTintColor:self.cardElementTintColor];
@@ -872,7 +1023,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, 0)];
+    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, 0)];
     [frameView setDelegate:self];
     [frameView setUserinfo:info];
     [frameView setCardTintColor:self.cardElementTintColor];
@@ -896,7 +1047,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, _textView.frame.size.width - 48, 0)];
+    CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - 48, 0)];
     [frameView setDelegate:self];
     [frameView setUserinfo:info];
     [frameView setCardTintColor:self.cardElementTintColor];
@@ -921,24 +1072,24 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     NSMutableString *insertHelper = [[NSMutableString alloc] initWithString:@"\n"];
     int t = floor(frameView.height / kComposeLineHeight);
     for (int i = 0; i < t; i++) [insertHelper appendString:@"\n"];
-    NSMutableAttributedString *attachText = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSAttributedString alloc] initWithString:insertHelper attributes:_originalAttributes]];
+    NSMutableAttributedString *attachText = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSAttributedString alloc] initWithString:insertHelper attributes:self.originalAttributes]];
     [attachText appendAttributedString:[NSMutableAttributedString attachmentStringWithContent:frameView
                                                                                   contentMode:UIViewContentModeCenter
                                                                                attachmentSize:frameView.size
-                                                                                  alignToFont:_originalFont
+                                                                                  alignToFont:self.originalFont
                                                                                     alignment:YYTextVerticalAlignmentBottom]];
-    [attachText appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:_originalAttributes]];
+    [attachText appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:self.originalAttributes]];
     YYTextBinding *binding = [YYTextBinding bindingWithDeleteConfirm:YES];
     [attachText setTextBinding:binding range:NSMakeRange(0, attachText.length)];
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:_textView.attributedText];
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:self.textView.attributedText];
     [text insertAttributedString:attachText atIndex:range.location];
     if ([frameView isKindOfClass:[CourtesyImageFrameView class]]) {
         [(CourtesyImageFrameView *)frameView setSelfRange:NSMakeRange(range.location, attachText.length)];
     } else if ([frameView isKindOfClass:[CourtesyAudioFrameView class]]) {
         [(CourtesyAudioFrameView *)frameView setSelfRange:NSMakeRange(range.location, attachText.length)];
     }
-    [_textView setAttributedText:text];
-    [_textView scrollRangeToVisible:range];
+    [self.textView setAttributedText:text];
+    [self.textView scrollRangeToVisible:range];
     
     if (animated) {
         [UIView animateWithDuration:0.2 animations:^{
@@ -951,13 +1102,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - CourtesyAudioFrameDelegate
 
 - (void)audioFrameTapped:(CourtesyAudioFrameView *)audioFrame {
-    if (_textView.isFirstResponder) [_textView resignFirstResponder];
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
 }
 
 #pragma mark - CourtesyImageFrameDelegate
 
 - (void)imageFrameTapped:(CourtesyImageFrameView *)imageFrame {
-    if (_textView.isFirstResponder) [_textView resignFirstResponder];
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
 }
 
 - (void)imageFrameShouldReplaced:(CourtesyImageFrameView *)imageFrame
@@ -990,14 +1141,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)removeImageFrameFromTextView:(CourtesyImageFrameView *)imageFrame {
     if (!self.editable) return;
-    CYLog(@"%@", _textView.textLayout.attachments);
+    CYLog(@"%@", self.textView.textLayout.attachments);
     [imageFrame removeFromSuperview];
-    NSMutableAttributedString *mStr = [[NSMutableAttributedString alloc] initWithAttributedString:[_textView attributedText]];
+    NSMutableAttributedString *mStr = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
     NSRange allRange = [mStr rangeOfAll];
     if (imageFrame.selfRange.location >= allRange.location &&
         imageFrame.selfRange.location + imageFrame.selfRange.length <= allRange.location + allRange.length) {
         [mStr deleteCharactersInRange:imageFrame.selfRange];
-        [_textView setAttributedText:mStr];
+        [self.textView setAttributedText:mStr];
     }
 }
 
@@ -1015,7 +1166,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 #ifdef DEBUG
 - (void)listAttachments {
-    for (id object in _textView.textLayout.attachments) {
+    for (id object in self.textView.textLayout.attachments) {
         if (![object isKindOfClass:[YYTextAttachment class]]) {
             continue;
         }
@@ -1046,7 +1197,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [self listAttachments];
 #endif
     NSUInteger num = 0;
-    for (id object in _textView.textLayout.attachments) {
+    for (id object in self.textView.textLayout.attachments) {
         if (![object isKindOfClass:[YYTextAttachment class]]) {
             continue;
         }
