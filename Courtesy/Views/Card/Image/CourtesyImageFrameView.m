@@ -113,7 +113,7 @@
             __strong typeof(_self) self = _self;
             [self frameTapped:g];
             if (_delegate && [_delegate respondsToSelector:@selector(imageFrameShouldCropped:)]) {
-                [_delegate imageFrameShouldCropped:self];
+                [_delegate imageFrameShouldCropped:self]; // 这里可能产生循环引用？
             }
         }];
         [_cropBtn addGestureRecognizer:cropGesture];
@@ -132,7 +132,7 @@
         __weak typeof(self) _self = self;
         UITapGestureRecognizer *editGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
             __strong typeof(_self) self = _self;
-            [self frameTapped:g];
+            [self frameTapped:g]; // 循环引用？
             if (!_labelOpen) {
                 [self toggleBottomLabelView:YES animated:YES];
             } else {
@@ -156,7 +156,7 @@
         UITapGestureRecognizer *deleteGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
             __strong typeof(_self) self = _self;
             if (_delegate && [_delegate respondsToSelector:@selector(imageFrameShouldDeleted:animated:)]) {
-                [_delegate imageFrameShouldDeleted:self animated:YES];
+                [_delegate imageFrameShouldDeleted:self animated:YES]; // 循环引用？
             }
         }];
         [_deleteBtn addGestureRecognizer:deleteGesture];

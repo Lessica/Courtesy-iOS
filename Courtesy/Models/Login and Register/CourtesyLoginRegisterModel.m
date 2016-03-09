@@ -128,9 +128,7 @@
     if (![self makeRequest:NO]) {
         return;
     }
-    __weak typeof(self) _self = self;
     JSONObjectBlock handler = ^(id json, JSONModelError *err) {
-        __strong typeof(_self) self = _self;
         CYLog(@"%@", json);
         @try {
             if (err) {

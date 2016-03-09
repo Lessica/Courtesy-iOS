@@ -232,10 +232,12 @@ static SystemSoundID shake_sound_male_id = 0;
 
 // 扫描获取信息成功回调
 - (void)queryQRCodeSucceed:(CourtesyQRCodeModel *)qrcode {
-    [self.navigationController.view hideToastActivity];
-    [self.navigationController.view makeToast:@"扫描成功"
-                                     duration:kStatusBarNotificationTime
-                                     position:CSToastPositionCenter];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.navigationController.view hideToastActivity];
+        [self.navigationController.view makeToast:@"扫描成功"
+                                         duration:kStatusBarNotificationTime
+                                         position:CSToastPositionCenter];
+    });
     // 返回上层并通知其弹出发布界面
     [self performSelector:@selector(autobackToDrawer) withObject:nil afterDelay:kStatusBarNotificationTime];
     if (!_delegate || ![_delegate respondsToSelector:@selector(scanWithResult:)]) {
@@ -253,10 +255,12 @@ static SystemSoundID shake_sound_male_id = 0;
 // 扫描获取信息失败回调
 - (void)queryQRCodeFailed:(CourtesyQRCodeModel *)qrcode
              errorMessage:(NSString *)message {
-    [self.navigationController.view hideToastActivity];
-    [self.navigationController.view makeToast:message
-                                     duration:kStatusBarNotificationTime
-                                     position:CSToastPositionCenter];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.navigationController.view hideToastActivity];
+        [self.navigationController.view makeToast:message
+                                         duration:kStatusBarNotificationTime
+                                         position:CSToastPositionCenter];
+    });
     [self performSelector:@selector(restartCapture) withObject:nil afterDelay:2.0];
     return;
 }

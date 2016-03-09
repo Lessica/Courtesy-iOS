@@ -35,6 +35,8 @@
 @property (nonatomic, strong) UIColor *cardElementTintFocusColor; // 卡片元素强调前景颜色
 @property (nonatomic, strong) UIColor *cardElementTextColor; // 卡片元素文字颜色
 @property (nonatomic, strong) UIColor *cardElementShadowColor; // 卡片元素阴影颜色（不显示可设为透明色）
+@property (nonatomic, strong) NSNumber *standardAlpha; // 标准透明度
+@property (nonatomic, strong) NSNumber *cardTitleFontSize; // 卡片标题（时间）字体大小
 // 卡片属性
 @property (nonatomic, strong) NSDate *cardCreateTime; // 卡片创建时间
 @property (nonatomic, strong) NSDate *cardModifyTime; // 卡片修改时间

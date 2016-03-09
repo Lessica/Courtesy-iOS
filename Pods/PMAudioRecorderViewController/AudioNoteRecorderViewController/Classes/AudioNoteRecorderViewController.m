@@ -7,6 +7,8 @@
 #import "UIImage+BlurredFrame.h"
 #import "AudioNoteRecorderViewController.h"
 
+static SystemSoundID record_sound_id = 0;
+
 @interface AudioNoteRecorderViewController ()
 @property (nonatomic, strong) UIImageView *background;
 
@@ -169,6 +171,7 @@
         }];
     }
 }
+
 - (void)recordTap:(UIButton *) sender {
     if (sender.selected) {
         [self.recorder stop];
@@ -203,10 +206,11 @@
         [self.recorder record];
         self.recordingTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(recordingTimerUpdate:) userInfo:nil repeats:YES];
         [_recordingTimer fire];
+        [self playRecordSound];
     }
     sender.selected = !sender.selected;
-    
 }
+
 - (void)playTap:(UIButton *)sender {
     if (isPlaying) return;
     NSError* error = nil;
@@ -217,6 +221,18 @@
     _player.numberOfLoops = 0;
     _player.delegate = self;
     [_player play];
+}
+
+- (void)playRecordSound {
+    if (record_sound_id != 0) {
+        AudioServicesPlaySystemSound(record_sound_id);
+        return;
+    }
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"toggle-record" ofType:@"wav"];
+    if (path) {
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &record_sound_id);
+        AudioServicesPlaySystemSound(record_sound_id);
+    }
 }
 
 - (void)recordingTimerUpdate:(id)sender {

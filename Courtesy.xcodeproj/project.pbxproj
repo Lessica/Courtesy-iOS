@@ -15,10 +15,20 @@
 		0F2A36841C8D513700028E96 /* CourtesyImageFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2A367C1C8D513700028E96 /* CourtesyImageFrameView.m */; };
 		0F2A36851C8D513700028E96 /* CourtesyTextBindingParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2A367F1C8D513700028E96 /* CourtesyTextBindingParser.m */; };
 		0F2A36861C8D513700028E96 /* CourtesyVideoFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2A36821C8D513700028E96 /* CourtesyVideoFrameView.m */; };
+		0F74243E1C8FC305002C6241 /* kisssound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0F74243C1C8FC305002C6241 /* kisssound.wav */; };
+		0F74243F1C8FC305002C6241 /* toggle-record.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0F74243D1C8FC305002C6241 /* toggle-record.wav */; };
+		0F7424851C8FCD98002C6241 /* EXTADT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74244B1C8FCD98002C6241 /* EXTADT.m */; };
+		0F7424861C8FCD98002C6241 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74244D1C8FCD98002C6241 /* EXTConcreteProtocol.m */; };
+		0F7424871C8FCD98002C6241 /* EXTNil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424511C8FCD98002C6241 /* EXTNil.m */; };
+		0F7424881C8FCD98002C6241 /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424551C8FCD98002C6241 /* EXTRuntimeExtensions.m */; };
+		0F7424891C8FCD98002C6241 /* EXTSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424571C8FCD98002C6241 /* EXTSafeCategory.m */; };
+		0F74248A1C8FCD98002C6241 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424591C8FCD98002C6241 /* EXTScope.m */; };
+		0F74248B1C8FCD98002C6241 /* EXTSelectorChecking.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74245B1C8FCD98002C6241 /* EXTSelectorChecking.m */; };
+		0F74248C1C8FCD98002C6241 /* NSInvocation+EXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74245F1C8FCD98002C6241 /* NSInvocation+EXT.m */; };
+		0F74248D1C8FCD98002C6241 /* NSMethodSignature+EXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424611C8FCD98002C6241 /* NSMethodSignature+EXT.m */; };
 		0F90DC171C844A5B00607277 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90DC131C844A5B00607277 /* AppDelegate.m */; };
 		0F90DC181C844A5B00607277 /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90DC151C844A5B00607277 /* GlobalSettings.m */; };
 		0F90DC1B1C844A9D00607277 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F90DC191C844A9D00607277 /* Images.xcassets */; };
-		0F90DC1C1C844A9D00607277 /* kisssound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0F90DC1A1C844A9D00607277 /* kisssound.wav */; };
 		0F90DC1F1C844AEE00607277 /* CourtesyCommonRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90DC1E1C844AEE00607277 /* CourtesyCommonRequestModel.m */; };
 		0F90DC221C844B0900607277 /* CourtesyLoginRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90DC211C844B0900607277 /* CourtesyLoginRegisterModel.m */; };
 		0F90DC251C844B2300607277 /* CourtesyAccountProfileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90DC241C844B2300607277 /* CourtesyAccountProfileModel.m */; };
@@ -96,13 +106,44 @@
 		0F2A367F1C8D513700028E96 /* CourtesyTextBindingParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyTextBindingParser.m; sourceTree = "<group>"; };
 		0F2A36811C8D513700028E96 /* CourtesyVideoFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyVideoFrameView.h; sourceTree = "<group>"; };
 		0F2A36821C8D513700028E96 /* CourtesyVideoFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyVideoFrameView.m; sourceTree = "<group>"; };
+		0F74243C1C8FC305002C6241 /* kisssound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = kisssound.wav; sourceTree = "<group>"; };
+		0F74243D1C8FC305002C6241 /* toggle-record.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "toggle-record.wav"; sourceTree = "<group>"; };
+		0F74244A1C8FCD98002C6241 /* EXTADT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTADT.h; sourceTree = "<group>"; };
+		0F74244B1C8FCD98002C6241 /* EXTADT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTADT.m; sourceTree = "<group>"; };
+		0F74244C1C8FCD98002C6241 /* EXTConcreteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTConcreteProtocol.h; sourceTree = "<group>"; };
+		0F74244D1C8FCD98002C6241 /* EXTConcreteProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTConcreteProtocol.m; sourceTree = "<group>"; };
+		0F74244E1C8FCD98002C6241 /* EXTCoroutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTCoroutine.h; sourceTree = "<group>"; };
+		0F74244F1C8FCD98002C6241 /* EXTKeyPathCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTKeyPathCoding.h; sourceTree = "<group>"; };
+		0F7424501C8FCD98002C6241 /* EXTNil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTNil.h; sourceTree = "<group>"; };
+		0F7424511C8FCD98002C6241 /* EXTNil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTNil.m; sourceTree = "<group>"; };
+		0F7424521C8FCD98002C6241 /* extobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extobjc.h; sourceTree = "<group>"; };
+		0F7424531C8FCD98002C6241 /* extobjc_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extobjc_Prefix.pch; sourceTree = "<group>"; };
+		0F7424541C8FCD98002C6241 /* EXTRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTRuntimeExtensions.h; sourceTree = "<group>"; };
+		0F7424551C8FCD98002C6241 /* EXTRuntimeExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTRuntimeExtensions.m; sourceTree = "<group>"; };
+		0F7424561C8FCD98002C6241 /* EXTSafeCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTSafeCategory.h; sourceTree = "<group>"; };
+		0F7424571C8FCD98002C6241 /* EXTSafeCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTSafeCategory.m; sourceTree = "<group>"; };
+		0F7424581C8FCD98002C6241 /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
+		0F7424591C8FCD98002C6241 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
+		0F74245A1C8FCD98002C6241 /* EXTSelectorChecking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTSelectorChecking.h; sourceTree = "<group>"; };
+		0F74245B1C8FCD98002C6241 /* EXTSelectorChecking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTSelectorChecking.m; sourceTree = "<group>"; };
+		0F74245C1C8FCD98002C6241 /* EXTSynthesize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTSynthesize.h; sourceTree = "<group>"; };
+		0F74245D1C8FCD98002C6241 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
+		0F74245E1C8FCD98002C6241 /* NSInvocation+EXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+EXT.h"; sourceTree = "<group>"; };
+		0F74245F1C8FCD98002C6241 /* NSInvocation+EXT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+EXT.m"; sourceTree = "<group>"; };
+		0F7424601C8FCD98002C6241 /* NSMethodSignature+EXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMethodSignature+EXT.h"; sourceTree = "<group>"; };
+		0F7424611C8FCD98002C6241 /* NSMethodSignature+EXT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMethodSignature+EXT.m"; sourceTree = "<group>"; };
+		0F7424AC1C8FCF5A002C6241 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		0F7424B41C8FD11A002C6241 /* CourtesyDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDebug.h; sourceTree = "<group>"; };
+		0F7424B51C8FD11A002C6241 /* CourtesyException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyException.h; sourceTree = "<group>"; };
+		0F7424B61C8FD11A002C6241 /* CourtesyInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyInterface.h; sourceTree = "<group>"; };
+		0F7424B71C8FD11A002C6241 /* CourtesyNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyNotification.h; sourceTree = "<group>"; };
+		0F7424B81C8FD11A002C6241 /* CourtesyShortcuts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyShortcuts.h; sourceTree = "<group>"; };
+		0F7424B91C8FD11A002C6241 /* CourtesyTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyTarget.h; sourceTree = "<group>"; };
 		0F90DC121C844A5B00607277 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Global/AppDelegate.h; sourceTree = "<group>"; };
 		0F90DC131C844A5B00607277 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Global/AppDelegate.m; sourceTree = "<group>"; };
 		0F90DC141C844A5B00607277 /* GlobalSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlobalSettings.h; path = Global/GlobalSettings.h; sourceTree = "<group>"; };
 		0F90DC151C844A5B00607277 /* GlobalSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GlobalSettings.m; path = Global/GlobalSettings.m; sourceTree = "<group>"; };
-		0F90DC161C844A5B00607277 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefixHeader.pch; path = Global/PrefixHeader.pch; sourceTree = "<group>"; };
 		0F90DC191C844A9D00607277 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Resources/Images.xcassets; sourceTree = "<group>"; };
-		0F90DC1A1C844A9D00607277 /* kisssound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = kisssound.wav; path = Resources/kisssound.wav; sourceTree = "<group>"; };
 		0F90DC1D1C844AEE00607277 /* CourtesyCommonRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyCommonRequestModel.h; path = Models/Common/CourtesyCommonRequestModel.h; sourceTree = "<group>"; };
 		0F90DC1E1C844AEE00607277 /* CourtesyCommonRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyCommonRequestModel.m; path = Models/Common/CourtesyCommonRequestModel.m; sourceTree = "<group>"; };
 		0F90DC201C844B0900607277 /* CourtesyLoginRegisterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyLoginRegisterModel.h; path = "Models/Login and Register/CourtesyLoginRegisterModel.h"; sourceTree = "<group>"; };
@@ -396,6 +437,85 @@
 			name = Card;
 			sourceTree = "<group>";
 		};
+		0F74243B1C8FC305002C6241 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				0F74243C1C8FC305002C6241 /* kisssound.wav */,
+				0F74243D1C8FC305002C6241 /* toggle-record.wav */,
+			);
+			name = Sounds;
+			path = Resources/Sounds;
+			sourceTree = "<group>";
+		};
+		0F7424441C8FCD6A002C6241 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0F7424451C8FCD98002C6241 /* External */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		0F7424451C8FCD98002C6241 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				0F7424491C8FCD98002C6241 /* extobjc */,
+			);
+			path = External;
+			sourceTree = SOURCE_ROOT;
+		};
+		0F7424491C8FCD98002C6241 /* extobjc */ = {
+			isa = PBXGroup;
+			children = (
+				0F74244A1C8FCD98002C6241 /* EXTADT.h */,
+				0F74244B1C8FCD98002C6241 /* EXTADT.m */,
+				0F74244C1C8FCD98002C6241 /* EXTConcreteProtocol.h */,
+				0F74244D1C8FCD98002C6241 /* EXTConcreteProtocol.m */,
+				0F74244E1C8FCD98002C6241 /* EXTCoroutine.h */,
+				0F74244F1C8FCD98002C6241 /* EXTKeyPathCoding.h */,
+				0F7424501C8FCD98002C6241 /* EXTNil.h */,
+				0F7424511C8FCD98002C6241 /* EXTNil.m */,
+				0F7424521C8FCD98002C6241 /* extobjc.h */,
+				0F7424531C8FCD98002C6241 /* extobjc_Prefix.pch */,
+				0F7424541C8FCD98002C6241 /* EXTRuntimeExtensions.h */,
+				0F7424551C8FCD98002C6241 /* EXTRuntimeExtensions.m */,
+				0F7424561C8FCD98002C6241 /* EXTSafeCategory.h */,
+				0F7424571C8FCD98002C6241 /* EXTSafeCategory.m */,
+				0F7424581C8FCD98002C6241 /* EXTScope.h */,
+				0F7424591C8FCD98002C6241 /* EXTScope.m */,
+				0F74245A1C8FCD98002C6241 /* EXTSelectorChecking.h */,
+				0F74245B1C8FCD98002C6241 /* EXTSelectorChecking.m */,
+				0F74245C1C8FCD98002C6241 /* EXTSynthesize.h */,
+				0F74245D1C8FCD98002C6241 /* metamacros.h */,
+				0F74245E1C8FCD98002C6241 /* NSInvocation+EXT.h */,
+				0F74245F1C8FCD98002C6241 /* NSInvocation+EXT.m */,
+				0F7424601C8FCD98002C6241 /* NSMethodSignature+EXT.h */,
+				0F7424611C8FCD98002C6241 /* NSMethodSignature+EXT.m */,
+			);
+			path = extobjc;
+			sourceTree = "<group>";
+		};
+		0F7424AB1C8FCF5A002C6241 /* Prefix */ = {
+			isa = PBXGroup;
+			children = (
+				0F7424AC1C8FCF5A002C6241 /* PrefixHeader.pch */,
+				0F7424B31C8FD11A002C6241 /* Headers */,
+			);
+			path = Prefix;
+			sourceTree = "<group>";
+		};
+		0F7424B31C8FD11A002C6241 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				0F7424B41C8FD11A002C6241 /* CourtesyDebug.h */,
+				0F7424B51C8FD11A002C6241 /* CourtesyException.h */,
+				0F7424B61C8FD11A002C6241 /* CourtesyInterface.h */,
+				0F7424B71C8FD11A002C6241 /* CourtesyNotification.h */,
+				0F7424B81C8FD11A002C6241 /* CourtesyShortcuts.h */,
+				0F7424B91C8FD11A002C6241 /* CourtesyTarget.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
 		0F8ED11D1C82A6E500371879 /* QRCode */ = {
 			isa = PBXGroup;
 			children = (
@@ -596,9 +716,9 @@
 		0FBA716D1C7B247700053696 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0F74243B1C8FC305002C6241 /* Sounds */,
 				0FBE98351C8ED95900C8A0C0 /* Fonts */,
 				0F90DC191C844A9D00607277 /* Images.xcassets */,
-				0F90DC1A1C844A9D00607277 /* kisssound.wav */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -606,7 +726,6 @@
 		0FBA716E1C7B24B600053696 /* Global */ = {
 			isa = PBXGroup;
 			children = (
-				0F90DC161C844A5B00607277 /* PrefixHeader.pch */,
 				0F90DC121C844A5B00607277 /* AppDelegate.h */,
 				0F90DC131C844A5B00607277 /* AppDelegate.m */,
 				0F90DC141C844A5B00607277 /* GlobalSettings.h */,
@@ -644,11 +763,13 @@
 		0FBBF7111C78BD4700A0A2D1 /* Courtesy */ = {
 			isa = PBXGroup;
 			children = (
+				0F7424AB1C8FCF5A002C6241 /* Prefix */,
 				0FBA716E1C7B24B600053696 /* Global */,
 				0FBA716D1C7B247700053696 /* Resources */,
 				0FBA716C1C7B245D00053696 /* Layouts */,
 				0FC910CD1C7C951F00CEF533 /* Models */,
 				0FBA716B1C7B244000053696 /* Views */,
+				0F7424441C8FCD6A002C6241 /* Extensions */,
 				0F3DA7E71C7C807800448055 /* Categories */,
 				0FBBF72D1C78BD6C00A0A2D1 /* Supporting Files */,
 			);
@@ -861,9 +982,10 @@
 			files = (
 				0F90DC431C844C4E00607277 /* Drawers.storyboard in Resources */,
 				0F90DCA51C844F6600607277 /* tos.html in Resources */,
-				0F90DC1C1C844A9D00607277 /* kisssound.wav in Resources */,
 				0F90DC501C844D4F00607277 /* CourtesyLoginRegisterViewController.xib in Resources */,
 				0F90DC3F1C844BB600607277 /* area.plist in Resources */,
+				0F74243F1C8FC305002C6241 /* toggle-record.wav in Resources */,
+				0F74243E1C8FC305002C6241 /* kisssound.wav in Resources */,
 				0F90DC401C844BB600607277 /* Courtesy.entitlements in Resources */,
 				0F90DC1B1C844A9D00607277 /* Images.xcassets in Resources */,
 				0F93CAF11C85F73300249BD8 /* CodeScan.bundle in Resources */,
@@ -910,12 +1032,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F74248D1C8FCD98002C6241 /* NSMethodSignature+EXT.m in Sources */,
 				0F03A42E1C85317000C32FC8 /* CourtesyCardComposeViewController.m in Sources */,
 				0F90DC4F1C844D4F00607277 /* CourtesyLoginRegisterViewController.m in Sources */,
 				0F2A36861C8D513700028E96 /* CourtesyVideoFrameView.m in Sources */,
 				0F90DC2B1C844B5F00607277 /* CourtesyQRCodeModel.m in Sources */,
+				0F74248C1C8FCD98002C6241 /* NSInvocation+EXT.m in Sources */,
+				0F74248A1C8FCD98002C6241 /* EXTScope.m in Sources */,
 				0F90DC4E1C844D4F00607277 /* CourtesyLoginRegisterTextField.m in Sources */,
 				0F90DC181C844A5B00607277 /* GlobalSettings.m in Sources */,
+				0F7424861C8FCD98002C6241 /* EXTConcreteProtocol.m in Sources */,
 				0F90DC7B1C844E5E00607277 /* CourtesyGalleryTableViewController.m in Sources */,
 				0F90DC6B1C844E2C00607277 /* CourtesyProfileMobileTableViewController.m in Sources */,
 				0F90DC461C844D2400607277 /* CourtesyPortraitViewController.m in Sources */,
@@ -936,11 +1062,13 @@
 				0F90DCAC1C844F9600607277 /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */,
 				0FD0C3D51C8834A700090066 /* UIView+Gaussian.m in Sources */,
 				0FD0C3CC1C88346100090066 /* UIImagePickerController+LandScapeImagePicker.m in Sources */,
+				0F74248B1C8FCD98002C6241 /* EXTSelectorChecking.m in Sources */,
 				0F90DC511C844D4F00607277 /* CourtesyQuickLoginButton.m in Sources */,
 				0F90DCA71C844F6600607277 /* CourtesyMessageNotificationSettingsTableViewController.m in Sources */,
 				0F90DCA21C844F6600607277 /* CourtesyAboutViewController.m in Sources */,
 				0F90DC7A1C844E5E00607277 /* CourtesyGalleryEmptyTipTableViewCell.m in Sources */,
 				0F90DC361C844B9800607277 /* NSArray+QueryItems.m in Sources */,
+				0F7424891C8FCD98002C6241 /* EXTSafeCategory.m in Sources */,
 				0F90DC901C844EDB00607277 /* CourtesyMyOutboxTableViewController.m in Sources */,
 				0F90DC6A1C844E2C00607277 /* CourtesyProfileIntroductionTableViewController.m in Sources */,
 				0F90DC251C844B2300607277 /* CourtesyAccountProfileModel.m in Sources */,
@@ -950,10 +1078,12 @@
 				0F90DC281C844B3B00607277 /* CourtesyAccountModel.m in Sources */,
 				0F90DC171C844A5B00607277 /* AppDelegate.m in Sources */,
 				0FD0C3E21C8838CE00090066 /* NSObject+nl_dynamicPropertySupport.m in Sources */,
+				0F7424851C8FCD98002C6241 /* EXTADT.m in Sources */,
 				0F2A36841C8D513700028E96 /* CourtesyImageFrameView.m in Sources */,
 				0F90DCA41C844F6600607277 /* CourtesyUserAgreementWebViewController.m in Sources */,
 				0F90DC8D1C844EDB00607277 /* CourtesyMyInboxEmptyTipTableViewCell.m in Sources */,
 				0F90DC541C844DAB00607277 /* CourtesyProfileTableViewController.m in Sources */,
+				0F7424881C8FCD98002C6241 /* EXTRuntimeExtensions.m in Sources */,
 				0F90DC3A1C844B9800607277 /* UIView+FrameMethods.m in Sources */,
 				0F90DCB01C844FA700607277 /* CourtesyAnimationSettingsTableViewController.m in Sources */,
 				0F90DC671C844E2C00607277 /* CourtesyProfileBirthdayTableViewController.m in Sources */,
@@ -963,6 +1093,7 @@
 				0F90DC8F1C844EDB00607277 /* CourtesyMyOutboxEmptyTipTableViewCell.m in Sources */,
 				0F90DC8C1C844EDB00607277 /* CourtesyMyTabBarController.m in Sources */,
 				0F90DCA31C844F6600607277 /* CourtesyAccountSettingsTableViewController.m in Sources */,
+				0F7424871C8FCD98002C6241 /* EXTNil.m in Sources */,
 				0F90DC421C844BB600607277 /* main.m in Sources */,
 				0F90DC751C844E4600607277 /* CourtesyLeftDrawerTableViewController.m in Sources */,
 				0F90DCAD1C844F9600607277 /* CourtesyMyStarTableViewController.m in Sources */,
@@ -1008,7 +1139,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Global/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Prefix/PrefixHeader.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1051,7 +1182,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Global/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Prefix/PrefixHeader.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1085,7 +1216,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
-				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Global/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Prefix/PrefixHeader.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_UNUSED_LABEL = NO;
 				GCC_WARN_UNUSED_PARAMETER = NO;
@@ -1120,7 +1251,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
-				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Global/PrefixHeader.pch";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Prefix/PrefixHeader.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_UNUSED_LABEL = NO;
 				GCC_WARN_UNUSED_PARAMETER = NO;

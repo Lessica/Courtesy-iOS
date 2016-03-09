@@ -20,15 +20,15 @@
 #import "PECropViewController.h"
 #import "AudioNoteRecorderViewController.h"
 
-#define kComposeDefaultFontSize 16
-#define kComposeDefaultLineSpacing 8
-#define kComposeLineHeight 28
-#define kComposeTopInsect 24
-#define kComposeBottomInsect 24
-#define kComposeLeftInsect 24
-#define kComposeRightInsect 24
-#define kComposeTopBarInsectPortrait 64
-#define kComposeTopBarInsectLandscape 48
+#define kComposeDefaultFontSize 16.0
+#define kComposeDefaultLineSpacing 8.0
+#define kComposeLineHeight 28.0
+#define kComposeTopInsect 24.0
+#define kComposeBottomInsect 24.0
+#define kComposeLeftInsect 24.0
+#define kComposeRightInsect 24.0
+#define kComposeTopBarInsectPortrait 64.0
+#define kComposeTopBarInsectLandscape 48.0
 
 @interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, WechatShortVideoDelegate, MPMediaPickerControllerDelegate, CourtesyAudioFrameDelegate, AudioNoteRecorderDelegate>
 @property (nonatomic, assign) YYTextView *textView;
@@ -75,7 +75,7 @@
     UIBarButtonItem *item = [UIBarButtonItem new];
     item.image = [UIImage imageNamed:@"30-send"];
     item.target = self;
-    item.action = @selector(done:);
+    item.action = @selector(doneComposeView:);
     self.navigationItem.rightBarButtonItem = item;
     
     /* Init of toolbar container view */
@@ -121,9 +121,9 @@
     
     /* Initial text */
     NSMutableAttributedString *text = tryValue(self.cardContent, [[NSMutableAttributedString alloc] initWithString:@"说点什么吧……"]);
-    text.font = [UIFont systemFontOfSize:[tryValue(self.cardFontSize, [NSNumber numberWithInt:kComposeDefaultFontSize]) intValue]];
+    text.font = [UIFont systemFontOfSize:[tryValue(self.cardFontSize, [NSNumber numberWithFloat:kComposeDefaultFontSize]) floatValue]];
     text.color = tryValue(self.cardTextColor, [UIColor darkGrayColor]);
-    text.lineSpacing = [tryValue(self.cardLineSpacing, [NSNumber numberWithInt:kComposeDefaultLineSpacing]) intValue];
+    text.lineSpacing = [tryValue(self.cardLineSpacing, [NSNumber numberWithFloat:kComposeDefaultLineSpacing]) floatValue];
     text.lineBreakMode = NSLineBreakByWordWrapping;
     _originalFont = tryValue(self.cardFont, text.font);
     _originalAttributes = tryValue(self.cardContentAttributes, text.attributes);
@@ -164,7 +164,7 @@
     
     /* Line height fixed */
     YYTextLinePositionSimpleModifier *mod = [YYTextLinePositionSimpleModifier new];
-    mod.fixedLineHeight = [tryValue(self.cardLineHeight, [NSNumber numberWithInt:kComposeLineHeight]) intValue];
+    mod.fixedLineHeight = [tryValue(self.cardLineHeight, [NSNumber numberWithFloat:kComposeLineHeight]) floatValue];
     textView.linePositionModifier = mod;
     
     /* Toolbar */
@@ -221,7 +221,7 @@
     /* Init of Fake Status Bar */
     CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
     _fakeBar = [[UIView alloc] initWithFrame:frame];
-    _fakeBar.alpha = 0.65;
+    _fakeBar.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue];
     _fakeBar.backgroundColor = tryValue(self.statusBarColor, [UIColor blackColor]);
     _fakeBar.hidden = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
     
@@ -244,7 +244,7 @@
     _circleCloseBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     _circleCloseBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
     _circleCloseBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
-    _circleCloseBtn.alpha = 0.45;
+    _circleCloseBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
     _circleCloseBtn.image = [[UIImage imageNamed:@"39-close-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     _circleCloseBtn.layer.masksToBounds = YES;
     _circleCloseBtn.layer.cornerRadius = _circleCloseBtn.frame.size.height / 2;
@@ -256,6 +256,8 @@
     tapCloseBtn.numberOfTouchesRequired = 1;
     tapCloseBtn.numberOfTapsRequired = 1;
     [_circleCloseBtn addGestureRecognizer:tapCloseBtn];
+    
+    /* Enable interaction for close button */
     [_circleCloseBtn setUserInteractionEnabled:YES];
     
     /* Auto layouts of close button */
@@ -294,7 +296,7 @@
     _circleApproveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     _circleApproveBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
     _circleApproveBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
-    _circleApproveBtn.alpha = 0.45;
+    _circleApproveBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
     _circleApproveBtn.image = [[UIImage imageNamed:@"40-approve-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     _circleApproveBtn.layer.masksToBounds = YES;
     _circleApproveBtn.layer.cornerRadius = _circleApproveBtn.frame.size.height / 2;
@@ -302,10 +304,12 @@
     
     /* Tap gesture of approve button */
     UITapGestureRecognizer *tapApproveBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                    action:@selector(done:)];
+                                                                                    action:@selector(doneComposeView:)];
     tapApproveBtn.numberOfTouchesRequired = 1;
     tapApproveBtn.numberOfTapsRequired = 1;
     [_circleApproveBtn addGestureRecognizer:tapApproveBtn];
+    
+    /* Enable interaction for approve button */
     [_circleApproveBtn setUserInteractionEnabled:YES];
     
     /* Auto layouts of approve button */
@@ -344,7 +348,7 @@
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, 24)];
     _titleLabel.backgroundColor = [UIColor clearColor];
     _titleLabel.textColor = tryValue(self.dateLabelTextColor, [UIColor darkGrayColor]);
-    _titleLabel.font = [UIFont systemFontOfSize:12];
+    _titleLabel.font = [UIFont systemFontOfSize:[tryValue(self.cardTitleFontSize, [NSNumber numberWithFloat:12.0]) floatValue]];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -464,12 +468,12 @@
     }];
 }
 
-- (void)done:(id)sender {
+- (void)doneComposeView:(id)sender {
     if (_textView.isFirstResponder) {
         [_textView resignFirstResponder];
     }
     if (_textView.text.length >= [self.maxContentLength integerValue]) {
-        [self.view makeToast:@"卡片内容太多了喔 (2000)"
+        [self.view makeToast:@"卡片内容太多了喔"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
         return;
