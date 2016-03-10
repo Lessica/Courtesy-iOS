@@ -44,5 +44,6 @@
 #import "Colours.h"
 #import "LGAlertView.h"
 #import "JDStatusBarNotification.h"
+#import <Masonry/Masonry.h>
 
 #endif /* PrefixHeader_pch */

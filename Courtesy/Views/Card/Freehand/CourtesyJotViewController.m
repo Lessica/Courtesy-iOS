@@ -9,13 +9,20 @@
 #import "CourtesyJotViewController.h"
 
 @interface CourtesyJotViewController ()
+@property (nonatomic, assign) BOOL colorEnabled;
+@property (nonatomic, assign) BOOL lineEnabled;
 @property (nonatomic, strong) UIButton *toggleBtn;
 @property (nonatomic, strong) UIButton *restoreBtn;
+@property (nonatomic, strong) UIButton *colorToggleBtn;
+@property (nonatomic, strong) UIButton *lineToggleBtn;
 @property (nonatomic, strong) UIButton *redColorBtn;
 @property (nonatomic, strong) UIButton *yellowColorBtn;
 @property (nonatomic, strong) UIButton *blueColorBtn;
 @property (nonatomic, strong) UIButton *blackColorBtn;
 @property (nonatomic, strong) UIButton *whiteColorBtn;
+@property (nonatomic, strong) UIButton *largeBtn;
+@property (nonatomic, strong) UIButton *mediumBtn;
+@property (nonatomic, strong) UIButton *smallBtn;
 
 @end
 
@@ -23,6 +30,96 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        UIButton *colorToggleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+        colorToggleBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
+        colorToggleBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
+        [colorToggleBtn setImage:[[UIImage imageNamed:@"62-jot-pallette"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [colorToggleBtn setImage:[[UIImage imageNamed:@"62-jot-pallette"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+        colorToggleBtn.layer.masksToBounds = YES;
+        colorToggleBtn.layer.cornerRadius = colorToggleBtn.frame.size.height / 2;
+        colorToggleBtn.translatesAutoresizingMaskIntoConstraints = NO;
+        colorToggleBtn.selected = NO;
+        [colorToggleBtn setTarget:self action:@selector(toggleColor:) forControlEvents:UIControlEventTouchUpInside];
+        colorToggleBtn.alpha = 0.0;
+        colorToggleBtn.hidden = YES;
+        self.colorToggleBtn = colorToggleBtn;
+        [self.view addSubview:colorToggleBtn];
+        [self.view bringSubviewToFront:colorToggleBtn];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:colorToggleBtn
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1
+                                                               constant:32]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:colorToggleBtn
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1
+                                                               constant:32]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:colorToggleBtn
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeBottomMargin
+                                                             multiplier:1
+                                                               constant:-20]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:colorToggleBtn
+                                                              attribute:NSLayoutAttributeTrailing
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeTrailingMargin
+                                                             multiplier:1
+                                                               constant:0]];
+        
+        UIButton *lineToggleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+        lineToggleBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
+        lineToggleBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
+        [lineToggleBtn setImage:[[UIImage imageNamed:@"63-jot-line"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [lineToggleBtn setImage:[[UIImage imageNamed:@"63-jot-line"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+        lineToggleBtn.layer.masksToBounds = YES;
+        lineToggleBtn.layer.cornerRadius = lineToggleBtn.frame.size.height / 2;
+        lineToggleBtn.translatesAutoresizingMaskIntoConstraints = NO;
+        lineToggleBtn.selected = NO;
+        [lineToggleBtn setTarget:self action:@selector(toggleLine:) forControlEvents:UIControlEventTouchUpInside];
+        lineToggleBtn.alpha = 0.0;
+        lineToggleBtn.hidden = YES;
+        self.lineToggleBtn = lineToggleBtn;
+        [self.view addSubview:lineToggleBtn];
+        [self.view bringSubviewToFront:lineToggleBtn];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:lineToggleBtn
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1
+                                                               constant:32]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:lineToggleBtn
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1
+                                                               constant:32]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:lineToggleBtn
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeBottomMargin
+                                                             multiplier:1
+                                                               constant:-20]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:lineToggleBtn
+                                                              attribute:NSLayoutAttributeTrailing
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:colorToggleBtn
+                                                              attribute:NSLayoutAttributeLeading
+                                                             multiplier:1
+                                                               constant:-12]];
+        
         UIButton *circleToggleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
         circleToggleBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
         circleToggleBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
@@ -63,10 +160,10 @@
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleToggleBtn
                                                               attribute:NSLayoutAttributeTrailing
                                                               relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeTrailingMargin
+                                                                 toItem:lineToggleBtn
+                                                              attribute:NSLayoutAttributeLeading
                                                              multiplier:1
-                                                               constant:0]];
+                                                               constant:-12]];
         
         UIButton *circleRestoreBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
         circleRestoreBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
@@ -353,50 +450,241 @@
                                                              multiplier:1
                                                                constant:0]];
         
+        UIButton *largeBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+        largeBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
+        largeBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
+        [largeBtn setImage:[[UIImage imageNamed:@"64-jot-large"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [largeBtn setImage:nil forState:UIControlStateSelected];
+        largeBtn.layer.masksToBounds = YES;
+        largeBtn.layer.cornerRadius = largeBtn.frame.size.height / 2;
+        largeBtn.translatesAutoresizingMaskIntoConstraints = NO;
+        largeBtn.selected = NO;
+        [largeBtn setTarget:self action:@selector(drawLarge:) forControlEvents:UIControlEventTouchUpInside];
+        largeBtn.alpha = 0.0;
+        largeBtn.hidden = YES;
+        self.largeBtn = largeBtn;
+        [self.view addSubview:largeBtn];
+        [self.view bringSubviewToFront:largeBtn];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:largeBtn
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1
+                                                               constant:32]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:largeBtn
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1
+                                                               constant:32]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:largeBtn
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:lineToggleBtn
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1
+                                                               constant:-12]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:largeBtn
+                                                              attribute:NSLayoutAttributeTrailing
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:lineToggleBtn
+                                                              attribute:NSLayoutAttributeTrailing
+                                                             multiplier:1
+                                                               constant:0]];
+        
+        UIButton *mediumBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+        mediumBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
+        mediumBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
+        [mediumBtn setImage:[[UIImage imageNamed:@"65-jot-medium"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [mediumBtn setImage:nil forState:UIControlStateSelected];
+        mediumBtn.layer.masksToBounds = YES;
+        mediumBtn.layer.cornerRadius = mediumBtn.frame.size.height / 2;
+        mediumBtn.translatesAutoresizingMaskIntoConstraints = NO;
+        mediumBtn.selected = NO;
+        [mediumBtn setTarget:self action:@selector(drawMedium:) forControlEvents:UIControlEventTouchUpInside];
+        mediumBtn.alpha = 0.0;
+        mediumBtn.hidden = YES;
+        self.mediumBtn = mediumBtn;
+        [self.view addSubview:mediumBtn];
+        [self.view bringSubviewToFront:mediumBtn];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:mediumBtn
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1
+                                                               constant:32]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:mediumBtn
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1
+                                                               constant:32]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:mediumBtn
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:largeBtn
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1
+                                                               constant:-12]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:mediumBtn
+                                                              attribute:NSLayoutAttributeTrailing
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:lineToggleBtn
+                                                              attribute:NSLayoutAttributeTrailing
+                                                             multiplier:1
+                                                               constant:0]];
+        
+        UIButton *smallBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+        smallBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
+        smallBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
+        [smallBtn setImage:[[UIImage imageNamed:@"66-jot-small"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [smallBtn setImage:nil forState:UIControlStateSelected];
+        smallBtn.layer.masksToBounds = YES;
+        smallBtn.layer.cornerRadius = smallBtn.frame.size.height / 2;
+        smallBtn.translatesAutoresizingMaskIntoConstraints = NO;
+        smallBtn.selected = NO;
+        [smallBtn setTarget:self action:@selector(drawSmall:) forControlEvents:UIControlEventTouchUpInside];
+        smallBtn.alpha = 0.0;
+        smallBtn.hidden = YES;
+        self.smallBtn = smallBtn;
+        [self.view addSubview:smallBtn];
+        [self.view bringSubviewToFront:smallBtn];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:smallBtn
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1
+                                                               constant:32]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:smallBtn
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1
+                                                               constant:32]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:smallBtn
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:mediumBtn
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1
+                                                               constant:-12]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:smallBtn
+                                                              attribute:NSLayoutAttributeTrailing
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:lineToggleBtn
+                                                              attribute:NSLayoutAttributeTrailing
+                                                             multiplier:1
+                                                               constant:0]];
+        
         self.textColor = [UIColor blackColor];
     }
     return self;
 }
 
-- (void)setControlEnabled:(BOOL)controlEnabled {
-    if (controlEnabled) {
+- (void)setLineEnabled:(BOOL)lineEnabled {
+    if (lineEnabled) {
+        self.largeBtn.hidden =
+        self.mediumBtn.hidden =
+        self.smallBtn.hidden = NO;
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             self.largeBtn.alpha =
+                             self.mediumBtn.alpha =
+                             self.smallBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+                         } completion:nil];
+    } else {
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             self.largeBtn.alpha =
+                             self.mediumBtn.alpha =
+                             self.smallBtn.alpha = 0.0;
+                         } completion:^(BOOL finished) {
+                             self.largeBtn.hidden =
+                             self.mediumBtn.hidden =
+                             self.smallBtn.hidden = YES;
+                         }];
+    }
+}
+
+- (void)setColorEnabled:(BOOL)colorEnabled {
+    if (colorEnabled) {
         self.redColorBtn.hidden =
         self.yellowColorBtn.hidden =
         self.blueColorBtn.hidden =
         self.whiteColorBtn.hidden =
-        self.blackColorBtn.hidden =
-        self.restoreBtn.hidden =
-        self.toggleBtn.hidden = NO;
-        [UIView animateWithDuration:0.5
+        self.blackColorBtn.hidden = NO;
+        [UIView animateWithDuration:0.2
                          animations:^{
                              self.redColorBtn.alpha =
                              self.yellowColorBtn.alpha =
                              self.blueColorBtn.alpha =
                              self.whiteColorBtn.alpha =
                              self.blackColorBtn.alpha = 1.0;
-                             self.restoreBtn.alpha =
-                             self.toggleBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
                          } completion:nil];
     } else {
-        [UIView animateWithDuration:0.5
+        [UIView animateWithDuration:0.2
                          animations:^{
                              self.redColorBtn.alpha =
                              self.yellowColorBtn.alpha =
                              self.blueColorBtn.alpha =
                              self.whiteColorBtn.alpha =
-                             self.blackColorBtn.alpha =
-                             self.restoreBtn.alpha =
-                             self.toggleBtn.alpha = 0.0;
+                             self.blackColorBtn.alpha = 0.0;
                          } completion:^(BOOL finished) {
                              self.redColorBtn.hidden =
                              self.yellowColorBtn.hidden =
                              self.blueColorBtn.hidden =
                              self.whiteColorBtn.hidden =
-                             self.blackColorBtn.hidden =
+                             self.blackColorBtn.hidden = YES;
+                         }];
+    }
+}
+
+- (void)setControlEnabled:(BOOL)controlEnabled {
+    if (controlEnabled) {
+        self.lineToggleBtn.hidden =
+        self.colorToggleBtn.hidden =
+        self.restoreBtn.hidden =
+        self.toggleBtn.hidden = NO;
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             self.lineToggleBtn.alpha =
+                             self.colorToggleBtn.alpha =
+                             self.restoreBtn.alpha =
+                             self.toggleBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+                         } completion:nil];
+    } else {
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             self.lineToggleBtn.alpha =
+                             self.colorToggleBtn.alpha =
+                             self.restoreBtn.alpha =
+                             self.toggleBtn.alpha = 0.0;
+                         } completion:^(BOOL finished) {
+                             self.lineToggleBtn.hidden =
+                             self.colorToggleBtn.hidden =
                              self.restoreBtn.hidden =
                              self.toggleBtn.hidden = YES;
                          }];
     }
+}
+
+- (void)toggleColor:(UIButton *)sender {
+    sender.selected = !sender.selected;
+    [self setColorEnabled:sender.selected];
+}
+
+- (void)toggleLine:(UIButton *)sender {
+    sender.selected = !sender.selected;
+    [self setLineEnabled:sender.selected];
 }
 
 - (void)toggleMode:(UIButton *)sender {
@@ -453,6 +741,30 @@
         self.textColor = [UIColor wheatColor];
     } else {
         self.drawingColor = [UIColor wheatColor];
+    }
+}
+
+- (void)drawLarge:(UIButton *)sender {
+    if (self.toggleBtn.selected) {
+        self.fontSize = 48.0;
+    } else {
+        self.drawingStrokeWidth = 24.0;
+    }
+}
+
+- (void)drawMedium:(UIButton *)sender {
+    if (self.toggleBtn.selected) {
+        self.fontSize = 36.0;
+    } else {
+        self.drawingStrokeWidth = 18.0;
+    }
+}
+
+- (void)drawSmall:(UIButton *)sender {
+    if (self.toggleBtn.selected) {
+        self.fontSize = 24.0;
+    } else {
+        self.drawingStrokeWidth = 12.0;
     }
 }
 
