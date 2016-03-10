@@ -664,6 +664,10 @@
     } else {
         [UIView animateWithDuration:0.2
                          animations:^{
+                             self.colorToggleBtn.selected = NO;
+                             self.lineToggleBtn.selected = NO;
+                             [self setColorEnabled:NO];
+                             [self setLineEnabled:NO];
                              self.lineToggleBtn.alpha =
                              self.colorToggleBtn.alpha =
                              self.restoreBtn.alpha =

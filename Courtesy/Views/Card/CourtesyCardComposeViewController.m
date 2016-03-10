@@ -67,7 +67,7 @@
     // Do any additional setup after loading the view.
     
     /* Init of main view */
-    self.view.backgroundColor = tryValue(self.mainViewColor, [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture"]]); // 卡片背景在 textview 中设置
+    self.view.backgroundColor = tryValue(self.mainViewColor, [UIColor colorWithPatternImage:tryValue(self.mainViewBackgroundImage, [UIImage imageNamed:@"texture"])]);
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = NO;
     //self.modalPresentationCapturesStatusBarAppearance = NO;
@@ -890,8 +890,8 @@
                             at:self.textView.selectedRange
                       animated:YES
                       userinfo:@{
-                                 @"title": @"新录音", // TODO: 修改录音描述
-                                 @"type": @"audio",
+                                 @"title": @"Untitled", // TODO: 修改录音描述
+                                 @"type": @(CourtesyAttachmentAudio),
                                  @"url": recordedURL
                                  }];
     }];
@@ -922,7 +922,7 @@
                                   animated:YES
                                   userinfo:@{
                                              @"title": [item title],
-                                             @"type": @"audio",
+                                             @"type": @(CourtesyAttachmentAudio),
                                              @"url": [item assetURL]
                                              }];
                 } else {
@@ -958,7 +958,12 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             [self addNewImageFrame:image
                                 at:self.textView.selectedRange
                           animated:YES
-                          userinfo:info];
+                          userinfo:@{
+                                     @"title": @"Untitled",
+                                     @"type": @(CourtesyAttachmentImage),
+                                     @"data": [info hasKey:UIImagePickerControllerOriginalImage] ? [info objectForKey:UIImagePickerControllerOriginalImage] : nil,
+                                     @"url": [info hasKey:UIImagePickerControllerReferenceURL] ? [info objectForKey:UIImagePickerControllerReferenceURL] : nil
+                                     }];
         }];
     } else if ([info hasKey:UIImagePickerControllerMediaType] && [info hasKey:UIImagePickerControllerMediaURL]
                && (
@@ -970,7 +975,12 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
            [self addNewVideoFrame:mediaURL
                                at:self.textView.selectedRange
                          animated:YES
-                         userinfo:info];
+                         userinfo:@{
+                                    @"title": @"Untitled",
+                                    @"type": @(CourtesyAttachmentVideo),
+                                    @"trim": [info hasKey:UIImagePickerControllerMediaURL] ? [info objectForKey:UIImagePickerControllerMediaURL] : nil,
+                                    @"url": [info hasKey:UIImagePickerControllerReferenceURL] ? [info objectForKey:UIImagePickerControllerReferenceURL] : nil
+                                    }];
        }];
    } else {
        [picker dismissViewControllerAnimated:YES completion:nil];
@@ -988,9 +998,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                                            at:self.textView.selectedRange
                                                      animated:YES
                                                      userinfo:@{
-                                                                UIImagePickerControllerMediaType: (NSString *)kUTTypeMovie,
-                                                                UIImagePickerControllerMediaURL: filePath
-                                                                }];
+                                                               @"title": @"Untitled",
+                                                               @"type": @(CourtesyAttachmentVideo),
+                                                               @"url": filePath
+                                                               }];
                                    }];
 }
 
