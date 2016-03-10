@@ -36,6 +36,9 @@
 		0F7C01691C91AAB7002C52B5 /* CourtesyCardAttachmentUploadRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7C01681C91AAB7002C52B5 /* CourtesyCardAttachmentUploadRequestModel.m */; };
 		0F7C016C1C91AAD0002C52B5 /* CourtesyCardAttachmentCacheRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7C016B1C91AAD0002C52B5 /* CourtesyCardAttachmentCacheRequestModel.m */; };
 		0F7C016F1C91AB23002C52B5 /* CourtesyCardEditRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7C016E1C91AB23002C52B5 /* CourtesyCardEditRequestModel.m */; };
+		0F7C01721C91AD54002C52B5 /* CourtesyCardPublishQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7C01711C91AD54002C52B5 /* CourtesyCardPublishQueue.m */; };
+		0F7C01751C91AD6A002C52B5 /* CourtesyCardAttachmentUploadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7C01741C91AD6A002C52B5 /* CourtesyCardAttachmentUploadQueue.m */; };
+		0F7C01781C91AD7B002C52B5 /* CourtesyCardAttachmentCacheQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7C01771C91AD7B002C52B5 /* CourtesyCardAttachmentCacheQueue.m */; };
 		0F90DC171C844A5B00607277 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90DC131C844A5B00607277 /* AppDelegate.m */; };
 		0F90DC181C844A5B00607277 /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F90DC151C844A5B00607277 /* GlobalSettings.m */; };
 		0F90DC1B1C844A9D00607277 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F90DC191C844A9D00607277 /* Images.xcassets */; };
@@ -169,6 +172,12 @@
 		0F7C016B1C91AAD0002C52B5 /* CourtesyCardAttachmentCacheRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentCacheRequestModel.m; sourceTree = "<group>"; };
 		0F7C016D1C91AB23002C52B5 /* CourtesyCardEditRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardEditRequestModel.h; sourceTree = "<group>"; };
 		0F7C016E1C91AB23002C52B5 /* CourtesyCardEditRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardEditRequestModel.m; sourceTree = "<group>"; };
+		0F7C01701C91AD54002C52B5 /* CourtesyCardPublishQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublishQueue.h; sourceTree = "<group>"; };
+		0F7C01711C91AD54002C52B5 /* CourtesyCardPublishQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishQueue.m; sourceTree = "<group>"; };
+		0F7C01731C91AD6A002C52B5 /* CourtesyCardAttachmentUploadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentUploadQueue.h; sourceTree = "<group>"; };
+		0F7C01741C91AD6A002C52B5 /* CourtesyCardAttachmentUploadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentUploadQueue.m; sourceTree = "<group>"; };
+		0F7C01761C91AD7B002C52B5 /* CourtesyCardAttachmentCacheQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentCacheQueue.h; sourceTree = "<group>"; };
+		0F7C01771C91AD7B002C52B5 /* CourtesyCardAttachmentCacheQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentCacheQueue.m; sourceTree = "<group>"; };
 		0F90DC121C844A5B00607277 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Global/AppDelegate.h; sourceTree = "<group>"; };
 		0F90DC131C844A5B00607277 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Global/AppDelegate.m; sourceTree = "<group>"; };
 		0F90DC141C844A5B00607277 /* GlobalSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlobalSettings.h; path = Global/GlobalSettings.h; sourceTree = "<group>"; };
@@ -458,6 +467,12 @@
 		0F5002DF1C868362007BF221 /* Compose Queue */ = {
 			isa = PBXGroup;
 			children = (
+				0F7C01701C91AD54002C52B5 /* CourtesyCardPublishQueue.h */,
+				0F7C01711C91AD54002C52B5 /* CourtesyCardPublishQueue.m */,
+				0F7C01731C91AD6A002C52B5 /* CourtesyCardAttachmentUploadQueue.h */,
+				0F7C01741C91AD6A002C52B5 /* CourtesyCardAttachmentUploadQueue.m */,
+				0F7C01761C91AD7B002C52B5 /* CourtesyCardAttachmentCacheQueue.h */,
+				0F7C01771C91AD7B002C52B5 /* CourtesyCardAttachmentCacheQueue.m */,
 			);
 			name = "Compose Queue";
 			sourceTree = "<group>";
@@ -769,7 +784,7 @@
 			name = Star;
 			sourceTree = "<group>";
 		};
-		0FBA716B1C7B244000053696 /* Views */ = {
+		0FBA716B1C7B244000053696 /* Views & Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				0FD43FCB1C84684000D6C564 /* Card */,
@@ -785,7 +800,7 @@
 				0F18A0C71C795D0F00FDFDF5 /* Animation */,
 				0F18A0C61C795CF400FDFDF5 /* Github */,
 			);
-			name = Views;
+			name = "Views & Controllers";
 			sourceTree = "<group>";
 		};
 		0FBA716C1C7B245D00053696 /* Layouts */ = {
@@ -796,14 +811,14 @@
 			name = Layouts;
 			sourceTree = "<group>";
 		};
-		0FBA716D1C7B247700053696 /* Resources */ = {
+		0FBA716D1C7B247700053696 /* Static Resources */ = {
 			isa = PBXGroup;
 			children = (
 				0F74243B1C8FC305002C6241 /* Sounds */,
 				0FBE98351C8ED95900C8A0C0 /* Fonts */,
 				0F90DC191C844A9D00607277 /* Images.xcassets */,
 			);
-			name = Resources;
+			name = "Static Resources";
 			sourceTree = "<group>";
 		};
 		0FBA716E1C7B24B600053696 /* Global */ = {
@@ -848,10 +863,10 @@
 			children = (
 				0F7424AB1C8FCF5A002C6241 /* Prefix */,
 				0FBA716E1C7B24B600053696 /* Global */,
-				0FBA716D1C7B247700053696 /* Resources */,
+				0FBA716D1C7B247700053696 /* Static Resources */,
 				0FBA716C1C7B245D00053696 /* Layouts */,
 				0FC910CD1C7C951F00CEF533 /* Models */,
-				0FBA716B1C7B244000053696 /* Views */,
+				0FBA716B1C7B244000053696 /* Views & Controllers */,
 				0F7424441C8FCD6A002C6241 /* Extensions */,
 				0F3DA7E71C7C807800448055 /* Categories */,
 				0FBBF72D1C78BD6C00A0A2D1 /* Supporting Files */,
@@ -1115,6 +1130,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F74248D1C8FCD98002C6241 /* NSMethodSignature+EXT.m in Sources */,
+				0F7C01721C91AD54002C52B5 /* CourtesyCardPublishQueue.m in Sources */,
 				0F03A42E1C85317000C32FC8 /* CourtesyCardComposeViewController.m in Sources */,
 				0F90DC4F1C844D4F00607277 /* CourtesyLoginRegisterViewController.m in Sources */,
 				0F2A36861C8D513700028E96 /* CourtesyVideoFrameView.m in Sources */,
@@ -1146,6 +1162,7 @@
 				0F90DCAC1C844F9600607277 /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */,
 				0F7C015C1C91A3EA002C52B5 /* CourtesyCardAttachmentModel.m in Sources */,
 				0FD0C3D51C8834A700090066 /* UIView+Gaussian.m in Sources */,
+				0F7C01751C91AD6A002C52B5 /* CourtesyCardAttachmentUploadQueue.m in Sources */,
 				0FD0C3CC1C88346100090066 /* UIImagePickerController+LandScapeImagePicker.m in Sources */,
 				0F74248B1C8FCD98002C6241 /* EXTSelectorChecking.m in Sources */,
 				0F90DC511C844D4F00607277 /* CourtesyQuickLoginButton.m in Sources */,
@@ -1167,6 +1184,7 @@
 				0FD0C3E21C8838CE00090066 /* NSObject+nl_dynamicPropertySupport.m in Sources */,
 				0F7424851C8FCD98002C6241 /* EXTADT.m in Sources */,
 				0F2A36841C8D513700028E96 /* CourtesyImageFrameView.m in Sources */,
+				0F7C01781C91AD7B002C52B5 /* CourtesyCardAttachmentCacheQueue.m in Sources */,
 				0F90DCA41C844F6600607277 /* CourtesyUserAgreementWebViewController.m in Sources */,
 				0F7C01661C91AAA2002C52B5 /* CourtesyCardAttachmentQueryRequestModel.m in Sources */,
 				0F7C01691C91AAB7002C52B5 /* CourtesyCardAttachmentUploadRequestModel.m in Sources */,
