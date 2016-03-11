@@ -102,6 +102,12 @@
 #define COCOAPODS_VERSION_MINOR_JSONModel 2
 #define COCOAPODS_VERSION_PATCH_JSONModel 0
 
+// JTSImageViewController
+#define COCOAPODS_POD_AVAILABLE_JTSImageViewController
+#define COCOAPODS_VERSION_MAJOR_JTSImageViewController 1
+#define COCOAPODS_VERSION_MINOR_JTSImageViewController 5
+#define COCOAPODS_VERSION_PATCH_JTSImageViewController 1
+
 // JVFloatingDrawer
 #define COCOAPODS_POD_AVAILABLE_JVFloatingDrawer
 #define COCOAPODS_VERSION_MAJOR_JVFloatingDrawer 0

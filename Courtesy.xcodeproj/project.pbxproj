@@ -100,6 +100,7 @@
 		0FD0C3E21C8838CE00090066 /* NSObject+nl_dynamicPropertySupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD0C3DE1C8838CE00090066 /* NSObject+nl_dynamicPropertySupport.m */; };
 		0FD43FCD1C846CA700D6C564 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD43FCC1C846CA700D6C564 /* AVFoundation.framework */; };
 		0FD43FCF1C846CAF00D6C564 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD43FCE1C846CAF00D6C564 /* MediaPlayer.framework */; };
+		0FE122CE1C92D36E00616771 /* CourtesyCardPreviewGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE122CD1C92D36E00616771 /* CourtesyCardPreviewGenerator.m */; };
 		BC703599663B4BCB91E9CC88 /* libPods-Courtesy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F634EFABF4A9FFF86FA2638 /* libPods-Courtesy.a */; };
 /* End PBXBuildFile section */
 
@@ -290,6 +291,8 @@
 		0FD0C3DE1C8838CE00090066 /* NSObject+nl_dynamicPropertySupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+nl_dynamicPropertySupport.m"; sourceTree = "<group>"; };
 		0FD43FCC1C846CA700D6C564 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		0FD43FCE1C846CAF00D6C564 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		0FE122CC1C92D36E00616771 /* CourtesyCardPreviewGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPreviewGenerator.h; sourceTree = "<group>"; };
+		0FE122CD1C92D36E00616771 /* CourtesyCardPreviewGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPreviewGenerator.m; sourceTree = "<group>"; };
 		2CE7E65D1A62D8470072121A /* 礼记.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "礼记.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F634EFABF4A9FFF86FA2638 /* libPods-Courtesy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Courtesy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F79D89D6F986E82FABAC7E77 /* Pods-Courtesy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Courtesy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Courtesy/Pods-Courtesy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -480,6 +483,7 @@
 		0F5002E01C868382007BF221 /* Card */ = {
 			isa = PBXGroup;
 			children = (
+				0FE122CB1C92D35B00616771 /* Preview */,
 				0F7C015E1C91A9FD002C52B5 /* Style */,
 				0F7C015D1C91A9F0002C52B5 /* Attachment */,
 				0F7C01601C91AA27002C52B5 /* Data */,
@@ -967,6 +971,15 @@
 			name = Card;
 			sourceTree = "<group>";
 		};
+		0FE122CB1C92D35B00616771 /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				0FE122CC1C92D36E00616771 /* CourtesyCardPreviewGenerator.h */,
+				0FE122CD1C92D36E00616771 /* CourtesyCardPreviewGenerator.m */,
+			);
+			name = Preview;
+			sourceTree = "<group>";
+		};
 		2CE7E6541A62D8470072121A = {
 			isa = PBXGroup;
 			children = (
@@ -1145,6 +1158,7 @@
 				0F90DC461C844D2400607277 /* CourtesyPortraitViewController.m in Sources */,
 				0F90DC8E1C844EDB00607277 /* CourtesyMyInboxTableViewController.m in Sources */,
 				0F90DC381C844B9800607277 /* NSDictionary+Subscript.m in Sources */,
+				0FE122CE1C92D36E00616771 /* CourtesyCardPreviewGenerator.m in Sources */,
 				0FD0C3E01C8838CE00090066 /* NSObject+nl_dynamicPropertyCustomeStruct.m in Sources */,
 				0F90DCA61C844F6600607277 /* CourtesySettingsTableViewController.m in Sources */,
 				0F90DCB31C844FB700607277 /* CourtesyGithubWebViewController.m in Sources */,
@@ -1337,7 +1351,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = "礼记";
-				PROVISIONING_PROFILE = "0cba3284-9c0c-4447-84f6-c2facec8e6e9";
+				PROVISIONING_PROFILE = "f1f87a56-8499-46f2-93cf-1c3c050f3057";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1372,7 +1386,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = "礼记";
-				PROVISIONING_PROFILE = "0cba3284-9c0c-4447-84f6-c2facec8e6e9";
+				PROVISIONING_PROFILE = "f1f87a56-8499-46f2-93cf-1c3c050f3057";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

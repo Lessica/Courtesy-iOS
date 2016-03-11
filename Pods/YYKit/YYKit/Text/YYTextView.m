@@ -12,7 +12,6 @@
 #import "YYTextView.h"
 #import "YYKitMacro.h"
 #import "YYTextInput.h"
-#import "YYTextContainerView.h"
 #import "YYTextSelectionView.h"
 #import "YYTextMagnifier.h"
 #import "YYTextEffectWindow.h"
@@ -92,7 +91,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     YYTextContainer *_innerContainer; ///< nonnull, inner text container
     YYTextLayout *_innerLayout; ///< inner text layout, the text in this layout is longer than `_innerText` by appending '\n'
     
-    YYTextContainerView *_containerView; ///< nonnull
+    //YYTextContainerView *_containerView; ///< nonnull
     YYTextSelectionView *_selectionView; ///< nonnull
     YYTextMagnifier *_magnifierCaret; ///< nonnull
     YYTextMagnifier *_magnifierRanged; ///< nonnull

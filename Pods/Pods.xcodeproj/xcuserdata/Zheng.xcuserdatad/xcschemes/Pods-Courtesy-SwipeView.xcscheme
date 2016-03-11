@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4EBADE06C4AB7B496010D5B1"
+               BlueprintIdentifier = "979E30437A558A2305C89992"
                BuildableName = "libPods-Courtesy-SwipeView.a"
                BlueprintName = "Pods-Courtesy-SwipeView"
                ReferencedContainer = "container:Pods.xcodeproj">

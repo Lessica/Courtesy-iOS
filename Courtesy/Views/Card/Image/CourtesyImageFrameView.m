@@ -22,7 +22,8 @@
         self.layer.shadowRadius = 1;
         // Init of Small Option Buttons
         for (UIImageView *btn in [self optionButtons]) [self addSubview:btn];
-        [self setEditable:NO];
+        tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(frameTapped:)];
+        [self addGestureRecognizer:tapGesture];
         // Init of Bottom Label View
         [self setCardTintColor:nil];
         [self setCardTextColor:nil];
@@ -71,18 +72,14 @@
 
 - (void)setEditable:(BOOL)editable {
     _editable = editable;
-    self.bottomLabel.userInteractionEnabled = _editable;
-    if (_editable) {
-        if (!tapGesture) {
-            // Init of Gesture Recognizer
-            tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(frameTapped:)];
-        }
-        if (tapGesture) {
-            [self addGestureRecognizer:tapGesture];
-        }
+    if (self.bottomLabel) {
+        self.bottomLabel.userInteractionEnabled = editable;
+    }
+    if (editable) {
+        
     } else {
-        if (tapGesture) {
-            [self removeGestureRecognizer:tapGesture];
+        if (self.optionsOpen) {
+            [self frameTapped:self];
         }
     }
 }
@@ -127,6 +124,7 @@
 }
 
 - (void)cropGestureRecognized:(UIGestureRecognizer *)sender {
+    if (!self.editable) return;
     [self frameTapped:sender];
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameShouldCropped:)]) {
         [self.delegate imageFrameShouldCropped:self];
@@ -149,6 +147,7 @@
 }
 
 - (void)editGestureRecognized:(UIGestureRecognizer *)sender {
+    if (!self.editable) return;
     [self frameTapped:sender];
     if (!self.labelOpen) {
         [self toggleBottomLabelView:YES animated:YES];
@@ -173,12 +172,14 @@
 }
 
 - (void)deleteGestureRecognized:(UIGestureRecognizer *)sender {
+    if (!self.editable) return;
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameShouldDeleted:animated:)]) {
         [self.delegate imageFrameShouldDeleted:self animated:YES];
     }
 }
 
 - (void)setCenterImage:(UIImage *)centerImage {
+    if (!self.editable) return;
     // Remove Old Image View
     if (self.centerImageView) {
         [self.centerImageView removeFromSuperview];
@@ -225,40 +226,46 @@
 }
 
 - (void)frameTapped:(id)sender {
-        self.optionsOpen = !self.optionsOpen;
-        if (self.bottomLabel && [self.bottomLabel isFirstResponder]) {
-            [self.bottomLabel resignFirstResponder];
+    if (!self.editable) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameTapped:)]) {
+            [self.delegate imageFrameTapped:self];
         }
-        if (self.centerImageView) {
-            if (self.optionsOpen) {
-                [self.centerImageView setHasGaussian:YES];
-                for (UIImageView *btn in self.optionButtons) {
-                    btn.hidden = NO;
-                }
-                __weak typeof(self) weakSelf = self;
-                [UIView animateWithDuration:0.2
-                                 animations:^{
-                                     for (UIImageView *btn in weakSelf.optionButtons) {
-                                         btn.alpha = 1.0;
-                                     }
-                                 } completion:nil];
-            } else {
-                [self.centerImageView setHasGaussian:NO];
-                __weak typeof(self) weakSelf = self;
-                [UIView animateWithDuration:0.2
-                                 animations:^{
-                                     for (UIImageView *btn in weakSelf.optionButtons) {
-                                         btn.alpha = 0.0;
-                                     }
-                                 } completion:^(BOOL finished) {
-                                     if (finished) {
-                                         for (UIImageView *btn in weakSelf.optionButtons) {
-                                             btn.hidden = YES;
-                                         }
-                                     }
-                                 }];
+        return;
+    }
+    self.optionsOpen = !self.optionsOpen;
+    if (self.bottomLabel && [self.bottomLabel isFirstResponder]) {
+        [self.bottomLabel resignFirstResponder];
+    }
+    if (self.centerImageView) {
+        if (self.optionsOpen) {
+            [self.centerImageView setHasGaussian:YES];
+            for (UIImageView *btn in self.optionButtons) {
+                btn.hidden = NO;
             }
+            __weak typeof(self) weakSelf = self;
+            [UIView animateWithDuration:0.2
+                             animations:^{
+                                 for (UIImageView *btn in weakSelf.optionButtons) {
+                                     btn.alpha = 1.0;
+                                 }
+                             } completion:nil];
+        } else {
+            [self.centerImageView setHasGaussian:NO];
+            __weak typeof(self) weakSelf = self;
+            [UIView animateWithDuration:0.2
+                             animations:^{
+                                 for (UIImageView *btn in weakSelf.optionButtons) {
+                                     btn.alpha = 0.0;
+                                 }
+                             } completion:^(BOOL finished) {
+                                 if (finished) {
+                                     for (UIImageView *btn in weakSelf.optionButtons) {
+                                         btn.hidden = YES;
+                                     }
+                                 }
+                             }];
         }
+    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameTapped:)]) {
         [self.delegate imageFrameTapped:self];
     }
@@ -341,6 +348,7 @@
 #pragma mark - PECropViewControllerDelegate
 
 - (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage {
+    if (!self.editable) return;
     if (controller) {
         [controller dismissViewControllerAnimated:YES completion:nil];
         if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameShouldReplaced:by:userinfo:)]) {

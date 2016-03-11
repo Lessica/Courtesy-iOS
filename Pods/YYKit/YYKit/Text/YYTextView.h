@@ -15,10 +15,12 @@
 #import <YYKit/YYTextParser.h>
 #import <YYKit/YYTextLayout.h>
 #import <YYKit/YYTextAttribute.h>
+#import <YYKit/YYTextContainerView.h>
 #else
 #import "YYTextParser.h"
 #import "YYTextLayout.h"
 #import "YYTextAttribute.h"
+#import "YYTextContainerView.h"
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
@@ -348,6 +350,8 @@ NS_ASSUME_NONNULL_BEGIN
  you may set the accessory view's height. It may used by auto scroll calculation.
  */
 @property (nonatomic, assign) CGFloat extraAccessoryViewHeight;
+
+@property (nonatomic, strong) YYTextContainerView *containerView;
 
 @end
 

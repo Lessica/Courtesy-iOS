@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AFD8998D0374A8159CFB5FC9"
+               BlueprintIdentifier = "5C36F6CC09C3C5B1D31113CA"
                BuildableName = "libPods-Courtesy-CNCityPickerView.a"
                BlueprintName = "Pods-Courtesy-CNCityPickerView"
                ReferencedContainer = "container:Pods.xcodeproj">

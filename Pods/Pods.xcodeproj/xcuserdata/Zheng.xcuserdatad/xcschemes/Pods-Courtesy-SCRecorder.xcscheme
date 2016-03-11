@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5112AF3934306951CF7C13CA"
+               BlueprintIdentifier = "18154E255E155475188556BB"
                BuildableName = "libPods-Courtesy-SCRecorder.a"
                BlueprintName = "Pods-Courtesy-SCRecorder"
                ReferencedContainer = "container:Pods.xcodeproj">

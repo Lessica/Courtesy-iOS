@@ -63,6 +63,7 @@
 @property (nonatomic, strong) UIColor *cardShadowColor;
 @property (nonatomic, strong) NSString *labelText;
 @property (nonatomic, assign) NSUInteger standardLineHeight;
+@property (nonatomic, strong) NSURL *originalImageURL;
 
 - (void)toggleBottomLabelView:(BOOL)on
                      animated:(BOOL)animated;

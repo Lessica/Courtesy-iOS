@@ -19,6 +19,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "PECropViewController.h"
 #import "AudioNoteRecorderViewController.h"
+#import "JTSImageViewController.h"
+#import "CourtesyCardPreviewGenerator.h"
 
 #define kComposeDefaultFontSize 16.0
 #define kComposeDefaultLineSpacing 8.0
@@ -30,12 +32,13 @@
 #define kComposeTopBarInsectPortrait 64.0
 #define kComposeTopBarInsectLandscape 48.0
 
-@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, WechatShortVideoDelegate, MPMediaPickerControllerDelegate, CourtesyAudioFrameDelegate, AudioNoteRecorderDelegate, JotViewControllerDelegate>
+@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, WechatShortVideoDelegate, MPMediaPickerControllerDelegate, CourtesyAudioFrameDelegate, AudioNoteRecorderDelegate, JotViewControllerDelegate, JTSImageViewControllerInteractionsDelegate, CourtesyCardPreviewGeneratorDelegate>
 @property (nonatomic, assign) YYTextView *textView;
 @property (nonatomic, strong) UIView *fakeBar;
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIImageView *circleCloseBtn;
-@property (nonatomic, strong) UIImageView *circleApproveBtn;
+@property (nonatomic, strong) UIButton *circleCloseBtn;
+@property (nonatomic, strong) UIButton *circleApproveBtn;
+@property (nonatomic, strong) UIImageView *circleSaveBtn;
 @property (nonatomic, strong) UIImageView *circleBackBtn;
 @property (nonatomic, strong) CourtesyJotViewController *jotViewController;
 @property (nonatomic, strong) UIView *jotView;
@@ -288,21 +291,19 @@
     [self.view bringSubviewToFront:fakeBar];
     
     /* Init of close circle button */
-    UIImageView *circleCloseBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+    UIButton *circleCloseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleCloseBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
     circleCloseBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
     circleCloseBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
-    circleCloseBtn.image = [[UIImage imageNamed:@"39-close-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [circleCloseBtn setImage:[[UIImage imageNamed:@"101-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    [circleCloseBtn setImage:[[UIImage imageNamed:@"39-close-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+    circleCloseBtn.selected = NO;
     circleCloseBtn.layer.masksToBounds = YES;
     circleCloseBtn.layer.cornerRadius = circleCloseBtn.frame.size.height / 2;
     circleCloseBtn.translatesAutoresizingMaskIntoConstraints = NO;
     
     /* Tap gesture of close button */
-    UITapGestureRecognizer *tapCloseBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                  action:@selector(closeComposeView:)];
-    tapCloseBtn.numberOfTouchesRequired = 1;
-    tapCloseBtn.numberOfTapsRequired = 1;
-    [circleCloseBtn addGestureRecognizer:tapCloseBtn];
+    [circleCloseBtn addTarget:self action:@selector(closeComposeView:) forControlEvents:UIControlEventTouchUpInside];
     
     /* Enable interaction for close button */
     [circleCloseBtn setUserInteractionEnabled:YES];
@@ -341,21 +342,19 @@
                                                            constant:0]];
     
     /* Init of approve circle button */
-    UIImageView *circleApproveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+    UIButton *circleApproveBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleApproveBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
     circleApproveBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
     circleApproveBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
-    circleApproveBtn.image = [[UIImage imageNamed:@"40-approve-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [circleApproveBtn setImage:[[UIImage imageNamed:@"40-approve-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    [circleApproveBtn setImage:[[UIImage imageNamed:@"102-paper-plane"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+    circleApproveBtn.selected = NO;
     circleApproveBtn.layer.masksToBounds = YES;
     circleApproveBtn.layer.cornerRadius = circleApproveBtn.frame.size.height / 2;
     circleApproveBtn.translatesAutoresizingMaskIntoConstraints = NO;
     
     /* Tap gesture of approve button */
-    UITapGestureRecognizer *tapApproveBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                    action:@selector(doneComposeView:)];
-    tapApproveBtn.numberOfTouchesRequired = 1;
-    tapApproveBtn.numberOfTapsRequired = 1;
-    [circleApproveBtn addGestureRecognizer:tapApproveBtn];
+    [circleApproveBtn addTarget:self action:@selector(doneComposeView:) forControlEvents:UIControlEventTouchUpInside];
     
     /* Enable interaction for approve button */
     [circleApproveBtn setUserInteractionEnabled:YES];
@@ -447,6 +446,63 @@
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeLeadingMargin
+                                                         multiplier:1
+                                                           constant:0]];
+    
+    /* Init of save button */
+    UIImageView *circleSaveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+    circleSaveBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
+    circleSaveBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
+    circleSaveBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+    circleSaveBtn.image = [[UIImage imageNamed:@"103-down"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    circleSaveBtn.layer.masksToBounds = YES;
+    circleSaveBtn.layer.cornerRadius = circleSaveBtn.frame.size.height / 2;
+    circleSaveBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    /* Save button is not visible */
+    circleSaveBtn.alpha = 0.0;
+    circleSaveBtn.hidden = YES;
+    
+    /* Tap gesture of back button */
+    UITapGestureRecognizer *tapSaveBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(savePreview:)];
+    tapSaveBtn.numberOfTouchesRequired = 1;
+    tapSaveBtn.numberOfTapsRequired = 1;
+    [circleSaveBtn addGestureRecognizer:tapSaveBtn];
+    
+    /* Enable interaction for approve button */
+    [circleSaveBtn setUserInteractionEnabled:YES];
+    
+    /* Auto layouts of approve button */
+    self.circleSaveBtn = circleSaveBtn;
+    [self.view addSubview:circleSaveBtn];
+    [self.view bringSubviewToFront:circleSaveBtn];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleSaveBtn
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1
+                                                           constant:32]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleSaveBtn
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:nil
+                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                         multiplier:1
+                                                           constant:32]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleSaveBtn
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeBottomMargin
+                                                         multiplier:1
+                                                           constant:-20]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleSaveBtn
+                                                          attribute:NSLayoutAttributeTrailing
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeTrailingMargin
                                                          multiplier:1
                                                            constant:0]];
     
@@ -562,7 +618,7 @@
 #pragma mark - Selection Menu (TODO)
 
 - (BOOL)canBecomeFirstResponder {
-    return YES;
+    return self.editable;
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
@@ -579,28 +635,98 @@
 
 #pragma mark - Floating Actions & Navigation Bar Items
 
-- (void)closeComposeView:(id)sender {
-    if (self.textView.isFirstResponder) {
-        [self.textView resignFirstResponder];
-    }
-    [self dismissViewControllerAnimated:YES completion:^() {
-        [self.view removeAllSubviews];
-    }];
-}
-
-- (void)doneComposeView:(id)sender {
-    if (self.textView.isFirstResponder) {
-        [self.textView resignFirstResponder];
-    }
-    if (self.textView.text.length >= [self.maxContentLength integerValue]) {
-        [self.view makeToast:@"卡片内容太多了喔"
+- (void)closeComposeView:(UIButton *)sender {
+    if (sender.selected) {
+        sender.selected = NO;
+        self.circleApproveBtn.selected = NO;
+        self.editable = YES;
+        if (!self.textView.isFirstResponder) {
+            [self.textView becomeFirstResponder];
+        }
+        self.textView.selectedRange = NSMakeRange(self.textView.text.length, 0);
+        __weak typeof(self) weakSelf = self;
+        [UIView animateWithDuration:0.5 animations:^{
+            weakSelf.circleSaveBtn.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            weakSelf.circleSaveBtn.hidden = YES;
+        }];
+        [self.view makeToast:@"退出预览模式"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
-        return;
+    } else {
+        if (self.textView.isFirstResponder) {
+            [self.textView resignFirstResponder];
+        }
+        [self dismissViewControllerAnimated:YES completion:^() {
+            [self.view removeAllSubviews];
+        }];
     }
-    [self.view makeToast:@"卡片发布功能还没做好"
-                duration:kStatusBarNotificationTime
-                position:CSToastPositionCenter];
+}
+
+- (void)doneComposeView:(UIButton *)sender {
+    if (sender.selected) {
+        
+    } else {
+        sender.selected = YES;
+        self.circleCloseBtn.selected = YES;
+        if (self.textView.text.length >= [self.maxContentLength integerValue]) {
+            [self.view makeToast:@"卡片内容太多了喔"
+                        duration:kStatusBarNotificationTime
+                        position:CSToastPositionCenter];
+            return;
+        }
+        if (self.textView.isFirstResponder) {
+            [self.textView resignFirstResponder];
+        }
+        self.editable = NO;
+        self.circleSaveBtn.hidden = NO;
+        __weak typeof(self) weakSelf = self;
+        [UIView animateWithDuration:0.5 animations:^{
+            __strong typeof(self) strongSelf = weakSelf;
+            strongSelf.circleSaveBtn.alpha = [tryValue(strongSelf.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+        } completion:nil];
+        [self.view makeToast:@"发布前预览"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+    }
+}
+
+- (void)setEditable:(BOOL)editable {
+    _editable = editable;
+    self.textView.editable = editable;
+    [self lockAttachments:!editable];
+}
+
+- (void)savePreview:(id)sender {
+    CGSize imageSize = CGSizeMake(self.textView.containerView.frame.size.width, self.textView.containerView.frame.size.height);
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.0); // Retina Support
+    CALayer *originalLayer = self.textView.containerView.layer;
+    originalLayer.backgroundColor = [UIColor clearColor].CGColor;
+    [originalLayer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *originalImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    CourtesyCardPreviewGenerator *generator = [CourtesyCardPreviewGenerator new];
+    generator.delegate = self;
+    generator.contentImage = originalImage;
+    [self.view makeToastActivity:CSToastPositionCenter];
+    [generator generate];
+}
+
+- (void)generatorDidFinishWorking:(CourtesyCardPreviewGenerator *)generator result:(UIImage *)result {
+    UIImageWriteToSavedPhotosAlbum(result, self, @selector(preview:didFinishSavingWithError:contextInfo:), NULL);
+}
+
+- (void)preview:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    [self.view hideToastActivity];
+    if (error) {
+        [self.view makeToast:@"预览图保存失败"
+                           duration:kStatusBarNotificationTime
+                           position:CSToastPositionCenter];
+    } else {
+        [self.view makeToast:@"预览图已保存到相册"
+                           duration:kStatusBarNotificationTime
+                           position:CSToastPositionCenter];
+    }
 }
 
 #pragma mark - Toolbar Actions
@@ -1082,8 +1208,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [frameView setCardShadowColor:self.cardElementShadowColor];
     [frameView setCardBackgroundColor:self.cardElementBackgroundColor];
     [frameView setStandardLineHeight:kComposeLineHeight];
-    [frameView setCenterImage:image];
     [frameView setEditable:self.editable];
+    [frameView setCenterImage:image];
     if (frameView.frame.size.height < kComposeLineHeight) { // 添加失败
         return nil;
     }
@@ -1107,8 +1233,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [frameView setCardShadowColor:self.cardElementShadowColor];
     [frameView setCardBackgroundColor:self.cardElementBackgroundColor];
     [frameView setStandardLineHeight:kComposeLineHeight];
-    [frameView setVideoURL:url];
     [frameView setEditable:self.editable];
+    [frameView setVideoURL:url];
     return [self insertFrameToTextView:frameView
                                     at:range
                               animated:animated];
@@ -1158,10 +1284,49 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
 }
 
+#pragma mark - JTSImageViewControllerInteractionsDelegate
+
+- (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer
+                         atRect:(CGRect)rect {
+    UIImageWriteToSavedPhotosAlbum(imageViewer.image, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void * _Nullable)(imageViewer));
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if (contextInfo) {
+        JTSImageViewController *imageViewer = (__bridge JTSImageViewController *)contextInfo;
+        if (error) {
+            [imageViewer.view makeToast:@"图片保存失败"
+                               duration:kStatusBarNotificationTime
+                               position:CSToastPositionCenter];
+        } else {
+            [imageViewer.view makeToast:@"图片已保存到相册"
+                               duration:kStatusBarNotificationTime
+                               position:CSToastPositionCenter];
+        }
+    }
+}
+
 #pragma mark - CourtesyImageFrameDelegate
 
 - (void)imageFrameTapped:(CourtesyImageFrameView *)imageFrame {
     if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+    if (!imageFrame.editable) {
+        JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
+        imageInfo.title = imageFrame.labelText;
+        if (imageFrame.originalImageURL) {
+            imageInfo.placeholderImage = imageFrame.centerImage;
+            imageInfo.imageURL = imageFrame.originalImageURL;
+        } else {
+            imageInfo.image = imageFrame.centerImage;
+        }
+        imageInfo.referenceRect = imageFrame.centerImageView.frame;
+        imageInfo.referenceView = imageFrame;
+        JTSImageViewController *imageViewer = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
+                                                                                           mode:JTSImageViewControllerMode_Image
+                                                                                backgroundStyle:JTSImageViewControllerBackgroundOption_Scaled];
+        imageViewer.interactionsDelegate = self;
+        [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+    }
 }
 
 - (void)imageFrameShouldReplaced:(CourtesyImageFrameView *)imageFrame
@@ -1233,6 +1398,26 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     }
 }
 #endif
+
+- (void)lockAttachments:(BOOL)locked {
+    for (id object in self.textView.textLayout.attachments) {
+        if (![object isKindOfClass:[YYTextAttachment class]]) {
+            continue;
+        }
+        YYTextAttachment *attachment = (YYTextAttachment *)object;
+        if (attachment.content) {
+            if ([attachment.content respondsToSelector:@selector(setEditable:)]) {
+                if ([attachment.content isMemberOfClass:[CourtesyImageFrameView class]]) {
+                    CourtesyImageFrameView *obj = (CourtesyImageFrameView *)attachment.content;
+                    [obj setEditable:!locked];
+                } else if ([attachment.content isMemberOfClass:[CourtesyVideoFrameView class]]) {
+                    CourtesyVideoFrameView *obj = (CourtesyVideoFrameView *)attachment.content;
+                    [obj setEditable:!locked];
+                }
+            }
+        }
+    }
+}
 
 - (NSUInteger)countOfAudioFrame {
     return [self countOfClass:[CourtesyAudioFrameView class]];
