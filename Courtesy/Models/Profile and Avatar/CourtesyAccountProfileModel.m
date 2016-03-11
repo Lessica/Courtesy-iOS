@@ -200,4 +200,8 @@
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_AVATAR, self.avatar]];
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end

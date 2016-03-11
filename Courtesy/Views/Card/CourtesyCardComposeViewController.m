@@ -276,11 +276,7 @@
     fakeBar.hidden = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
     
     /* Tap Gesture of Fake Status Bar */
-    UITapGestureRecognizer *tapFakeBar = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
-        if (textView) {
-            [textView scrollToTopAnimated:YES];
-        }
-    }];
+    UITapGestureRecognizer *tapFakeBar = [[UITapGestureRecognizer alloc] initWithTarget:textView action:@selector(scrollToTop)];
     tapFakeBar.numberOfTouchesRequired = 1;
     tapFakeBar.numberOfTapsRequired = 1;
     [fakeBar addGestureRecognizer:tapFakeBar];
@@ -505,9 +501,18 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [textView becomeFirstResponder];
     });
-    
-    [textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
     [[YYTextKeyboardManager defaultManager] addObserver:self];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.textView removeObserver:self forKeyPath:@"typingAttributes"];
+    [[YYTextKeyboardManager defaultManager] removeObserver:self];
 }
 
 #pragma mark - Text Attributes Holder
@@ -526,26 +531,29 @@
 }
 
 - (void)dealloc {
-    [self.textView removeObserver:self forKeyPath:@"typingAttributes"];
-    [[YYTextKeyboardManager defaultManager] removeObserver:self];
+    CYLog(@"");
 }
 
 #pragma mark - Rotate
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+        __weak typeof(self) weakSelf = self;
         [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            self.fakeBar.hidden = NO;
+            weakSelf.fakeBar.hidden = NO;
         } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            self.fakeBar.top = 0;
-            self.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectPortrait, 0, 0, 0);
+            __strong typeof(self) strongSelf = weakSelf;
+            strongSelf.fakeBar.top = 0;
+            strongSelf.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectPortrait, 0, 0, 0);
         }];
     } else {
+        __weak typeof(self) weakSelf = self;
         [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            self.fakeBar.hidden = YES;
+            weakSelf.fakeBar.hidden = YES;
         } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            self.fakeBar.top = - self.fakeBar.height;
-            self.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectLandscape, 0, 0, 0);
+            __strong typeof(self) strongSelf = weakSelf;
+            strongSelf.fakeBar.top = - self.fakeBar.height;
+            strongSelf.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectLandscape, 0, 0, 0);
         }];
     }
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
@@ -668,6 +676,7 @@
     if (self.textView.isFirstResponder) {
         [self.textView resignFirstResponder];
     }
+    __weak typeof(self) weakSelf = self;
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入图像"
                                                     message:@"请选择一种方式"
                                                       style:LGAlertViewStyleActionSheet
@@ -675,23 +684,25 @@
                                           cancelButtonTitle:@"取消"
                                      destructiveButtonTitle:nil
                                               actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                  __strong typeof(self) strongSelf = weakSelf;
                                                                 if (index == 0) {
                                                                     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
                                                                     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-                                                                    picker.delegate = self;
+                                                                    picker.delegate = strongSelf;
                                                                     picker.allowsEditing = NO;
-                                                                    [self presentViewController:picker animated:YES completion:nil];
+                                                                    [strongSelf presentViewController:picker animated:YES completion:nil];
                                                                 } else {
                                                                     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
                                                                     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-                                                                    picker.delegate = self;
+                                                                    picker.delegate = strongSelf;
                                                                     picker.allowsEditing = NO;
-                                                                    [self presentViewController:picker animated:YES completion:nil];
+                                                                    [strongSelf presentViewController:picker animated:YES completion:nil];
                                                                 }
                                                             }
                                               cancelHandler:^(LGAlertView *alertView) {
-                                                                if (!self.textView.isFirstResponder) {
-                                                                    [self.textView becomeFirstResponder];
+                                                  __strong typeof(self) strongSelf = weakSelf;
+                                                                if (!strongSelf.textView.isFirstResponder) {
+                                                                    [strongSelf.textView becomeFirstResponder];
                                                                 }
                                                             } destructiveHandler:nil];
     [alert showAnimated:YES completionHandler:nil];
@@ -708,6 +719,7 @@
     if (self.textView.isFirstResponder) {
         [self.textView resignFirstResponder];
     }
+    __weak typeof(self) weakSelf = self;
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入音频"
                                                     message:@"请选择一种方式"
                                                       style:LGAlertViewStyleActionSheet
@@ -715,20 +727,21 @@
                                           cancelButtonTitle:@"取消"
                                      destructiveButtonTitle:nil
                                               actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                  __strong typeof(self) strongSelf = weakSelf;
                                                   if (index == 0) {
-                                                      AudioNoteRecorderViewController *vc = [[AudioNoteRecorderViewController alloc] initWithMasterViewController:self];
-                                                      vc.delegate = self;
-                                                      [self presentViewController:vc animated:NO completion:nil];
+                                                      AudioNoteRecorderViewController *vc = [[AudioNoteRecorderViewController alloc] initWithMasterViewController:strongSelf];
+                                                      vc.delegate = strongSelf;
+                                                      [strongSelf presentViewController:vc animated:NO completion:nil];
                                                   } else {
                                                       MPMediaPickerController * mediaPicker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
-                                                      mediaPicker.delegate = self;
+                                                      mediaPicker.delegate = strongSelf;
                                                       mediaPicker.allowsPickingMultipleItems = NO;
-                                                      [self presentViewController:mediaPicker animated:YES completion:nil];
+                                                      [strongSelf presentViewController:mediaPicker animated:YES completion:nil];
                                                   }
-                                              }
-                                              cancelHandler:^(LGAlertView *alertView) {
-                                                  if (!self.textView.isFirstResponder) {
-                                                      [self.textView becomeFirstResponder];
+                                              } cancelHandler:^(LGAlertView *alertView) {
+                                                  __strong typeof(self) strongSelf = weakSelf;
+                                                  if (!strongSelf.textView.isFirstResponder) {
+                                                      [strongSelf.textView becomeFirstResponder];
                                                   }
                                               } destructiveHandler:nil];
     [alert showAnimated:YES completionHandler:nil];
@@ -745,6 +758,7 @@
     if (self.textView.isFirstResponder) {
         [self.textView resignFirstResponder];
     }
+    __weak typeof(self) weakSelf = self;
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入视频"
                                                     message:@"请选择一种方式"
                                                       style:LGAlertViewStyleActionSheet
@@ -752,32 +766,34 @@
                                           cancelButtonTitle:@"取消"
                                      destructiveButtonTitle:nil
                                               actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                  __strong typeof(self) strongSelf = weakSelf;
                                                   if (index == 0) {
                                                       WechatShortVideoController *shortVideoController = [WechatShortVideoController new];
-                                                      shortVideoController.delegate = self;
-                                                      [self presentViewController:shortVideoController animated:YES completion:nil];
+                                                      shortVideoController.delegate = strongSelf;
+                                                      [strongSelf presentViewController:shortVideoController animated:YES completion:nil];
                                                   } else if (index == 1) {
                                                       UIImagePickerController *picker = [[UIImagePickerController alloc] init];
                                                       picker.sourceType = UIImagePickerControllerSourceTypeCamera;
                                                       picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
                                                       picker.videoMaximumDuration = 30.0;
-                                                      picker.delegate = self;
+                                                      picker.delegate = strongSelf;
                                                       picker.allowsEditing = YES;
-                                                      [self presentViewController:picker animated:YES completion:nil];
+                                                      [strongSelf presentViewController:picker animated:YES completion:nil];
                                                   } else if (index == 2) {
                                                       UIImagePickerController *picker = [[UIImagePickerController alloc] init];
                                                       picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
                                                       picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
                                                       picker.videoMaximumDuration = 30.0;
                                                       picker.videoQuality = [sharedSettings preferredVideoQuality];
-                                                      picker.delegate = self;
+                                                      picker.delegate = strongSelf;
                                                       picker.allowsEditing = YES;
-                                                      [self presentViewController:picker animated:YES completion:nil];
+                                                      [strongSelf presentViewController:picker animated:YES completion:nil];
                                                   }
                                               }
                                               cancelHandler:^(LGAlertView *alertView) {
-                                                  if (!self.textView.isFirstResponder) {
-                                                      [self.textView becomeFirstResponder];
+                                                  __strong typeof(self) strongSelf = weakSelf;
+                                                  if (!strongSelf.textView.isFirstResponder) {
+                                                      [strongSelf.textView becomeFirstResponder];
                                                   }
                                               } destructiveHandler:nil];
     [alert showAnimated:YES completionHandler:nil];
@@ -804,18 +820,21 @@
     [self.view sendSubviewToBack:self.jotView];
     self.circleApproveBtn.hidden = NO;
     self.circleCloseBtn.hidden = NO;
+    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.5
                      animations:^{
-                         self.circleBackBtn.alpha = 0.0;
-                         self.circleApproveBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
-                         self.circleCloseBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+                         __strong typeof(self) strongSelf = weakSelf;
+                         strongSelf.circleBackBtn.alpha = 0.0;
+                         strongSelf.circleApproveBtn.alpha = [tryValue(strongSelf.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+                         strongSelf.circleCloseBtn.alpha = [tryValue(strongSelf.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
                      } completion:^(BOOL finished) {
+                         __strong typeof(self) strongSelf = weakSelf;
                          if (finished) {
-                             self.circleBackBtn.hidden = YES;
-                             self.circleApproveBtn.userInteractionEnabled = YES;
-                             self.circleCloseBtn.userInteractionEnabled = YES;
-                             if (!self.textView.isFirstResponder) {
-                                 [self.textView becomeFirstResponder];
+                             strongSelf.circleBackBtn.hidden = YES;
+                             strongSelf.circleApproveBtn.userInteractionEnabled = YES;
+                             strongSelf.circleCloseBtn.userInteractionEnabled = YES;
+                             if (!strongSelf.textView.isFirstResponder) {
+                                 [strongSelf.textView becomeFirstResponder];
                              }
                          }
                      }];
@@ -832,15 +851,18 @@
     self.circleBackBtn.hidden = NO;
     self.circleApproveBtn.userInteractionEnabled = NO;
     self.circleCloseBtn.userInteractionEnabled = NO;
+    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.5
                      animations:^{
-                         self.circleBackBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
-                         self.circleApproveBtn.alpha = 0;
-                         self.circleCloseBtn.alpha = 0;
+                         __strong typeof(self) strongSelf = weakSelf;
+                         strongSelf.circleBackBtn.alpha = [tryValue(strongSelf.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+                         strongSelf.circleApproveBtn.alpha = 0;
+                         strongSelf.circleCloseBtn.alpha = 0;
                      } completion:^(BOOL finished) {
+                         __strong typeof(self) strongSelf = weakSelf;
                          if (finished) {
-                             self.circleApproveBtn.hidden = YES;
-                             self.circleCloseBtn.hidden = YES;
+                             strongSelf.circleApproveBtn.hidden = YES;
+                             strongSelf.circleCloseBtn.hidden = YES;
                          }
                      }];
 }
@@ -875,9 +897,11 @@
 #pragma mark - AudioNoteRecorderDelegate
 
 - (void)audioNoteRecorderDidCancel:(AudioNoteRecorderViewController *)audioNoteRecorder {
+    __weak typeof(self) weakSelf = self;
     [audioNoteRecorder dismissViewControllerAnimated:NO completion:^() {
-        if (!self.textView.isFirstResponder) {
-            [self.textView becomeFirstResponder];
+        __strong typeof(self) strongSelf = weakSelf;
+        if (!strongSelf.textView.isFirstResponder) {
+            [strongSelf.textView becomeFirstResponder];
         }
     }];
 }
@@ -885,24 +909,29 @@
 - (void)audioNoteRecorderDidTapDone:(AudioNoteRecorderViewController *)audioNoteRecorder
                     withRecordedURL:(NSURL *)recordedURL {
     if (!self.editable) return;
+    __weak typeof(self) weakSelf = self;
+    __block NSURL *newURL = recordedURL;
     [audioNoteRecorder dismissViewControllerAnimated:NO completion:^() {
-        [self addNewAudioFrame:recordedURL
-                            at:self.textView.selectedRange
-                      animated:YES
-                      userinfo:@{
-                                 @"title": @"Untitled", // TODO: 修改录音描述
-                                 @"type": @(CourtesyAttachmentAudio),
-                                 @"url": recordedURL
-                                 }];
+        __strong typeof(self) strongSelf = weakSelf;
+        [strongSelf addNewAudioFrame:newURL
+                                  at:strongSelf.textView.selectedRange
+                            animated:YES
+                            userinfo:@{
+                                       @"title": @"Untitled", // TODO: 修改录音描述
+                                       @"type": @(CourtesyAttachmentAudio),
+                                       @"url": newURL
+                                       }];
     }];
 }
 
 #pragma mark - MPMediaPickerControllerDelegate
 
 - (void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker {
+    __weak typeof(self) weakSelf = self;
     [mediaPicker dismissViewControllerAnimated:YES completion:^() {
-        if (!self.textView.isFirstResponder) {
-            [self.textView becomeFirstResponder];
+        __strong typeof(self) strongSelf = weakSelf;
+        if (!strongSelf.textView.isFirstResponder) {
+            [strongSelf.textView becomeFirstResponder];
         }
     }];
 }
@@ -941,8 +970,10 @@
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    __weak typeof(self) weakSelf = self;
     [picker dismissViewControllerAnimated:YES completion:^() {
-        if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
+        __strong typeof(self) strongSelf = weakSelf;
+        if (!strongSelf.textView.isFirstResponder) [strongSelf.textView becomeFirstResponder];
     }];
 }
 
@@ -954,15 +985,18 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         if (!image) {
             image = [info objectForKey:UIImagePickerControllerOriginalImage];
         }
+        __block NSDictionary *newInfo = info;
+        __weak typeof(self) weakSelf = self;
         [picker dismissViewControllerAnimated:YES completion:^{
-            [self addNewImageFrame:image
-                                at:self.textView.selectedRange
+            __strong typeof(self) strongSelf = weakSelf;
+            [strongSelf addNewImageFrame:image
+                                at:strongSelf.textView.selectedRange
                           animated:YES
                           userinfo:@{
                                      @"title": @"Untitled",
                                      @"type": @(CourtesyAttachmentImage),
-                                     @"data": [info hasKey:UIImagePickerControllerOriginalImage] ? [info objectForKey:UIImagePickerControllerOriginalImage] : nil,
-                                     @"url": [info hasKey:UIImagePickerControllerReferenceURL] ? [info objectForKey:UIImagePickerControllerReferenceURL] : nil
+                                     @"data": [newInfo hasKey:UIImagePickerControllerOriginalImage] ? [newInfo objectForKey:UIImagePickerControllerOriginalImage] : nil,
+                                     @"url": [newInfo hasKey:UIImagePickerControllerReferenceURL] ? [newInfo objectForKey:UIImagePickerControllerReferenceURL] : nil
                                      }];
         }];
     } else if ([info hasKey:UIImagePickerControllerMediaType] && [info hasKey:UIImagePickerControllerMediaURL]
@@ -970,18 +1004,21 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                    [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeMovie] ||
                    [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeVideo]
                   )) {
-       __block NSURL *mediaURL = [info objectForKey:UIImagePickerControllerMediaURL];
-       [picker dismissViewControllerAnimated:YES completion:^{
-           [self addNewVideoFrame:mediaURL
-                               at:self.textView.selectedRange
-                         animated:YES
-                         userinfo:@{
-                                    @"title": @"Untitled",
-                                    @"type": @(CourtesyAttachmentVideo),
-                                    @"trim": [info hasKey:UIImagePickerControllerMediaURL] ? [info objectForKey:UIImagePickerControllerMediaURL] : nil,
-                                    @"url": [info hasKey:UIImagePickerControllerReferenceURL] ? [info objectForKey:UIImagePickerControllerReferenceURL] : nil
-                                    }];
-       }];
+                   __block NSURL *mediaURL = [info objectForKey:UIImagePickerControllerMediaURL];
+                   __block NSDictionary *newInfo = info;
+                   __strong typeof(self) weakSelf = self;
+                   [picker dismissViewControllerAnimated:YES completion:^{
+                       __strong typeof(self) strongSelf = weakSelf;
+                       [strongSelf addNewVideoFrame:mediaURL
+                                                 at:self.textView.selectedRange
+                                           animated:YES
+                                           userinfo:@{
+                                                      @"title": @"Untitled",
+                                                      @"type": @(CourtesyAttachmentVideo),
+                                                      @"trim": [newInfo hasKey:UIImagePickerControllerMediaURL] ? [newInfo objectForKey:UIImagePickerControllerMediaURL] : nil,
+                                                      @"url": [newInfo hasKey:UIImagePickerControllerReferenceURL] ? [newInfo objectForKey:UIImagePickerControllerReferenceURL] : nil
+                                                      }];
+                   }];
    } else {
        [picker dismissViewControllerAnimated:YES completion:nil];
    }
@@ -992,16 +1029,19 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 - (void)finishWechatShortVideoCapture:(WechatShortVideoController *)controller
                                  path:(NSURL *)filePath {
     if (!self.editable) return;
+    __block NSURL *newPath = filePath;
+    __weak typeof(self) weakSelf = self;
     [controller dismissViewControllerAnimated:YES
                                    completion:^{
-                                       [self addNewVideoFrame:filePath
-                                                           at:self.textView.selectedRange
-                                                     animated:YES
-                                                     userinfo:@{
-                                                               @"title": @"Untitled",
-                                                               @"type": @(CourtesyAttachmentVideo),
-                                                               @"url": filePath
-                                                               }];
+                                       __strong typeof(self) strongSelf = weakSelf;
+                                       [strongSelf addNewVideoFrame:newPath
+                                                                 at:strongSelf.textView.selectedRange
+                                                           animated:YES
+                                                           userinfo:@{
+                                                                      @"title": @"Untitled",
+                                                                      @"type": @(CourtesyAttachmentVideo),
+                                                                      @"url": newPath
+                                                                      }];
                                    }];
 }
 
@@ -1041,6 +1081,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [frameView setCardTextColor:self.cardElementTextColor];
     [frameView setCardShadowColor:self.cardElementShadowColor];
     [frameView setCardBackgroundColor:self.cardElementBackgroundColor];
+    [frameView setStandardLineHeight:kComposeLineHeight];
     [frameView setCenterImage:image];
     [frameView setEditable:self.editable];
     if (frameView.frame.size.height < kComposeLineHeight) { // 添加失败
@@ -1065,6 +1106,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [frameView setCardTextColor:self.cardElementTextColor];
     [frameView setCardShadowColor:self.cardElementShadowColor];
     [frameView setCardBackgroundColor:self.cardElementBackgroundColor];
+    [frameView setStandardLineHeight:kComposeLineHeight];
     [frameView setVideoURL:url];
     [frameView setEditable:self.editable];
     return [self insertFrameToTextView:frameView
@@ -1140,11 +1182,12 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (!animated) {
         [self removeImageFrameFromTextView:imageFrame];
     } else {
+        __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.2 animations:^{
             imageFrame.alpha = 0.0;
         } completion:^(BOOL finished) {
             if (finished) {
-                [self removeImageFrameFromTextView:imageFrame];
+                [weakSelf removeImageFrameFromTextView:imageFrame];
             }
         }];
     }

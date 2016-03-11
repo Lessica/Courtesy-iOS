@@ -31,6 +31,10 @@
     return self;
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 - (UITextField *)bottomLabel {
     if (!_bottomLabel) {
         UITextField *bottomLabel = [UITextField new];
@@ -115,18 +119,18 @@
         cropBtn.alpha = 0;
         cropBtn.hidden = YES;
         cropBtn.userInteractionEnabled = YES;
-        __weak typeof(self) _self = self;
-        UITapGestureRecognizer *cropGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
-            __strong typeof(_self) self = _self;
-            [self frameTapped:g];
-            if (_delegate && [_delegate respondsToSelector:@selector(imageFrameShouldCropped:)]) {
-                [_delegate imageFrameShouldCropped:self]; // 这里可能产生循环引用？
-            }
-        }];
+        UITapGestureRecognizer *cropGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cropGestureRecognized:)];
         [cropBtn addGestureRecognizer:cropGesture];
         _cropBtn = cropBtn;
     }
     return _cropBtn;
+}
+
+- (void)cropGestureRecognized:(UIGestureRecognizer *)sender {
+    [self frameTapped:sender];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameShouldCropped:)]) {
+        [self.delegate imageFrameShouldCropped:self];
+    }
 }
 
 - (UIImageView *)editBtn {
@@ -137,20 +141,20 @@
         editBtn.alpha = 0;
         editBtn.hidden = YES;
         editBtn.userInteractionEnabled = YES;
-        __weak typeof(self) _self = self;
-        UITapGestureRecognizer *editGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
-            __strong typeof(_self) self = _self;
-            [self frameTapped:g]; // 循环引用？
-            if (!self.labelOpen) {
-                [self toggleBottomLabelView:YES animated:YES];
-            } else {
-                [self toggleBottomLabelView:NO animated:YES];
-            }
-        }];
+        UITapGestureRecognizer *editGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editGestureRecognized:)];
         [editBtn addGestureRecognizer:editGesture];
         _editBtn = editBtn;
     }
     return _editBtn;
+}
+
+- (void)editGestureRecognized:(UIGestureRecognizer *)sender {
+    [self frameTapped:sender];
+    if (!self.labelOpen) {
+        [self toggleBottomLabelView:YES animated:YES];
+    } else {
+        [self toggleBottomLabelView:NO animated:YES];
+    }
 }
 
 - (UIImageView *)deleteBtn {
@@ -161,17 +165,17 @@
         deleteBtn.alpha = 0;
         deleteBtn.hidden = YES;
         deleteBtn.userInteractionEnabled = YES;
-        __weak typeof(self) _self = self;
-        UITapGestureRecognizer *deleteGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
-            __strong typeof(_self) self = _self;
-            if (_delegate && [_delegate respondsToSelector:@selector(imageFrameShouldDeleted:animated:)]) {
-                [_delegate imageFrameShouldDeleted:self animated:YES]; // 循环引用？
-            }
-        }];
+        UITapGestureRecognizer *deleteGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteGestureRecognized:)];
         [deleteBtn addGestureRecognizer:deleteGesture];
         _deleteBtn = deleteBtn;
     }
     return _deleteBtn;
+}
+
+- (void)deleteGestureRecognized:(UIGestureRecognizer *)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameShouldDeleted:animated:)]) {
+        [self.delegate imageFrameShouldDeleted:self animated:YES];
+    }
 }
 
 - (void)setCenterImage:(UIImage *)centerImage {
@@ -186,14 +190,14 @@
     UIImageView *centerImageView = nil;
     if (centerImage.size.width > self.frame.size.width) {
         scaleValue = self.frame.size.width / centerImage.size.width;
-        height = centerImage.size.height * scaleValue;
+        height = ceil(((float)centerImage.size.height * scaleValue) / self.standardLineHeight) * self.standardLineHeight;
         centerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
         centerImageView.contentMode = UIViewContentModeScaleAspectFill;
     } else {
         if (centerImage.size.height < kImageFrameMinHeight) {
             height = kImageFrameMinHeight; // 最小高度
         } else {
-            height = centerImage.size.height;
+            height = ceil((float)centerImage.size.height / self.standardLineHeight) * self.standardLineHeight;
         }
         centerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
         centerImageView.contentMode = UIViewContentModeCenter;
@@ -231,32 +235,32 @@
                 for (UIImageView *btn in self.optionButtons) {
                     btn.hidden = NO;
                 }
+                __weak typeof(self) weakSelf = self;
                 [UIView animateWithDuration:0.2
                                  animations:^{
-                                     for (UIImageView *btn in self.optionButtons) {
+                                     for (UIImageView *btn in weakSelf.optionButtons) {
                                          btn.alpha = 1.0;
                                      }
-                                 } completion:^(BOOL finished) {
-                                     
-                                 }];
+                                 } completion:nil];
             } else {
                 [self.centerImageView setHasGaussian:NO];
+                __weak typeof(self) weakSelf = self;
                 [UIView animateWithDuration:0.2
                                  animations:^{
-                                     for (UIImageView *btn in self.optionButtons) {
+                                     for (UIImageView *btn in weakSelf.optionButtons) {
                                          btn.alpha = 0.0;
                                      }
                                  } completion:^(BOOL finished) {
                                      if (finished) {
-                                         for (UIImageView *btn in self.optionButtons) {
+                                         for (UIImageView *btn in weakSelf.optionButtons) {
                                              btn.hidden = YES;
                                          }
                                      }
                                  }];
             }
         }
-    if (_delegate && [_delegate respondsToSelector:@selector(imageFrameTapped:)]) {
-        [_delegate imageFrameTapped:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameTapped:)]) {
+        [self.delegate imageFrameTapped:self];
     }
 }
 
@@ -268,14 +272,16 @@
         // Reset Label View
         self.bottomLabel.frame = CGRectMake(kImageFrameBorderWidth, targetHeight - kImageFrameBorderWidth - kImageFrameLabelTextHeight, self.frame.size.width - kImageFrameBorderWidth * 2, kImageFrameLabelTextHeight);
         if (animated) {
+            __weak typeof(self) weakSelf = self;
             [UIView animateWithDuration:0.2
                              animations:^{
-                                 [self setHeight:targetHeight];
+                                 [weakSelf setHeight:targetHeight];
                              } completion:^(BOOL finished) {
+                                 __strong typeof(self) strongSelf = weakSelf;
                                  if (finished) {
-                                     [self addSubview:self.bottomLabel];
-                                     if (![self.bottomLabel isFirstResponder]) {
-                                         [self.bottomLabel becomeFirstResponder];
+                                     [strongSelf addSubview:strongSelf.bottomLabel];
+                                     if (![strongSelf.bottomLabel isFirstResponder]) {
+                                         [strongSelf.bottomLabel becomeFirstResponder];
                                      }
                                  }
                              }];
@@ -317,8 +323,8 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    if (_delegate && [_delegate respondsToSelector:@selector(imageFrameDidBeginEditing:)]) {
-        [_delegate imageFrameDidBeginEditing:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameDidBeginEditing:)]) {
+        [self.delegate imageFrameDidBeginEditing:self];
     }
 }
 
@@ -327,8 +333,8 @@
     if ([textField.text isEmpty]) {
         [self toggleBottomLabelView:NO animated:YES];
     }
-    if (_delegate && [_delegate respondsToSelector:@selector(imageFrameDidEndEditing:)]) {
-        [_delegate imageFrameDidEndEditing:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameDidEndEditing:)]) {
+        [self.delegate imageFrameDidEndEditing:self];
     }
 }
 
@@ -337,8 +343,8 @@
 - (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage {
     if (controller) {
         [controller dismissViewControllerAnimated:YES completion:nil];
-        if (_delegate && [_delegate respondsToSelector:@selector(imageFrameShouldReplaced:by:userinfo:)]) {
-            [_delegate imageFrameShouldReplaced:self by:croppedImage userinfo:_userinfo];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameShouldReplaced:by:userinfo:)]) {
+            [self.delegate imageFrameShouldReplaced:self by:croppedImage userinfo:self.userinfo];
         }
     }
 }

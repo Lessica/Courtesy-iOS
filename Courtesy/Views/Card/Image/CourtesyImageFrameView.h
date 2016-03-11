@@ -14,7 +14,7 @@
 #define kImageFrameBtnBorderWidth 16
 #define kImageFrameBtnWidth 27
 #define kImageFrameBtnInterval 12
-#define kImageFrameMinHeight 80
+#define kImageFrameMinHeight 72
 
 @class CourtesyImageFrameView;
 
@@ -62,6 +62,7 @@
 @property (nonatomic, strong) UIColor *cardTextColor;
 @property (nonatomic, strong) UIColor *cardShadowColor;
 @property (nonatomic, strong) NSString *labelText;
+@property (nonatomic, assign) NSUInteger standardLineHeight;
 
 - (void)toggleBottomLabelView:(BOOL)on
                      animated:(BOOL)animated;

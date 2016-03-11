@@ -95,7 +95,7 @@
                 }
                 [self callbackQueryDelegateSucceed];
                 return;
-            } else if (errorCode == 404) {
+            } else if (errorCode == 404 || errorCode == 423) {
                 @throw NSException(kCourtesyUnexceptedStatus, @"「礼记」二维码不存在");
             }
             @throw NSException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
@@ -114,6 +114,10 @@
     [JSONHTTPClient postJSONFromURLWithString:API_URL
                                    bodyString:[queryDict toJSONString]
                                    completion:handler];
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

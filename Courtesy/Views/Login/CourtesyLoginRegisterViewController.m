@@ -153,4 +153,8 @@
     [NSNotificationCenter sendCTAction:kActionLogin message:nil];
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end

@@ -69,9 +69,7 @@
         _centerBtn.tintColor = [UIColor whiteColor];
         _centerBtn.userInteractionEnabled = YES;
         _centerBtn.image = [[UIImage imageNamed:@"53-play-center"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        UITapGestureRecognizer *playGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
-            [self playVideo];
-        }];
+        UITapGestureRecognizer *playGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo)];
         [_centerBtn addGestureRecognizer:playGesture];
     }
     return _centerBtn;
@@ -85,9 +83,7 @@
         _playBtn.alpha = 0;
         _playBtn.hidden = YES;
         _playBtn.userInteractionEnabled = YES;
-        UITapGestureRecognizer *playGesture = [[UITapGestureRecognizer alloc] initWithActionBlock:^(UITapGestureRecognizer *g) {
-            [self playVideo];
-        }];
+        UITapGestureRecognizer *playGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo)];
         [_playBtn addGestureRecognizer:playGesture];
     }
     return _playBtn;

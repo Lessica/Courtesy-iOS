@@ -180,35 +180,39 @@ static SystemSoundID record_sound_id = 0;
         [self.recordingTimer invalidate];
         self.recordingTimer = nil;
     } else {
+        [self playRecordSound];
         _play.enabled = NO;
         _doneBtn.enabled = NO;
-        NSDictionary* recorderSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          [NSNumber numberWithInt:kAudioFormatLinearPCM],AVFormatIDKey,
-                                          [NSNumber numberWithInt:44100], AVSampleRateKey,
-                                          [NSNumber numberWithInt:1],     AVNumberOfChannelsKey,
-                                          [NSNumber numberWithBool:NO],   AVLinearPCMIsNonInterleaved,
-                                          [NSNumber numberWithInt:16],    AVLinearPCMBitDepthKey,
-                                          [NSNumber numberWithBool:NO],   AVLinearPCMIsBigEndianKey,
-                                          [NSNumber numberWithBool:NO],   AVLinearPCMIsFloatKey,
-                                          nil];
-        NSError* error = nil;
-        NSString *cachesDir = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
-        NSString *filename = [NSString stringWithFormat:@"%@.wav", [NSString stringWithFormat:@"%.0f", [[NSDate date] timeIntervalSince1970]]];
-        NSString *targetURL = [NSURL fileURLWithPath:[cachesDir stringByAppendingPathComponent:filename]];
-        self.recorder = [[AVAudioRecorder alloc] initWithURL:targetURL settings:recorderSettings error:&error];
-        
-        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error: nil];
-        [[AVAudioSession sharedInstance] setActive: YES error: nil];
-        UInt32 doChangeDefault = 1;
-        AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(doChangeDefault), &doChangeDefault);
-        
-        self.recorder.delegate = self;
-        [self.recorder record];
-        self.recordingTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(recordingTimerUpdate:) userInfo:nil repeats:YES];
-        [_recordingTimer fire];
-        [self playRecordSound];
+        [self performSelector:@selector(startRecord) withObject:nil afterDelay:0.5];
     }
     sender.selected = !sender.selected;
+}
+
+- (void)startRecord {
+    NSDictionary* recorderSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSNumber numberWithInt:kAudioFormatLinearPCM],AVFormatIDKey,
+                                      [NSNumber numberWithInt:44100], AVSampleRateKey,
+                                      [NSNumber numberWithInt:1],     AVNumberOfChannelsKey,
+                                      [NSNumber numberWithBool:NO],   AVLinearPCMIsNonInterleaved,
+                                      [NSNumber numberWithInt:16],    AVLinearPCMBitDepthKey,
+                                      [NSNumber numberWithBool:NO],   AVLinearPCMIsBigEndianKey,
+                                      [NSNumber numberWithBool:NO],   AVLinearPCMIsFloatKey,
+                                      nil];
+    NSError* error = nil;
+    NSString *cachesDir = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+    NSString *filename = [NSString stringWithFormat:@"%@.wav", [NSString stringWithFormat:@"%.0f", [[NSDate date] timeIntervalSince1970]]];
+    NSString *targetURL = [NSURL fileURLWithPath:[cachesDir stringByAppendingPathComponent:filename]];
+    self.recorder = [[AVAudioRecorder alloc] initWithURL:targetURL settings:recorderSettings error:&error];
+    
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error: nil];
+    [[AVAudioSession sharedInstance] setActive: YES error: nil];
+    UInt32 doChangeDefault = 1;
+    AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryDefaultToSpeaker, sizeof(doChangeDefault), &doChangeDefault);
+    
+    self.recorder.delegate = self;
+    [self.recorder record];
+    self.recordingTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(recordingTimerUpdate:) userInfo:nil repeats:YES];
+    [_recordingTimer fire];
 }
 
 - (void)playTap:(UIButton *)sender {

@@ -164,4 +164,8 @@
                                    completion:handler];
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end

@@ -54,9 +54,7 @@
         [text setTextHighlightRange:bindlingRange
                               color:[UIColor blueberryColor]
                     backgroundColor:[UIColor clearColor]
-                          tapAction:^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
-                              CYLog(@"Tapped Highlight Target!")
-                          }];
+                          tapAction:nil]; // TODO
         changed = YES;
     };
     [self.regex_email enumerateMatchesInString:text.string options:NSMatchingWithoutAnchoringBounds range:*range usingBlock:handler];

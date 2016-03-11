@@ -25,6 +25,10 @@
     return self;
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 - (UIButton *)playBtn {
     if (!_playBtn) {
         UIButton *playBtn = [UIButton new];
@@ -100,9 +104,9 @@
     AFSoundPlayback *audioQueue = [[AFSoundPlayback alloc] initWithItem:audioItem];
     if (audioItem.duration == 0) return;
     self.scale = self.waveform.totalSamples / audioItem.duration;
-    if (self.autoPlay) [self playButtonTapped:nil];
     self.audioItem = audioItem;
     self.audioQueue = audioQueue;
+    if (self.autoPlay) [self playButtonTapped:nil];
 }
 
 - (UILabel *)titleLabel {
@@ -143,22 +147,25 @@
     if (!self.isPlaying) {
         self.isPlaying = YES;
         [self.playBtn setSelected:self.isPlaying];
+        [self.audioQueue play];
+        __weak typeof(self) weakSelf = self;
         [self.audioQueue listenFeedbackUpdatesWithBlock:^(AFSoundItem *item) {
+            __strong typeof(self) strongSelf = weakSelf;
             [UIView animateWithDuration:1.0 animations:^{
-                self.waveform.progressSamples = self.scale * item.timePlayed;
+                strongSelf.waveform.progressSamples = strongSelf.scale * item.timePlayed;
             }];
             CYLog(@"Item duration: %ld - time elapsed: %ld", (long)item.duration, (long)item.timePlayed);
         } andFinishedBlock:^() {
-            self.isPlaying = NO;
-            [self.audioQueue pause];
-            [self.audioQueue restart];
-            [self.playBtn setSelected:self.isPlaying];
+            __strong typeof(self) strongSelf = weakSelf;
+            strongSelf.isPlaying = NO;
+            [strongSelf.audioQueue pause];
+            [strongSelf.audioQueue restart];
+            [strongSelf.playBtn setSelected:strongSelf.isPlaying];
             [UIView animateWithDuration:0.2 animations:^{
-                self.waveform.progressSamples = 0;
+                strongSelf.waveform.progressSamples = 0;
             }];
             CYLog(@"Track finished playing!");
         }];
-        [self.audioQueue play];
         if (self.delegate && [self.delegate respondsToSelector:@selector(audioFrameDidBeginPlaying:)]) {
             [self.delegate audioFrameDidBeginPlaying:self];
         }
@@ -204,11 +211,14 @@
     if (!self.audioQueue || !self.waveform) {
         return;
     }
-    self.isPlaying = YES;
-    [self.playBtn setSelected:self.isPlaying];
-    self.audioItem.timePlayed = (((float)self.waveform.progressSamples / self.waveform.totalSamples) * [self.audioQueue currentItem].duration);
-    [self.audioQueue playAtSecond:self.audioItem.timePlayed];
-    [self.audioQueue play];
+    if (self.isPlaying) {
+        [self.playBtn setSelected:YES];
+        self.audioItem.timePlayed = (((float)self.waveform.progressSamples / self.waveform.totalSamples) * [self.audioQueue currentItem].duration);
+        [self.audioQueue playAtSecond:self.audioItem.timePlayed];
+        [self.audioQueue play];
+    } else {
+        [self playButtonTapped:nil];
+    }
 }
 
 @end
