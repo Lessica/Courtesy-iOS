@@ -92,8 +92,6 @@
 		0FFE04CA1C93F47400E99DCC /* CourtesyLoginRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04B41C93F47400E99DCC /* CourtesyLoginRegisterModel.m */; };
 		0FFE04CB1C93F47400E99DCC /* CourtesyAccountProfileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04B71C93F47400E99DCC /* CourtesyAccountProfileModel.m */; };
 		0FFE04CC1C93F47400E99DCC /* CourtesyQRCodeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04BA1C93F47400E99DCC /* CourtesyQRCodeModel.m */; };
-		0FFE04D21C93F4AA00E99DCC /* Drawers.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE04CE1C93F4AA00E99DCC /* Drawers.strings */; };
-		0FFE04D31C93F4AA00E99DCC /* LaunchScreen.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE04D01C93F4AA00E99DCC /* LaunchScreen.strings */; };
 		0FFE04D91C93F4C600E99DCC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE04D51C93F4C600E99DCC /* Images.xcassets */; };
 		0FFE04DA1C93F4C600E99DCC /* kisssound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE04D71C93F4C600E99DCC /* kisssound.wav */; };
 		0FFE04DB1C93F4C600E99DCC /* toggle-record.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE04D81C93F4C600E99DCC /* toggle-record.wav */; };
@@ -324,8 +322,6 @@
 		0FFE04B71C93F47400E99DCC /* CourtesyAccountProfileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAccountProfileModel.m; sourceTree = "<group>"; };
 		0FFE04B91C93F47400E99DCC /* CourtesyQRCodeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyQRCodeModel.h; sourceTree = "<group>"; };
 		0FFE04BA1C93F47400E99DCC /* CourtesyQRCodeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyQRCodeModel.m; sourceTree = "<group>"; };
-		0FFE04CF1C93F4AA00E99DCC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = Drawers.strings; sourceTree = "<group>"; };
-		0FFE04D11C93F4AA00E99DCC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = LaunchScreen.strings; sourceTree = "<group>"; };
 		0FFE04D51C93F4C600E99DCC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0FFE04D71C93F4C600E99DCC /* kisssound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = kisssound.wav; sourceTree = "<group>"; };
 		0FFE04D81C93F4C600E99DCC /* toggle-record.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "toggle-record.wav"; sourceTree = "<group>"; };
@@ -343,7 +339,7 @@
 		0FFE04ED1C93F51900E99DCC /* area.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = area.plist; sourceTree = "<group>"; };
 		0FFE04EE1C93F51900E99DCC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0FFE04EF1C93F51900E99DCC /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0FFE04F01C93F51900E99DCC /* 礼记.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "礼记.entitlements"; sourceTree = "<group>"; };
+		0FFE04F01C93F51900E99DCC /* Courtesy.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Courtesy.entitlements; sourceTree = "<group>"; };
 		0FFE05071C93F52C00E99DCC /* NLPropertyDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLPropertyDescriptor.h; sourceTree = "<group>"; };
 		0FFE05081C93F52C00E99DCC /* NLPropertyDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLPropertyDescriptor.m; sourceTree = "<group>"; };
 		0FFE05091C93F52C00E99DCC /* NSObject+nl_dynamicPropertyCustomeStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+nl_dynamicPropertyCustomeStruct.h"; sourceTree = "<group>"; };
@@ -468,7 +464,6 @@
 		0FBA716C1C7B245D00053696 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
-				0FFE04CD1C93F4AA00E99DCC /* zh-Hans.lproj */,
 				0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */,
 			);
 			name = Layouts;
@@ -977,16 +972,6 @@
 			path = QRCode;
 			sourceTree = "<group>";
 		};
-		0FFE04CD1C93F4AA00E99DCC /* zh-Hans.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				0FFE04CE1C93F4AA00E99DCC /* Drawers.strings */,
-				0FFE04D01C93F4AA00E99DCC /* LaunchScreen.strings */,
-			);
-			name = "zh-Hans.lproj";
-			path = "Base.lproj/zh-Hans.lproj";
-			sourceTree = "<group>";
-		};
 		0FFE04D41C93F4C600E99DCC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1044,7 +1029,7 @@
 				0FFE04ED1C93F51900E99DCC /* area.plist */,
 				0FFE04EE1C93F51900E99DCC /* Info.plist */,
 				0FFE04EF1C93F51900E99DCC /* main.m */,
-				0FFE04F01C93F51900E99DCC /* 礼记.entitlements */,
+				0FFE04F01C93F51900E99DCC /* Courtesy.entitlements */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1306,10 +1291,8 @@
 				0FFE04DA1C93F4C600E99DCC /* kisssound.wav in Resources */,
 				0FFE04D91C93F4C600E99DCC /* Images.xcassets in Resources */,
 				0FFE04861C93F45800E99DCC /* tos.html in Resources */,
-				0FFE04D31C93F4AA00E99DCC /* LaunchScreen.strings in Resources */,
 				0FFE04731C93F45800E99DCC /* CourtesyLoginRegisterViewController.xib in Resources */,
 				0FFE047A1C93F45800E99DCC /* CodeScan.bundle in Resources */,
-				0FFE04D21C93F4AA00E99DCC /* Drawers.strings in Resources */,
 				0FFE04DB1C93F4C600E99DCC /* toggle-record.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1539,22 +1522,6 @@
 			name = Drawers.storyboard;
 			sourceTree = "<group>";
 		};
-		0FFE04CE1C93F4AA00E99DCC /* Drawers.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0FFE04CF1C93F4AA00E99DCC /* zh-Hans */,
-			);
-			name = Drawers.strings;
-			sourceTree = "<group>";
-		};
-		0FFE04D01C93F4AA00E99DCC /* LaunchScreen.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0FFE04D11C93F4AA00E99DCC /* zh-Hans */,
-			);
-			name = LaunchScreen.strings;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1745,7 +1712,7 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CODE_SIGN_ENTITLEMENTS = "Courtesy/Supporting Files/礼记.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Courtesy/Supporting Files/Courtesy.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1780,7 +1747,7 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CODE_SIGN_ENTITLEMENTS = "Courtesy/Supporting Files/礼记.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Courtesy/Supporting Files/Courtesy.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
