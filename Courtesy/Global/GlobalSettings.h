@@ -8,6 +8,7 @@
 
 #import "JSONModel.h"
 #import "CourtesyAccountModel.h"
+#import "MMWormhole.h"
 
 @interface GlobalSettings : NSObject
 
@@ -20,6 +21,8 @@
 @property (nonatomic, assign) BOOL hasNotificationPermission;
 @property (nonatomic, strong) CourtesyAccountModel<Ignore> *currentAccount;
 @property (nonatomic, assign) BOOL fetchedCurrentAccount;
+@property (nonatomic, strong) NSUserDefaults *sharedUserDefaults;
+@property (nonatomic, strong) MMWormhole *sharedWormhole;
 
 @property (nonatomic, assign) BOOL switchAutoSave;
 @property (nonatomic, assign) BOOL switchAutoPublic;

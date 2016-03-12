@@ -17,11 +17,13 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>0.1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>10</string>
+	<key>CLKComplicationSupportedFamilies</key>
+	<array/>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
@@ -33,7 +35,7 @@
 		<string>com.apple.watchkit</string>
 	</dict>
 	<key>RemoteInterfacePrincipalClass</key>
-	<string>InterfaceController</string>
+	<string>CourtesyWatchMainInterfaceController</string>
 	<key>WKExtensionDelegateClassName</key>
 	<string>ExtensionDelegate</string>
 </dict>

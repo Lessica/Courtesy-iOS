@@ -1,23 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="6724" systemVersion="14A389" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9531" systemVersion="15E61b" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3735"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9515"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--礼记-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModuleProvider=""/>
+                <controller identifier="kCourtesyWatchInterfaceMain" title="礼记" alwaysBounce="YES" id="AgC-eL-Hgc" customClass="CourtesyWatchMainInterfaceController">
+                    <connections>
+                        <segue destination="WiT-2p-FqV" kind="relationship" relationship="nextPage" id="azS-Dl-JFU"/>
+                    </connections>
+                </controller>
             </objects>
             <point key="canvasLocation" x="220" y="345"/>
+        </scene>
+        <!--探索-->
+        <scene sceneID="drJ-42-pzT">
+            <objects>
+                <controller identifier="kCourtesyWatchInterfaceGallery" title="探索" id="WiT-2p-FqV">
+                    <connections>
+                        <segue destination="7bw-uB-SXF" kind="relationship" relationship="nextPage" id="FIl-q2-Vov"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="468" y="345"/>
+        </scene>
+        <!--我的卡片-->
+        <scene sceneID="J1y-Pn-R4D">
+            <objects>
+                <controller identifier="kCourtesyWatchInterfaceMy" title="我的卡片" id="7bw-uB-SXF">
+                    <connections>
+                        <segue destination="FBj-Vq-Uvl" kind="relationship" relationship="nextPage" id="zKP-1o-sar"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="712" y="345"/>
+        </scene>
+        <!--收藏夹-->
+        <scene sceneID="DTe-oN-mM6">
+            <objects>
+                <controller identifier="kCourtesyWatchInterfaceStar" title="收藏夹" id="FBj-Vq-Uvl"/>
+            </objects>
+            <point key="canvasLocation" x="992" y="345"/>
+        </scene>
+        <!--提示-->
+        <scene sceneID="D1p-KF-R0l">
+            <objects>
+                <controller identifier="kCourtesyWatchInterfaceNotLogin" title="提示" id="kZm-gs-imE">
+                    <items>
+                        <label alignment="center" textAlignment="center" numberOfLines="2" id="ICo-FC-ROB">
+                            <string key="text">请先在 iPhone 上
+登录「礼记」</string>
+                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                        </label>
+                        <button alignment="center" verticalAlignment="center" backgroundImage="watch-no-login" id="klh-j3-gCV">
+                            <connections>
+                                <action selector="warningButtonTapped:" destination="AgC-eL-Hgc" id="SMf-Q4-HcP"/>
+                            </connections>
+                        </button>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="220" y="100"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
             <objects>
-                <notificationController id="YCC-NB-fut">
+                <notificationController animationDuration="0.5" id="YCC-NB-fut">
                     <items>
-                        <label alignment="left" text="Alert Label" id="IdU-wH-bcW"/>
+                        <label alignment="left" text="通知内容" numberOfLines="4" id="IdU-wH-bcW"/>
                     </items>
                     <notificationCategory key="notificationCategory" identifier="myCategory" id="JfB-70-Muf"/>
                     <connections>
@@ -31,9 +84,10 @@
         <!--Notification Controller-->
         <scene sceneID="ZPc-GJ-vnh">
             <objects>
-                <controller id="4sK-HA-Art" customClass="NotificationController" customModuleProvider=""/>
+                <controller animationDuration="0.5" id="4sK-HA-Art" customClass="NotificationController"/>
             </objects>
             <point key="canvasLocation" x="468" y="643"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.85098039219999999" green="0.098039215690000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

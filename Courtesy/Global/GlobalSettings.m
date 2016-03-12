@@ -68,6 +68,11 @@
         if (!appStorage || !self.currentAccount) {
             @throw NSException(kCourtesyAllocFailed, @"应用程序启动失败");
         }
+        // 初始化应用程序共享信息
+        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.courtesy"];
+        self.sharedUserDefaults = sharedDefaults;
+        self.sharedWormhole = [[MMWormhole alloc] initWithApplicationGroupIdentifier:@"group.courtesy"
+                                                                   optionalDirectory:@"wormhole"];
         // 初始化账户信息
         if ([self sessionKey] != nil) {
             if ([appStorage containsObjectForKey:kCourtesyDBCurrentLoginAccount]) {

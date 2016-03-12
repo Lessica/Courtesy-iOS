@@ -1,5 +1,6 @@
 source 'https://gitcafe.com/akuandev/Specs.git'
 target 'Courtesy', :exclusive => true do
+    platform :ios, '9.0'
     inhibit_all_warnings!
     pod 'WechatShortVideo'
     pod 'jot'
@@ -21,6 +22,7 @@ target 'Courtesy', :exclusive => true do
     pod 'UMengSocial', '~> 5.0'
     pod 'MJRefresh'
     pod 'YYKit'
+    pod 'MMWormhole'
     pod 'JTSImageViewController'
     pod 'PMAudioRecorderViewController'
     pod 'FDWaveformView'
@@ -31,4 +33,8 @@ target 'Courtesy', :exclusive => true do
     pod 'FLEX', '~> 2.0', :configurations => ['Debug']
     pod 'AFSoundManager'
     pod 'QBImagePickerController'
+end
+target 'CourtesyWatchExtension', :exclusive => true do
+    platform :watchos, '2.0'
+    pod 'MMWormhole'
 end

@@ -10,6 +10,10 @@
 
 @implementation ExtensionDelegate
 
++ (instancetype)sharedDelegate {
+    return [WKExtension sharedExtension].delegate;
+}
+
 - (void)applicationDidFinishLaunching {
     // Perform any final initialization of your application.
 }

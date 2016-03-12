@@ -1,9 +1,9 @@
 //
 //  main.m
-//  JVFloatingDrawer
+//  Courtesy
 //
-//  Created by Julian Villella on 2015-01-11.
-//  Copyright (c) 2015 JVillella. All rights reserved.
+//  Created by Zheng on 2016-01-11.
+//  Copyright (c) 2015 82Flex. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

@@ -1,1 +1,0 @@
-PODS_COURTESY_FLEX_OTHER_LDFLAGS = -l"sqlite3" -l"z" -framework "CoreGraphics" -framework "Foundation" -framework "UIKit"

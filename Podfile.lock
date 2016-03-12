@@ -36,6 +36,9 @@ PODS:
   - Masonry (0.6.4)
   - MBProgressHUD (0.9.2)
   - MJRefresh (3.1.0)
+  - MMWormhole (2.0.0):
+    - MMWormhole/Core (= 2.0.0)
+  - MMWormhole/Core (2.0.0)
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
     - NJKWebViewProgress/ProgressView (= 0.2.3)
@@ -81,6 +84,7 @@ DEPENDENCIES:
   - LBXScan
   - LGAlertView
   - MJRefresh
+  - MMWormhole
   - NJKWebViewProgress
   - oc-timestamp (from `https://github.com/lbj96347/oc-timestamp.git`)
   - PEPhotoCropEditor
@@ -124,6 +128,7 @@ SPEC CHECKSUMS:
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
+  MMWormhole: 0cd3fd35a9118b2e2d762b499f54eeaace0be791
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   oc-timestamp: 9c43714e7ea93f7d90815343e5975808a76a3dda
   PEPhotoCropEditor: 613292fce009efd085e7aed975f1ebb3fec8bb7b
@@ -140,4 +145,4 @@ SPEC CHECKSUMS:
   YYKit: 76c3f2cee1a72d3c5b1d7fd8d170ee507fe5df68
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
-COCOAPODS: 0.37.2
+COCOAPODS: 0.39.0
