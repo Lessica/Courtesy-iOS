@@ -33,7 +33,7 @@
     // Draw head
     CGFloat headWidth = screen_width;
     CGFloat headScale = (CGFloat)preview_head.size.width / headWidth;
-    CGFloat headHeight = preview_head.size.height / headScale;
+    CGFloat headHeight = (CGFloat)preview_head.size.height / headScale;
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(headWidth, headHeight), NO, 0.0);
     [preview_head drawInRect:CGRectMake(0, 0, headWidth, headHeight)];
     preview_head = UIGraphicsGetImageFromCurrentImageContext();
@@ -50,7 +50,7 @@
     // Draw Footer
     CGFloat footerWidth = screen_width;
     CGFloat footerScale = (CGFloat)preview_footer.size.width / footerWidth;
-    CGFloat footerHeight = preview_footer.size.height / footerScale;
+    CGFloat footerHeight = (CGFloat)preview_footer.size.height / footerScale;
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(footerWidth, footerHeight), NO, 0.0);
     [preview_footer drawInRect:CGRectMake(0, 0, footerWidth, footerHeight)];
     preview_footer = UIGraphicsGetImageFromCurrentImageContext();
