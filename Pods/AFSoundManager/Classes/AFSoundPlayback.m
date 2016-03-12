@@ -56,11 +56,10 @@ NSString * const AFSoundPlaybackFinishedNotification = @"kAFSoundPlaybackFinishe
 
 -(void)listenFeedbackUpdatesWithBlock:(feedbackBlock)block andFinishedBlock:(finishedBlock)finishedBlock {
     
-    CGFloat updateRate = 1;
+    CGFloat updateRate = 1.0;
     
     if (_player.rate > 0) {
-        
-        updateRate = 1 / _player.rate;
+        updateRate = 1.0 / _player.rate;
     }
     
     _feedbackTimer = [NSTimer scheduledTimerWithTimeInterval:updateRate block:^{
@@ -68,7 +67,6 @@ NSString * const AFSoundPlaybackFinishedNotification = @"kAFSoundPlaybackFinishe
         _currentItem.timePlayed = (int)CMTimeGetSeconds(_player.currentTime);
         
         if (block) {
-
             block(_currentItem);
         }
         
@@ -79,11 +77,12 @@ NSString * const AFSoundPlaybackFinishedNotification = @"kAFSoundPlaybackFinishe
             _status = AFSoundStatusFinished;
             
             if (finishedBlock) {
-                
                 finishedBlock();
             }
         }
     } repeats:YES];
+    
+    [_feedbackTimer pauseTimer];
 }
 
 -(NSDictionary *)playingInfo {

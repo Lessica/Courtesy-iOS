@@ -345,6 +345,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic) CGFloat extraAccessoryViewHeight;
 
+@property (nonatomic, assign) CGSize minContentSize;
+
 @end
 
 

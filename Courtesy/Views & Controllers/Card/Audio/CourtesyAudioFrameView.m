@@ -107,6 +107,25 @@
     self.audioItem = audioItem;
     self.audioQueue = audioQueue;
     if (self.autoPlay) [self playButtonTapped:nil];
+    
+    __weak typeof(self) weakSelf = self;
+    [self.audioQueue listenFeedbackUpdatesWithBlock:^(AFSoundItem *item) {
+        __strong typeof(self) strongSelf = weakSelf;
+        [UIView animateWithDuration:1.0 animations:^{
+            strongSelf.waveform.progressSamples = strongSelf.scale * item.timePlayed;
+        }];
+        CYLog(@"Item duration: %ld - time elapsed: %ld", (long)item.duration, (long)item.timePlayed);
+    } andFinishedBlock:^() {
+        __strong typeof(self) strongSelf = weakSelf;
+        strongSelf.isPlaying = NO;
+        [strongSelf.audioQueue pause];
+        [strongSelf.audioQueue restart];
+        [strongSelf.playBtn setSelected:strongSelf.isPlaying];
+        [UIView animateWithDuration:0.2 animations:^{
+            strongSelf.waveform.progressSamples = 0;
+        }];
+        CYLog(@"Track finished playing!");
+    }];
 }
 
 - (UILabel *)titleLabel {
@@ -148,24 +167,6 @@
         self.isPlaying = YES;
         [self.playBtn setSelected:self.isPlaying];
         [self.audioQueue play];
-        __weak typeof(self) weakSelf = self;
-        [self.audioQueue listenFeedbackUpdatesWithBlock:^(AFSoundItem *item) {
-            __strong typeof(self) strongSelf = weakSelf;
-            [UIView animateWithDuration:1.0 animations:^{
-                strongSelf.waveform.progressSamples = strongSelf.scale * item.timePlayed;
-            }];
-            CYLog(@"Item duration: %ld - time elapsed: %ld", (long)item.duration, (long)item.timePlayed);
-        } andFinishedBlock:^() {
-            __strong typeof(self) strongSelf = weakSelf;
-            strongSelf.isPlaying = NO;
-            [strongSelf.audioQueue pause];
-            [strongSelf.audioQueue restart];
-            [strongSelf.playBtn setSelected:strongSelf.isPlaying];
-            [UIView animateWithDuration:0.2 animations:^{
-                strongSelf.waveform.progressSamples = 0;
-            }];
-            CYLog(@"Track finished playing!");
-        }];
         if (self.delegate && [self.delegate respondsToSelector:@selector(audioFrameDidBeginPlaying:)]) {
             [self.delegate audioFrameDidBeginPlaying:self];
         }

@@ -1,27 +1,16 @@
 //
-//  CourtesyWatchMainInterfaceController.m
-//  watch Extension
+//  CourtesyPhoneSessionManager.m
+//  Courtesy
 //
 //  Created by Zheng on 3/12/16.
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "CourtesyWatchQueryKeys.h"
-#import "ExtensionDelegate.h"
-#import "CourtesyWatchMainInterfaceController.h"
-#import <WatchConnectivity/WatchConnectivity.h>
+#import "CourtesyPhoneSessionManager.h"
 
-@interface CourtesyWatchMainInterfaceController () <WCSessionDelegate>
+@implementation CourtesyPhoneSessionManager
 
-@end
-
-
-@implementation CourtesyWatchMainInterfaceController
-
-- (void)awakeWithContext:(id)context {
-    [super awakeWithContext:context];
-    
-    // Configure interface objects here.
+- (void)startSession {
     if ([WCSession isSupported]) {
         WCSession *session = [WCSession defaultSession];
         session.delegate = self;
@@ -29,34 +18,28 @@
     }
 }
 
-- (void)willActivate {
-    // This method is called when watch view controller is about to be visible to user
-    [super willActivate];
-    [self checkHasLogin];
+- (void)checkLoginStatus {
+    __weak typeof(self) weakSelf = self;
+    [self sessionSendNewAction:kCourtesyQueryLogin message:@"" withReplyBlock:^(NSDictionary *replyBlock) {
+        __strong typeof(self) strongSelf = weakSelf;
+        if (!replyBlock) return;
+        int status = [[replyBlock objectForKey:@"result"] intValue];
+        if (strongSelf.delegate && [strongSelf.delegate respondsToSelector:@selector(sessionRequestSucceed:withLoginStatus:)])
+            [strongSelf.delegate sessionRequestSucceed:strongSelf withLoginStatus:status];
+    }];
 }
 
-- (void)didDeactivate {
-    // This method is called when watch view controller is no longer visible
-    [super didDeactivate];
-}
-
-- (void)checkHasLogin {
+- (void)sessionSendNewAction:(NSString *)action message:(NSString *)message withReplyBlock:(void(^) (NSDictionary *))replyBlock {
     if ([[WCSession defaultSession] isReachable]) {
-        [[WCSession defaultSession] sendMessage:@{@"action": kCourtesyQueryLogin}
-                                   replyHandler:^(NSDictionary *replyHandler) {
-                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                           NSLog(@"%@", [NSString stringWithFormat:@"%s: %@", __func__, replyHandler]);
-                                           if (replyHandler) {
-                                               int status = [[replyHandler objectForKey:@"result"] intValue];
-                                               if (status == 0) {
-                                                   [self presentControllerWithName:kCourtesyWatchInterfaceNotLogin context:nil];
-                                               }
-                                           }
-                                       });
-                                   }
+        __weak typeof(self) weakSelf = self;
+        [[WCSession defaultSession] sendMessage:@{@"action": action, @"message": message}
+                                   replyHandler:replyBlock
                                    errorHandler:^(NSError *error) {
+                                       __strong typeof(self) strongSelf = weakSelf;
                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                           NSLog(@"%@", error);
+                                           if (strongSelf.delegate && [strongSelf.delegate respondsToSelector:@selector(sessionRequestFailed:withError:)]) {
+                                               [strongSelf.delegate sessionRequestFailed:strongSelf withError:error];
+                                           }
                                        });
                                    }
          ];
@@ -100,18 +83,13 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         NSLog(@"%@", [NSString stringWithFormat:@"%s: %@", __func__, message]);
     });
-    if (message) {
+    if (!message) return;
+    if ([message objectForKey:kCourtesyQueryLogin]) {
         int status = [[message objectForKey:kCourtesyQueryLogin] intValue];
-        if (status == 0) {
-            [self presentControllerWithName:kCourtesyWatchInterfaceNotLogin context:nil];
-        }
+        if (self.delegate && [self.delegate respondsToSelector:@selector(sessionRequestSucceed:withLoginStatus:)])
+            [self.delegate sessionRequestSucceed:self withLoginStatus:status];
     }
-    if (replyHandler) {
-        replyHandler(@{@"result" : @"yes"});
-    }
+    if (replyHandler) replyHandler(@{@"result" : @"yes"});
 }
 
 @end
-
-
-

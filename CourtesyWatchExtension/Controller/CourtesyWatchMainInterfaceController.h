@@ -8,6 +8,7 @@
 
 #import <WatchKit/WatchKit.h>
 #import <Foundation/Foundation.h>
+#import "CourtesyPhoneSessionManager.h"
 
 #define kCourtesyWatchInterfaceNotLogin @"kCourtesyWatchInterfaceNotLogin"
 #define kCourtesyWatchInterfaceMain @"kCourtesyWatchInterfaceMain"
@@ -18,6 +19,7 @@
 #define kCourtesyNotLoginArray @[kCourtesyWatchInterfaceNotLogin]
 #define kCourtesyMainArray @[kCourtesyWatchInterfaceMain, kCourtesyWatchInterfaceGallery, kCourtesyWatchInterfaceMy, kCourtesyWatchInterfaceStar]
 
-@interface CourtesyWatchMainInterfaceController : WKInterfaceController
+@interface CourtesyWatchMainInterfaceController : WKInterfaceController <CourtesyPhoneSessionDelegate>
+@property (nonatomic, strong) CourtesyPhoneSessionManager *phoneSessionManager;
 
 @end

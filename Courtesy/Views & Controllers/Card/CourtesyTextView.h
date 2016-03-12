@@ -11,7 +11,6 @@
 #import <objc/runtime.h>
 
 @interface CourtesyTextView : YYTextView
-@property (nonatomic, assign) CGSize minContentSize;
 @property (nonatomic, strong) YYTextContainerView *yyContainerView;
 
 @end

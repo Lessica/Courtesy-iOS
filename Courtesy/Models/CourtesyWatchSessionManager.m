@@ -10,8 +10,6 @@
 
 @implementation CourtesyWatchSessionManager
 
-#pragma mark - WCSessionDelegate
-
 - (void)startSession {
     if ([WCSession isSupported]) {
         WCSession *session = [WCSession defaultSession];
@@ -34,9 +32,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         CYLog(@"%@", message);
     });
-    if (!message || ![message hasKey:@"action"]) {
-        return;
-    }
+    if (!message || ![message hasKey:@"action"]) return;
     NSString *action = [message stringValueForKey:@"action" default:@"alive"];
     if ([action isEqualToString:kCourtesyQueryLogin]) {
         replyHandler(@{@"result" : [NSNumber numberWithBool:[sharedSettings hasLogin]]});

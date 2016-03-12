@@ -242,7 +242,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     [_containerView setLayout:_innerLayout withFadeDuration:0];
     _containerView.frame = (CGRect){.size = size};
     _state.showingHighlight = NO;
-    self.contentSize = size;
+    self.contentSize = CGSizeMake(size.width + self.minContentSize.width, size.height + self.minContentSize.height);
 }
 
 /// Update selection view immediately.

@@ -10,10 +10,6 @@
 
 @implementation CourtesyTextView
 
-- (void)setContentSize:(CGSize)contentSize {
-    [super setContentSize:CGSizeMake(self.contentSize.width + self.minContentSize.width, self.contentSize.height + self.minContentSize.height)];
-}
-
 - (YYTextContainerView *)yyContainerView {
     Ivar iVar = class_getInstanceVariable([YYTextView class], [[NSString stringWithFormat:@"_%@", @"containerView"] UTF8String]);
     id propertyVal = object_getIvar(self, iVar);
