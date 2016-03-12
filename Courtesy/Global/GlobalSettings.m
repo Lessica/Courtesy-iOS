@@ -16,7 +16,7 @@
 #define kPreferredImageQuality @"preferredImageQuality"
 #define kPreferredVideoQuality @"preferredVideoQuality"
 
-@interface GlobalSettings () <CourtesyFetchAccountInfoDelegate>
+@interface GlobalSettings () <CourtesyFetchAccountInfoDelegate, WCSessionDelegate>
 
 @end
 
@@ -68,11 +68,9 @@
         if (!appStorage || !self.currentAccount) {
             @throw NSException(kCourtesyAllocFailed, @"应用程序启动失败");
         }
-        // 初始化应用程序共享信息
-        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.courtesy"];
-        self.sharedUserDefaults = sharedDefaults;
-        self.sharedWormhole = [[MMWormhole alloc] initWithApplicationGroupIdentifier:@"group.courtesy"
-                                                                   optionalDirectory:@"wormhole"];
+        // 初始化 Apple Watch 通信管理器
+        self.watchSessionManager = [CourtesyWatchSessionManager new];
+        [self.watchSessionManager startSession];
         // 初始化账户信息
         if ([self sessionKey] != nil) {
             if ([appStorage containsObjectForKey:kCourtesyDBCurrentLoginAccount]) {
@@ -150,6 +148,7 @@
         }
         [NSNotificationCenter sendCTAction:kActionLogout message:nil];
     }
+    [self.watchSessionManager notifyLoginStatus];
 }
 
 #pragma mark - 获取用户信息

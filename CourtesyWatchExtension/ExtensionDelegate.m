@@ -11,7 +11,7 @@
 @implementation ExtensionDelegate
 
 + (instancetype)sharedDelegate {
-    return [WKExtension sharedExtension].delegate;
+    return (ExtensionDelegate *)[WKExtension sharedExtension].delegate;
 }
 
 - (void)applicationDidFinishLaunching {

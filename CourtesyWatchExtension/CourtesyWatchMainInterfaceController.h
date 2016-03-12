@@ -9,6 +9,15 @@
 #import <WatchKit/WatchKit.h>
 #import <Foundation/Foundation.h>
 
+#define kCourtesyWatchInterfaceNotLogin @"kCourtesyWatchInterfaceNotLogin"
+#define kCourtesyWatchInterfaceMain @"kCourtesyWatchInterfaceMain"
+#define kCourtesyWatchInterfaceGallery @"kCourtesyWatchInterfaceGallery"
+#define kCourtesyWatchInterfaceMy @"kCourtesyWatchInterfaceMy"
+#define kCourtesyWatchInterfaceStar @"kCourtesyWatchInterfaceStar"
+
+#define kCourtesyNotLoginArray @[kCourtesyWatchInterfaceNotLogin]
+#define kCourtesyMainArray @[kCourtesyWatchInterfaceMain, kCourtesyWatchInterfaceGallery, kCourtesyWatchInterfaceMy, kCourtesyWatchInterfaceStar]
+
 @interface CourtesyWatchMainInterfaceController : WKInterfaceController
 
 @end

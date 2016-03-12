@@ -17,6 +17,7 @@
 - (YYTextContainerView *)yyContainerView {
     Ivar iVar = class_getInstanceVariable([YYTextView class], [[NSString stringWithFormat:@"_%@", @"containerView"] UTF8String]);
     id propertyVal = object_getIvar(self, iVar);
+    CYLog(@"Access private ival of YYTextView -> _containerView.");
     NSAssert(propertyVal != nil, @"_containerView is nil!");
     return propertyVal;
 }

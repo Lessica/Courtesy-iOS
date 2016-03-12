@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'A0359B9F067D3D02FF9081A4'
+               BlueprintIdentifier = 'F5A116BD6FC8A70F46469A4E'
                BlueprintName = 'FDWaveformView'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libFDWaveformView.a'>

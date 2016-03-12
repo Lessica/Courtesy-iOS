@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '7C668CC249BC9D52A2B408DB'
+               BlueprintIdentifier = '0F3B90541245DDC6724EB626'
                BlueprintName = 'oc-timestamp'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'liboc-timestamp.a'>

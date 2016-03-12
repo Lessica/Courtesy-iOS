@@ -110,6 +110,9 @@
 		0FFE052E1C93F52C00E99DCC /* UIImagePickerController+LandScapeImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE05191C93F52C00E99DCC /* UIImagePickerController+LandScapeImagePicker.m */; };
 		0FFE052F1C93F52C00E99DCC /* UIView+FrameMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE051B1C93F52C00E99DCC /* UIView+FrameMethods.m */; };
 		0FFE05301C93F52C00E99DCC /* UIView+Gaussian.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE051D1C93F52C00E99DCC /* UIView+Gaussian.m */; };
+		0FFE05351C93FD7100E99DCC /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFE05341C93FD7100E99DCC /* WatchConnectivity.framework */; };
+		0FFE05371C93FD8300E99DCC /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFE05361C93FD8300E99DCC /* WatchConnectivity.framework */; };
+		0FFE053F1C940D8A00E99DCC /* CourtesyWatchSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE053E1C940D8A00E99DCC /* CourtesyWatchSessionManager.m */; };
 		10EE4C923956641D5D7CAFD5 /* libPods-CourtesyWatchExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D3C5B2F8E0312218A901CED /* libPods-CourtesyWatchExtension.a */; };
 		BC703599663B4BCB91E9CC88 /* libPods-Courtesy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F634EFABF4A9FFF86FA2638 /* libPods-Courtesy.a */; };
 /* End PBXBuildFile section */
@@ -362,6 +365,11 @@
 		0FFE051B1C93F52C00E99DCC /* UIView+FrameMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FrameMethods.m"; sourceTree = "<group>"; };
 		0FFE051C1C93F52C00E99DCC /* UIView+Gaussian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Gaussian.h"; sourceTree = "<group>"; };
 		0FFE051D1C93F52C00E99DCC /* UIView+Gaussian.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Gaussian.m"; sourceTree = "<group>"; };
+		0FFE05341C93FD7100E99DCC /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
+		0FFE05361C93FD8300E99DCC /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.1.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
+		0FFE053D1C940D8A00E99DCC /* CourtesyWatchSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyWatchSessionManager.h; sourceTree = "<group>"; };
+		0FFE053E1C940D8A00E99DCC /* CourtesyWatchSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyWatchSessionManager.m; sourceTree = "<group>"; };
+		0FFE05401C940F6700E99DCC /* CourtesyWatchQueryKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyWatchQueryKeys.h; path = CourtesyWatchExtension/CourtesyWatchQueryKeys.h; sourceTree = SOURCE_ROOT; };
 		2CE7E65D1A62D8470072121A /* 礼记.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "礼记.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F48BE6FDDFC2BE9CC43ECFB /* Pods-CourtesyWatchExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourtesyWatchExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CourtesyWatchExtension/Pods-CourtesyWatchExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		4F634EFABF4A9FFF86FA2638 /* libPods-Courtesy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Courtesy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -375,6 +383,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FFE05371C93FD8300E99DCC /* WatchConnectivity.framework in Frameworks */,
 				10EE4C923956641D5D7CAFD5 /* libPods-CourtesyWatchExtension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -383,6 +392,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FFE05351C93FD7100E99DCC /* WatchConnectivity.framework in Frameworks */,
 				0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */,
 				0F2A36751C8D397D00028E96 /* MobileCoreServices.framework in Frameworks */,
 				0F2A36731C8D325200028E96 /* AVKit.framework in Frameworks */,
@@ -488,6 +498,7 @@
 		0FD7BAF51C9326BB00F9F4D2 /* CourtesyWatch */ = {
 			isa = PBXGroup;
 			children = (
+				0FFE05401C940F6700E99DCC /* CourtesyWatchQueryKeys.h */,
 				0F64F7881C93B66900864CD7 /* ExtensionDelegate.h */,
 				0F64F7891C93B66900864CD7 /* ExtensionDelegate.m */,
 				0F64F78B1C93B66900864CD7 /* CourtesyWatchMainInterfaceController.h */,
@@ -844,6 +855,7 @@
 		0FFE048B1C93F47400E99DCC /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0FFE053C1C940D7200E99DCC /* Watch */,
 				0FFE048C1C93F47400E99DCC /* Account Info */,
 				0FFE048F1C93F47400E99DCC /* Card */,
 				0FFE04A81C93F47400E99DCC /* Common */,
@@ -1079,6 +1091,15 @@
 			path = "NSObject+nl_dynamicPropertySupport";
 			sourceTree = "<group>";
 		};
+		0FFE053C1C940D7200E99DCC /* Watch */ = {
+			isa = PBXGroup;
+			children = (
+				0FFE053D1C940D8A00E99DCC /* CourtesyWatchSessionManager.h */,
+				0FFE053E1C940D8A00E99DCC /* CourtesyWatchSessionManager.m */,
+			);
+			name = Watch;
+			sourceTree = "<group>";
+		};
 		2CE7E6541A62D8470072121A = {
 			isa = PBXGroup;
 			children = (
@@ -1103,6 +1124,8 @@
 		45444505B80B6AF6A0D335BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0FFE05361C93FD8300E99DCC /* WatchConnectivity.framework */,
+				0FFE05341C93FD7100E99DCC /* WatchConnectivity.framework */,
 				0F305C981C93222D0052882A /* StoreKit.framework */,
 				0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */,
 				0F2A36721C8D325200028E96 /* AVKit.framework */,
@@ -1204,7 +1227,7 @@
 						DevelopmentTeam = GXZ23M5TP2;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -1213,7 +1236,7 @@
 						DevelopmentTeam = GXZ23M5TP2;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Push = {
 								enabled = 1;
@@ -1225,7 +1248,7 @@
 						DevelopmentTeam = GXZ23M5TP2;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.InAppPurchase = {
 								enabled = 1;
@@ -1461,6 +1484,7 @@
 				0FFE04C41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m in Sources */,
 				0F7424891C8FCD98002C6241 /* EXTSafeCategory.m in Sources */,
 				0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */,
+				0FFE053F1C940D8A00E99DCC /* CourtesyWatchSessionManager.m in Sources */,
 				0FFE04C81C93F47400E99DCC /* CourtesyCardAttachmentUploadQueue.m in Sources */,
 				0FFE04851C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m in Sources */,
 				0FFE04631C93F45800E99DCC /* CourtesyCardComposeViewController.m in Sources */,
@@ -1529,7 +1553,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2F48BE6FDDFC2BE9CC43ECFB /* Pods-CourtesyWatchExtension.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = CourtesyWatchExtension/CourtesyWatchExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1551,7 +1574,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 86FE9A5ABAB70230773627C9 /* Pods-CourtesyWatchExtension.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = CourtesyWatchExtension/CourtesyWatchExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1574,7 +1596,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = CourtesyWatch/CourtesyWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
@@ -1597,7 +1618,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = CourtesyWatch/CourtesyWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
@@ -1712,7 +1732,6 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CODE_SIGN_ENTITLEMENTS = "Courtesy/Supporting Files/Courtesy.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1747,7 +1766,6 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CODE_SIGN_ENTITLEMENTS = "Courtesy/Supporting Files/Courtesy.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '13CECF7ECC24B50D635B19ED'
+               BlueprintIdentifier = '341E7C3B3088619A123E1C16'
                BlueprintName = 'Pods-CourtesyWatchExtension-MMWormhole'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPods-CourtesyWatchExtension-MMWormhole.a'>

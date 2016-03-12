@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '9EBC043DF8CAE5893EA46AE8'
+               BlueprintIdentifier = 'CE1D1C150E8943E3DC26C3C6'
                BlueprintName = 'PMAudioRecorderViewController'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPMAudioRecorderViewController.a'>
