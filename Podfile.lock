@@ -59,9 +59,9 @@ PODS:
   - WechatShortVideo (0.1.9):
     - MBProgressHUD (~> 0.9.1)
     - SCRecorder (~> 2.6.1)
-  - YYKit (0.9.11):
-    - YYKit/no-arc (= 0.9.11)
-  - YYKit/no-arc (0.9.11)
+  - YYKit (1.0.1):
+    - YYKit/no-arc (= 1.0.1)
+  - YYKit/no-arc (1.0.1)
   - ZXingObjC (3.1.0):
     - ZXingObjC/All (= 3.1.0)
   - ZXingObjC/All (3.1.0)
@@ -130,7 +130,7 @@ SPEC CHECKSUMS:
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   MMWormhole: 0cd3fd35a9118b2e2d762b499f54eeaace0be791
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
-  oc-timestamp: 9c43714e7ea93f7d90815343e5975808a76a3dda
+  oc-timestamp: a2b8cfec5cf7194b5f9b9f91cd3f9dff7e092950
   PEPhotoCropEditor: 613292fce009efd085e7aed975f1ebb3fec8bb7b
   PMAudioRecorderViewController: 61c53633cadb7044ee93824eb77595a368596618
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
@@ -142,7 +142,7 @@ SPEC CHECKSUMS:
   UMengMessage: 48fac77da8a71729c3d9c40eed16151d8917d9b3
   UMengSocial: 48b67179c492a8cf7803fbb0438b8f55432e2fc1
   WechatShortVideo: 641329195e972b9e1d697d2d3417e74a05d36b11
-  YYKit: 76c3f2cee1a72d3c5b1d7fd8d170ee507fe5df68
+  YYKit: 8b618ca8d8cefa534d8d4fe2cad10fe9fbd030ed
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
 COCOAPODS: 0.39.0

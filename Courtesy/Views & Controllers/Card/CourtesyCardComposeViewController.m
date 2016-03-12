@@ -21,6 +21,7 @@
 #import "AudioNoteRecorderViewController.h"
 #import "JTSImageViewController.h"
 #import "CourtesyCardPreviewGenerator.h"
+#import "CourtesyTextView.h"
 
 #define kComposeDefaultFontSize 16.0
 #define kComposeDefaultLineSpacing 8.0
@@ -33,7 +34,7 @@
 #define kComposeTopBarInsectLandscape 48.0
 
 @interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, WechatShortVideoDelegate, MPMediaPickerControllerDelegate, CourtesyAudioFrameDelegate, AudioNoteRecorderDelegate, JotViewControllerDelegate, JTSImageViewControllerInteractionsDelegate, CourtesyCardPreviewGeneratorDelegate>
-@property (nonatomic, assign) YYTextView *textView;
+@property (nonatomic, assign) CourtesyTextView *textView;
 @property (nonatomic, strong) UIView *fakeBar;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *circleCloseBtn;
@@ -134,7 +135,7 @@
     self.originalAttributes = tryValue(self.cardContentAttributes, text.attributes);
     
     /* Init of text view */
-    YYTextView *textView = [YYTextView new];
+    CourtesyTextView *textView = [CourtesyTextView new];
     textView.delegate = self;
     textView.typingAttributes = tryValue(self.cardContentAttributes, self.originalAttributes);
     textView.backgroundColor = tryValue(self.cardBackgroundColor, [UIColor clearColor]);
@@ -698,9 +699,9 @@
 }
 
 - (void)savePreview:(id)sender {
-    CGSize imageSize = CGSizeMake(self.textView.containerView.frame.size.width, self.textView.containerView.frame.size.height);
+    CGSize imageSize = CGSizeMake(self.textView.yyContainerView.frame.size.width, self.textView.yyContainerView.frame.size.height);
     UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.0); // Retina Support
-    CALayer *originalLayer = self.textView.containerView.layer;
+    CALayer *originalLayer = self.textView.yyContainerView.layer;
     originalLayer.backgroundColor = [UIColor clearColor].CGColor;
     [originalLayer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *originalImage = UIGraphicsGetImageFromCurrentImageContext();

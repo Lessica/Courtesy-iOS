@@ -10,6 +10,6 @@
 
 @interface Timestamp : NSObject
 
-- (NSString *)compareCurrentTime:(NSDate*)compareDate;
+-(NSString *)compareCurrentTime:(NSDate*)compareDate;
 
 @end

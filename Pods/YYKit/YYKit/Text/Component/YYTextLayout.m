@@ -41,6 +41,23 @@ static inline UIEdgeInsets UIEdgeInsetRotateVertical(UIEdgeInsets insets) {
     return one;
 }
 
+/**
+ Sometimes CoreText may convert CGColor to UIColor for `kCTForegroundColorAttributeName`
+ attribute in iOS7. This should be a bug of CoreText, and may cause crash. Here's a workaround.
+ */
+static CGColorRef YYTextGetCGColor(CGColorRef color) {
+    static UIColor *defaultColor;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultColor = [UIColor blackColor];
+    });
+    if (!color) return defaultColor.CGColor;
+    if ([((__bridge NSObject *)color) respondsToSelector:@selector(CGColor)]) {
+        return ((__bridge UIColor *)color).CGColor;
+    }
+    return color;
+}
+
 @implementation YYTextLinePositionSimpleModifier
 - (void)modifyLines:(NSArray *)lines fromText:(NSAttributedString *)text inContainer:(YYTextContainer *)container {
     if (container.verticalForm) {
@@ -623,8 +640,8 @@ dispatch_semaphore_signal(_lock);
         size.height += rect.origin.y;
         if (size.width < 0) size.width = 0;
         if (size.height < 0) size.height = 0;
-        size.width = ceil(size.width);
-        size.height = ceil(size.height);
+        size.width = CGFloatPixelCeil(size.width);
+        size.height = CGFloatPixelCeil(size.height);
         textBoundingSize = size;
     }
     
@@ -1120,6 +1137,28 @@ fail:
         }
     }
     return RTL;
+}
+
+/**
+ Correct the range's edge.
+ */
+- (YYTextRange *)_correctedRangeWithEdge:(YYTextRange *)range {
+    NSRange visibleRange = self.visibleRange;
+    YYTextPosition *start = range.start;
+    YYTextPosition *end = range.end;
+    
+    if (start.offset == visibleRange.location && start.affinity == YYTextAffinityBackward) {
+        start = [YYTextPosition positionWithOffset:start.offset affinity:YYTextAffinityForward];
+    }
+    
+    if (end.offset == visibleRange.location + visibleRange.length && start.affinity == YYTextAffinityForward) {
+        end = [YYTextPosition positionWithOffset:end.offset affinity:YYTextAffinityBackward];
+    }
+    
+    if (start != range.start || end != range.end) {
+        range = [YYTextRange rangeWithStart:start end:end];
+    }
+    return range;
 }
 
 - (NSUInteger)lineIndexForRow:(NSUInteger)row {
@@ -1833,6 +1872,8 @@ fail:
 }
 
 - (CGRect)firstRectForRange:(YYTextRange *)range {
+    range = [self _correctedRangeWithEdge:range];
+    
     NSUInteger startLineIndex = [self lineIndexForPosition:range.start];
     NSUInteger endLineIndex = [self lineIndexForPosition:range.end];
     if (startLineIndex == NSNotFound || endLineIndex == NSNotFound) return CGRectNull;
@@ -1908,6 +1949,8 @@ fail:
 }
 
 - (NSArray *)selectionRectsForRange:(YYTextRange *)range {
+    range = [self _correctedRangeWithEdge:range];
+    
     BOOL isVertical = _container.verticalForm;
     NSMutableArray *rects = [NSMutableArray array];
     if (!range) return rects;
@@ -2166,7 +2209,7 @@ static void YYTextDrawRun(YYTextLine *line, CTRunRef run, CGContextRef context, 
         CTRunGetPositions(run, CFRangeMake(0, 0), glyphPositions);
         
         CGColorRef fillColor = (CGColorRef)CFDictionaryGetValue(runAttrs, kCTForegroundColorAttributeName);
-        if (!fillColor) fillColor = [UIColor blackColor].CGColor;
+        fillColor = YYTextGetCGColor(fillColor);
         NSNumber *strokeWidth = CFDictionaryGetValue(runAttrs, kCTStrokeWidthAttributeName);
         
         CGContextSaveGState(context); {
@@ -2811,8 +2854,10 @@ static void YYTextDrawDecoration(YYTextLayout *layout, CGContextRef context, CGS
             
             if (needDrawUnderline) {
                 CGColorRef color = underline.color.CGColor;
-                if (!color) color = (__bridge CGColorRef)(attrs[(id)kCTForegroundColorAttributeName]);
-                if (!color) color = [UIColor blackColor].CGColor;
+                if (!color) {
+                    color = (__bridge CGColorRef)(attrs[(id)kCTForegroundColorAttributeName]);
+                    color = YYTextGetCGColor(color);
+                }
                 CGFloat thickness = underline.width ? underline.width.floatValue : lineThickness;
                 YYTextShadow *shadow = underline.shadow;
                 while (shadow) {
@@ -2838,8 +2883,10 @@ static void YYTextDrawDecoration(YYTextLayout *layout, CGContextRef context, CGS
             
             if (needDrawStrikethrough) {
                 CGColorRef color = strikethrough.color.CGColor;
-                if (!color) color = (__bridge CGColorRef)(attrs[(id)kCTForegroundColorAttributeName]);
-                if (!color) color = [UIColor blackColor].CGColor;
+                if (!color) {
+                    color = (__bridge CGColorRef)(attrs[(id)kCTForegroundColorAttributeName]);
+                    color = YYTextGetCGColor(color);
+                }
                 CGFloat thickness = strikethrough.width ? strikethrough.width.floatValue : lineThickness;
                 YYTextShadow *shadow = underline.shadow;
                 while (shadow) {

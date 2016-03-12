@@ -2,7 +2,7 @@
   "name": "oc-timestamp",
   "version": "0.0.1",
   "summary": "Help you to handle objective-c timestamps easily.",
-  "description": "                    This is a simple Class for handling objective-c timestamps\n\n                   * We may face timestamp format when we build the timeline view in social apps.So this project may help you to solve the problem \n                   * But because of my busy job,this project is only support Chinese now.I will update it later and support English. \n",
+  "description": "This is a simple Class for handling objective-c timestamps\n\n* We may face timestamp format when we build the timeline view in social apps.So this project may help you to solve the problem \n* But because of my busy job,this project is only support Chinese now.I will update it later and support English.",
   "homepage": "https://github.com/lbj96347/oc-timestamp",
   "license": {
     "type": "MIT",

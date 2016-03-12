@@ -75,7 +75,7 @@ static NSString *const kTrashDirectoryName = @"trash";
     
     int result = sqlite3_open(_dbPath.UTF8String, &_db);
     if (result == SQLITE_OK) {
-        CFDictionaryKeyCallBacks keyCallbacks = kCFTypeDictionaryKeyCallBacks;
+        CFDictionaryKeyCallBacks keyCallbacks = kCFCopyStringDictionaryKeyCallBacks;
         CFDictionaryValueCallBacks valueCallbacks = {0};
         _dbStmtCache = CFDictionaryCreateMutable(CFAllocatorGetDefault(), 0, &keyCallbacks, &valueCallbacks);
         return YES;
@@ -135,6 +135,12 @@ static NSString *const kTrashDirectoryName = @"trash";
     return [self _dbExecute:sql];
 }
 
+- (void)_dbCheckpoint {
+    if (![self _dbIsReady]) return;
+    // Cause a checkpoint to occur, merge `sqlite-wal` file to `sqlite` file.
+    sqlite3_wal_checkpoint(_db, NULL);
+}
+
 - (BOOL)_dbExecute:(NSString *)sql {
     if (sql.length == 0) return NO;
     if (![self _dbIsReady]) return NO;
@@ -150,7 +156,7 @@ static NSString *const kTrashDirectoryName = @"trash";
 }
 
 - (sqlite3_stmt *)_dbPrepareStmt:(NSString *)sql {
-    if (![self _dbIsReady]) return NULL;
+    if (![self _dbIsReady] || sql.length == 0 || !_dbStmtCache) return NULL;
     sqlite3_stmt *stmt = (sqlite3_stmt *)CFDictionaryGetValue(_dbStmtCache, (__bridge const void *)(sql));
     if (!stmt) {
         int result = sqlite3_prepare_v2(_db, sql.UTF8String, -1, &stmt, NULL);
@@ -643,7 +649,7 @@ static NSString *const kTrashDirectoryName = @"trash";
 
 - (instancetype)init {
     @throw [NSException exceptionWithName:@"YYKVStorage init error" reason:@"Please use the designated initializer and pass the 'path' and 'type'." userInfo:nil];
-    return [self initWithPath:nil type:YYKVStorageTypeFile];
+    return [self initWithPath:@"" type:YYKVStorageTypeFile];
 }
 
 - (instancetype)initWithPath:(NSString *)path type:(YYKVStorageType)type {
@@ -662,7 +668,7 @@ static NSString *const kTrashDirectoryName = @"trash";
     _dataPath = [path stringByAppendingPathComponent:kDataDirectoryName];
     _trashPath = [path stringByAppendingPathComponent:kTrashDirectoryName];
     _trashQueue = dispatch_queue_create("com.ibireme.cache.disk.trash", DISPATCH_QUEUE_SERIAL);
-    _dbPath = [path stringByAppendingPathComponent:kDBFileName];;
+    _dbPath = [path stringByAppendingPathComponent:kDBFileName];
     _errorLogsEnabled = YES;
     NSError *error = nil;
     if (![[NSFileManager defaultManager] createDirectoryAtPath:path
@@ -777,7 +783,10 @@ static NSString *const kTrashDirectoryName = @"trash";
     
     switch (_type) {
         case YYKVStorageTypeSQLite: {
-            return [self _dbDeleteItemsWithSizeLargerThan:size];
+            if ([self _dbDeleteItemsWithSizeLargerThan:size]) {
+                [self _dbCheckpoint];
+                return YES;
+            }
         } break;
         case YYKVStorageTypeFile:
         case YYKVStorageTypeMixed: {
@@ -785,7 +794,10 @@ static NSString *const kTrashDirectoryName = @"trash";
             for (NSString *name in filenames) {
                 [self _fileDeleteWithName:name];
             }
-            return [self _dbDeleteItemsWithSizeLargerThan:size];
+            if ([self _dbDeleteItemsWithSizeLargerThan:size]) {
+                [self _dbCheckpoint];
+                return YES;
+            }
         } break;
     }
     return NO;
@@ -797,7 +809,10 @@ static NSString *const kTrashDirectoryName = @"trash";
     
     switch (_type) {
         case YYKVStorageTypeSQLite: {
-            return [self _dbDeleteItemsWithTimeEarlierThan:time];
+            if ([self _dbDeleteItemsWithTimeEarlierThan:time]) {
+                [self _dbCheckpoint];
+                return YES;
+            }
         } break;
         case YYKVStorageTypeFile:
         case YYKVStorageTypeMixed: {
@@ -805,7 +820,10 @@ static NSString *const kTrashDirectoryName = @"trash";
             for (NSString *name in filenames) {
                 [self _fileDeleteWithName:name];
             }
-            return [self _dbDeleteItemsWithTimeEarlierThan:time];
+            if ([self _dbDeleteItemsWithTimeEarlierThan:time]) {
+                [self _dbCheckpoint];
+                return NO;
+            }
         } break;
     }
     return NO;
@@ -837,6 +855,7 @@ static NSString *const kTrashDirectoryName = @"trash";
             if (!suc) break;
         }
     } while (total > maxSize && items.count > 0 && suc);
+    if (suc) [self _dbCheckpoint];
     return suc;
 }
 
@@ -866,6 +885,7 @@ static NSString *const kTrashDirectoryName = @"trash";
             if (!suc) break;
         }
     } while (total > maxCount && items.count > 0 && suc);
+    if (suc) [self _dbCheckpoint];
     return suc;
 }
 
@@ -904,6 +924,7 @@ static NSString *const kTrashDirectoryName = @"trash";
             }
             if (progress) progress(total - left, total);
         } while (left > 0 && items.count > 0 && suc);
+        if (suc) [self _dbCheckpoint];
         if (end) end(!suc);
     }
 }
