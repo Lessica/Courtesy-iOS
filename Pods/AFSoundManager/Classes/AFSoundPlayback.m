@@ -28,7 +28,7 @@ NSString * const AFSoundPlaybackFinishedNotification = @"kAFSoundPlaybackFinishe
 
 -(id)initWithItem:(AFSoundItem *)item {
     
-    if (self = [super init]) {
+    if (self == [super init]) {
         
         _currentItem = item;
         [self setUpItem:item];
@@ -40,11 +40,12 @@ NSString * const AFSoundPlaybackFinishedNotification = @"kAFSoundPlaybackFinishe
 }
 
 -(void)setUpItem:(AFSoundItem *)item {
+    
     _player = [[AVPlayer alloc] initWithURL:item.URL];
-    //[_player play];
+    [_player play];
     _player.actionAtItemEnd = AVPlayerActionAtItemEndPause;
     
-    //_status = AFSoundStatusPlaying;
+    _status = AFSoundStatusPlaying;
 
     _currentItem = item;
     _currentItem.duration = (int)CMTimeGetSeconds(_player.currentItem.asset.duration);
@@ -56,10 +57,11 @@ NSString * const AFSoundPlaybackFinishedNotification = @"kAFSoundPlaybackFinishe
 
 -(void)listenFeedbackUpdatesWithBlock:(feedbackBlock)block andFinishedBlock:(finishedBlock)finishedBlock {
     
-    CGFloat updateRate = 1.0;
+    CGFloat updateRate = 1;
     
     if (_player.rate > 0) {
-        updateRate = 1.0 / _player.rate;
+        
+        updateRate = 1 / _player.rate;
     }
     
     _feedbackTimer = [NSTimer scheduledTimerWithTimeInterval:updateRate block:^{
@@ -67,6 +69,7 @@ NSString * const AFSoundPlaybackFinishedNotification = @"kAFSoundPlaybackFinishe
         _currentItem.timePlayed = (int)CMTimeGetSeconds(_player.currentTime);
         
         if (block) {
+
             block(_currentItem);
         }
         
@@ -77,12 +80,11 @@ NSString * const AFSoundPlaybackFinishedNotification = @"kAFSoundPlaybackFinishe
             _status = AFSoundStatusFinished;
             
             if (finishedBlock) {
+                
                 finishedBlock();
             }
         }
     } repeats:YES];
-    
-    [_feedbackTimer pauseTimer];
 }
 
 -(NSDictionary *)playingInfo {
@@ -114,6 +116,7 @@ NSString * const AFSoundPlaybackFinishedNotification = @"kAFSoundPlaybackFinishe
 }
 
 -(void)restart {
+    
     [_player seekToTime:CMTimeMake(0, 1)];
 }
 

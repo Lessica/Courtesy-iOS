@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "UMessage.h"
-#import "UMSocial.h"
 #import "JVFloatingDrawerViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
 #import "CourtesyLeftDrawerTableViewController.h"
@@ -51,8 +50,6 @@ static NSString * const kCourtesyEmptyViewControllerStoryboardID = @"CourtesyEmp
     // 友盟推送
     [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
     [UMessage registerRemoteNotificationAndUserNotificationSettings:[sharedSettings requestedNotifications]];
-    // 友盟社会化分享
-    [UMSocialData setAppKey:UMENG_APP_KEY];
     [self globalInit];
     if ([launchOptions hasKey:UIApplicationLaunchOptionsShortcutItemKey]) {
         // Some thing that should not respond to immediately...

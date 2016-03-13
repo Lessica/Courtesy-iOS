@@ -35,35 +35,35 @@ NSString* const kJSONModelKeyPath = @"kJSONModelKeyPath";
 {
     return [JSONModelError errorWithDomain:JSONModelErrorDomain
                                       code:kJSONModelErrorInvalidData
-                                  userInfo:@{NSLocalizedDescriptionKey:@"服务器错误：缺少必须字段", kJSONModelMissingKeys:[keys allObjects]}];
+                                  userInfo:@{NSLocalizedDescriptionKey:@"Invalid JSON data. Required JSON keys are missing from the input. Check the error user information.",kJSONModelMissingKeys:[keys allObjects]}];
 }
 
 +(id)errorInvalidDataWithTypeMismatch:(NSString*)mismatchDescription
 {
     return [JSONModelError errorWithDomain:JSONModelErrorDomain
                                       code:kJSONModelErrorInvalidData
-                                  userInfo:@{NSLocalizedDescriptionKey:@"服务器错误：返回数据类型不匹配",kJSONModelTypeMismatch:mismatchDescription}];
+                                  userInfo:@{NSLocalizedDescriptionKey:@"Invalid JSON data. The JSON type mismatches the expected type. Check the error user information.",kJSONModelTypeMismatch:mismatchDescription}];
 }
 
 +(id)errorBadResponse
 {
     return [JSONModelError errorWithDomain:JSONModelErrorDomain
                                       code:kJSONModelErrorBadResponse
-                                  userInfo:@{NSLocalizedDescriptionKey:@"服务器错误"}];
+                                  userInfo:@{NSLocalizedDescriptionKey:@"Bad network response. Probably the JSON URL is unreachable."}];
 }
 
 +(id)errorBadJSON
 {
     return [JSONModelError errorWithDomain:JSONModelErrorDomain
                                       code:kJSONModelErrorBadJSON
-                                  userInfo:@{NSLocalizedDescriptionKey:@"服务器错误：返回数据不完整"}];
+                                  userInfo:@{NSLocalizedDescriptionKey:@"Malformed JSON. Check the JSONModel data input."}];    
 }
 
 +(id)errorModelIsInvalid
 {
     return [JSONModelError errorWithDomain:JSONModelErrorDomain
                                       code:kJSONModelErrorModelIsInvalid
-                                  userInfo:@{NSLocalizedDescriptionKey:@"应用程序错误：数据校验失败"}];
+                                  userInfo:@{NSLocalizedDescriptionKey:@"Model does not validate. The custom validation for the input data failed."}];
 }
 
 +(id)errorInputIsNil

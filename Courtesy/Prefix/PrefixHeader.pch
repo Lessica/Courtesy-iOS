@@ -6,6 +6,9 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+// What happened to my project?
+// https://stackoverflow.com/questions/10715211/cannot-generate-ios-app-archive-in-xcode/32612295#32612295
+
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
@@ -37,6 +40,7 @@
 #import "UIView+Gaussian.h"
 #import "NSString+CJStringValidator.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
+#import "UIColor+MagicColor.h"
 
 // 第三方库
 #import "YYKit.h"

@@ -127,8 +127,6 @@
             case AVKeyValueStatusLoading:
             case AVKeyValueStatusFailed:
             case AVKeyValueStatusCancelled:
-                if ([self.delegate respondsToSelector:@selector(waveformViewDidFailedLoading:errorMessage:)])
-                    [self.delegate waveformViewDidFailedLoading:self errorMessage:error.localizedDescription];
                 NSLog(@"FDWaveformView could not load asset: %@", error.localizedDescription);
                 break;
             default:
@@ -397,6 +395,7 @@
 - (void)handlePanGesture:(UIPanGestureRecognizer *)recognizer
 {
     CGPoint point = [recognizer translationInView:self];
+    NSLog(@"translation: %f", point.x);
 
     if (self.doesAllowScroll) {
         if (recognizer.state == UIGestureRecognizerStateBegan && [self.delegate respondsToSelector:@selector(waveformDidBeginPanning:)])
@@ -418,8 +417,6 @@
         [self setNeedsLayout];
     } else if (self.doesAllowScrubbing) {
         self.progressSamples = self.zoomStartSamples + (float)(self.zoomEndSamples-self.zoomStartSamples) * [recognizer locationInView:self].x / self.bounds.size.width;
-        if (recognizer.state == UIGestureRecognizerStateEnded && [self.delegate respondsToSelector:@selector(waveformTapped:)])
-            [self.delegate waveformTapped:self];
     }
 }
 
@@ -427,8 +424,6 @@
 {
     if (self.doesAllowScrubbing) {
         self.progressSamples = self.zoomStartSamples + (float)(self.zoomEndSamples-self.zoomStartSamples) * [recognizer locationInView:self].x / self.bounds.size.width;
-        if (recognizer.state == UIGestureRecognizerStateEnded && [self.delegate respondsToSelector:@selector(waveformTapped:)])
-            [self.delegate waveformTapped:self];
     }
 }
 

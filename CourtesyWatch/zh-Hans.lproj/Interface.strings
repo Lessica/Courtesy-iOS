@@ -1,0 +1,21 @@
+
+/* Class = "WKInterfaceController"; title = "我的卡片"; ObjectID = "7bw-uB-SXF"; */
+"7bw-uB-SXF.title" = "我的卡片";
+
+/* Class = "WKInterfaceController"; title = "礼记"; ObjectID = "AgC-eL-Hgc"; */
+"AgC-eL-Hgc.title" = "礼记";
+
+/* Class = "WKInterfaceController"; title = "收藏夹"; ObjectID = "FBj-Vq-Uvl"; */
+"FBj-Vq-Uvl.title" = "收藏夹";
+
+/* Class = "WKInterfaceLabel"; text = "请先在 iPhone 上\n登录「礼记」"; ObjectID = "ICo-FC-ROB"; */
+"ICo-FC-ROB.text" = "请先在 iPhone 上\n登录「礼记」";
+
+/* Class = "WKInterfaceLabel"; text = "通知内容"; ObjectID = "IdU-wH-bcW"; */
+"IdU-wH-bcW.text" = "通知内容";
+
+/* Class = "WKInterfaceController"; title = "探索"; ObjectID = "WiT-2p-FqV"; */
+"WiT-2p-FqV.title" = "探索";
+
+/* Class = "WKInterfaceController"; title = "提示"; ObjectID = "kZm-gs-imE"; */
+"kZm-gs-imE.title" = "提示";

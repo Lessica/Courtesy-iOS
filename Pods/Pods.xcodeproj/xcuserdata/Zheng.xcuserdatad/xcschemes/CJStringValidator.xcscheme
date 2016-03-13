@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '79CD20A4E9C90F7DC6444357'
+               BlueprintIdentifier = '27350E11F0341E724631858407754AC1'
                BlueprintName = 'CJStringValidator'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libCJStringValidator.a'>

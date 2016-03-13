@@ -25,7 +25,7 @@
 
 -(id)initWithItems:(NSArray *)items {
     
-    if (self = [super init]) {
+    if (self == [super init]) {
         
         if (items) {
             

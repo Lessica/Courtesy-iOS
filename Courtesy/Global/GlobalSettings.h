@@ -4,11 +4,13 @@
 //
 //  Created by Zheng on 2/23/16.
 //  Copyright © 2016 82Flex. All rights reserved.
-//
+//  It is a singleton.
 
 #import "JSONModel.h"
 #import "CourtesyAccountModel.h"
 #import "CourtesyWatchSessionManager.h"
+#import <YYKit/YYCache.h>
+#import <YYKit/YYReachability.h>
 
 @interface GlobalSettings : NSObject
 
@@ -22,6 +24,8 @@
 @property (nonatomic, strong) CourtesyAccountModel<Ignore> *currentAccount;
 @property (nonatomic, assign) BOOL fetchedCurrentAccount;
 @property (nonatomic, strong) CourtesyWatchSessionManager *watchSessionManager;
+@property (nonatomic, strong) YYCache *appStorage;
+@property (nonatomic, strong) YYReachability *localReachability;
 
 @property (nonatomic, assign) BOOL switchAutoSave;
 @property (nonatomic, assign) BOOL switchAutoPublic;

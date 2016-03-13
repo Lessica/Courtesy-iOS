@@ -54,10 +54,7 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
     
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.toolbar.translucent = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.navigationController.toolbar.barTintColor = [UIColor clearColor];
-    self.navigationController.toolbar.tintColor = [UIColor whiteColor];
+
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                           target:self
                                                                                           action:@selector(cancel:)];
@@ -70,10 +67,9 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
                                                                                        target:nil
                                                                                        action:nil];
         UIBarButtonItem *constrainButton = [[UIBarButtonItem alloc] initWithTitle:PELocalizedString(@"Constrain", nil)
-                                                                            style:UIBarButtonItemStylePlain
+                                                                            style:UIBarButtonItemStyleBordered
                                                                            target:self
                                                                            action:@selector(constrain:)];
-        [constrainButton setTintColor:[UIColor whiteColor]];
         self.toolbarItems = @[flexibleSpace, constrainButton, flexibleSpace];
     }
     self.navigationController.toolbarHidden = self.toolbarHidden;

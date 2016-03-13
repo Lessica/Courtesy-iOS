@@ -144,6 +144,7 @@
     
     isRequestingUploadAvatar = YES;
     NSURLSessionUploadTask *uploadTask;
+    __weak typeof(self) weakSelf = self;
     uploadTask = [manager
                   uploadTaskWithStreamedRequest:request
                   progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -155,6 +156,7 @@
                       });
                   }
                   completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable err) {
+                      __strong typeof(self) strongSelf = weakSelf;
                       CYLog(@"%@", responseObject);
                       @try {
                           if (err) {
@@ -169,8 +171,8 @@
                           NSInteger errorCode = [[responseObject objectForKey:@"error"] integerValue];
                           if (errorCode == 0) {
                               NSString *recv = [responseObject objectForKey:@"id"];
-                              self.avatar = [recv stringByAppendingString:kAvatarSizeLarge];
-                              [self callbackAvatarDelegateSucceed];
+                              strongSelf.avatar = [recv stringByAppendingString:kAvatarSizeLarge];
+                              [strongSelf callbackAvatarDelegateSucceed];
                               return;
                           } else if (errorCode == 403) {
                               @throw NSException(kCourtesyForbidden, @"请重新登录");
@@ -184,7 +186,7 @@
                           if ([exception.name isEqualToString:kCourtesyForbidden]) {
                               [sharedSettings setHasLogin:NO];
                           }
-                          [self callbackAvatarDelegateWithErrorMessage:exception.reason];
+                          [strongSelf callbackAvatarDelegateWithErrorMessage:exception.reason];
                           return;
                       }
                       @finally {

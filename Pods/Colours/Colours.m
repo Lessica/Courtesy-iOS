@@ -1021,11 +1021,6 @@ static CGFloat (^RAD)(CGFloat) = ^CGFloat (CGFloat degree){
 	return [[self class] colorWithR:228 G:31 B:54 A:1.0];
 }
 
-+ (instancetype)magicColor
-{
-    return [[self class] colorWithR:255 G:14 B:151 A:1.0];
-}
-
 + (instancetype)pinkColor
 {
 	return [[self class] colorWithR:255 G:95 B:154 A:1.0];

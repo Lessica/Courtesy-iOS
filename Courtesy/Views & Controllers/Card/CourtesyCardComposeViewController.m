@@ -13,7 +13,6 @@
 #import "CourtesyTextBindingParser.h"
 #import "CourtesyCardComposeViewController.h"
 #import "CourtesyJotViewController.h"
-#import "QBImagePickerController.h"
 #import "WechatShortVideoController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -22,6 +21,7 @@
 #import "JTSImageViewController.h"
 #import "CourtesyCardPreviewGenerator.h"
 #import "CourtesyTextView.h"
+#import "CourtesyFontTableViewController.h"
 
 #define kComposeDefaultFontSize 16.0
 #define kComposeDefaultLineSpacing 8.0
@@ -33,7 +33,7 @@
 #define kComposeTopBarInsectPortrait 64.0
 #define kComposeTopBarInsectLandscape 48.0
 
-@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, WechatShortVideoDelegate, MPMediaPickerControllerDelegate, CourtesyAudioFrameDelegate, AudioNoteRecorderDelegate, JotViewControllerDelegate, JTSImageViewControllerInteractionsDelegate, CourtesyCardPreviewGeneratorDelegate>
+@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, WechatShortVideoDelegate, MPMediaPickerControllerDelegate, CourtesyAudioFrameDelegate, AudioNoteRecorderDelegate, JotViewControllerDelegate, JTSImageViewControllerInteractionsDelegate, CourtesyCardPreviewGeneratorDelegate, CourtesyFontViewControllerDelegate>
 @property (nonatomic, assign) CourtesyTextView *textView;
 @property (nonatomic, strong) UIView *fakeBar;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -858,7 +858,9 @@
                                                   if (index == 0) {
                                                       AudioNoteRecorderViewController *vc = [[AudioNoteRecorderViewController alloc] initWithMasterViewController:strongSelf];
                                                       vc.delegate = strongSelf;
-                                                      [strongSelf presentViewController:vc animated:NO completion:nil];
+                                                      [self addChildViewController:vc];
+                                                      [self.view addSubview:vc.view];
+                                                      [vc didMoveToParentViewController:self];
                                                   } else {
                                                       MPMediaPickerController * mediaPicker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
                                                       mediaPicker.delegate = strongSelf;
@@ -996,10 +998,15 @@
 
 - (void)setFont:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    // TODO: 更改字体
-    [self.view makeToast:@"Demo 版本中无法切换字体"
-                duration:kStatusBarNotificationTime
-                position:CSToastPositionCenter];
+    if (self.textView.isFirstResponder) {
+        [self.textView resignFirstResponder];
+    }
+    CourtesyFontTableViewController *vc = [[CourtesyFontTableViewController alloc] initWithMasterViewController:self];
+    vc.delegate = self;
+    vc.fitSize = [tryValue(self.cardFontSize, [NSNumber numberWithFloat:16.0]) floatValue];
+    [self addChildViewController:vc];
+    [self.view addSubview:vc.view];
+    [vc didMoveToParentViewController:self];
 }
 
 - (void)setTextViewAlignment:(NSTextAlignment)alignment {
@@ -1024,31 +1031,49 @@
 #pragma mark - AudioNoteRecorderDelegate
 
 - (void)audioNoteRecorderDidCancel:(AudioNoteRecorderViewController *)audioNoteRecorder {
-    __weak typeof(self) weakSelf = self;
-    [audioNoteRecorder dismissViewControllerAnimated:NO completion:^() {
-        __strong typeof(self) strongSelf = weakSelf;
-        if (!strongSelf.textView.isFirstResponder) {
-            [strongSelf.textView becomeFirstResponder];
-        }
-    }];
+    [audioNoteRecorder.view removeFromSuperview];
+    [audioNoteRecorder removeFromParentViewController];
+    if (!self.textView.isFirstResponder) {
+        [self.textView becomeFirstResponder];
+    }
 }
 
 - (void)audioNoteRecorderDidTapDone:(AudioNoteRecorderViewController *)audioNoteRecorder
                     withRecordedURL:(NSURL *)recordedURL {
     if (!self.editable) return;
-    __weak typeof(self) weakSelf = self;
-    __block NSURL *newURL = recordedURL;
-    [audioNoteRecorder dismissViewControllerAnimated:NO completion:^() {
-        __strong typeof(self) strongSelf = weakSelf;
-        [strongSelf addNewAudioFrame:newURL
-                                  at:strongSelf.textView.selectedRange
-                            animated:YES
-                            userinfo:@{
-                                       @"title": @"Untitled", // TODO: 修改录音描述
-                                       @"type": @(CourtesyAttachmentAudio),
-                                       @"url": newURL
-                                       }];
-    }];
+    [audioNoteRecorder.view removeFromSuperview];
+    [audioNoteRecorder removeFromParentViewController];
+    NSURL *newURL = recordedURL;
+    [self addNewAudioFrame:newURL
+                              at:self.textView.selectedRange
+                        animated:YES
+                        userinfo:@{
+                                   @"title": @"Untitled", // TODO: 修改录音描述
+                                   @"type": @(CourtesyAttachmentAudio),
+                                   @"url": newURL
+                                   }];
+}
+
+#pragma mark - CourtesyFontViewControllerDelegate
+
+- (void)fontViewControllerDidCancel:(CourtesyFontTableViewController *)fontViewController {
+    [fontViewController.view removeFromSuperview];
+    [fontViewController removeFromParentViewController];
+    if (!self.textView.isFirstResponder) {
+        [self.textView becomeFirstResponder];
+    }
+}
+
+- (void)fontViewControllerDidTapDone:(CourtesyFontTableViewController *)fontViewController
+                            withFont:(UIFont *)font {
+    [self setNewCardFont:font];
+}
+
+- (void)fontViewController:(CourtesyFontTableViewController *)fontViewController
+            changeFontSize:(CGFloat)size {
+    CYLog(@"%.1f", size);
+    self.cardFontSize = [NSNumber numberWithFloat:size];
+    [self setNewCardFont:[_originalFont fontWithSize:[self.cardFontSize floatValue]]];
 }
 
 #pragma mark - MPMediaPickerControllerDelegate
@@ -1449,6 +1474,20 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         }
     }
     return num;
+}
+
+#pragma mark - Style Modifier
+
+- (void)setNewCardFont:(UIFont *)cardFont {
+    if (!cardFont) return;
+    cardFont = [cardFont fontWithSize:[tryValue(self.cardFontSize, [NSNumber numberWithFloat:kComposeDefaultFontSize]) floatValue]];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:self.originalAttributes];
+    [dict setObject:cardFont forKey:NSFontAttributeName];
+    self.originalAttributes = dict;
+    self.originalFont = cardFont;
+    self.textView.font = cardFont;
+    self.textView.typingAttributes = self.originalAttributes;
+    self.titleLabel.font = [cardFont fontWithSize:12];
 }
 
 #pragma mark - YYTextKeyboardObserver

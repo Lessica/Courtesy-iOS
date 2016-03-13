@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'B95517F7EFA0E494633B23FA'
+               BlueprintIdentifier = 'E0DC10AE29E5FCCBBFAB059D691FC190'
                BlueprintName = 'CNCityPickerView'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libCNCityPickerView.a'>

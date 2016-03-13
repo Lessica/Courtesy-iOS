@@ -249,7 +249,7 @@ static unichar ZX_BYTE_ORDER_MARK = L'\ufeff';
 
 + (NSString *)urlDecode:(NSString *)encoded {
   NSString *result = [encoded stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-  result = [result stringByRemovingPercentEncoding];
+  result = [result stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
   return result;
 }
 

@@ -504,7 +504,6 @@ typedef NS_ENUM(NSInteger, ColorComparison) {
 + (instancetype)pinkLipstickColor;
 + (instancetype)paleRoseColor;
 + (instancetype)crimsonColor;
-+ (instancetype)magicColor;
 
 // Purples
 + (instancetype)eggplantColor;

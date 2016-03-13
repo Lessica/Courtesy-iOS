@@ -1,29 +1,24 @@
 source 'https://gitcafe.com/akuandev/Specs.git'
-target 'Courtesy', :exclusive => true do
+target 'Courtesy' do
     platform :ios, '9.0'
     inhibit_all_warnings!
-    pod 'WechatShortVideo'
     pod 'jot'
-    pod 'JVFloatingDrawer'
     pod 'ZXingObjC'
     pod 'Colours'
-    pod 'LBXScan'
-    pod 'oc-timestamp', :git => 'https://github.com/lbj96347/oc-timestamp.git'
+    pod 'MBProgressHUD'
     pod 'PEPhotoCropEditor'
     pod 'RSKImageCropper'
     pod 'LGAlertView'
     pod 'JSONModel'
     pod 'JDStatusBarNotification'
-    pod 'UMengMessage'
     pod 'NJKWebViewProgress'
     pod 'AFNetworking'
     pod 'FCFileManager'
     pod 'Toast'
-    pod 'UMengSocial', '~> 5.0'
+    pod 'SCRecorder'
     pod 'MJRefresh'
     pod 'YYKit'
     pod 'JTSImageViewController'
-    pod 'PMAudioRecorderViewController'
     pod 'FDWaveformView'
     pod 'CJStringValidator'
     pod 'CNCityPickerView'
@@ -31,10 +26,6 @@ target 'Courtesy', :exclusive => true do
     pod 'SwipeView'
     pod 'FLEX', '~> 2.0', :configurations => ['Debug']
     pod 'AFSoundManager'
-    pod 'MMWormhole'
-    pod 'QBImagePickerController'
+    pod 'SSZipArchive'
 end
-target 'CourtesyWatchExtension', :exclusive => true do
-    platform :watchos, '2.0'
-    pod 'MMWormhole'
-end
+

@@ -188,7 +188,7 @@ static NSString* requestContentType = nil;
         if (!error && (response.statusCode >= 300 || response.statusCode < 200)) {
             error = [JSONModelError errorBadResponse];
         }
-        
+
         //if there was an error, assign the response to the JSONModel instance
         if (error) {
             error.httpResponse = [response copy];

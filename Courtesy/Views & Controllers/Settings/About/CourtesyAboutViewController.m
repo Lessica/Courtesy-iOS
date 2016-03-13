@@ -7,9 +7,8 @@
 //
 
 #import "CourtesyAboutViewController.h"
-#import "UMSocial.h"
 
-@interface CourtesyAboutViewController () <UIGestureRecognizerDelegate, UMSocialUIDelegate>
+@interface CourtesyAboutViewController () <UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *appLabel;
@@ -45,12 +44,7 @@
 
 - (IBAction)shareButtonClicked:(id)sender {
     if (sender == _shareButton) {
-        [UMSocialSnsService presentSnsIconSheetView:self
-                                             appKey:nil
-                                          shareText:@"礼记之谊，记礼之情。"
-                                         shareImage:[UIImage imageNamed:@"11-appicon"]
-                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToEmail, nil]
-                                           delegate:self];
+        
     }
 }
 

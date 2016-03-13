@@ -20,10 +20,7 @@
 
 @end
 
-@implementation GlobalSettings {
-    YYCache *appStorage;
-    YYReachability *localReachability;
-}
+@implementation GlobalSettings
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -42,8 +39,8 @@
         [JSONHTTPClient setCachingPolicy:NSURLRequestReloadIgnoringCacheData];
         [JSONHTTPClient setTimeoutInSeconds:20];
         // 初始化网络状态监听
-        localReachability = [YYReachability reachability];
-        localReachability.notifyBlock = ^(YYReachability *reachability) {
+        self.localReachability = [YYReachability reachability];
+        self.localReachability.notifyBlock = ^(YYReachability *reachability) {
             if (reachability.status == YYReachabilityStatusNone) {
                 [JDStatusBarNotification showWithStatus:@"网络连接失败"
                                            dismissAfter:kStatusBarNotificationTime
@@ -63,9 +60,9 @@
         // 初始化推送通知
         if (![self hasNotificationPermission]) [self requestedNotifications];
         // 初始化数据库设置
-        if (!appStorage) appStorage = [[YYCache alloc] initWithName:kCourtesyDB];
+        if (!self.appStorage) self.appStorage = [[YYCache alloc] initWithName:kCourtesyDB];
         self.currentAccount = [[CourtesyAccountModel alloc] initWithDelegate:self];
-        if (!appStorage || !self.currentAccount) {
+        if (!self.appStorage || !self.currentAccount) {
             @throw NSException(kCourtesyAllocFailed, @"应用程序启动失败");
         }
         // 初始化 Apple Watch 通信管理器
@@ -73,15 +70,15 @@
         [self.watchSessionManager startSession];
         // 初始化账户信息
         if ([self sessionKey] != nil) {
-            if ([appStorage containsObjectForKey:kCourtesyDBCurrentLoginAccount]) {
+            if ([self.appStorage containsObjectForKey:kCourtesyDBCurrentLoginAccount]) {
                 NSError *error = nil;
-                NSDictionary *dict = (NSDictionary *)[appStorage objectForKey:kCourtesyDBCurrentLoginAccount];
+                NSDictionary *dict = (NSDictionary *)[self.appStorage objectForKey:kCourtesyDBCurrentLoginAccount];
                 self.currentAccount = [[CourtesyAccountModel alloc] initWithDictionary:dict error:&error];
                 [self.currentAccount setDelegate:self];
                 if (error || !_currentAccount) {
                     self.currentAccount = [[CourtesyAccountModel alloc] initWithDelegate:self];
                     // 如果缓存中数据不正常则需要移除
-                    [appStorage removeObjectForKey:kCourtesyDBCurrentLoginAccount];
+                    [self.appStorage removeObjectForKey:kCourtesyDBCurrentLoginAccount];
                 } else {
                     CYLog(@"Login as: %@", _currentAccount.email);
                     // 检测到登录状态，启动信息获取线程
@@ -91,9 +88,9 @@
                 CYLog(@"No login cache");
                 [self removeCookies];
             }
-        } else if ([appStorage containsObjectForKey:kCourtesyDBCurrentLoginAccount]) {
+        } else if ([self.appStorage containsObjectForKey:kCourtesyDBCurrentLoginAccount]) {
             CYLog(@"Login expired");
-            [appStorage removeObjectForKey:kCourtesyDBCurrentLoginAccount];
+            [self.appStorage removeObjectForKey:kCourtesyDBCurrentLoginAccount];
         } else {
             CYLog(@"Not login");
         }
@@ -129,7 +126,7 @@
 // 将当前账户及其 Profile 存入账户
 
 - (void)reloadAccount {
-    [appStorage setObject:[self.currentAccount toDictionary] forKey:kCourtesyDBCurrentLoginAccount];
+    [self.appStorage setObject:[self.currentAccount toDictionary] forKey:kCourtesyDBCurrentLoginAccount];
 }
 
 - (void)setHasLogin:(BOOL)hasLogin {
@@ -143,8 +140,8 @@
         [self removeCookies];
         if (!self.currentAccount) return;
         self.currentAccount = [[CourtesyAccountModel alloc] initWithDelegate:self];
-        if ([appStorage containsObjectForKey:kCourtesyDBCurrentLoginAccount]) {
-            [appStorage removeObjectForKey:kCourtesyDBCurrentLoginAccount];
+        if ([self.appStorage containsObjectForKey:kCourtesyDBCurrentLoginAccount]) {
+            [self.appStorage removeObjectForKey:kCourtesyDBCurrentLoginAccount];
         }
         [NSNotificationCenter sendCTAction:kActionLogout message:nil];
     }
@@ -225,35 +222,35 @@
 #pragma mark - 个性化设置相关
 
 - (BOOL)switchAutoPublic {
-    return [(NSNumber *)[appStorage objectForKey:kSwitchAutoPublic] isEqualToNumber:@0] ? NO : YES;
+    return [(NSNumber *)[self.appStorage objectForKey:kSwitchAutoPublic] isEqualToNumber:@0] ? NO : YES;
 }
 
 - (void)setSwitchAutoPublic:(BOOL)switchAutoPublic {
-    [appStorage setObject:(switchAutoPublic ? @1 : @0) forKey:kSwitchAutoPublic];
+    [self.appStorage setObject:(switchAutoPublic ? @1 : @0) forKey:kSwitchAutoPublic];
 }
 
 - (BOOL)switchAutoSave {
-    return [(NSNumber *)[appStorage objectForKey:kSwitchAutoSave] isEqualToNumber:@0] ? NO : YES;
+    return [(NSNumber *)[self.appStorage objectForKey:kSwitchAutoSave] isEqualToNumber:@0] ? NO : YES;
 }
 
 - (void)setSwitchAutoSave:(BOOL)switchAutoSave {
-    [appStorage setObject:(switchAutoSave ? @1 : @0) forKey:kSwitchAutoSave];
+    [self.appStorage setObject:(switchAutoSave ? @1 : @0) forKey:kSwitchAutoSave];
 }
 
 - (NSInteger)preferredImageQuality {
-    return [(NSNumber *)[appStorage objectForKey:kPreferredImageQuality] integerValue];
+    return [(NSNumber *)[self.appStorage objectForKey:kPreferredImageQuality] integerValue];
 }
 
 - (void)setPreferredImageQuality:(NSInteger)preferredImageQuality {
-    [appStorage setObject:[NSNumber numberWithInteger:preferredImageQuality] forKey:kPreferredImageQuality];
+    [self.appStorage setObject:[NSNumber numberWithInteger:preferredImageQuality] forKey:kPreferredImageQuality];
 }
 
 - (NSInteger)preferredVideoQuality {
-    return [(NSNumber *)[appStorage objectForKey:kPreferredVideoQuality] integerValue];
+    return [(NSNumber *)[self.appStorage objectForKey:kPreferredVideoQuality] integerValue];
 }
 
 - (void)setPreferredVideoQuality:(NSInteger)preferredVideoQuality {
-    [appStorage setObject:[NSNumber numberWithInteger:preferredVideoQuality] forKey:kPreferredVideoQuality];
+    [self.appStorage setObject:[NSNumber numberWithInteger:preferredVideoQuality] forKey:kPreferredVideoQuality];
 }
 
 @end

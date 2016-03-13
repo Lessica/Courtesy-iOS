@@ -13,7 +13,7 @@
 
 -(id)initWithLocalResource:(NSString *)name atPath:(NSString *)path {
     
-    if (self = [super init]) {
+    if (self == [super init]) {
         
         _type = AFSoundItemTypeLocal;
         
@@ -38,7 +38,7 @@
 
 -(id)initWithStreamingURL:(NSURL *)URL {
     
-    if (self = [super init]) {
+    if (self == [super init]) {
         
         _type = AFSoundItemTypeStreaming;
         
@@ -70,20 +70,13 @@
                 
                 _artist = (NSString *)metadataItem.value;
             } else if ([metadataItem.commonKey isEqualToString:@"artwork"]) {
+                
                 if ([metadataItem.keySpace isEqualToString:AVMetadataKeySpaceID3]) {
-                    if (![metadataItem.value isKindOfClass:[NSDictionary class]]) {
-                        return;
-                    }
-                    id object = [(NSDictionary *)metadataItem.value objectForKey:@"data"];
-                    if (!object || ![object isEqual:[NSNull null]] || ![object isKindOfClass:[NSData class]]) {
-                        return;
-                    }
-                    _artwork = [UIImage imageWithData:object];
+                    
+                    _artwork = [UIImage imageWithData:[[metadataItem.value copyWithZone:nil] objectForKey:@"data"]];
                 } else if ([metadataItem.keySpace isEqualToString:AVMetadataKeySpaceiTunes]) {
-                    if (![metadataItem.value isKindOfClass:[NSData class]]) {
-                        return;
-                    }
-                    _artwork = [UIImage imageWithData:metadataItem.value];
+                    
+                    _artwork = [UIImage imageWithData:[metadataItem.value copyWithZone:nil]];
                 }
             }
         }];

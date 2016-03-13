@@ -19,7 +19,7 @@
 
 -(id)initWithFilePath:(NSString *)filePath {
     
-    if (self = [super init]) {
+    if (self == [super init]) {
         
         _recorder = [[AVAudioRecorder alloc] initWithURL:[NSURL fileURLWithPath:filePath] settings:0 error:nil];
         [_recorder prepareToRecord];

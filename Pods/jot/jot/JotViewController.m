@@ -57,19 +57,15 @@
         
         _pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchOrRotateGesture:)];
         self.pinchRecognizer.delegate = self;
-        self.pinchRecognizer.enabled = NO;
         
         _rotationRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchOrRotateGesture:)];
         self.rotationRecognizer.delegate = self;
-        self.rotationRecognizer.enabled = NO;
         
         _panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
         self.panRecognizer.delegate = self;
-        self.panRecognizer.enabled = NO;
         
         _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
         self.tapRecognizer.delegate = self;
-        self.tapRecognizer.enabled = NO;
     }
     
     return self;

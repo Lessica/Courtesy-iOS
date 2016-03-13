@@ -153,6 +153,12 @@
 @property (assign, nonatomic) AVCaptureVideoOrientation videoOrientation;
 
 /**
+ The video stabilization mode to use.
+ Default is AVCaptureVideoStabilizationModeStandard
+ */
+@property (assign, nonatomic) AVCaptureVideoStabilizationMode videoStabilizationMode;
+
+/**
  If true, the videoOrientation property will be set automatically
  depending on the current device orientation
  Default is NO
@@ -195,6 +201,12 @@
  Default is YES
  */
 @property (assign, nonatomic) BOOL initializeSessionLazily;
+
+/**
+ If enabled, flips the video about its vertical axis and produce a mirror-image effect,
+ when recording with the front camera.
+ */
+@property (assign, nonatomic) BOOL mirrorOnFrontCamera;
 
 /**
  If enabled, mirrored video buffers like when using a front camera
