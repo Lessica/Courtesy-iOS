@@ -39,16 +39,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>FDWaveformView-FDWaveformView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>FDWaveformView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>FLEX.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -147,11 +137,6 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>03A7A5CD5B996B207F87A2EB9091C6DC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>09FA060F1A0492FB25232F489AC4E573</key>
 		<dict>
 			<key>primary</key>
@@ -187,22 +172,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4938D25D702A60D5B83CA4CDD035A9CF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6C0380A06CD51DEAD0A80C03B8E691F1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>7B1ACE583140E87CFB5588BC630D78F5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>7EDBC06B3D447B9192D12E139BD4ACFE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>89FBFDCFD5D90EB5F4C2E5CC944687CA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8F64DD5598A82B609DD81FC7CAD9DA2E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -212,12 +192,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>92330A300FA48AF3ED534DB9441D7A90</key>
+		<key>928353533005A4198EBDA5B700D37B64</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>928353533005A4198EBDA5B700D37B64</key>
+		<key>B3EC6934BA668DFDE164BDC3429B270D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B461CFE5AD3C1533B8A356DBB831BA49</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -237,12 +222,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C2D00CE1C7BA6F3B555463DB8F6FBD11</key>
+		<key>C90DB3199ABB392FD2C0647030E11256</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CE730C703477E81625FC289F482EF248</key>
+		<key>D5553A9176D52377924D6E9BEABA7932</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -262,17 +247,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E7245F48927535B6307EDD8E599C825D</key>
+		<key>E47E4B763F3F3F70A02CE185C3F4E6AB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EA268C3013D27AE867A590A930284211</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FB3D0EA6EBF7ECF4F02D3CC0BBC2AD77</key>
+		<key>FB81D9310075A957947E14015223631D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

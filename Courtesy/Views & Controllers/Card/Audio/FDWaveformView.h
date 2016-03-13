@@ -31,6 +31,9 @@
 - (void)waveformViewDidRender:(FDWaveformView *)waveformView;
 - (void)waveformViewWillLoad:(FDWaveformView *)waveformView;
 - (void)waveformViewDidLoad:(FDWaveformView *)waveformView;
+- (void)waveformViewDidFailedLoading:(FDWaveformView *)waveformView
+                        errorMessage:(NSString *)string;
 - (void)waveformDidBeginPanning:(FDWaveformView *)waveformView;
 - (void)waveformDidEndPanning:(FDWaveformView *)waveformView;
+- (void)waveformTapped:(FDWaveformView *)waveformView;
 @end

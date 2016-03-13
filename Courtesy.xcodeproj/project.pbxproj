@@ -13,6 +13,8 @@
 		0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E21C9511D300F818AD /* CourtesyFontModel.m */; };
 		0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E51C951DDD00F818AD /* CourtesyFontManager.m */; };
 		0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */; };
+		0F5668681C95E15A00AD4F04 /* AudioNoteRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5668671C95E15A00AD4F04 /* AudioNoteRecorderViewController.m */; };
+		0F5668701C95E35600AD4F04 /* FDWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F56686F1C95E35600AD4F04 /* FDWaveformView.m */; };
 		0F7424851C8FCD98002C6241 /* EXTADT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74244B1C8FCD98002C6241 /* EXTADT.m */; };
 		0F7424861C8FCD98002C6241 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74244D1C8FCD98002C6241 /* EXTConcreteProtocol.m */; };
 		0F7424871C8FCD98002C6241 /* EXTNil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424511C8FCD98002C6241 /* EXTNil.m */; };
@@ -63,22 +65,6 @@
 		0FF2D2A91C95DAC7007C23DE /* WechatShortVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D29D1C95DAC7007C23DE /* WechatShortVideoController.m */; };
 		0FF2D2AA1C95DAC7007C23DE /* WechatShortVideoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D29E1C95DAC7007C23DE /* WechatShortVideoController.xib */; };
 		0FF2D2B01C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF2D2AE1C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a */; };
-		0FF2D2C51C95DC8A007C23DE /* AudioNoteRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D2B41C95DC8A007C23DE /* AudioNoteRecorderViewController.m */; };
-		0FF2D2C61C95DC8A007C23DE /* approve.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2B61C95DC8A007C23DE /* approve.png */; };
-		0FF2D2C71C95DC8A007C23DE /* approve@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2B71C95DC8A007C23DE /* approve@2x.png */; };
-		0FF2D2C81C95DC8A007C23DE /* approve@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2B81C95DC8A007C23DE /* approve@3x.png */; };
-		0FF2D2C91C95DC8A007C23DE /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2B91C95DC8A007C23DE /* close.png */; };
-		0FF2D2CA1C95DC8A007C23DE /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2BA1C95DC8A007C23DE /* close@2x.png */; };
-		0FF2D2CB1C95DC8A007C23DE /* close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2BB1C95DC8A007C23DE /* close@3x.png */; };
-		0FF2D2CC1C95DC8A007C23DE /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2BC1C95DC8A007C23DE /* pause.png */; };
-		0FF2D2CD1C95DC8A007C23DE /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2BD1C95DC8A007C23DE /* pause@2x.png */; };
-		0FF2D2CE1C95DC8A007C23DE /* pause@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2BE1C95DC8A007C23DE /* pause@3x.png */; };
-		0FF2D2CF1C95DC8A007C23DE /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2BF1C95DC8A007C23DE /* play.png */; };
-		0FF2D2D01C95DC8A007C23DE /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2C01C95DC8A007C23DE /* play@2x.png */; };
-		0FF2D2D11C95DC8A007C23DE /* play@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2C11C95DC8A007C23DE /* play@3x.png */; };
-		0FF2D2D21C95DC8A007C23DE /* record.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2C21C95DC8A007C23DE /* record.png */; };
-		0FF2D2D31C95DC8A007C23DE /* record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2C31C95DC8A007C23DE /* record@2x.png */; };
-		0FF2D2D41C95DC8A007C23DE /* record@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D2C41C95DC8A007C23DE /* record@3x.png */; };
 		0FFE04611C93F45800E99DCC /* CourtesyAnimationSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03F41C93F45800E99DCC /* CourtesyAnimationSettingsTableViewController.m */; };
 		0FFE04621C93F45800E99DCC /* CourtesyAudioFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03F81C93F45800E99DCC /* CourtesyAudioFrameView.m */; };
 		0FFE04631C93F45800E99DCC /* CourtesyCardComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03FA1C93F45800E99DCC /* CourtesyCardComposeViewController.m */; };
@@ -213,6 +199,11 @@
 		0F5064E51C951DDD00F818AD /* CourtesyFontManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyFontManager.m; path = Font/CourtesyFontManager.m; sourceTree = "<group>"; };
 		0F5064E71C95327F00F818AD /* CourtesyFontTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyFontTableViewCell.h; sourceTree = "<group>"; };
 		0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyFontTableViewCell.m; sourceTree = "<group>"; };
+		0F5668661C95E15A00AD4F04 /* AudioNoteRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioNoteRecorderViewController.h; sourceTree = "<group>"; };
+		0F5668671C95E15A00AD4F04 /* AudioNoteRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioNoteRecorderViewController.m; sourceTree = "<group>"; };
+		0F56686A1C95E1BE00AD4F04 /* CourtesyWatchQueryKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CourtesyWatchQueryKeys.h; sourceTree = "<group>"; };
+		0F56686E1C95E35600AD4F04 /* FDWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDWaveformView.h; sourceTree = "<group>"; };
+		0F56686F1C95E35600AD4F04 /* FDWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDWaveformView.m; sourceTree = "<group>"; };
 		0F74244A1C8FCD98002C6241 /* EXTADT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTADT.h; sourceTree = "<group>"; };
 		0F74244B1C8FCD98002C6241 /* EXTADT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTADT.m; sourceTree = "<group>"; };
 		0F74244C1C8FCD98002C6241 /* EXTConcreteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTConcreteProtocol.h; sourceTree = "<group>"; };
@@ -241,7 +232,6 @@
 		0FBBF7151C78BD4700A0A2D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawers.storyboard; sourceTree = "<group>"; };
 		0FD0205C1C81733E0069AB72 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0FD3EE251C95CD2200DE5347 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
-		0FD3EE271C95CD5800DE5347 /* CourtesyWatchQueryKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyWatchQueryKeys.h; path = ../../../../../../CourtesyWatchQueryKeys.h; sourceTree = "<group>"; };
 		0FD3EE2A1C95CDC100DE5347 /* CourtesyWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourtesyWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FD3EE2D1C95CDC100DE5347 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		0FD3EE2F1C95CDC100DE5347 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -308,23 +298,6 @@
 		0FF2D29E1C95DAC7007C23DE /* WechatShortVideoController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WechatShortVideoController.xib; sourceTree = "<group>"; };
 		0FF2D2AE1C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		0FF2D2AF1C95DB9E007C23DE /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
-		0FF2D2B31C95DC8A007C23DE /* AudioNoteRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioNoteRecorderViewController.h; sourceTree = "<group>"; };
-		0FF2D2B41C95DC8A007C23DE /* AudioNoteRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioNoteRecorderViewController.m; sourceTree = "<group>"; };
-		0FF2D2B61C95DC8A007C23DE /* approve.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = approve.png; sourceTree = "<group>"; };
-		0FF2D2B71C95DC8A007C23DE /* approve@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "approve@2x.png"; sourceTree = "<group>"; };
-		0FF2D2B81C95DC8A007C23DE /* approve@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "approve@3x.png"; sourceTree = "<group>"; };
-		0FF2D2B91C95DC8A007C23DE /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
-		0FF2D2BA1C95DC8A007C23DE /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
-		0FF2D2BB1C95DC8A007C23DE /* close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@3x.png"; sourceTree = "<group>"; };
-		0FF2D2BC1C95DC8A007C23DE /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = "<group>"; };
-		0FF2D2BD1C95DC8A007C23DE /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause@2x.png"; sourceTree = "<group>"; };
-		0FF2D2BE1C95DC8A007C23DE /* pause@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause@3x.png"; sourceTree = "<group>"; };
-		0FF2D2BF1C95DC8A007C23DE /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
-		0FF2D2C01C95DC8A007C23DE /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@2x.png"; sourceTree = "<group>"; };
-		0FF2D2C11C95DC8A007C23DE /* play@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@3x.png"; sourceTree = "<group>"; };
-		0FF2D2C21C95DC8A007C23DE /* record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record.png; sourceTree = "<group>"; };
-		0FF2D2C31C95DC8A007C23DE /* record@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record@2x.png"; sourceTree = "<group>"; };
-		0FF2D2C41C95DC8A007C23DE /* record@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record@3x.png"; sourceTree = "<group>"; };
 		0FF2D2D51C95DE9E007C23DE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Drawers.strings"; sourceTree = "<group>"; };
 		0FF2D2D61C95DE9E007C23DE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Interface.strings"; sourceTree = "<group>"; };
 		0FF2D2D71C95DEA3007C23DE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawers.strings"; sourceTree = "<group>"; };
@@ -754,46 +727,6 @@
 			path = UMessage;
 			sourceTree = "<group>";
 		};
-		0FF2D2B11C95DC8A007C23DE /* AudioNoteRecorderViewController */ = {
-			isa = PBXGroup;
-			children = (
-				0FF2D2B21C95DC8A007C23DE /* Classes */,
-				0FF2D2B51C95DC8A007C23DE /* Images */,
-			);
-			path = AudioNoteRecorderViewController;
-			sourceTree = "<group>";
-		};
-		0FF2D2B21C95DC8A007C23DE /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				0FF2D2B31C95DC8A007C23DE /* AudioNoteRecorderViewController.h */,
-				0FF2D2B41C95DC8A007C23DE /* AudioNoteRecorderViewController.m */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		0FF2D2B51C95DC8A007C23DE /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				0FF2D2B61C95DC8A007C23DE /* approve.png */,
-				0FF2D2B71C95DC8A007C23DE /* approve@2x.png */,
-				0FF2D2B81C95DC8A007C23DE /* approve@3x.png */,
-				0FF2D2B91C95DC8A007C23DE /* close.png */,
-				0FF2D2BA1C95DC8A007C23DE /* close@2x.png */,
-				0FF2D2BB1C95DC8A007C23DE /* close@3x.png */,
-				0FF2D2BC1C95DC8A007C23DE /* pause.png */,
-				0FF2D2BD1C95DC8A007C23DE /* pause@2x.png */,
-				0FF2D2BE1C95DC8A007C23DE /* pause@3x.png */,
-				0FF2D2BF1C95DC8A007C23DE /* play.png */,
-				0FF2D2C01C95DC8A007C23DE /* play@2x.png */,
-				0FF2D2C11C95DC8A007C23DE /* play@3x.png */,
-				0FF2D2C21C95DC8A007C23DE /* record.png */,
-				0FF2D2C31C95DC8A007C23DE /* record@2x.png */,
-				0FF2D2C41C95DC8A007C23DE /* record@3x.png */,
-			);
-			path = Images;
-			sourceTree = "<group>";
-		};
 		0FFE03F11C93F45800E99DCC /* Views & Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -842,9 +775,12 @@
 		0FFE03F61C93F45800E99DCC /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				0FF2D2B11C95DC8A007C23DE /* AudioNoteRecorderViewController */,
+				0F5668661C95E15A00AD4F04 /* AudioNoteRecorderViewController.h */,
+				0F5668671C95E15A00AD4F04 /* AudioNoteRecorderViewController.m */,
 				0FFE03F71C93F45800E99DCC /* CourtesyAudioFrameView.h */,
 				0FFE03F81C93F45800E99DCC /* CourtesyAudioFrameView.m */,
+				0F56686E1C95E35600AD4F04 /* FDWaveformView.h */,
+				0F56686F1C95E35600AD4F04 /* FDWaveformView.m */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -1302,13 +1238,13 @@
 		0FFE04E41C93F4E500E99DCC /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				0FD3EE271C95CD5800DE5347 /* CourtesyWatchQueryKeys.h */,
 				0FFE04E51C93F4E500E99DCC /* CourtesyDebug.h */,
 				0FFE04E61C93F4E500E99DCC /* CourtesyException.h */,
 				0FFE04E71C93F4E500E99DCC /* CourtesyInterface.h */,
 				0FFE04E81C93F4E500E99DCC /* CourtesyNotification.h */,
 				0FFE04E91C93F4E500E99DCC /* CourtesyShortcuts.h */,
 				0FFE04EA1C93F4E500E99DCC /* CourtesyTarget.h */,
+				0F56686A1C95E1BE00AD4F04 /* CourtesyWatchQueryKeys.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -1568,37 +1504,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FF2D2A51C95DAC7007C23DE /* WechatShortVideo_scan_focus.png in Resources */,
-				0FF2D2C71C95DC8A007C23DE /* approve@2x.png in Resources */,
-				0FF2D2CF1C95DC8A007C23DE /* play.png in Resources */,
-				0FF2D2CD1C95DC8A007C23DE /* pause@2x.png in Resources */,
-				0FF2D2CC1C95DC8A007C23DE /* pause.png in Resources */,
-				0FF2D2D31C95DC8A007C23DE /* record@2x.png in Resources */,
-				0FF2D2CE1C95DC8A007C23DE /* pause@3x.png in Resources */,
 				0F90DC431C844C4E00607277 /* Drawers.storyboard in Resources */,
 				0FFE04F11C93F51900E99DCC /* area.plist in Resources */,
 				0FFE04DA1C93F4C600E99DCC /* kisssound.wav in Resources */,
-				0FF2D2D41C95DC8A007C23DE /* record@3x.png in Resources */,
-				0FF2D2C81C95DC8A007C23DE /* approve@3x.png in Resources */,
-				0FF2D2D21C95DC8A007C23DE /* record.png in Resources */,
 				0FFE04D91C93F4C600E99DCC /* Images.xcassets in Resources */,
 				0FF2D2A01C95DAC7007C23DE /* WechatShortVideo_37x-Checkmark.png in Resources */,
 				0FF2D2A41C95DAC7007C23DE /* WechatShortVideo_close@3x.png in Resources */,
 				0FF2D2A61C95DAC7007C23DE /* WechatShortVideo_scan_focus@2x.png in Resources */,
-				0FF2D2D01C95DC8A007C23DE /* play@2x.png in Resources */,
 				0FFE04861C93F45800E99DCC /* tos.html in Resources */,
 				0FFE04731C93F45800E99DCC /* CourtesyLoginRegisterViewController.xib in Resources */,
 				0FFE047A1C93F45800E99DCC /* CodeScan.bundle in Resources */,
 				0FF2D2AA1C95DAC7007C23DE /* WechatShortVideoController.xib in Resources */,
 				0FF2D2A21C95DAC7007C23DE /* WechatShortVideo_close.png in Resources */,
 				0FF2D2A11C95DAC7007C23DE /* WechatShortVideo_37x-Checkmark@2x.png in Resources */,
-				0FF2D2CB1C95DC8A007C23DE /* close@3x.png in Resources */,
 				0FF2D2A31C95DAC7007C23DE /* WechatShortVideo_close@2x.png in Resources */,
 				0FF2D2A71C95DAC7007C23DE /* WechatShortVideo_scan_focus@3x.png in Resources */,
-				0FF2D2D11C95DC8A007C23DE /* play@3x.png in Resources */,
-				0FF2D2C91C95DC8A007C23DE /* close.png in Resources */,
 				0FFE04DB1C93F4C600E99DCC /* toggle-record.wav in Resources */,
-				0FF2D2C61C95DC8A007C23DE /* approve.png in Resources */,
-				0FF2D2CA1C95DC8A007C23DE /* close@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1673,7 +1594,6 @@
 				0FFE04881C93F45800E99DCC /* CourtesyMessageNotificationSettingsTableViewController.m in Sources */,
 				0FF2D2671C95D90F007C23DE /* JVFloatingDrawerView.m in Sources */,
 				0FFE04C91C93F47400E99DCC /* CourtesyCardPublishQueue.m in Sources */,
-				0FF2D2C51C95DC8A007C23DE /* AudioNoteRecorderViewController.m in Sources */,
 				0FFE04741C93F45800E99DCC /* CourtesyQuickLoginButton.m in Sources */,
 				0FFE04681C93F45800E99DCC /* CourtesyTextBindingParser.m in Sources */,
 				0FF2D2881C95DA80007C23DE /* LBXScanViewController.m in Sources */,
@@ -1730,6 +1650,7 @@
 				0FFE04621C93F45800E99DCC /* CourtesyAudioFrameView.m in Sources */,
 				0FFE04BE1C93F47400E99DCC /* CourtesyCardAttachmentQueryRequestModel.m in Sources */,
 				0FFE047C1C93F45800E99DCC /* CourtesyProfileBirthdayTableViewController.m in Sources */,
+				0F5668701C95E35600AD4F04 /* FDWaveformView.m in Sources */,
 				0FFE04E11C93F4D800E99DCC /* AppDelegate.m in Sources */,
 				0FFE04C41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m in Sources */,
 				0F7424891C8FCD98002C6241 /* EXTSafeCategory.m in Sources */,
@@ -1742,6 +1663,7 @@
 				0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */,
 				0FFE04851C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m in Sources */,
 				0FF2D2681C95D90F007C23DE /* JVFloatingDrawerViewController.m in Sources */,
+				0F5668681C95E15A00AD4F04 /* AudioNoteRecorderViewController.m in Sources */,
 				0FF2D28C1C95DA80007C23DE /* ZXingWrapper.m in Sources */,
 				0FFE04631C93F45800E99DCC /* CourtesyCardComposeViewController.m in Sources */,
 				0FFE04671C93F45800E99DCC /* CourtesyImageFrameView.m in Sources */,

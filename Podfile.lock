@@ -22,7 +22,6 @@ PODS:
   - Colours/ObjC (5.13.0)
   - FCFileManager (1.0.17)
   - FDFullscreenPopGesture (1.1)
-  - FDWaveformView (0.3.1)
   - FLEX (2.3.0)
   - JDStatusBarNotification (1.5.3)
   - jot (0.1.5):
@@ -59,7 +58,6 @@ DEPENDENCIES:
   - Colours
   - FCFileManager
   - FDFullscreenPopGesture
-  - FDWaveformView
   - FLEX (~> 2.0)
   - JDStatusBarNotification
   - jot
@@ -86,7 +84,6 @@ SPEC CHECKSUMS:
   Colours: f24220c38f13deac88612667e9b4a7fb96b871d4
   FCFileManager: 8bfc931ce2a6223676147e9baf0e8a65c691eca6
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
-  FDWaveformView: 9d641a95bc0abd8af27cac4c973b015735d916f0
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
   JDStatusBarNotification: 29413865af11c862c17180610b0f46a21118b412
   jot: 0f5dc333defa6ad805d01adc3834b201c22510a7
@@ -106,6 +103,6 @@ SPEC CHECKSUMS:
   YYKit: 8b618ca8d8cefa534d8d4fe2cad10fe9fbd030ed
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
-PODFILE CHECKSUM: 9b20045b23531b90cf0110b66f84b4c93d026353
+PODFILE CHECKSUM: d9cf6ac7f4b71dc440b6f01f5ec2476688e113e1
 
 COCOAPODS: 1.0.0.beta.4

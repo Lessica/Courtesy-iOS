@@ -19,7 +19,6 @@ target 'Courtesy' do
     pod 'MJRefresh'
     pod 'YYKit'
     pod 'JTSImageViewController'
-    pod 'FDWaveformView'
     pod 'CJStringValidator'
     pod 'CNCityPickerView'
     pod 'FDFullscreenPopGesture'
