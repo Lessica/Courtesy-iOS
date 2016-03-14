@@ -44,6 +44,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FYPhotoLibrary.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>JDStatusBarNotification.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -142,6 +147,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>0B1BC5159E751D551556269D33C7FE66</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>14D2008578FFE471DE50AE7147D301A4</key>
 		<dict>
 			<key>primary</key>
@@ -172,17 +182,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>4B6E550B0B315D752DE9F42E24BA697F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5692910B68EEABA92535723D1FC05FF6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5ECBED4F74E90E550B2428EEC72F20EF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6684C04548EDDD038166D69AFF14BF74</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>7EDBC06B3D447B9192D12E139BD4ACFE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>89FBFDCFD5D90EB5F4C2E5CC944687CA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8F64DD5598A82B609DD81FC7CAD9DA2E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -197,17 +217,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B3EC6934BA668DFDE164BDC3429B270D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B461CFE5AD3C1533B8A356DBB831BA49</key>
+		<key>A169004FD63B39C3F0A1326D61671CF7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>B4A3E08D49931371F7247521A50EAF79</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B5196F1D8853AF72F515377725E195E8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -222,12 +242,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C90DB3199ABB392FD2C0647030E11256</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D5553A9176D52377924D6E9BEABA7932</key>
+		<key>BCE0548E84091D1D3E18B95DC4F5D185</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -247,12 +262,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E47E4B763F3F3F70A02CE185C3F4E6AB</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FB81D9310075A957947E14015223631D</key>
+		<key>FC3D890F3D8EDC248D85CA88A1D301BA</key>
 		<dict>
 			<key>primary</key>
 			<true/>

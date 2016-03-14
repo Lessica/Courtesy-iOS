@@ -8,6 +8,13 @@
 
 #import "SSZipArchive.h"
 
+typedef enum : NSUInteger {
+    kCourtesyFontDefault = 0,
+    kCourtesyFontFZSSK   = 1,
+    kCourtesyFontFZHTK   = 2,
+    kCourtesyFontFZKTK   = 3
+} CourtesyFontType;
+
 @class CourtesyFontModel;
 
 @protocol CourtesyFontDownloadDelegate <NSObject>

@@ -14,10 +14,10 @@
     if (!self.contentImage) {
         return;
     }
-    
-    UIImage *preview_head = tryValue(self.headImage, [UIImage imageNamed:@"preview-head"]);
-    UIImage *preview_body = tryValue(self.bodyImage, [UIImage imageNamed:@"preview-body"]);
-    UIImage *preview_footer = tryValue(self.footerImage, [UIImage imageNamed:@"preview-footer"]);
+#warning "Footer Text"
+    UIImage *preview_head = self.previewStyle.previewHeader;
+    UIImage *preview_body = self.previewStyle.previewBody;
+    UIImage *preview_footer = self.previewStyle.previewFooter;
     UIImage *content = self.contentImage;
     CGFloat screen_width = [UIScreen mainScreen].bounds.size.width;
     

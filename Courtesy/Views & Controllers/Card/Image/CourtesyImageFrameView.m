@@ -178,7 +178,7 @@
     }
 }
 
-- (void)setCenterImage:(UIImage *)centerImage {
+- (void)setCenterImage:(YYImage *)centerImage {
     if (!self.editable) return;
     // Remove Old Image View
     if (self.centerImageView) {
@@ -188,11 +188,11 @@
     CGFloat scaleValue = 0;
     CGFloat height = 0;
     // Set New Image View
-    UIImageView *centerImageView = nil;
+    YYAnimatedImageView *centerImageView = nil;
     if (centerImage.size.width > self.frame.size.width) {
         scaleValue = self.frame.size.width / centerImage.size.width;
         height = ceil(((float)centerImage.size.height * scaleValue) / self.standardLineHeight) * self.standardLineHeight;
-        centerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
+        centerImageView = [[YYAnimatedImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
         centerImageView.contentMode = UIViewContentModeScaleAspectFill;
     } else {
         if (centerImage.size.height < kImageFrameMinHeight) {
@@ -200,7 +200,7 @@
         } else {
             height = ceil((float)centerImage.size.height / self.standardLineHeight) * self.standardLineHeight;
         }
-        centerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
+        centerImageView = [[YYAnimatedImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
         centerImageView.contentMode = UIViewContentModeCenter;
     }
     centerImageView.tintColor = [UIColor whiteColor];

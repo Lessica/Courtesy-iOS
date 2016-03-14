@@ -41,6 +41,8 @@
 #import "NSString+CJStringValidator.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import "UIColor+MagicColor.h"
+#import "MSDPreventImagePickerCrashOn3DTouch.h"
+#import "PHPhotoLibrary+CustomPhotoCollection.h"
 
 // 第三方库
 #import "YYKit.h"

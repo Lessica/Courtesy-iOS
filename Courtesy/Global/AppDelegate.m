@@ -36,6 +36,9 @@ static NSString * const kCourtesyEmptyViewControllerStoryboardID = @"CourtesyEmp
 
 #pragma mark - 注册友盟SDK及推送消息
 - (void)globalInit {
+    // 防止崩溃
+    // Thanks: http://stackoverflow.com/questions/33331758/uiimagepickercontroller-crashing-on-force-touch
+    MSDPreventImagePickerCrashOn3DTouch();
     // 初始化全局设置
     sharedSettings;
     // 初始化界面

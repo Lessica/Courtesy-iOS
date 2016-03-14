@@ -67,6 +67,7 @@
     if (_downloading || self.downloaded) return;
     if (!_remoteURL || !_localURL) return;
     if (downloadTask) {
+        _downloading = YES;
         [downloadTask resume];
         return;
     }

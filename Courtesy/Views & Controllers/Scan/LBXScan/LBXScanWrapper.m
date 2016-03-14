@@ -272,17 +272,6 @@
 
 + (BOOL)isGetPhotoPermission
 {
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0)
-    {
-        ALAuthorizationStatus author = [ALAssetsLibrary authorizationStatus];
-        
-        if ( author == ALAuthorizationStatusDenied ) {
-            
-            return NO;
-        }
-        return YES;
-    }
-    
     PHAuthorizationStatus authorStatus = [PHPhotoLibrary authorizationStatus];
     if ( authorStatus == PHAuthorizationStatusDenied ) {
         

@@ -15,6 +15,8 @@
 		0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */; };
 		0F5668681C95E15A00AD4F04 /* AudioNoteRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5668671C95E15A00AD4F04 /* AudioNoteRecorderViewController.m */; };
 		0F5668701C95E35600AD4F04 /* FDWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F56686F1C95E35600AD4F04 /* FDWaveformView.m */; };
+		0F603CF61C96D24B0067AB00 /* PHPhotoLibrary+CustomPhotoCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F603CF51C96D24B0067AB00 /* PHPhotoLibrary+CustomPhotoCollection.m */; };
+		0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */; };
 		0F7424851C8FCD98002C6241 /* EXTADT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74244B1C8FCD98002C6241 /* EXTADT.m */; };
 		0F7424861C8FCD98002C6241 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74244D1C8FCD98002C6241 /* EXTConcreteProtocol.m */; };
 		0F7424871C8FCD98002C6241 /* EXTNil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424511C8FCD98002C6241 /* EXTNil.m */; };
@@ -26,6 +28,9 @@
 		0F74248D1C8FCD98002C6241 /* NSMethodSignature+EXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424611C8FCD98002C6241 /* NSMethodSignature+EXT.m */; };
 		0F90DC431C844C4E00607277 /* Drawers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */; };
 		0FBA71741C7B2A0400053696 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FBA71731C7B2A0400053696 /* MessageUI.framework */; };
+		0FD2BEC51C96668B00B5BBC9 /* MSDPreventImagePickerCrashOn3DTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD2BEC41C96668B00B5BBC9 /* MSDPreventImagePickerCrashOn3DTouch.m */; };
+		0FD2BEC91C966D9400B5BBC9 /* CourtesyCardStyleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD2BEC81C966D9400B5BBC9 /* CourtesyCardStyleManager.m */; };
+		0FD2BECC1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD2BECB1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m */; };
 		0FD3EE261C95CD2200DE5347 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD3EE251C95CD2200DE5347 /* WatchConnectivity.framework */; };
 		0FD3EE2E1C95CDC100DE5347 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FD3EE2C1C95CDC100DE5347 /* Interface.storyboard */; };
 		0FD3EE301C95CDC100DE5347 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FD3EE2F1C95CDC100DE5347 /* Assets.xcassets */; };
@@ -204,6 +209,9 @@
 		0F56686A1C95E1BE00AD4F04 /* CourtesyWatchQueryKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CourtesyWatchQueryKeys.h; sourceTree = "<group>"; };
 		0F56686E1C95E35600AD4F04 /* FDWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDWaveformView.h; sourceTree = "<group>"; };
 		0F56686F1C95E35600AD4F04 /* FDWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDWaveformView.m; sourceTree = "<group>"; };
+		0F603CF41C96D24B0067AB00 /* PHPhotoLibrary+CustomPhotoCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PHPhotoLibrary+CustomPhotoCollection.h"; sourceTree = "<group>"; };
+		0F603CF51C96D24B0067AB00 /* PHPhotoLibrary+CustomPhotoCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PHPhotoLibrary+CustomPhotoCollection.m"; sourceTree = "<group>"; };
+		0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0F74244A1C8FCD98002C6241 /* EXTADT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTADT.h; sourceTree = "<group>"; };
 		0F74244B1C8FCD98002C6241 /* EXTADT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTADT.m; sourceTree = "<group>"; };
 		0F74244C1C8FCD98002C6241 /* EXTConcreteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTConcreteProtocol.h; sourceTree = "<group>"; };
@@ -231,6 +239,12 @@
 		0FBA71731C7B2A0400053696 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0FBBF7151C78BD4700A0A2D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawers.storyboard; sourceTree = "<group>"; };
 		0FD0205C1C81733E0069AB72 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		0FD2BEC41C96668B00B5BBC9 /* MSDPreventImagePickerCrashOn3DTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDPreventImagePickerCrashOn3DTouch.m; sourceTree = "<group>"; };
+		0FD2BEC61C96669A00B5BBC9 /* MSDPreventImagePickerCrashOn3DTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDPreventImagePickerCrashOn3DTouch.h; sourceTree = "<group>"; };
+		0FD2BEC71C966D9400B5BBC9 /* CourtesyCardStyleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardStyleManager.h; sourceTree = "<group>"; };
+		0FD2BEC81C966D9400B5BBC9 /* CourtesyCardStyleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardStyleManager.m; sourceTree = "<group>"; };
+		0FD2BECA1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyPreviewStyleModel.h; sourceTree = "<group>"; };
+		0FD2BECB1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyPreviewStyleModel.m; sourceTree = "<group>"; };
 		0FD3EE251C95CD2200DE5347 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
 		0FD3EE2A1C95CDC100DE5347 /* CourtesyWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourtesyWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FD3EE2D1C95CDC100DE5347 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
@@ -298,12 +312,6 @@
 		0FF2D29E1C95DAC7007C23DE /* WechatShortVideoController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WechatShortVideoController.xib; sourceTree = "<group>"; };
 		0FF2D2AE1C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		0FF2D2AF1C95DB9E007C23DE /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
-		0FF2D2D51C95DE9E007C23DE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Drawers.strings"; sourceTree = "<group>"; };
-		0FF2D2D61C95DE9E007C23DE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Interface.strings"; sourceTree = "<group>"; };
-		0FF2D2D71C95DEA3007C23DE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Drawers.strings"; sourceTree = "<group>"; };
-		0FF2D2D81C95DEA3007C23DE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Interface.strings"; sourceTree = "<group>"; };
-		0FF2D2D91C95DEA7007C23DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Drawers.strings; sourceTree = "<group>"; };
-		0FF2D2DA1C95DEA7007C23DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Interface.strings; sourceTree = "<group>"; };
 		0FFE03F31C93F45800E99DCC /* CourtesyAnimationSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAnimationSettingsTableViewController.h; sourceTree = "<group>"; };
 		0FFE03F41C93F45800E99DCC /* CourtesyAnimationSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAnimationSettingsTableViewController.m; sourceTree = "<group>"; };
 		0FFE03F71C93F45800E99DCC /* CourtesyAudioFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAudioFrameView.h; sourceTree = "<group>"; };
@@ -480,6 +488,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */,
 				0FD3EE261C95CD2200DE5347 /* WatchConnectivity.framework in Frameworks */,
 				0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */,
 				0F2A36751C8D397D00028E96 /* MobileCoreServices.framework in Frameworks */,
@@ -1095,12 +1104,11 @@
 				0FFE04901C93F47400E99DCC /* Attachment */,
 				0FFE04991C93F47400E99DCC /* CourtesyCardEditRequestModel.h */,
 				0FFE049A1C93F47400E99DCC /* CourtesyCardEditRequestModel.m */,
-				0FFE049B1C93F47400E99DCC /* CourtesyCardModel.h */,
-				0FFE049C1C93F47400E99DCC /* CourtesyCardModel.m */,
 				0FFE049D1C93F47400E99DCC /* CourtesyCardPublishRequestModel.h */,
 				0FFE049E1C93F47400E99DCC /* CourtesyCardPublishRequestModel.m */,
+				0FFE049B1C93F47400E99DCC /* CourtesyCardModel.h */,
+				0FFE049C1C93F47400E99DCC /* CourtesyCardModel.m */,
 				0FFE049F1C93F47400E99DCC /* Data */,
-				0FFE04A21C93F47400E99DCC /* Preview */,
 				0FFE04A51C93F47400E99DCC /* Style */,
 			);
 			path = Card;
@@ -1133,17 +1141,23 @@
 		0FFE04A21C93F47400E99DCC /* Preview */ = {
 			isa = PBXGroup;
 			children = (
+				0FD2BECA1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.h */,
+				0FD2BECB1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m */,
 				0FFE04A31C93F47400E99DCC /* CourtesyCardPreviewGenerator.h */,
 				0FFE04A41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m */,
 			);
-			path = Preview;
+			name = Preview;
+			path = ../Preview;
 			sourceTree = "<group>";
 		};
 		0FFE04A51C93F47400E99DCC /* Style */ = {
 			isa = PBXGroup;
 			children = (
+				0FFE04A21C93F47400E99DCC /* Preview */,
 				0FFE04A61C93F47400E99DCC /* CourtesyCardStyleModel.h */,
 				0FFE04A71C93F47400E99DCC /* CourtesyCardStyleModel.m */,
+				0FD2BEC71C966D9400B5BBC9 /* CourtesyCardStyleManager.h */,
+				0FD2BEC81C966D9400B5BBC9 /* CourtesyCardStyleManager.m */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -1265,6 +1279,8 @@
 				0FFE04F61C93F52C00E99DCC /* iOSCategoryPropertyDynamicSupport */,
 				0FFE05101C93F52C00E99DCC /* NSArray+QueryItems.h */,
 				0FFE05111C93F52C00E99DCC /* NSArray+QueryItems.m */,
+				0F603CF41C96D24B0067AB00 /* PHPhotoLibrary+CustomPhotoCollection.h */,
+				0F603CF51C96D24B0067AB00 /* PHPhotoLibrary+CustomPhotoCollection.m */,
 				0FFE05121C93F52C00E99DCC /* NSDate+Astro.h */,
 				0FFE05131C93F52C00E99DCC /* NSDate+Astro.m */,
 				0FFE05141C93F52C00E99DCC /* NSDictionary+Subscript.h */,
@@ -1279,6 +1295,8 @@
 				0FFE051D1C93F52C00E99DCC /* UIView+Gaussian.m */,
 				0FF2D2691C95D93B007C23DE /* UIColor+MagicColor.h */,
 				0FF2D26A1C95D93B007C23DE /* UIColor+MagicColor.m */,
+				0FD2BEC61C96669A00B5BBC9 /* MSDPreventImagePickerCrashOn3DTouch.h */,
+				0FD2BEC41C96668B00B5BBC9 /* MSDPreventImagePickerCrashOn3DTouch.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1340,6 +1358,7 @@
 		45444505B80B6AF6A0D335BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */,
 				0FD3EE251C95CD2200DE5347 /* WatchConnectivity.framework */,
 				0F305C981C93222D0052882A /* StoreKit.framework */,
 				0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */,
@@ -1438,6 +1457,7 @@
 					};
 					0FD3EE351C95CDC100DE5347 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = GXZ23M5TP2;
 					};
 					2CE7E65C1A62D8470072121A = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -1649,11 +1669,13 @@
 				0FFE04841C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.m in Sources */,
 				0FFE04621C93F45800E99DCC /* CourtesyAudioFrameView.m in Sources */,
 				0FFE04BE1C93F47400E99DCC /* CourtesyCardAttachmentQueryRequestModel.m in Sources */,
+				0FD2BEC91C966D9400B5BBC9 /* CourtesyCardStyleManager.m in Sources */,
 				0FFE047C1C93F45800E99DCC /* CourtesyProfileBirthdayTableViewController.m in Sources */,
 				0F5668701C95E35600AD4F04 /* FDWaveformView.m in Sources */,
 				0FFE04E11C93F4D800E99DCC /* AppDelegate.m in Sources */,
 				0FFE04C41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m in Sources */,
 				0F7424891C8FCD98002C6241 /* EXTSafeCategory.m in Sources */,
+				0FD2BEC51C96668B00B5BBC9 /* MSDPreventImagePickerCrashOn3DTouch.m in Sources */,
 				0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */,
 				0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */,
 				0FFE053F1C940D8A00E99DCC /* CourtesyWatchSessionManager.m in Sources */,
@@ -1676,11 +1698,13 @@
 				0FFE04CC1C93F47400E99DCC /* CourtesyQRCodeModel.m in Sources */,
 				0FFE048A1C93F45800E99DCC /* CourtesyMyStarTableViewController.m in Sources */,
 				0FFE04721C93F45800E99DCC /* CourtesyLoginRegisterViewController.m in Sources */,
+				0F603CF61C96D24B0067AB00 /* PHPhotoLibrary+CustomPhotoCollection.m in Sources */,
 				0FFE052E1C93F52C00E99DCC /* UIImagePickerController+LandScapeImagePicker.m in Sources */,
 				0FFE04711C93F45800E99DCC /* CourtesyLoginRegisterTextField.m in Sources */,
 				0FF2D26B1C95D93B007C23DE /* UIColor+MagicColor.m in Sources */,
 				0FFE04821C93F45800E99DCC /* CourtesyProfileNickTableViewController.m in Sources */,
 				0F7424851C8FCD98002C6241 /* EXTADT.m in Sources */,
+				0FD2BECC1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m in Sources */,
 				0FFE04F31C93F51900E99DCC /* main.m in Sources */,
 				0FFE04BB1C93F47400E99DCC /* CourtesyAccountModel.m in Sources */,
 				0F7424881C8FCD98002C6241 /* EXTRuntimeExtensions.m in Sources */,
@@ -1715,9 +1739,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				0FBBF7151C78BD4700A0A2D1 /* Base */,
-				0FF2D2D51C95DE9E007C23DE /* zh-Hans */,
-				0FF2D2D71C95DEA3007C23DE /* zh-Hant */,
-				0FF2D2D91C95DEA7007C23DE /* en */,
 			);
 			name = Drawers.storyboard;
 			sourceTree = "<group>";
@@ -1726,9 +1747,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				0FD3EE2D1C95CDC100DE5347 /* Base */,
-				0FF2D2D61C95DE9E007C23DE /* zh-Hans */,
-				0FF2D2D81C95DEA3007C23DE /* zh-Hant */,
-				0FF2D2DA1C95DEA7007C23DE /* en */,
 			);
 			name = Interface.storyboard;
 			sourceTree = "<group>";
@@ -1739,7 +1757,8 @@
 		0FD3EE4D1C95CDC100DE5347 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "CourtesyWatch Extension/Info.plist";
@@ -1756,6 +1775,7 @@
 		0FD3EE4E1C95CDC100DE5347 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -1777,7 +1797,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IBSC_MODULE = CourtesyWatch_Extension;
@@ -1909,7 +1929,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
@@ -1950,7 +1970,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";

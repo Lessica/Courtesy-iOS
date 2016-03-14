@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "CourtesyCardStyleManager.h"
 #import "CourtesyLeftDrawerTableViewController.h"
 #import "CourtesyLeftDrawerMenuTableViewCell.h"
 #import "CourtesyLeftDrawerAvatarTableViewCell.h"
@@ -242,7 +243,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
             return;
         }
         // 发布新卡片界面
-        CourtesyCardComposeViewController *vc = [CourtesyCardComposeViewController new];
+        CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCardStyle:[[CourtesyCardStyleManager sharedManager] styleWithID:kCourtesyCardStyleDefault]];
         // 从扫码界面进入，设置初始模型
         vc.qrcode = qrcode;
         [self presentViewController:vc animated:YES completion:nil];

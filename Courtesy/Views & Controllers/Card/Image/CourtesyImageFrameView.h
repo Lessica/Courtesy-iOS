@@ -44,7 +44,7 @@
 @end
 
 @interface CourtesyImageFrameView : UIView <UITextFieldDelegate, PECropViewControllerDelegate>
-@property (nonatomic, strong) UIImageView *centerImageView;
+@property (nonatomic, strong) YYAnimatedImageView *centerImageView;
 @property (nonatomic, strong) UIImage *centerImage;
 @property (nonatomic, strong) UITextField *bottomLabel;
 @property (nonatomic, weak) id<CourtesyImageFrameDelegate> delegate;

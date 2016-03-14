@@ -127,13 +127,10 @@
             cell.tintColor = [UIColor whiteColor];
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             if (font.fileSize != 0.0 && !font.downloaded) {
+                // cell.imageView.image = [font fontPreview];
                 cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [font fontName], [FCFileManager sizeFormatted:[NSNumber numberWithFloat:[font fileSize]]]];
             } else {
-                if (font.fontPreview) {
-                    cell.imageView.image = [font fontPreview];
-                } else {
-                    cell.textLabel.text = [font fontName];
-                }
+                cell.textLabel.text = [font fontName];
             }
             cell.textLabel.textColor = [UIColor whiteColor];
             cell.textLabel.textAlignment = NSTextAlignmentCenter;

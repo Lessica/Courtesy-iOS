@@ -1,0 +1,1 @@
+../../../FYPhotoLibrary/Classes/FYPhotoAsset.h

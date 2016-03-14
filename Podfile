@@ -19,6 +19,7 @@ target 'Courtesy' do
     pod 'MJRefresh'
     pod 'YYKit'
     pod 'JTSImageViewController'
+    pod "FYPhotoLibrary"
     pod 'CJStringValidator'
     pod 'CNCityPickerView'
     pod 'FDFullscreenPopGesture'

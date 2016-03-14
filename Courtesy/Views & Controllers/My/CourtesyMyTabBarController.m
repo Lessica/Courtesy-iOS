@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "CourtesyCardStyleManager.h"
 #import "CourtesyMyTabBarController.h"
 #import "CourtesyPortraitViewController.h"
 #import "CourtesyLoginRegisterViewController.h"
@@ -31,7 +32,7 @@
         [self presentViewController:navc animated:YES completion:nil];
         return;
     }
-    CourtesyCardComposeViewController *vc = [CourtesyCardComposeViewController new];
+    CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCardStyle:[[CourtesyCardStyleManager sharedManager] styleWithID:kCourtesyCardStyleDefault]];
     [self presentViewController:vc animated:YES completion:nil];
 }
 

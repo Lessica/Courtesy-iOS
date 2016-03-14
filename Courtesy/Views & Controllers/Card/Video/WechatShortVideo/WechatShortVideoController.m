@@ -128,9 +128,11 @@
 }
 
 - (void)dealloc {
+    _progressHUD.delegate = nil;
     _recorder.previewView = nil;
     [_player pause];
     _player = nil;
+    CYLog(@"");
 }
 
 #pragma mark - View Config
@@ -390,7 +392,7 @@
     self.progressHUD.mode = MBProgressHUDModeDeterminate;
     
     CFTimeInterval time = CACurrentMediaTime();
-    [exportSession exportAsynchronouslyWithCompletionHandler:^{
+    [exportSession exportAsynchronouslyWithCompletionHandler:^() {
         [_player play];
         
         NSLog(@"Completed compression in %fs", CACurrentMediaTime() - time);

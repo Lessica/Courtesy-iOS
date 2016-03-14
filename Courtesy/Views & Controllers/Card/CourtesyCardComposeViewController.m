@@ -7,6 +7,8 @@
 //
 
 #import <objc/message.h>
+#import <Photos/Photos.h>
+#import "FYPhotoAsset.h"
 #import "CourtesyAudioFrameView.h"
 #import "CourtesyImageFrameView.h"
 #import "CourtesyVideoFrameView.h"
@@ -19,6 +21,7 @@
 #import "PECropViewController.h"
 #import "AudioNoteRecorderViewController.h"
 #import "JTSImageViewController.h"
+#import "JTSAnimatedGIFUtility.h"
 #import "CourtesyCardPreviewGenerator.h"
 #import "CourtesyTextView.h"
 #import "CourtesyFontTableViewController.h"
@@ -51,17 +54,14 @@
 
 @implementation CourtesyCardComposeViewController
 
-- (instancetype)init {
+- (instancetype)initWithCardStyle:(CourtesyCardStyleModel *)style {
     if (self = [super init]) {
         self.fd_interactivePopDisabled = YES; // 禁用全屏手势
-        tryValue(self.maxAudioNum, [NSNumber numberWithInteger:1]);
-        tryValue(self.maxVideoNum, [NSNumber numberWithInteger:1]);
-        tryValue(self.maxImageNum, [NSNumber numberWithInteger:20]);
-        tryValue(self.maxContentLength, [NSNumber numberWithInteger:2048]);
-        // Debug
+#warning "Test for new cards"
         self.newcard = YES;
         self.editable = YES;
         self.title = @"新卡片";
+        self.style = style;
     }
     return self;
 }
@@ -71,7 +71,7 @@
     // Do any additional setup after loading the view.
     
     /* Init of main view */
-    self.view.backgroundColor = tryValue(self.mainViewColor, [UIColor colorWithPatternImage:tryValue(self.mainViewBackgroundImage, [UIImage imageNamed:@"texture"])]);
+    self.view.backgroundColor = self.style.cardBackgroundColor;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = NO;
     //self.modalPresentationCapturesStatusBarAppearance = NO;
@@ -90,12 +90,12 @@
     toolbarContainerView.alwaysBounceHorizontal = YES;
     toolbarContainerView.showsHorizontalScrollIndicator = NO;
     toolbarContainerView.showsVerticalScrollIndicator = NO;
-    toolbarContainerView.backgroundColor = tryValue(self.toolbarColor, [UIColor whiteColor]);;
+    toolbarContainerView.backgroundColor = self.style.toolbarColor;
     
     /* Init of toolbar */
     UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width * 2, 40)]; // 根据按钮数量调整，暂时定为两倍
     toolbar.barStyle = UIBarStyleBlackTranslucent;
-    toolbar.barTintColor = tryValue(self.toolbarBarTintColor, [UIColor whiteColor]);
+    toolbar.barTintColor = self.style.toolbarBarTintColor;
     toolbar.backgroundColor = [UIColor clearColor]; // 工具栏颜色在 toolbarContainerView 中定义
     
     /* Elements of tool bar items */ // 定义按钮元素及其样式
@@ -122,23 +122,23 @@
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"48-align-center"] style:UIBarButtonItemStylePlain target:self action:@selector(setAlignCenter:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"47-align-right"] style:UIBarButtonItemStylePlain target:self action:@selector(setAlignRight:)]];
-    [toolbar setTintColor:tryValue(self.toolbarTintColor, [UIColor grayColor])];
+    [toolbar setTintColor:tryValue(self.style.toolbarTintColor, [UIColor grayColor])];
     [toolbar setItems:myToolBarItems animated:YES];
     
     /* Initial text */
     NSMutableAttributedString *text = tryValue(self.cardContent, [[NSMutableAttributedString alloc] initWithString:@"说点什么吧……"]);
-    text.font = [UIFont systemFontOfSize:[tryValue(self.cardFontSize, [NSNumber numberWithFloat:kComposeDefaultFontSize]) floatValue]];
-    text.color = tryValue(self.cardTextColor, [UIColor darkGrayColor]);
-    text.lineSpacing = [tryValue(self.cardLineSpacing, [NSNumber numberWithFloat:kComposeDefaultLineSpacing]) floatValue];
+    text.font = [UIFont systemFontOfSize:[self.style.cardFontSize floatValue]];
+    text.color = self.style.cardTextColor;
+    text.lineSpacing = [self.style.cardLineSpacing floatValue];
     text.lineBreakMode = NSLineBreakByWordWrapping;
-    self.originalFont = tryValue(self.cardFont, text.font);
-    self.originalAttributes = tryValue(self.cardContentAttributes, text.attributes);
+    self.originalFont = self.style.cardFont;
+    self.originalAttributes = tryValue(self.style.cardContentAttributes, text.attributes);
     
     /* Init of text view */
     CourtesyTextView *textView = [CourtesyTextView new];
     textView.delegate = self;
-    textView.typingAttributes = tryValue(self.cardContentAttributes, self.originalAttributes);
-    textView.backgroundColor = tryValue(self.cardBackgroundColor, [UIColor clearColor]);
+    textView.typingAttributes = tryValue(self.style.cardContentAttributes, self.originalAttributes);
+    textView.backgroundColor = [UIColor clearColor];
     textView.alwaysBounceVertical = YES;
     textView.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -170,7 +170,7 @@
     
     /* Line height fixed */
     YYTextLinePositionSimpleModifier *mod = [YYTextLinePositionSimpleModifier new];
-    mod.fixedLineHeight = [tryValue(self.cardLineHeight, [NSNumber numberWithFloat:kComposeLineHeight]) floatValue];
+    mod.fixedLineHeight = [self.style.cardLineHeight floatValue];
     textView.linePositionModifier = mod;
     
     /* Toolbar */
@@ -180,11 +180,11 @@
     textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     
     /* Place holder */
-    textView.placeholderText = tryValue(self.placeholderText, @"说点什么吧……");
-    textView.placeholderTextColor = tryValue(self.placeholderColor, [UIColor lightGrayColor]);
+    textView.placeholderText = self.style.placeholderText;
+    textView.placeholderTextColor = self.style.placeholderColor;
     
     /* Indicator (Tint Color) */
-    textView.tintColor = tryValue(self.indicatorColor, [UIColor darkGrayColor]);
+    textView.tintColor = self.style.indicatorColor;
     
     /* Edit ability */
     textView.editable = self.editable;
@@ -275,8 +275,8 @@
     /* Init of Fake Status Bar */
     CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
     UIView *fakeBar = [[UIView alloc] initWithFrame:frame];
-    fakeBar.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue];
-    fakeBar.backgroundColor = tryValue(self.statusBarColor, [UIColor blackColor]);
+    fakeBar.alpha = [self.style.standardAlpha floatValue];
+    fakeBar.backgroundColor = self.style.statusBarColor;
     fakeBar.hidden = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
     
     /* Tap Gesture of Fake Status Bar */
@@ -293,9 +293,9 @@
     
     /* Init of close circle button */
     UIButton *circleCloseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    circleCloseBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-    circleCloseBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
-    circleCloseBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+    circleCloseBtn.backgroundColor = self.style.buttonBackgroundColor;
+    circleCloseBtn.tintColor = self.style.buttonTintColor;
+    circleCloseBtn.alpha = [self.style.standardAlpha floatValue] - 0.2;
     [circleCloseBtn setImage:[[UIImage imageNamed:@"101-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [circleCloseBtn setImage:[[UIImage imageNamed:@"39-close-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
     circleCloseBtn.selected = NO;
@@ -344,9 +344,9 @@
     
     /* Init of approve circle button */
     UIButton *circleApproveBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    circleApproveBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-    circleApproveBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
-    circleApproveBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+    circleApproveBtn.backgroundColor = self.style.buttonBackgroundColor;
+    circleApproveBtn.tintColor = self.style.buttonTintColor;
+    circleApproveBtn.alpha = [self.style.standardAlpha floatValue] - 0.2;
     [circleApproveBtn setImage:[[UIImage imageNamed:@"40-approve-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [circleApproveBtn setImage:[[UIImage imageNamed:@"102-paper-plane"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
     circleApproveBtn.selected = NO;
@@ -395,9 +395,9 @@
     
     /* Init of approve back button */
     UIImageView *circleBackBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    circleBackBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-    circleBackBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
-    circleBackBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+    circleBackBtn.backgroundColor = self.style.buttonBackgroundColor;
+    circleBackBtn.tintColor = self.style.buttonTintColor;
+    circleBackBtn.alpha = [self.style.standardAlpha floatValue] - 0.2;
     circleBackBtn.image = [[UIImage imageNamed:@"56-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     circleBackBtn.layer.masksToBounds = YES;
     circleBackBtn.layer.cornerRadius = circleBackBtn.frame.size.height / 2;
@@ -452,9 +452,9 @@
     
     /* Init of save button */
     UIImageView *circleSaveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    circleSaveBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-    circleSaveBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
-    circleSaveBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+    circleSaveBtn.backgroundColor = self.style.buttonBackgroundColor;
+    circleSaveBtn.tintColor = self.style.buttonTintColor;
+    circleSaveBtn.alpha = [self.style.standardAlpha floatValue] - 0.2;
     circleSaveBtn.image = [[UIImage imageNamed:@"103-down"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     circleSaveBtn.layer.masksToBounds = YES;
     circleSaveBtn.layer.cornerRadius = circleSaveBtn.frame.size.height / 2;
@@ -510,14 +510,14 @@
     /* Init of Title Label */
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, 24)];
     titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.textColor = tryValue(self.dateLabelTextColor, [UIColor darkGrayColor]);
-    titleLabel.font = [UIFont systemFontOfSize:[tryValue(self.cardTitleFontSize, [NSNumber numberWithFloat:12.0]) floatValue]];
+    titleLabel.textColor = self.style.dateLabelTextColor;
+    titleLabel.font = [UIFont systemFontOfSize:[self.style.cardTitleFontSize floatValue]];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     /* Init of Current Date */
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateFormat:tryValue(self.cardCreateTimeFormat, @"yyyy年M月d日 EEEE ah:mm")];
+    [dateFormatter setDateFormat:self.style.cardCreateTimeFormat];
     [dateFormatter setLocale:[NSLocale currentLocale]];
     titleLabel.text = [dateFormatter stringFromDate:tryValue(self.cardModifyTime, tryValue(self.cardCreateTime, [NSDate date]))];
     
@@ -668,9 +668,7 @@
     if (sender.selected) {
         
     } else {
-        sender.selected = YES;
-        self.circleCloseBtn.selected = YES;
-        if (self.textView.text.length >= [self.maxContentLength integerValue]) {
+        if (self.textView.text.length >= [self.style.maxContentLength integerValue]) {
             [self.view makeToast:@"卡片内容太多了喔"
                         duration:kStatusBarNotificationTime
                         position:CSToastPositionCenter];
@@ -679,12 +677,14 @@
         if (self.textView.isFirstResponder) {
             [self.textView resignFirstResponder];
         }
+        sender.selected = YES;
+        self.circleCloseBtn.selected = YES;
         self.editable = NO;
         self.circleSaveBtn.hidden = NO;
         __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.5 animations:^{
             __strong typeof(self) strongSelf = weakSelf;
-            strongSelf.circleSaveBtn.alpha = [tryValue(strongSelf.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+            strongSelf.circleSaveBtn.alpha = [strongSelf.style.standardAlpha floatValue] - 0.2;
         } completion:nil];
         [self.view makeToast:@"发布前预览"
                     duration:kStatusBarNotificationTime
@@ -708,26 +708,32 @@
     UIGraphicsEndImageContext();
     CourtesyCardPreviewGenerator *generator = [CourtesyCardPreviewGenerator new];
     generator.delegate = self;
+    generator.previewStyle = self.style.previewStyle;
     generator.contentImage = originalImage;
     [self.view makeToastActivity:CSToastPositionCenter];
     [generator generate];
 }
 
 - (void)generatorDidFinishWorking:(CourtesyCardPreviewGenerator *)generator result:(UIImage *)result {
-    UIImageWriteToSavedPhotosAlbum(result, self, @selector(preview:didFinishSavingWithError:contextInfo:), NULL);
-}
-
-- (void)preview:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    [self.view hideToastActivity];
-    if (error) {
-        [self.view makeToast:@"预览图保存失败"
-                           duration:kStatusBarNotificationTime
-                           position:CSToastPositionCenter];
-    } else {
-        [self.view makeToast:@"预览图已保存到相册"
-                           duration:kStatusBarNotificationTime
-                           position:CSToastPositionCenter];
-    }
+    [[PHPhotoLibrary sharedPhotoLibrary] saveImage:result
+                                           toAlbum:@"礼记"
+                                        completion:^(BOOL success) {
+                                            [self.view hideToastActivity];
+                                            if (success) {
+                                                dispatch_async_on_main_queue(^{
+                                                    [self.view makeToast:@"预览图已保存到「礼记」相簿"
+                                                                duration:kStatusBarNotificationTime
+                                                                position:CSToastPositionCenter];
+                                                });
+                                            }
+                                        } failure:^(NSError * _Nullable error) {
+                                            [self.view hideToastActivity];
+                                            dispatch_async_on_main_queue(^{
+                                                [self.view makeToast:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
+                                                            duration:kStatusBarNotificationTime
+                                                            position:CSToastPositionCenter];
+                                            });
+                                        }];
 }
 
 #pragma mark - Toolbar Actions
@@ -794,7 +800,7 @@
 
 - (void)addNewImageMenu:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if ([self countOfImageFrame] >= [self.maxImageNum integerValue]) {
+    if ([self countOfImageFrame] >= [self.style.maxImageNum integerValue]) {
         [self.view makeToast:@"图片数量已达上限"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
@@ -837,7 +843,7 @@
 
 - (void)addNewAudioMenu:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if ([self countOfAudioFrame] >= [self.maxAudioNum integerValue]) {
+    if ([self countOfAudioFrame] >= [self.style.maxAudioNum integerValue]) {
         [self.view makeToast:@"音频数量已达上限"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
@@ -878,7 +884,7 @@
 
 - (void)addNewVideoMenu:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if ([self countOfVideoFrame] >= [self.maxVideoNum integerValue]) {
+    if ([self countOfVideoFrame] >= [self.style.maxVideoNum integerValue]) {
         [self.view makeToast:@"视频数量已达上限"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
@@ -954,8 +960,8 @@
                      animations:^{
                          __strong typeof(self) strongSelf = weakSelf;
                          strongSelf.circleBackBtn.alpha = 0.0;
-                         strongSelf.circleApproveBtn.alpha = [tryValue(strongSelf.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
-                         strongSelf.circleCloseBtn.alpha = [tryValue(strongSelf.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+                         strongSelf.circleApproveBtn.alpha = [strongSelf.style.standardAlpha floatValue] - 0.2;
+                         strongSelf.circleCloseBtn.alpha = [strongSelf.style.standardAlpha floatValue] - 0.2;
                      } completion:^(BOOL finished) {
                          __strong typeof(self) strongSelf = weakSelf;
                          if (finished) {
@@ -984,7 +990,7 @@
     [UIView animateWithDuration:0.5
                      animations:^{
                          __strong typeof(self) strongSelf = weakSelf;
-                         strongSelf.circleBackBtn.alpha = [tryValue(strongSelf.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+                         strongSelf.circleBackBtn.alpha = [strongSelf.style.standardAlpha floatValue] - 0.2;
                          strongSelf.circleApproveBtn.alpha = 0;
                          strongSelf.circleCloseBtn.alpha = 0;
                      } completion:^(BOOL finished) {
@@ -1003,7 +1009,7 @@
     }
     CourtesyFontTableViewController *vc = [[CourtesyFontTableViewController alloc] initWithMasterViewController:self];
     vc.delegate = self;
-    vc.fitSize = [tryValue(self.cardFontSize, [NSNumber numberWithFloat:16.0]) floatValue];
+    vc.fitSize = [self.style.cardFontSize floatValue];
     [self addChildViewController:vc];
     [self.view addSubview:vc.view];
     [vc didMoveToParentViewController:self];
@@ -1045,13 +1051,13 @@
     [audioNoteRecorder removeFromParentViewController];
     NSURL *newURL = recordedURL;
     [self addNewAudioFrame:newURL
-                              at:self.textView.selectedRange
-                        animated:YES
-                        userinfo:@{
-                                   @"title": @"Untitled", // TODO: 修改录音描述
-                                   @"type": @(CourtesyAttachmentAudio),
-                                   @"url": newURL
-                                   }];
+                        at:self.textView.selectedRange
+                  animated:YES
+                  userinfo:@{
+                            @"title": @"Untitled", // TODO: 修改录音描述
+                            @"type": @(CourtesyAttachmentAudio),
+                            @"url": newURL
+                            }];
 }
 
 #pragma mark - CourtesyFontViewControllerDelegate
@@ -1072,8 +1078,8 @@
 - (void)fontViewController:(CourtesyFontTableViewController *)fontViewController
             changeFontSize:(CGFloat)size {
     CYLog(@"%.1f", size);
-    self.cardFontSize = [NSNumber numberWithFloat:size];
-    [self setNewCardFont:[_originalFont fontWithSize:[self.cardFontSize floatValue]]];
+    self.style.cardFontSize = [NSNumber numberWithFloat:size];
+    [self setNewCardFont:[_originalFont fontWithSize:[self.style.cardFontSize floatValue]]];
 }
 
 #pragma mark - MPMediaPickerControllerDelegate
@@ -1132,25 +1138,28 @@
 - (void)imagePickerController:(UIImagePickerController*)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (!self.editable) return;
-    if ([info hasKey:UIImagePickerControllerEditedImage] || [info hasKey:UIImagePickerControllerOriginalImage]) {
-        __block UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
-        if (!image) {
-            image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    if ([info hasKey:UIImagePickerControllerReferenceURL]) {
+        if ([info hasKey:UIImagePickerControllerReferenceURL]) {
+            __weak typeof(self) weakSelf = self;
+            PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[[info objectForKey:UIImagePickerControllerReferenceURL]]
+                                                          options:nil] lastObject];
+            FYPhotoAsset *fy = [[FYPhotoAsset alloc] initWithPHAsset:asset];
+            [fy getOriginalImageData:^(NSData *imageData) {
+                __block YYImage *image = [YYImage imageWithData:imageData];
+                [picker dismissViewControllerAnimated:YES completion:^{
+                    __strong typeof(self) strongSelf = weakSelf;
+                    [strongSelf addNewImageFrame:image
+                                              at:strongSelf.textView.selectedRange
+                                        animated:YES
+                                        userinfo:@{
+                                                   @"title": @"Untitled",
+                                                   @"type": @(CourtesyAttachmentImage),
+                                                   @"data": imageData,
+                                                   @"url": [info objectForKey:UIImagePickerControllerReferenceURL],
+                                                   }];
+                }];
+            }];
         }
-        __block NSDictionary *newInfo = info;
-        __weak typeof(self) weakSelf = self;
-        [picker dismissViewControllerAnimated:YES completion:^{
-            __strong typeof(self) strongSelf = weakSelf;
-            [strongSelf addNewImageFrame:image
-                                at:strongSelf.textView.selectedRange
-                          animated:YES
-                          userinfo:@{
-                                     @"title": @"Untitled",
-                                     @"type": @(CourtesyAttachmentImage),
-                                     @"data": [newInfo hasKey:UIImagePickerControllerOriginalImage] ? [newInfo objectForKey:UIImagePickerControllerOriginalImage] : nil,
-                                     @"url": [newInfo hasKey:UIImagePickerControllerReferenceURL] ? [newInfo objectForKey:UIImagePickerControllerReferenceURL] : nil
-                                     }];
-        }];
     } else if ([info hasKey:UIImagePickerControllerMediaType] && [info hasKey:UIImagePickerControllerMediaURL]
                && (
                    [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeMovie] ||
@@ -1167,8 +1176,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                            userinfo:@{
                                                       @"title": @"Untitled",
                                                       @"type": @(CourtesyAttachmentVideo),
-                                                      @"trim": [newInfo hasKey:UIImagePickerControllerMediaURL] ? [newInfo objectForKey:UIImagePickerControllerMediaURL] : nil,
-                                                      @"url": [newInfo hasKey:UIImagePickerControllerReferenceURL] ? [newInfo objectForKey:UIImagePickerControllerReferenceURL] : nil
+                                                      @"url": [newInfo objectForKey:UIImagePickerControllerMediaURL]
                                                       }];
                    }];
    } else {
@@ -1207,11 +1215,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, kComposeLineHeight * 2)];
     [frameView setDelegate:self];
     [frameView setUserinfo:info];
-    [frameView setCardTintColor:self.cardElementTintColor];
-    [frameView setCardTintFocusColor:self.cardElementTintFocusColor];
-    [frameView setCardTextColor:self.cardElementTextColor];
-    [frameView setCardShadowColor:self.cardElementShadowColor];
-    [frameView setCardBackgroundColor:self.cardElementBackgroundColor];
+    [frameView setCardTintColor:self.style.cardElementTintColor];
+    [frameView setCardTintFocusColor:self.style.cardElementTintFocusColor];
+    [frameView setCardTextColor:self.style.cardElementTextColor];
+    [frameView setCardShadowColor:self.style.cardElementShadowColor];
+    [frameView setCardBackgroundColor:self.style.cardElementBackgroundColor];
     [frameView setAutoPlay:self.shouldAutoPlayAudio];
     [frameView setAudioURL:url];
     return [self insertFrameToTextView:frameView
@@ -1221,7 +1229,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 #pragma mark - Image Frame Builder
 
-- (CourtesyImageFrameView *)addNewImageFrame:(UIImage *)image
+- (CourtesyImageFrameView *)addNewImageFrame:(YYImage *)image
                                           at:(NSRange)range
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
@@ -1229,11 +1237,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, 0)];
     [frameView setDelegate:self];
     [frameView setUserinfo:info];
-    [frameView setCardTintColor:self.cardElementTintColor];
-    [frameView setCardTextColor:self.cardElementTextColor];
-    [frameView setCardShadowColor:self.cardElementShadowColor];
-    [frameView setCardBackgroundColor:self.cardElementBackgroundColor];
-    [frameView setStandardLineHeight:kComposeLineHeight];
+    [frameView setCardTintColor:self.style.cardElementTintColor];
+    [frameView setCardTextColor:self.style.cardElementTextColor];
+    [frameView setCardShadowColor:self.style.cardElementShadowColor];
+    [frameView setCardBackgroundColor:self.style.cardElementBackgroundColor];
+    [frameView setStandardLineHeight:[self.style.cardLineHeight floatValue]];
     [frameView setEditable:self.editable];
     [frameView setCenterImage:image];
     if (frameView.frame.size.height < kComposeLineHeight) { // 添加失败
@@ -1254,11 +1262,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - 48, 0)];
     [frameView setDelegate:self];
     [frameView setUserinfo:info];
-    [frameView setCardTintColor:self.cardElementTintColor];
-    [frameView setCardTextColor:self.cardElementTextColor];
-    [frameView setCardShadowColor:self.cardElementShadowColor];
-    [frameView setCardBackgroundColor:self.cardElementBackgroundColor];
-    [frameView setStandardLineHeight:kComposeLineHeight];
+    [frameView setCardTintColor:self.style.cardElementTintColor];
+    [frameView setCardTextColor:self.style.cardElementTextColor];
+    [frameView setCardShadowColor:self.style.cardElementShadowColor];
+    [frameView setCardBackgroundColor:self.style.cardElementBackgroundColor];
+    [frameView setStandardLineHeight:[self.style.cardLineHeight floatValue]];
     [frameView setEditable:self.editable];
     [frameView setVideoURL:url];
     return [self insertFrameToTextView:frameView
@@ -1314,22 +1322,23 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer
                          atRect:(CGRect)rect {
-    UIImageWriteToSavedPhotosAlbum(imageViewer.image, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void * _Nullable)(imageViewer));
-}
-
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    if (contextInfo) {
-        JTSImageViewController *imageViewer = (__bridge JTSImageViewController *)contextInfo;
-        if (error) {
-            [imageViewer.view makeToast:@"图片保存失败"
-                               duration:kStatusBarNotificationTime
-                               position:CSToastPositionCenter];
-        } else {
-            [imageViewer.view makeToast:@"图片已保存到相册"
-                               duration:kStatusBarNotificationTime
-                               position:CSToastPositionCenter];
-        }
-    }
+    [[PHPhotoLibrary sharedPhotoLibrary] saveImage:imageViewer.image
+                                           toAlbum:@"礼记"
+                                        completion:^(BOOL success) {
+                                            if (success) {
+                                                dispatch_async_on_main_queue(^{
+                                                    [imageViewer.view makeToast:@"图片已保存到「礼记」相簿"
+                                                                       duration:kStatusBarNotificationTime
+                                                                       position:CSToastPositionCenter];
+                                                });
+                                            }
+                                        } failure:^(NSError * _Nullable error) {
+                                            dispatch_async_on_main_queue(^{
+                                                [imageViewer.view makeToast:[NSString stringWithFormat:@"图片保存失败 - %@", [error localizedDescription]]
+                                                                   duration:kStatusBarNotificationTime
+                                                                   position:CSToastPositionCenter];
+                                            });
+                                        }];
 }
 
 #pragma mark - CourtesyImageFrameDelegate
@@ -1343,7 +1352,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             imageInfo.placeholderImage = imageFrame.centerImage;
             imageInfo.imageURL = imageFrame.originalImageURL;
         } else {
-            imageInfo.image = imageFrame.centerImage;
+            imageInfo.image = [JTSAnimatedGIFUtility animatedImageWithAnimatedGIFData:[imageFrame.userinfo objectForKey:@"data"]];
         }
         imageInfo.referenceRect = imageFrame.centerImageView.frame;
         imageInfo.referenceView = imageFrame;
@@ -1356,7 +1365,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)imageFrameShouldReplaced:(CourtesyImageFrameView *)imageFrame
-                              by:(UIImage *)image
+                              by:(YYImage *)image
                         userinfo:(NSDictionary *)userinfo {
     if (!self.editable) return;
     [self imageFrameShouldDeleted:imageFrame
@@ -1480,7 +1489,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)setNewCardFont:(UIFont *)cardFont {
     if (!cardFont) return;
-    cardFont = [cardFont fontWithSize:[tryValue(self.cardFontSize, [NSNumber numberWithFloat:kComposeDefaultFontSize]) floatValue]];
+    cardFont = [cardFont fontWithSize:[self.style.cardFontSize floatValue]];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:self.originalAttributes];
     [dict setObject:cardFont forKey:NSFontAttributeName];
     self.originalAttributes = dict;

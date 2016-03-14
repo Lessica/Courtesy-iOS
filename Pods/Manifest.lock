@@ -23,6 +23,7 @@ PODS:
   - FCFileManager (1.0.17)
   - FDFullscreenPopGesture (1.1)
   - FLEX (2.3.0)
+  - FYPhotoLibrary (1.0.1)
   - JDStatusBarNotification (1.5.3)
   - jot (0.1.5):
     - Masonry (~> 0.6.1)
@@ -59,6 +60,7 @@ DEPENDENCIES:
   - FCFileManager
   - FDFullscreenPopGesture
   - FLEX (~> 2.0)
+  - FYPhotoLibrary
   - JDStatusBarNotification
   - jot
   - JSONModel
@@ -85,6 +87,7 @@ SPEC CHECKSUMS:
   FCFileManager: 8bfc931ce2a6223676147e9baf0e8a65c691eca6
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
+  FYPhotoLibrary: 0dab7a615129ae93218b2ce40744bf90cf94c0e8
   JDStatusBarNotification: 29413865af11c862c17180610b0f46a21118b412
   jot: 0f5dc333defa6ad805d01adc3834b201c22510a7
   JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
@@ -103,6 +106,6 @@ SPEC CHECKSUMS:
   YYKit: 8b618ca8d8cefa534d8d4fe2cad10fe9fbd030ed
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
-PODFILE CHECKSUM: d9cf6ac7f4b71dc440b6f01f5ec2476688e113e1
+PODFILE CHECKSUM: 593e48a69a69f2fc26f4323e5949b25735bde44e
 
 COCOAPODS: 1.0.0.beta.4
