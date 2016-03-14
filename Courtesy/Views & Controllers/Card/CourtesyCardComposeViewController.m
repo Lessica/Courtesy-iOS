@@ -8,6 +8,8 @@
 
 #import <objc/message.h>
 #import <Photos/Photos.h>
+#import <MediaPlayer/MediaPlayer.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 #import "FYPhotoAsset.h"
 #import "CourtesyAudioFrameView.h"
 #import "CourtesyImageFrameView.h"
@@ -16,8 +18,6 @@
 #import "CourtesyCardComposeViewController.h"
 #import "CourtesyJotViewController.h"
 #import "WechatShortVideoController.h"
-#import <MobileCoreServices/MobileCoreServices.h>
-#import <MediaPlayer/MediaPlayer.h>
 #import "PECropViewController.h"
 #import "AudioNoteRecorderViewController.h"
 #import "JTSImageViewController.h"
@@ -26,9 +26,6 @@
 #import "CourtesyTextView.h"
 #import "CourtesyFontTableViewController.h"
 
-#define kComposeDefaultFontSize 16.0
-#define kComposeDefaultLineSpacing 8.0
-#define kComposeLineHeight 28.0
 #define kComposeTopInsect 24.0
 #define kComposeBottomInsect 24.0
 #define kComposeLeftInsect 24.0
@@ -101,27 +98,27 @@
     /* Elements of tool bar items */ // 定义按钮元素及其样式
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSMutableArray *myToolBarItems = [NSMutableArray array];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewAudioMenu:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewAudioButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewImageMenu:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewImageButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideoMenu:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideoButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrl:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrlButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(openFreehand:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(openFreehandButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(setFont:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(fontButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"33-bold"] style:UIBarButtonItemStylePlain target:self action:@selector(setRangeBold:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"33-bold"] style:UIBarButtonItemStylePlain target:self action:@selector(rangeBoldButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"32-italic"] style:UIBarButtonItemStylePlain target:self action:@selector(setRangeItalic:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"32-italic"] style:UIBarButtonItemStylePlain target:self action:@selector(rangeItalicButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"46-align-left"] style:UIBarButtonItemStylePlain target:self action:@selector(setAlignLeft:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"46-align-left"] style:UIBarButtonItemStylePlain target:self action:@selector(alignLeftButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"48-align-center"] style:UIBarButtonItemStylePlain target:self action:@selector(setAlignCenter:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"48-align-center"] style:UIBarButtonItemStylePlain target:self action:@selector(alignCenterButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"47-align-right"] style:UIBarButtonItemStylePlain target:self action:@selector(setAlignRight:)]];
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"47-align-right"] style:UIBarButtonItemStylePlain target:self action:@selector(alignRightButtonTapped:)]];
     [toolbar setTintColor:tryValue(self.style.toolbarTintColor, [UIColor grayColor])];
     [toolbar setItems:myToolBarItems animated:YES];
     
@@ -409,7 +406,7 @@
     
     /* Tap gesture of back button */
     UITapGestureRecognizer *tapBackBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                 action:@selector(closeFreehand:)];
+                                                                                 action:@selector(closeFreehandButtonTapped:)];
     tapBackBtn.numberOfTouchesRequired = 1;
     tapBackBtn.numberOfTapsRequired = 1;
     [circleBackBtn addGestureRecognizer:tapBackBtn];
@@ -587,10 +584,6 @@
     }
 }
 
-- (void)dealloc {
-    CYLog(@"");
-}
-
 #pragma mark - Rotate
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -616,24 +609,6 @@
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
-#pragma mark - Selection Menu (TODO)
-
-- (BOOL)canBecomeFirstResponder {
-    return self.editable;
-}
-
-- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-    /* Selection menu */
-    if (action == @selector(cut:)
-        || action == @selector(copy:)
-        || action == @selector(paste:)
-        || action == @selector(select:)
-        || action == @selector(selectAll:)) {
-        return [super canPerformAction:action withSender:sender];
-    }
-    return NO;
-}
-
 #pragma mark - Floating Actions & Navigation Bar Items
 
 - (void)closeComposeView:(UIButton *)sender {
@@ -641,9 +616,7 @@
         sender.selected = NO;
         self.circleApproveBtn.selected = NO;
         self.editable = YES;
-        if (!self.textView.isFirstResponder) {
-            [self.textView becomeFirstResponder];
-        }
+        if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
         self.textView.selectedRange = NSMakeRange(self.textView.text.length, 0);
         __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.5 animations:^{
@@ -655,18 +628,14 @@
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
     } else {
-        if (self.textView.isFirstResponder) {
-            [self.textView resignFirstResponder];
-        }
-        [self dismissViewControllerAnimated:YES completion:^() {
-            [self.view removeAllSubviews];
-        }];
+        if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+        [self dismissViewControllerAnimated:YES completion:^() { [self.view removeAllSubviews]; }];
     }
 }
 
 - (void)doneComposeView:(UIButton *)sender {
     if (sender.selected) {
-        
+#warning "Send"
     } else {
         if (self.textView.text.length >= [self.style.maxContentLength integerValue]) {
             [self.view makeToast:@"卡片内容太多了喔"
@@ -674,9 +643,7 @@
                         position:CSToastPositionCenter];
             return;
         }
-        if (self.textView.isFirstResponder) {
-            [self.textView resignFirstResponder];
-        }
+        if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
         sender.selected = YES;
         self.circleCloseBtn.selected = YES;
         self.editable = NO;
@@ -690,12 +657,6 @@
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
     }
-}
-
-- (void)setEditable:(BOOL)editable {
-    _editable = editable;
-    self.textView.editable = editable;
-    [self lockAttachments:!editable];
 }
 
 - (void)savePreview:(id)sender {
@@ -714,91 +675,9 @@
     [generator generate];
 }
 
-- (void)generatorDidFinishWorking:(CourtesyCardPreviewGenerator *)generator result:(UIImage *)result {
-    [[PHPhotoLibrary sharedPhotoLibrary] saveImage:result
-                                           toAlbum:@"礼记"
-                                        completion:^(BOOL success) {
-                                            [self.view hideToastActivity];
-                                            if (success) {
-                                                dispatch_async_on_main_queue(^{
-                                                    [self.view makeToast:@"预览图已保存到「礼记」相簿"
-                                                                duration:kStatusBarNotificationTime
-                                                                position:CSToastPositionCenter];
-                                                });
-                                            }
-                                        } failure:^(NSError * _Nullable error) {
-                                            [self.view hideToastActivity];
-                                            dispatch_async_on_main_queue(^{
-                                                [self.view makeToast:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
-                                                            duration:kStatusBarNotificationTime
-                                                            position:CSToastPositionCenter];
-                                            });
-                                        }];
-}
+#pragma mark - Media Elements
 
-#pragma mark - Toolbar Actions
-
-- (void)setRangeBold:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
-    NSRange range = self.textView.selectedRange;
-    if (range.length <= 0) {
-        [self.view makeToast:@"请选择需要设置粗体的文字"
-                    duration:kStatusBarNotificationTime
-                    position:CSToastPositionCenter];
-        return;
-    }
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
-    NSAttributedString *sub = [string attributedSubstringFromRange:range];
-    UIFont *font = [sub font];
-    if (![font isBold]) {
-        [string setFont:[font fontWithBold] range:range];
-    } else {
-        [string setFont:[font fontWithNormal] range:range];
-    }
-    [self.textView setAttributedText:string];
-    [self.textView setSelectedRange:range];
-    [self.textView scrollRangeToVisible:range];
-}
-
-- (void)setRangeItalic:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
-    NSRange range = self.textView.selectedRange;
-    if (range.length <= 0) {
-        [self.view makeToast:@"请选择需要设置斜体的文字"
-                    duration:kStatusBarNotificationTime
-                    position:CSToastPositionCenter];
-        return;
-    }
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
-    NSAttributedString *sub = [string attributedSubstringFromRange:range];
-    UIFont *font = [sub font];
-    if (![font isItalic]) {
-        [string setFont:[font fontWithItalic] range:range];
-    } else {
-        [string setFont:[font fontWithNormal] range:range];
-    }
-    [self.textView setAttributedText:string];
-    [self.textView setSelectedRange:range];
-    [self.textView scrollRangeToVisible:range];
-}
-
-- (void)addUrl:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
-    NSRange range = self.textView.selectedRange;
-    if (range.length <= 0) {
-        [self.view makeToast:@"请选择需要设置为链接的文字"
-                    duration:kStatusBarNotificationTime
-                    position:CSToastPositionCenter];
-        return;
-    }
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
-    [[CourtesyTextBindingParser sharedInstance] parseText:string selectedRange:&range];
-    [self.textView setAttributedText:string];
-    [self.textView setSelectedRange:range];
-    [self.textView scrollRangeToVisible:range];
-}
-
-- (void)addNewImageMenu:(UIBarButtonItem *)sender {
+- (void)addNewImageButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
     if ([self countOfImageFrame] >= [self.style.maxImageNum integerValue]) {
         [self.view makeToast:@"图片数量已达上限"
@@ -806,9 +685,7 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (self.textView.isFirstResponder) {
-        [self.textView resignFirstResponder];
-    }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     __weak typeof(self) weakSelf = self;
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入图像"
                                                     message:@"请选择一种方式"
@@ -841,7 +718,7 @@
     [alert showAnimated:YES completionHandler:nil];
 }
 
-- (void)addNewAudioMenu:(UIBarButtonItem *)sender {
+- (void)addNewAudioButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
     if ([self countOfAudioFrame] >= [self.style.maxAudioNum integerValue]) {
         [self.view makeToast:@"音频数量已达上限"
@@ -849,9 +726,7 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (self.textView.isFirstResponder) {
-        [self.textView resignFirstResponder];
-    }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     __weak typeof(self) weakSelf = self;
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入音频"
                                                     message:@"请选择一种方式"
@@ -882,7 +757,7 @@
     [alert showAnimated:YES completionHandler:nil];
 }
 
-- (void)addNewVideoMenu:(UIBarButtonItem *)sender {
+- (void)addNewVideoButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
     if ([self countOfVideoFrame] >= [self.style.maxVideoNum integerValue]) {
         [self.view makeToast:@"视频数量已达上限"
@@ -890,9 +765,7 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (self.textView.isFirstResponder) {
-        [self.textView resignFirstResponder];
-    }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     __weak typeof(self) weakSelf = self;
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入视频"
                                                     message:@"请选择一种方式"
@@ -934,22 +807,9 @@
     [alert showAnimated:YES completionHandler:nil];
 }
 
-- (void)setAlignLeft:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
-    [self setTextViewAlignment:NSTextAlignmentLeft];
-}
+#pragma mark - Freehand
 
-- (void)setAlignCenter:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
-    [self setTextViewAlignment:NSTextAlignmentCenter];
-}
-
-- (void)setAlignRight:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
-    [self setTextViewAlignment:NSTextAlignmentRight];
-}
-
-- (void)closeFreehand:(UIGestureRecognizer *)sender {
+- (void)closeFreehandButtonTapped:(UIGestureRecognizer *)sender {
     [self.jotViewController setState:JotViewStateDefault];
     [self.jotViewController setControlEnabled:NO];
     [self.view sendSubviewToBack:self.jotView];
@@ -975,7 +835,7 @@
                      }];
 }
 
-- (void)openFreehand:(UIBarButtonItem *)sender {
+- (void)openFreehandButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
     if (self.textView.isFirstResponder) {
         [self.textView resignFirstResponder];
@@ -1002,17 +862,86 @@
                      }];
 }
 
-- (void)setFont:(UIBarButtonItem *)sender {
+#pragma mark - Font & Alignment
+
+- (void)fontButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if (self.textView.isFirstResponder) {
-        [self.textView resignFirstResponder];
-    }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     CourtesyFontTableViewController *vc = [[CourtesyFontTableViewController alloc] initWithMasterViewController:self];
     vc.delegate = self;
     vc.fitSize = [self.style.cardFontSize floatValue];
     [self addChildViewController:vc];
     [self.view addSubview:vc.view];
     [vc didMoveToParentViewController:self];
+}
+
+- (void)rangeBoldButtonTapped:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
+    NSRange range = self.textView.selectedRange;
+    if (range.length <= 0) {
+        [self.view makeToast:@"请选择需要设置粗体的文字"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
+    NSAttributedString *sub = [string attributedSubstringFromRange:range];
+    UIFont *font = [sub font];
+    if (![font isBold]) [string setFont:[font fontWithBold] range:range];
+    else [string setFont:[font fontWithNormal] range:range];
+    [self.textView setAttributedText:string];
+    [self.textView setSelectedRange:range];
+    [self.textView scrollRangeToVisible:range];
+}
+
+- (void)rangeItalicButtonTapped:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
+    NSRange range = self.textView.selectedRange;
+    if (range.length <= 0) {
+        [self.view makeToast:@"请选择需要设置斜体的文字"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
+    NSAttributedString *sub = [string attributedSubstringFromRange:range];
+    UIFont *font = [sub font];
+    if (![font isItalic]) [string setFont:[font fontWithItalic] range:range];
+    else [string setFont:[font fontWithNormal] range:range];
+    [self.textView setAttributedText:string];
+    [self.textView setSelectedRange:range];
+    [self.textView scrollRangeToVisible:range];
+}
+
+- (void)addUrlButtonTapped:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
+    NSRange range = self.textView.selectedRange;
+    if (range.length <= 0) {
+        [self.view makeToast:@"请选择需要设置为链接的文字"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
+    [[CourtesyTextBindingParser sharedInstance] parseText:string selectedRange:&range];
+    [self.textView setAttributedText:string];
+    [self.textView setSelectedRange:range];
+    [self.textView scrollRangeToVisible:range];
+}
+
+- (void)alignLeftButtonTapped:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
+    [self setTextViewAlignment:NSTextAlignmentLeft];
+}
+
+- (void)alignCenterButtonTapped:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
+    [self setTextViewAlignment:NSTextAlignmentCenter];
+}
+
+- (void)alignRightButtonTapped:(UIBarButtonItem *)sender {
+    if (!self.editable) return;
+    [self setTextViewAlignment:NSTextAlignmentRight];
 }
 
 - (void)setTextViewAlignment:(NSTextAlignment)alignment {
@@ -1039,9 +968,7 @@
 - (void)audioNoteRecorderDidCancel:(AudioNoteRecorderViewController *)audioNoteRecorder {
     [audioNoteRecorder.view removeFromSuperview];
     [audioNoteRecorder removeFromParentViewController];
-    if (!self.textView.isFirstResponder) {
-        [self.textView becomeFirstResponder];
-    }
+    if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
 }
 
 - (void)audioNoteRecorderDidTapDone:(AudioNoteRecorderViewController *)audioNoteRecorder
@@ -1050,14 +977,10 @@
     [audioNoteRecorder.view removeFromSuperview];
     [audioNoteRecorder removeFromParentViewController];
     NSURL *newURL = recordedURL;
-    [self addNewAudioFrame:newURL
-                        at:self.textView.selectedRange
-                  animated:YES
-                  userinfo:@{
-                            @"title": @"Untitled", // TODO: 修改录音描述
-                            @"type": @(CourtesyAttachmentAudio),
-                            @"url": newURL
-                            }];
+    [self addNewAudioFrame:newURL at:self.textView.selectedRange animated:YES
+                  userinfo:@{@"title": @"Untitled", // TODO: 修改录音描述
+                             @"type": @(CourtesyAttachmentAudio),
+                             @"url": newURL }];
 }
 
 #pragma mark - CourtesyFontViewControllerDelegate
@@ -1065,15 +988,11 @@
 - (void)fontViewControllerDidCancel:(CourtesyFontTableViewController *)fontViewController {
     [fontViewController.view removeFromSuperview];
     [fontViewController removeFromParentViewController];
-    if (!self.textView.isFirstResponder) {
-        [self.textView becomeFirstResponder];
-    }
+    if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
 }
 
 - (void)fontViewControllerDidTapDone:(CourtesyFontTableViewController *)fontViewController
-                            withFont:(UIFont *)font {
-    [self setNewCardFont:font];
-}
+                            withFont:(UIFont *)font { [self setNewCardFont:font]; }
 
 - (void)fontViewController:(CourtesyFontTableViewController *)fontViewController
             changeFontSize:(CGFloat)size {
@@ -1104,22 +1023,16 @@
                 if ([item hasProtectedAsset] == NO && [item isCloudItem] == NO) {
                     CYLog(@"%@", [item title]);
                     CYLog(@"%@", [item assetURL]);
-                    [self addNewAudioFrame:[item assetURL]
-                                        at:self.textView.selectedRange
-                                  animated:YES
-                                  userinfo:@{
-                                             @"title": [item title],
+                    [self addNewAudioFrame:[item assetURL] at:self.textView.selectedRange animated:YES
+                                  userinfo:@{@"title": [item title],
                                              @"type": @(CourtesyAttachmentAudio),
-                                             @"url": [item assetURL]
-                                             }];
+                                             @"url": [item assetURL] }];
                 } else {
                     [self.view makeToast:@"请勿选择有版权保护的音乐"
                                 duration:kStatusBarNotificationTime
                                 position:CSToastPositionCenter];
                 }
             }
-        } else {
-            
         }
     }
     [mediaPicker dismissViewControllerAnimated:YES completion:nil];
@@ -1148,15 +1061,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                 __block YYImage *image = [YYImage imageWithData:imageData];
                 [picker dismissViewControllerAnimated:YES completion:^{
                     __strong typeof(self) strongSelf = weakSelf;
-                    [strongSelf addNewImageFrame:image
-                                              at:strongSelf.textView.selectedRange
-                                        animated:YES
-                                        userinfo:@{
-                                                   @"title": @"Untitled",
+                    [strongSelf addNewImageFrame:image at:strongSelf.textView.selectedRange animated:YES
+                                        userinfo:@{@"title": @"Untitled",
                                                    @"type": @(CourtesyAttachmentImage),
                                                    @"data": imageData,
-                                                   @"url": [info objectForKey:UIImagePickerControllerReferenceURL],
-                                                   }];
+                                                   @"url": [info objectForKey:UIImagePickerControllerReferenceURL] }];
                 }];
             }];
         }
@@ -1170,14 +1079,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                    __strong typeof(self) weakSelf = self;
                    [picker dismissViewControllerAnimated:YES completion:^{
                        __strong typeof(self) strongSelf = weakSelf;
-                       [strongSelf addNewVideoFrame:mediaURL
-                                                 at:self.textView.selectedRange
-                                           animated:YES
-                                           userinfo:@{
-                                                      @"title": @"Untitled",
+                       [strongSelf addNewVideoFrame:mediaURL at:self.textView.selectedRange animated:YES
+                                           userinfo:@{@"title": @"Untitled",
                                                       @"type": @(CourtesyAttachmentVideo),
-                                                      @"url": [newInfo objectForKey:UIImagePickerControllerMediaURL]
-                                                      }];
+                                                      @"url": [newInfo objectForKey:UIImagePickerControllerMediaURL] }];
                    }];
    } else {
        [picker dismissViewControllerAnimated:YES completion:nil];
@@ -1191,17 +1096,12 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (!self.editable) return;
     __block NSURL *newPath = filePath;
     __weak typeof(self) weakSelf = self;
-    [controller dismissViewControllerAnimated:YES
-                                   completion:^{
+    [controller dismissViewControllerAnimated:YES completion:^{
                                        __strong typeof(self) strongSelf = weakSelf;
-                                       [strongSelf addNewVideoFrame:newPath
-                                                                 at:strongSelf.textView.selectedRange
-                                                           animated:YES
-                                                           userinfo:@{
-                                                                      @"title": @"Untitled",
+                                       [strongSelf addNewVideoFrame:newPath at:strongSelf.textView.selectedRange animated:YES
+                                                           userinfo:@{@"title": @"Untitled",
                                                                       @"type": @(CourtesyAttachmentVideo),
-                                                                      @"url": newPath
-                                                                      }];
+                                                                      @"url": newPath }];
                                    }];
 }
 
@@ -1212,7 +1112,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, kComposeLineHeight * 2)];
+    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, [self.style.cardLineHeight floatValue] * 2)];
     [frameView setDelegate:self];
     [frameView setUserinfo:info];
     [frameView setCardTintColor:self.style.cardElementTintColor];
@@ -1222,9 +1122,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [frameView setCardBackgroundColor:self.style.cardElementBackgroundColor];
     [frameView setAutoPlay:self.shouldAutoPlayAudio];
     [frameView setAudioURL:url];
-    return [self insertFrameToTextView:frameView
-                                    at:range
-                              animated:animated];
+    return [self insertFrameToTextView:frameView at:range animated:animated];
 }
 
 #pragma mark - Image Frame Builder
@@ -1244,12 +1142,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [frameView setStandardLineHeight:[self.style.cardLineHeight floatValue]];
     [frameView setEditable:self.editable];
     [frameView setCenterImage:image];
-    if (frameView.frame.size.height < kComposeLineHeight) { // 添加失败
-        return nil;
-    }
-    return [self insertFrameToTextView:frameView
-                                    at:range
-                              animated:animated];
+    if (frameView.frame.size.height < [self.style.cardLineHeight floatValue]) return nil;
+    return [self insertFrameToTextView:frameView at:range animated:animated];
 }
 
 #pragma mark - Video Frame Builder
@@ -1269,9 +1163,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [frameView setStandardLineHeight:[self.style.cardLineHeight floatValue]];
     [frameView setEditable:self.editable];
     [frameView setVideoURL:url];
-    return [self insertFrameToTextView:frameView
-                                    at:range
-                              animated:animated];
+    return [self insertFrameToTextView:frameView at:range animated:animated];
 }
 
 #pragma mark - Insert Frame Helper
@@ -1283,7 +1175,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (animated) [frameView setAlpha:0.0];
     // Add Frame View to Text View (Method 1)
     NSMutableString *insertHelper = [[NSMutableString alloc] initWithString:@"\n"];
-    int t = floor(frameView.height / kComposeLineHeight);
+    int t = floor(frameView.height / [self.style.cardLineHeight floatValue]);
     for (int i = 0; i < t; i++) [insertHelper appendString:@"\n"];
     NSMutableAttributedString *attachText = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSAttributedString alloc] initWithString:insertHelper attributes:self.originalAttributes]];
     [attachText appendAttributedString:[NSMutableAttributedString attachmentStringWithContent:frameView
@@ -1305,18 +1197,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [self.textView scrollRangeToVisible:range];
     
     if (animated) {
-        [UIView animateWithDuration:0.2 animations:^{
-            [frameView setAlpha:1.0];
-        } completion:nil];
+        [UIView animateWithDuration:0.2 animations:^{ [frameView setAlpha:1.0]; } completion:nil];
     }
     return frameView;
 }
 
 #pragma mark - CourtesyAudioFrameDelegate
 
-- (void)audioFrameTapped:(CourtesyAudioFrameView *)audioFrame {
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-}
+- (void)audioFrameTapped:(CourtesyAudioFrameView *)audioFrame { if (self.textView.isFirstResponder) [self.textView resignFirstResponder]; }
 
 #pragma mark - JTSImageViewControllerInteractionsDelegate
 
@@ -1368,27 +1256,18 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                               by:(YYImage *)image
                         userinfo:(NSDictionary *)userinfo {
     if (!self.editable) return;
-    [self imageFrameShouldDeleted:imageFrame
-                         animated:NO];
-    [self addNewImageFrame:image
-                        at:imageFrame.selfRange
-                  animated:NO
-                  userinfo:userinfo];
+    [self imageFrameShouldDeleted:imageFrame animated:NO];
+    [self addNewImageFrame:image at:imageFrame.selfRange animated:NO userinfo:userinfo];
 }
 
 - (void)imageFrameShouldDeleted:(CourtesyImageFrameView *)imageFrame
                        animated:(BOOL)animated {
     if (!self.editable) return;
-    if (!animated) {
-        [self removeImageFrameFromTextView:imageFrame];
-    } else {
+    if (!animated) [self removeImageFrameFromTextView:imageFrame];
+    else {
         __weak typeof(self) weakSelf = self;
-        [UIView animateWithDuration:0.2 animations:^{
-            imageFrame.alpha = 0.0;
-        } completion:^(BOOL finished) {
-            if (finished) {
-                [weakSelf removeImageFrameFromTextView:imageFrame];
-            }
+        [UIView animateWithDuration:0.2 animations:^{ imageFrame.alpha = 0.0; } completion:^(BOOL finished) {
+            if (finished) [weakSelf removeImageFrameFromTextView:imageFrame];
         }];
     }
 }
@@ -1411,9 +1290,32 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     PECropViewController *cropViewController = [[PECropViewController alloc] init];
     cropViewController.delegate = imageFrame;
     cropViewController.image = imageFrame.centerImage;
-    
     UINavigationController *navc = [[UINavigationController alloc] initWithRootViewController:cropViewController];
     [self presentViewController:navc animated:YES completion:nil];
+}
+
+#pragma mark - CourtesyCardPreviewGeneratorDelegate
+
+- (void)generatorDidFinishWorking:(CourtesyCardPreviewGenerator *)generator result:(UIImage *)result {
+    [[PHPhotoLibrary sharedPhotoLibrary] saveImage:result
+                                           toAlbum:@"礼记"
+                                        completion:^(BOOL success) {
+                                            [self.view hideToastActivity];
+                                            if (success) {
+                                                dispatch_async_on_main_queue(^{
+                                                    [self.view makeToast:@"预览图已保存到「礼记」相簿"
+                                                                duration:kStatusBarNotificationTime
+                                                                position:CSToastPositionCenter];
+                                                });
+                                            }
+                                        } failure:^(NSError * _Nullable error) {
+                                            [self.view hideToastActivity];
+                                            dispatch_async_on_main_queue(^{
+                                                [self.view makeToast:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
+                                                            duration:kStatusBarNotificationTime
+                                                            position:CSToastPositionCenter];
+                                            });
+                                        }];
 }
 
 #pragma mark - Elements Control
@@ -1421,9 +1323,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #ifdef DEBUG
 - (void)listAttachments {
     for (id object in self.textView.textLayout.attachments) {
-        if (![object isKindOfClass:[YYTextAttachment class]]) {
-            continue;
-        }
+        if (![object isKindOfClass:[YYTextAttachment class]]) continue;
         YYTextAttachment *attachment = (YYTextAttachment *)object;
         if (attachment.content) {
             if ([attachment.content respondsToSelector:@selector(userinfo)]) {
@@ -1436,35 +1336,25 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)lockAttachments:(BOOL)locked {
     for (id object in self.textView.textLayout.attachments) {
-        if (![object isKindOfClass:[YYTextAttachment class]]) {
-            continue;
-        }
+        if (![object isKindOfClass:[YYTextAttachment class]]) continue;
         YYTextAttachment *attachment = (YYTextAttachment *)object;
         if (attachment.content) {
             if ([attachment.content respondsToSelector:@selector(setEditable:)]) {
                 if ([attachment.content isMemberOfClass:[CourtesyImageFrameView class]]) {
-                    CourtesyImageFrameView *obj = (CourtesyImageFrameView *)attachment.content;
-                    [obj setEditable:!locked];
+                    [(CourtesyImageFrameView *)attachment.content setEditable:!locked];
                 } else if ([attachment.content isMemberOfClass:[CourtesyVideoFrameView class]]) {
-                    CourtesyVideoFrameView *obj = (CourtesyVideoFrameView *)attachment.content;
-                    [obj setEditable:!locked];
+                    [(CourtesyVideoFrameView *)attachment.content setEditable:!locked];
                 }
             }
         }
     }
 }
 
-- (NSUInteger)countOfAudioFrame {
-    return [self countOfClass:[CourtesyAudioFrameView class]];
-}
+- (NSUInteger)countOfAudioFrame { return [self countOfClass:[CourtesyAudioFrameView class]]; }
 
-- (NSUInteger)countOfImageFrame {
-    return [self countOfClass:[CourtesyImageFrameView class]];
-}
+- (NSUInteger)countOfImageFrame { return [self countOfClass:[CourtesyImageFrameView class]]; }
 
-- (NSUInteger)countOfVideoFrame {
-    return [self countOfClass:[CourtesyVideoFrameView class]];
-}
+- (NSUInteger)countOfVideoFrame { return [self countOfClass:[CourtesyVideoFrameView class]]; }
 
 - (NSUInteger)countOfClass:(Class)class {
 #ifdef DEBUG
@@ -1472,15 +1362,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #endif
     NSUInteger num = 0;
     for (id object in self.textView.textLayout.attachments) {
-        if (![object isKindOfClass:[YYTextAttachment class]]) {
-            continue;
-        }
+        if (![object isKindOfClass:[YYTextAttachment class]]) continue;
         YYTextAttachment *attachment = (YYTextAttachment *)object;
-        if (attachment.content && [attachment.content isKindOfClass:class]) {
-            num++;
-        } else {
-            CYLog(@"%@", [attachment.content description]);
-        }
+        if (attachment.content && [attachment.content isKindOfClass:class]) num++;
     }
     return num;
 }
@@ -1499,6 +1383,12 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     self.titleLabel.font = [cardFont fontWithSize:12];
 }
 
+- (void)setEditable:(BOOL)editable {
+    _editable = editable;
+    self.textView.editable = editable;
+    [self lockAttachments:!editable];
+}
+
 #pragma mark - YYTextKeyboardObserver
 
 - (void)keyboardChangedWithTransition:(YYTextKeyboardTransition)transition {
@@ -1506,6 +1396,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 #pragma mark - Memory Leaks
+
+- (void)dealloc {
+    CYLog(@"");
+}
 
 - (void)didReceiveMemoryWarning {
     CYLog(@"Memory warning!");

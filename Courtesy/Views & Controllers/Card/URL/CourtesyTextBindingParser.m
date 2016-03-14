@@ -54,7 +54,22 @@
         [text setTextHighlightRange:bindlingRange
                               color:[UIColor blueberryColor]
                     backgroundColor:[UIColor clearColor]
-                          tapAction:nil]; // TODO
+                          tapAction:^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+                              NSString *realStr = [[[text attributedSubstringFromRange:range] string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                              if ([realStr isEmail]) {
+                                  realStr = [NSString stringWithFormat:@"mailto://%@", realStr];
+                              } else if ([realStr isUrl]) {
+                                  
+                              } else {
+                                  return;
+                              }
+                              NSURL *realURL = [NSURL URLWithString:realStr];
+                              CYLog(@"%@", realURL);
+                              
+                              if ([[UIApplication sharedApplication] canOpenURL:realURL]) {
+                                  [[UIApplication sharedApplication] openURL:realURL];
+                              }
+                          }];
         changed = YES;
     };
     [self.regex_email enumerateMatchesInString:text.string options:NSMatchingWithoutAnchoringBounds range:*range usingBlock:handler];
