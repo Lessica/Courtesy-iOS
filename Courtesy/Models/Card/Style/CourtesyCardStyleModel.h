@@ -50,6 +50,14 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSNumber     *maxVideoNum; // 最多视频数量
 @property (nonatomic, strong) NSNumber     *maxContentLength; // 限制内容长度
 
+// Markdown
+@property (nonatomic) NSNumber *headerFontSize;
+@property (nonatomic, strong) UIColor *controlTextColor;
+@property (nonatomic, strong) UIColor *headerTextColor;
+@property (nonatomic, strong) UIColor *inlineTextColor;
+@property (nonatomic, strong) UIColor *codeTextColor;
+@property (nonatomic, strong) UIColor *linkTextColor;
+
 @property (nonatomic, strong) CourtesyPreviewStyleModel<Ignore> *previewStyle;
 @property (nonatomic, assign) NSUInteger previewType;
 

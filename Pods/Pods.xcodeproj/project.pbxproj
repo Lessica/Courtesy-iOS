@@ -1113,6 +1113,48 @@
 			remoteGlobalIDString = 8013C9A97A76A2784FF8F2D223905529;
 			remoteInfo = SCRecorder;
 		};
+		0F6DD56D1C98222100CA4389 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F6DD5621C98222100CA4389 /* CocoaMarkdown.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 729F53DA1A68641400CC7448;
+			remoteInfo = "CocoaMarkdown-iOS";
+		};
+		0F6DD56F1C98222100CA4389 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F6DD5621C98222100CA4389 /* CocoaMarkdown.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 729F53E51A68641400CC7448;
+			remoteInfo = "CocoaMarkdownTests-iOS";
+		};
+		0F6DD5711C98222100CA4389 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F6DD5621C98222100CA4389 /* CocoaMarkdown.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 729F53FB1A68649200CC7448;
+			remoteInfo = "CocoaMarkdown-Mac";
+		};
+		0F6DD5731C98222100CA4389 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F6DD5621C98222100CA4389 /* CocoaMarkdown.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 729F54051A68649200CC7448;
+			remoteInfo = "CocoaMarkdownTests-Mac";
+		};
+		0F6DD5751C98222100CA4389 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F6DD5621C98222100CA4389 /* CocoaMarkdown.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 72FE7EC91A68692400F23F46;
+			remoteInfo = "Example-iOS";
+		};
+		0F6DD5771C98222100CA4389 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0F6DD5621C98222100CA4389 /* CocoaMarkdown.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 72FE7EF41A68695100F23F46;
+			remoteInfo = "Example-Mac";
+		};
 		262D91C18B1FA76FD6E9D33D60F12E8F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
@@ -1289,6 +1331,7 @@
 		0EE35411114F6D26E085C86F280AF000 /* SCRecorderTools.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCRecorderTools.h; path = Library/Sources/SCRecorderTools.h; sourceTree = "<group>"; };
 		0EF07DF36F02239B7060E826D20B08E6 /* libFLEX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFLEX.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F6B6B997398559C0B06C9551B1077BE /* ZXPDF417Detector.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZXPDF417Detector.h; path = ZXingObjC/pdf417/detector/ZXPDF417Detector.h; sourceTree = "<group>"; };
+		0F6DD5621C98222100CA4389 /* CocoaMarkdown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CocoaMarkdown.xcodeproj; path = ../CocoaMarkdown/CocoaMarkdown.xcodeproj; sourceTree = "<group>"; };
 		0F98D25D89C5CF52F654EBDB254C5388 /* UIBezierPath+YYAdd.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIBezierPath+YYAdd.m"; path = "YYKit/Base/UIKit/UIBezierPath+YYAdd.m"; sourceTree = "<group>"; };
 		0FAB98EDD1B716A78252D370F7F06112 /* FLEXArgumentInputStringView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FLEXArgumentInputStringView.m; path = Classes/Editing/ArgumentInputViews/FLEXArgumentInputStringView.m; sourceTree = "<group>"; };
 		0FC53761A1892116218B4DE576502E28 /* UIPasteboard+YYText.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIPasteboard+YYText.m"; path = "YYKit/Text/String/UIPasteboard+YYText.m"; sourceTree = "<group>"; };
@@ -2552,6 +2595,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		0F6DD5631C98222100CA4389 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0F6DD56E1C98222100CA4389 /* CocoaMarkdown.framework */,
+				0F6DD5701C98222100CA4389 /* CocoaMarkdownTests-iOS.xctest */,
+				0F6DD5721C98222100CA4389 /* CocoaMarkdown.framework */,
+				0F6DD5741C98222100CA4389 /* CocoaMarkdownTests-Mac.xctest */,
+				0F6DD5761C98222100CA4389 /* Example-iOS.app */,
+				0F6DD5781C98222100CA4389 /* Example-Mac.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		14206CBBD12401033511CBEE9902286A /* NSURLSession */ = {
 			isa = PBXGroup;
 			children = (
@@ -3155,6 +3211,7 @@
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
+				0F6DD5621C98222100CA4389 /* CocoaMarkdown.xcodeproj */,
 				BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */,
 				9D3502B914AD5A0E3727E5DC81467C1F /* Frameworks */,
 				41FA666104A79F54AA24F9330F75E22A /* Pods */,
@@ -5099,6 +5156,12 @@
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
 			productRefGroup = 372AFAEF15CEC1F500FEE7837CE754D1 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0F6DD5631C98222100CA4389 /* Products */;
+					ProjectRef = 0F6DD5621C98222100CA4389 /* CocoaMarkdown.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				928353533005A4198EBDA5B700D37B64 /* AFNetworking */,
@@ -5122,6 +5185,51 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0F6DD56E1C98222100CA4389 /* CocoaMarkdown.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CocoaMarkdown.framework;
+			remoteRef = 0F6DD56D1C98222100CA4389 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0F6DD5701C98222100CA4389 /* CocoaMarkdownTests-iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "CocoaMarkdownTests-iOS.xctest";
+			remoteRef = 0F6DD56F1C98222100CA4389 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0F6DD5721C98222100CA4389 /* CocoaMarkdown.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CocoaMarkdown.framework;
+			remoteRef = 0F6DD5711C98222100CA4389 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0F6DD5741C98222100CA4389 /* CocoaMarkdownTests-Mac.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "CocoaMarkdownTests-Mac.xctest";
+			remoteRef = 0F6DD5731C98222100CA4389 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0F6DD5761C98222100CA4389 /* Example-iOS.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Example-iOS.app";
+			remoteRef = 0F6DD5751C98222100CA4389 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0F6DD5781C98222100CA4389 /* Example-Mac.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Example-Mac.app";
+			remoteRef = 0F6DD5771C98222100CA4389 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		098439AB598DDF1AF51146A2E3E2E562 /* Sources */ = {

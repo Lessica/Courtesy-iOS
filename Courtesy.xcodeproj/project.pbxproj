@@ -24,6 +24,9 @@
 		0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */; };
 		0F5801061C98075600D18059 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5801051C98075600D18059 /* FCFileManager.m */; };
 		0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */; };
+		0F6DD57A1C98227600CA4389 /* CocoaMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6DD5791C98227600CA4389 /* CocoaMarkdown.framework */; };
+		0F6DD57B1C98227600CA4389 /* CocoaMarkdown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6DD5791C98227600CA4389 /* CocoaMarkdown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */; };
 		0F7424851C8FCD98002C6241 /* EXTADT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74244B1C8FCD98002C6241 /* EXTADT.m */; };
 		0F7424861C8FCD98002C6241 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74244D1C8FCD98002C6241 /* EXTConcreteProtocol.m */; };
 		0F7424871C8FCD98002C6241 /* EXTNil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424511C8FCD98002C6241 /* EXTNil.m */; };
@@ -119,7 +122,6 @@
 		0FFE04651C93F45800E99DCC /* CourtesyFontTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03FF1C93F45800E99DCC /* CourtesyFontTableViewController.m */; };
 		0FFE04661C93F45800E99DCC /* CourtesyJotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04021C93F45800E99DCC /* CourtesyJotViewController.m */; };
 		0FFE04671C93F45800E99DCC /* CourtesyImageFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04051C93F45800E99DCC /* CourtesyImageFrameView.m */; };
-		0FFE04681C93F45800E99DCC /* CourtesyTextBindingParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04081C93F45800E99DCC /* CourtesyTextBindingParser.m */; };
 		0FFE04691C93F45800E99DCC /* CourtesyVideoFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE040B1C93F45800E99DCC /* CourtesyVideoFrameView.m */; };
 		0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE040E1C93F45800E99DCC /* CourtesyPortraitViewController.m */; };
 		0FFE046B1C93F45800E99DCC /* CourtesyLeftDrawerAvatarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04111C93F45800E99DCC /* CourtesyLeftDrawerAvatarTableViewCell.m */; };
@@ -209,6 +211,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0F6DD57C1C98227600CA4389 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0F6DD57B1C98227600CA4389 /* CocoaMarkdown.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0FD3EE4F1C95CDC100DE5347 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -266,6 +279,9 @@
 		0F5801041C98075600D18059 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
 		0F5801051C98075600D18059 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
 		0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		0F6DD5791C98227600CA4389 /* CocoaMarkdown.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = CocoaMarkdown.framework; path = "/Users/Zheng/Library/Developer/Xcode/DerivedData/Courtesy-cvykwatzvshbxtdkjzlrnfwqiekw/Build/Products/Debug-iphoneos/CocoaMarkdown.framework"; sourceTree = "<absolute>"; };
+		0F6DD57D1C98369200CA4389 /* CourtesyMarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyMarkdownParser.h; path = Markdown/CourtesyMarkdownParser.h; sourceTree = "<group>"; };
+		0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyMarkdownParser.m; path = Markdown/CourtesyMarkdownParser.m; sourceTree = "<group>"; };
 		0F74244A1C8FCD98002C6241 /* EXTADT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTADT.h; sourceTree = "<group>"; };
 		0F74244B1C8FCD98002C6241 /* EXTADT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTADT.m; sourceTree = "<group>"; };
 		0F74244C1C8FCD98002C6241 /* EXTConcreteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTConcreteProtocol.h; sourceTree = "<group>"; };
@@ -451,8 +467,6 @@
 		0FFE04021C93F45800E99DCC /* CourtesyJotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyJotViewController.m; sourceTree = "<group>"; };
 		0FFE04041C93F45800E99DCC /* CourtesyImageFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyImageFrameView.h; sourceTree = "<group>"; };
 		0FFE04051C93F45800E99DCC /* CourtesyImageFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyImageFrameView.m; sourceTree = "<group>"; };
-		0FFE04071C93F45800E99DCC /* CourtesyTextBindingParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyTextBindingParser.h; sourceTree = "<group>"; };
-		0FFE04081C93F45800E99DCC /* CourtesyTextBindingParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyTextBindingParser.m; sourceTree = "<group>"; };
 		0FFE040A1C93F45800E99DCC /* CourtesyVideoFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyVideoFrameView.h; sourceTree = "<group>"; };
 		0FFE040B1C93F45800E99DCC /* CourtesyVideoFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyVideoFrameView.m; sourceTree = "<group>"; };
 		0FFE040D1C93F45800E99DCC /* CourtesyPortraitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyPortraitViewController.h; sourceTree = "<group>"; };
@@ -616,6 +630,7 @@
 				0FD43FCF1C846CAF00D6C564 /* MediaPlayer.framework in Frameworks */,
 				0FD43FCD1C846CA700D6C564 /* AVFoundation.framework in Frameworks */,
 				0FBA71741C7B2A0400053696 /* MessageUI.framework in Frameworks */,
+				0F6DD57A1C98227600CA4389 /* CocoaMarkdown.framework in Frameworks */,
 				4F12F23955BE0B8F28DA87D8 /* libPods-Courtesy.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -673,6 +688,15 @@
 			);
 			name = FCFileManager;
 			path = Extensions/FCFileManager;
+			sourceTree = "<group>";
+		};
+		0F6DD55F1C9820D000CA4389 /* Markdown */ = {
+			isa = PBXGroup;
+			children = (
+				0F6DD57D1C98369200CA4389 /* CourtesyMarkdownParser.h */,
+				0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */,
+			);
+			name = Markdown;
 			sourceTree = "<group>";
 		};
 		0F7424441C8FCD6A002C6241 /* Extensions */ = {
@@ -1110,6 +1134,7 @@
 		0FFE03F51C93F45800E99DCC /* Card */ = {
 			isa = PBXGroup;
 			children = (
+				0F6DD55F1C9820D000CA4389 /* Markdown */,
 				0FDEFBAD1C97D58F007BE8D2 /* Photo */,
 				0FFE03F61C93F45800E99DCC /* Audio */,
 				0FFE03F91C93F45800E99DCC /* CourtesyCardComposeViewController.h */,
@@ -1119,7 +1144,6 @@
 				0FFE03FD1C93F45800E99DCC /* Font */,
 				0FFE04001C93F45800E99DCC /* Freehand */,
 				0FFE04031C93F45800E99DCC /* Image */,
-				0FFE04061C93F45800E99DCC /* URL */,
 				0FFE04091C93F45800E99DCC /* Video */,
 			);
 			path = Card;
@@ -1168,15 +1192,6 @@
 				0FFE04051C93F45800E99DCC /* CourtesyImageFrameView.m */,
 			);
 			path = Image;
-			sourceTree = "<group>";
-		};
-		0FFE04061C93F45800E99DCC /* URL */ = {
-			isa = PBXGroup;
-			children = (
-				0FFE04071C93F45800E99DCC /* CourtesyTextBindingParser.h */,
-				0FFE04081C93F45800E99DCC /* CourtesyTextBindingParser.m */,
-			);
-			path = URL;
 			sourceTree = "<group>";
 		};
 		0FFE04091C93F45800E99DCC /* Video */ = {
@@ -1702,6 +1717,7 @@
 		45444505B80B6AF6A0D335BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F6DD5791C98227600CA4389 /* CocoaMarkdown.framework */,
 				0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */,
 				0FD3EE251C95CD2200DE5347 /* WatchConnectivity.framework */,
 				0F305C981C93222D0052882A /* StoreKit.framework */,
@@ -1774,6 +1790,7 @@
 				0FD3EE531C95CDC100DE5347 /* Embed Watch Content */,
 				E11286E857C05DCC19F668DE /* Embed Pods Frameworks */,
 				E3C603D7187C4D65707EA338 /* Copy Pods Resources */,
+				0F6DD57C1C98227600CA4389 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1957,13 +1974,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FF2D2871C95DA80007C23DE /* LBXScanView.m in Sources */,
+				0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */,
 				0F74248D1C8FCD98002C6241 /* NSMethodSignature+EXT.m in Sources */,
 				0FFE04881C93F45800E99DCC /* CourtesyMessageNotificationSettingsTableViewController.m in Sources */,
 				0FF2D2671C95D90F007C23DE /* JVFloatingDrawerView.m in Sources */,
 				0FDEFBBC1C97D617007BE8D2 /* MSDPreventImagePickerCrashOn3DTouch.m in Sources */,
 				0FFE04C91C93F47400E99DCC /* CourtesyCardPublishQueue.m in Sources */,
 				0FFE04741C93F45800E99DCC /* CourtesyQuickLoginButton.m in Sources */,
-				0FFE04681C93F45800E99DCC /* CourtesyTextBindingParser.m in Sources */,
 				0FEFDBBE1C97D17500952522 /* NSTimer+AFSoundManager.m in Sources */,
 				0FF2D2881C95DA80007C23DE /* LBXScanViewController.m in Sources */,
 				0F74248C1C8FCD98002C6241 /* NSInvocation+EXT.m in Sources */,

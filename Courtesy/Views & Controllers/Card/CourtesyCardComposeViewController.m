@@ -14,7 +14,6 @@
 #import "CourtesyAudioFrameView.h"
 #import "CourtesyImageFrameView.h"
 #import "CourtesyVideoFrameView.h"
-#import "CourtesyTextBindingParser.h"
 #import "CourtesyCardComposeViewController.h"
 #import "CourtesyJotViewController.h"
 #import "WechatShortVideoController.h"
@@ -25,6 +24,7 @@
 #import "CourtesyCardPreviewGenerator.h"
 #import "CourtesyTextView.h"
 #import "CourtesyFontTableViewController.h"
+#import "CourtesyMarkdownParser.h"
 
 #define kComposeTopInsect 24.0
 #define kComposeBottomInsect 24.0
@@ -61,6 +61,7 @@
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSDictionary *originalAttributes;
 @property (nonatomic, strong) UIFont *originalFont;
+@property (nonatomic, strong) CourtesyMarkdownParser *markdownParser;
 
 @end
 
@@ -104,7 +105,7 @@
     toolbarContainerView.backgroundColor = self.style.toolbarColor;
     
     /* Init of toolbar */
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width * 2, 40)]; // 根据按钮数量调整，暂时定为两倍
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width * 1.5 , 40)]; // 根据按钮数量调整，暂时定为两倍
     toolbar.barStyle = UIBarStyleBlackTranslucent;
     toolbar.barTintColor = self.style.toolbarBarTintColor;
     toolbar.backgroundColor = [UIColor clearColor]; // 工具栏颜色在 toolbarContainerView 中定义
@@ -123,10 +124,6 @@
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(openFreehandButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(fontButtonTapped:)]];
-    [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"33-bold"] style:UIBarButtonItemStylePlain target:self action:@selector(rangeBoldButtonTapped:)]];
-    [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"32-italic"] style:UIBarButtonItemStylePlain target:self action:@selector(rangeItalicButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"46-align-left"] style:UIBarButtonItemStylePlain target:self action:@selector(alignLeftButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
@@ -234,6 +231,20 @@
                                                           attribute:NSLayoutAttributeLeading
                                                          multiplier:1
                                                            constant:0]];
+    
+    /* Markdown Support */
+    CourtesyMarkdownParser *parser = [CourtesyMarkdownParser new];
+    parser.currentFont = self.style.cardFont;
+    parser.fontSize = [self.style.cardFontSize floatValue];
+    parser.headerFontSize = [self.style.headerFontSize floatValue];
+    parser.textColor = self.style.cardTextColor;
+    parser.controlTextColor = self.style.controlTextColor;
+    parser.headerTextColor = self.style.headerTextColor;
+    parser.inlineTextColor = self.style.inlineTextColor;
+    parser.codeTextColor = self.style.codeTextColor;
+    parser.linkTextColor = self.style.linkTextColor;
+    textView.textParser = parser;
+    self.markdownParser = parser;
     
     /* Init of Jot Scroll View */
     UIView *jotView = [[UIView alloc] initWithFrame:self.textView.frame];
@@ -569,8 +580,12 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [textView becomeFirstResponder];
     });
+    
+    // 为什么要在这里滚动到最顶部一次其实我也不是很清楚
+    [textView scrollToTop];
 }
 
+/*
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
@@ -585,7 +600,6 @@
 
 #pragma mark - Text Attributes Holder
 
-// 监听输入属性的改变，禁止继承前文属性 (Fuck)
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary<NSString *,id> *)change
@@ -597,6 +611,7 @@
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
+*/
 
 #pragma mark - Rotate
 
@@ -674,6 +689,11 @@
 }
 
 - (void)savePreview:(id)sender {
+    [self.view makeToastActivity:CSToastPositionCenter];
+    [self performSelectorInBackground:@selector(generateTextViewLayer) withObject:nil];
+}
+
+- (void)generateTextViewLayer {
     CGSize imageSize = CGSizeMake(self.textView.yyContainerView.frame.size.width, self.textView.yyContainerView.frame.size.height);
     UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.0); // Retina Support
     CALayer *originalLayer = self.textView.yyContainerView.layer;
@@ -685,7 +705,6 @@
     generator.delegate = self;
     generator.previewStyle = self.style.previewStyle;
     generator.contentImage = originalImage;
-    [self.view makeToastActivity:CSToastPositionCenter];
     [generator generate];
 }
 
@@ -891,58 +910,43 @@
     [vc didMoveToParentViewController:self];
 }
 
-- (void)rangeBoldButtonTapped:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
-    NSRange range = self.textView.selectedRange;
-    if (range.length <= 0) {
-        [self.view makeToast:@"请选择需要设置粗体的文字"
-                    duration:kStatusBarNotificationTime
-                    position:CSToastPositionCenter];
-        return;
-    }
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
-    NSAttributedString *sub = [string attributedSubstringFromRange:range];
-    UIFont *font = [sub font];
-    if (![font isBold]) [string setFont:[font fontWithBold] range:range];
-    else [string setFont:[font fontWithNormal] range:range];
-    [self.textView setAttributedText:string];
-    [self.textView setSelectedRange:range];
-    [self.textView scrollRangeToVisible:range];
-}
-
-- (void)rangeItalicButtonTapped:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
-    NSRange range = self.textView.selectedRange;
-    if (range.length <= 0) {
-        [self.view makeToast:@"请选择需要设置斜体的文字"
-                    duration:kStatusBarNotificationTime
-                    position:CSToastPositionCenter];
-        return;
-    }
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
-    NSAttributedString *sub = [string attributedSubstringFromRange:range];
-    UIFont *font = [sub font];
-    if (![font isItalic]) [string setFont:[font fontWithItalic] range:range];
-    else [string setFont:[font fontWithNormal] range:range];
-    [self.textView setAttributedText:string];
-    [self.textView setSelectedRange:range];
-    [self.textView scrollRangeToVisible:range];
-}
-
 - (void)addUrlButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    NSRange range = self.textView.selectedRange;
-    if (range.length <= 0) {
-        [self.view makeToast:@"请选择需要设置为链接的文字"
-                    duration:kStatusBarNotificationTime
-                    position:CSToastPositionCenter];
-        return;
-    }
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
-    [[CourtesyTextBindingParser sharedInstance] parseText:string selectedRange:&range];
-    [self.textView setAttributedText:string];
-    [self.textView setSelectedRange:range];
-    [self.textView scrollRangeToVisible:range];
+    __block NSRange range = self.textView.selectedRange;
+    if ([self.textView isFirstResponder]) [self.textView resignFirstResponder];
+    __weak typeof(self) weakSelf = self;
+    LGAlertView *urlAlert = [[LGAlertView alloc] initWithTextFieldsAndTitle:@"添加链接"
+                                                                    message:@"请键入链接标题、网址或电子邮箱地址"
+                                                         numberOfTextFields:2
+                                                     textFieldsSetupHandler:^(UITextField *textField, NSUInteger index) {
+                                                         if (index == 0) {
+                                                             textField.placeholder = @"标题";
+                                                         } else if (index == 1) {
+                                                             textField.placeholder = @"网址或电子邮箱地址";
+                                                         }
+                                                     } buttonTitles:@[@"确认"]
+                                                          cancelButtonTitle:@"取消"
+                                                     destructiveButtonTitle:nil
+                                                              actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                                  __strong typeof(self) strongSelf = weakSelf;
+                                                                  if (index == 0) {
+                                                                      if (
+                                                                          [alertView.textFieldsArray objectAtIndex:0]
+                                                                          && [[alertView.textFieldsArray objectAtIndex:0] isKindOfClass:[UITextField class]]
+                                                                          && [alertView.textFieldsArray objectAtIndex:1]
+                                                                          && [[alertView.textFieldsArray objectAtIndex:1] isKindOfClass:[UITextField class]]
+                                                                          ) {
+                                                                          NSString *title = [(UITextField *)[alertView.textFieldsArray objectAtIndex:0] text];
+                                                                          NSString *url = [(UITextField *)[alertView.textFieldsArray objectAtIndex:1] text];
+                                                                          NSString *insert_str = [NSString stringWithFormat:@"[%@] (%@)", title, url];
+                                                                          [strongSelf.textView replaceRange:[YYTextRange rangeWithRange:range] withText:insert_str];
+                                                                      }
+                                                                  }
+                                                              } cancelHandler:^(LGAlertView *alertView) {
+                                                                  __strong typeof(self) strongSelf = weakSelf;
+                                                                  if (![strongSelf.textView isFirstResponder]) [strongSelf.textView becomeFirstResponder];
+                                                              } destructiveHandler:nil];
+    [urlAlert showAnimated:YES completionHandler:nil];
 }
 
 - (void)alignLeftButtonTapped:(UIBarButtonItem *)sender {
@@ -972,11 +976,11 @@
         [newTypingAttributes setObject:newParagraphStyle forKey:NSParagraphStyleAttributeName];
         [self.textView setTypingAttributes:newTypingAttributes];
     }
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
-    [string setAlignment:alignment];
-    [self.textView setAttributedText:string];
-    [self.textView setSelectedRange:range];
-    [self.textView scrollRangeToVisible:range];
+    [self.textView setTextAlignment:alignment];
+//    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
+//    [string setAlignment:alignment];
+//    [self.textView setSelectedRange:range];
+//    [self.textView scrollRangeToVisible:range];
 }
 
 #pragma mark - AudioNoteRecorderDelegate
@@ -1241,13 +1245,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [attachText appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:self.originalAttributes]];
     YYTextBinding *binding = [YYTextBinding bindingWithDeleteConfirm:YES];
     [attachText setTextBinding:binding range:NSMakeRange(0, attachText.length)];
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:self.textView.attributedText];
-    [text insertAttributedString:attachText atIndex:range.location];
     if ([frameView isKindOfClass:[CourtesyImageFrameView class]]) {
         [(CourtesyImageFrameView *)frameView setSelfRange:NSMakeRange(range.location, attachText.length)];
     } else if ([frameView isKindOfClass:[CourtesyAudioFrameView class]]) {
         [(CourtesyAudioFrameView *)frameView setSelfRange:NSMakeRange(range.location, attachText.length)];
     }
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:self.textView.attributedText];
+    [text replaceCharactersInRange:range withAttributedString:attachText];
     [self.textView setAttributedText:text];
     [self.textView scrollRangeToVisible:range];
     
@@ -1356,8 +1360,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     NSRange allRange = [mStr rangeOfAll];
     if (imageFrame.selfRange.location >= allRange.location &&
         imageFrame.selfRange.location + imageFrame.selfRange.length <= allRange.location + allRange.length) {
-        [mStr deleteCharactersInRange:imageFrame.selfRange];
-        [self.textView setAttributedText:mStr];
+        //[mStr deleteCharactersInRange:imageFrame.selfRange];
+        [self.textView replaceRange:[YYTextRange rangeWithRange:imageFrame.selfRange] withText:@""];
     }
 }
 
@@ -1457,7 +1461,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)setNewCardFont:(UIFont *)cardFont {
     if (!cardFont) return;
-    cardFont = [cardFont fontWithSize:[self.style.cardFontSize floatValue]];
+    CGFloat fontSize = [self.style.cardFontSize floatValue];
+    cardFont = [cardFont fontWithSize:fontSize];
+    if (self.markdownParser) {
+        self.markdownParser.currentFont = cardFont;
+        self.markdownParser.fontSize = fontSize;
+        self.markdownParser.headerFontSize = fontSize + 8.0;
+    }
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:self.originalAttributes];
     [dict setObject:cardFont forKey:NSFontAttributeName];
     self.originalAttributes = dict;
@@ -1472,13 +1482,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     self.textView.editable = editable;
     [self lockAttachments:!editable];
 }
-
+/*
 #pragma mark - YYTextKeyboardObserver
 
 - (void)keyboardChangedWithTransition:(YYTextKeyboardTransition)transition {
     
 }
-
+*/
 #pragma mark - Memory Leaks
 
 - (void)dealloc {

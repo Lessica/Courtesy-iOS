@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  change the text attributes or content.
  
  @param selectedRange  Current selected range in `text`.
- This method should correct the range if the text content is changed. If there's 
+ This method should correct the range if the text content is changed. If there's
  no selected range (such as YYLabel), this value is NULL.
  
  @return If the 'text' is modified in this method, returns `YES`, otherwise returns `NO`.
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  A simple markdown parser.
  
- It'a very simple markdown parser, you can use this parser to highlight some 
+ It'a very simple markdown parser, you can use this parser to highlight some
  small piece of markdown text.
  
  This markdown parser use regular expression to parse text, slow and weak.

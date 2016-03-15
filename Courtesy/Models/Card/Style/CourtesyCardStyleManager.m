@@ -60,6 +60,13 @@
         newStyle.maxImageNum = [NSNumber numberWithInt:10];
         newStyle.maxContentLength = [NSNumber numberWithInt:8192];
         
+        newStyle.headerFontSize = [NSNumber numberWithFloat:20.0];
+        newStyle.controlTextColor = [UIColor indigoColor];
+        newStyle.headerTextColor = [UIColor blackColor];
+        newStyle.inlineTextColor = newStyle.cardTextColor;
+        newStyle.codeTextColor = newStyle.cardTextColor;
+        newStyle.linkTextColor = [UIColor blueberryColor];
+        
         newStyle.previewStyle = [CourtesyPreviewStyleModel new];
         newStyle.previewStyle.previewHeader = [UIImage imageNamed:@"preview-head"];
         newStyle.previewStyle.previewBody = [UIImage imageNamed:@"preview-body"];

@@ -349,7 +349,7 @@ dispatch_semaphore_signal(_lock);
              [pattern appendString:@")"];
              _regex = [[NSRegularExpression alloc] initWithPattern:pattern options:kNilOptions error:nil];
          }
-    );
+         );
 }
 
 // correct the selected range during text replacement
