@@ -232,19 +232,21 @@
                                                          multiplier:1
                                                            constant:0]];
     
-    /* Markdown Support */
-    CourtesyMarkdownParser *parser = [CourtesyMarkdownParser new];
-    parser.currentFont = self.style.cardFont;
-    parser.fontSize = [self.style.cardFontSize floatValue];
-    parser.headerFontSize = [self.style.headerFontSize floatValue];
-    parser.textColor = self.style.cardTextColor;
-    parser.controlTextColor = self.style.controlTextColor;
-    parser.headerTextColor = self.style.headerTextColor;
-    parser.inlineTextColor = self.style.inlineTextColor;
-    parser.codeTextColor = self.style.codeTextColor;
-    parser.linkTextColor = self.style.linkTextColor;
-    textView.textParser = parser;
-    self.markdownParser = parser;
+    if ([sharedSettings switchMarkdown]) {
+        /* Markdown Support */
+        CourtesyMarkdownParser *parser = [CourtesyMarkdownParser new];
+        parser.currentFont = self.style.cardFont;
+        parser.fontSize = [self.style.cardFontSize floatValue];
+        parser.headerFontSize = [self.style.headerFontSize floatValue];
+        parser.textColor = self.style.cardTextColor;
+        parser.controlTextColor = self.style.controlTextColor;
+        parser.headerTextColor = self.style.headerTextColor;
+        parser.inlineTextColor = self.style.inlineTextColor;
+        parser.codeTextColor = self.style.codeTextColor;
+        parser.linkTextColor = self.style.linkTextColor;
+        textView.textParser = parser;
+        self.markdownParser = parser;
+    }
     
     /* Init of Jot Scroll View */
     UIView *jotView = [[UIView alloc] initWithFrame:self.textView.frame];
@@ -585,7 +587,6 @@
     [textView scrollToTop];
 }
 
-/*
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
@@ -611,7 +612,6 @@
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
-*/
 
 #pragma mark - Rotate
 
@@ -668,6 +668,11 @@
     } else {
         if (self.textView.text.length >= [self.style.maxContentLength integerValue]) {
             [self.view makeToast:@"卡片内容太多了喔"
+                        duration:kStatusBarNotificationTime
+                        position:CSToastPositionCenter];
+            return;
+        } else if (self.textView.text.length <= 0) {
+            [self.view makeToast:@"再说点儿什么吧"
                         duration:kStatusBarNotificationTime
                         position:CSToastPositionCenter];
             return;
@@ -912,6 +917,12 @@
 
 - (void)addUrlButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
+    if (!self.markdownParser) {
+        [self.view makeToast:@"未启用 Markdown 支持"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
     __block NSRange range = self.textView.selectedRange;
     if ([self.textView isFirstResponder]) [self.textView resignFirstResponder];
     __weak typeof(self) weakSelf = self;
@@ -1482,13 +1493,25 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     self.textView.editable = editable;
     [self lockAttachments:!editable];
 }
-/*
+
+#pragma mark - YYTextViewDelegate
+
+- (BOOL)textView:(YYTextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if ((textView.text.length + text.length - range.length) > [self.style.maxContentLength unsignedIntegerValue]) {
+        [self.view makeToast:[NSString stringWithFormat:@"超出最大长度限制 (%lu)", [self.style.maxContentLength unsignedIntegerValue]]
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return NO;
+    }
+    return YES;
+}
+
 #pragma mark - YYTextKeyboardObserver
 
 - (void)keyboardChangedWithTransition:(YYTextKeyboardTransition)transition {
     
 }
-*/
+
 #pragma mark - Memory Leaks
 
 - (void)dealloc {

@@ -13,6 +13,7 @@
 #define kCourtesyDBCurrentLoginAccount @"kCourtesyDBCurrentLoginAccount"
 #define kSwitchAutoSave @"switchAutoSave"
 #define kSwitchAutoPublic @"switchAutoPublic"
+#define kSwitchMarkdown @"switchMarkdown"
 #define kPreferredImageQuality @"preferredImageQuality"
 #define kPreferredVideoQuality @"preferredVideoQuality"
 
@@ -235,6 +236,14 @@
 
 - (void)setSwitchAutoSave:(BOOL)switchAutoSave {
     [self.appStorage setObject:(switchAutoSave ? @1 : @0) forKey:kSwitchAutoSave];
+}
+
+- (BOOL)switchMarkdown {
+    return [(NSNumber *)[self.appStorage objectForKey:kSwitchMarkdown] isEqualToNumber:@0] ? NO : YES;
+}
+
+- (void)setSwitchMarkdown:(BOOL)switchMarkdown {
+    [self.appStorage setObject:(switchMarkdown ? @1 : @0) forKey:kSwitchMarkdown];
 }
 
 - (NSInteger)preferredImageQuality {

@@ -29,6 +29,7 @@
 
 @property (nonatomic, assign) BOOL switchAutoSave;
 @property (nonatomic, assign) BOOL switchAutoPublic;
+@property (nonatomic, assign) BOOL switchMarkdown;
 @property (nonatomic, assign) NSInteger preferredImageQuality;
 @property (nonatomic, assign) NSInteger preferredVideoQuality;
 

@@ -45,7 +45,7 @@ enum {
 @property (weak, nonatomic) IBOutlet UILabel *cleanCacheTitleLabel;
 @property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;
 @property (weak, nonatomic) IBOutlet UILabel *aboutLabel;
-
+@property (weak, nonatomic) IBOutlet UISwitch *markdownSupportSwitch;
 
 @end
 
@@ -65,6 +65,7 @@ enum {
     [_logoutCell setHidden:!kLogin];
     _autoPublicSwitch.on = [sharedSettings switchAutoPublic];
     _autoSaveSwitch.on = [sharedSettings switchAutoSave];
+    _markdownSupportSwitch.on = [sharedSettings switchMarkdown];
 }
 
 #pragma mark - 响应通知事件
@@ -194,6 +195,8 @@ enum {
         [sharedSettings setSwitchAutoSave:_autoSaveSwitch.on];
     } else if (sender == _autoPublicSwitch) {
         [sharedSettings setSwitchAutoPublic:_autoPublicSwitch.on];
+    } else if (sender == _markdownSupportSwitch) {
+        [sharedSettings setSwitchMarkdown:_markdownSupportSwitch.on];
     }
 }
 

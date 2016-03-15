@@ -58,7 +58,7 @@
         newStyle.maxAudioNum = [NSNumber numberWithInt:1];
         newStyle.maxVideoNum = [NSNumber numberWithInt:1];
         newStyle.maxImageNum = [NSNumber numberWithInt:10];
-        newStyle.maxContentLength = [NSNumber numberWithInt:8192];
+        newStyle.maxContentLength = [NSNumber numberWithInt:4096];
         
         newStyle.headerFontSize = [NSNumber numberWithFloat:20.0];
         newStyle.controlTextColor = [UIColor indigoColor];
