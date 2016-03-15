@@ -33,7 +33,22 @@
 #define kComposeTopBarInsectPortrait 64.0
 #define kComposeTopBarInsectLandscape 48.0
 
-@interface CourtesyCardComposeViewController () <YYTextViewDelegate, YYTextKeyboardObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CourtesyImageFrameDelegate, WechatShortVideoDelegate, MPMediaPickerControllerDelegate, CourtesyAudioFrameDelegate, AudioNoteRecorderDelegate, JotViewControllerDelegate, JTSImageViewControllerInteractionsDelegate, CourtesyCardPreviewGeneratorDelegate, CourtesyFontViewControllerDelegate>
+@interface CourtesyCardComposeViewController ()
+<
+    YYTextViewDelegate,
+    YYTextKeyboardObserver,
+    UIImagePickerControllerDelegate,
+    UINavigationControllerDelegate,
+    MPMediaPickerControllerDelegate,
+    CourtesyAudioFrameDelegate,
+    AudioNoteRecorderDelegate,
+    CourtesyImageFrameDelegate,
+    WechatShortVideoDelegate,
+    JotViewControllerDelegate,
+    JTSImageViewControllerInteractionsDelegate,
+    CourtesyCardPreviewGeneratorDelegate,
+    CourtesyFontViewControllerDelegate
+>
 @property (nonatomic, assign) CourtesyTextView *textView;
 @property (nonatomic, strong) UIView *fakeBar;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -51,14 +66,13 @@
 
 @implementation CourtesyCardComposeViewController
 
-- (instancetype)initWithCardStyle:(CourtesyCardStyleModel *)style {
+- (instancetype)initWithCard:(nullable CourtesyCardModel *)card{
     if (self = [super init]) {
         self.fd_interactivePopDisabled = YES; // 禁用全屏手势
-#warning "Test for new cards"
-        self.newcard = YES;
-        self.editable = YES;
-        self.title = @"新卡片";
-        self.style = style;
+        if (!card) {
+            card = [CourtesyCardManager newCard]; // 这里只能渲染初始卡片模型
+        }
+        _card = card;
     }
     return self;
 }
@@ -123,7 +137,7 @@
     [toolbar setItems:myToolBarItems animated:YES];
     
     /* Initial text */
-    NSMutableAttributedString *text = tryValue(self.cardContent, [[NSMutableAttributedString alloc] initWithString:@"说点什么吧……"]);
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:self.card.card_data.content];
     text.font = [UIFont systemFontOfSize:[self.style.cardFontSize floatValue]];
     text.color = self.style.cardTextColor;
     text.lineSpacing = [self.style.cardLineSpacing floatValue];
@@ -134,7 +148,7 @@
     /* Init of text view */
     CourtesyTextView *textView = [CourtesyTextView new];
     textView.delegate = self;
-    textView.typingAttributes = tryValue(self.style.cardContentAttributes, self.originalAttributes);
+    textView.typingAttributes = self.originalAttributes;
     textView.backgroundColor = [UIColor clearColor];
     textView.alwaysBounceVertical = YES;
     textView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -163,7 +177,7 @@
     
     /* Undo */
     textView.allowsUndoAndRedo = YES;
-    textView.maximumUndoLevel = 10;
+    textView.maximumUndoLevel = 20;
     
     /* Line height fixed */
     YYTextLinePositionSimpleModifier *mod = [YYTextLinePositionSimpleModifier new];
@@ -516,7 +530,7 @@
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     [dateFormatter setDateFormat:self.style.cardCreateTimeFormat];
     [dateFormatter setLocale:[NSLocale currentLocale]];
-    titleLabel.text = [dateFormatter stringFromDate:tryValue(self.cardModifyTime, tryValue(self.cardCreateTime, [NSDate date]))];
+    titleLabel.text = [dateFormatter stringFromDate:self.card.created_at_object];
     
     /* Auto layouts of Title Label */
     self.dateFormatter = dateFormatter;
@@ -1051,25 +1065,7 @@
 - (void)imagePickerController:(UIImagePickerController*)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (!self.editable) return;
-    if ([info hasKey:UIImagePickerControllerReferenceURL]) {
-        if ([info hasKey:UIImagePickerControllerReferenceURL]) {
-            __weak typeof(self) weakSelf = self;
-            PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[[info objectForKey:UIImagePickerControllerReferenceURL]]
-                                                          options:nil] lastObject];
-            FYPhotoAsset *fy = [[FYPhotoAsset alloc] initWithPHAsset:asset];
-            [fy getOriginalImageData:^(NSData *imageData) {
-                __block YYImage *image = [YYImage imageWithData:imageData];
-                [picker dismissViewControllerAnimated:YES completion:^{
-                    __strong typeof(self) strongSelf = weakSelf;
-                    [strongSelf addNewImageFrame:image at:strongSelf.textView.selectedRange animated:YES
-                                        userinfo:@{@"title": @"Untitled",
-                                                   @"type": @(CourtesyAttachmentImage),
-                                                   @"data": imageData,
-                                                   @"url": [info objectForKey:UIImagePickerControllerReferenceURL] }];
-                }];
-            }];
-        }
-    } else if ([info hasKey:UIImagePickerControllerMediaType] && [info hasKey:UIImagePickerControllerMediaURL]
+    if ([info hasKey:UIImagePickerControllerMediaType] && [info hasKey:UIImagePickerControllerMediaURL]
                && (
                    [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeMovie] ||
                    [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeVideo]
@@ -1084,6 +1080,22 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                                       @"type": @(CourtesyAttachmentVideo),
                                                       @"url": [newInfo objectForKey:UIImagePickerControllerMediaURL] }];
                    }];
+   } else if ([info hasKey:UIImagePickerControllerReferenceURL]) {
+       __weak typeof(self) weakSelf = self;
+       PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[[info objectForKey:UIImagePickerControllerReferenceURL]]
+                                                     options:nil] lastObject];
+       FYPhotoAsset *fy = [[FYPhotoAsset alloc] initWithPHAsset:asset];
+       [fy getOriginalImageData:^(NSData *imageData) {
+           __block YYImage *image = [YYImage imageWithData:imageData];
+           [picker dismissViewControllerAnimated:YES completion:^{
+               __strong typeof(self) strongSelf = weakSelf;
+               [strongSelf addNewImageFrame:image at:strongSelf.textView.selectedRange animated:YES
+                                   userinfo:@{@"title": @"Untitled",
+                                              @"type": @(CourtesyAttachmentImage),
+                                              @"data": imageData,
+                                              @"url": [info objectForKey:UIImagePickerControllerReferenceURL] }];
+           }];
+       }];
    } else {
        [picker dismissViewControllerAnimated:YES completion:nil];
    }
@@ -1120,7 +1132,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [frameView setCardTextColor:self.style.cardElementTextColor];
     [frameView setCardShadowColor:self.style.cardElementShadowColor];
     [frameView setCardBackgroundColor:self.style.cardElementBackgroundColor];
-    [frameView setAutoPlay:self.shouldAutoPlayAudio];
+    [frameView setAutoPlay:self.card.card_data.shouldAutoPlayAudio];
     [frameView setAudioURL:url];
     return [self insertFrameToTextView:frameView at:range animated:animated];
 }
@@ -1300,17 +1312,17 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [[PHPhotoLibrary sharedPhotoLibrary] saveImage:result
                                            toAlbum:@"礼记"
                                         completion:^(BOOL success) {
-                                            [self.view hideToastActivity];
                                             if (success) {
                                                 dispatch_async_on_main_queue(^{
+                                                    [self.view hideToastActivity];
                                                     [self.view makeToast:@"预览图已保存到「礼记」相簿"
                                                                 duration:kStatusBarNotificationTime
                                                                 position:CSToastPositionCenter];
                                                 });
                                             }
                                         } failure:^(NSError * _Nullable error) {
-                                            [self.view hideToastActivity];
                                             dispatch_async_on_main_queue(^{
+                                                [self.view hideToastActivity];
                                                 [self.view makeToast:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
                                                             duration:kStatusBarNotificationTime
                                                             position:CSToastPositionCenter];
@@ -1371,6 +1383,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 #pragma mark - Style Modifier
 
+- (BOOL)editable {
+    return _card.is_editable;
+}
+
+- (CourtesyCardStyleModel *)style {
+    return _card.card_data.style;
+}
+
 - (void)setNewCardFont:(UIFont *)cardFont {
     if (!cardFont) return;
     cardFont = [cardFont fontWithSize:[self.style.cardFontSize floatValue]];
@@ -1384,7 +1404,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)setEditable:(BOOL)editable {
-    _editable = editable;
+    _card.is_editable = editable;
     self.textView.editable = editable;
     [self lockAttachments:!editable];
 }

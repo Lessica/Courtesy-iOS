@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "CourtesyProfileTableViewController.h"
 #import "CourtesyAccountProfileModel.h"
-#import <RSKImageCropper/RSKImageCropper.h>
+#import "RSKImageCropper.h"
 
 #define kProfileAvatarReuseIdentifier @"kProfileAvatarReuseIdentifier"
 #define kProfileNickReuseIdentifier @"kProfileNickReuseIdentifier"

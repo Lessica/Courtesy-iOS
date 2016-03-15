@@ -6,8 +6,7 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import <jot/jot.h>
-#import <UIKit/UIKit.h>
+#import "jot.h"
 
 @interface CourtesyJotViewController : JotViewController
 @property (nonatomic, strong) UIColor *buttonBackgroundColor;

@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  PEPhotoCropEditor
+
+  Created by Zheng on 2016/03/15.
+  Copyright (c) 2016 Zheng. All rights reserved.
+*/
+
+"Constrain" = "约束";
+"Cancel" = "取消";
+"Original" = "原始";
+"Square" = "正方形";
+"3 x 2" = "3 x 2";
+"3 x 5" = "3 x 5";
+"4 x 3" = "4 x 3";
+"4 x 6" = "4 x 6";
+"5 x 7" = "5 x 7";
+"8 x 10" = "8 x 10";
+"16 x 9" = "16 x 9";

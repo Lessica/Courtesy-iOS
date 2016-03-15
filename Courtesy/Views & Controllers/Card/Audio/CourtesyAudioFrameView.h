@@ -7,7 +7,7 @@
 //
 
 #import "FDWaveformView.h"
-#import <AFSoundManager/AFSoundManager.h>
+#import "AFSoundManager.h"
 #import <MediaPlayer/MediaPlayer.h>
 
 #define kAudioFrameLabelHeight 32

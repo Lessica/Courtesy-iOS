@@ -2,12 +2,10 @@ source 'https://gitcafe.com/akuandev/Specs.git'
 target 'Courtesy' do
     platform :ios, '9.0'
     inhibit_all_warnings!
-    pod 'jot'
+    pod 'Masonry'
     pod 'ZXingObjC'
     pod 'Colours'
     pod 'MBProgressHUD'
-    pod 'PEPhotoCropEditor'
-    pod 'RSKImageCropper'
     pod 'LGAlertView'
     pod 'JSONModel'
     pod 'JDStatusBarNotification'
@@ -19,13 +17,8 @@ target 'Courtesy' do
     pod 'MJRefresh'
     pod 'YYKit'
     pod 'JTSImageViewController'
-    pod "FYPhotoLibrary"
-    pod 'CJStringValidator'
-    pod 'CNCityPickerView'
-    pod 'FDFullscreenPopGesture'
     pod 'SwipeView'
     pod 'FLEX', '~> 2.0', :configurations => ['Debug']
-    pod 'AFSoundManager'
     pod 'SSZipArchive'
 end
 

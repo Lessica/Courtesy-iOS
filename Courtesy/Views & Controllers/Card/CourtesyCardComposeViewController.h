@@ -8,23 +8,19 @@
 
 #import "CourtesyCardStyleModel.h"
 #import "CourtesyQRCodeModel.h"
-#import "CourtesyCardAttachmentModel.h"
+#import "CourtesyCardManager.h"
 
 @interface CourtesyCardComposeViewController : UIViewController
 
 // 传值
-@property (nonatomic, copy) CourtesyQRCodeModel *qrcode;
+@property (nonatomic, copy, nullable) CourtesyQRCodeModel *qrcode;
 
-@property (nonatomic, strong) CourtesyCardStyleModel *style;
 
-// 属性
-@property (nonatomic, assign, getter=isEditable) BOOL editable; // 卡片是否可修改
-@property (nonatomic, assign, getter=isNewCard) BOOL newcard; // 卡片是否是首次创建
-@property (nonatomic, strong) NSDate *cardCreateTime; // 卡片创建时间
-@property (nonatomic, strong) NSDate *cardModifyTime; // 卡片修改时间
-@property (nonatomic, copy)   NSMutableAttributedString *cardContent; // 卡片内容
-@property (nonatomic, strong) NSMutableArray<CourtesyCardAttachmentModel *> *cardAttachments; // 卡片标准附件
-@property (nonatomic, assign) BOOL shouldAutoPlayAudio; // 是否自动播放音频
+@property (nonatomic, strong, readonly, nullable) CourtesyCardModel *card;
+// Shortcut for card.editable
+@property (nonatomic, assign, readonly) BOOL editable;
+// Shortcut for card.card_data.style
+@property (nonatomic, strong, readonly, nullable) CourtesyCardStyleModel *style;
 
-- (instancetype)initWithCardStyle:(CourtesyCardStyleModel *)style;
+- (nonnull instancetype)initWithCard:(nullable CourtesyCardModel *)card;
 @end

@@ -32,7 +32,7 @@
         [self presentViewController:navc animated:YES completion:nil];
         return;
     }
-    CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCardStyle:[[CourtesyCardStyleManager sharedManager] styleWithID:kCourtesyCardStyleDefault]];
+    CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:[CourtesyCardManager newCard]];
     [self presentViewController:vc animated:YES completion:nil];
 }
 

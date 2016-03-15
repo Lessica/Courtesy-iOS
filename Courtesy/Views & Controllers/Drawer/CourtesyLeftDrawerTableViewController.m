@@ -243,7 +243,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
             return;
         }
         // 发布新卡片界面
-        CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCardStyle:[[CourtesyCardStyleManager sharedManager] styleWithID:kCourtesyCardStyleDefault]];
+        CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:[CourtesyCardManager newCard]];
         // 从扫码界面进入，设置初始模型
         vc.qrcode = qrcode;
         [self presentViewController:vc animated:YES completion:nil];
