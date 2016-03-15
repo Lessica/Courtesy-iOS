@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		0F193D661C9787150015F2B1 /* CourtesyCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F193D651C9787150015F2B1 /* CourtesyCardManager.m */; };
+		0F2851691C97D8AD0066F5C5 /* JotDrawingContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28515A1C97D8AD0066F5C5 /* JotDrawingContainer.m */; };
+		0F28516A1C97D8AD0066F5C5 /* JotDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28515C1C97D8AD0066F5C5 /* JotDrawView.m */; };
+		0F28516B1C97D8AD0066F5C5 /* JotTextEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F28515E1C97D8AD0066F5C5 /* JotTextEditView.m */; };
+		0F28516C1C97D8AD0066F5C5 /* JotTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2851601C97D8AD0066F5C5 /* JotTextView.m */; };
+		0F28516D1C97D8AD0066F5C5 /* JotTouchBezier.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2851621C97D8AD0066F5C5 /* JotTouchBezier.m */; };
+		0F28516E1C97D8AD0066F5C5 /* JotTouchPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2851641C97D8AD0066F5C5 /* JotTouchPoint.m */; };
+		0F28516F1C97D8AD0066F5C5 /* JotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2851661C97D8AD0066F5C5 /* JotViewController.m */; };
+		0F2851701C97D8AD0066F5C5 /* UIImage+Jot.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2851681C97D8AD0066F5C5 /* UIImage+Jot.m */; };
 		0F2A36731C8D325200028E96 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2A36721C8D325200028E96 /* AVKit.framework */; };
 		0F2A36751C8D397D00028E96 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */; };
 		0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F305C981C93222D0052882A /* StoreKit.framework */; };
@@ -26,14 +34,6 @@
 		0F74248D1C8FCD98002C6241 /* NSMethodSignature+EXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424611C8FCD98002C6241 /* NSMethodSignature+EXT.m */; };
 		0F90DC431C844C4E00607277 /* Drawers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */; };
 		0FBA71741C7B2A0400053696 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FBA71731C7B2A0400053696 /* MessageUI.framework */; };
-		0FD008DB1C97D35300E8C92C /* JotDrawingContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD008CC1C97D35300E8C92C /* JotDrawingContainer.m */; };
-		0FD008DC1C97D35300E8C92C /* JotDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD008CE1C97D35300E8C92C /* JotDrawView.m */; };
-		0FD008DD1C97D35300E8C92C /* JotTextEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD008D01C97D35300E8C92C /* JotTextEditView.m */; };
-		0FD008DE1C97D35300E8C92C /* JotTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD008D21C97D35300E8C92C /* JotTextView.m */; };
-		0FD008DF1C97D35300E8C92C /* JotTouchBezier.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD008D41C97D35300E8C92C /* JotTouchBezier.m */; };
-		0FD008E01C97D35300E8C92C /* JotTouchPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD008D61C97D35300E8C92C /* JotTouchPoint.m */; };
-		0FD008E11C97D35300E8C92C /* JotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD008D81C97D35300E8C92C /* JotViewController.m */; };
-		0FD008E21C97D35300E8C92C /* UIImage+Jot.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD008DA1C97D35300E8C92C /* UIImage+Jot.m */; };
 		0FD2BEC91C966D9400B5BBC9 /* CourtesyCardStyleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD2BEC81C966D9400B5BBC9 /* CourtesyCardStyleManager.m */; };
 		0FD2BECC1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD2BECB1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m */; };
 		0FD3EE261C95CD2200DE5347 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD3EE251C95CD2200DE5347 /* WatchConnectivity.framework */; };
@@ -235,6 +235,23 @@
 /* Begin PBXFileReference section */
 		0F193D641C9787150015F2B1 /* CourtesyCardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardManager.h; sourceTree = "<group>"; };
 		0F193D651C9787150015F2B1 /* CourtesyCardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardManager.m; sourceTree = "<group>"; };
+		0F2851581C97D8AD0066F5C5 /* jot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jot.h; sourceTree = "<group>"; };
+		0F2851591C97D8AD0066F5C5 /* JotDrawingContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotDrawingContainer.h; sourceTree = "<group>"; };
+		0F28515A1C97D8AD0066F5C5 /* JotDrawingContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotDrawingContainer.m; sourceTree = "<group>"; };
+		0F28515B1C97D8AD0066F5C5 /* JotDrawView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotDrawView.h; sourceTree = "<group>"; };
+		0F28515C1C97D8AD0066F5C5 /* JotDrawView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotDrawView.m; sourceTree = "<group>"; };
+		0F28515D1C97D8AD0066F5C5 /* JotTextEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotTextEditView.h; sourceTree = "<group>"; };
+		0F28515E1C97D8AD0066F5C5 /* JotTextEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotTextEditView.m; sourceTree = "<group>"; };
+		0F28515F1C97D8AD0066F5C5 /* JotTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotTextView.h; sourceTree = "<group>"; };
+		0F2851601C97D8AD0066F5C5 /* JotTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotTextView.m; sourceTree = "<group>"; };
+		0F2851611C97D8AD0066F5C5 /* JotTouchBezier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotTouchBezier.h; sourceTree = "<group>"; };
+		0F2851621C97D8AD0066F5C5 /* JotTouchBezier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotTouchBezier.m; sourceTree = "<group>"; };
+		0F2851631C97D8AD0066F5C5 /* JotTouchPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotTouchPoint.h; sourceTree = "<group>"; };
+		0F2851641C97D8AD0066F5C5 /* JotTouchPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotTouchPoint.m; sourceTree = "<group>"; };
+		0F2851651C97D8AD0066F5C5 /* JotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotViewController.h; sourceTree = "<group>"; };
+		0F2851661C97D8AD0066F5C5 /* JotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotViewController.m; sourceTree = "<group>"; };
+		0F2851671C97D8AD0066F5C5 /* UIImage+Jot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Jot.h"; sourceTree = "<group>"; };
+		0F2851681C97D8AD0066F5C5 /* UIImage+Jot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Jot.m"; sourceTree = "<group>"; };
 		0F2A36721C8D325200028E96 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		0F305C981C93222D0052882A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -272,23 +289,6 @@
 		0F7424611C8FCD98002C6241 /* NSMethodSignature+EXT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMethodSignature+EXT.m"; sourceTree = "<group>"; };
 		0FBA71731C7B2A0400053696 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0FBBF7151C78BD4700A0A2D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawers.storyboard; sourceTree = "<group>"; };
-		0FD008CA1C97D35300E8C92C /* jot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jot.h; sourceTree = "<group>"; };
-		0FD008CB1C97D35300E8C92C /* JotDrawingContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotDrawingContainer.h; sourceTree = "<group>"; };
-		0FD008CC1C97D35300E8C92C /* JotDrawingContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotDrawingContainer.m; sourceTree = "<group>"; };
-		0FD008CD1C97D35300E8C92C /* JotDrawView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotDrawView.h; sourceTree = "<group>"; };
-		0FD008CE1C97D35300E8C92C /* JotDrawView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotDrawView.m; sourceTree = "<group>"; };
-		0FD008CF1C97D35300E8C92C /* JotTextEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotTextEditView.h; sourceTree = "<group>"; };
-		0FD008D01C97D35300E8C92C /* JotTextEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotTextEditView.m; sourceTree = "<group>"; };
-		0FD008D11C97D35300E8C92C /* JotTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotTextView.h; sourceTree = "<group>"; };
-		0FD008D21C97D35300E8C92C /* JotTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotTextView.m; sourceTree = "<group>"; };
-		0FD008D31C97D35300E8C92C /* JotTouchBezier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotTouchBezier.h; sourceTree = "<group>"; };
-		0FD008D41C97D35300E8C92C /* JotTouchBezier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotTouchBezier.m; sourceTree = "<group>"; };
-		0FD008D51C97D35300E8C92C /* JotTouchPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotTouchPoint.h; sourceTree = "<group>"; };
-		0FD008D61C97D35300E8C92C /* JotTouchPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotTouchPoint.m; sourceTree = "<group>"; };
-		0FD008D71C97D35300E8C92C /* JotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotViewController.h; sourceTree = "<group>"; };
-		0FD008D81C97D35300E8C92C /* JotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotViewController.m; sourceTree = "<group>"; };
-		0FD008D91C97D35300E8C92C /* UIImage+Jot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Jot.h"; sourceTree = "<group>"; };
-		0FD008DA1C97D35300E8C92C /* UIImage+Jot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Jot.m"; sourceTree = "<group>"; };
 		0FD0205C1C81733E0069AB72 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0FD2BEC71C966D9400B5BBC9 /* CourtesyCardStyleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardStyleManager.h; sourceTree = "<group>"; };
 		0FD2BEC81C966D9400B5BBC9 /* CourtesyCardStyleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardStyleManager.m; sourceTree = "<group>"; };
@@ -627,6 +627,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F2851571C97D8AD0066F5C5 /* jot */ = {
+			isa = PBXGroup;
+			children = (
+				0F2851581C97D8AD0066F5C5 /* jot.h */,
+				0F2851591C97D8AD0066F5C5 /* JotDrawingContainer.h */,
+				0F28515A1C97D8AD0066F5C5 /* JotDrawingContainer.m */,
+				0F28515B1C97D8AD0066F5C5 /* JotDrawView.h */,
+				0F28515C1C97D8AD0066F5C5 /* JotDrawView.m */,
+				0F28515D1C97D8AD0066F5C5 /* JotTextEditView.h */,
+				0F28515E1C97D8AD0066F5C5 /* JotTextEditView.m */,
+				0F28515F1C97D8AD0066F5C5 /* JotTextView.h */,
+				0F2851601C97D8AD0066F5C5 /* JotTextView.m */,
+				0F2851611C97D8AD0066F5C5 /* JotTouchBezier.h */,
+				0F2851621C97D8AD0066F5C5 /* JotTouchBezier.m */,
+				0F2851631C97D8AD0066F5C5 /* JotTouchPoint.h */,
+				0F2851641C97D8AD0066F5C5 /* JotTouchPoint.m */,
+				0F2851651C97D8AD0066F5C5 /* JotViewController.h */,
+				0F2851661C97D8AD0066F5C5 /* JotViewController.m */,
+				0F2851671C97D8AD0066F5C5 /* UIImage+Jot.h */,
+				0F2851681C97D8AD0066F5C5 /* UIImage+Jot.m */,
+			);
+			path = jot;
+			sourceTree = "<group>";
+		};
 		0F5064DD1C9511A500F818AD /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -708,31 +732,6 @@
 				0FFE04EC1C93F51900E99DCC /* Supporting Files */,
 			);
 			path = Courtesy;
-			sourceTree = "<group>";
-		};
-		0FD008C91C97D35300E8C92C /* jot */ = {
-			isa = PBXGroup;
-			children = (
-				0FD008CA1C97D35300E8C92C /* jot.h */,
-				0FD008CB1C97D35300E8C92C /* JotDrawingContainer.h */,
-				0FD008CC1C97D35300E8C92C /* JotDrawingContainer.m */,
-				0FD008CD1C97D35300E8C92C /* JotDrawView.h */,
-				0FD008CE1C97D35300E8C92C /* JotDrawView.m */,
-				0FD008CF1C97D35300E8C92C /* JotTextEditView.h */,
-				0FD008D01C97D35300E8C92C /* JotTextEditView.m */,
-				0FD008D11C97D35300E8C92C /* JotTextView.h */,
-				0FD008D21C97D35300E8C92C /* JotTextView.m */,
-				0FD008D31C97D35300E8C92C /* JotTouchBezier.h */,
-				0FD008D41C97D35300E8C92C /* JotTouchBezier.m */,
-				0FD008D51C97D35300E8C92C /* JotTouchPoint.h */,
-				0FD008D61C97D35300E8C92C /* JotTouchPoint.m */,
-				0FD008D71C97D35300E8C92C /* JotViewController.h */,
-				0FD008D81C97D35300E8C92C /* JotViewController.m */,
-				0FD008D91C97D35300E8C92C /* UIImage+Jot.h */,
-				0FD008DA1C97D35300E8C92C /* UIImage+Jot.m */,
-			);
-			name = jot;
-			path = ../../../../../../../jot;
 			sourceTree = "<group>";
 		};
 		0FD3EE2B1C95CDC100DE5347 /* CourtesyWatch */ = {
@@ -1138,7 +1137,7 @@
 		0FFE04001C93F45800E99DCC /* Freehand */ = {
 			isa = PBXGroup;
 			children = (
-				0FD008C91C97D35300E8C92C /* jot */,
+				0F2851571C97D8AD0066F5C5 /* jot */,
 				0FFE04011C93F45800E99DCC /* CourtesyJotViewController.h */,
 				0FFE04021C93F45800E99DCC /* CourtesyJotViewController.m */,
 			);
@@ -1946,7 +1945,6 @@
 				0FF2D2871C95DA80007C23DE /* LBXScanView.m in Sources */,
 				0F74248D1C8FCD98002C6241 /* NSMethodSignature+EXT.m in Sources */,
 				0FFE04881C93F45800E99DCC /* CourtesyMessageNotificationSettingsTableViewController.m in Sources */,
-				0FD008DD1C97D35300E8C92C /* JotTextEditView.m in Sources */,
 				0FF2D2671C95D90F007C23DE /* JVFloatingDrawerView.m in Sources */,
 				0FDEFBBC1C97D617007BE8D2 /* MSDPreventImagePickerCrashOn3DTouch.m in Sources */,
 				0FFE04C91C93F47400E99DCC /* CourtesyCardPublishQueue.m in Sources */,
@@ -1986,10 +1984,11 @@
 				0FFE04CA1C93F47400E99DCC /* CourtesyLoginRegisterModel.m in Sources */,
 				0FFE052F1C93F52C00E99DCC /* UIView+FrameMethods.m in Sources */,
 				0FFE04661C93F45800E99DCC /* CourtesyJotViewController.m in Sources */,
+				0F28516D1C97D8AD0066F5C5 /* JotTouchBezier.m in Sources */,
+				0F2851701C97D8AD0066F5C5 /* UIImage+Jot.m in Sources */,
 				0FEFDBBD1C97D17500952522 /* AFSoundRecord.m in Sources */,
 				0FF2D29F1C95DAC7007C23DE /* CALayer+AddUIColor.m in Sources */,
 				0FFE04BD1C93F47400E99DCC /* CourtesyCardAttachmentModel.m in Sources */,
-				0FD008DF1C97D35300E8C92C /* JotTouchBezier.m in Sources */,
 				0FDEFBD81C97D70A007BE8D2 /* CNCityPickerView.m in Sources */,
 				0FFE05251C93F52C00E99DCC /* NLPropertyDescriptor.m in Sources */,
 				0FFE04831C93F45800E99DCC /* CourtesyAboutViewController.m in Sources */,
@@ -1997,6 +1996,7 @@
 				0FFE04611C93F45800E99DCC /* CourtesyAnimationSettingsTableViewController.m in Sources */,
 				0FFE04C61C93F47400E99DCC /* CourtesyCommonRequestModel.m in Sources */,
 				0FFE04E21C93F4D800E99DCC /* GlobalSettings.m in Sources */,
+				0F2851691C97D8AD0066F5C5 /* JotDrawingContainer.m in Sources */,
 				0FDEFBFF1C97D7B8007BE8D2 /* UIImage+RSKImageCropper.m in Sources */,
 				0FFE046B1C93F45800E99DCC /* CourtesyLeftDrawerAvatarTableViewCell.m in Sources */,
 				0FF2D2891C95DA80007C23DE /* LBXScanViewStyle.m in Sources */,
@@ -2007,11 +2007,11 @@
 				0FFE05271C93F52C00E99DCC /* NSObject+nl_dynamicPropertyStore.m in Sources */,
 				0FFE052C1C93F52C00E99DCC /* NSDictionary+Subscript.m in Sources */,
 				0FF2D28B1C95DA80007C23DE /* LBXZXCapture.m in Sources */,
-				0FD008DB1C97D35300E8C92C /* JotDrawingContainer.m in Sources */,
 				0FFE046C1C93F45800E99DCC /* CourtesyLeftDrawerMenuTableViewCell.m in Sources */,
 				0FDEFBF81C97D7B8007BE8D2 /* CGGeometry+RSKImageCropper.m in Sources */,
 				0FF2D2861C95DA80007C23DE /* LBXScanResult.m in Sources */,
 				0FDEFBE11C97D75B007BE8D2 /* FYPhotoAsset.m in Sources */,
+				0F28516C1C97D8AD0066F5C5 /* JotTextView.m in Sources */,
 				0FFE05261C93F52C00E99DCC /* NSObject+nl_dynamicPropertyCustomeStruct.m in Sources */,
 				0FFE04701C93F45800E99DCC /* CourtesyGithubWebViewController.m in Sources */,
 				0FFE04C21C93F47400E99DCC /* CourtesyCardPublishRequestModel.m in Sources */,
@@ -2019,15 +2019,14 @@
 				0FFE04C51C93F47400E99DCC /* CourtesyCardStyleModel.m in Sources */,
 				0FFE04CB1C93F47400E99DCC /* CourtesyAccountProfileModel.m in Sources */,
 				0FFE04751C93F45800E99DCC /* CourtesyMyTabBarController.m in Sources */,
+				0F28516E1C97D8AD0066F5C5 /* JotTouchPoint.m in Sources */,
 				0FFE05281C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport.m in Sources */,
-				0FD008DC1C97D35300E8C92C /* JotDrawView.m in Sources */,
 				0FFE04C01C93F47400E99DCC /* CourtesyCardEditRequestModel.m in Sources */,
 				0F74248B1C8FCD98002C6241 /* EXTSelectorChecking.m in Sources */,
 				0FFE04841C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.m in Sources */,
 				0FFE04621C93F45800E99DCC /* CourtesyAudioFrameView.m in Sources */,
 				0FDEFBFB1C97D7B8007BE8D2 /* RSKImageScrollView.m in Sources */,
 				0FFE04BE1C93F47400E99DCC /* CourtesyCardAttachmentQueryRequestModel.m in Sources */,
-				0FD008DE1C97D35300E8C92C /* JotTextView.m in Sources */,
 				0FDEFBB01C97D58F007BE8D2 /* PHPhotoLibrary+CustomPhotoCollection.m in Sources */,
 				0FD2BEC91C966D9400B5BBC9 /* CourtesyCardStyleManager.m in Sources */,
 				0FEFDBBC1C97D17500952522 /* AFSoundQueue.m in Sources */,
@@ -2037,10 +2036,11 @@
 				0FFE04C41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m in Sources */,
 				0F7424891C8FCD98002C6241 /* EXTSafeCategory.m in Sources */,
 				0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */,
-				0FD008E11C97D35300E8C92C /* JotViewController.m in Sources */,
 				0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */,
 				0FFE053F1C940D8A00E99DCC /* CourtesyWatchSessionManager.m in Sources */,
+				0F28516F1C97D8AD0066F5C5 /* JotViewController.m in Sources */,
 				0FEFDBBB1C97D17500952522 /* AFSoundPlayback.m in Sources */,
+				0F28516B1C97D8AD0066F5C5 /* JotTextEditView.m in Sources */,
 				0FF2D2841C95DA80007C23DE /* LBXScanNative.m in Sources */,
 				0FFE04C81C93F47400E99DCC /* CourtesyCardAttachmentUploadQueue.m in Sources */,
 				0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */,
@@ -2058,9 +2058,9 @@
 				0FEFDBA51C97D0F800952522 /* UIImage+PECrop.m in Sources */,
 				0FFE047E1C93F45800E99DCC /* CourtesyProfileTableViewController.m in Sources */,
 				0FEFDBA11C97D0F800952522 /* PECropView.m in Sources */,
+				0F28516A1C97D8AD0066F5C5 /* JotDrawView.m in Sources */,
 				0FFE046E1C93F45800E99DCC /* CourtesyGalleryEmptyTipTableViewCell.m in Sources */,
 				0FFE04CC1C93F47400E99DCC /* CourtesyQRCodeModel.m in Sources */,
-				0FD008E01C97D35300E8C92C /* JotTouchPoint.m in Sources */,
 				0FFE048A1C93F45800E99DCC /* CourtesyMyStarTableViewController.m in Sources */,
 				0FDEFBD51C97D70A007BE8D2 /* CNCityAreaCitiesModel.m in Sources */,
 				0FDEFBD61C97D70A007BE8D2 /* CNCityAreaFactory.m in Sources */,
@@ -2084,7 +2084,6 @@
 				0F7424871C8FCD98002C6241 /* EXTNil.m in Sources */,
 				0FFE04641C93F45800E99DCC /* CourtesyTextView.m in Sources */,
 				0FFE04791C93F45800E99DCC /* CourtesyMyOutboxTableViewController.m in Sources */,
-				0FD008E21C97D35300E8C92C /* UIImage+Jot.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
