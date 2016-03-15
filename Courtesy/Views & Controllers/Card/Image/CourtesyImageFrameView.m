@@ -79,7 +79,7 @@
         
     } else {
         if (self.optionsOpen) {
-            [self frameTapped:self];
+            [self toggleOptions:NO];
         }
     }
 }
@@ -237,37 +237,41 @@
         [self.bottomLabel resignFirstResponder];
     }
     if (self.centerImageView) {
-        if (self.optionsOpen) {
-            [self.centerImageView setHasGaussian:YES];
-            for (UIImageView *btn in self.optionButtons) {
-                btn.hidden = NO;
-            }
-            __weak typeof(self) weakSelf = self;
-            [UIView animateWithDuration:0.2
-                             animations:^{
-                                 for (UIImageView *btn in weakSelf.optionButtons) {
-                                     btn.alpha = 1.0;
-                                 }
-                             } completion:nil];
-        } else {
-            [self.centerImageView setHasGaussian:NO];
-            __weak typeof(self) weakSelf = self;
-            [UIView animateWithDuration:0.2
-                             animations:^{
-                                 for (UIImageView *btn in weakSelf.optionButtons) {
-                                     btn.alpha = 0.0;
-                                 }
-                             } completion:^(BOOL finished) {
-                                 if (finished) {
-                                     for (UIImageView *btn in weakSelf.optionButtons) {
-                                         btn.hidden = YES;
-                                     }
-                                 }
-                             }];
-        }
+        [self toggleOptions:self.optionsOpen];
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameTapped:)]) {
         [self.delegate imageFrameTapped:self];
+    }
+}
+
+- (void)toggleOptions:(BOOL)on {
+    if (on) {
+        [self.centerImageView setHasGaussian:YES];
+        for (UIImageView *btn in self.optionButtons) {
+            btn.hidden = NO;
+        }
+        __weak typeof(self) weakSelf = self;
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             for (UIImageView *btn in weakSelf.optionButtons) {
+                                 btn.alpha = 1.0;
+                             }
+                         } completion:nil];
+    } else {
+        [self.centerImageView setHasGaussian:NO];
+        __weak typeof(self) weakSelf = self;
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             for (UIImageView *btn in weakSelf.optionButtons) {
+                                 btn.alpha = 0.0;
+                             }
+                         } completion:^(BOOL finished) {
+                             if (finished) {
+                                 for (UIImageView *btn in weakSelf.optionButtons) {
+                                     btn.hidden = YES;
+                                 }
+                             }
+                         }];
     }
 }
 

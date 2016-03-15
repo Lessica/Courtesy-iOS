@@ -22,6 +22,7 @@
 		0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E21C9511D300F818AD /* CourtesyFontModel.m */; };
 		0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E51C951DDD00F818AD /* CourtesyFontManager.m */; };
 		0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */; };
+		0F5801061C98075600D18059 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5801051C98075600D18059 /* FCFileManager.m */; };
 		0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */; };
 		0F7424851C8FCD98002C6241 /* EXTADT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74244B1C8FCD98002C6241 /* EXTADT.m */; };
 		0F7424861C8FCD98002C6241 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74244D1C8FCD98002C6241 /* EXTConcreteProtocol.m */; };
@@ -57,8 +58,8 @@
 		0FDEFBD61C97D70A007BE8D2 /* CNCityAreaFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBCF1C97D70A007BE8D2 /* CNCityAreaFactory.m */; };
 		0FDEFBD71C97D70A007BE8D2 /* CNCityAreaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBD11C97D70A007BE8D2 /* CNCityAreaModel.m */; };
 		0FDEFBD81C97D70A007BE8D2 /* CNCityPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBD31C97D70A007BE8D2 /* CNCityPickerView.m */; };
-		0FDEFBE11C97D75B007BE8D2 /* FYPhotoAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBDB1C97D75B007BE8D2 /* FYPhotoAsset.m */; };
-		0FDEFBE21C97D75B007BE8D2 /* FYPhotoLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBDD1C97D75B007BE8D2 /* FYPhotoLibrary.m */; };
+		0FDEFBE11C97D75B007BE8D2 /* FYPhotoAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBDB1C97D75B007BE8D2 /* FYPhotoAsset.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
+		0FDEFBE21C97D75B007BE8D2 /* FYPhotoLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBDD1C97D75B007BE8D2 /* FYPhotoLibrary.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
 		0FDEFBE31C97D75B007BE8D2 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBE01C97D75B007BE8D2 /* UIImage+ProportionalFill.m */; };
 		0FDEFBF81C97D7B8007BE8D2 /* CGGeometry+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBE71C97D7B8007BE8D2 /* CGGeometry+RSKImageCropper.m */; };
 		0FDEFBF91C97D7B8007BE8D2 /* RSKImageCropperStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FDEFBEA1C97D7B8007BE8D2 /* RSKImageCropperStrings.bundle */; };
@@ -70,7 +71,7 @@
 		0FDEFBFF1C97D7B8007BE8D2 /* UIImage+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBF71C97D7B8007BE8D2 /* UIImage+RSKImageCropper.m */; };
 		0FEFDBA01C97D0F800952522 /* PECropRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDB961C97D0F800952522 /* PECropRectView.m */; };
 		0FEFDBA11C97D0F800952522 /* PECropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDB981C97D0F800952522 /* PECropView.m */; };
-		0FEFDBA21C97D0F800952522 /* PECropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDB9A1C97D0F800952522 /* PECropViewController.m */; };
+		0FEFDBA21C97D0F800952522 /* PECropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDB9A1C97D0F800952522 /* PECropViewController.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
 		0FEFDBA31C97D0F800952522 /* PEPhotoCropEditor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FEFDB9B1C97D0F800952522 /* PEPhotoCropEditor.bundle */; };
 		0FEFDBA41C97D0F800952522 /* PEResizeControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDB9D1C97D0F800952522 /* PEResizeControl.m */; };
 		0FEFDBA51C97D0F800952522 /* UIImage+PECrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDB9F1C97D0F800952522 /* UIImage+PECrop.m */; };
@@ -262,6 +263,8 @@
 		0F5064E71C95327F00F818AD /* CourtesyFontTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyFontTableViewCell.h; sourceTree = "<group>"; };
 		0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyFontTableViewCell.m; sourceTree = "<group>"; };
 		0F56686A1C95E1BE00AD4F04 /* CourtesyWatchQueryKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CourtesyWatchQueryKeys.h; sourceTree = "<group>"; };
+		0F5801041C98075600D18059 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
+		0F5801051C98075600D18059 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
 		0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0F74244A1C8FCD98002C6241 /* EXTADT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTADT.h; sourceTree = "<group>"; };
 		0F74244B1C8FCD98002C6241 /* EXTADT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTADT.m; sourceTree = "<group>"; };
@@ -662,9 +665,20 @@
 			name = Font;
 			sourceTree = "<group>";
 		};
+		0F5801031C98075600D18059 /* FCFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				0F5801041C98075600D18059 /* FCFileManager.h */,
+				0F5801051C98075600D18059 /* FCFileManager.m */,
+			);
+			name = FCFileManager;
+			path = Extensions/FCFileManager;
+			sourceTree = "<group>";
+		};
 		0F7424441C8FCD6A002C6241 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				0F5801031C98075600D18059 /* FCFileManager */,
 				0F7424451C8FCD98002C6241 /* External */,
 			);
 			name = Extensions;
@@ -2062,6 +2076,7 @@
 				0FFE046E1C93F45800E99DCC /* CourtesyGalleryEmptyTipTableViewCell.m in Sources */,
 				0FFE04CC1C93F47400E99DCC /* CourtesyQRCodeModel.m in Sources */,
 				0FFE048A1C93F45800E99DCC /* CourtesyMyStarTableViewController.m in Sources */,
+				0F5801061C98075600D18059 /* FCFileManager.m in Sources */,
 				0FDEFBD51C97D70A007BE8D2 /* CNCityAreaCitiesModel.m in Sources */,
 				0FDEFBD61C97D70A007BE8D2 /* CNCityAreaFactory.m in Sources */,
 				0FFE04721C93F45800E99DCC /* CourtesyLoginRegisterViewController.m in Sources */,

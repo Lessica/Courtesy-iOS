@@ -158,7 +158,10 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     UIApplication *application = [UIApplication rsk_sharedApplication];
     if (application) {
         self.originalStatusBarHidden = application.statusBarHidden;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated-declarations"
         [application setStatusBarHidden:YES];
+#pragma clang diagnostic pop
     }
     
     self.originalNavigationControllerNavigationBarHidden = self.navigationController.navigationBarHidden;
@@ -182,7 +185,10 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     
     UIApplication *application = [UIApplication rsk_sharedApplication];
     if (application) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated-declarations"
         [application setStatusBarHidden:self.originalStatusBarHidden];
+#pragma clang diagnostic pop
     }
     
     [self.navigationController setNavigationBarHidden:self.originalNavigationControllerNavigationBarHidden animated:animated];

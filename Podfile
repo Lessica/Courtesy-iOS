@@ -11,7 +11,6 @@ target 'Courtesy' do
     pod 'JDStatusBarNotification'
     pod 'NJKWebViewProgress'
     pod 'AFNetworking'
-    pod 'FCFileManager'
     pod 'Toast'
     pod 'SCRecorder'
     pod 'MJRefresh'

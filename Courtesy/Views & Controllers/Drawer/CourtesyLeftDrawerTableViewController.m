@@ -280,7 +280,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
                     position:CSToastPositionCenter];
         return NO;
     }
-    CourtesyCardComposeViewController *vc = [CourtesyCardComposeViewController new];
+    CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:[CourtesyCardManager newCard]];
     [self presentViewController:vc animated:YES completion:nil];
     [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCourtesyMainIndex inSection:kMenuSection] animated:NO scrollPosition:UITableViewScrollPositionNone];
     return YES;

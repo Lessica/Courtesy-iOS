@@ -19,11 +19,14 @@ typedef void (^FYPhotoAssetGetCoordinates)(CLLocationCoordinate2D coordinates);
 
 @interface FYPhotoAsset : NSObject
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated-declarations"
 @property (nonatomic, strong) ALAsset *alAsset;
 @property (nonatomic, strong) PHAsset *phAsset;
 
 - (id)initWithALAsset:(ALAsset*)asset;
 - (id)initWithPHAsset:(PHAsset*)asset;
+#pragma clang diagnostic pop
 
 - (void)getThumbnail:(FYPhotoAssetGetImage)result size:(CGSize)size;
 - (void)getScaledImage:(FYPhotoAssetGetImage)result height:(CGFloat)height;

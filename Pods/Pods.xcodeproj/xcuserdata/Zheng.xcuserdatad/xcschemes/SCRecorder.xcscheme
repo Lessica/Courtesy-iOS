@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '2767AA4CFACB09F8458FE4566D4B9C94'
+               BlueprintIdentifier = '8013C9A97A76A2784FF8F2D223905529'
                BlueprintName = 'SCRecorder'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libSCRecorder.a'>

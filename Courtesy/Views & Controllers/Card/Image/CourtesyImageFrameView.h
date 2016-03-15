@@ -7,6 +7,7 @@
 //
 
 #import "PECropViewController.h"
+#import "CourtesyCardAttachmentModel.h"
 
 #define kImageFrameLabelHeight 24
 #define kImageFrameLabelTextHeight 16

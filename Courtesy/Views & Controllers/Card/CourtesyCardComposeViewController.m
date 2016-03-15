@@ -712,12 +712,14 @@
                                                                 if (index == 0) {
                                                                     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
                                                                     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                                                                    picker.mediaTypes = @[(NSString *)kUTTypeImage];
                                                                     picker.delegate = strongSelf;
                                                                     picker.allowsEditing = NO;
                                                                     [strongSelf presentViewController:picker animated:YES completion:nil];
                                                                 } else {
                                                                     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
                                                                     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                                                                    picker.mediaTypes = @[(NSString *)kUTTypeImage];
                                                                     picker.delegate = strongSelf;
                                                                     picker.allowsEditing = NO;
                                                                     [strongSelf presentViewController:picker animated:YES completion:nil];
@@ -992,7 +994,7 @@
     [audioNoteRecorder removeFromParentViewController];
     NSURL *newURL = recordedURL;
     [self addNewAudioFrame:newURL at:self.textView.selectedRange animated:YES
-                  userinfo:@{@"title": @"Untitled", // TODO: 修改录音描述
+                  userinfo:@{@"title": @"Record",
                              @"type": @(CourtesyAttachmentAudio),
                              @"url": newURL }];
 }
@@ -1034,14 +1036,15 @@
     if (mediaItemCollection.count == 1) {
         if (mediaItemCollection.mediaTypes <= MPMediaTypeAnyAudio) {
             for (MPMediaItem *item in [mediaItemCollection items]) {
-                if ([item hasProtectedAsset] == NO && [item isCloudItem] == NO) {
-                    CYLog(@"%@", [item title]);
-                    CYLog(@"%@", [item assetURL]);
+                if ([item hasProtectedAsset] == NO && [item isCloudItem] == NO)
+                { // Common Music
                     [self addNewAudioFrame:[item assetURL] at:self.textView.selectedRange animated:YES
-                                  userinfo:@{@"title": [item title],
+                                  userinfo:@{@"title": [item title], // Music
                                              @"type": @(CourtesyAttachmentAudio),
                                              @"url": [item assetURL] }];
-                } else {
+                }
+                else
+                { // Apple Music
                     [self.view makeToast:@"请勿选择有版权保护的音乐"
                                 duration:kStatusBarNotificationTime
                                 position:CSToastPositionCenter];
@@ -1065,38 +1068,78 @@
 - (void)imagePickerController:(UIImagePickerController*)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (!self.editable) return;
-    if ([info hasKey:UIImagePickerControllerMediaType] && [info hasKey:UIImagePickerControllerMediaURL]
-               && (
-                   [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeMovie] ||
-                   [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeVideo]
-                  )) {
-                   __block NSURL *mediaURL = [info objectForKey:UIImagePickerControllerMediaURL];
-                   __block NSDictionary *newInfo = info;
-                   __strong typeof(self) weakSelf = self;
+    if ([info hasKey:UIImagePickerControllerMediaType]
+        && [info hasKey:UIImagePickerControllerMediaURL]
+        && (
+            [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeMovie] ||
+            [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeVideo]
+            ))
+    { // 视频或电影
+        if (
+            [[info objectForKey:UIImagePickerControllerMediaURL] isKindOfClass:[NSURL class]]
+            ) {
+            __block NSURL *mediaURL = (NSURL *)[info objectForKey:UIImagePickerControllerMediaURL];
+            __strong typeof(self) weakSelf = self;
+            [picker dismissViewControllerAnimated:YES completion:^{
+                __strong typeof(self) strongSelf = weakSelf;
+                [strongSelf addNewVideoFrame:mediaURL at:self.textView.selectedRange animated:YES
+                                    userinfo:@{@"title": @"Video",
+                                               @"type": @(CourtesyAttachmentVideo),
+                                               @"url": mediaURL }];
+            }];
+        }
+   } else if ([info hasKey:UIImagePickerControllerMediaType]
+              && (
+                  [info hasKey:UIImagePickerControllerOriginalImage] ||
+                  [info hasKey:UIImagePickerControllerReferenceURL]
+                  )
+              && (
+                  [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]
+                  ))
+   { // 静态图片、动态图片
+       if (
+           [info hasKey:UIImagePickerControllerReferenceURL]
+           && (
+               [[info objectForKey:UIImagePickerControllerReferenceURL] isKindOfClass:[NSURL class]]
+           )) { // 从别的什么地方保存的或者相册里的
+               __weak typeof(self) weakSelf = self;
+               __block NSURL *assetURL = (NSURL *)[info objectForKey:UIImagePickerControllerReferenceURL];
+               NSUInteger imageType = CourtesyAttachmentImage; // 静态图
+               if ([[[assetURL pathExtension] uppercaseString] isEqualToString:@"GIF"])
+               { // 动态图
+                   imageType = CourtesyAttachmentAnimatedImage;
+               }
+               PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[assetURL]
+                                                             options:nil] lastObject];
+               FYPhotoAsset *fy = [[FYPhotoAsset alloc] initWithPHAsset:asset];
+               [fy getOriginalImageData:^(NSData *imageData) {
+                   __block YYImage *image = [YYImage imageWithData:imageData];
                    [picker dismissViewControllerAnimated:YES completion:^{
                        __strong typeof(self) strongSelf = weakSelf;
-                       [strongSelf addNewVideoFrame:mediaURL at:self.textView.selectedRange animated:YES
-                                           userinfo:@{@"title": @"Untitled",
-                                                      @"type": @(CourtesyAttachmentVideo),
-                                                      @"url": [newInfo objectForKey:UIImagePickerControllerMediaURL] }];
+                       [strongSelf addNewImageFrame:image at:strongSelf.textView.selectedRange animated:YES
+                                           userinfo:@{@"title": @"Photo",
+                                                      @"type": @(imageType),
+                                                      @"data": imageData }];
                    }];
-   } else if ([info hasKey:UIImagePickerControllerReferenceURL]) {
-       __weak typeof(self) weakSelf = self;
-       PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[[info objectForKey:UIImagePickerControllerReferenceURL]]
-                                                     options:nil] lastObject];
-       FYPhotoAsset *fy = [[FYPhotoAsset alloc] initWithPHAsset:asset];
-       [fy getOriginalImageData:^(NSData *imageData) {
-           __block YYImage *image = [YYImage imageWithData:imageData];
+               }];
+       }
+       else if (
+                [info hasKey:UIImagePickerControllerOriginalImage]
+                && [[info objectForKey:UIImagePickerControllerOriginalImage] isKindOfClass:[UIImage class]]
+                ) { // 直接拍摄的，或者是相册里的原画
+           __block YYImage *image = (YYImage *)[info objectForKey:UIImagePickerControllerOriginalImage];
+           __weak typeof(self) weakSelf = self;
            [picker dismissViewControllerAnimated:YES completion:^{
                __strong typeof(self) strongSelf = weakSelf;
                [strongSelf addNewImageFrame:image at:strongSelf.textView.selectedRange animated:YES
-                                   userinfo:@{@"title": @"Untitled",
+                                   userinfo:@{@"title": @"Camera",
                                               @"type": @(CourtesyAttachmentImage),
-                                              @"data": imageData,
-                                              @"url": [info objectForKey:UIImagePickerControllerReferenceURL] }];
+                                              @"data": [image imageDataRepresentation] }];
            }];
-       }];
-   } else {
+       }
+   }
+   else
+   { // 不支持的类型
        [picker dismissViewControllerAnimated:YES completion:nil];
    }
 }
@@ -1222,11 +1265,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer
                          atRect:(CGRect)rect {
+    [imageViewer.view makeToastActivity:CSToastPositionCenter];
     [[PHPhotoLibrary sharedPhotoLibrary] saveImage:imageViewer.image
                                            toAlbum:@"礼记"
                                         completion:^(BOOL success) {
                                             if (success) {
                                                 dispatch_async_on_main_queue(^{
+                                                    [imageViewer.view hideToastActivity];
                                                     [imageViewer.view makeToast:@"图片已保存到「礼记」相簿"
                                                                        duration:kStatusBarNotificationTime
                                                                        position:CSToastPositionCenter];
@@ -1234,6 +1279,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                             }
                                         } failure:^(NSError * _Nullable error) {
                                             dispatch_async_on_main_queue(^{
+                                                [imageViewer.view hideToastActivity];
                                                 [imageViewer.view makeToast:[NSString stringWithFormat:@"图片保存失败 - %@", [error localizedDescription]]
                                                                    duration:kStatusBarNotificationTime
                                                                    position:CSToastPositionCenter];
@@ -1248,11 +1294,29 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (!imageFrame.editable) {
         JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
         imageInfo.title = imageFrame.labelText;
-        if (imageFrame.originalImageURL) {
+        if (imageFrame.originalImageURL)
+        { // 需要加载远程大图
             imageInfo.placeholderImage = imageFrame.centerImage;
             imageInfo.imageURL = imageFrame.originalImageURL;
-        } else {
-            imageInfo.image = [JTSAnimatedGIFUtility animatedImageWithAnimatedGIFData:[imageFrame.userinfo objectForKey:@"data"]];
+        }
+        else
+        { // 本地图片，判断是否为动态图
+            if (
+                [imageFrame.userinfo hasKey:@"type"]
+                && [[imageFrame.userinfo objectForKey:@"type"] isKindOfClass:[NSNumber class]]
+                ) {
+                NSUInteger type = [(NSNumber *)[imageFrame.userinfo objectForKey:@"type"] unsignedIntegerValue];
+                if (
+                    type == CourtesyAttachmentImage
+                    || type == CourtesyAttachmentVideo
+                    ) { // 如果是静态图或者是视频缩略图
+                    imageInfo.image = imageFrame.centerImage;
+                }
+                else if (type == CourtesyAttachmentAnimatedImage)
+                { // 如果是动态图
+                    imageInfo.image = [JTSAnimatedGIFUtility animatedImageWithAnimatedGIFData:[imageFrame.userinfo objectForKey:@"data"]];
+                }
+            }
         }
         imageInfo.referenceRect = imageFrame.centerImageView.frame;
         imageInfo.referenceView = imageFrame;
