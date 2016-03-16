@@ -119,7 +119,7 @@
 		0FFE04621C93F45800E99DCC /* CourtesyAudioFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03F81C93F45800E99DCC /* CourtesyAudioFrameView.m */; };
 		0FFE04631C93F45800E99DCC /* CourtesyCardComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03FA1C93F45800E99DCC /* CourtesyCardComposeViewController.m */; };
 		0FFE04641C93F45800E99DCC /* CourtesyTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03FC1C93F45800E99DCC /* CourtesyTextView.m */; };
-		0FFE04651C93F45800E99DCC /* CourtesyFontTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03FF1C93F45800E99DCC /* CourtesyFontTableViewController.m */; };
+		0FFE04651C93F45800E99DCC /* CourtesyFontTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03FF1C93F45800E99DCC /* CourtesyFontTableView.m */; };
 		0FFE04661C93F45800E99DCC /* CourtesyJotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04021C93F45800E99DCC /* CourtesyJotViewController.m */; };
 		0FFE04671C93F45800E99DCC /* CourtesyImageFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04051C93F45800E99DCC /* CourtesyImageFrameView.m */; };
 		0FFE04691C93F45800E99DCC /* CourtesyVideoFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE040B1C93F45800E99DCC /* CourtesyVideoFrameView.m */; };
@@ -461,8 +461,8 @@
 		0FFE03FA1C93F45800E99DCC /* CourtesyCardComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardComposeViewController.m; sourceTree = "<group>"; };
 		0FFE03FB1C93F45800E99DCC /* CourtesyTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyTextView.h; sourceTree = "<group>"; };
 		0FFE03FC1C93F45800E99DCC /* CourtesyTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyTextView.m; sourceTree = "<group>"; };
-		0FFE03FE1C93F45800E99DCC /* CourtesyFontTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyFontTableViewController.h; sourceTree = "<group>"; };
-		0FFE03FF1C93F45800E99DCC /* CourtesyFontTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyFontTableViewController.m; sourceTree = "<group>"; };
+		0FFE03FE1C93F45800E99DCC /* CourtesyFontTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyFontTableView.h; sourceTree = "<group>"; };
+		0FFE03FF1C93F45800E99DCC /* CourtesyFontTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyFontTableView.m; sourceTree = "<group>"; };
 		0FFE04011C93F45800E99DCC /* CourtesyJotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyJotViewController.h; sourceTree = "<group>"; };
 		0FFE04021C93F45800E99DCC /* CourtesyJotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyJotViewController.m; sourceTree = "<group>"; };
 		0FFE04041C93F45800E99DCC /* CourtesyImageFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyImageFrameView.h; sourceTree = "<group>"; };
@@ -1164,8 +1164,8 @@
 		0FFE03FD1C93F45800E99DCC /* Font */ = {
 			isa = PBXGroup;
 			children = (
-				0FFE03FE1C93F45800E99DCC /* CourtesyFontTableViewController.h */,
-				0FFE03FF1C93F45800E99DCC /* CourtesyFontTableViewController.m */,
+				0FFE03FE1C93F45800E99DCC /* CourtesyFontTableView.h */,
+				0FFE03FF1C93F45800E99DCC /* CourtesyFontTableView.m */,
 				0F5064E71C95327F00F818AD /* CourtesyFontTableViewCell.h */,
 				0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */,
 			);
@@ -1986,7 +1986,7 @@
 				0F74248C1C8FCD98002C6241 /* NSInvocation+EXT.m in Sources */,
 				0F74248A1C8FCD98002C6241 /* EXTScope.m in Sources */,
 				0F7424861C8FCD98002C6241 /* EXTConcreteProtocol.m in Sources */,
-				0FFE04651C93F45800E99DCC /* CourtesyFontTableViewController.m in Sources */,
+				0FFE04651C93F45800E99DCC /* CourtesyFontTableView.m in Sources */,
 				0FFE04891C93F45800E99DCC /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */,
 				0FFE04C31C93F47400E99DCC /* CourtesyCardDataModel.m in Sources */,
 				0FFE04811C93F45800E99DCC /* CourtesyProfileMobileTableViewController.m in Sources */,

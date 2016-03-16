@@ -27,5 +27,6 @@
 @property (nonatomic, strong, nullable) CourtesyAccountModel *read_by;
 @property (nonatomic, copy, nullable) NSString *local_template;
 @property (nonatomic, strong, nullable) CourtesyCardDataModel<Ignore> *card_data;
+@property (nonatomic, assign) BOOL newcard;
 
 @end

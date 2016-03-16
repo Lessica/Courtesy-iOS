@@ -42,6 +42,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIFont *font;
 @property (nonatomic, assign, readonly) BOOL downloading;
 @property (nonatomic, assign, readonly) float downloadProgress;
+@property (nonatomic, assign) CourtesyFontType type;
 @property (nonatomic, weak) id<CourtesyFontDownloadDelegate> delegate;
 
 - (void)downloadFont;

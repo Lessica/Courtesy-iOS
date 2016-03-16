@@ -32,20 +32,20 @@
         newStyle.toolbarBarTintColor = [UIColor whiteColor];
         newStyle.toolbarTintColor = [UIColor grayColor];
         
-        newStyle.cardFontSize = [NSNumber numberWithFloat:16.0];
-        newStyle.cardFont = [UIFont systemFontOfSize:[newStyle.cardFontSize floatValue]];
+        newStyle.cardFontSize = 16.0;
+        newStyle.cardFont = [UIFont systemFontOfSize:newStyle.cardFontSize];
         newStyle.cardFontType = kCourtesyFontDefault;
         newStyle.cardTextColor = [UIColor darkGrayColor];
-        newStyle.cardLineSpacing = [NSNumber numberWithFloat:8.0];
+        newStyle.cardLineSpacing = 8.0;
         newStyle.cardBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture"]];
-        newStyle.cardLineHeight = [NSNumber numberWithFloat:28.0];
+        newStyle.cardLineHeight = 28.0;
         newStyle.placeholderText = @"说点什么吧……";
         newStyle.placeholderColor = [UIColor lightGrayColor];
         newStyle.indicatorColor = [UIColor darkGrayColor];
         
-        newStyle.cardTitleFontSize = [NSNumber numberWithFloat:12.0];
+        newStyle.cardTitleFontSize = 12.0;
         newStyle.dateLabelTextColor = [UIColor darkGrayColor];
-        newStyle.standardAlpha = [NSNumber numberWithFloat:0.618];
+        newStyle.standardAlpha = 0.618;
         
         newStyle.cardElementBackgroundColor = [UIColor whiteColor];
         newStyle.cardElementTintColor = [UIColor darkGrayColor];
@@ -53,12 +53,12 @@
         newStyle.cardElementTextColor = [UIColor darkGrayColor];
         newStyle.cardElementShadowColor = [UIColor blackColor];
         
-        newStyle.defaultAnimationDuration = [NSNumber numberWithFloat:0.5];
+        newStyle.defaultAnimationDuration = 0.5;
         newStyle.cardCreateTimeFormat = @"yyyy年M月d日 EEEE ah:mm";
-        newStyle.maxAudioNum = [NSNumber numberWithInt:1];
-        newStyle.maxVideoNum = [NSNumber numberWithInt:1];
-        newStyle.maxImageNum = [NSNumber numberWithInt:10];
-        newStyle.maxContentLength = [NSNumber numberWithInt:4096];
+        newStyle.maxAudioNum = 1;
+        newStyle.maxVideoNum = 1;
+        newStyle.maxImageNum = 10;
+        newStyle.maxContentLength = 4096;
         
         newStyle.headerFontSize = [NSNumber numberWithFloat:20.0];
         newStyle.controlTextColor = [UIColor indigoColor];

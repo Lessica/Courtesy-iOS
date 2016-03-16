@@ -60,4 +60,5 @@
 @property (nonatomic, strong) UIColor *cardShadowColor;
 @property (nonatomic, strong) UIColor *cardTintFocusColor;
 
+- (void)pausePlaying;
 @end

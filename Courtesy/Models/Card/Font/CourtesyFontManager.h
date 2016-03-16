@@ -27,5 +27,6 @@
 + (id)sharedManager;
 - (void)downloadFont:(CourtesyFontModel *)font;
 - (void)pauseDownloadFont:(CourtesyFontModel *)font;
+- (UIFont *)fontWithID:(CourtesyFontType)fontType;
 
 @end

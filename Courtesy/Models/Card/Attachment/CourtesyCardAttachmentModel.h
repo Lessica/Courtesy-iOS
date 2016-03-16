@@ -21,10 +21,11 @@ typedef NS_ENUM(NSInteger, CourtesyAttachmentType) {
 @property (nonatomic, assign) CourtesyAttachmentType type;
 @property (nonatomic, copy) NSString<Optional> *title;
 @property (nonatomic, strong) NSURL<Optional> *remote_url;
-@property (nonatomic, strong) NSURL<Optional> *local_url;
-@property (nonatomic, copy) NSString *attachment_id;
+@property (nonatomic, strong) NSURL<Ignore> *local_url;
+@property (nonatomic, copy) NSString<Optional> *attachment_id;
 @property (nonatomic, copy) NSString *salt_hash;
-@property (nonatomic, assign) NSRange range;
+@property (nonatomic, assign) NSUInteger location;
+@property (nonatomic, assign) NSUInteger length;
 @property (nonatomic, assign) NSUInteger created_at;
 @property (nonatomic, strong) NSDate<Optional> *created_at_object;
 @property (nonatomic, assign) NSUInteger uploaded_at;

@@ -11,11 +11,13 @@
 #import "CourtesyCardStyleManager.h"
 
 @interface CourtesyCardDataModel : JSONModel
-@property (nonatomic, strong) NSAttributedString *content;
-@property (nonatomic, strong) NSArray<CourtesyCardAttachmentModel *> *attachments;
+@property (nonatomic, strong) NSString *content;
+@property (nonatomic, strong) NSArray<NSDictionary *> *attachments;
 @property (nonatomic, assign) CourtesyCardStyleID styleID;
+@property (nonatomic, assign) CGFloat fontSize;
+@property (nonatomic, assign) CourtesyFontType fontType;
+@property (nonatomic, assign) NSTextAlignment alignmentType;
 @property (nonatomic, strong) CourtesyCardStyleModel<Ignore> *style;
 @property (nonatomic, assign) BOOL shouldAutoPlayAudio;
-@property (nonatomic, assign) BOOL newcard;
 
 @end

@@ -11,11 +11,7 @@
 #import "CourtesyCardManager.h"
 
 @interface CourtesyCardComposeViewController : UIViewController
-
-// 传值
 @property (nonatomic, copy, nullable) CourtesyQRCodeModel *qrcode;
-
-
 @property (nonatomic, strong, readonly, nullable) CourtesyCardModel *card;
 // Shortcut for card.editable
 @property (nonatomic, assign, readonly) BOOL editable;

@@ -30,6 +30,7 @@
         fontSystem.font = [UIFont systemFontOfSize:fontSystem.defaultSize];
         fontSystem.fontPreview = [[UIImage imageNamed:@"font-applepf"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];;
         fontSystem.delegate = self;
+        fontSystem.type = kCourtesyFontDefault;
         
         CourtesyFontModel *fontSong = [CourtesyFontModel new];
         fontSong.remoteURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_FONT, @"FZSSK.TTF.zip"]];
@@ -40,6 +41,7 @@
         fontSong.font = nil;
         fontSong.fontPreview = [[UIImage imageNamed:@"font-fzssk"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         fontSong.delegate = self;
+        fontSong.type = kCourtesyFontFZSSK;
         
         CourtesyFontModel *fontKai = [CourtesyFontModel new];
         fontKai.remoteURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_FONT, @"FZKTK.TTF.zip"]];
@@ -50,6 +52,7 @@
         fontKai.font = nil;
         fontKai.fontPreview = [[UIImage imageNamed:@"font-fzktk"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         fontKai.delegate = self;
+        fontKai.type = kCourtesyFontFZKTK;
         
         CourtesyFontModel *fontHei = [CourtesyFontModel new];
         fontHei.remoteURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_FONT, @"FZHTK.TTF.zip"]];
@@ -60,6 +63,7 @@
         fontHei.font = nil;
         fontHei.fontPreview = [[UIImage imageNamed:@"font-fzhtk"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         fontHei.delegate = self;
+        fontHei.type = kCourtesyFontFZHTK;
         
         _fontList = @[fontSystem, fontHei, fontKai, fontSong];
     }
@@ -122,6 +126,15 @@
             [JDStatusBarNotification showProgress:progress];
         });
     }
+}
+
+- (UIFont *)fontWithID:(CourtesyFontType)fontType {
+    for (CourtesyFontModel *font in self.fontList) {
+        if (font.type == fontType) {
+            return font.font;
+        }
+    }
+    return nil;
 }
 
 @end

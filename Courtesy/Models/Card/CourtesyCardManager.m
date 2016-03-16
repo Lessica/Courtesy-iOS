@@ -25,9 +25,7 @@
     card.is_editable = YES;
     card.is_public = [sharedSettings switchAutoPublic];
     card.view_count = 0;
-    card.created_at = time(NULL);
     card.created_at_object = [NSDate date];
-    card.modified_at = card.created_at;
     card.modified_at_object = [NSDate date];
     card.first_read_at = 0;
     card.first_read_at_object = nil;
@@ -40,12 +38,16 @@
     
     // 初始化卡片内容
     card.card_data = [CourtesyCardDataModel new];
-    card.card_data.content = [[NSAttributedString alloc] initWithString:@"说点什么吧……"];
+    card.card_data.content = @"说点什么吧……";
     card.card_data.attachments = nil;
     card.card_data.styleID = kCourtesyCardStyleDefault;
     card.card_data.style = [[CourtesyCardStyleManager sharedManager] styleWithID:card.card_data.styleID];
+    card.card_data.fontType = card.card_data.style.cardFontType;
+    card.card_data.fontSize = card.card_data.style.cardFontSize;
     card.card_data.shouldAutoPlayAudio = NO;
-    card.card_data.newcard = YES;
+    card.card_data.alignmentType = NSTextAlignmentLeft;
+    
+    card.newcard = YES;
     return card;
 }
 

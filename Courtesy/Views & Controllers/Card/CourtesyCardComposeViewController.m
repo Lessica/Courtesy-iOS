@@ -23,8 +23,9 @@
 #import "JTSAnimatedGIFUtility.h"
 #import "CourtesyCardPreviewGenerator.h"
 #import "CourtesyTextView.h"
-#import "CourtesyFontTableViewController.h"
+#import "CourtesyFontTableView.h"
 #import "CourtesyMarkdownParser.h"
+#import "FCFileManager.h"
 
 #define kComposeTopInsect 24.0
 #define kComposeBottomInsect 24.0
@@ -47,7 +48,8 @@
     JotViewControllerDelegate,
     JTSImageViewControllerInteractionsDelegate,
     CourtesyCardPreviewGeneratorDelegate,
-    CourtesyFontViewControllerDelegate
+    CourtesyFontViewDelegate,
+    LGAlertViewDelegate
 >
 @property (nonatomic, assign) CourtesyTextView *textView;
 @property (nonatomic, strong) UIView *fakeBar;
@@ -62,10 +64,13 @@
 @property (nonatomic, strong) NSDictionary *originalAttributes;
 @property (nonatomic, strong) UIFont *originalFont;
 @property (nonatomic, strong) CourtesyMarkdownParser *markdownParser;
+@property (nonatomic, strong) UIToolbar *toolbar;
 
 @end
 
-@implementation CourtesyCardComposeViewController
+@implementation CourtesyCardComposeViewController {
+    CGRect keyboardFrame;
+}
 
 - (instancetype)initWithCard:(nullable CourtesyCardModel *)card{
     if (self = [super init]) {
@@ -105,7 +110,7 @@
     toolbarContainerView.backgroundColor = self.style.toolbarColor;
     
     /* Init of toolbar */
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width * 1.5 , 40)]; // 根据按钮数量调整，暂时定为两倍
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width , 40)]; // 根据按钮数量调整，暂时定为两倍
     toolbar.barStyle = UIBarStyleBlackTranslucent;
     toolbar.barTintColor = self.style.toolbarBarTintColor;
     toolbar.backgroundColor = [UIColor clearColor]; // 工具栏颜色在 toolbarContainerView 中定义
@@ -125,21 +130,32 @@
     [myToolBarItems addObject:flexibleSpace];
     [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(fontButtonTapped:)]];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"46-align-left"] style:UIBarButtonItemStylePlain target:self action:@selector(alignLeftButtonTapped:)]];
-    [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"48-align-center"] style:UIBarButtonItemStylePlain target:self action:@selector(alignCenterButtonTapped:)]];
-    [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"47-align-right"] style:UIBarButtonItemStylePlain target:self action:@selector(alignRightButtonTapped:)]];
+    NSString *alignmentImageName = nil;
+    if (self.card.card_data.alignmentType == NSTextAlignmentLeft) {
+        alignmentImageName = @"46-align-left";
+    } else if (self.card.card_data.alignmentType == NSTextAlignmentCenter) {
+        alignmentImageName = @"48-align-center";
+    } else {
+        alignmentImageName = @"47-align-right";
+    }
+    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:alignmentImageName] style:UIBarButtonItemStylePlain target:self action:@selector(alignButtonTapped:)]];
     [toolbar setTintColor:tryValue(self.style.toolbarTintColor, [UIColor grayColor])];
     [toolbar setItems:myToolBarItems animated:YES];
+    self.toolbar = toolbar;
     
     /* Initial text */
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:self.card.card_data.content];
-    text.font = [UIFont systemFontOfSize:[self.style.cardFontSize floatValue]];
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:self.card.card_data.content];
+    text.font = [[CourtesyFontManager sharedManager] fontWithID:self.card.card_data.fontType];
+    if (!text.font) {
+        text.font = [UIFont systemFontOfSize:self.card.card_data.fontSize];
+    } else {
+        text.font = [text.font fontWithSize:self.card.card_data.fontSize];
+    }
     text.color = self.style.cardTextColor;
-    text.lineSpacing = [self.style.cardLineSpacing floatValue];
+    text.lineSpacing = self.style.cardLineSpacing;
     text.lineBreakMode = NSLineBreakByWordWrapping;
-    self.originalFont = self.style.cardFont;
+    text.alignment = self.card.card_data.alignmentType;
+    self.originalFont = text.font;
     self.originalAttributes = tryValue(self.style.cardContentAttributes, text.attributes);
     
     /* Init of text view */
@@ -178,7 +194,7 @@
     
     /* Line height fixed */
     YYTextLinePositionSimpleModifier *mod = [YYTextLinePositionSimpleModifier new];
-    mod.fixedLineHeight = [self.style.cardLineHeight floatValue];
+    mod.fixedLineHeight = self.style.cardLineHeight;
     textView.linePositionModifier = mod;
     
     /* Toolbar */
@@ -236,7 +252,7 @@
         /* Markdown Support */
         CourtesyMarkdownParser *parser = [CourtesyMarkdownParser new];
         parser.currentFont = self.style.cardFont;
-        parser.fontSize = [self.style.cardFontSize floatValue];
+        parser.fontSize = self.style.cardFontSize;
         parser.headerFontSize = [self.style.headerFontSize floatValue];
         parser.textColor = self.style.cardTextColor;
         parser.controlTextColor = self.style.controlTextColor;
@@ -299,7 +315,7 @@
     /* Init of Fake Status Bar */
     CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
     UIView *fakeBar = [[UIView alloc] initWithFrame:frame];
-    fakeBar.alpha = [self.style.standardAlpha floatValue];
+    fakeBar.alpha = self.style.standardAlpha;
     fakeBar.backgroundColor = self.style.statusBarColor;
     fakeBar.hidden = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
     
@@ -319,7 +335,7 @@
     UIButton *circleCloseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleCloseBtn.backgroundColor = self.style.buttonBackgroundColor;
     circleCloseBtn.tintColor = self.style.buttonTintColor;
-    circleCloseBtn.alpha = [self.style.standardAlpha floatValue] - 0.2;
+    circleCloseBtn.alpha = self.style.standardAlpha - 0.2;
     [circleCloseBtn setImage:[[UIImage imageNamed:@"101-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [circleCloseBtn setImage:[[UIImage imageNamed:@"39-close-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
     circleCloseBtn.selected = NO;
@@ -370,7 +386,7 @@
     UIButton *circleApproveBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleApproveBtn.backgroundColor = self.style.buttonBackgroundColor;
     circleApproveBtn.tintColor = self.style.buttonTintColor;
-    circleApproveBtn.alpha = [self.style.standardAlpha floatValue] - 0.2;
+    circleApproveBtn.alpha = self.style.standardAlpha - 0.2;
     [circleApproveBtn setImage:[[UIImage imageNamed:@"40-approve-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [circleApproveBtn setImage:[[UIImage imageNamed:@"102-paper-plane"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
     circleApproveBtn.selected = NO;
@@ -421,7 +437,7 @@
     UIImageView *circleBackBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleBackBtn.backgroundColor = self.style.buttonBackgroundColor;
     circleBackBtn.tintColor = self.style.buttonTintColor;
-    circleBackBtn.alpha = [self.style.standardAlpha floatValue] - 0.2;
+    circleBackBtn.alpha = self.style.standardAlpha - 0.2;
     circleBackBtn.image = [[UIImage imageNamed:@"56-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     circleBackBtn.layer.masksToBounds = YES;
     circleBackBtn.layer.cornerRadius = circleBackBtn.frame.size.height / 2;
@@ -478,7 +494,7 @@
     UIImageView *circleSaveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleSaveBtn.backgroundColor = self.style.buttonBackgroundColor;
     circleSaveBtn.tintColor = self.style.buttonTintColor;
-    circleSaveBtn.alpha = [self.style.standardAlpha floatValue] - 0.2;
+    circleSaveBtn.alpha = self.style.standardAlpha - 0.2;
     circleSaveBtn.image = [[UIImage imageNamed:@"103-down"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     circleSaveBtn.layer.masksToBounds = YES;
     circleSaveBtn.layer.cornerRadius = circleSaveBtn.frame.size.height / 2;
@@ -535,7 +551,7 @@
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, 24)];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textColor = self.style.dateLabelTextColor;
-    titleLabel.font = [UIFont systemFontOfSize:[self.style.cardTitleFontSize floatValue]];
+    titleLabel.font = [UIFont systemFontOfSize:self.style.cardTitleFontSize];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -664,9 +680,9 @@
 
 - (void)doneComposeView:(UIButton *)sender {
     if (sender.selected) {
-#warning "Send"
+        [self serialize];
     } else {
-        if (self.textView.text.length >= [self.style.maxContentLength integerValue]) {
+        if (self.textView.text.length >= self.style.maxContentLength) {
             [self.view makeToast:@"卡片内容太多了喔"
                         duration:kStatusBarNotificationTime
                         position:CSToastPositionCenter];
@@ -685,7 +701,7 @@
         __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.5 animations:^{
             __strong typeof(self) strongSelf = weakSelf;
-            strongSelf.circleSaveBtn.alpha = [strongSelf.style.standardAlpha floatValue] - 0.2;
+            strongSelf.circleSaveBtn.alpha = strongSelf.style.standardAlpha - 0.2;
         } completion:nil];
         [self.view makeToast:@"发布前预览"
                     duration:kStatusBarNotificationTime
@@ -717,7 +733,7 @@
 
 - (void)addNewImageButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if ([self countOfImageFrame] >= [self.style.maxImageNum integerValue]) {
+    if ([self countOfImageFrame] >= self.style.maxImageNum) {
         [self.view makeToast:@"图片数量已达上限"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
@@ -760,7 +776,7 @@
 
 - (void)addNewAudioButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if ([self countOfAudioFrame] >= [self.style.maxAudioNum integerValue]) {
+    if ([self countOfAudioFrame] >= self.style.maxAudioNum) {
         [self.view makeToast:@"音频数量已达上限"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
@@ -799,7 +815,7 @@
 
 - (void)addNewVideoButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if ([self countOfVideoFrame] >= [self.style.maxVideoNum integerValue]) {
+    if ([self countOfVideoFrame] >= self.style.maxVideoNum) {
         [self.view makeToast:@"视频数量已达上限"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
@@ -860,8 +876,8 @@
                      animations:^{
                          __strong typeof(self) strongSelf = weakSelf;
                          strongSelf.circleBackBtn.alpha = 0.0;
-                         strongSelf.circleApproveBtn.alpha = [strongSelf.style.standardAlpha floatValue] - 0.2;
-                         strongSelf.circleCloseBtn.alpha = [strongSelf.style.standardAlpha floatValue] - 0.2;
+                         strongSelf.circleApproveBtn.alpha = strongSelf.style.standardAlpha - 0.2;
+                         strongSelf.circleCloseBtn.alpha = strongSelf.style.standardAlpha - 0.2;
                      } completion:^(BOOL finished) {
                          __strong typeof(self) strongSelf = weakSelf;
                          if (finished) {
@@ -890,7 +906,7 @@
     [UIView animateWithDuration:0.5
                      animations:^{
                          __strong typeof(self) strongSelf = weakSelf;
-                         strongSelf.circleBackBtn.alpha = [strongSelf.style.standardAlpha floatValue] - 0.2;
+                         strongSelf.circleBackBtn.alpha = strongSelf.style.standardAlpha - 0.2;
                          strongSelf.circleApproveBtn.alpha = 0;
                          strongSelf.circleCloseBtn.alpha = 0;
                      } completion:^(BOOL finished) {
@@ -906,13 +922,19 @@
 
 - (void)fontButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-    CourtesyFontTableViewController *vc = [[CourtesyFontTableViewController alloc] initWithMasterViewController:self];
-    vc.delegate = self;
-    vc.fitSize = [self.style.cardFontSize floatValue];
-    [self addChildViewController:vc];
-    [self.view addSubview:vc.view];
-    [vc didMoveToParentViewController:self];
+    if (!self.textView.inputView) {
+        CourtesyFontTableView *fontView = [[CourtesyFontTableView alloc] initWithFrame:CGRectMake(keyboardFrame.origin.x, keyboardFrame.origin.y + self.toolbar.frame.size.height, keyboardFrame.size.width, keyboardFrame.size.height - self.toolbar.size.height)];
+        fontView.delegate = self;
+        fontView.card = self.card;
+        fontView.fitSize = self.style.cardFontSize;
+        self.textView.inputView = fontView;
+        [self.textView reloadInputViews];
+        [self.textView becomeFirstResponder];
+    } else {
+        self.textView.inputView = nil;
+        [self.textView reloadInputViews];
+        [self.textView becomeFirstResponder];
+    }
 }
 
 - (void)addUrlButtonTapped:(UIBarButtonItem *)sender {
@@ -923,9 +945,7 @@
                     position:CSToastPositionCenter];
         return;
     }
-    __block NSRange range = self.textView.selectedRange;
     if ([self.textView isFirstResponder]) [self.textView resignFirstResponder];
-    __weak typeof(self) weakSelf = self;
     LGAlertView *urlAlert = [[LGAlertView alloc] initWithTextFieldsAndTitle:@"添加链接"
                                                                     message:@"请键入链接标题、网址或电子邮箱地址"
                                                          numberOfTextFields:2
@@ -938,41 +958,29 @@
                                                      } buttonTitles:@[@"确认"]
                                                           cancelButtonTitle:@"取消"
                                                      destructiveButtonTitle:nil
-                                                              actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
-                                                                  __strong typeof(self) strongSelf = weakSelf;
-                                                                  if (index == 0) {
-                                                                      if (
-                                                                          [alertView.textFieldsArray objectAtIndex:0]
-                                                                          && [[alertView.textFieldsArray objectAtIndex:0] isKindOfClass:[UITextField class]]
-                                                                          && [alertView.textFieldsArray objectAtIndex:1]
-                                                                          && [[alertView.textFieldsArray objectAtIndex:1] isKindOfClass:[UITextField class]]
-                                                                          ) {
-                                                                          NSString *title = [(UITextField *)[alertView.textFieldsArray objectAtIndex:0] text];
-                                                                          NSString *url = [(UITextField *)[alertView.textFieldsArray objectAtIndex:1] text];
-                                                                          NSString *insert_str = [NSString stringWithFormat:@"[%@] (%@)", title, url];
-                                                                          [strongSelf.textView replaceRange:[YYTextRange rangeWithRange:range] withText:insert_str];
-                                                                      }
-                                                                  }
-                                                              } cancelHandler:^(LGAlertView *alertView) {
-                                                                  __strong typeof(self) strongSelf = weakSelf;
-                                                                  if (![strongSelf.textView isFirstResponder]) [strongSelf.textView becomeFirstResponder];
-                                                              } destructiveHandler:nil];
+                                                                   delegate:self];
     [urlAlert showAnimated:YES completionHandler:nil];
 }
 
-- (void)alignLeftButtonTapped:(UIBarButtonItem *)sender {
+- (void)alignButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    [self setTextViewAlignment:NSTextAlignmentLeft];
-}
-
-- (void)alignCenterButtonTapped:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
-    [self setTextViewAlignment:NSTextAlignmentCenter];
-}
-
-- (void)alignRightButtonTapped:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
-    [self setTextViewAlignment:NSTextAlignmentRight];
+    if (self.card.card_data.alignmentType == NSTextAlignmentLeft) {
+        self.card.card_data.alignmentType = NSTextAlignmentCenter;
+    } else if (self.card.card_data.alignmentType == NSTextAlignmentCenter) {
+        self.card.card_data.alignmentType = NSTextAlignmentRight;
+    } else {
+        self.card.card_data.alignmentType = NSTextAlignmentLeft;
+    }
+    NSString *alignmentImageName = nil;
+    if (self.card.card_data.alignmentType == NSTextAlignmentLeft) {
+        alignmentImageName = @"46-align-left";
+    } else if (self.card.card_data.alignmentType == NSTextAlignmentCenter) {
+        alignmentImageName = @"48-align-center";
+    } else {
+        alignmentImageName = @"47-align-right";
+    }
+    [sender setImage:[UIImage imageNamed:alignmentImageName]];
+    [self setTextViewAlignment:self.card.card_data.alignmentType];
 }
 
 - (void)setTextViewAlignment:(NSTextAlignment)alignment {
@@ -988,10 +996,33 @@
         [self.textView setTypingAttributes:newTypingAttributes];
     }
     [self.textView setTextAlignment:alignment];
-//    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
-//    [string setAlignment:alignment];
-//    [self.textView setSelectedRange:range];
-//    [self.textView scrollRangeToVisible:range];
+}
+
+#pragma mark - LGAlertViewDelegate
+
+- (void)alertViewCancelled:(LGAlertView *)alertView {
+    if (![self.textView isFirstResponder]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.textView becomeFirstResponder];
+        });
+    }
+}
+
+- (void)alertView:(LGAlertView *)alertView buttonPressedWithTitle:(NSString *)title index:(NSUInteger)index {
+    if (index == 0) {
+        if (
+            [alertView.textFieldsArray objectAtIndex:0]
+            && [[alertView.textFieldsArray objectAtIndex:0] isKindOfClass:[UITextField class]]
+            && [alertView.textFieldsArray objectAtIndex:1]
+            && [[alertView.textFieldsArray objectAtIndex:1] isKindOfClass:[UITextField class]]
+            ) {
+            NSRange range = self.textView.selectedRange;
+            NSString *title = [(UITextField *)[alertView.textFieldsArray objectAtIndex:0] text];
+            NSString *url = [(UITextField *)[alertView.textFieldsArray objectAtIndex:1] text];
+            NSString *insert_str = [NSString stringWithFormat:@"[%@] (%@)", title, url];
+            [self.textView replaceRange:[YYTextRange rangeWithRange:range] withText:insert_str];
+        }
+    }
 }
 
 #pragma mark - AudioNoteRecorderDelegate
@@ -1014,22 +1045,20 @@
                              @"url": newURL }];
 }
 
-#pragma mark - CourtesyFontViewControllerDelegate
+#pragma mark - CourtesyFontViewDelegate
 
-- (void)fontViewControllerDidCancel:(CourtesyFontTableViewController *)fontViewController {
-    [fontViewController.view removeFromSuperview];
-    [fontViewController removeFromParentViewController];
+- (void)fontViewDidCancel:(CourtesyFontTableView *)fontView {
+    self.textView.inputView = nil;
+    [self.textView reloadInputViews];
     if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
 }
 
-- (void)fontViewControllerDidTapDone:(CourtesyFontTableViewController *)fontViewController
-                            withFont:(UIFont *)font { [self setNewCardFont:font]; }
+- (void)fontViewDidTapDone:(CourtesyFontTableView *)fontView withFont:(UIFont *)font { [self setNewCardFont:font]; }
 
-- (void)fontViewController:(CourtesyFontTableViewController *)fontViewController
-            changeFontSize:(CGFloat)size {
+- (void)fontView:(CourtesyFontTableView *)fontView changeFontSize:(CGFloat)size {
     CYLog(@"%.1f", size);
-    self.style.cardFontSize = [NSNumber numberWithFloat:size];
-    [self setNewCardFont:[_originalFont fontWithSize:[self.style.cardFontSize floatValue]]];
+    self.style.cardFontSize = size;
+    [self setNewCardFont:[_originalFont fontWithSize:self.style.cardFontSize]];
 }
 
 #pragma mark - MPMediaPickerControllerDelegate
@@ -1053,10 +1082,24 @@
             for (MPMediaItem *item in [mediaItemCollection items]) {
                 if ([item hasProtectedAsset] == NO && [item isCloudItem] == NO)
                 { // Common Music
-                    [self addNewAudioFrame:[item assetURL] at:self.textView.selectedRange animated:YES
-                                  userinfo:@{@"title": [item title], // Music
-                                             @"type": @(CourtesyAttachmentAudio),
-                                             @"url": [item assetURL] }];
+                    __weak typeof(self) weakSelf = self;
+                    NSString *tempPath = NSTemporaryDirectory();
+                    NSURL *url = [item valueForProperty:MPMediaItemPropertyAssetURL];
+                    AVURLAsset *songAsset = [AVURLAsset URLAssetWithURL:url options:nil];
+                    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset: songAsset presetName: AVAssetExportPresetPassthrough];
+                    exporter.outputFileType = @"com.apple.coreaudio-format";
+                    NSString *fname = [[NSString stringWithFormat:@"%f", [[NSDate date] timeIntervalSince1970]] stringByAppendingString:@".caf"];
+                    NSString *exportFile = [tempPath stringByAppendingPathComponent:fname];
+                    exporter.outputURL = [NSURL fileURLWithPath:exportFile];
+                    [exporter exportAsynchronouslyWithCompletionHandler:^{
+                        dispatch_async_on_main_queue(^{
+                            __strong typeof(self) strongSelf = weakSelf;
+                            [strongSelf addNewAudioFrame:[item assetURL] at:strongSelf.textView.selectedRange animated:YES
+                                                userinfo:@{@"title": [item title], // Music
+                                                           @"type": @(CourtesyAttachmentAudio),
+                                                           @"url": [NSURL fileURLWithPath:exportFile] }];
+                        });
+                    }];
                 }
                 else
                 { // Apple Music
@@ -1182,7 +1225,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, [self.style.cardLineHeight floatValue] * 2)];
+    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, self.style.cardLineHeight * 2)];
     [frameView setDelegate:self];
     [frameView setUserinfo:info];
     [frameView setCardTintColor:self.style.cardElementTintColor];
@@ -1209,10 +1252,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [frameView setCardTextColor:self.style.cardElementTextColor];
     [frameView setCardShadowColor:self.style.cardElementShadowColor];
     [frameView setCardBackgroundColor:self.style.cardElementBackgroundColor];
-    [frameView setStandardLineHeight:[self.style.cardLineHeight floatValue]];
+    [frameView setStandardLineHeight:self.style.cardLineHeight];
     [frameView setEditable:self.editable];
     [frameView setCenterImage:image];
-    if (frameView.frame.size.height < [self.style.cardLineHeight floatValue]) return nil;
+    if (frameView.frame.size.height < self.style.cardLineHeight) return nil;
     return [self insertFrameToTextView:frameView at:range animated:animated];
 }
 
@@ -1230,7 +1273,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [frameView setCardTextColor:self.style.cardElementTextColor];
     [frameView setCardShadowColor:self.style.cardElementShadowColor];
     [frameView setCardBackgroundColor:self.style.cardElementBackgroundColor];
-    [frameView setStandardLineHeight:[self.style.cardLineHeight floatValue]];
+    [frameView setStandardLineHeight:self.style.cardLineHeight];
     [frameView setEditable:self.editable];
     [frameView setVideoURL:url];
     return [self insertFrameToTextView:frameView at:range animated:animated];
@@ -1245,7 +1288,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (animated) [frameView setAlpha:0.0];
     // Add Frame View to Text View (Method 1)
     NSMutableString *insertHelper = [[NSMutableString alloc] initWithString:@"\n"];
-    int t = floor(frameView.height / [self.style.cardLineHeight floatValue]);
+    int t = floor(frameView.height / self.style.cardLineHeight);
     for (int i = 0; i < t; i++) [insertHelper appendString:@"\n"];
     NSMutableAttributedString *attachText = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSAttributedString alloc] initWithString:insertHelper attributes:self.originalAttributes]];
     [attachText appendAttributedString:[NSMutableAttributedString attachmentStringWithContent:frameView
@@ -1435,6 +1478,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     [(CourtesyImageFrameView *)attachment.content setEditable:!locked];
                 } else if ([attachment.content isMemberOfClass:[CourtesyVideoFrameView class]]) {
                     [(CourtesyVideoFrameView *)attachment.content setEditable:!locked];
+                } else if ([attachment.content isMemberOfClass:[CourtesyAudioFrameView class]]) {
+                    [(CourtesyAudioFrameView *)attachment.content pausePlaying];
                 }
             }
         }
@@ -1472,7 +1517,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)setNewCardFont:(UIFont *)cardFont {
     if (!cardFont) return;
-    CGFloat fontSize = [self.style.cardFontSize floatValue];
+    CGFloat fontSize = self.style.cardFontSize;
     cardFont = [cardFont fontWithSize:fontSize];
     if (self.markdownParser) {
         self.markdownParser.currentFont = cardFont;
@@ -1497,8 +1542,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - YYTextViewDelegate
 
 - (BOOL)textView:(YYTextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    if ((textView.text.length + text.length - range.length) > [self.style.maxContentLength unsignedIntegerValue]) {
-        [self.view makeToast:[NSString stringWithFormat:@"超出最大长度限制 (%lu)", [self.style.maxContentLength unsignedIntegerValue]]
+    if ((textView.text.length + text.length - range.length) > self.style.maxContentLength) {
+        [self.view makeToast:[NSString stringWithFormat:@"超出最大长度限制 (%lu)", self.style.maxContentLength]
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
         return NO;
@@ -1509,7 +1554,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - YYTextKeyboardObserver
 
 - (void)keyboardChangedWithTransition:(YYTextKeyboardTransition)transition {
-    
+    keyboardFrame = transition.toFrame;
 }
 
 #pragma mark - Memory Leaks
@@ -1520,6 +1565,158 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)didReceiveMemoryWarning {
     CYLog(@"Memory warning!");
+}
+
+#pragma mark - Serialize
+
+- (void)serialize {
+    [self lockAttachments:YES];
+    [self.view setUserInteractionEnabled:NO];
+    [self.view makeToastActivity:CSToastPositionCenter];
+    NSError *error = nil;
+    NSString *targetPath = [[NSURL fileURLWithPath:[[[UIApplication sharedApplication] documentsPath] stringByAppendingPathComponent:@"SavedAttachments"]] path];
+    if (![FCFileManager isDirectoryItemAtPath:targetPath])
+        [FCFileManager createDirectoriesForPath:targetPath error:&error];
+    if (error) {
+        CYLog(@"%@", error);
+        return;
+    }
+    CourtesyCardModel *card = self.card;
+    card.is_editable = YES;
+    card.is_public = [sharedSettings switchAutoPublic];
+    card.modified_at_object = [NSDate date];
+    if (card.newcard) {
+        card.edited_count = 0;
+        card.newcard = NO;
+    } else {
+        card.edited_count++;
+    }
+    card.card_data.content = self.textView.text;
+    NSMutableArray *attachments_arr = [NSMutableArray new];
+    for (id object in self.textView.textLayout.attachments) {
+        if (![object isKindOfClass:[YYTextAttachment class]]) continue;
+        YYTextAttachment *attachment = (YYTextAttachment *)object;
+        if (attachment.content) {
+            if ([attachment.content isMemberOfClass:[CourtesyImageFrameView class]]) {
+                CourtesyImageFrameView *imageFrameView = (CourtesyImageFrameView *)attachment.content;
+                CourtesyAttachmentType file_type = [[imageFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
+                NSData *binary = nil;
+                NSString *ext = nil;
+                if (file_type == CourtesyAttachmentImage) {
+                    binary = UIImageJPEGRepresentation(imageFrameView.centerImage, 0.2);
+                    ext = @"jpg";
+                } else if (file_type == CourtesyAttachmentAnimatedImage) {
+                    binary = [imageFrameView.userinfo objectForKey:@"data"];
+                    ext = @"gif";
+                } else {
+                    return;
+                }
+                if (!binary) {
+                    CYLog(@"Runtime error!");
+                    return;
+                }
+                NSString *salt_hash = [binary sha256String];
+                NSString *file_path = [[targetPath stringByAppendingPathComponent:salt_hash] stringByAppendingPathExtension:ext];
+                [binary writeToFile:file_path options:NSDataWritingAtomic error:&error];
+                if (error) {
+                    CYLog(@"Runtime error!");
+                    return;
+                }
+                CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
+                a.type = file_type;
+                a.title = [imageFrameView.userinfo objectForKey:@"title"];
+                a.remote_url = nil;
+                a.local_url = [NSURL fileURLWithPath:file_path];
+                a.attachment_id = nil;
+                a.length = imageFrameView.selfRange.length;
+                a.location = imageFrameView.selfRange.location;
+                a.created_at_object = card.modified_at_object;
+                a.salt_hash = salt_hash;
+                [attachments_arr addObject:[a toDictionary]];
+            } else if ([attachment.content isMemberOfClass:[CourtesyVideoFrameView class]]) {
+                CourtesyVideoFrameView *videoFrameView = (CourtesyVideoFrameView *)attachment.content;
+                CourtesyAttachmentType file_type = [[videoFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
+                NSData *binary = nil;
+                NSURL *originalURL = [videoFrameView.userinfo objectForKey:@"url"];
+                if (!originalURL) {
+                    CYLog(@"Runtime error!");
+                    return;
+                }
+                if (file_type == CourtesyAttachmentVideo) {
+                    binary = [NSData dataWithContentsOfURL:originalURL
+                                                   options:NSDataReadingUncached
+                                                     error:&error];
+                } else {
+                    return;
+                }
+                if (!binary) {
+                    CYLog(@"Runtime error!");
+                    return;
+                }
+                NSString *salt_hash = [binary sha256String];
+                NSString *file_path = [[targetPath stringByAppendingPathComponent:salt_hash] stringByAppendingPathExtension:[originalURL pathExtension]];
+                [binary writeToFile:file_path options:NSDataWritingAtomic error:&error];
+                if (error) {
+                    CYLog(@"Runtime error!");
+                    return;
+                }
+                CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
+                a.type = file_type;
+                a.title = [videoFrameView.userinfo objectForKey:@"title"];
+                a.remote_url = nil;
+                a.local_url = [NSURL fileURLWithPath:file_path];
+                a.attachment_id = nil;
+                a.length = videoFrameView.selfRange.length;
+                a.location = videoFrameView.selfRange.location;
+                a.created_at_object = card.modified_at_object;
+                a.salt_hash = salt_hash;
+                [attachments_arr addObject:[a toDictionary]];
+            } else if ([attachment.content isMemberOfClass:[CourtesyAudioFrameView class]]) {
+                CourtesyAudioFrameView *audioFrameView = (CourtesyAudioFrameView *)attachment.content;
+                CourtesyAttachmentType file_type = [[audioFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
+                NSData *binary = nil;
+                NSURL *originalURL = [audioFrameView.userinfo objectForKey:@"url"];
+                if (!originalURL) {
+                    CYLog(@"Runtime error!");
+                    return;
+                }
+                if (file_type == CourtesyAttachmentAudio) {
+                    binary = [NSData dataWithContentsOfURL:originalURL
+                                                   options:NSDataReadingUncached
+                                                     error:&error];
+                } else {
+                    return;
+                }
+                if (!binary) {
+                    CYLog(@"Runtime error!");
+                    return;
+                }
+                NSString *salt_hash = [binary sha256String];
+                NSString *file_path = [[targetPath stringByAppendingPathComponent:salt_hash] stringByAppendingPathExtension:[originalURL pathExtension]];
+                [binary writeToFile:file_path options:NSDataWritingAtomic error:&error];
+                if (error) {
+                    CYLog(@"Runtime error!");
+                    return;
+                }
+                CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
+                a.type = file_type;
+                a.title = [audioFrameView.userinfo objectForKey:@"title"];
+                a.remote_url = nil;
+                a.local_url = [NSURL fileURLWithPath:file_path];
+                a.attachment_id = nil;
+                a.length = audioFrameView.selfRange.length;
+                a.location = audioFrameView.selfRange.location;
+                a.created_at_object = card.modified_at_object;
+                a.salt_hash = salt_hash;
+                [attachments_arr addObject:[a toDictionary]];
+            }
+        }
+    }
+    card.card_data.attachments = attachments_arr;
+    card.local_template = [card.card_data toJSONString];
+    CYLog(@"%@", [card toJSONString]);
+    [self.view hideToastActivity];
+    [self.view setUserInteractionEnabled:YES];
 }
 
 @end
