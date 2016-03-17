@@ -18,12 +18,15 @@
 #import "CourtesyJotViewController.h"
 #import "WechatShortVideoController.h"
 #import "PECropViewController.h"
-#import "AudioNoteRecorderViewController.h"
+#import "CourtesyAudioNoteRecorderView.h"
 #import "JTSImageViewController.h"
 #import "JTSAnimatedGIFUtility.h"
 #import "CourtesyCardPreviewGenerator.h"
 #import "CourtesyTextView.h"
-#import "CourtesyFontTableView.h"
+#import "CourtesyFontSheetView.h"
+#import "CourtesyAudioSheetView.h"
+#import "CourtesyImageSheetView.h"
+#import "CourtesyVideoSheetView.h"
 #import "CourtesyMarkdownParser.h"
 #import "FCFileManager.h"
 
@@ -42,13 +45,16 @@
     UINavigationControllerDelegate,
     MPMediaPickerControllerDelegate,
     CourtesyAudioFrameDelegate,
-    AudioNoteRecorderDelegate,
+    CourtesyAudioNoteRecorderDelegate,
     CourtesyImageFrameDelegate,
     WechatShortVideoDelegate,
     JotViewControllerDelegate,
     JTSImageViewControllerInteractionsDelegate,
     CourtesyCardPreviewGeneratorDelegate,
-    CourtesyFontViewDelegate,
+    CourtesyFontSheetViewDelegate,
+    CourtesyAudioSheetViewDelegate,
+    CourtesyImageSheetViewDelegate,
+    CourtesyVideoSheetViewDelegate,
     LGAlertViewDelegate
 >
 @property (nonatomic, assign) CourtesyTextView *textView;
@@ -65,13 +71,19 @@
 @property (nonatomic, strong) UIFont *originalFont;
 @property (nonatomic, strong) CourtesyMarkdownParser *markdownParser;
 @property (nonatomic, strong) UIToolbar *toolbar;
+@property (nonatomic, strong) UIBarButtonItem *audioButton;
+@property (nonatomic, strong) UIBarButtonItem *imageButton;
+@property (nonatomic, strong) UIBarButtonItem *videoButton;
+@property (nonatomic, strong) UIBarButtonItem *urlButton;
+@property (nonatomic, strong) UIBarButtonItem *drawButton;
+@property (nonatomic, strong) UIBarButtonItem *fontButton;
+@property (nonatomic, strong) UIBarButtonItem *alignmentButton;
+@property (nonatomic, assign) CGRect keyboardFrame;
+@property (nonatomic, assign) CourtesyInputViewType inputViewType;
 
 @end
 
-@implementation CourtesyCardComposeViewController {
-    CGRect keyboardFrame;
-}
-
+@implementation CourtesyCardComposeViewController
 - (instancetype)initWithCard:(nullable CourtesyCardModel *)card{
     if (self = [super init]) {
         self.fd_interactivePopDisabled = YES; // 禁用全屏手势
@@ -118,17 +130,23 @@
     /* Elements of tool bar items */ // 定义按钮元素及其样式
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSMutableArray *myToolBarItems = [NSMutableArray array];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewAudioButtonTapped:)]];
+    self.audioButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewAudioButtonTapped:)];
+    [myToolBarItems addObject:self.audioButton];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewImageButtonTapped:)]];
+    self.imageButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewImageButtonTapped:)];
+    [myToolBarItems addObject:self.imageButton];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideoButtonTapped:)]];
+    self.videoButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideoButtonTapped:)];
+    [myToolBarItems addObject:self.videoButton];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrlButtonTapped:)]];
+    self.urlButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrlButtonTapped:)];
+    [myToolBarItems addObject:self.urlButton];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(openFreehandButtonTapped:)]];
+    self.drawButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(openFreehandButtonTapped:)];
+    [myToolBarItems addObject:self.drawButton];
     [myToolBarItems addObject:flexibleSpace];
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(fontButtonTapped:)]];
+    self.fontButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(fontButtonTapped:)];
+    [myToolBarItems addObject:self.fontButton];
     [myToolBarItems addObject:flexibleSpace];
     NSString *alignmentImageName = nil;
     if (self.card.card_data.alignmentType == NSTextAlignmentLeft) {
@@ -138,8 +156,9 @@
     } else {
         alignmentImageName = @"47-align-right";
     }
-    [myToolBarItems addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:alignmentImageName] style:UIBarButtonItemStylePlain target:self action:@selector(alignButtonTapped:)]];
-    [toolbar setTintColor:tryValue(self.style.toolbarTintColor, [UIColor grayColor])];
+    self.alignmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:alignmentImageName] style:UIBarButtonItemStylePlain target:self action:@selector(alignButtonTapped:)];
+    [myToolBarItems addObject:self.alignmentButton];
+    [toolbar setTintColor:self.style.toolbarTintColor];
     [toolbar setItems:myToolBarItems animated:YES];
     self.toolbar = toolbar;
     
@@ -207,6 +226,7 @@
     /* Place holder */
     textView.placeholderText = self.style.placeholderText;
     textView.placeholderTextColor = self.style.placeholderColor;
+    textView.placeholderFont = text.font;
     
     /* Indicator (Tint Color) */
     textView.tintColor = self.style.indicatorColor;
@@ -598,10 +618,14 @@
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [textView becomeFirstResponder];
+        if (self.card.newcard) [textView selectAll:nil];
     });
     
     // 为什么要在这里滚动到最顶部一次其实我也不是很清楚
     [textView scrollToTop];
+    
+    // 设置输入区域属性
+    self.inputViewType = kCourtesyInputViewDefault;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -734,134 +758,68 @@
 
 - (void)addNewImageButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if ([self countOfImageFrame] >= self.style.maxImageNum) {
-        [self.view makeToast:@"图片数量已达上限"
-                    duration:kStatusBarNotificationTime
-                    position:CSToastPositionCenter];
-        return;
+    if (self.inputViewType != kCourtesyInputViewImageSheet) {
+        self.inputViewType = kCourtesyInputViewImageSheet;
+        sender.tintColor = self.style.toolbarHighlightColor;
+        self.fontButton.tintColor =
+        self.audioButton.tintColor =
+        self.videoButton.tintColor =
+        self.urlButton.tintColor =
+        self.drawButton.tintColor =
+        self.alignmentButton.tintColor = self.style.toolbarTintColor;
+        CourtesyImageSheetView *imageView = [[CourtesyImageSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
+        self.textView.inputView = imageView;
+    } else {
+        self.inputViewType = kCourtesyInputViewDefault;
+        sender.tintColor = self.style.toolbarTintColor;
+        self.textView.inputView = nil;
     }
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-    __weak typeof(self) weakSelf = self;
-    LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入图像"
-                                                    message:@"请选择一种方式"
-                                                      style:LGAlertViewStyleActionSheet
-                                               buttonTitles:@[@"相机", @"从相册选取"]
-                                          cancelButtonTitle:@"取消"
-                                     destructiveButtonTitle:nil
-                                              actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
-                                                  __strong typeof(self) strongSelf = weakSelf;
-                                                                if (index == 0) {
-                                                                    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-                                                                    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-                                                                    picker.mediaTypes = @[(NSString *)kUTTypeImage];
-                                                                    picker.delegate = strongSelf;
-                                                                    picker.allowsEditing = NO;
-                                                                    [strongSelf presentViewController:picker animated:YES completion:nil];
-                                                                } else {
-                                                                    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-                                                                    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-                                                                    picker.mediaTypes = @[(NSString *)kUTTypeImage];
-                                                                    picker.delegate = strongSelf;
-                                                                    picker.allowsEditing = NO;
-                                                                    [strongSelf presentViewController:picker animated:YES completion:nil];
-                                                                }
-                                                            }
-                                              cancelHandler:^(LGAlertView *alertView) {
-                                                  __strong typeof(self) strongSelf = weakSelf;
-                                                                if (!strongSelf.textView.isFirstResponder) {
-                                                                    [strongSelf.textView becomeFirstResponder];
-                                                                }
-                                                            } destructiveHandler:nil];
-    [alert showAnimated:YES completionHandler:nil];
+    [self.textView reloadInputViews];
+    if (![self.textView isFirstResponder]) [self.textView becomeFirstResponder];
 }
 
 - (void)addNewAudioButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if ([self countOfAudioFrame] >= self.style.maxAudioNum) {
-        [self.view makeToast:@"音频数量已达上限"
-                    duration:kStatusBarNotificationTime
-                    position:CSToastPositionCenter];
-        return;
+    if (self.inputViewType != kCourtesyInputViewAudioSheet) {
+        self.inputViewType = kCourtesyInputViewAudioSheet;
+        sender.tintColor = self.style.toolbarHighlightColor;
+        self.fontButton.tintColor =
+        self.imageButton.tintColor =
+        self.videoButton.tintColor =
+        self.urlButton.tintColor =
+        self.drawButton.tintColor =
+        self.alignmentButton.tintColor = self.style.toolbarTintColor;
+        CourtesyAudioSheetView *audioView = [[CourtesyAudioSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
+        self.textView.inputView = audioView;
+    } else {
+        self.inputViewType = kCourtesyInputViewDefault;
+        sender.tintColor = self.style.toolbarTintColor;
+        self.textView.inputView = nil;
     }
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-    __weak typeof(self) weakSelf = self;
-    LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入音频"
-                                                    message:@"请选择一种方式"
-                                                      style:LGAlertViewStyleActionSheet
-                                               buttonTitles:@[@"录音", @"从音乐库选取"]
-                                          cancelButtonTitle:@"取消"
-                                     destructiveButtonTitle:nil
-                                              actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
-                                                  __strong typeof(self) strongSelf = weakSelf;
-                                                  if (index == 0) {
-                                                      AudioNoteRecorderViewController *vc = [[AudioNoteRecorderViewController alloc] initWithMasterViewController:strongSelf];
-                                                      vc.delegate = strongSelf;
-                                                      [self addChildViewController:vc];
-                                                      [self.view addSubview:vc.view];
-                                                      [vc didMoveToParentViewController:self];
-                                                  } else {
-                                                      MPMediaPickerController * mediaPicker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
-                                                      mediaPicker.delegate = strongSelf;
-                                                      mediaPicker.allowsPickingMultipleItems = NO;
-                                                      [strongSelf presentViewController:mediaPicker animated:YES completion:nil];
-                                                  }
-                                              } cancelHandler:^(LGAlertView *alertView) {
-                                                  __strong typeof(self) strongSelf = weakSelf;
-                                                  if (!strongSelf.textView.isFirstResponder) {
-                                                      [strongSelf.textView becomeFirstResponder];
-                                                  }
-                                              } destructiveHandler:nil];
-    [alert showAnimated:YES completionHandler:nil];
+    [self.textView reloadInputViews];
+    if (![self.textView isFirstResponder]) [self.textView becomeFirstResponder];
 }
 
 - (void)addNewVideoButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if ([self countOfVideoFrame] >= self.style.maxVideoNum) {
-        [self.view makeToast:@"视频数量已达上限"
-                    duration:kStatusBarNotificationTime
-                    position:CSToastPositionCenter];
-        return;
+    if (self.inputViewType != kCourtesyInputViewVideoSheet) {
+        self.inputViewType = kCourtesyInputViewVideoSheet;
+        sender.tintColor = self.style.toolbarHighlightColor;
+        self.fontButton.tintColor =
+        self.imageButton.tintColor =
+        self.audioButton.tintColor =
+        self.urlButton.tintColor =
+        self.drawButton.tintColor =
+        self.alignmentButton.tintColor = self.style.toolbarTintColor;
+        CourtesyVideoSheetView *videoView = [[CourtesyVideoSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
+        self.textView.inputView = videoView;
+    } else {
+        self.inputViewType = kCourtesyInputViewDefault;
+        sender.tintColor = self.style.toolbarTintColor;
+        self.textView.inputView = nil;
     }
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-    __weak typeof(self) weakSelf = self;
-    LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"插入视频"
-                                                    message:@"请选择一种方式"
-                                                      style:LGAlertViewStyleActionSheet
-                                               buttonTitles:@[@"随手录", @"相机", @"从相册选取"]
-                                          cancelButtonTitle:@"取消"
-                                     destructiveButtonTitle:nil
-                                              actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
-                                                  __strong typeof(self) strongSelf = weakSelf;
-                                                  if (index == 0) {
-                                                      WechatShortVideoController *shortVideoController = [WechatShortVideoController new];
-                                                      shortVideoController.delegate = strongSelf;
-                                                      [strongSelf presentViewController:shortVideoController animated:YES completion:nil];
-                                                  } else if (index == 1) {
-                                                      UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-                                                      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-                                                      picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
-                                                      picker.videoMaximumDuration = 30.0;
-                                                      picker.delegate = strongSelf;
-                                                      picker.allowsEditing = YES;
-                                                      [strongSelf presentViewController:picker animated:YES completion:nil];
-                                                  } else if (index == 2) {
-                                                      UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-                                                      picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-                                                      picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
-                                                      picker.videoMaximumDuration = 30.0;
-                                                      picker.videoQuality = [sharedSettings preferredVideoQuality];
-                                                      picker.delegate = strongSelf;
-                                                      picker.allowsEditing = YES;
-                                                      [strongSelf presentViewController:picker animated:YES completion:nil];
-                                                  }
-                                              }
-                                              cancelHandler:^(LGAlertView *alertView) {
-                                                  __strong typeof(self) strongSelf = weakSelf;
-                                                  if (!strongSelf.textView.isFirstResponder) {
-                                                      [strongSelf.textView becomeFirstResponder];
-                                                  }
-                                              } destructiveHandler:nil];
-    [alert showAnimated:YES completionHandler:nil];
+    [self.textView reloadInputViews];
+    if (![self.textView isFirstResponder]) [self.textView becomeFirstResponder];
 }
 
 #pragma mark - Freehand
@@ -923,19 +881,24 @@
 
 - (void)fontButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if (!self.textView.inputView) {
-        CourtesyFontTableView *fontView = [[CourtesyFontTableView alloc] initWithFrame:CGRectMake(keyboardFrame.origin.x, keyboardFrame.origin.y + self.toolbar.frame.size.height, keyboardFrame.size.width, keyboardFrame.size.height - self.toolbar.size.height)];
-        fontView.delegate = self;
-        fontView.card = self.card;
-        fontView.fitSize = self.card.card_data.fontSize;
+    if (self.inputViewType != kCourtesyInputViewFontSheet || self.inputViewType != kCourtesyInputViewAudioNote) {
+        self.inputViewType = kCourtesyInputViewFontSheet;
+        sender.tintColor = self.style.toolbarHighlightColor;
+        self.audioButton.tintColor =
+        self.imageButton.tintColor =
+        self.videoButton.tintColor =
+        self.urlButton.tintColor =
+        self.drawButton.tintColor =
+        self.alignmentButton.tintColor = self.style.toolbarTintColor;
+        CourtesyFontSheetView *fontView = [[CourtesyFontSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
         self.textView.inputView = fontView;
-        [self.textView reloadInputViews];
-        [self.textView becomeFirstResponder];
     } else {
+        self.inputViewType = kCourtesyInputViewDefault;
+        sender.tintColor = self.style.toolbarTintColor;
         self.textView.inputView = nil;
-        [self.textView reloadInputViews];
-        [self.textView becomeFirstResponder];
     }
+    [self.textView reloadInputViews];
+    if (![self.textView isFirstResponder]) [self.textView becomeFirstResponder];
 }
 
 - (void)addUrlButtonTapped:(UIBarButtonItem *)sender {
@@ -1044,17 +1007,33 @@
 
 #pragma mark - AudioNoteRecorderDelegate
 
-- (void)audioNoteRecorderDidCancel:(AudioNoteRecorderViewController *)audioNoteRecorder {
-    [audioNoteRecorder.view removeFromSuperview];
-    [audioNoteRecorder removeFromParentViewController];
-    if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
+- (void)audioNoteRecorderDidCancel:(CourtesyAudioNoteRecorderView *)audioNoteRecorder {
+    self.inputViewType = kCourtesyInputViewAudioSheet;
+    self.audioButton.tintColor = self.style.toolbarHighlightColor;
+    self.fontButton.tintColor =
+    self.imageButton.tintColor =
+    self.videoButton.tintColor =
+    self.urlButton.tintColor =
+    self.drawButton.tintColor =
+    self.alignmentButton.tintColor = self.style.toolbarTintColor;
+    CourtesyAudioSheetView *audioView = [[CourtesyAudioSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
+    self.textView.inputView = audioView;
+    [self.textView reloadInputViews];
+    if (![self.textView isFirstResponder]) [self.textView becomeFirstResponder];
 }
 
-- (void)audioNoteRecorderDidTapDone:(AudioNoteRecorderViewController *)audioNoteRecorder
+- (void)audioNoteRecorderDidTapDone:(CourtesyAudioNoteRecorderView *)audioNoteRecorder
                     withRecordedURL:(NSURL *)recordedURL {
     if (!self.editable) return;
-    [audioNoteRecorder.view removeFromSuperview];
-    [audioNoteRecorder removeFromParentViewController];
+    self.fontButton.tintColor =
+    self.imageButton.tintColor =
+    self.videoButton.tintColor =
+    self.urlButton.tintColor =
+    self.drawButton.tintColor =
+    self.alignmentButton.tintColor =
+    self.audioButton.tintColor = self.style.toolbarTintColor;
+    self.textView.inputView = nil;
+    [self.textView reloadInputViews];
     NSURL *newURL = recordedURL;
     [self addNewAudioFrame:newURL at:self.textView.selectedRange animated:YES
                   userinfo:@{@"title": @"Record",
@@ -1062,20 +1041,143 @@
                              @"url": newURL }];
 }
 
-#pragma mark - CourtesyFontViewDelegate
+#pragma mark - CourtesyFontSheetViewDelegate
 
-- (void)fontViewDidCancel:(CourtesyFontTableView *)fontView {
-    self.textView.inputView = nil;
-    [self.textView reloadInputViews];
+- (void)fontSheetViewDidCancel:(CourtesyFontSheetView *)fontView {
     if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
 }
 
-- (void)fontViewDidTapDone:(CourtesyFontTableView *)fontView withFont:(UIFont *)font { [self setNewCardFont:font]; }
+- (void)fontSheetViewDidTapDone:(CourtesyFontSheetView *)fontView withFont:(UIFont *)font {
+    [self setNewCardFont:font];
+}
 
-- (void)fontView:(CourtesyFontTableView *)fontView changeFontSize:(CGFloat)size {
+- (void)fontSheetView:(CourtesyFontSheetView *)fontView changeFontSize:(CGFloat)size {
     CYLog(@"%.1f", size);
     self.card.card_data.fontSize = size;
     [self setNewCardFont:[_originalFont fontWithSize:size]];
+}
+
+#pragma mark - CourtesyAudioSheetViewDelegate
+
+- (void)audioSheetViewRecordButtonTapped:(CourtesyAudioSheetView *)audioSheetView {
+    if (!self.editable) return;
+    if ([self countOfAudioFrame] >= self.style.maxAudioNum) {
+        [self.view makeToast:@"音频数量已达上限"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
+    self.inputViewType = kCourtesyInputViewAudioNote;
+    self.audioButton.tintColor =
+    self.imageButton.tintColor =
+    self.videoButton.tintColor =
+    self.urlButton.tintColor =
+    self.drawButton.tintColor =
+    self.alignmentButton.tintColor = self.style.toolbarTintColor;
+    self.audioButton.tintColor = self.style.toolbarHighlightColor;
+    CourtesyAudioNoteRecorderView *audioNoteView = [[CourtesyAudioNoteRecorderView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
+    self.textView.inputView = audioNoteView;
+    [self.textView reloadInputViews];
+    [self.textView becomeFirstResponder];
+}
+
+- (void)audioSheetViewMusicButtonTapped:(CourtesyAudioSheetView *)audioSheetView {
+    if ([self countOfAudioFrame] >= self.style.maxAudioNum) {
+        [self.view makeToast:@"音频数量已达上限"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+    MPMediaPickerController * mediaPicker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
+    mediaPicker.delegate = self;
+    mediaPicker.allowsPickingMultipleItems = NO;
+    [self presentViewController:mediaPicker animated:YES completion:nil];
+}
+
+#pragma mark - CourtesyImageSheetViewDelegate
+
+- (void)imageSheetViewCameraButtonTapped:(CourtesyImageSheetView *)imageSheetView {
+    if ([self countOfImageFrame] >= self.style.maxImageNum) {
+        [self.view makeToast:@"图片数量已达上限"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    picker.mediaTypes = @[(NSString *)kUTTypeImage];
+    picker.delegate = self;
+    picker.allowsEditing = NO;
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+- (void)imageSheetViewAlbumButtonTapped:(CourtesyImageSheetView *)imageSheetView {
+    if ([self countOfImageFrame] >= self.style.maxImageNum) {
+        [self.view makeToast:@"图片数量已达上限"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.mediaTypes = @[(NSString *)kUTTypeImage];
+    picker.delegate = self;
+    picker.allowsEditing = NO;
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+#pragma mark - CourtesyVideoSheetViewDelegate
+
+- (void)videoSheetViewCameraButtonTapped:(CourtesyVideoSheetView *)videoSheetView {
+    if ([self countOfVideoFrame] >= self.style.maxVideoNum) {
+        [self.view makeToast:@"视频数量已达上限"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
+    picker.videoMaximumDuration = 30.0;
+    picker.videoQuality = [sharedSettings preferredVideoQuality];
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+- (void)videoSheetViewShortCameraButtonTapped:(CourtesyVideoSheetView *)videoSheetView {
+    if ([self countOfVideoFrame] >= self.style.maxVideoNum) {
+        [self.view makeToast:@"视频数量已达上限"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+    WechatShortVideoController *shortVideoController = [WechatShortVideoController new];
+    shortVideoController.delegate = self;
+    [self presentViewController:shortVideoController animated:YES completion:nil];
+}
+
+- (void)videoSheetViewAlbumButtonTapped:(CourtesyVideoSheetView *)videoSheetView {
+    if ([self countOfVideoFrame] >= self.style.maxVideoNum) {
+        [self.view makeToast:@"视频数量已达上限"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
+    picker.videoMaximumDuration = 30.0;
+    picker.videoQuality = [sharedSettings preferredVideoQuality];
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    [self presentViewController:picker animated:YES completion:nil];
 }
 
 #pragma mark - MPMediaPickerControllerDelegate
@@ -1233,6 +1335,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 #pragma mark - WeChatShortVideoDelegate
+
+- (void)cancelWechatShortVideoCapture:(WechatShortVideoController *)controller {
+    __weak typeof(self) weakSelf = self;
+    [controller dismissViewControllerAnimated:YES completion:^() {
+        __strong typeof(self) strongSelf = weakSelf;
+        if (!strongSelf.textView.isFirstResponder) [strongSelf.textView becomeFirstResponder];
+    }];
+}
 
 - (void)finishWechatShortVideoCapture:(WechatShortVideoController *)controller
                                  path:(NSURL *)filePath {
@@ -1559,6 +1669,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     self.originalAttributes = dict;
     self.originalFont = cardFont;
     self.textView.font = cardFont;
+    self.textView.placeholderFont = cardFont;
     self.textView.typingAttributes = self.originalAttributes;
     self.titleLabel.font = [cardFont fontWithSize:12];
 }
@@ -1586,7 +1697,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - YYTextKeyboardObserver
 
 - (void)keyboardChangedWithTransition:(YYTextKeyboardTransition)transition {
-    keyboardFrame = transition.toFrame;
+    self.keyboardFrame = transition.toFrame;
 }
 
 #pragma mark - Memory Leaks

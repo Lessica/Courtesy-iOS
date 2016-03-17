@@ -35,6 +35,7 @@
 
 @protocol WechatShortVideoDelegate <NSObject>
 
+- (void)cancelWechatShortVideoCapture:(WechatShortVideoController *)controller;
 - (void)finishWechatShortVideoCapture:(WechatShortVideoController *)controller
                                  path:(NSURL *)filePath;
 

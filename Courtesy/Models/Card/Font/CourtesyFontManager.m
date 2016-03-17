@@ -65,7 +65,18 @@
         fontHei.delegate = self;
         fontHei.type = kCourtesyFontFZHTK;
         
-        _fontList = @[fontSystem, fontHei, fontKai, fontSong];
+        CourtesyFontModel *fontXinXi = [CourtesyFontModel new];
+        fontXinXi.remoteURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_FONT, @"XXMTK.TTF.zip"]];
+        fontXinXi.localURL = [NSURL fileURLWithPath:[[[UIApplication sharedApplication] documentsPath] stringByAppendingPathComponent:@"Fonts/XXMTK.TTF"]];;
+        fontXinXi.fontName = @"微软新细明体";
+        fontXinXi.defaultSize = 16.0;
+        fontXinXi.fileSize = 5340326.0;
+        fontXinXi.font = nil;
+        fontXinXi.fontPreview = [[UIImage imageNamed:@"font-xxmtk"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        fontXinXi.delegate = self;
+        fontXinXi.type = kCourtesyFontXXMTK;
+        
+        _fontList = @[fontSystem, fontHei, fontKai, fontSong, fontXinXi];
     }
     return self;
 }

@@ -10,6 +10,15 @@
 #import "CourtesyQRCodeModel.h"
 #import "CourtesyCardManager.h"
 
+typedef enum : NSUInteger {
+    kCourtesyInputViewDefault    = 0,
+    kCourtesyInputViewFontSheet  = 1,
+    kCourtesyInputViewAudioSheet = 2,
+    kCourtesyInputViewAudioNote  = 3,
+    kCourtesyInputViewImageSheet = 4,
+    kCourtesyInputViewVideoSheet = 5,
+} CourtesyInputViewType;
+
 @interface CourtesyCardComposeViewController : UIViewController
 @property (nonatomic, copy, nullable) CourtesyQRCodeModel *qrcode;
 @property (nonatomic, strong, readonly, nullable) CourtesyCardModel *card;

@@ -12,7 +12,8 @@ typedef enum : NSUInteger {
     kCourtesyFontDefault = 0,
     kCourtesyFontFZSSK   = 1,
     kCourtesyFontFZHTK   = 2,
-    kCourtesyFontFZKTK   = 3
+    kCourtesyFontFZKTK   = 3,
+    kCourtesyFontXXMTK   = 4
 } CourtesyFontType;
 
 @class CourtesyFontModel;

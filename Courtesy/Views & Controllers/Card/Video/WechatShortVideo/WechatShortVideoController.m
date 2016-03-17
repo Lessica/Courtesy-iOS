@@ -83,7 +83,9 @@
     _recorder.previewView = nil;
     [_player pause];
     _player = nil;
-    [self dismissViewControllerAnimated:YES completion:^{}];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cancelWechatShortVideoCapture:)]) {
+        [self.delegate cancelWechatShortVideoCapture:self];
+    }
 }
 
 #pragma mark - Life Cycle

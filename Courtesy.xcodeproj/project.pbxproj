@@ -24,10 +24,14 @@
 		0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */; };
 		0F5801061C98075600D18059 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5801051C98075600D18059 /* FCFileManager.m */; };
 		0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */; };
-		0F6DD57A1C98227600CA4389 /* CocoaMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6DD5791C98227600CA4389 /* CocoaMarkdown.framework */; };
-		0F6DD57B1C98227600CA4389 /* CocoaMarkdown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6DD5791C98227600CA4389 /* CocoaMarkdown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */; };
 		0F90DC431C844C4E00607277 /* Drawers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */; };
+		0F9D7D401C9A865400C51F23 /* MarkdownTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9D7D3A1C9A865400C51F23 /* MarkdownTokenizer.m */; };
+		0F9D7D411C9A865400C51F23 /* MarkdownTokens.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9D7D3C1C9A865400C51F23 /* MarkdownTokens.m */; };
+		0F9D7D421C9A865400C51F23 /* NSAttributedStringMarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9D7D3F1C9A865400C51F23 /* NSAttributedStringMarkdownParser.m */; };
+		0FB0A5571C9ABDD0004B06F3 /* CourtesyAudioSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A5561C9ABDD0004B06F3 /* CourtesyAudioSheetView.m */; };
+		0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A5591C9AD9E6004B06F3 /* CourtesyImageSheetView.m */; };
+		0FB0A55D1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A55C1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m */; };
 		0FBA71741C7B2A0400053696 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FBA71731C7B2A0400053696 /* MessageUI.framework */; };
 		0FD2BEC91C966D9400B5BBC9 /* CourtesyCardStyleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD2BEC81C966D9400B5BBC9 /* CourtesyCardStyleManager.m */; };
 		0FD2BECC1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD2BECB1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m */; };
@@ -69,7 +73,7 @@
 		0FEFDBA31C97D0F800952522 /* PEPhotoCropEditor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FEFDB9B1C97D0F800952522 /* PEPhotoCropEditor.bundle */; };
 		0FEFDBA41C97D0F800952522 /* PEResizeControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDB9D1C97D0F800952522 /* PEResizeControl.m */; };
 		0FEFDBA51C97D0F800952522 /* UIImage+PECrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDB9F1C97D0F800952522 /* UIImage+PECrop.m */; };
-		0FEFDBAC1C97D16300952522 /* AudioNoteRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDBA81C97D16300952522 /* AudioNoteRecorderViewController.m */; };
+		0FEFDBAC1C97D16300952522 /* CourtesyAudioNoteRecorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDBA81C97D16300952522 /* CourtesyAudioNoteRecorderView.m */; };
 		0FEFDBAD1C97D16300952522 /* FDWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDBAB1C97D16300952522 /* FDWaveformView.m */; };
 		0FEFDBBA1C97D17500952522 /* AFSoundItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDBB01C97D17500952522 /* AFSoundItem.m */; };
 		0FEFDBBB1C97D17500952522 /* AFSoundPlayback.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEFDBB31C97D17500952522 /* AFSoundPlayback.m */; };
@@ -110,7 +114,7 @@
 		0FFE04621C93F45800E99DCC /* CourtesyAudioFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03F81C93F45800E99DCC /* CourtesyAudioFrameView.m */; };
 		0FFE04631C93F45800E99DCC /* CourtesyCardComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03FA1C93F45800E99DCC /* CourtesyCardComposeViewController.m */; };
 		0FFE04641C93F45800E99DCC /* CourtesyTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03FC1C93F45800E99DCC /* CourtesyTextView.m */; };
-		0FFE04651C93F45800E99DCC /* CourtesyFontTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03FF1C93F45800E99DCC /* CourtesyFontTableView.m */; };
+		0FFE04651C93F45800E99DCC /* CourtesyFontSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03FF1C93F45800E99DCC /* CourtesyFontSheetView.m */; };
 		0FFE04661C93F45800E99DCC /* CourtesyJotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04021C93F45800E99DCC /* CourtesyJotViewController.m */; };
 		0FFE04671C93F45800E99DCC /* CourtesyImageFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04051C93F45800E99DCC /* CourtesyImageFrameView.m */; };
 		0FFE04691C93F45800E99DCC /* CourtesyVideoFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE040B1C93F45800E99DCC /* CourtesyVideoFrameView.m */; };
@@ -208,7 +212,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0F6DD57B1C98227600CA4389 /* CocoaMarkdown.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,6 +276,18 @@
 		0F6DD5791C98227600CA4389 /* CocoaMarkdown.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = CocoaMarkdown.framework; path = "/Users/Zheng/Library/Developer/Xcode/DerivedData/Courtesy-cvykwatzvshbxtdkjzlrnfwqiekw/Build/Products/Debug-iphoneos/CocoaMarkdown.framework"; sourceTree = "<absolute>"; };
 		0F6DD57D1C98369200CA4389 /* CourtesyMarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyMarkdownParser.h; path = Markdown/CourtesyMarkdownParser.h; sourceTree = "<group>"; };
 		0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyMarkdownParser.m; path = Markdown/CourtesyMarkdownParser.m; sourceTree = "<group>"; };
+		0F9D7D3A1C9A865400C51F23 /* MarkdownTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MarkdownTokenizer.m; path = markdown/src/MarkdownTokenizer.m; sourceTree = SOURCE_ROOT; };
+		0F9D7D3B1C9A865400C51F23 /* MarkdownTokens.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarkdownTokens.h; path = markdown/src/MarkdownTokens.h; sourceTree = SOURCE_ROOT; };
+		0F9D7D3C1C9A865400C51F23 /* MarkdownTokens.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MarkdownTokens.m; path = markdown/src/MarkdownTokens.m; sourceTree = SOURCE_ROOT; };
+		0F9D7D3D1C9A865400C51F23 /* NimbusMarkdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NimbusMarkdown.h; path = markdown/src/NimbusMarkdown.h; sourceTree = SOURCE_ROOT; };
+		0F9D7D3E1C9A865400C51F23 /* NSAttributedStringMarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSAttributedStringMarkdownParser.h; path = markdown/src/NSAttributedStringMarkdownParser.h; sourceTree = SOURCE_ROOT; };
+		0F9D7D3F1C9A865400C51F23 /* NSAttributedStringMarkdownParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSAttributedStringMarkdownParser.m; path = markdown/src/NSAttributedStringMarkdownParser.m; sourceTree = SOURCE_ROOT; };
+		0FB0A5551C9ABDD0004B06F3 /* CourtesyAudioSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAudioSheetView.h; sourceTree = "<group>"; };
+		0FB0A5561C9ABDD0004B06F3 /* CourtesyAudioSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAudioSheetView.m; sourceTree = "<group>"; };
+		0FB0A5581C9AD9E6004B06F3 /* CourtesyImageSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyImageSheetView.h; sourceTree = "<group>"; };
+		0FB0A5591C9AD9E6004B06F3 /* CourtesyImageSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyImageSheetView.m; sourceTree = "<group>"; };
+		0FB0A55B1C9ADE8D004B06F3 /* CourtesyVideoSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyVideoSheetView.h; sourceTree = "<group>"; };
+		0FB0A55C1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyVideoSheetView.m; sourceTree = "<group>"; };
 		0FBA71731C7B2A0400053696 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0FBBF7151C78BD4700A0A2D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawers.storyboard; sourceTree = "<group>"; };
 		0FD0205C1C81733E0069AB72 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -351,8 +366,8 @@
 		0FEFDB9D1C97D0F800952522 /* PEResizeControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PEResizeControl.m; sourceTree = "<group>"; };
 		0FEFDB9E1C97D0F800952522 /* UIImage+PECrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PECrop.h"; sourceTree = "<group>"; };
 		0FEFDB9F1C97D0F800952522 /* UIImage+PECrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PECrop.m"; sourceTree = "<group>"; };
-		0FEFDBA71C97D16300952522 /* AudioNoteRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioNoteRecorderViewController.h; sourceTree = "<group>"; };
-		0FEFDBA81C97D16300952522 /* AudioNoteRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioNoteRecorderViewController.m; sourceTree = "<group>"; };
+		0FEFDBA71C97D16300952522 /* CourtesyAudioNoteRecorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAudioNoteRecorderView.h; sourceTree = "<group>"; };
+		0FEFDBA81C97D16300952522 /* CourtesyAudioNoteRecorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAudioNoteRecorderView.m; sourceTree = "<group>"; };
 		0FEFDBAA1C97D16300952522 /* FDWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDWaveformView.h; sourceTree = "<group>"; };
 		0FEFDBAB1C97D16300952522 /* FDWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDWaveformView.m; sourceTree = "<group>"; };
 		0FEFDBAF1C97D17500952522 /* AFSoundItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSoundItem.h; sourceTree = "<group>"; };
@@ -428,8 +443,8 @@
 		0FFE03FA1C93F45800E99DCC /* CourtesyCardComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardComposeViewController.m; sourceTree = "<group>"; };
 		0FFE03FB1C93F45800E99DCC /* CourtesyTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyTextView.h; sourceTree = "<group>"; };
 		0FFE03FC1C93F45800E99DCC /* CourtesyTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyTextView.m; sourceTree = "<group>"; };
-		0FFE03FE1C93F45800E99DCC /* CourtesyFontTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyFontTableView.h; sourceTree = "<group>"; };
-		0FFE03FF1C93F45800E99DCC /* CourtesyFontTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyFontTableView.m; sourceTree = "<group>"; };
+		0FFE03FE1C93F45800E99DCC /* CourtesyFontSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyFontSheetView.h; sourceTree = "<group>"; };
+		0FFE03FF1C93F45800E99DCC /* CourtesyFontSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyFontSheetView.m; sourceTree = "<group>"; };
 		0FFE04011C93F45800E99DCC /* CourtesyJotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyJotViewController.h; sourceTree = "<group>"; };
 		0FFE04021C93F45800E99DCC /* CourtesyJotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyJotViewController.m; sourceTree = "<group>"; };
 		0FFE04041C93F45800E99DCC /* CourtesyImageFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyImageFrameView.h; sourceTree = "<group>"; };
@@ -597,7 +612,6 @@
 				0FD43FCF1C846CAF00D6C564 /* MediaPlayer.framework in Frameworks */,
 				0FD43FCD1C846CA700D6C564 /* AVFoundation.framework in Frameworks */,
 				0FBA71741C7B2A0400053696 /* MessageUI.framework in Frameworks */,
-				0F6DD57A1C98227600CA4389 /* CocoaMarkdown.framework in Frameworks */,
 				4F12F23955BE0B8F28DA87D8 /* libPods-Courtesy.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -678,6 +692,12 @@
 		0F7424451C8FCD98002C6241 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				0F9D7D3A1C9A865400C51F23 /* MarkdownTokenizer.m */,
+				0F9D7D3B1C9A865400C51F23 /* MarkdownTokens.h */,
+				0F9D7D3C1C9A865400C51F23 /* MarkdownTokens.m */,
+				0F9D7D3D1C9A865400C51F23 /* NimbusMarkdown.h */,
+				0F9D7D3E1C9A865400C51F23 /* NSAttributedStringMarkdownParser.h */,
+				0F9D7D3F1C9A865400C51F23 /* NSAttributedStringMarkdownParser.m */,
 				0FF2D2AD1C95DB9E007C23DE /* UMessage */,
 			);
 			path = External;
@@ -895,8 +915,8 @@
 		0FEFDBA61C97D16300952522 /* Record */ = {
 			isa = PBXGroup;
 			children = (
-				0FEFDBA71C97D16300952522 /* AudioNoteRecorderViewController.h */,
-				0FEFDBA81C97D16300952522 /* AudioNoteRecorderViewController.m */,
+				0FEFDBA71C97D16300952522 /* CourtesyAudioNoteRecorderView.h */,
+				0FEFDBA81C97D16300952522 /* CourtesyAudioNoteRecorderView.m */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -1092,6 +1112,8 @@
 				0FEFDBA91C97D16300952522 /* Wave */,
 				0FFE03F71C93F45800E99DCC /* CourtesyAudioFrameView.h */,
 				0FFE03F81C93F45800E99DCC /* CourtesyAudioFrameView.m */,
+				0FB0A5551C9ABDD0004B06F3 /* CourtesyAudioSheetView.h */,
+				0FB0A5561C9ABDD0004B06F3 /* CourtesyAudioSheetView.m */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -1099,8 +1121,8 @@
 		0FFE03FD1C93F45800E99DCC /* Font */ = {
 			isa = PBXGroup;
 			children = (
-				0FFE03FE1C93F45800E99DCC /* CourtesyFontTableView.h */,
-				0FFE03FF1C93F45800E99DCC /* CourtesyFontTableView.m */,
+				0FFE03FE1C93F45800E99DCC /* CourtesyFontSheetView.h */,
+				0FFE03FF1C93F45800E99DCC /* CourtesyFontSheetView.m */,
 				0F5064E71C95327F00F818AD /* CourtesyFontTableViewCell.h */,
 				0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */,
 			);
@@ -1125,6 +1147,8 @@
 				0FEFDB941C97D0F800952522 /* Crop */,
 				0FFE04041C93F45800E99DCC /* CourtesyImageFrameView.h */,
 				0FFE04051C93F45800E99DCC /* CourtesyImageFrameView.m */,
+				0FB0A5581C9AD9E6004B06F3 /* CourtesyImageSheetView.h */,
+				0FB0A5591C9AD9E6004B06F3 /* CourtesyImageSheetView.m */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -1135,6 +1159,8 @@
 				0FF2D28D1C95DAC7007C23DE /* WechatShortVideo */,
 				0FFE040A1C93F45800E99DCC /* CourtesyVideoFrameView.h */,
 				0FFE040B1C93F45800E99DCC /* CourtesyVideoFrameView.m */,
+				0FB0A55B1C9ADE8D004B06F3 /* CourtesyVideoSheetView.h */,
+				0FB0A55C1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -1784,6 +1810,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				Base,
+				en,
+				"zh-Hans",
 			);
 			mainGroup = 2CE7E6541A62D8470072121A;
 			productRefGroup = 2CE7E65E1A62D8470072121A /* Products */;
@@ -1917,9 +1945,10 @@
 				0FFE04741C93F45800E99DCC /* CourtesyQuickLoginButton.m in Sources */,
 				0FEFDBBE1C97D17500952522 /* NSTimer+AFSoundManager.m in Sources */,
 				0FF2D2881C95DA80007C23DE /* LBXScanViewController.m in Sources */,
-				0FFE04651C93F45800E99DCC /* CourtesyFontTableView.m in Sources */,
+				0FFE04651C93F45800E99DCC /* CourtesyFontSheetView.m in Sources */,
 				0FFE04891C93F45800E99DCC /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */,
 				0FFE04C31C93F47400E99DCC /* CourtesyCardDataModel.m in Sources */,
+				0F9D7D421C9A865400C51F23 /* NSAttributedStringMarkdownParser.m in Sources */,
 				0FFE04811C93F45800E99DCC /* CourtesyProfileMobileTableViewController.m in Sources */,
 				0FDEFBC71C97D696007BE8D2 /* NSString+CJStringValidator.m in Sources */,
 				0FFE04C71C93F47400E99DCC /* CourtesyCardAttachmentCacheQueue.m in Sources */,
@@ -1948,6 +1977,7 @@
 				0FFE04661C93F45800E99DCC /* CourtesyJotViewController.m in Sources */,
 				0F28516D1C97D8AD0066F5C5 /* JotTouchBezier.m in Sources */,
 				0F2851701C97D8AD0066F5C5 /* UIImage+Jot.m in Sources */,
+				0FB0A5571C9ABDD0004B06F3 /* CourtesyAudioSheetView.m in Sources */,
 				0FEFDBBD1C97D17500952522 /* AFSoundRecord.m in Sources */,
 				0FF2D29F1C95DAC7007C23DE /* CALayer+AddUIColor.m in Sources */,
 				0FFE04BD1C93F47400E99DCC /* CourtesyCardAttachmentModel.m in Sources */,
@@ -1971,6 +2001,7 @@
 				0FF2D28B1C95DA80007C23DE /* LBXZXCapture.m in Sources */,
 				0FFE046C1C93F45800E99DCC /* CourtesyLeftDrawerMenuTableViewCell.m in Sources */,
 				0FDEFBF81C97D7B8007BE8D2 /* CGGeometry+RSKImageCropper.m in Sources */,
+				0F9D7D401C9A865400C51F23 /* MarkdownTokenizer.m in Sources */,
 				0FF2D2861C95DA80007C23DE /* LBXScanResult.m in Sources */,
 				0FDEFBE11C97D75B007BE8D2 /* FYPhotoAsset.m in Sources */,
 				0F28516C1C97D8AD0066F5C5 /* JotTextView.m in Sources */,
@@ -1996,6 +2027,7 @@
 				0FDEFBB51C97D5C2007BE8D2 /* NSDate+Astro.m in Sources */,
 				0FFE04C41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m in Sources */,
 				0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */,
+				0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */,
 				0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */,
 				0FFE053F1C940D8A00E99DCC /* CourtesyWatchSessionManager.m in Sources */,
 				0F28516F1C97D8AD0066F5C5 /* JotViewController.m in Sources */,
@@ -2020,6 +2052,7 @@
 				0FEFDBA11C97D0F800952522 /* PECropView.m in Sources */,
 				0F28516A1C97D8AD0066F5C5 /* JotDrawView.m in Sources */,
 				0FFE046E1C93F45800E99DCC /* CourtesyGalleryEmptyTipTableViewCell.m in Sources */,
+				0FB0A55D1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m in Sources */,
 				0FFE04CC1C93F47400E99DCC /* CourtesyQRCodeModel.m in Sources */,
 				0FFE048A1C93F45800E99DCC /* CourtesyMyStarTableViewController.m in Sources */,
 				0F5801061C98075600D18059 /* FCFileManager.m in Sources */,
@@ -2029,6 +2062,7 @@
 				0FEFDBBA1C97D17500952522 /* AFSoundItem.m in Sources */,
 				0FFE04711C93F45800E99DCC /* CourtesyLoginRegisterTextField.m in Sources */,
 				0FF2D26B1C95D93B007C23DE /* UIColor+MagicColor.m in Sources */,
+				0F9D7D411C9A865400C51F23 /* MarkdownTokens.m in Sources */,
 				0FFE04821C93F45800E99DCC /* CourtesyProfileNickTableViewController.m in Sources */,
 				0FD2BECC1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m in Sources */,
 				0FFE04F31C93F51900E99DCC /* main.m in Sources */,
@@ -2038,7 +2072,7 @@
 				0FDEFBFA1C97D7B8007BE8D2 /* RSKImageCropViewController.m in Sources */,
 				0FFE04691C93F45800E99DCC /* CourtesyVideoFrameView.m in Sources */,
 				0FF2D28A1C95DA80007C23DE /* LBXScanWrapper.m in Sources */,
-				0FEFDBAC1C97D16300952522 /* AudioNoteRecorderViewController.m in Sources */,
+				0FEFDBAC1C97D16300952522 /* CourtesyAudioNoteRecorderView.m in Sources */,
 				0FF2D2831C95DA80007C23DE /* LBXScanLineAnimation.m in Sources */,
 				0FFE04641C93F45800E99DCC /* CourtesyTextView.m in Sources */,
 				0FFE04791C93F45800E99DCC /* CourtesyMyOutboxTableViewController.m in Sources */,

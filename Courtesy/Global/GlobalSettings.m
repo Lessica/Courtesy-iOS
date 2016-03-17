@@ -269,15 +269,15 @@
     [self.appStorage setObject:[NSNumber numberWithFloat:preferredImageQuality] forKey:kPreferredImageQuality];
 }
 
-- (float)preferredVideoQuality {
+- (UIImagePickerControllerQualityType)preferredVideoQuality {
     if (![self.appStorage objectForKey:kPreferredVideoQuality]) {
-        return kCourtesyQualityMedium;
+        return UIImagePickerControllerQualityTypeMedium;
     }
-    return [(NSNumber *)[self.appStorage objectForKey:kPreferredVideoQuality] floatValue];
+    return [(NSNumber *)[self.appStorage objectForKey:kPreferredVideoQuality] integerValue];
 }
 
-- (void)setPreferredVideoQuality:(float)preferredVideoQuality {
-    [self.appStorage setObject:[NSNumber numberWithFloat:preferredVideoQuality] forKey:kPreferredVideoQuality];
+- (void)setPreferredVideoQuality:(UIImagePickerControllerQualityType)preferredVideoQuality {
+    [self.appStorage setObject:[NSNumber numberWithInteger:preferredVideoQuality] forKey:kPreferredVideoQuality];
 }
 
 - (CourtesyFontType)preferredFontType {

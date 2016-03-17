@@ -40,7 +40,7 @@
 @property (nonatomic, assign) CGFloat preferredFontSize;
 @property (nonatomic, assign) CourtesyCardStyleID preferredStyleID;
 @property (nonatomic, assign) float preferredImageQuality;
-@property (nonatomic, assign) float preferredVideoQuality;
+@property (nonatomic, assign) UIImagePickerControllerQualityType preferredVideoQuality;
 
 - (void)fetchCurrentAccountInfo;
 - (void)reloadAccount;

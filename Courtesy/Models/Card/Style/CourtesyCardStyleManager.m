@@ -31,6 +31,7 @@
         newStyle.toolbarColor = [UIColor whiteColor];
         newStyle.toolbarBarTintColor = [UIColor whiteColor];
         newStyle.toolbarTintColor = [UIColor grayColor];
+        newStyle.toolbarHighlightColor = [UIColor blueberryColor];
         
         newStyle.cardTextColor = [UIColor darkGrayColor];
         newStyle.cardLineSpacing = 8.0;
