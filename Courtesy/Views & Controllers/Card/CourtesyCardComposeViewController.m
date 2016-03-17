@@ -780,7 +780,7 @@
 
 - (void)addNewAudioButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if (self.inputViewType != kCourtesyInputViewAudioSheet) {
+    if (self.inputViewType != kCourtesyInputViewAudioSheet && self.inputViewType != kCourtesyInputViewAudioNote) {
         self.inputViewType = kCourtesyInputViewAudioSheet;
         sender.tintColor = self.style.toolbarHighlightColor;
         self.fontButton.tintColor =
@@ -881,7 +881,7 @@
 
 - (void)fontButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
-    if (self.inputViewType != kCourtesyInputViewFontSheet || self.inputViewType != kCourtesyInputViewAudioNote) {
+    if (self.inputViewType != kCourtesyInputViewFontSheet) {
         self.inputViewType = kCourtesyInputViewFontSheet;
         sender.tintColor = self.style.toolbarHighlightColor;
         self.audioButton.tintColor =
@@ -1445,7 +1445,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         [(CourtesyAudioFrameView *)frameView setSelfRange:NSMakeRange(range.location, attachText.length)];
     }
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:self.textView.attributedText];
-    [text replaceCharactersInRange:range withAttributedString:attachText];
+    [text insertAttributedString:attachText atIndex:range.location];
     [self.textView setAttributedText:text];
     [self.textView scrollRangeToVisible:range];
     
