@@ -9,8 +9,14 @@
 #import "JSONModel.h"
 #import "CourtesyAccountModel.h"
 #import "CourtesyWatchSessionManager.h"
+#import "CourtesyFontModel.h"
+#import "CourtesyCardStyleModel.h"
 #import <YYKit/YYCache.h>
 #import <YYKit/YYReachability.h>
+
+#define kCourtesyQualityLow 0.33
+#define kCourtesyQualityMedium 0.66
+#define kCourtesyQualityBest 1.00
 
 @interface GlobalSettings : NSObject
 
@@ -30,8 +36,11 @@
 @property (nonatomic, assign) BOOL switchAutoSave;
 @property (nonatomic, assign) BOOL switchAutoPublic;
 @property (nonatomic, assign) BOOL switchMarkdown;
-@property (nonatomic, assign) NSInteger preferredImageQuality;
-@property (nonatomic, assign) NSInteger preferredVideoQuality;
+@property (nonatomic, assign) CourtesyFontType preferredFontType;
+@property (nonatomic, assign) CGFloat preferredFontSize;
+@property (nonatomic, assign) CourtesyCardStyleID preferredStyleID;
+@property (nonatomic, assign) float preferredImageQuality;
+@property (nonatomic, assign) float preferredVideoQuality;
 
 - (void)fetchCurrentAccountInfo;
 - (void)reloadAccount;

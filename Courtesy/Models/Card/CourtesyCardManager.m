@@ -42,8 +42,8 @@
     card.card_data.attachments = nil;
     card.card_data.styleID = kCourtesyCardStyleDefault;
     card.card_data.style = [[CourtesyCardStyleManager sharedManager] styleWithID:card.card_data.styleID];
-    card.card_data.fontType = card.card_data.style.cardFontType;
-    card.card_data.fontSize = card.card_data.style.cardFontSize;
+    card.card_data.fontType = [sharedSettings preferredFontType];
+    card.card_data.fontSize = [sharedSettings preferredFontSize];
     card.card_data.shouldAutoPlayAudio = NO;
     card.card_data.alignmentType = NSTextAlignmentLeft;
     

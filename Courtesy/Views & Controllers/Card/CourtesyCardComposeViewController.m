@@ -153,10 +153,11 @@
     }
     text.color = self.style.cardTextColor;
     text.lineSpacing = self.style.cardLineSpacing;
+    text.paragraphSpacing = self.style.paragraphSpacing;
     text.lineBreakMode = NSLineBreakByWordWrapping;
     text.alignment = self.card.card_data.alignmentType;
     self.originalFont = text.font;
-    self.originalAttributes = tryValue(self.style.cardContentAttributes, text.attributes);
+    self.originalAttributes = text.attributes;
     
     /* Init of text view */
     CourtesyTextView *textView = [CourtesyTextView new];
@@ -251,8 +252,8 @@
     if ([sharedSettings switchMarkdown]) {
         /* Markdown Support */
         CourtesyMarkdownParser *parser = [CourtesyMarkdownParser new];
-        parser.currentFont = self.style.cardFont;
-        parser.fontSize = self.style.cardFontSize;
+        parser.currentFont = text.font;
+        parser.fontSize = self.card.card_data.fontSize;
         parser.headerFontSize = [self.style.headerFontSize floatValue];
         parser.textColor = self.style.cardTextColor;
         parser.controlTextColor = self.style.controlTextColor;
@@ -551,7 +552,7 @@
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, 24)];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textColor = self.style.dateLabelTextColor;
-    titleLabel.font = [UIFont systemFontOfSize:self.style.cardTitleFontSize];
+    titleLabel.font = [text.font fontWithSize:self.style.cardTitleFontSize];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -605,29 +606,29 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
+//    [self.textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
     [[YYTextKeyboardManager defaultManager] addObserver:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.textView removeObserver:self forKeyPath:@"typingAttributes"];
+//    [self.textView removeObserver:self forKeyPath:@"typingAttributes"];
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
 }
 
 #pragma mark - Text Attributes Holder
 
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary<NSString *,id> *)change
-                       context:(void *)context
-{
-    if ([keyPath isEqualToString:@"typingAttributes"]) {
-        self.textView.typingAttributes = self.originalAttributes;
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
+//- (void)observeValueForKeyPath:(NSString *)keyPath
+//                      ofObject:(id)object
+//                        change:(NSDictionary<NSString *,id> *)change
+//                       context:(void *)context
+//{
+//    if ([keyPath isEqualToString:@"typingAttributes"]) {
+//        self.textView.typingAttributes = self.originalAttributes;
+//    } else {
+//        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+//    }
+//}
 
 #pragma mark - Rotate
 
@@ -926,7 +927,7 @@
         CourtesyFontTableView *fontView = [[CourtesyFontTableView alloc] initWithFrame:CGRectMake(keyboardFrame.origin.x, keyboardFrame.origin.y + self.toolbar.frame.size.height, keyboardFrame.size.width, keyboardFrame.size.height - self.toolbar.size.height)];
         fontView.delegate = self;
         fontView.card = self.card;
-        fontView.fitSize = self.style.cardFontSize;
+        fontView.fitSize = self.card.card_data.fontSize;
         self.textView.inputView = fontView;
         [self.textView reloadInputViews];
         [self.textView becomeFirstResponder];
@@ -946,14 +947,25 @@
         return;
     }
     if ([self.textView isFirstResponder]) [self.textView resignFirstResponder];
-    LGAlertView *urlAlert = [[LGAlertView alloc] initWithTextFieldsAndTitle:@"添加链接"
-                                                                    message:@"请键入链接标题、网址或电子邮箱地址"
+    NSRange range = self.textView.selectedRange;
+    __block NSString *selectedText = nil;
+    if (range.length > 0) {
+        selectedText = [self.textView textInRange:[YYTextRange rangeWithRange:range]];
+    }
+    LGAlertView *urlAlert = [[LGAlertView alloc] initWithTextFieldsAndTitle:@"添加链接或引用源"
+                                                                    message:nil
                                                          numberOfTextFields:2
                                                      textFieldsSetupHandler:^(UITextField *textField, NSUInteger index) {
                                                          if (index == 0) {
                                                              textField.placeholder = @"标题";
+                                                             if (selectedText && ![selectedText isUrl] && ![selectedText isEmail]) {
+                                                                 textField.text = selectedText;
+                                                             }
                                                          } else if (index == 1) {
-                                                             textField.placeholder = @"网址或电子邮箱地址";
+                                                             textField.placeholder = @"网址、邮箱地址或引用源";
+                                                             if (selectedText && ([selectedText isUrl] || [selectedText isEmail])) {
+                                                                 textField.text = selectedText;
+                                                             }
                                                          }
                                                      } buttonTitles:@[@"确认"]
                                                           cancelButtonTitle:@"取消"
@@ -1019,7 +1031,12 @@
             NSRange range = self.textView.selectedRange;
             NSString *title = [(UITextField *)[alertView.textFieldsArray objectAtIndex:0] text];
             NSString *url = [(UITextField *)[alertView.textFieldsArray objectAtIndex:1] text];
-            NSString *insert_str = [NSString stringWithFormat:@"[%@] (%@)", title, url];
+            NSString *insert_str = nil;
+            if ([url isUrl] || [url isEmail]) {
+                insert_str = [NSString stringWithFormat:@"[%@] (%@)", title, url];
+            } else {
+                insert_str = [NSString stringWithFormat:@"[%@]: %@", title, url];
+            }
             [self.textView replaceRange:[YYTextRange rangeWithRange:range] withText:insert_str];
         }
     }
@@ -1057,8 +1074,8 @@
 
 - (void)fontView:(CourtesyFontTableView *)fontView changeFontSize:(CGFloat)size {
     CYLog(@"%.1f", size);
-    self.style.cardFontSize = size;
-    [self setNewCardFont:[_originalFont fontWithSize:self.style.cardFontSize]];
+    self.card.card_data.fontSize = size;
+    [self setNewCardFont:[_originalFont fontWithSize:size]];
 }
 
 #pragma mark - MPMediaPickerControllerDelegate
@@ -1171,6 +1188,12 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                                              options:nil] lastObject];
                FYPhotoAsset *fy = [[FYPhotoAsset alloc] initWithPHAsset:asset];
                [fy getOriginalImageData:^(NSData *imageData) {
+                   if (imageType == CourtesyAttachmentImage) {
+                       float quality = [sharedSettings preferredImageQuality];
+                       if (quality != kCourtesyQualityBest) {
+                           imageData = UIImageJPEGRepresentation([UIImage imageWithData:imageData], quality);
+                       }
+                   } // 压缩图片
                    __block YYImage *image = [YYImage imageWithData:imageData];
                    [picker dismissViewControllerAnimated:YES completion:^{
                        __strong typeof(self) strongSelf = weakSelf;
@@ -1185,14 +1208,21 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                 [info hasKey:UIImagePickerControllerOriginalImage]
                 && [[info objectForKey:UIImagePickerControllerOriginalImage] isKindOfClass:[UIImage class]]
                 ) { // 直接拍摄的，或者是相册里的原画
-           __block YYImage *image = (YYImage *)[info objectForKey:UIImagePickerControllerOriginalImage];
+           NSData *imageData = nil;
+           float quality = [sharedSettings preferredImageQuality];
+           if (quality != kCourtesyQualityBest) {
+               imageData = UIImageJPEGRepresentation([info objectForKey:UIImagePickerControllerOriginalImage], quality);
+           } else {
+               imageData = [[info objectForKey:UIImagePickerControllerOriginalImage] imageDataRepresentation];
+           }
+           __block YYImage *image = [YYImage imageWithData:imageData];
            __weak typeof(self) weakSelf = self;
            [picker dismissViewControllerAnimated:YES completion:^{
                __strong typeof(self) strongSelf = weakSelf;
                [strongSelf addNewImageFrame:image at:strongSelf.textView.selectedRange animated:YES
                                    userinfo:@{@"title": @"Camera",
                                               @"type": @(CourtesyAttachmentImage),
-                                              @"data": [image imageDataRepresentation] }];
+                                              @"data": imageData }];
            }];
        }
    }
@@ -1517,7 +1547,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)setNewCardFont:(UIFont *)cardFont {
     if (!cardFont) return;
-    CGFloat fontSize = self.style.cardFontSize;
+    CGFloat fontSize = self.card.card_data.fontSize;
     cardFont = [cardFont fontWithSize:fontSize];
     if (self.markdownParser) {
         self.markdownParser.currentFont = cardFont;
@@ -1547,6 +1577,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
         return NO;
+    } else if ([text containsString:@"\n"]) {
+        self.textView.typingAttributes = self.originalAttributes;
     }
     return YES;
 }
@@ -1570,153 +1602,162 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - Serialize
 
 - (void)serialize {
-    [self lockAttachments:YES];
-    [self.view setUserInteractionEnabled:NO];
-    [self.view makeToastActivity:CSToastPositionCenter];
-    NSError *error = nil;
-    NSString *targetPath = [[NSURL fileURLWithPath:[[[UIApplication sharedApplication] documentsPath] stringByAppendingPathComponent:@"SavedAttachments"]] path];
-    if (![FCFileManager isDirectoryItemAtPath:targetPath])
-        [FCFileManager createDirectoriesForPath:targetPath error:&error];
-    if (error) {
-        CYLog(@"%@", error);
-        return;
-    }
-    CourtesyCardModel *card = self.card;
-    card.is_editable = YES;
-    card.is_public = [sharedSettings switchAutoPublic];
-    card.modified_at_object = [NSDate date];
-    if (card.newcard) {
-        card.edited_count = 0;
-        card.newcard = NO;
-    } else {
-        card.edited_count++;
-    }
-    card.card_data.content = self.textView.text;
-    NSMutableArray *attachments_arr = [NSMutableArray new];
-    for (id object in self.textView.textLayout.attachments) {
-        if (![object isKindOfClass:[YYTextAttachment class]]) continue;
-        YYTextAttachment *attachment = (YYTextAttachment *)object;
-        if (attachment.content) {
-            if ([attachment.content isMemberOfClass:[CourtesyImageFrameView class]]) {
-                CourtesyImageFrameView *imageFrameView = (CourtesyImageFrameView *)attachment.content;
-                CourtesyAttachmentType file_type = [[imageFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
-                NSData *binary = nil;
-                NSString *ext = nil;
-                if (file_type == CourtesyAttachmentImage) {
-                    binary = UIImageJPEGRepresentation(imageFrameView.centerImage, 0.2);
-                    ext = @"jpg";
-                } else if (file_type == CourtesyAttachmentAnimatedImage) {
-                    binary = [imageFrameView.userinfo objectForKey:@"data"];
-                    ext = @"gif";
-                } else {
-                    return;
+    @try {
+        [self lockAttachments:YES];
+        [self.view setUserInteractionEnabled:NO];
+        [self.view makeToastActivity:CSToastPositionCenter];
+        NSError *error = nil;
+        NSString *targetPath = [[NSURL fileURLWithPath:[[[UIApplication sharedApplication] documentsPath] stringByAppendingPathComponent:@"SavedAttachments"]] path];
+        if (![FCFileManager isDirectoryItemAtPath:targetPath])
+            [FCFileManager createDirectoriesForPath:targetPath error:&error];
+        if (error) {
+            @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+            return;
+        }
+        CourtesyCardModel *card = self.card;
+        card.is_editable = YES;
+        card.is_public = [sharedSettings switchAutoPublic];
+        card.modified_at_object = [NSDate date];
+        if (card.newcard) {
+            card.edited_count = 0;
+            card.newcard = NO;
+        } else {
+            card.edited_count++;
+        }
+        card.card_data.content = self.textView.text;
+        NSMutableArray *attachments_arr = [NSMutableArray new];
+        for (id object in self.textView.textLayout.attachments) {
+            if (![object isKindOfClass:[YYTextAttachment class]]) continue;
+            YYTextAttachment *attachment = (YYTextAttachment *)object;
+            if (attachment.content) {
+                if ([attachment.content isMemberOfClass:[CourtesyImageFrameView class]]) {
+                    CourtesyImageFrameView *imageFrameView = (CourtesyImageFrameView *)attachment.content;
+                    CourtesyAttachmentType file_type = [[imageFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
+                    NSData *binary = nil;
+                    NSString *ext = nil;
+                    if (file_type == CourtesyAttachmentImage) {
+                        binary = [imageFrameView.centerImage imageDataRepresentation];
+                        ext = @"png";
+                    } else if (file_type == CourtesyAttachmentAnimatedImage) {
+                        binary = [imageFrameView.userinfo objectForKey:@"data"];
+                        ext = @"gif";
+                    } else {
+                        return;
+                    }
+                    if (!binary) {
+                        @throw NSException(kCourtesyUnexceptedStatus, @"图片解析失败");
+                        return;
+                    }
+                    NSString *salt_hash = [binary sha256String];
+                    NSString *file_path = [[targetPath stringByAppendingPathComponent:salt_hash] stringByAppendingPathExtension:ext];
+                    [binary writeToFile:file_path options:NSDataWritingAtomic error:&error];
+                    if (error) {
+                        @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                        return;
+                    }
+                    CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
+                    a.type = file_type;
+                    a.title = [imageFrameView.userinfo objectForKey:@"title"];
+                    a.remote_url = nil;
+                    a.local_url = [NSURL fileURLWithPath:file_path];
+                    a.attachment_id = nil;
+                    a.length = imageFrameView.selfRange.length;
+                    a.location = imageFrameView.selfRange.location;
+                    a.created_at_object = card.modified_at_object;
+                    a.salt_hash = salt_hash;
+                    [attachments_arr addObject:[a toDictionary]];
+                } else if ([attachment.content isMemberOfClass:[CourtesyVideoFrameView class]]) {
+                    CourtesyVideoFrameView *videoFrameView = (CourtesyVideoFrameView *)attachment.content;
+                    CourtesyAttachmentType file_type = [[videoFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
+                    NSData *binary = nil;
+                    NSURL *originalURL = [videoFrameView.userinfo objectForKey:@"url"];
+                    if (!originalURL) {
+                        @throw NSException(kCourtesyUnexceptedStatus, @"找不到视频地址");
+                        return;
+                    }
+                    if (file_type == CourtesyAttachmentVideo) {
+                        binary = [NSData dataWithContentsOfURL:originalURL
+                                                       options:NSDataReadingUncached
+                                                         error:&error];
+                    } else {
+                        return;
+                    }
+                    if (error || !binary) {
+                        @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                        return;
+                    }
+                    NSString *salt_hash = [binary sha256String];
+                    NSString *file_path = [[targetPath stringByAppendingPathComponent:salt_hash] stringByAppendingPathExtension:[originalURL pathExtension]];
+                    [binary writeToFile:file_path options:NSDataWritingAtomic error:&error];
+                    if (error) {
+                        @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                        return;
+                    }
+                    CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
+                    a.type = file_type;
+                    a.title = [videoFrameView.userinfo objectForKey:@"title"];
+                    a.remote_url = nil;
+                    a.local_url = [NSURL fileURLWithPath:file_path];
+                    a.attachment_id = nil;
+                    a.length = videoFrameView.selfRange.length;
+                    a.location = videoFrameView.selfRange.location;
+                    a.created_at_object = card.modified_at_object;
+                    a.salt_hash = salt_hash;
+                    [attachments_arr addObject:[a toDictionary]];
+                } else if ([attachment.content isMemberOfClass:[CourtesyAudioFrameView class]]) {
+                    CourtesyAudioFrameView *audioFrameView = (CourtesyAudioFrameView *)attachment.content;
+                    CourtesyAttachmentType file_type = [[audioFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
+                    NSData *binary = nil;
+                    NSURL *originalURL = [audioFrameView.userinfo objectForKey:@"url"];
+                    if (!originalURL) {
+                        @throw NSException(kCourtesyUnexceptedStatus, @"找不到音频地址");
+                        return;
+                    }
+                    if (file_type == CourtesyAttachmentAudio) {
+                        binary = [NSData dataWithContentsOfURL:originalURL
+                                                       options:NSDataReadingUncached
+                                                         error:&error];
+                    } else {
+                        return;
+                    }
+                    if (error || !binary) {
+                        @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                        return;
+                    }
+                    NSString *salt_hash = [binary sha256String];
+                    NSString *file_path = [[targetPath stringByAppendingPathComponent:salt_hash] stringByAppendingPathExtension:[originalURL pathExtension]];
+                    [binary writeToFile:file_path options:NSDataWritingAtomic error:&error];
+                    if (error) {
+                        @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                        return;
+                    }
+                    CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
+                    a.type = file_type;
+                    a.title = [audioFrameView.userinfo objectForKey:@"title"];
+                    a.remote_url = nil;
+                    a.local_url = [NSURL fileURLWithPath:file_path];
+                    a.attachment_id = nil;
+                    a.length = audioFrameView.selfRange.length;
+                    a.location = audioFrameView.selfRange.location;
+                    a.created_at_object = card.modified_at_object;
+                    a.salt_hash = salt_hash;
+                    [attachments_arr addObject:[a toDictionary]];
                 }
-                if (!binary) {
-                    CYLog(@"Runtime error!");
-                    return;
-                }
-                NSString *salt_hash = [binary sha256String];
-                NSString *file_path = [[targetPath stringByAppendingPathComponent:salt_hash] stringByAppendingPathExtension:ext];
-                [binary writeToFile:file_path options:NSDataWritingAtomic error:&error];
-                if (error) {
-                    CYLog(@"Runtime error!");
-                    return;
-                }
-                CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
-                a.type = file_type;
-                a.title = [imageFrameView.userinfo objectForKey:@"title"];
-                a.remote_url = nil;
-                a.local_url = [NSURL fileURLWithPath:file_path];
-                a.attachment_id = nil;
-                a.length = imageFrameView.selfRange.length;
-                a.location = imageFrameView.selfRange.location;
-                a.created_at_object = card.modified_at_object;
-                a.salt_hash = salt_hash;
-                [attachments_arr addObject:[a toDictionary]];
-            } else if ([attachment.content isMemberOfClass:[CourtesyVideoFrameView class]]) {
-                CourtesyVideoFrameView *videoFrameView = (CourtesyVideoFrameView *)attachment.content;
-                CourtesyAttachmentType file_type = [[videoFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
-                NSData *binary = nil;
-                NSURL *originalURL = [videoFrameView.userinfo objectForKey:@"url"];
-                if (!originalURL) {
-                    CYLog(@"Runtime error!");
-                    return;
-                }
-                if (file_type == CourtesyAttachmentVideo) {
-                    binary = [NSData dataWithContentsOfURL:originalURL
-                                                   options:NSDataReadingUncached
-                                                     error:&error];
-                } else {
-                    return;
-                }
-                if (!binary) {
-                    CYLog(@"Runtime error!");
-                    return;
-                }
-                NSString *salt_hash = [binary sha256String];
-                NSString *file_path = [[targetPath stringByAppendingPathComponent:salt_hash] stringByAppendingPathExtension:[originalURL pathExtension]];
-                [binary writeToFile:file_path options:NSDataWritingAtomic error:&error];
-                if (error) {
-                    CYLog(@"Runtime error!");
-                    return;
-                }
-                CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
-                a.type = file_type;
-                a.title = [videoFrameView.userinfo objectForKey:@"title"];
-                a.remote_url = nil;
-                a.local_url = [NSURL fileURLWithPath:file_path];
-                a.attachment_id = nil;
-                a.length = videoFrameView.selfRange.length;
-                a.location = videoFrameView.selfRange.location;
-                a.created_at_object = card.modified_at_object;
-                a.salt_hash = salt_hash;
-                [attachments_arr addObject:[a toDictionary]];
-            } else if ([attachment.content isMemberOfClass:[CourtesyAudioFrameView class]]) {
-                CourtesyAudioFrameView *audioFrameView = (CourtesyAudioFrameView *)attachment.content;
-                CourtesyAttachmentType file_type = [[audioFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
-                NSData *binary = nil;
-                NSURL *originalURL = [audioFrameView.userinfo objectForKey:@"url"];
-                if (!originalURL) {
-                    CYLog(@"Runtime error!");
-                    return;
-                }
-                if (file_type == CourtesyAttachmentAudio) {
-                    binary = [NSData dataWithContentsOfURL:originalURL
-                                                   options:NSDataReadingUncached
-                                                     error:&error];
-                } else {
-                    return;
-                }
-                if (!binary) {
-                    CYLog(@"Runtime error!");
-                    return;
-                }
-                NSString *salt_hash = [binary sha256String];
-                NSString *file_path = [[targetPath stringByAppendingPathComponent:salt_hash] stringByAppendingPathExtension:[originalURL pathExtension]];
-                [binary writeToFile:file_path options:NSDataWritingAtomic error:&error];
-                if (error) {
-                    CYLog(@"Runtime error!");
-                    return;
-                }
-                CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
-                a.type = file_type;
-                a.title = [audioFrameView.userinfo objectForKey:@"title"];
-                a.remote_url = nil;
-                a.local_url = [NSURL fileURLWithPath:file_path];
-                a.attachment_id = nil;
-                a.length = audioFrameView.selfRange.length;
-                a.location = audioFrameView.selfRange.location;
-                a.created_at_object = card.modified_at_object;
-                a.salt_hash = salt_hash;
-                [attachments_arr addObject:[a toDictionary]];
             }
         }
+        card.card_data.attachments = attachments_arr;
+        card.local_template = [card.card_data toJSONString];
+        CYLog(@"%@", [card toJSONString]);
     }
-    card.card_data.attachments = attachments_arr;
-    card.local_template = [card.card_data toJSONString];
-    CYLog(@"%@", [card toJSONString]);
-    [self.view hideToastActivity];
-    [self.view setUserInteractionEnabled:YES];
+    @catch (NSException *exception) {
+        [self.view makeToast:exception.reason
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+    }
+    @finally {
+        [self.view hideToastActivity];
+        [self.view setUserInteractionEnabled:YES];
+    }
 }
 
 @end

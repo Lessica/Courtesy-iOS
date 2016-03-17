@@ -47,7 +47,7 @@
     _regexLink = regexp("!?\\[([^\\[\\]]+)\\] ?(\\(([^\\(\\)]+)\\)|\\[([^\\[\\]]+)\\])", 0);
     _regexLinkRefer = regexp("^[ \\t]*\\[[^\\[\\]]*\\]:", NSRegularExpressionAnchorsMatchLines);
     _regexList = regexp("^[ \\t]*([*+-]|\\d+[.])[ \\t]+", NSRegularExpressionAnchorsMatchLines);
-    _regexBlockQuote = regexp("^[ \\t]*>[ \\t>]*", NSRegularExpressionAnchorsMatchLines);
+    _regexBlockQuote = regexp("^[ \\t]*>[ \\t>]*[^\n]+", NSRegularExpressionAnchorsMatchLines);
     _regexNotEmptyLine = regexp("^[ \\t]*[^ \\t]+[ \\t]*$", NSRegularExpressionAnchorsMatchLines);
 #undef regexp
 }
@@ -57,7 +57,18 @@
     _fontSize = 14;
     _headerFontSize = 20;
     [self initRegex];
+    [self setBorder];
     return self;
+}
+
+- (void)setBorder {
+    _border = [YYTextBorder new];
+    _border.lineStyle = YYTextLineStyleSingle;
+    _border.fillColor = [UIColor colorWithWhite:0.184 alpha:0.090];
+    _border.strokeColor = [UIColor colorWithWhite:0.546 alpha:0.650];
+    _border.insets = UIEdgeInsetsMake(-1, 0, -1, 0);
+    _border.cornerRadius = 2;
+    _border.strokeWidth = CGFloatFromPixel(1);
 }
 
 - (void)setFontSize:(CGFloat)fontSize {

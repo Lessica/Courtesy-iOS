@@ -16,6 +16,9 @@
 #define kSwitchMarkdown @"switchMarkdown"
 #define kPreferredImageQuality @"preferredImageQuality"
 #define kPreferredVideoQuality @"preferredVideoQuality"
+#define kPreferredFontType @"preferredFontType"
+#define kPreferredStyleID @"preferredStyleID"
+#define kPreferredFontSize @"preferredFontSize"
 
 @interface GlobalSettings () <CourtesyFetchAccountInfoDelegate, WCSessionDelegate>
 
@@ -223,6 +226,9 @@
 #pragma mark - 个性化设置相关
 
 - (BOOL)switchAutoPublic {
+    if (![self.appStorage objectForKey:kSwitchAutoPublic]) {
+        return YES;
+    }
     return [(NSNumber *)[self.appStorage objectForKey:kSwitchAutoPublic] isEqualToNumber:@0] ? NO : YES;
 }
 
@@ -231,6 +237,9 @@
 }
 
 - (BOOL)switchAutoSave {
+    if (![self.appStorage objectForKey:kSwitchAutoSave]) {
+        return YES;
+    }
     return [(NSNumber *)[self.appStorage objectForKey:kSwitchAutoSave] isEqualToNumber:@0] ? NO : YES;
 }
 
@@ -239,6 +248,9 @@
 }
 
 - (BOOL)switchMarkdown {
+    if (![self.appStorage objectForKey:kSwitchMarkdown]) {
+        return YES;
+    }
     return [(NSNumber *)[self.appStorage objectForKey:kSwitchMarkdown] isEqualToNumber:@0] ? NO : YES;
 }
 
@@ -246,20 +258,59 @@
     [self.appStorage setObject:(switchMarkdown ? @1 : @0) forKey:kSwitchMarkdown];
 }
 
-- (NSInteger)preferredImageQuality {
-    return [(NSNumber *)[self.appStorage objectForKey:kPreferredImageQuality] integerValue];
+- (float)preferredImageQuality {
+    if (![self.appStorage objectForKey:kPreferredImageQuality]) {
+        return kCourtesyQualityMedium;
+    }
+    return [(NSNumber *)[self.appStorage objectForKey:kPreferredImageQuality] floatValue];
 }
 
-- (void)setPreferredImageQuality:(NSInteger)preferredImageQuality {
-    [self.appStorage setObject:[NSNumber numberWithInteger:preferredImageQuality] forKey:kPreferredImageQuality];
+- (void)setPreferredImageQuality:(float)preferredImageQuality {
+    [self.appStorage setObject:[NSNumber numberWithFloat:preferredImageQuality] forKey:kPreferredImageQuality];
 }
 
-- (NSInteger)preferredVideoQuality {
-    return [(NSNumber *)[self.appStorage objectForKey:kPreferredVideoQuality] integerValue];
+- (float)preferredVideoQuality {
+    if (![self.appStorage objectForKey:kPreferredVideoQuality]) {
+        return kCourtesyQualityMedium;
+    }
+    return [(NSNumber *)[self.appStorage objectForKey:kPreferredVideoQuality] floatValue];
 }
 
-- (void)setPreferredVideoQuality:(NSInteger)preferredVideoQuality {
-    [self.appStorage setObject:[NSNumber numberWithInteger:preferredVideoQuality] forKey:kPreferredVideoQuality];
+- (void)setPreferredVideoQuality:(float)preferredVideoQuality {
+    [self.appStorage setObject:[NSNumber numberWithFloat:preferredVideoQuality] forKey:kPreferredVideoQuality];
+}
+
+- (CourtesyFontType)preferredFontType {
+    if (![self.appStorage objectForKey:kPreferredFontType]) {
+        return kCourtesyFontDefault;
+    }
+    return [(NSNumber *)[self.appStorage objectForKey:kPreferredFontType] unsignedIntegerValue];
+}
+
+- (void)setPreferredFontType:(CourtesyFontType)preferredFontType {
+    [self.appStorage setObject:[NSNumber numberWithUnsignedInteger:preferredFontType] forKey:kPreferredFontType];
+}
+
+- (CourtesyCardStyleID)preferredStyleID {
+    if (![self.appStorage objectForKey:kPreferredStyleID]) {
+        return kCourtesyCardStyleDefault;
+    }
+    return [(NSNumber *)[self.appStorage objectForKey:kPreferredStyleID] unsignedIntegerValue];
+}
+
+- (void)setPreferredStyleID:(CourtesyCardStyleID)preferredStyleID {
+    [self.appStorage setObject:[NSNumber numberWithUnsignedInteger:preferredStyleID] forKey:kPreferredStyleID];
+}
+
+- (CGFloat)preferredFontSize {
+    if (![self.appStorage objectForKey:kPreferredFontSize]) {
+        return [[CourtesyFontManager sharedManager] fontModelWithID:self.preferredFontType].defaultSize;
+    }
+    return [(NSNumber *)[self.appStorage objectForKey:kPreferredFontSize] floatValue];
+}
+
+- (void)setPreferredFontSize:(CGFloat)preferredFontSize {
+    [self.appStorage setObject:[NSNumber numberWithFloat:preferredFontSize] forKey:kPreferredFontSize];
 }
 
 @end

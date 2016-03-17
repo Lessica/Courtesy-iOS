@@ -25,7 +25,7 @@
         CourtesyFontModel *fontSystem = [CourtesyFontModel new];
         fontSystem.remoteURL = nil;
         fontSystem.localURL = nil;
-        fontSystem.fontName = @"苹方";
+        fontSystem.fontName = @"默认字体";
         fontSystem.defaultSize = 16.0;
         fontSystem.font = [UIFont systemFontOfSize:fontSystem.defaultSize];
         fontSystem.fontPreview = [[UIImage imageNamed:@"font-applepf"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];;
@@ -126,6 +126,15 @@
             [JDStatusBarNotification showProgress:progress];
         });
     }
+}
+
+- (CourtesyFontModel *)fontModelWithID:(CourtesyFontType)fontType {
+    for (CourtesyFontModel *font in self.fontList) {
+        if (font.type == fontType) {
+            return font;
+        }
+    }
+    return nil;
 }
 
 - (UIFont *)fontWithID:(CourtesyFontType)fontType {

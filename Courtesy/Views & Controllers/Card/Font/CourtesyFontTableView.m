@@ -131,7 +131,8 @@
         if (fontModel.downloaded) {
             CYLog(@"%@ has downloaded.", fontModel.fontName);
             self.card.card_data.fontType = fontModel.type;
-            [self done:nil withFont:fontModel.font];
+            [sharedSettings setPreferredFontType:fontModel.type];
+            [self doneWithFont:fontModel.font];
         } else {
             if (fontModel.downloading) {
                 CYLog(@"Pause downloading: %@.", fontModel.fontName);
@@ -152,7 +153,7 @@
     }
 }
 
-- (void)done:(UIButton *)sender withFont:(UIFont *)font {
+- (void)doneWithFont:(UIFont *)font {
     if (self.delegate && [self.delegate respondsToSelector:@selector(fontViewDidTapDone:withFont:)]) {
         [self.delegate fontViewDidTapDone:self withFont:font];
     }
@@ -165,8 +166,9 @@
         fontSizeDownBtn.enabled = YES;
     }
     _fitSize += 0.5;
+    self.card.card_data.fontSize = _fitSize;
+    [sharedSettings setPreferredFontSize:_fitSize];
     if (_delegate && [_delegate respondsToSelector:@selector(fontView:changeFontSize:)]) {
-        self.card.card_data.fontSize = _fitSize;
         [_delegate fontView:self changeFontSize:_fitSize];
     }
 }
@@ -178,8 +180,9 @@
         fontSizeUpBtn.enabled = YES;
     }
     _fitSize -= 0.5;
+    self.card.card_data.fontSize = _fitSize;
+    [sharedSettings setPreferredFontSize:_fitSize];
     if (_delegate && [_delegate respondsToSelector:@selector(fontView:changeFontSize:)]) {
-        self.card.card_data.fontSize = _fitSize;
         [_delegate fontView:self changeFontSize:_fitSize];
     }
 }

@@ -23,13 +23,14 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIColor      *toolbarTintColor; // 工具栏按钮颜色
 @property (nonatomic, strong) UIColor      *toolbarBarTintColor; // 工具栏前景色
 
-@property (nonatomic, strong) UIFont<Ignore> *cardFont; // 卡片字体
-@property (nonatomic, assign) NSUInteger   cardFontType; // 卡片字体编号
-@property (nonatomic, strong) NSDictionary *cardContentAttributes; // 卡片内容原始属性
+//@property (nonatomic, strong) UIFont<Ignore> *cardFont; // 卡片字体
+//@property (nonatomic, assign) NSUInteger   cardFontType; // 卡片字体编号
+//@property (nonatomic, strong) NSDictionary *cardContentAttributes; // 卡片内容原始属性
 @property (nonatomic, strong) UIColor      *cardBackgroundColor; // 卡片背景色
 @property (nonatomic, strong) UIColor      *cardTextColor; // 卡片文字颜色
-@property (nonatomic, assign) CGFloat     cardFontSize; // 卡片字体大小
+//@property (nonatomic, assign) CGFloat     cardFontSize; // 卡片字体大小
 @property (nonatomic, assign) CGFloat     cardLineSpacing; // 卡片行距
+@property (nonatomic, assign) CGFloat     paragraphSpacing; // 段落间距
 @property (nonatomic, assign) CGFloat     cardLineHeight; // 卡片固定行高
 @property (nonatomic, copy)   NSString     *placeholderText; // 卡片空白提示文字
 @property (nonatomic, strong) UIColor      *placeholderColor; // 卡片空白提示文字颜色

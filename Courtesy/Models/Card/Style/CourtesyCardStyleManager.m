@@ -32,13 +32,10 @@
         newStyle.toolbarBarTintColor = [UIColor whiteColor];
         newStyle.toolbarTintColor = [UIColor grayColor];
         
-        newStyle.cardFontSize = 16.0;
-        newStyle.cardFont = [UIFont systemFontOfSize:newStyle.cardFontSize];
-        newStyle.cardFontType = kCourtesyFontDefault;
         newStyle.cardTextColor = [UIColor darkGrayColor];
         newStyle.cardLineSpacing = 8.0;
         newStyle.cardBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture"]];
-        newStyle.cardLineHeight = 28.0;
+        newStyle.cardLineHeight = 32.0;
         newStyle.placeholderText = @"说点什么吧……";
         newStyle.placeholderColor = [UIColor lightGrayColor];
         newStyle.indicatorColor = [UIColor darkGrayColor];

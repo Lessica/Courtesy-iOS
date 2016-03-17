@@ -28,5 +28,6 @@
 - (void)downloadFont:(CourtesyFontModel *)font;
 - (void)pauseDownloadFont:(CourtesyFontModel *)font;
 - (UIFont *)fontWithID:(CourtesyFontType)fontType;
+- (CourtesyFontModel *)fontModelWithID:(CourtesyFontType)fontType;
 
 @end
