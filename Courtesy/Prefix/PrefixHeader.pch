@@ -46,7 +46,6 @@
 
 // 第三方库
 #import "YYKit.h"
-#import "extobjc.h"
 #import "Colours.h"
 #import "LGAlertView.h"
 #import "JDStatusBarNotification.h"

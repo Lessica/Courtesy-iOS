@@ -27,15 +27,6 @@
 		0F6DD57A1C98227600CA4389 /* CocoaMarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6DD5791C98227600CA4389 /* CocoaMarkdown.framework */; };
 		0F6DD57B1C98227600CA4389 /* CocoaMarkdown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6DD5791C98227600CA4389 /* CocoaMarkdown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */; };
-		0F7424851C8FCD98002C6241 /* EXTADT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74244B1C8FCD98002C6241 /* EXTADT.m */; };
-		0F7424861C8FCD98002C6241 /* EXTConcreteProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74244D1C8FCD98002C6241 /* EXTConcreteProtocol.m */; };
-		0F7424871C8FCD98002C6241 /* EXTNil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424511C8FCD98002C6241 /* EXTNil.m */; };
-		0F7424881C8FCD98002C6241 /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424551C8FCD98002C6241 /* EXTRuntimeExtensions.m */; };
-		0F7424891C8FCD98002C6241 /* EXTSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424571C8FCD98002C6241 /* EXTSafeCategory.m */; };
-		0F74248A1C8FCD98002C6241 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424591C8FCD98002C6241 /* EXTScope.m */; };
-		0F74248B1C8FCD98002C6241 /* EXTSelectorChecking.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74245B1C8FCD98002C6241 /* EXTSelectorChecking.m */; };
-		0F74248C1C8FCD98002C6241 /* NSInvocation+EXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F74245F1C8FCD98002C6241 /* NSInvocation+EXT.m */; };
-		0F74248D1C8FCD98002C6241 /* NSMethodSignature+EXT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7424611C8FCD98002C6241 /* NSMethodSignature+EXT.m */; };
 		0F90DC431C844C4E00607277 /* Drawers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */; };
 		0FBA71741C7B2A0400053696 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FBA71731C7B2A0400053696 /* MessageUI.framework */; };
 		0FD2BEC91C966D9400B5BBC9 /* CourtesyCardStyleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD2BEC81C966D9400B5BBC9 /* CourtesyCardStyleManager.m */; };
@@ -282,30 +273,6 @@
 		0F6DD5791C98227600CA4389 /* CocoaMarkdown.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = CocoaMarkdown.framework; path = "/Users/Zheng/Library/Developer/Xcode/DerivedData/Courtesy-cvykwatzvshbxtdkjzlrnfwqiekw/Build/Products/Debug-iphoneos/CocoaMarkdown.framework"; sourceTree = "<absolute>"; };
 		0F6DD57D1C98369200CA4389 /* CourtesyMarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyMarkdownParser.h; path = Markdown/CourtesyMarkdownParser.h; sourceTree = "<group>"; };
 		0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyMarkdownParser.m; path = Markdown/CourtesyMarkdownParser.m; sourceTree = "<group>"; };
-		0F74244A1C8FCD98002C6241 /* EXTADT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTADT.h; sourceTree = "<group>"; };
-		0F74244B1C8FCD98002C6241 /* EXTADT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTADT.m; sourceTree = "<group>"; };
-		0F74244C1C8FCD98002C6241 /* EXTConcreteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTConcreteProtocol.h; sourceTree = "<group>"; };
-		0F74244D1C8FCD98002C6241 /* EXTConcreteProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTConcreteProtocol.m; sourceTree = "<group>"; };
-		0F74244E1C8FCD98002C6241 /* EXTCoroutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTCoroutine.h; sourceTree = "<group>"; };
-		0F74244F1C8FCD98002C6241 /* EXTKeyPathCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTKeyPathCoding.h; sourceTree = "<group>"; };
-		0F7424501C8FCD98002C6241 /* EXTNil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTNil.h; sourceTree = "<group>"; };
-		0F7424511C8FCD98002C6241 /* EXTNil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTNil.m; sourceTree = "<group>"; };
-		0F7424521C8FCD98002C6241 /* extobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extobjc.h; sourceTree = "<group>"; };
-		0F7424531C8FCD98002C6241 /* extobjc_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extobjc_Prefix.pch; sourceTree = "<group>"; };
-		0F7424541C8FCD98002C6241 /* EXTRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTRuntimeExtensions.h; sourceTree = "<group>"; };
-		0F7424551C8FCD98002C6241 /* EXTRuntimeExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTRuntimeExtensions.m; sourceTree = "<group>"; };
-		0F7424561C8FCD98002C6241 /* EXTSafeCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTSafeCategory.h; sourceTree = "<group>"; };
-		0F7424571C8FCD98002C6241 /* EXTSafeCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTSafeCategory.m; sourceTree = "<group>"; };
-		0F7424581C8FCD98002C6241 /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
-		0F7424591C8FCD98002C6241 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
-		0F74245A1C8FCD98002C6241 /* EXTSelectorChecking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTSelectorChecking.h; sourceTree = "<group>"; };
-		0F74245B1C8FCD98002C6241 /* EXTSelectorChecking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTSelectorChecking.m; sourceTree = "<group>"; };
-		0F74245C1C8FCD98002C6241 /* EXTSynthesize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTSynthesize.h; sourceTree = "<group>"; };
-		0F74245D1C8FCD98002C6241 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
-		0F74245E1C8FCD98002C6241 /* NSInvocation+EXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+EXT.h"; sourceTree = "<group>"; };
-		0F74245F1C8FCD98002C6241 /* NSInvocation+EXT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+EXT.m"; sourceTree = "<group>"; };
-		0F7424601C8FCD98002C6241 /* NSMethodSignature+EXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMethodSignature+EXT.h"; sourceTree = "<group>"; };
-		0F7424611C8FCD98002C6241 /* NSMethodSignature+EXT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMethodSignature+EXT.m"; sourceTree = "<group>"; };
 		0FBA71731C7B2A0400053696 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0FBBF7151C78BD4700A0A2D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawers.storyboard; sourceTree = "<group>"; };
 		0FD0205C1C81733E0069AB72 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -712,41 +679,9 @@
 			isa = PBXGroup;
 			children = (
 				0FF2D2AD1C95DB9E007C23DE /* UMessage */,
-				0F7424491C8FCD98002C6241 /* extobjc */,
 			);
 			path = External;
 			sourceTree = SOURCE_ROOT;
-		};
-		0F7424491C8FCD98002C6241 /* extobjc */ = {
-			isa = PBXGroup;
-			children = (
-				0F74244A1C8FCD98002C6241 /* EXTADT.h */,
-				0F74244B1C8FCD98002C6241 /* EXTADT.m */,
-				0F74244C1C8FCD98002C6241 /* EXTConcreteProtocol.h */,
-				0F74244D1C8FCD98002C6241 /* EXTConcreteProtocol.m */,
-				0F74244E1C8FCD98002C6241 /* EXTCoroutine.h */,
-				0F74244F1C8FCD98002C6241 /* EXTKeyPathCoding.h */,
-				0F7424501C8FCD98002C6241 /* EXTNil.h */,
-				0F7424511C8FCD98002C6241 /* EXTNil.m */,
-				0F7424521C8FCD98002C6241 /* extobjc.h */,
-				0F7424531C8FCD98002C6241 /* extobjc_Prefix.pch */,
-				0F7424541C8FCD98002C6241 /* EXTRuntimeExtensions.h */,
-				0F7424551C8FCD98002C6241 /* EXTRuntimeExtensions.m */,
-				0F7424561C8FCD98002C6241 /* EXTSafeCategory.h */,
-				0F7424571C8FCD98002C6241 /* EXTSafeCategory.m */,
-				0F7424581C8FCD98002C6241 /* EXTScope.h */,
-				0F7424591C8FCD98002C6241 /* EXTScope.m */,
-				0F74245A1C8FCD98002C6241 /* EXTSelectorChecking.h */,
-				0F74245B1C8FCD98002C6241 /* EXTSelectorChecking.m */,
-				0F74245C1C8FCD98002C6241 /* EXTSynthesize.h */,
-				0F74245D1C8FCD98002C6241 /* metamacros.h */,
-				0F74245E1C8FCD98002C6241 /* NSInvocation+EXT.h */,
-				0F74245F1C8FCD98002C6241 /* NSInvocation+EXT.m */,
-				0F7424601C8FCD98002C6241 /* NSMethodSignature+EXT.h */,
-				0F7424611C8FCD98002C6241 /* NSMethodSignature+EXT.m */,
-			);
-			path = extobjc;
-			sourceTree = "<group>";
 		};
 		0FBA716C1C7B245D00053696 /* Layouts */ = {
 			isa = PBXGroup;
@@ -1975,7 +1910,6 @@
 			files = (
 				0FF2D2871C95DA80007C23DE /* LBXScanView.m in Sources */,
 				0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */,
-				0F74248D1C8FCD98002C6241 /* NSMethodSignature+EXT.m in Sources */,
 				0FFE04881C93F45800E99DCC /* CourtesyMessageNotificationSettingsTableViewController.m in Sources */,
 				0FF2D2671C95D90F007C23DE /* JVFloatingDrawerView.m in Sources */,
 				0FDEFBBC1C97D617007BE8D2 /* MSDPreventImagePickerCrashOn3DTouch.m in Sources */,
@@ -1983,9 +1917,6 @@
 				0FFE04741C93F45800E99DCC /* CourtesyQuickLoginButton.m in Sources */,
 				0FEFDBBE1C97D17500952522 /* NSTimer+AFSoundManager.m in Sources */,
 				0FF2D2881C95DA80007C23DE /* LBXScanViewController.m in Sources */,
-				0F74248C1C8FCD98002C6241 /* NSInvocation+EXT.m in Sources */,
-				0F74248A1C8FCD98002C6241 /* EXTScope.m in Sources */,
-				0F7424861C8FCD98002C6241 /* EXTConcreteProtocol.m in Sources */,
 				0FFE04651C93F45800E99DCC /* CourtesyFontTableView.m in Sources */,
 				0FFE04891C93F45800E99DCC /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */,
 				0FFE04C31C93F47400E99DCC /* CourtesyCardDataModel.m in Sources */,
@@ -2053,7 +1984,6 @@
 				0F28516E1C97D8AD0066F5C5 /* JotTouchPoint.m in Sources */,
 				0FFE05281C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport.m in Sources */,
 				0FFE04C01C93F47400E99DCC /* CourtesyCardEditRequestModel.m in Sources */,
-				0F74248B1C8FCD98002C6241 /* EXTSelectorChecking.m in Sources */,
 				0FFE04841C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.m in Sources */,
 				0FFE04621C93F45800E99DCC /* CourtesyAudioFrameView.m in Sources */,
 				0FDEFBFB1C97D7B8007BE8D2 /* RSKImageScrollView.m in Sources */,
@@ -2065,7 +1995,6 @@
 				0FFE04E11C93F4D800E99DCC /* AppDelegate.m in Sources */,
 				0FDEFBB51C97D5C2007BE8D2 /* NSDate+Astro.m in Sources */,
 				0FFE04C41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m in Sources */,
-				0F7424891C8FCD98002C6241 /* EXTSafeCategory.m in Sources */,
 				0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */,
 				0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */,
 				0FFE053F1C940D8A00E99DCC /* CourtesyWatchSessionManager.m in Sources */,
@@ -2101,11 +2030,9 @@
 				0FFE04711C93F45800E99DCC /* CourtesyLoginRegisterTextField.m in Sources */,
 				0FF2D26B1C95D93B007C23DE /* UIColor+MagicColor.m in Sources */,
 				0FFE04821C93F45800E99DCC /* CourtesyProfileNickTableViewController.m in Sources */,
-				0F7424851C8FCD98002C6241 /* EXTADT.m in Sources */,
 				0FD2BECC1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m in Sources */,
 				0FFE04F31C93F51900E99DCC /* main.m in Sources */,
 				0FFE04BB1C93F47400E99DCC /* CourtesyAccountModel.m in Sources */,
-				0F7424881C8FCD98002C6241 /* EXTRuntimeExtensions.m in Sources */,
 				0FFE052A1C93F52C00E99DCC /* NSArray+QueryItems.m in Sources */,
 				0FFE047F1C93F45800E99DCC /* CourtesyProfileGenderTableViewController.m in Sources */,
 				0FDEFBFA1C97D7B8007BE8D2 /* RSKImageCropViewController.m in Sources */,
@@ -2113,7 +2040,6 @@
 				0FF2D28A1C95DA80007C23DE /* LBXScanWrapper.m in Sources */,
 				0FEFDBAC1C97D16300952522 /* AudioNoteRecorderViewController.m in Sources */,
 				0FF2D2831C95DA80007C23DE /* LBXScanLineAnimation.m in Sources */,
-				0F7424871C8FCD98002C6241 /* EXTNil.m in Sources */,
 				0FFE04641C93F45800E99DCC /* CourtesyTextView.m in Sources */,
 				0FFE04791C93F45800E99DCC /* CourtesyMyOutboxTableViewController.m in Sources */,
 			);
