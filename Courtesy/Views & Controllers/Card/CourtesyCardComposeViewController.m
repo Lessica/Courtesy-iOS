@@ -67,8 +67,6 @@
 @property (nonatomic, strong) CourtesyJotViewController *jotViewController;
 @property (nonatomic, strong) UIView *jotView;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
-@property (nonatomic, strong) NSDictionary *originalAttributes;
-@property (nonatomic, strong) UIFont *originalFont;
 @property (nonatomic, strong) CourtesyMarkdownParser *markdownParser;
 @property (nonatomic, strong) UIToolbar *toolbar;
 @property (nonatomic, strong) UIBarButtonItem *audioButton;
@@ -175,8 +173,8 @@
     text.paragraphSpacing = self.style.paragraphSpacing;
     text.lineBreakMode = NSLineBreakByWordWrapping;
     text.alignment = self.card.card_data.alignmentType;
-    self.originalFont = text.font;
-    self.originalAttributes = text.attributes;
+    _originalFont = text.font;
+    _originalAttributes = text.attributes;
     
     /* Init of text view */
     CourtesyTextView *textView = [CourtesyTextView new];
@@ -325,8 +323,7 @@
                                                            constant:0]];
     
     /* Init of Jot View */
-    CourtesyJotViewController *jotViewController = [CourtesyJotViewController new];
-    jotViewController.delegate = self;
+    CourtesyJotViewController *jotViewController = [[CourtesyJotViewController alloc] initWithMasterController:self];
     [self addChildViewController:jotViewController];
     jotViewController.view.frame = jotView.frame;
     [jotView addSubview:jotViewController.view];
@@ -1365,15 +1362,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, self.style.cardLineHeight * 2)];
-    [frameView setDelegate:self];
+    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, self.style.cardLineHeight * 2) andDelegate:self];
     [frameView setUserinfo:info];
-    [frameView setCardTintColor:self.style.cardElementTintColor];
-    [frameView setCardTintFocusColor:self.style.cardElementTintFocusColor];
-    [frameView setCardTextColor:self.style.cardElementTextColor];
-    [frameView setCardShadowColor:self.style.cardElementShadowColor];
-    [frameView setCardBackgroundColor:self.style.cardElementBackgroundColor];
-    [frameView setAutoPlay:self.card.card_data.shouldAutoPlayAudio];
     [frameView setAudioURL:url];
     return [self insertFrameToTextView:frameView at:range animated:animated];
 }
@@ -1385,15 +1375,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, 0)];
-    [frameView setDelegate:self];
+    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, 0) andDelegate:self];
     [frameView setUserinfo:info];
-    [frameView setCardTintColor:self.style.cardElementTintColor];
-    [frameView setCardTextColor:self.style.cardElementTextColor];
-    [frameView setCardShadowColor:self.style.cardElementShadowColor];
-    [frameView setCardBackgroundColor:self.style.cardElementBackgroundColor];
-    [frameView setStandardLineHeight:self.style.cardLineHeight];
-    [frameView setEditable:self.editable];
     [frameView setCenterImage:image];
     if (frameView.frame.size.height < self.style.cardLineHeight) return nil;
     return [self insertFrameToTextView:frameView at:range animated:animated];
@@ -1406,15 +1389,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - 48, 0)];
-    [frameView setDelegate:self];
+    CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - 48, 0) andDelegate:self];
     [frameView setUserinfo:info];
-    [frameView setCardTintColor:self.style.cardElementTintColor];
-    [frameView setCardTextColor:self.style.cardElementTextColor];
-    [frameView setCardShadowColor:self.style.cardElementShadowColor];
-    [frameView setCardBackgroundColor:self.style.cardElementBackgroundColor];
-    [frameView setStandardLineHeight:self.style.cardLineHeight];
-    [frameView setEditable:self.editable];
     [frameView setVideoURL:url];
     return [self insertFrameToTextView:frameView at:range animated:animated];
 }
@@ -1489,7 +1465,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)imageFrameTapped:(CourtesyImageFrameView *)imageFrame {
     if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-    if (!imageFrame.editable) {
+    if (!self.card.is_editable) {
         JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
         imageInfo.title = imageFrame.labelText;
         if (imageFrame.originalImageURL)
@@ -1608,22 +1584,17 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 #endif
 
-- (void)lockAttachments:(BOOL)locked {
+- (void)syncAttachmentsStyle {
     for (id object in self.textView.textLayout.attachments) {
         if (![object isKindOfClass:[YYTextAttachment class]]) continue;
         YYTextAttachment *attachment = (YYTextAttachment *)object;
         if (attachment.content) {
-            if ([attachment.content respondsToSelector:@selector(setEditable:)]) {
-                if ([attachment.content isMemberOfClass:[CourtesyImageFrameView class]]) {
-                    [(CourtesyImageFrameView *)attachment.content setEditable:!locked];
-                } else if ([attachment.content isMemberOfClass:[CourtesyVideoFrameView class]]) {
-                    [(CourtesyVideoFrameView *)attachment.content setEditable:!locked];
-                } else if ([attachment.content isMemberOfClass:[CourtesyAudioFrameView class]]) {
-                    [(CourtesyAudioFrameView *)attachment.content pausePlaying];
-                }
+            if ([attachment.content respondsToSelector:@selector(reloadStyle)]) {
+                objc_msgSend(attachment.content, @selector(reloadStyle));
             }
         }
     }
+    [self.jotViewController reloadStyle];
 }
 
 - (NSUInteger)countOfAudioFrame { return [self countOfClass:[CourtesyAudioFrameView class]]; }
@@ -1666,18 +1637,19 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     }
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:self.originalAttributes];
     [dict setObject:cardFont forKey:NSFontAttributeName];
-    self.originalAttributes = dict;
-    self.originalFont = cardFont;
+    _originalAttributes = dict;
+    _originalFont = cardFont;
     self.textView.font = cardFont;
     self.textView.placeholderFont = cardFont;
     self.textView.typingAttributes = self.originalAttributes;
     self.titleLabel.font = [cardFont fontWithSize:12];
+    [self syncAttachmentsStyle];
 }
 
 - (void)setEditable:(BOOL)editable {
     _card.is_editable = editable;
     self.textView.editable = editable;
-    [self lockAttachments:!editable];
+    [self syncAttachmentsStyle];
 }
 
 #pragma mark - YYTextViewDelegate
@@ -1714,7 +1686,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)serialize {
     @try {
-        [self lockAttachments:YES];
+        self.card.is_editable = NO;
+        [self syncAttachmentsStyle];
         [self.view setUserInteractionEnabled:NO];
         [self.view makeToastActivity:CSToastPositionCenter];
         NSError *error = nil;
@@ -1726,7 +1699,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             return;
         }
         CourtesyCardModel *card = self.card;
-        card.is_editable = YES;
         card.is_public = [sharedSettings switchAutoPublic];
         card.modified_at_object = [NSDate date];
         if (card.newcard) {

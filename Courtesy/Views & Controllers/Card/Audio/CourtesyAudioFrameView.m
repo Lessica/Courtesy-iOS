@@ -10,19 +10,30 @@
 
 @implementation CourtesyAudioFrameView
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame andDelegate:(CourtesyCardComposeViewController <CourtesyAudioFrameDelegate>*)delegate {
     if (self = [super initWithFrame:frame]) {
+        self.delegate = delegate;
         // Init of Frame View
-        [self setCardBackgroundColor:nil];
-        [self setCardShadowColor:nil];
         self.layer.shadowOffset = CGSizeMake(1, 1);
         self.layer.shadowOpacity = 0.45;
         self.layer.shadowRadius = 1;
-        [self setCardTintColor:nil];
         self.isPlaying = NO;
         [self addSubview:self.playBtn];
+        [self reloadStyle];
     }
     return self;
+}
+
+- (CourtesyCardDataModel *)cdata {
+    return self.delegate.card.card_data;
+}
+
+- (CourtesyCardStyleModel *)style {
+    return self.delegate.card.card_data.style;
+}
+
+- (BOOL)editable {
+    return self.delegate.card.is_editable;
 }
 
 - (void)dealloc {
@@ -46,34 +57,19 @@
     return _playBtn;
 }
 
-- (void)setCardBackgroundColor:(UIColor *)cardBackgroundColor {
-    _cardBackgroundColor = cardBackgroundColor;
-    self.backgroundColor = tryValue(_cardBackgroundColor, [UIColor whiteColor]);
-}
-
-- (void)setCardShadowColor:(UIColor *)cardShadowColor {
-    _cardShadowColor = cardShadowColor;
-    self.layer.shadowColor = tryValue(_cardShadowColor, [UIColor blackColor]).CGColor;
-}
-
-- (void)setCardTintColor:(UIColor *)cardTintColor {
-    _cardTintColor = cardTintColor;
-    if (!_playBtn) return;
-    _playBtn.tintColor = tryValue(_cardTintColor, [UIColor darkGrayColor]);
-    if (!_waveform) return;
-    _waveform.progressColor = tryValue(_cardTintColor, [UIColor darkGrayColor]);
-}
-
-- (void)setCardTintFocusColor:(UIColor *)cardTintFocusColor {
-    _cardTintFocusColor = cardTintFocusColor;
-    if (!_waveform) return;
-    _waveform.wavesColor = tryValue(_cardTintFocusColor, [UIColor grayColor]);
-}
-
-- (void)setCardTextColor:(UIColor *)cardTextColor {
-    _cardTextColor = cardTextColor;
-    if (!_titleLabel) return;
-    _titleLabel.textColor = tryValue(_cardTextColor, [UIColor blackColor]);
+- (void)reloadStyle {
+    self.backgroundColor = self.style.cardElementBackgroundColor;
+    self.layer.shadowColor = self.style.cardElementShadowColor.CGColor;
+    if (_playBtn) {
+        _playBtn.tintColor = self.style.cardElementTintColor;
+    }
+    if (_waveform) {
+        _waveform.progressColor = self.style.cardElementTintColor;
+        _waveform.wavesColor = self.style.cardElementTintFocusColor;
+    }
+    if (_titleLabel) {
+        _titleLabel.textColor = self.style.cardElementTextColor;
+    }
 }
 
 - (void)removeFromSuperview {
@@ -107,7 +103,7 @@
     self.scale = self.waveform.totalSamples / audioItem.duration;
     self.audioItem = audioItem;
     self.audioQueue = audioQueue;
-    if (self.autoPlay) [self playButtonTapped:nil];
+    if (self.cdata.shouldAutoPlayAudio) [self playButtonTapped:nil];
     
     __weak typeof(self) weakSelf = self;
     [self.audioQueue listenFeedbackUpdatesWithBlock:^(AFSoundItem *item) {
@@ -136,7 +132,7 @@
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.font = [UIFont systemFontOfSize:12];
         titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.textColor = tryValue(_cardTextColor, [UIColor blackColor]);
+        titleLabel.textColor = self.style.cardElementTextColor;
         titleLabel.text = @"正在载入波形……";
         _titleLabel = titleLabel;
     }
@@ -150,8 +146,8 @@
         waveform.zoomStartSamples = 0;
         waveform.zoomEndSamples = waveform.totalSamples / 4;
         waveform.doesAllowScrubbing = YES;
-        waveform.wavesColor = tryValue(_cardTintFocusColor, [UIColor grayColor]);
-        waveform.progressColor = tryValue(_cardTintColor, [UIColor darkGrayColor]);
+        waveform.wavesColor = self.style.cardElementTintFocusColor;
+        waveform.progressColor = self.style.cardElementTintColor;
         _waveform = waveform;
     }
     return _waveform;

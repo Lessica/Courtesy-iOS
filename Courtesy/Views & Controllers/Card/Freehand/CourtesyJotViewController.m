@@ -7,6 +7,7 @@
 //
 
 #import "CourtesyJotViewController.h"
+#import "CourtesyJotColorButton.h"
 
 @interface CourtesyJotViewController ()
 @property (nonatomic, assign) BOOL colorEnabled;
@@ -15,11 +16,7 @@
 @property (nonatomic, strong) UIButton *restoreBtn;
 @property (nonatomic, strong) UIButton *colorToggleBtn;
 @property (nonatomic, strong) UIButton *lineToggleBtn;
-@property (nonatomic, strong) UIButton *redColorBtn;
-@property (nonatomic, strong) UIButton *yellowColorBtn;
-@property (nonatomic, strong) UIButton *blueColorBtn;
-@property (nonatomic, strong) UIButton *blackColorBtn;
-@property (nonatomic, strong) UIButton *whiteColorBtn;
+@property (nonatomic, strong) NSMutableArray <CourtesyJotColorButton *> *buttonArray;
 @property (nonatomic, strong) UIButton *largeBtn;
 @property (nonatomic, strong) UIButton *mediumBtn;
 @property (nonatomic, strong) UIButton *smallBtn;
@@ -28,11 +25,16 @@
 
 @implementation CourtesyJotViewController
 
-- (instancetype)init {
+- (CourtesyCardStyleModel *)style {
+    return ((CourtesyCardComposeViewController *)self.delegate).card.card_data.style;
+}
+
+- (instancetype)initWithMasterController:(CourtesyCardComposeViewController<JotViewControllerDelegate> *)controller {
     if (self = [super init]) {
+        self.delegate = controller;
+        self.buttonArray = [[NSMutableArray alloc] init];
+        
         UIButton *colorToggleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        colorToggleBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-        colorToggleBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
         [colorToggleBtn setImage:[[UIImage imageNamed:@"62-jot-pallette"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [colorToggleBtn setImage:[[UIImage imageNamed:@"62-jot-pallette"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
         colorToggleBtn.layer.masksToBounds = YES;
@@ -76,8 +78,6 @@
                                                                constant:0]];
         
         UIButton *lineToggleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        lineToggleBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-        lineToggleBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
         [lineToggleBtn setImage:[[UIImage imageNamed:@"63-jot-line"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [lineToggleBtn setImage:[[UIImage imageNamed:@"63-jot-line"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
         lineToggleBtn.layer.masksToBounds = YES;
@@ -121,8 +121,6 @@
                                                                constant:-12]];
         
         UIButton *circleToggleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        circleToggleBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-        circleToggleBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
         [circleToggleBtn setImage:[[UIImage imageNamed:@"58-jot-edit"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [circleToggleBtn setImage:[[UIImage imageNamed:@"57-jot-font"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
         circleToggleBtn.layer.masksToBounds = YES;
@@ -166,8 +164,6 @@
                                                                constant:-12]];
         
         UIButton *circleRestoreBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        circleRestoreBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-        circleRestoreBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
         [circleRestoreBtn setImage:[[UIImage imageNamed:@"60-jot-restore"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [circleRestoreBtn setImage:nil forState:UIControlStateSelected];
         circleRestoreBtn.layer.masksToBounds = YES;
@@ -210,249 +206,7 @@
                                                              multiplier:1
                                                                constant:-12]];
         
-        UIButton *circleBlackBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        circleBlackBtn.backgroundColor =
-        circleBlackBtn.tintColor = [UIColor blackColor];
-        [circleBlackBtn setImage:[[UIImage imageNamed:@"61-jot-color"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        [circleBlackBtn setImage:nil forState:UIControlStateSelected];
-        circleBlackBtn.layer.masksToBounds = YES;
-        circleBlackBtn.layer.cornerRadius = circleBlackBtn.frame.size.height / 2;
-        circleBlackBtn.layer.shadowColor = [UIColor blackColor].CGColor;
-        circleBlackBtn.layer.shadowOffset = CGSizeMake(1, 1);
-        circleBlackBtn.layer.shadowOpacity = 0.618;
-        circleBlackBtn.translatesAutoresizingMaskIntoConstraints = NO;
-        circleBlackBtn.selected = NO;
-        [circleBlackBtn setTarget:self action:@selector(drawBlack:) forControlEvents:UIControlEventTouchUpInside];
-        circleBlackBtn.alpha = 0.0;
-        circleBlackBtn.hidden = YES;
-        self.blackColorBtn = circleBlackBtn;
-        [self.view addSubview:circleBlackBtn];
-        [self.view bringSubviewToFront:circleBlackBtn];
-        
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBlackBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBlackBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBlackBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:circleToggleBtn
-                                                              attribute:NSLayoutAttributeTop
-                                                             multiplier:1
-                                                               constant:-12]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBlackBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeTrailingMargin
-                                                             multiplier:1
-                                                               constant:0]];
-        
-        UIButton *circleWhiteBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        circleWhiteBtn.backgroundColor =
-        circleWhiteBtn.tintColor = [UIColor wheatColor];
-        [circleWhiteBtn setImage:[[UIImage imageNamed:@"61-jot-color"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        [circleWhiteBtn setImage:nil forState:UIControlStateSelected];
-        circleWhiteBtn.layer.masksToBounds = YES;
-        circleWhiteBtn.layer.cornerRadius = circleWhiteBtn.frame.size.height / 2;
-        circleWhiteBtn.layer.shadowColor = [UIColor blackColor].CGColor;
-        circleWhiteBtn.layer.shadowOffset = CGSizeMake(1, 1);
-        circleWhiteBtn.layer.shadowOpacity = 0.618;
-        circleWhiteBtn.translatesAutoresizingMaskIntoConstraints = NO;
-        circleWhiteBtn.selected = NO;
-        [circleWhiteBtn setTarget:self action:@selector(drawWhite:) forControlEvents:UIControlEventTouchUpInside];
-        circleWhiteBtn.alpha = 0.0;
-        circleWhiteBtn.hidden = YES;
-        self.whiteColorBtn = circleWhiteBtn;
-        [self.view addSubview:circleWhiteBtn];
-        [self.view bringSubviewToFront:circleWhiteBtn];
-        
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleWhiteBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleWhiteBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleWhiteBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:circleBlackBtn
-                                                              attribute:NSLayoutAttributeTop
-                                                             multiplier:1
-                                                               constant:-12]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleWhiteBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeTrailingMargin
-                                                             multiplier:1
-                                                               constant:0]];
-        
-        UIButton *circleBlueBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        circleBlueBtn.backgroundColor =
-        circleBlueBtn.tintColor = [UIColor blueberryColor];
-        [circleBlueBtn setImage:[[UIImage imageNamed:@"61-jot-color"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        [circleBlueBtn setImage:nil forState:UIControlStateSelected];
-        circleBlueBtn.layer.masksToBounds = YES;
-        circleBlueBtn.layer.cornerRadius = circleBlueBtn.frame.size.height / 2;
-        circleBlueBtn.layer.shadowColor = [UIColor blackColor].CGColor;
-        circleBlueBtn.layer.shadowOffset = CGSizeMake(1, 1);
-        circleBlueBtn.layer.shadowOpacity = 0.618;
-        circleBlueBtn.translatesAutoresizingMaskIntoConstraints = NO;
-        circleBlueBtn.selected = NO;
-        [circleBlueBtn setTarget:self action:@selector(drawBlue:) forControlEvents:UIControlEventTouchUpInside];
-        circleBlueBtn.alpha = 0.0;
-        circleBlueBtn.hidden = YES;
-        self.blueColorBtn = circleBlueBtn;
-        [self.view addSubview:circleBlueBtn];
-        [self.view bringSubviewToFront:circleBlueBtn];
-        
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBlueBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBlueBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBlueBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:circleWhiteBtn
-                                                              attribute:NSLayoutAttributeTop
-                                                             multiplier:1
-                                                               constant:-12]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBlueBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeTrailingMargin
-                                                             multiplier:1
-                                                               constant:0]];
-        
-        UIButton *circleYellowBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        circleYellowBtn.backgroundColor =
-        circleYellowBtn.tintColor = [UIColor emeraldColor];
-        [circleYellowBtn setImage:[[UIImage imageNamed:@"61-jot-color"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        [circleYellowBtn setImage:nil forState:UIControlStateSelected];
-        circleYellowBtn.layer.masksToBounds = YES;
-        circleYellowBtn.layer.cornerRadius = circleYellowBtn.frame.size.height / 2;
-        circleYellowBtn.layer.shadowColor = [UIColor blackColor].CGColor;
-        circleYellowBtn.layer.shadowOffset = CGSizeMake(1, 1);
-        circleYellowBtn.layer.shadowOpacity = 0.618;
-        circleYellowBtn.translatesAutoresizingMaskIntoConstraints = NO;
-        circleYellowBtn.selected = NO;
-        [circleYellowBtn setTarget:self action:@selector(drawYellow:) forControlEvents:UIControlEventTouchUpInside];
-        circleYellowBtn.alpha = 0.0;
-        circleYellowBtn.hidden = YES;
-        self.yellowColorBtn = circleYellowBtn;
-        [self.view addSubview:circleYellowBtn];
-        [self.view bringSubviewToFront:circleYellowBtn];
-        
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleYellowBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleYellowBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleYellowBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:circleBlueBtn
-                                                              attribute:NSLayoutAttributeTop
-                                                             multiplier:1
-                                                               constant:-12]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleYellowBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeTrailingMargin
-                                                             multiplier:1
-                                                               constant:0]];
-        
-        UIButton *circleRedBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        circleRedBtn.backgroundColor =
-        circleRedBtn.tintColor = [UIColor brickRedColor];
-        [circleRedBtn setImage:[[UIImage imageNamed:@"61-jot-color"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        [circleRedBtn setImage:nil forState:UIControlStateSelected];
-        circleRedBtn.layer.masksToBounds = YES;
-        circleRedBtn.layer.cornerRadius = circleRedBtn.frame.size.height / 2;
-        circleRedBtn.layer.shadowColor = [UIColor blackColor].CGColor;
-        circleRedBtn.layer.shadowOffset = CGSizeMake(1, 1);
-        circleRedBtn.layer.shadowOpacity = 0.618;
-        circleRedBtn.translatesAutoresizingMaskIntoConstraints = NO;
-        circleRedBtn.selected = NO;
-        [circleRedBtn setTarget:self action:@selector(drawRed:) forControlEvents:UIControlEventTouchUpInside];
-        circleRedBtn.alpha = 0.0;
-        circleRedBtn.hidden = YES;
-        self.redColorBtn = circleRedBtn;
-        [self.view addSubview:circleRedBtn];
-        [self.view bringSubviewToFront:circleRedBtn];
-        
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleRedBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleRedBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleRedBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:circleYellowBtn
-                                                              attribute:NSLayoutAttributeTop
-                                                             multiplier:1
-                                                               constant:-12]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleRedBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeTrailingMargin
-                                                             multiplier:1
-                                                               constant:0]];
-        
         UIButton *largeBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        largeBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-        largeBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
         [largeBtn setImage:[[UIImage imageNamed:@"64-jot-large"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [largeBtn setImage:nil forState:UIControlStateSelected];
         largeBtn.layer.masksToBounds = YES;
@@ -496,8 +250,6 @@
                                                                constant:0]];
         
         UIButton *mediumBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        mediumBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-        mediumBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
         [mediumBtn setImage:[[UIImage imageNamed:@"65-jot-medium"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [mediumBtn setImage:nil forState:UIControlStateSelected];
         mediumBtn.layer.masksToBounds = YES;
@@ -541,8 +293,6 @@
                                                                constant:0]];
         
         UIButton *smallBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        smallBtn.backgroundColor = tryValue(self.buttonBackgroundColor, [UIColor blackColor]);
-        smallBtn.tintColor = tryValue(self.buttonTintColor, [UIColor whiteColor]);
         [smallBtn setImage:[[UIImage imageNamed:@"66-jot-small"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [smallBtn setImage:nil forState:UIControlStateSelected];
         smallBtn.layer.masksToBounds = YES;
@@ -585,9 +335,74 @@
                                                              multiplier:1
                                                                constant:0]];
         
-        self.textColor = [UIColor blackColor];
+        [self reloadStyle];
     }
     return self;
+}
+
+- (void)reloadStyle {
+    [self.buttonArray removeAllObjects];
+    for (UIColor *btnColor in self.style.jotColorArray) {
+        CourtesyJotColorButton *newBtn = [[CourtesyJotColorButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+        newBtn.color = newBtn.backgroundColor = newBtn.tintColor = btnColor;
+        [newBtn setImage:[[UIImage imageNamed:@"61-jot-color"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [newBtn setImage:nil forState:UIControlStateSelected];
+        newBtn.layer.masksToBounds = YES;
+        newBtn.layer.cornerRadius = newBtn.frame.size.height / 2;
+        newBtn.translatesAutoresizingMaskIntoConstraints = NO;
+        newBtn.selected = NO;
+        [newBtn setTarget:self action:@selector(drawWithColorBtn:) forControlEvents:UIControlEventTouchUpInside];
+        newBtn.alpha = 0.0;
+        newBtn.hidden = YES;
+        [self.view addSubview:newBtn];
+        [self.view bringSubviewToFront:newBtn];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:newBtn
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1
+                                                               constant:32]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:newBtn
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:nil
+                                                              attribute:NSLayoutAttributeNotAnAttribute
+                                                             multiplier:1
+                                                               constant:32]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:newBtn
+                                                              attribute:NSLayoutAttributeTrailing
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.view
+                                                              attribute:NSLayoutAttributeTrailingMargin
+                                                             multiplier:1
+                                                               constant:0]];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:newBtn
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:[self.buttonArray lastObject] ? [self.buttonArray lastObject] : _colorToggleBtn
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1
+                                                               constant:-12]];
+        [self.buttonArray addObject:newBtn];
+    }
+    _colorToggleBtn.backgroundColor =
+    _lineToggleBtn.backgroundColor =
+    _toggleBtn.backgroundColor =
+    _restoreBtn.backgroundColor =
+    _largeBtn.backgroundColor =
+    _mediumBtn.backgroundColor =
+    _smallBtn.backgroundColor = self.style.buttonBackgroundColor;
+    _colorToggleBtn.tintColor =
+    _lineToggleBtn.tintColor =
+    _toggleBtn.tintColor =
+    _restoreBtn.tintColor =
+    _largeBtn.tintColor =
+    _mediumBtn.tintColor =
+    _smallBtn.tintColor = self.style.buttonTintColor;
+    self.font = ((CourtesyCardComposeViewController *)self.delegate).originalFont;
+    self.textColor = self.style.cardTextColor;
 }
 
 - (void)setLineEnabled:(BOOL)lineEnabled {
@@ -599,7 +414,7 @@
                          animations:^{
                              self.largeBtn.alpha =
                              self.mediumBtn.alpha =
-                             self.smallBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+                             self.smallBtn.alpha = self.style.standardAlpha - 0.2;
                          } completion:nil];
     } else {
         [UIView animateWithDuration:0.2
@@ -617,33 +432,25 @@
 
 - (void)setColorEnabled:(BOOL)colorEnabled {
     if (colorEnabled) {
-        self.redColorBtn.hidden =
-        self.yellowColorBtn.hidden =
-        self.blueColorBtn.hidden =
-        self.whiteColorBtn.hidden =
-        self.blackColorBtn.hidden = NO;
+        for (CourtesyJotColorButton *btn in self.buttonArray) {
+            btn.hidden = NO;
+        }
         [UIView animateWithDuration:0.2
                          animations:^{
-                             self.redColorBtn.alpha =
-                             self.yellowColorBtn.alpha =
-                             self.blueColorBtn.alpha =
-                             self.whiteColorBtn.alpha =
-                             self.blackColorBtn.alpha = 1.0;
+                             for (CourtesyJotColorButton *btn in self.buttonArray) {
+                                 btn.alpha = 1.0;
+                             }
                          } completion:nil];
     } else {
         [UIView animateWithDuration:0.2
                          animations:^{
-                             self.redColorBtn.alpha =
-                             self.yellowColorBtn.alpha =
-                             self.blueColorBtn.alpha =
-                             self.whiteColorBtn.alpha =
-                             self.blackColorBtn.alpha = 0.0;
+                             for (CourtesyJotColorButton *btn in self.buttonArray) {
+                                 btn.alpha = 0.0;
+                             }
                          } completion:^(BOOL finished) {
-                             self.redColorBtn.hidden =
-                             self.yellowColorBtn.hidden =
-                             self.blueColorBtn.hidden =
-                             self.whiteColorBtn.hidden =
-                             self.blackColorBtn.hidden = YES;
+                             for (CourtesyJotColorButton *btn in self.buttonArray) {
+                                 btn.hidden = YES;
+                             }
                          }];
     }
 }
@@ -659,7 +466,7 @@
                              self.lineToggleBtn.alpha =
                              self.colorToggleBtn.alpha =
                              self.restoreBtn.alpha =
-                             self.toggleBtn.alpha = [tryValue(self.standardAlpha, [NSNumber numberWithFloat:0.618]) floatValue] - 0.2;
+                             self.toggleBtn.alpha = self.style.standardAlpha - 0.2;
                          } completion:nil];
     } else {
         [UIView animateWithDuration:0.2
@@ -708,44 +515,9 @@
     }
 }
 
-- (void)drawBlack:(UIButton *)sender {
-    if (self.toggleBtn.selected) {
-        self.textColor = [UIColor blackColor];
-    } else {
-        self.drawingColor = [UIColor blackColor];
-    }
-}
-
-- (void)drawRed:(UIButton *)sender {
-    if (self.toggleBtn.selected) {
-        self.textColor = [UIColor brickRedColor];
-    } else {
-        self.drawingColor = [UIColor brickRedColor];
-    }
-}
-
-- (void)drawYellow:(UIButton *)sender {
-    if (self.toggleBtn.selected) {
-        self.textColor = [UIColor emeraldColor];
-    } else {
-        self.drawingColor = [UIColor emeraldColor];
-    }
-}
-
-- (void)drawBlue:(UIButton *)sender {
-    if (self.toggleBtn.selected) {
-        self.textColor = [UIColor blueberryColor];
-    } else {
-        self.drawingColor = [UIColor blueberryColor];
-    }
-}
-
-- (void)drawWhite:(UIButton *)sender {
-    if (self.toggleBtn.selected) {
-        self.textColor = [UIColor wheatColor];
-    } else {
-        self.drawingColor = [UIColor wheatColor];
-    }
+- (void)drawWithColorBtn:(CourtesyJotColorButton *)btn {
+    self.textColor = btn.color;
+    self.drawingColor = btn.color;
 }
 
 - (void)drawLarge:(UIButton *)sender {
@@ -770,6 +542,10 @@
     } else {
         self.drawingStrokeWidth = 12.0;
     }
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

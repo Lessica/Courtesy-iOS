@@ -9,6 +9,9 @@
 #import "FDWaveformView.h"
 #import "AFSoundManager.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "CourtesyCardModel.h"
+#import "CourtesyCardAttachmentModel.h"
+#import "CourtesyCardComposeViewController.h"
 
 #define kAudioFrameLabelHeight 32
 #define kAudioFrameLabelTextHeight 24
@@ -19,6 +22,7 @@
 @class CourtesyAudioFrameView;
 
 @protocol CourtesyAudioFrameDelegate <NSObject>
+@property (nonatomic, strong) CourtesyCardModel *card;
 
 @optional
 - (void)audioFrameTapped:(CourtesyAudioFrameView *)audioFrame;
@@ -44,7 +48,7 @@
 @interface CourtesyAudioFrameView : UIView <UITextFieldDelegate, FDWaveformViewDelegate>
 @property (nonatomic, strong) UIButton *playBtn;
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, weak) id<CourtesyAudioFrameDelegate> delegate;
+@property (nonatomic, weak)   CourtesyCardComposeViewController<CourtesyAudioFrameDelegate> *delegate;
 @property (nonatomic, assign) NSRange selfRange;
 @property (nonatomic, strong) NSDictionary *userinfo;
 @property (nonatomic, assign) BOOL isPlaying;
@@ -53,12 +57,8 @@
 @property (nonatomic, strong) AFSoundItem *audioItem;
 @property (nonatomic, strong) AFSoundPlayback *audioQueue;
 @property (nonatomic, assign) float scale;
-@property (nonatomic, assign) BOOL autoPlay;
-@property (nonatomic, strong) UIColor *cardBackgroundColor;
-@property (nonatomic, strong) UIColor *cardTintColor;
-@property (nonatomic, strong) UIColor *cardTextColor;
-@property (nonatomic, strong) UIColor *cardShadowColor;
-@property (nonatomic, strong) UIColor *cardTintFocusColor;
 
+- (instancetype)initWithFrame:(CGRect)frame
+                  andDelegate:(CourtesyCardComposeViewController <CourtesyAudioFrameDelegate>*)delegate;
 - (void)pausePlaying;
 @end

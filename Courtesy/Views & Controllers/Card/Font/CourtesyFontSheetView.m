@@ -14,7 +14,7 @@
 #define kMaxFontSize 22
 #define kMinFontSize 14
 
-@interface CourtesyFontSheetView () <UITableViewDelegate, UITableViewDataSource, CourtesyFontManagerDelegate>
+@interface CourtesyFontSheetView () <UITableViewDelegate, UITableViewDataSource, CourtesyFontManagerDelegate, UIScrollViewDelegate>
 @property (nonatomic, strong) UITableView *fontTableView;
 
 
@@ -24,6 +24,7 @@
     NSUInteger fontCount;
     UIButton *fontSizeUpBtn;
     UIButton *fontSizeDownBtn;
+    UIPageControl *pageControl;
 }
 
 - (CourtesyCardDataModel *)cdata {
@@ -101,8 +102,11 @@
         // Style select
         UIScrollView *styleScrollView = [UIScrollView new];
         styleScrollView.frame = styleAdjustView.bounds;
+        styleScrollView.delegate = self;
         styleScrollView.bounces = YES;
         styleScrollView.pagingEnabled = YES;
+        styleScrollView.showsHorizontalScrollIndicator = NO;
+        styleScrollView.showsVerticalScrollIndicator = NO;
         styleScrollView.indicatorStyle = UIScrollViewIndicatorStyleDefault;
         styleScrollView.contentSize = CGSizeMake(styleScrollView.frame.size.width * 6, styleScrollView.frame.size.height);
         [styleAdjustView addSubview:styleScrollView];
@@ -118,8 +122,23 @@
         rightArrow.tintColor = self.style.toolbarTintColor;
         rightArrow.image = [[UIImage imageNamed:@"60-arrow-right"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [styleAdjustView addSubview:rightArrow];
+        
+        pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 0, styleAdjustView.frame.size.width, 6)];
+        pageControl.center = CGPointMake(styleAdjustView.frame.size.width / 2, styleAdjustView.frame.size.height - 8);
+        pageControl.currentPageIndicatorTintColor = self.style.toolbarHighlightColor;
+        pageControl.pageIndicatorTintColor = self.style.toolbarTintColor;
+        pageControl.currentPage = 0;
+        pageControl.numberOfPages = 6;
+        [styleAdjustView addSubview:pageControl];
     }
     return self;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)sView {
+    NSInteger index = fabs(sView.contentOffset.x) / sView.frame.size.width;
+    [pageControl setCurrentPage:index];
 }
 
 #pragma mark - UITableViewDelegate

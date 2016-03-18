@@ -26,6 +26,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign, readonly) BOOL editable;
 // Shortcut for card.card_data.style
 @property (nonatomic, strong, readonly, nullable) CourtesyCardStyleModel *style;
+@property (nonatomic, strong, nullable, readonly) UIFont *originalFont;
+@property (nonatomic, strong, nullable, readonly) NSDictionary *originalAttributes;
 
 - (nonnull instancetype)initWithCard:(nullable CourtesyCardModel *)card;
 @end

@@ -7,11 +7,11 @@
 //
 
 #import "jot.h"
+#import "CourtesyCardComposeViewController.h"
 
 @interface CourtesyJotViewController : JotViewController
-@property (nonatomic, strong) UIColor *buttonBackgroundColor;
-@property (nonatomic, strong) UIColor *buttonTintColor;
-@property (nonatomic, strong) NSNumber *standardAlpha;
 @property (nonatomic, assign) BOOL controlEnabled;
 
+- (instancetype)initWithMasterController:(CourtesyCardComposeViewController<JotViewControllerDelegate> *)controller;
+- (void)reloadStyle;
 @end

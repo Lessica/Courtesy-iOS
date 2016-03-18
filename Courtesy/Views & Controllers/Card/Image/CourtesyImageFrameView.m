@@ -12,11 +12,22 @@
     UITapGestureRecognizer *tapGesture;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (CourtesyCardDataModel *)cdata {
+    return self.delegate.card.card_data;
+}
+
+- (CourtesyCardStyleModel *)style {
+    return self.delegate.card.card_data.style;
+}
+
+- (BOOL)editable {
+    return self.delegate.card.is_editable;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame andDelegate:(CourtesyCardComposeViewController<CourtesyImageFrameDelegate> *)delegate {
     if (self = [super initWithFrame:frame]) {
+        self.delegate = delegate;
         // Init of Frame View
-        [self setCardBackgroundColor:nil];
-        [self setCardShadowColor:nil];
         self.layer.shadowOffset = CGSizeMake(1, 1);
         self.layer.shadowOpacity = 0.45;
         self.layer.shadowRadius = 1;
@@ -25,9 +36,8 @@
         tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(frameTapped:)];
         [self addGestureRecognizer:tapGesture];
         // Init of Bottom Label View
-        [self setCardTintColor:nil];
-        [self setCardTextColor:nil];
         self.labelOpen = NO;
+        [self reloadStyle];
     }
     return self;
 }
@@ -48,36 +58,20 @@
     return _bottomLabel;
 }
 
-- (void)setCardTextColor:(UIColor *)cardTextColor {
-    _cardTextColor = cardTextColor;
-    if (!self.bottomLabel) return;
-    self.bottomLabel.textColor = tryValue(_cardTextColor, [UIColor darkGrayColor]);
-}
-
-- (void)setCardTintColor:(UIColor *)cardTintColor {
-    _cardTintColor = cardTintColor;
-    if (!self.bottomLabel) return;
-    self.bottomLabel.tintColor = tryValue(_cardTintColor, [UIColor darkGrayColor]);
-}
-
-- (void)setCardShadowColor:(UIColor *)cardShadowColor {
-    _cardShadowColor = cardShadowColor;
-    self.layer.shadowColor = tryValue(_cardShadowColor, [UIColor blackColor]).CGColor;
-}
-
-- (void)setCardBackgroundColor:(UIColor *)cardBackgroundColor {
-    _cardBackgroundColor = cardBackgroundColor;
-    self.backgroundColor = tryValue(_cardBackgroundColor, [UIColor whiteColor]);
-}
-
-- (void)setEditable:(BOOL)editable {
-    _editable = editable;
-    if (self.bottomLabel) {
-        self.bottomLabel.userInteractionEnabled = editable;
-    }
-    if (editable) {
-        
+- (void)reloadStyle {
+    self.layer.shadowColor = self.style.cardElementShadowColor.CGColor;
+    self.backgroundColor = self.style.cardElementBackgroundColor;
+    if (self.delegate.card.is_editable) {
+        if (self.bottomLabel) {
+            self.bottomLabel.textColor = self.style.cardTextColor;
+            self.bottomLabel.tintColor = self.style.cardElementTintColor;
+            self.bottomLabel.font      = [self.delegate.originalFont fontWithSize:12.0];
+            self.bottomLabel.userInteractionEnabled = YES;
+        }
     } else {
+        if (self.bottomLabel) {
+            self.bottomLabel.userInteractionEnabled = NO;
+        }
         if (self.optionsOpen) {
             [self toggleOptions:NO];
         }
@@ -191,14 +185,14 @@
     YYAnimatedImageView *centerImageView = nil;
     if (centerImage.size.width > self.frame.size.width) {
         scaleValue = self.frame.size.width / centerImage.size.width;
-        height = ceil(((float)centerImage.size.height * scaleValue) / self.standardLineHeight) * self.standardLineHeight;
+        height = ceil(((float)centerImage.size.height * scaleValue) / self.style.cardLineHeight) * self.style.cardLineHeight;
         centerImageView = [[YYAnimatedImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
         centerImageView.contentMode = UIViewContentModeScaleAspectFill;
     } else {
         if (centerImage.size.height < kImageFrameMinHeight) {
             height = kImageFrameMinHeight; // 最小高度
         } else {
-            height = ceil((float)centerImage.size.height / self.standardLineHeight) * self.standardLineHeight;
+            height = ceil((float)centerImage.size.height / self.style.cardLineHeight) * self.style.cardLineHeight;
         }
         centerImageView = [[YYAnimatedImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kImageFrameBorderWidth * 2, height)];
         centerImageView.contentMode = UIViewContentModeCenter;

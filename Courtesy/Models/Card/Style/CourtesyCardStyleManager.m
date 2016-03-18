@@ -72,6 +72,8 @@
         newStyle.previewStyle.previewFooterText = @"由礼记生成并发送";
         newStyle.previewStyle.previewFooterOrigin = CGPointMake(0, 0);
         newStyle.previewStyle.previewFooterAttributes = @{};
+        
+        newStyle.jotColorArray = @[[UIColor blackColor], [UIColor blueberryColor], [UIColor emeraldColor], [UIColor mandarinColor], [UIColor watermelonColor]];
         return newStyle;
     }
     return nil;
