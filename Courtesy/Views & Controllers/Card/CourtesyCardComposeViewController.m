@@ -454,14 +454,11 @@
     }];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.textView becomeFirstResponder];
+        [textView becomeFirstResponder];
         if (self.card.newcard) {
-            [self.textView selectAll:nil];
+            [textView selectAll:nil];
         }
     });
-    
-    // 为什么要在这里滚动到最顶部一次其实我也不是很清楚
-    [textView scrollToTop];
     
     // 设置输入区域属性
     self.inputViewType = kCourtesyInputViewDefault;
@@ -518,6 +515,8 @@
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
     if (!self.editable) {
         [self.textView scrollToTop];
+    } else {
+        [self.textView scrollRangeToVisible:self.textView.selectedRange];
     }
 }
 
@@ -544,7 +543,6 @@
         self.editable = YES;
         [self doCardViewAnimation];
         if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
-        self.textView.selectedRange = NSMakeRange(self.textView.text.length, 0);
         __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.5 animations:^{
             weakSelf.circleSaveBtn.alpha = 0.0;
