@@ -34,8 +34,13 @@
 #define kComposeBottomInsect 24.0
 #define kComposeLeftInsect 24.0
 #define kComposeRightInsect 24.0
-#define kComposeTopBarInsectPortrait 64.0
-#define kComposeTopBarInsectLandscape 48.0
+#define kComposeTopBarInsectPortrait 24.0
+#define kComposeTopBarInsectUpdated 64.0
+#define kComposeCardViewMargin 12.0
+#define kComposeCardViewBorderWidth 4.0
+#define kComposeCardViewShadowOpacity 0.45
+#define kComposeCardViewShadowRadius 2.0
+#define kComposeCardViewEditInset UIEdgeInsetsMake(-kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2)
 
 @interface CourtesyCardComposeViewController ()
 <
@@ -57,17 +62,24 @@
     CourtesyVideoSheetViewDelegate,
     LGAlertViewDelegate
 >
-@property (nonatomic, assign) CourtesyTextView *textView;
+
+@property (nonatomic, strong) UIView *cardView;
+
+@property (nonatomic, strong) CourtesyTextView *textView;
+@property (nonatomic, strong) CourtesyMarkdownParser *markdownParser;
+
 @property (nonatomic, strong) UIView *fakeBar;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) UILabel *titleLabel;
+
 @property (nonatomic, strong) UIButton *circleCloseBtn;
 @property (nonatomic, strong) UIButton *circleApproveBtn;
 @property (nonatomic, strong) UIImageView *circleSaveBtn;
 @property (nonatomic, strong) UIImageView *circleBackBtn;
-@property (nonatomic, strong) CourtesyJotViewController *jotViewController;
+
 @property (nonatomic, strong) UIView *jotView;
-@property (nonatomic, strong) NSDateFormatter *dateFormatter;
-@property (nonatomic, strong) CourtesyMarkdownParser *markdownParser;
+@property (nonatomic, strong) CourtesyJotViewController *jotViewController;
+
 @property (nonatomic, strong) UIToolbar *toolbar;
 @property (nonatomic, strong) UIBarButtonItem *audioButton;
 @property (nonatomic, strong) UIBarButtonItem *imageButton;
@@ -76,13 +88,15 @@
 @property (nonatomic, strong) UIBarButtonItem *drawButton;
 @property (nonatomic, strong) UIBarButtonItem *fontButton;
 @property (nonatomic, strong) UIBarButtonItem *alignmentButton;
+
 @property (nonatomic, assign) CGRect keyboardFrame;
 @property (nonatomic, assign) CourtesyInputViewType inputViewType;
 
 @end
 
 @implementation CourtesyCardComposeViewController
-- (instancetype)initWithCard:(nullable CourtesyCardModel *)card{
+
+- (instancetype)initWithCard:(nullable CourtesyCardModel *)card {
     if (self = [super init]) {
         self.fd_interactivePopDisabled = YES; // 禁用全屏手势
         if (!card) {
@@ -98,18 +112,69 @@
     // Do any additional setup after loading the view.
     
     /* Init of main view */
-    self.view.backgroundColor = self.style.cardBackgroundColor;
+    self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = NO;
-    //self.modalPresentationCapturesStatusBarAppearance = NO;
-    self.edgesForExtendedLayout =  UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
     
-    /* Init of Navigation Bar Items (if there is a navigation bar actually) */ // 这部分没有什么用
-    UIBarButtonItem *item = [UIBarButtonItem new];
-    item.image = [UIImage imageNamed:@"30-send"];
-    item.target = self;
-    item.action = @selector(doneComposeView:);
-    self.navigationItem.rightBarButtonItem = item;
+    /* Init of Fake Status Bar */
+    CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
+    UIView *fakeBar = [[UIView alloc] initWithFrame:frame];
+    fakeBar.alpha = self.style.standardAlpha;
+    fakeBar.backgroundColor = self.style.statusBarColor;
+    fakeBar.hidden = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
+    
+    /* Layouts of Fake Status Bar */
+    self.fakeBar = fakeBar;
+    [self.view addSubview:fakeBar];
+    
+    /* Init of Card View */
+    UIView *cardView = [[UIView alloc] initWithFrame:CGRectMake(kComposeCardViewMargin, fakeBar.frame.size.height + kComposeCardViewMargin, self.view.frame.size.width - kComposeCardViewMargin * 2, self.view.frame.size.height - kComposeCardViewMargin * 2)];
+    cardView.backgroundColor = self.style.cardBackgroundColor;
+    cardView.layer.borderColor = self.style.cardBorderColor.CGColor;
+    cardView.layer.borderWidth = kComposeCardViewBorderWidth;
+    cardView.layer.shadowOffset = CGSizeMake(0, 0);
+    cardView.layer.shadowColor = [UIColor blackColor].CGColor;
+    cardView.layer.shadowOpacity = kComposeCardViewShadowOpacity;
+    cardView.layer.shadowRadius = kComposeCardViewShadowRadius;
+    
+    /* Layouts of Card View */
+    self.cardView = cardView;
+    [self.view insertSubview:cardView belowSubview:fakeBar];
+    [cardView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view).with.insets(kComposeCardViewEditInset);
+    }];
+    cardView.transform = CGAffineTransformMakeScale(0.9, 0.9);
+    
+    /* Elements of tool bar items */
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    NSMutableArray *myToolBarItems = [NSMutableArray array];
+    self.audioButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewAudioButtonTapped:)];
+    [myToolBarItems addObject:self.audioButton]; [myToolBarItems addObject:flexibleSpace];
+    self.imageButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewImageButtonTapped:)];
+    [myToolBarItems addObject:self.imageButton]; [myToolBarItems addObject:flexibleSpace];
+    self.videoButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideoButtonTapped:)];
+    [myToolBarItems addObject:self.videoButton]; [myToolBarItems addObject:flexibleSpace];
+    self.urlButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrlButtonTapped:)];
+    [myToolBarItems addObject:self.urlButton]; [myToolBarItems addObject:flexibleSpace];
+    self.drawButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(openFreehandButtonTapped:)];
+    [myToolBarItems addObject:self.drawButton]; [myToolBarItems addObject:flexibleSpace];
+    self.fontButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(fontButtonTapped:)];
+    [myToolBarItems addObject:self.fontButton]; [myToolBarItems addObject:flexibleSpace];
+    NSString *alignmentImageName = nil;
+    if (self.card.card_data.alignmentType == NSTextAlignmentLeft) alignmentImageName = @"46-align-left";
+    else if (self.card.card_data.alignmentType == NSTextAlignmentCenter) alignmentImageName = @"48-align-center";
+    else alignmentImageName = @"47-align-right";
+    self.alignmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:alignmentImageName] style:UIBarButtonItemStylePlain target:self action:@selector(alignButtonTapped:)];
+    [myToolBarItems addObject:self.alignmentButton];
+    
+    /* Init of toolbar */
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width , 40)]; // 根据按钮数量调整，暂时定为两倍
+    toolbar.barStyle = UIBarStyleBlackTranslucent;
+    toolbar.barTintColor = self.style.toolbarBarTintColor;
+    toolbar.backgroundColor = [UIColor clearColor]; // 工具栏颜色在 toolbarContainerView 中定义
+    [toolbar setTintColor:self.style.toolbarTintColor];
+    [toolbar setItems:myToolBarItems animated:YES];
+    self.toolbar = toolbar;
     
     /* Init of toolbar container view */
     UIScrollView *toolbarContainerView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 40)];
@@ -118,56 +183,14 @@
     toolbarContainerView.showsHorizontalScrollIndicator = NO;
     toolbarContainerView.showsVerticalScrollIndicator = NO;
     toolbarContainerView.backgroundColor = self.style.toolbarColor;
-    
-    /* Init of toolbar */
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width , 40)]; // 根据按钮数量调整，暂时定为两倍
-    toolbar.barStyle = UIBarStyleBlackTranslucent;
-    toolbar.barTintColor = self.style.toolbarBarTintColor;
-    toolbar.backgroundColor = [UIColor clearColor]; // 工具栏颜色在 toolbarContainerView 中定义
-    
-    /* Elements of tool bar items */ // 定义按钮元素及其样式
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    NSMutableArray *myToolBarItems = [NSMutableArray array];
-    self.audioButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewAudioButtonTapped:)];
-    [myToolBarItems addObject:self.audioButton];
-    [myToolBarItems addObject:flexibleSpace];
-    self.imageButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewImageButtonTapped:)];
-    [myToolBarItems addObject:self.imageButton];
-    [myToolBarItems addObject:flexibleSpace];
-    self.videoButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideoButtonTapped:)];
-    [myToolBarItems addObject:self.videoButton];
-    [myToolBarItems addObject:flexibleSpace];
-    self.urlButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrlButtonTapped:)];
-    [myToolBarItems addObject:self.urlButton];
-    [myToolBarItems addObject:flexibleSpace];
-    self.drawButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(openFreehandButtonTapped:)];
-    [myToolBarItems addObject:self.drawButton];
-    [myToolBarItems addObject:flexibleSpace];
-    self.fontButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(fontButtonTapped:)];
-    [myToolBarItems addObject:self.fontButton];
-    [myToolBarItems addObject:flexibleSpace];
-    NSString *alignmentImageName = nil;
-    if (self.card.card_data.alignmentType == NSTextAlignmentLeft) {
-        alignmentImageName = @"46-align-left";
-    } else if (self.card.card_data.alignmentType == NSTextAlignmentCenter) {
-        alignmentImageName = @"48-align-center";
-    } else {
-        alignmentImageName = @"47-align-right";
-    }
-    self.alignmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:alignmentImageName] style:UIBarButtonItemStylePlain target:self action:@selector(alignButtonTapped:)];
-    [myToolBarItems addObject:self.alignmentButton];
-    [toolbar setTintColor:self.style.toolbarTintColor];
-    [toolbar setItems:myToolBarItems animated:YES];
-    self.toolbar = toolbar;
+    [toolbarContainerView setContentSize:toolbar.frame.size];
+    [toolbarContainerView addSubview:toolbar];
     
     /* Initial text */
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:self.card.card_data.content];
     text.font = [[CourtesyFontManager sharedManager] fontWithID:self.card.card_data.fontType];
-    if (!text.font) {
-        text.font = [UIFont systemFontOfSize:self.card.card_data.fontSize];
-    } else {
-        text.font = [text.font fontWithSize:self.card.card_data.fontSize];
-    }
+    if (!text.font) text.font = [UIFont systemFontOfSize:self.card.card_data.fontSize];
+    else text.font = [text.font fontWithSize:self.card.card_data.fontSize];
     text.color = self.style.cardTextColor;
     text.lineSpacing = self.style.cardLineSpacing;
     text.paragraphSpacing = self.style.paragraphSpacing;
@@ -182,20 +205,16 @@
     textView.typingAttributes = self.originalAttributes;
     textView.backgroundColor = [UIColor clearColor];
     textView.alwaysBounceVertical = YES;
+    textView.showsHorizontalScrollIndicator = NO;
+    textView.showsVerticalScrollIndicator = YES;
     textView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    /* Set initial text */
     textView.attributedText = text;
     
     /* Margin */
     textView.minContentSize = CGSizeMake(0, self.view.frame.size.height);
     textView.textContainerInset = UIEdgeInsetsMake(kComposeTopInsect, kComposeLeftInsect, kComposeBottomInsect, kComposeRightInsect);
-    if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-        textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectLandscape, 0, 0, 0);
-    } else {
-        textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectPortrait, 0, 0, 0);
-    }
-    textView.scrollIndicatorInsets = textView.contentInset;
+    textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectPortrait, 0, 0, 0);
+    textView.scrollIndicatorInsets = UIEdgeInsetsMake(textView.contentInset.top, 0, 0, kComposeCardViewBorderWidth  );
     textView.selectedRange = NSMakeRange(text.length, 0);
     
     /* Auto correction */
@@ -206,18 +225,16 @@
     textView.allowsPasteImage = NO; // 不允许粘贴图片
     textView.allowsPasteAttributedString = NO; // 不允许粘贴富文本
     
-    /* Undo */
+    /* Undo & Redo */
     textView.allowsUndoAndRedo = YES;
     textView.maximumUndoLevel = 20;
     
-    /* Line height fixed */
+    /* Line height */
     YYTextLinePositionSimpleModifier *mod = [YYTextLinePositionSimpleModifier new];
     mod.fixedLineHeight = self.style.cardLineHeight;
     textView.linePositionModifier = mod;
     
     /* Toolbar */
-    [toolbarContainerView setContentSize:toolbar.frame.size];
-    [toolbarContainerView addSubview:toolbar];
     textView.inputAccessoryView = self.editable ? toolbarContainerView : nil;
     textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     
@@ -234,38 +251,10 @@
     
     /* Layout of Text View */
     self.textView = textView;
-    [self.view addSubview:textView];
-    [textView scrollsToTop];
-    
-    /* Position & Size */
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:textView
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeTopMargin
-                                                         multiplier:1
-                                                           constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:textView
-                                                          attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeBottomMargin
-                                                         multiplier:1
-                                                           constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:textView
-                                                          attribute:NSLayoutAttributeTrailing
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeTrailing
-                                                         multiplier:1
-                                                           constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:textView
-                                                          attribute:NSLayoutAttributeLeading
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeLeading
-                                                         multiplier:1
-                                                           constant:0]];
+    [cardView addSubview:textView];
+    [textView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(cardView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
+    }];
     
     if ([sharedSettings switchMarkdown]) {
         /* Markdown Support */
@@ -283,60 +272,6 @@
         self.markdownParser = parser;
     }
     
-    /* Init of Jot Scroll View */
-    UIView *jotView = [[UIView alloc] initWithFrame:self.textView.frame];
-    jotView.backgroundColor = [UIColor clearColor];
-    jotView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    /* Layout of Jot Scroll View */
-    self.jotView = jotView;
-    [self.view insertSubview:jotView belowSubview:textView];
-    
-    /* Position & Size */
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:jotView
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeTopMargin
-                                                         multiplier:1
-                                                           constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:jotView
-                                                          attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeBottomMargin
-                                                         multiplier:1
-                                                           constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:jotView
-                                                          attribute:NSLayoutAttributeTrailing
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeTrailing
-                                                         multiplier:1
-                                                           constant:0]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:jotView
-                                                          attribute:NSLayoutAttributeLeading
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeLeading
-                                                         multiplier:1
-                                                           constant:0]];
-    
-    /* Init of Jot View */
-    CourtesyJotViewController *jotViewController = [[CourtesyJotViewController alloc] initWithMasterController:self];
-    [self addChildViewController:jotViewController];
-    jotViewController.view.frame = jotView.frame;
-    [jotView addSubview:jotViewController.view];
-    [jotViewController didMoveToParentViewController:self];
-    self.jotViewController = jotViewController;
-    
-    /* Init of Fake Status Bar */
-    CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
-    UIView *fakeBar = [[UIView alloc] initWithFrame:frame];
-    fakeBar.alpha = self.style.standardAlpha;
-    fakeBar.backgroundColor = self.style.statusBarColor;
-    fakeBar.hidden = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
-    
     /* Tap Gesture of Fake Status Bar */
     UITapGestureRecognizer *tapFakeBar = [[UITapGestureRecognizer alloc] initWithTarget:textView action:@selector(scrollToTop)];
     tapFakeBar.numberOfTouchesRequired = 1;
@@ -344,10 +279,25 @@
     [fakeBar addGestureRecognizer:tapFakeBar];
     [fakeBar setUserInteractionEnabled:YES];
     
-    /* Layouts of Fake Status Bar */
-    self.fakeBar = fakeBar;
-    [self.view addSubview:fakeBar];
-    [self.view bringSubviewToFront:fakeBar];
+    /* Init of Jot Scroll View */
+    UIView *jotView = [[UIView alloc] initWithFrame:self.textView.frame];
+    jotView.backgroundColor = [UIColor clearColor];
+    jotView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    /* Layout of Jot Scroll View */
+    self.jotView = jotView;
+    [cardView insertSubview:jotView belowSubview:textView];
+    [jotView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(cardView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
+    }];
+    
+    /* Init of Jot View Controller */
+    CourtesyJotViewController *jotViewController = [[CourtesyJotViewController alloc] initWithMasterController:self];
+    [self addChildViewController:jotViewController];
+    jotViewController.view.frame = jotView.frame;
+    [jotView addSubview:jotViewController.view];
+    [jotViewController didMoveToParentViewController:self];
+    self.jotViewController = jotViewController;
     
     /* Init of close circle button */
     UIButton *circleCloseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
@@ -371,34 +321,12 @@
     self.circleCloseBtn = circleCloseBtn;
     [self.view addSubview:circleCloseBtn];
     [self.view bringSubviewToFront:circleCloseBtn];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleCloseBtn
-                                                          attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1
-                                                           constant:32]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleCloseBtn
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1
-                                                           constant:32]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleCloseBtn
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:fakeBar
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1
-                                                           constant:20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleCloseBtn
-                                                          attribute:NSLayoutAttributeLeading
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeLeadingMargin
-                                                         multiplier:1
-                                                           constant:0]];
+    [circleCloseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).with.offset(fakeBar.frame.size.height + kComposeCardViewMargin * 2);
+        make.left.equalTo(self.view.mas_left).with.offset(kComposeCardViewMargin * 2);
+        make.width.equalTo(@32);
+        make.height.equalTo(@32);
+    }];
     
     /* Init of approve circle button */
     UIButton *circleApproveBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
@@ -422,36 +350,14 @@
     self.circleApproveBtn = circleApproveBtn;
     [self.view addSubview:circleApproveBtn];
     [self.view bringSubviewToFront:circleApproveBtn];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleApproveBtn
-                                                          attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1
-                                                           constant:32]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleApproveBtn
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1
-                                                           constant:32]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleApproveBtn
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:fakeBar
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1
-                                                           constant:20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleApproveBtn
-                                                          attribute:NSLayoutAttributeTrailing
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeTrailingMargin
-                                                         multiplier:1
-                                                           constant:0]];
+    [circleApproveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).with.offset(fakeBar.frame.size.height + kComposeCardViewMargin * 2);
+        make.right.equalTo(self.view.mas_right).with.offset(-kComposeCardViewMargin * 2);
+        make.width.equalTo(@32);
+        make.height.equalTo(@32);
+    }];
     
-    /* Init of approve back button */
+    /* Init of back button */
     UIImageView *circleBackBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleBackBtn.backgroundColor = self.style.buttonBackgroundColor;
     circleBackBtn.tintColor = self.style.buttonTintColor;
@@ -472,41 +378,19 @@
     tapBackBtn.numberOfTapsRequired = 1;
     [circleBackBtn addGestureRecognizer:tapBackBtn];
     
-    /* Enable interaction for approve button */
+    /* Enable interaction for back button */
     [circleBackBtn setUserInteractionEnabled:YES];
     
-    /* Auto layouts of approve button */
+    /* Auto layouts of back button */
     self.circleBackBtn = circleBackBtn;
     [self.view addSubview:circleBackBtn];
     [self.view bringSubviewToFront:circleBackBtn];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBackBtn
-                                                          attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1
-                                                           constant:32]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBackBtn
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1
-                                                           constant:32]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBackBtn
-                                                          attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeBottomMargin
-                                                         multiplier:1
-                                                           constant:-20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleBackBtn
-                                                          attribute:NSLayoutAttributeLeading
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeLeadingMargin
-                                                         multiplier:1
-                                                           constant:0]];
+    [circleBackBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom).with.offset(-kComposeCardViewMargin * 2);
+        make.left.equalTo(self.view.mas_left).with.offset(kComposeCardViewMargin * 2);
+        make.width.equalTo(@32);
+        make.height.equalTo(@32);
+    }];
     
     /* Init of save button */
     UIImageView *circleSaveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
@@ -522,48 +406,26 @@
     circleSaveBtn.alpha = 0.0;
     circleSaveBtn.hidden = YES;
     
-    /* Tap gesture of back button */
+    /* Tap gesture of save button */
     UITapGestureRecognizer *tapSaveBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(savePreview:)];
     tapSaveBtn.numberOfTouchesRequired = 1;
     tapSaveBtn.numberOfTapsRequired = 1;
     [circleSaveBtn addGestureRecognizer:tapSaveBtn];
     
-    /* Enable interaction for approve button */
+    /* Enable interaction for save button */
     [circleSaveBtn setUserInteractionEnabled:YES];
     
-    /* Auto layouts of approve button */
+    /* Auto layouts of save button */
     self.circleSaveBtn = circleSaveBtn;
     [self.view addSubview:circleSaveBtn];
     [self.view bringSubviewToFront:circleSaveBtn];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleSaveBtn
-                                                          attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1
-                                                           constant:32]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleSaveBtn
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1
-                                                           constant:32]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleSaveBtn
-                                                          attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeBottomMargin
-                                                         multiplier:1
-                                                           constant:-20]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleSaveBtn
-                                                          attribute:NSLayoutAttributeTrailing
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeTrailingMargin
-                                                         multiplier:1
-                                                           constant:0]];
+    [circleSaveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom).with.offset(-fakeBar.frame.size.height - kComposeCardViewMargin * 2);
+        make.right.equalTo(self.view.mas_right).with.offset(-kComposeCardViewMargin * 2);
+        make.width.equalTo(@32);
+        make.height.equalTo(@32);
+    }];
     
     /* Init of Title Label */
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, 24)];
@@ -584,38 +446,18 @@
     self.titleLabel = titleLabel;
     [textView addSubview:titleLabel];
     [textView bringSubviewToFront:titleLabel];
-    [textView addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel
-                                                          attribute:NSLayoutAttributeWidth
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1
-                                                           constant:240]];
-    [textView addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel
-                                                          attribute:NSLayoutAttributeHeight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:nil
-                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                         multiplier:1
-                                                           constant:24]];
-    [textView addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:textView
-                                                          attribute:NSLayoutAttributeTop
-                                                         multiplier:1
-                                                           constant:0]];
-    [textView addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel
-                                                          attribute:NSLayoutAttributeCenterX
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:textView
-                                                          attribute:NSLayoutAttributeCenterX
-                                                         multiplier:1
-                                                           constant:0]];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(textView.mas_top).with.offset(0);
+        make.centerX.equalTo(textView.mas_centerX).with.offset(0);
+        make.width.equalTo(@240);
+        make.height.equalTo(@24);
+    }];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [textView becomeFirstResponder];
-        if (self.card.newcard) [textView selectAll:nil];
+        [self.textView becomeFirstResponder];
+        if (self.card.newcard) {
+            [self.textView selectAll:nil];
+        }
     });
     
     // 为什么要在这里滚动到最顶部一次其实我也不是很清楚
@@ -637,6 +479,48 @@
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [self doCardViewAnimation];
+}
+
+- (void)doCardViewAnimation {
+    if (self.editable) {
+        self.textView.minContentSize = CGSizeMake(0, self.cardView.frame.size.height);
+        [UIView beginAnimations:@"startEditing" context:nil];
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationWillStartSelector:@selector(animationDidStart:)];
+        [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:)];
+        [UIView setAnimationDelay:0.0f];
+        [UIView setAnimationDuration:0.3f];
+        self.textView.showsVerticalScrollIndicator = YES;
+        self.cardView.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        self.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectUpdated, 0, 0, 0);
+        [UIView commitAnimations];
+    } else {
+        self.textView.minContentSize = CGSizeMake(0, 0);
+        [UIView beginAnimations:@"endEditing" context:nil];
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationWillStartSelector:@selector(animationDidStart:)];
+        [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:)];
+        [UIView setAnimationDelay:0.0f];
+        [UIView setAnimationDuration:0.3f];
+        self.textView.showsVerticalScrollIndicator = NO;
+        self.cardView.transform = CGAffineTransformMakeScale(0.9, 0.9);
+        self.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectPortrait, 0, 0, 0);
+        [UIView commitAnimations];
+    }
+}
+
+- (void)animationDidStart:(CAAnimation *)anim {
+    
+}
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+    if (!self.editable) {
+        [self.textView scrollToTop];
+    }
+}
+
 #pragma mark - Text Attributes Holder
 
 //- (void)observeValueForKeyPath:(NSString *)keyPath
@@ -651,38 +535,14 @@
 //    }
 //}
 
-#pragma mark - Rotate
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-        __weak typeof(self) weakSelf = self;
-        [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            weakSelf.fakeBar.hidden = NO;
-        } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            __strong typeof(self) strongSelf = weakSelf;
-            strongSelf.fakeBar.top = 0;
-            strongSelf.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectPortrait, 0, 0, 0);
-        }];
-    } else {
-        __weak typeof(self) weakSelf = self;
-        [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            weakSelf.fakeBar.hidden = YES;
-        } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            __strong typeof(self) strongSelf = weakSelf;
-            strongSelf.fakeBar.top = - self.fakeBar.height;
-            strongSelf.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectLandscape, 0, 0, 0);
-        }];
-    }
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-}
-
 #pragma mark - Floating Actions & Navigation Bar Items
 
 - (void)closeComposeView:(UIButton *)sender {
     if (sender.selected) {
-        sender.selected = NO;
         self.circleApproveBtn.selected = NO;
+        self.circleCloseBtn.selected = NO;
         self.editable = YES;
+        [self doCardViewAnimation];
         if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
         self.textView.selectedRange = NSMakeRange(self.textView.text.length, 0);
         __weak typeof(self) weakSelf = self;
@@ -716,10 +576,11 @@
             return;
         }
         if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-        sender.selected = YES;
+        self.circleApproveBtn.selected = YES;
         self.circleCloseBtn.selected = YES;
-        self.editable = NO;
         self.circleSaveBtn.hidden = NO;
+        self.editable = NO;
+        [self doCardViewAnimation];
         __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.5 animations:^{
             __strong typeof(self) strongSelf = weakSelf;
@@ -824,7 +685,7 @@
 - (void)closeFreehandButtonTapped:(UIGestureRecognizer *)sender {
     [self.jotViewController setState:JotViewStateDefault];
     [self.jotViewController setControlEnabled:NO];
-    [self.view sendSubviewToBack:self.jotView];
+    [self.cardView sendSubviewToBack:self.jotView];
     self.circleApproveBtn.hidden = NO;
     self.circleCloseBtn.hidden = NO;
     __weak typeof(self) weakSelf = self;
@@ -854,7 +715,7 @@
     }
     [self.jotViewController setState:JotViewStateDrawing];
     [self.jotViewController setControlEnabled:YES];
-    [self.view sendSubviewToBack:self.textView];
+    [self.cardView sendSubviewToBack:self.textView];
     self.circleBackBtn.hidden = NO;
     self.circleApproveBtn.userInteractionEnabled = NO;
     self.circleCloseBtn.userInteractionEnabled = NO;
@@ -1423,7 +1284,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:self.textView.attributedText];
     [text insertAttributedString:attachText atIndex:range.location];
     [self.textView setAttributedText:text];
-    [self.textView scrollRangeToVisible:range];
+    [self.textView scrollRangeToVisible:NSMakeRange(range.location, [text length])];
     
     if (animated) {
         [UIView animateWithDuration:0.2 animations:^{ [frameView setAlpha:1.0]; } completion:nil];
@@ -1686,7 +1547,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)serialize {
     @try {
-        self.card.is_editable = NO;
         [self syncAttachmentsStyle];
         [self.view setUserInteractionEnabled:NO];
         [self.view makeToastActivity:CSToastPositionCenter];

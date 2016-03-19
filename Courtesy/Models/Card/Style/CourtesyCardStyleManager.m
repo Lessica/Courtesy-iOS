@@ -24,6 +24,8 @@
     if (styleID == kCourtesyCardStyleDefault) {
         CourtesyCardStyleModel *newStyle = [CourtesyCardStyleModel new];
         
+        newStyle.cardBorderColor = [UIColor coolGrayColor];
+        
         newStyle.statusBarColor = [UIColor blackColor];
         newStyle.buttonTintColor = [UIColor whiteColor];
         newStyle.buttonBackgroundColor = [UIColor blackColor];

@@ -110,7 +110,7 @@
         styleScrollView.indicatorStyle = UIScrollViewIndicatorStyleDefault;
         styleScrollView.contentSize = CGSizeMake(styleScrollView.frame.size.width * 6, styleScrollView.frame.size.height);
         [styleAdjustView addSubview:styleScrollView];
-        
+        /*
         UIImageView *leftArrow = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 14, 24)];
         leftArrow.center = CGPointMake(15, styleAdjustView.frame.size.height / 2);
         leftArrow.tintColor = self.style.toolbarTintColor;
@@ -122,7 +122,7 @@
         rightArrow.tintColor = self.style.toolbarTintColor;
         rightArrow.image = [[UIImage imageNamed:@"60-arrow-right"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [styleAdjustView addSubview:rightArrow];
-        
+        */
         pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 0, styleAdjustView.frame.size.width, 6)];
         pageControl.center = CGPointMake(styleAdjustView.frame.size.width / 2, styleAdjustView.frame.size.height - 8);
         pageControl.currentPageIndicatorTintColor = self.style.toolbarHighlightColor;

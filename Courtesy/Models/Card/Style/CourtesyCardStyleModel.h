@@ -24,6 +24,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIColor      *toolbarBarTintColor; // 工具栏前景色
 @property (nonatomic, strong) UIColor      *toolbarHighlightColor; // 工具栏按钮激活颜色
 
+@property (nonatomic, strong) UIColor      *cardBorderColor;
+
 //@property (nonatomic, strong) UIFont<Ignore> *cardFont; // 卡片字体
 //@property (nonatomic, assign) NSUInteger   cardFontType; // 卡片字体编号
 //@property (nonatomic, strong) NSDictionary *cardContentAttributes; // 卡片内容原始属性

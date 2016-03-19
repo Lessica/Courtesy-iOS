@@ -7,7 +7,6 @@
 //
 
 #import "CourtesyJotViewController.h"
-#import "CourtesyJotColorButton.h"
 
 @interface CourtesyJotViewController ()
 @property (nonatomic, assign) BOOL colorEnabled;
@@ -16,7 +15,7 @@
 @property (nonatomic, strong) UIButton *restoreBtn;
 @property (nonatomic, strong) UIButton *colorToggleBtn;
 @property (nonatomic, strong) UIButton *lineToggleBtn;
-@property (nonatomic, strong) NSMutableArray <CourtesyJotColorButton *> *buttonArray;
+@property (nonatomic, strong) NSMutableArray <UIButton *> *buttonArray;
 @property (nonatomic, strong) UIButton *largeBtn;
 @property (nonatomic, strong) UIButton *mediumBtn;
 @property (nonatomic, strong) UIButton *smallBtn;
@@ -45,37 +44,14 @@
         colorToggleBtn.alpha = 0.0;
         colorToggleBtn.hidden = YES;
         self.colorToggleBtn = colorToggleBtn;
-        [self.view addSubview:colorToggleBtn];
-        [self.view bringSubviewToFront:colorToggleBtn];
+        [controller.view addSubview:colorToggleBtn];
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:colorToggleBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:colorToggleBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:colorToggleBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeBottomMargin
-                                                             multiplier:1
-                                                               constant:-20]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:colorToggleBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeTrailingMargin
-                                                             multiplier:1
-                                                               constant:0]];
+        [colorToggleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@32);
+            make.height.equalTo(@32);
+            make.bottom.equalTo(controller.view.mas_bottomMargin).with.offset(-20);
+            make.trailing.equalTo(controller.view.mas_trailingMargin).with.offset(0);
+        }];
         
         UIButton *lineToggleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
         [lineToggleBtn setImage:[[UIImage imageNamed:@"63-jot-line"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
@@ -88,37 +64,14 @@
         lineToggleBtn.alpha = 0.0;
         lineToggleBtn.hidden = YES;
         self.lineToggleBtn = lineToggleBtn;
-        [self.view addSubview:lineToggleBtn];
-        [self.view bringSubviewToFront:lineToggleBtn];
+        [controller.view addSubview:lineToggleBtn];
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:lineToggleBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:lineToggleBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:lineToggleBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeBottomMargin
-                                                             multiplier:1
-                                                               constant:-20]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:lineToggleBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:colorToggleBtn
-                                                              attribute:NSLayoutAttributeLeading
-                                                             multiplier:1
-                                                               constant:-12]];
+        [lineToggleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@32);
+            make.height.equalTo(@32);
+            make.bottom.equalTo(controller.view.mas_bottomMargin).with.offset(-20);
+            make.trailing.equalTo(colorToggleBtn.mas_leading).with.offset(-12);
+        }];
         
         UIButton *circleToggleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
         [circleToggleBtn setImage:[[UIImage imageNamed:@"58-jot-edit"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
@@ -131,37 +84,14 @@
         circleToggleBtn.alpha = 0.0;
         circleToggleBtn.hidden = YES;
         self.toggleBtn = circleToggleBtn;
-        [self.view addSubview:circleToggleBtn];
-        [self.view bringSubviewToFront:circleToggleBtn];
+        [controller.view addSubview:circleToggleBtn];
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleToggleBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleToggleBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleToggleBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeBottomMargin
-                                                             multiplier:1
-                                                               constant:-20]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleToggleBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:lineToggleBtn
-                                                              attribute:NSLayoutAttributeLeading
-                                                             multiplier:1
-                                                               constant:-12]];
+        [circleToggleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@32);
+            make.height.equalTo(@32);
+            make.bottom.equalTo(controller.view.mas_bottomMargin).with.offset(-20);
+            make.trailing.equalTo(lineToggleBtn.mas_leading).with.offset(-12);
+        }];
         
         UIButton *circleRestoreBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
         [circleRestoreBtn setImage:[[UIImage imageNamed:@"60-jot-restore"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
@@ -174,37 +104,14 @@
         circleRestoreBtn.alpha = 0.0;
         circleRestoreBtn.hidden = YES;
         self.restoreBtn = circleRestoreBtn;
-        [self.view addSubview:circleRestoreBtn];
-        [self.view bringSubviewToFront:circleRestoreBtn];
+        [controller.view addSubview:circleRestoreBtn];
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleRestoreBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleRestoreBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleRestoreBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeBottomMargin
-                                                             multiplier:1
-                                                               constant:-20]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:circleRestoreBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:circleToggleBtn
-                                                              attribute:NSLayoutAttributeLeading
-                                                             multiplier:1
-                                                               constant:-12]];
+        [circleRestoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@32);
+            make.height.equalTo(@32);
+            make.bottom.equalTo(controller.view.mas_bottomMargin).with.offset(-20);
+            make.trailing.equalTo(circleToggleBtn.mas_leading).with.offset(-12);
+        }];
         
         UIButton *largeBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
         [largeBtn setImage:[[UIImage imageNamed:@"64-jot-large"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
@@ -217,37 +124,14 @@
         largeBtn.alpha = 0.0;
         largeBtn.hidden = YES;
         self.largeBtn = largeBtn;
-        [self.view addSubview:largeBtn];
-        [self.view bringSubviewToFront:largeBtn];
+        [controller.view addSubview:largeBtn];
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:largeBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:largeBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:largeBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:lineToggleBtn
-                                                              attribute:NSLayoutAttributeTop
-                                                             multiplier:1
-                                                               constant:-12]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:largeBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:lineToggleBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                             multiplier:1
-                                                               constant:0]];
+        [largeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@32);
+            make.height.equalTo(@32);
+            make.bottom.equalTo(lineToggleBtn.mas_top).with.offset(-12);
+            make.trailing.equalTo(lineToggleBtn.mas_trailing).with.offset(0);
+        }];
         
         UIButton *mediumBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
         [mediumBtn setImage:[[UIImage imageNamed:@"65-jot-medium"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
@@ -260,37 +144,14 @@
         mediumBtn.alpha = 0.0;
         mediumBtn.hidden = YES;
         self.mediumBtn = mediumBtn;
-        [self.view addSubview:mediumBtn];
-        [self.view bringSubviewToFront:mediumBtn];
+        [controller.view addSubview:mediumBtn];
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:mediumBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:mediumBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:mediumBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:largeBtn
-                                                              attribute:NSLayoutAttributeTop
-                                                             multiplier:1
-                                                               constant:-12]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:mediumBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:lineToggleBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                             multiplier:1
-                                                               constant:0]];
+        [mediumBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@32);
+            make.height.equalTo(@32);
+            make.bottom.equalTo(largeBtn.mas_top).with.offset(-12);
+            make.trailing.equalTo(lineToggleBtn.mas_trailing).with.offset(0);
+        }];
         
         UIButton *smallBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
         [smallBtn setImage:[[UIImage imageNamed:@"66-jot-small"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
@@ -303,37 +164,14 @@
         smallBtn.alpha = 0.0;
         smallBtn.hidden = YES;
         self.smallBtn = smallBtn;
-        [self.view addSubview:smallBtn];
-        [self.view bringSubviewToFront:smallBtn];
+        [controller.view addSubview:smallBtn];
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:smallBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:smallBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:smallBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:mediumBtn
-                                                              attribute:NSLayoutAttributeTop
-                                                             multiplier:1
-                                                               constant:-12]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:smallBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:lineToggleBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                             multiplier:1
-                                                               constant:0]];
+        [smallBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@32);
+            make.height.equalTo(@32);
+            make.bottom.equalTo(mediumBtn.mas_top).with.offset(-12);
+            make.trailing.equalTo(lineToggleBtn.mas_trailing).with.offset(0);
+        }];
         
         [self reloadStyle];
     }
@@ -341,10 +179,14 @@
 }
 
 - (void)reloadStyle {
+    CourtesyCardComposeViewController *controller = (CourtesyCardComposeViewController<JotViewControllerDelegate> *)self.delegate;
+    for (UIButton *btn in self.buttonArray) {
+        [btn removeFromSuperview];
+    }
     [self.buttonArray removeAllObjects];
     for (UIColor *btnColor in self.style.jotColorArray) {
-        CourtesyJotColorButton *newBtn = [[CourtesyJotColorButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        newBtn.color = newBtn.backgroundColor = newBtn.tintColor = btnColor;
+        UIButton *newBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+        newBtn.backgroundColor = newBtn.tintColor = btnColor;
         [newBtn setImage:[[UIImage imageNamed:@"61-jot-color"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [newBtn setImage:nil forState:UIControlStateSelected];
         newBtn.layer.masksToBounds = YES;
@@ -354,37 +196,15 @@
         [newBtn setTarget:self action:@selector(drawWithColorBtn:) forControlEvents:UIControlEventTouchUpInside];
         newBtn.alpha = 0.0;
         newBtn.hidden = YES;
-        [self.view addSubview:newBtn];
-        [self.view bringSubviewToFront:newBtn];
+        [controller.view addSubview:newBtn];
         
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:newBtn
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:newBtn
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1
-                                                               constant:32]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:newBtn
-                                                              attribute:NSLayoutAttributeTrailing
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeTrailingMargin
-                                                             multiplier:1
-                                                               constant:0]];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:newBtn
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:[self.buttonArray lastObject] ? [self.buttonArray lastObject] : _colorToggleBtn
-                                                              attribute:NSLayoutAttributeTop
-                                                             multiplier:1
-                                                               constant:-12]];
+        [newBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(@32);
+            make.height.equalTo(@32);
+            make.bottom.equalTo(([self.buttonArray lastObject] ? [self.buttonArray lastObject] : _colorToggleBtn).mas_top).with.offset(-12);
+            make.trailing.equalTo(controller.view.mas_trailingMargin).with.offset(0);
+        }];
+        
         [self.buttonArray addObject:newBtn];
     }
     _colorToggleBtn.backgroundColor =
@@ -401,7 +221,7 @@
     _largeBtn.tintColor =
     _mediumBtn.tintColor =
     _smallBtn.tintColor = self.style.buttonTintColor;
-    self.font = ((CourtesyCardComposeViewController *)self.delegate).originalFont;
+    self.font = controller.originalFont;
     self.textColor = self.style.cardTextColor;
 }
 
@@ -432,23 +252,23 @@
 
 - (void)setColorEnabled:(BOOL)colorEnabled {
     if (colorEnabled) {
-        for (CourtesyJotColorButton *btn in self.buttonArray) {
+        for (UIButton *btn in self.buttonArray) {
             btn.hidden = NO;
         }
         [UIView animateWithDuration:0.2
                          animations:^{
-                             for (CourtesyJotColorButton *btn in self.buttonArray) {
+                             for (UIButton *btn in self.buttonArray) {
                                  btn.alpha = 1.0;
                              }
                          } completion:nil];
     } else {
         [UIView animateWithDuration:0.2
                          animations:^{
-                             for (CourtesyJotColorButton *btn in self.buttonArray) {
+                             for (UIButton *btn in self.buttonArray) {
                                  btn.alpha = 0.0;
                              }
                          } completion:^(BOOL finished) {
-                             for (CourtesyJotColorButton *btn in self.buttonArray) {
+                             for (UIButton *btn in self.buttonArray) {
                                  btn.hidden = YES;
                              }
                          }];
@@ -515,9 +335,9 @@
     }
 }
 
-- (void)drawWithColorBtn:(CourtesyJotColorButton *)btn {
-    self.textColor = btn.color;
-    self.drawingColor = btn.color;
+- (void)drawWithColorBtn:(UIButton *)btn {
+    self.textColor = btn.tintColor;
+    self.drawingColor = btn.tintColor;
 }
 
 - (void)drawLarge:(UIButton *)sender {
