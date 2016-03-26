@@ -165,7 +165,7 @@ enum {
         return;
     }
     NSNumber *size = [FCFileManager sizeOfDirectoryAtPath:[[UIApplication sharedApplication] cachesPath]];
-    if ([size integerValue] > 10e7) { // 10M
+    if ([size integerValue] > 10e5) {
         _cleanCacheTitleLabel.text = [NSString stringWithFormat:@"清除缓存 %@", [FCFileManager sizeFormattedOfDirectoryAtPath:[[UIApplication sharedApplication] cachesPath]]];
     }
 }

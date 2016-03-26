@@ -7,13 +7,13 @@
 //
 
 #import "AppDelegate.h"
+#import "CourtesyCardManager.h"
 #import "CourtesyCardStyleManager.h"
 #import "CourtesyLeftDrawerTableViewController.h"
 #import "CourtesyLeftDrawerMenuTableViewCell.h"
 #import "CourtesyLeftDrawerAvatarTableViewCell.h"
 #import "CourtesyPortraitViewController.h"
 #import "CourtesyLoginRegisterViewController.h"
-#import "CourtesyCardComposeViewController.h"
 #import "JVFloatingDrawerViewController.h"
 
 enum {
@@ -243,10 +243,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
             return;
         }
         // 发布新卡片界面
-        CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:[CourtesyCardManager newCard]];
-        // 从扫码界面进入，设置初始模型
-        vc.qrcode = qrcode;
-        [self presentViewController:vc animated:YES completion:nil];
+        [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
     }
 }
 
@@ -280,8 +277,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
                     position:CSToastPositionCenter];
         return NO;
     }
-    CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:[CourtesyCardManager newCard]];
-    [self presentViewController:vc animated:YES completion:nil];
+    [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
     [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCourtesyMainIndex inSection:kMenuSection] animated:NO scrollPosition:UITableViewScrollPositionNone];
     return YES;
 }

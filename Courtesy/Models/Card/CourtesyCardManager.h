@@ -12,5 +12,9 @@
 @interface CourtesyCardManager : NSObject
 + (id)sharedManager;
 + (CourtesyCardModel *)newCard;
+- (void)composeNewCardWithViewController:(UIViewController *)controller;
+- (void)editCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller;
+- (NSMutableArray <CourtesyCardModel *> *)draftboxCardsList;
+- (void)deleteCardInDraft:(CourtesyCardModel *)card;
 
 @end

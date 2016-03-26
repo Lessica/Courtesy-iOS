@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E61b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E64a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -226,6 +226,9 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="nI9-gL-eAg" kind="show" id="73U-PS-r8r"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -892,6 +895,91 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XFu-gc-zsD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1016" y="1125"/>
+        </scene>
+        <!--Draft Box View-->
+        <scene sceneID="So9-13-Ise">
+            <objects>
+                <tableViewController id="nI9-gL-eAg" userLabel="Draft Box View" customClass="CourtesyDraftTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="N5f-VI-Ufy">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CourtesyDraftTableViewCellReuseIdentifier" rowHeight="102" id="uuA-WS-N75" customClass="CourtesyDraftTableViewCell">
+                                <rect key="frame" x="0.0" y="114" width="320" height="102"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uuA-WS-N75" id="Ybd-8x-II0">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="102"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="无标题卡片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QMa-xQ-dtz">
+                                            <rect key="frame" x="20" y="16" width="204" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="22" id="pUx-y2-Mu3"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="反正 CVR 设计模式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bg7-b9-VxG">
+                                            <rect key="frame" x="20" y="44" width="204" height="18"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="18" id="FpO-AR-3Kd"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2016年4月1日" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FbZ-mm-uJg">
+                                            <rect key="frame" x="20" y="70" width="204" height="16"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="16" id="IZw-MV-r3v"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="o71-8w-e5H">
+                                            <rect key="frame" x="236" y="16" width="64" height="64"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="64" id="3lb-Eg-Bh5"/>
+                                                <constraint firstAttribute="width" constant="64" id="VkL-g0-20c"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="o71-8w-e5H" firstAttribute="leading" secondItem="QMa-xQ-dtz" secondAttribute="trailing" constant="12" id="4Pb-mT-s0j"/>
+                                        <constraint firstItem="FbZ-mm-uJg" firstAttribute="top" secondItem="bg7-b9-VxG" secondAttribute="bottom" constant="8" id="4x6-dq-f3T"/>
+                                        <constraint firstItem="o71-8w-e5H" firstAttribute="leading" secondItem="FbZ-mm-uJg" secondAttribute="trailing" constant="12" id="6Px-Kc-O18"/>
+                                        <constraint firstItem="QMa-xQ-dtz" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="topMargin" constant="8" id="9g8-w7-io8"/>
+                                        <constraint firstItem="bg7-b9-VxG" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="FK6-Mr-8h6"/>
+                                        <constraint firstItem="FbZ-mm-uJg" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="HQG-IM-5lp"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="o71-8w-e5H" secondAttribute="trailing" constant="12" id="N6X-5z-dWO"/>
+                                        <constraint firstItem="QMa-xQ-dtz" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="a1v-Wi-tIM"/>
+                                        <constraint firstItem="o71-8w-e5H" firstAttribute="leading" secondItem="bg7-b9-VxG" secondAttribute="trailing" constant="12" id="bjG-MX-w1S"/>
+                                        <constraint firstItem="bg7-b9-VxG" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="topMargin" constant="36" id="c5D-09-f1v"/>
+                                        <constraint firstItem="o71-8w-e5H" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="topMargin" constant="8" id="hb4-Qb-vNb"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="briefTitleLabel" destination="bg7-b9-VxG" id="XgH-oe-3vW"/>
+                                    <outlet property="dateLabel" destination="FbZ-mm-uJg" id="NtN-eg-giu"/>
+                                    <outlet property="imagePreview" destination="o71-8w-e5H" id="3gy-yO-zzv"/>
+                                    <outlet property="mainTitleLabel" destination="QMa-xQ-dtz" id="0fa-UW-V0U"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="nI9-gL-eAg" id="3GH-RK-jHq"/>
+                            <outlet property="delegate" destination="nI9-gL-eAg" id="Cgt-8t-HMu"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="草稿箱" id="XzO-9Z-sxe"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DIm-pF-hDH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1402" y="1125"/>
         </scene>
         <!--(Center) Message Notification Settings-->
         <scene sceneID="uYp-Lp-WYh">
@@ -2306,7 +2394,7 @@ AFNetworking (MIT), Colours (MIT), FCFileManager (MIT), FDFullscreenPopGesture (
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <datePicker key="tableFooterView" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" id="TVi-kA-ZgL">
-                            <rect key="frame" x="0.0" y="170" width="320" height="220"/>
+                            <rect key="frame" x="0.0" y="169.5" width="320" height="220"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <date key="date" timeIntervalSinceReferenceDate="478159181.32658398">

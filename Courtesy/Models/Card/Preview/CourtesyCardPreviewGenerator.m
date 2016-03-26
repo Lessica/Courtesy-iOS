@@ -14,7 +14,7 @@
     if (!self.contentImage) {
         return;
     }
-#warning "Footer Text"
+#warning TODO: Edit footer text
     UIImage *preview_head = self.previewStyle.previewHeader;
     UIImage *preview_body = self.previewStyle.previewBody;
     UIImage *preview_footer = self.previewStyle.previewFooter;

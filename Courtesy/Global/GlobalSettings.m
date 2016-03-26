@@ -6,10 +6,10 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#import "AppStorage.h"
 #import "GlobalSettings.h"
 #import "JSONHTTPClient.h"
 
-#define kCourtesyDB @"kCourtesyDB"
 #define kCourtesyDBCurrentLoginAccount @"kCourtesyDBCurrentLoginAccount"
 #define kSwitchAutoSave @"switchAutoSave"
 #define kSwitchAutoPublic @"switchAutoPublic"
@@ -20,7 +20,11 @@
 #define kPreferredStyleID @"preferredStyleID"
 #define kPreferredFontSize @"preferredFontSize"
 
+#ifdef WATCH_SUPPORT
 @interface GlobalSettings () <CourtesyFetchAccountInfoDelegate, WCSessionDelegate>
+#else
+@interface GlobalSettings () <CourtesyFetchAccountInfoDelegate>
+#endif
 
 @end
 
@@ -29,10 +33,6 @@
 - (instancetype)init {
     if (self = [super init]) {
         // 初始化基本设置
-        self.switchAutoPublic = NO;
-        self.switchAutoPublic = NO;
-        self.preferredImageQuality = UIImagePickerControllerQualityTypeMedium;
-        self.preferredVideoQuality = UIImagePickerControllerQualityTypeMedium;
         self.fetchedCurrentAccount = NO;
         // 初始化提示消息
         [CSToastManager setTapToDismissEnabled:YES];
@@ -64,14 +64,15 @@
         // 初始化推送通知
         if (![self hasNotificationPermission]) [self requestedNotifications];
         // 初始化数据库设置
-        if (!self.appStorage) self.appStorage = [[YYCache alloc] initWithName:kCourtesyDB];
         self.currentAccount = [[CourtesyAccountModel alloc] initWithDelegate:self];
         if (!self.appStorage || !self.currentAccount) {
             @throw NSException(kCourtesyAllocFailed, @"应用程序启动失败");
         }
+#ifdef WATCH_SUPPORT
         // 初始化 Apple Watch 通信管理器
         self.watchSessionManager = [CourtesyWatchSessionManager new];
         [self.watchSessionManager startSession];
+#endif
         // 初始化账户信息
         if ([self sessionKey] != nil) {
             if ([self.appStorage containsObjectForKey:kCourtesyDBCurrentLoginAccount]) {
@@ -112,6 +113,10 @@
     return sharedInstance;
 }
 
+- (AppStorage *)appStorage {
+    return [AppStorage sharedInstance];
+}
+
 #pragma mark - 账户相关
 
 - (CourtesyAccountModel *)currentAccount {
@@ -149,7 +154,9 @@
         }
         [NSNotificationCenter sendCTAction:kActionLogout message:nil];
     }
+#ifdef WATCH_SUPPORT
     [self.watchSessionManager notifyLoginStatus];
+#endif
 }
 
 #pragma mark - 获取用户信息

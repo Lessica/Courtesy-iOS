@@ -24,9 +24,12 @@
     return self.delegate.card.is_editable;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame andDelegate:(CourtesyCardComposeViewController<CourtesyImageFrameDelegate> *)delegate {
+- (instancetype)initWithFrame:(CGRect)frame
+                  andDelegate:(CourtesyCardComposeViewController<CourtesyImageFrameDelegate> *)delegate
+                  andUserinfo:(NSDictionary *)userinfo {
     if (self = [super initWithFrame:frame]) {
         self.delegate = delegate;
+        _userinfo = userinfo;
         // Init of Frame View
         self.layer.shadowOffset = CGSizeMake(1, 1);
         self.layer.shadowOpacity = 0.45;
@@ -70,6 +73,9 @@
         }
     } else {
         if (self.bottomLabel) {
+            if ([self.bottomLabel isFirstResponder]) {
+                [self.bottomLabel resignFirstResponder];
+            }
             self.bottomLabel.userInteractionEnabled = NO;
         }
         if (self.optionsOpen) {
@@ -79,6 +85,9 @@
 }
 
 - (void)setLabelText:(NSString *)labelText {
+    if (!labelText) {
+        return;
+    }
     _labelText = labelText;
     if ([labelText isEmpty]) {
         [self toggleBottomLabelView:NO animated:NO];
@@ -217,6 +226,9 @@
     if (self.centerBtn) {
         [centerImageView addSubview:self.centerBtn];
     }
+    if (_userinfo && [_userinfo hasKey:@"title"]) {
+        [self setLabelText:[_userinfo objectForKey:@"title"]];
+    }
 }
 
 - (void)frameTapped:(id)sender {
@@ -293,9 +305,6 @@
         } else {
             [self setHeight:targetHeight];
             [self addSubview:self.bottomLabel];
-            if (![self.bottomLabel isFirstResponder]) {
-                [self.bottomLabel becomeFirstResponder];
-            }
         }
     } else if (!on && self.labelOpen) {
         self.labelOpen = NO;
@@ -328,6 +337,9 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (!self.delegate.cardEdited) {
+        self.delegate.cardEdited = YES;
+    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameDidBeginEditing:)]) {
         [self.delegate imageFrameDidBeginEditing:self];
     }

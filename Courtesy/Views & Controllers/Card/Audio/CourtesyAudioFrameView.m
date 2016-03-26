@@ -10,9 +10,12 @@
 
 @implementation CourtesyAudioFrameView
 
-- (instancetype)initWithFrame:(CGRect)frame andDelegate:(CourtesyCardComposeViewController <CourtesyAudioFrameDelegate>*)delegate {
+- (instancetype)initWithFrame:(CGRect)frame
+                  andDelegate:(CourtesyCardComposeViewController <CourtesyAudioFrameDelegate>*)delegate
+                  andUserinfo:(NSDictionary *)userinfo {
     if (self = [super initWithFrame:frame]) {
         self.delegate = delegate;
+        _userinfo = userinfo;
         // Init of Frame View
         self.layer.shadowOffset = CGSizeMake(1, 1);
         self.layer.shadowOpacity = 0.45;
@@ -38,6 +41,11 @@
 
 - (void)dealloc {
     CYLog(@"");
+}
+
+- (void)removeFromSuperview {
+    [self pausePlaying];
+    [super removeFromSuperview];
 }
 
 - (UIButton *)playBtn {
@@ -68,13 +76,9 @@
         _waveform.wavesColor = self.style.cardElementTintFocusColor;
     }
     if (_titleLabel) {
-        _titleLabel.textColor = self.style.cardElementTextColor;
+        _titleLabel.textColor = self.style.cardElementBackgroundColor;
+        _titleLabel.font = [self.delegate.originalFont fontWithSize:12.0];
     }
-}
-
-- (void)removeFromSuperview {
-    [super removeFromSuperview];
-    [self pausePlaying];
 }
 
 - (void)pausePlaying {
@@ -125,12 +129,22 @@
     }];
 }
 
+- (void)setLabelText:(NSString *)labelText {
+    if (!labelText) {
+        return;
+    }
+    _labelText = labelText;
+    if (![labelText isEmpty]) {
+        self.titleLabel.text = labelText;
+    }
+}
+
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - kAudioFrameBtnInterval * 3 - kAudioFrameBtnWidth, kAudioFrameLabelHeight)];
         titleLabel.center = _waveform.center;
         titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.font = [UIFont systemFontOfSize:12];
+        titleLabel.font = [self.delegate.originalFont fontWithSize:12.0];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.textColor = self.style.cardElementTextColor;
         titleLabel.text = @"正在载入波形……";
@@ -187,7 +201,7 @@
     if (!self.userinfo || ![self.userinfo hasKey:@"title"]) {
         return;
     }
-    self.titleLabel.text = [self.userinfo objectForKey:@"title"];
+    self.labelText = [self.userinfo objectForKey:@"title"];
 }
 
 - (void)waveformViewDidFailedLoading:(FDWaveformView *)waveformView

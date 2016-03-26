@@ -94,14 +94,13 @@
 
 @end
 
-@implementation CourtesyCardComposeViewController
+@implementation CourtesyCardComposeViewController {
+    BOOL firstAnimation;
+}
 
 - (instancetype)initWithCard:(nullable CourtesyCardModel *)card {
     if (self = [super init]) {
         self.fd_interactivePopDisabled = YES; // 禁用全屏手势
-        if (!card) {
-            card = [CourtesyCardManager newCard]; // 这里只能渲染初始卡片模型
-        }
         _card = card;
     }
     return self;
@@ -110,6 +109,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewWillBeginLoading:)]) {
+        [self.delegate cardComposeViewWillBeginLoading:self];
+    }
     
     /* Init of main view */
     self.view.backgroundColor = [UIColor whiteColor];
@@ -200,7 +203,7 @@
     _originalAttributes = text.attributes;
     
     /* Init of text view */
-    CourtesyTextView *textView = [CourtesyTextView new];
+    CourtesyTextView *textView = [[CourtesyTextView alloc] initWithFrame:self.view.frame];
     textView.delegate = self;
     textView.typingAttributes = self.originalAttributes;
     textView.backgroundColor = [UIColor clearColor];
@@ -214,8 +217,7 @@
     textView.minContentSize = CGSizeMake(0, self.view.frame.size.height);
     textView.textContainerInset = UIEdgeInsetsMake(kComposeTopInsect, kComposeLeftInsect, kComposeBottomInsect, kComposeRightInsect);
     textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectPortrait, 0, 0, 0);
-    textView.scrollIndicatorInsets = UIEdgeInsetsMake(textView.contentInset.top, 0, 0, kComposeCardViewBorderWidth  );
-    textView.selectedRange = NSMakeRange(text.length, 0);
+    textView.scrollIndicatorInsets = UIEdgeInsetsMake(textView.contentInset.top, 0, 0, kComposeCardViewBorderWidth);
     
     /* Auto correction */
     textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -255,6 +257,7 @@
     [textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(cardView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
+    [textView scrollToTop];
     
     if ([sharedSettings switchMarkdown]) {
         /* Markdown Support */
@@ -452,33 +455,74 @@
         make.width.equalTo(@240);
         make.height.equalTo(@24);
     }];
+
+    /* Load Card Attachments */
+    for (CourtesyCardAttachmentModel *attachment in self.card.card_data.attachments) {
+        if (attachment.type == CourtesyAttachmentAudio) {
+            [self addNewAudioFrame:attachment.local_url
+                                at:NSMakeRange(attachment.location, attachment.length)
+                          animated:NO
+                          userinfo:@{
+                                     @"title": attachment.title ? attachment.title : @"",
+                                     @"type": @(attachment.type),
+                                     @"url": attachment.local_url,
+                                     }];
+        } else if (attachment.type == CourtesyAttachmentImage || attachment.type == CourtesyAttachmentAnimatedImage) {
+            NSData *imgData = [NSData dataWithContentsOfURL:attachment.local_url];
+            YYImage *img = [YYImage imageWithData:imgData];
+            [self addNewImageFrame:img
+                                at:NSMakeRange(attachment.location, attachment.length)
+                          animated:NO
+                          userinfo:@{
+                                     @"title": attachment.title ? attachment.title : @"",
+                                     @"type": @(attachment.type),
+                                     @"url": attachment.local_url,
+                                     @"data": imgData
+                                     }];
+        } else if (attachment.type == CourtesyAttachmentVideo) {
+            [self addNewVideoFrame:attachment.local_url
+                                at:NSMakeRange(attachment.location, attachment.length)
+                          animated:NO
+                          userinfo:@{
+                                     @"title": attachment.title ? attachment.title : @"",
+                                     @"type": @(attachment.type),
+                                     @"url": attachment.local_url,
+                                     }];
+        } else if (attachment.type == CourtesyAttachmentDraw) {
+
+        } else {
+            continue;
+        }
+    }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [textView becomeFirstResponder];
-        if (self.card.newcard) {
-            [textView selectAll:nil];
-        }
+        firstAnimation = YES;
+        _cardEdited = NO;
+        [self doCardViewAnimation];
     });
     
     // 设置输入区域属性
+    [[YYTextKeyboardManager defaultManager] addObserver:self];
     self.inputViewType = kCourtesyInputViewDefault;
+
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishLoading:)]) {
+        [self.delegate cardComposeViewDidFinishLoading:self];
+    }
 }
+
+#pragma mark - view events
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 //    [self.textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
-    [[YYTextKeyboardManager defaultManager] addObserver:self];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
 //    [self.textView removeObserver:self forKeyPath:@"typingAttributes"];
-    [[YYTextKeyboardManager defaultManager] removeObserver:self];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [self doCardViewAnimation];
-}
+#pragma mark - animation
 
 - (void)doCardViewAnimation {
     if (self.editable) {
@@ -492,6 +536,9 @@
         self.textView.showsVerticalScrollIndicator = YES;
         self.cardView.transform = CGAffineTransformMakeScale(1.0, 1.0);
         self.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectUpdated, 0, 0, 0);
+        if (firstAnimation) {
+            [self.textView scrollToTop];
+        }
         [UIView commitAnimations];
     } else {
         self.textView.minContentSize = CGSizeMake(0, 0);
@@ -516,7 +563,13 @@
     if (!self.editable) {
         [self.textView scrollToTop];
     } else {
-        [self.textView scrollRangeToVisible:self.textView.selectedRange];
+        if (firstAnimation) {
+            firstAnimation = NO;
+            self.textView.selectedRange = NSMakeRange(self.textView.text.length, 0);
+            [self.textView becomeFirstResponder];
+        } else {
+            [self.textView scrollRangeToVisible:self.textView.selectedRange];
+        }
     }
 }
 
@@ -554,7 +607,22 @@
                     position:CSToastPositionCenter];
     } else {
         if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-        [self dismissViewControllerAnimated:YES completion:^() { [self.view removeAllSubviews]; }];
+        if (_cardEdited) {
+            if (self.textView.text.length >= self.style.maxContentLength) {
+                [self.view makeToast:@"卡片内容太多了喔"
+                            duration:kStatusBarNotificationTime
+                            position:CSToastPositionCenter];
+                return;
+            } else if (self.textView.text.length <= 0) {
+                _cardEdited = NO;
+            } else {
+                self.editable = NO;
+                [self serialize];
+            }
+        }
+        if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidCancelEditing:shouldSaveToDraftBox:)]) {
+            [self.delegate cardComposeViewDidCancelEditing:self shouldSaveToDraftBox:_cardEdited];
+        }
     }
 }
 
@@ -962,6 +1030,12 @@
     }
     if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [self.view makeToast:@"当前设备不支持拍照"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.mediaTypes = @[(NSString *)kUTTypeImage];
     picker.delegate = self;
@@ -978,6 +1052,12 @@
     }
     if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        [self.view makeToast:@"当前设备不支持相册"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.mediaTypes = @[(NSString *)kUTTypeImage];
     picker.delegate = self;
@@ -996,6 +1076,12 @@
     }
     if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [self.view makeToast:@"当前设备不支持摄像"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
     picker.videoMaximumDuration = 30.0;
@@ -1116,7 +1202,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             [picker dismissViewControllerAnimated:YES completion:^{
                 __strong typeof(self) strongSelf = weakSelf;
                 [strongSelf addNewVideoFrame:mediaURL at:self.textView.selectedRange animated:YES
-                                    userinfo:@{@"title": @"Video",
+                                    userinfo:@{@"title": @"",
                                                @"type": @(CourtesyAttachmentVideo),
                                                @"url": mediaURL }];
             }];
@@ -1155,8 +1241,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                    __block YYImage *image = [YYImage imageWithData:imageData];
                    [picker dismissViewControllerAnimated:YES completion:^{
                        __strong typeof(self) strongSelf = weakSelf;
-                       [strongSelf addNewImageFrame:image at:strongSelf.textView.selectedRange animated:YES
-                                           userinfo:@{@"title": @"Photo",
+                       [strongSelf addNewImageFrame:image
+                                                 at:strongSelf.textView.selectedRange
+                                           animated:YES
+                                           userinfo:@{@"title": @"",
                                                       @"type": @(imageType),
                                                       @"data": imageData }];
                    }];
@@ -1177,8 +1265,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
            __weak typeof(self) weakSelf = self;
            [picker dismissViewControllerAnimated:YES completion:^{
                __strong typeof(self) strongSelf = weakSelf;
-               [strongSelf addNewImageFrame:image at:strongSelf.textView.selectedRange animated:YES
-                                   userinfo:@{@"title": @"Camera",
+               [strongSelf addNewImageFrame:image
+                                         at:strongSelf.textView.selectedRange
+                                   animated:YES
+                                   userinfo:@{@"title": @"",
                                               @"type": @(CourtesyAttachmentImage),
                                               @"data": imageData }];
            }];
@@ -1208,7 +1298,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [controller dismissViewControllerAnimated:YES completion:^{
                                        __strong typeof(self) strongSelf = weakSelf;
                                        [strongSelf addNewVideoFrame:newPath at:strongSelf.textView.selectedRange animated:YES
-                                                           userinfo:@{@"title": @"Untitled",
+                                                           userinfo:@{@"title": @"",
                                                                       @"type": @(CourtesyAttachmentVideo),
                                                                       @"url": newPath }];
                                    }];
@@ -1221,8 +1311,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, self.style.cardLineHeight * 2) andDelegate:self];
-    [frameView setUserinfo:info];
+    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, self.style.cardLineHeight * 2) andDelegate:self andUserinfo:info];
     [frameView setAudioURL:url];
     return [self insertFrameToTextView:frameView at:range animated:animated];
 }
@@ -1234,8 +1323,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, 0) andDelegate:self];
-    [frameView setUserinfo:info];
+    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, 0) andDelegate:self andUserinfo:info];
     [frameView setCenterImage:image];
     if (frameView.frame.size.height < self.style.cardLineHeight) return nil;
     return [self insertFrameToTextView:frameView at:range animated:animated];
@@ -1248,8 +1336,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - 48, 0) andDelegate:self];
-    [frameView setUserinfo:info];
+    CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - 48, 0) andDelegate:self andUserinfo:info];
     [frameView setVideoURL:url];
     return [self insertFrameToTextView:frameView at:range animated:animated];
 }
@@ -1275,16 +1362,21 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     YYTextBinding *binding = [YYTextBinding bindingWithDeleteConfirm:YES];
     [attachText setTextBinding:binding range:NSMakeRange(0, attachText.length)];
     if ([frameView isKindOfClass:[CourtesyImageFrameView class]]) {
-        [(CourtesyImageFrameView *)frameView setSelfRange:NSMakeRange(range.location, attachText.length)];
+        [(CourtesyImageFrameView *)frameView setBindingLength:attachText.length];
     } else if ([frameView isKindOfClass:[CourtesyAudioFrameView class]]) {
-        [(CourtesyAudioFrameView *)frameView setSelfRange:NSMakeRange(range.location, attachText.length)];
+        [(CourtesyAudioFrameView *)frameView setBindingLength:attachText.length];
     }
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:self.textView.attributedText];
-    [text insertAttributedString:attachText atIndex:range.location];
+    if (range.location + range.length <= text.length) {
+        [text replaceCharactersInRange:range withAttributedString:attachText];
+    } else if (range.location <= text.length) {
+        [text insertAttributedString:attachText atIndex:range.location];
+    }
+    CYLog(@"attachment: location = %lu, length = %lu", range.location, attachText.length);
     [self.textView setAttributedText:text];
-    [self.textView scrollRangeToVisible:NSMakeRange(range.location, [text length])];
     
     if (animated) {
+        [self.textView scrollRangeToVisible:NSMakeRange(range.location, range.length)];
         [UIView animateWithDuration:0.2 animations:^{ [frameView setAlpha:1.0]; } completion:nil];
     }
     return frameView;
@@ -1365,8 +1457,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                               by:(YYImage *)image
                         userinfo:(NSDictionary *)userinfo {
     if (!self.editable) return;
+    NSRange beforeRange = [self getAttachmentRange:imageFrame];
     [self imageFrameShouldDeleted:imageFrame animated:NO];
-    [self addNewImageFrame:image at:imageFrame.selfRange animated:NO userinfo:userinfo];
+    [self addNewImageFrame:image at:NSMakeRange(beforeRange.location, 0) animated:NO userinfo:userinfo];
 }
 
 - (void)imageFrameShouldDeleted:(CourtesyImageFrameView *)imageFrame
@@ -1387,10 +1480,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [imageFrame removeFromSuperview];
     NSMutableAttributedString *mStr = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
     NSRange allRange = [mStr rangeOfAll];
-    if (imageFrame.selfRange.location >= allRange.location &&
-        imageFrame.selfRange.location + imageFrame.selfRange.length <= allRange.location + allRange.length) {
-        //[mStr deleteCharactersInRange:imageFrame.selfRange];
-        [self.textView replaceRange:[YYTextRange rangeWithRange:imageFrame.selfRange] withText:@""];
+    NSRange selfRange = [self getAttachmentRange:imageFrame];
+    if (selfRange.location >= allRange.location &&
+        selfRange.location + selfRange.length <= allRange.location + allRange.length) {
+        [self.textView replaceRange:[YYTextRange rangeWithRange:selfRange] withText:@""];
     }
 }
 
@@ -1442,6 +1535,32 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     }
 }
 #endif
+
+- (NSRange)getAttachmentRange:(id)atta {
+    NSUInteger index = 0;
+    for (id object in self.textView.textLayout.attachments) {
+        if (![object isKindOfClass:[YYTextAttachment class]]) continue;
+        YYTextAttachment *attachment = (YYTextAttachment *)object;
+        id obj = attachment.content;
+        if (obj == atta) {
+            NSValue *range_val = [self.textView.textLayout.attachmentRanges objectAtIndex:index];
+            NSRange range = [range_val rangeValue];
+            NSUInteger bindingLength = 0;
+            if ([obj isMemberOfClass:[CourtesyImageFrameView class]]) {
+                bindingLength = [(CourtesyImageFrameView *)obj bindingLength];
+            } else if ([obj isMemberOfClass:[CourtesyAudioFrameView class]]) {
+                bindingLength = [(CourtesyAudioFrameView *)obj bindingLength];
+            } else if ([obj isMemberOfClass:[CourtesyVideoFrameView class]]) {
+                bindingLength = [(CourtesyVideoFrameView *)obj bindingLength];
+            }
+            NSRange realRange = NSMakeRange(range.location - bindingLength + 2, range.length + bindingLength - 1);
+            CYLog(@"attachment: location = %lu, length = %lu", realRange.location, realRange.length);
+            return realRange;
+        }
+        index++;
+    }
+    return NSMakeRange(0, 0);
+}
 
 - (void)syncAttachmentsStyle {
     for (id object in self.textView.textLayout.attachments) {
@@ -1522,6 +1641,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     } else if ([text containsString:@"\n"]) {
         self.textView.typingAttributes = self.originalAttributes;
     }
+    if (!_cardEdited) {
+        _cardEdited = YES;
+    }
     return YES;
 }
 
@@ -1534,6 +1656,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - Memory Leaks
 
 - (void)dealloc {
+    [[YYTextKeyboardManager defaultManager] removeObserver:self];
     CYLog(@"");
 }
 
@@ -1591,22 +1714,25 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     }
                     NSString *salt_hash = [binary sha256String];
                     NSString *file_path = [[targetPath stringByAppendingPathComponent:salt_hash] stringByAppendingPathExtension:ext];
-                    [binary writeToFile:file_path options:NSDataWritingAtomic error:&error];
-                    if (error) {
-                        @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
-                        return;
+                    if (![FCFileManager existsItemAtPath:file_path]) {
+                        [binary writeToFile:file_path options:NSDataWritingWithoutOverwriting error:&error];
+                        if (error) {
+                            @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                            return;
+                        }
                     }
                     CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
                     a.type = file_type;
-                    a.title = [imageFrameView.userinfo objectForKey:@"title"];
+                    a.title = imageFrameView.labelText;
                     a.remote_url = nil;
                     a.local_url = [NSURL fileURLWithPath:file_path];
                     a.attachment_id = nil;
-                    a.length = imageFrameView.selfRange.length;
-                    a.location = imageFrameView.selfRange.location;
+                    NSRange selfRange = [self getAttachmentRange:imageFrameView];
+                    a.length = selfRange.length;
+                    a.location = selfRange.location;
                     a.created_at_object = card.modified_at_object;
                     a.salt_hash = salt_hash;
-                    [attachments_arr addObject:[a toDictionary]];
+                    [attachments_arr addObject:a];
                 } else if ([attachment.content isMemberOfClass:[CourtesyVideoFrameView class]]) {
                     CourtesyVideoFrameView *videoFrameView = (CourtesyVideoFrameView *)attachment.content;
                     CourtesyAttachmentType file_type = [[videoFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
@@ -1629,22 +1755,25 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     }
                     NSString *salt_hash = [binary sha256String];
                     NSString *file_path = [[targetPath stringByAppendingPathComponent:salt_hash] stringByAppendingPathExtension:[originalURL pathExtension]];
-                    [binary writeToFile:file_path options:NSDataWritingAtomic error:&error];
-                    if (error) {
-                        @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
-                        return;
+                    if (![FCFileManager existsItemAtPath:file_path]) {
+                        [binary writeToFile:file_path options:NSDataWritingWithoutOverwriting error:&error];
+                        if (error) {
+                            @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                            return;
+                        }
                     }
                     CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
                     a.type = file_type;
-                    a.title = [videoFrameView.userinfo objectForKey:@"title"];
+                    a.title = videoFrameView.labelText;
                     a.remote_url = nil;
                     a.local_url = [NSURL fileURLWithPath:file_path];
                     a.attachment_id = nil;
-                    a.length = videoFrameView.selfRange.length;
-                    a.location = videoFrameView.selfRange.location;
+                    NSRange selfRange = [self getAttachmentRange:videoFrameView];
+                    a.length = selfRange.length;
+                    a.location = selfRange.location;
                     a.created_at_object = card.modified_at_object;
                     a.salt_hash = salt_hash;
-                    [attachments_arr addObject:[a toDictionary]];
+                    [attachments_arr addObject:a];
                 } else if ([attachment.content isMemberOfClass:[CourtesyAudioFrameView class]]) {
                     CourtesyAudioFrameView *audioFrameView = (CourtesyAudioFrameView *)attachment.content;
                     CourtesyAttachmentType file_type = [[audioFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
@@ -1667,28 +1796,34 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     }
                     NSString *salt_hash = [binary sha256String];
                     NSString *file_path = [[targetPath stringByAppendingPathComponent:salt_hash] stringByAppendingPathExtension:[originalURL pathExtension]];
-                    [binary writeToFile:file_path options:NSDataWritingAtomic error:&error];
-                    if (error) {
-                        @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
-                        return;
+                    if (![FCFileManager existsItemAtPath:file_path]) {
+                        [binary writeToFile:file_path options:NSDataWritingWithoutOverwriting error:&error];
+                        if (error) {
+                            @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                            return;
+                        }
                     }
                     CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
                     a.type = file_type;
-                    a.title = [audioFrameView.userinfo objectForKey:@"title"];
+                    a.title = audioFrameView.labelText;
                     a.remote_url = nil;
                     a.local_url = [NSURL fileURLWithPath:file_path];
                     a.attachment_id = nil;
-                    a.length = audioFrameView.selfRange.length;
-                    a.location = audioFrameView.selfRange.location;
+                    NSRange selfRange = [self getAttachmentRange:audioFrameView];
+                    a.length = selfRange.length;
+                    a.location = selfRange.location;
                     a.created_at_object = card.modified_at_object;
                     a.salt_hash = salt_hash;
-                    [attachments_arr addObject:[a toDictionary]];
+                    [attachments_arr addObject:a];
                 }
             }
         }
         card.card_data.attachments = attachments_arr;
         card.local_template = [card.card_data toJSONString];
         CYLog(@"%@", [card toJSONString]);
+        if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishEditing:)]) {
+            [self.delegate cardComposeViewDidFinishEditing:self];
+        }
     }
     @catch (NSException *exception) {
         [self.view makeToast:exception.reason

@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "CourtesyGalleryTableViewController.h"
 #import "CourtesyGalleryEmptyTipTableViewCell.h"
-#import "CourtesyCardComposeViewController.h"
 
 static NSString * const kCourtesyGalleryEmptyTipCellReuseIdentifier = @"CourtesyGalleryEmptyTipCellReuseIdentifier";
 

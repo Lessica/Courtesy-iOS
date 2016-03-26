@@ -52,8 +52,8 @@
 @property (nonatomic, strong) UIImage *centerImage;
 @property (nonatomic, strong) UITextField *bottomLabel;
 @property (nonatomic, weak)   CourtesyCardComposeViewController<CourtesyImageFrameDelegate> *delegate;
-@property (nonatomic, assign) NSRange selfRange;
-@property (nonatomic, strong) NSDictionary *userinfo;
+@property (nonatomic, assign) NSUInteger bindingLength;
+@property (nonatomic, strong, readonly) NSDictionary *userinfo;
 @property (nonatomic, strong) UIImageView *deleteBtn;
 @property (nonatomic, strong) UIImageView *editBtn;
 @property (nonatomic, strong) UIImageView *cropBtn;
@@ -64,7 +64,8 @@
 @property (nonatomic, strong) NSURL *originalImageURL;
 
 - (instancetype)initWithFrame:(CGRect)frame
-                  andDelegate:(CourtesyCardComposeViewController<CourtesyImageFrameDelegate> *)delegate;
+                  andDelegate:(CourtesyCardComposeViewController<CourtesyImageFrameDelegate> *)delegate
+                  andUserinfo:(NSDictionary *)userinfo;
 - (void)toggleBottomLabelView:(BOOL)on
                      animated:(BOOL)animated;
 - (NSString *)labelHolder;

@@ -49,16 +49,18 @@
 @property (nonatomic, strong) UIButton *playBtn;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, weak)   CourtesyCardComposeViewController<CourtesyAudioFrameDelegate> *delegate;
-@property (nonatomic, assign) NSRange selfRange;
-@property (nonatomic, strong) NSDictionary *userinfo;
+@property (nonatomic, assign) NSUInteger bindingLength;
+@property (nonatomic, strong, readonly) NSDictionary *userinfo;
 @property (nonatomic, assign) BOOL isPlaying;
 @property (nonatomic, strong) NSURL *audioURL;
 @property (nonatomic, strong) FDWaveformView *waveform;
 @property (nonatomic, strong) AFSoundItem *audioItem;
 @property (nonatomic, strong) AFSoundPlayback *audioQueue;
+@property (nonatomic, strong) NSString *labelText;
 @property (nonatomic, assign) float scale;
 
 - (instancetype)initWithFrame:(CGRect)frame
-                  andDelegate:(CourtesyCardComposeViewController <CourtesyAudioFrameDelegate>*)delegate;
+                  andDelegate:(CourtesyCardComposeViewController <CourtesyAudioFrameDelegate>*)delegate
+                  andUserinfo:(NSDictionary *)userinfo;
 - (void)pausePlaying;
 @end

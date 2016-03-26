@@ -20,8 +20,8 @@
     [self setCenterImage:previewImage];
 }
 
-- (UIImage*)thumbnailImageForVideo:(NSURL *)videoURL
-                            atTime:(NSTimeInterval)time {
+- (UIImage *)thumbnailImageForVideo:(NSURL *)videoURL
+                             atTime:(NSTimeInterval)time {
     CYLog(@"%@", videoURL);
     AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:self.videoURL options:nil];
     NSParameterAssert(asset);

@@ -45,7 +45,7 @@
 #import "PHPhotoLibrary+CustomPhotoCollection.h"
 
 // 第三方库
-#import "YYKit.h"
+#import <YYKit/YYKit.h>
 #import "Colours.h"
 #import "LGAlertView.h"
 #import "JDStatusBarNotification.h"

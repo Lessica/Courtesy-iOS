@@ -6,15 +6,17 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#ifdef WATCH_SUPPORT
+
 #import "CourtesyWatchSessionManager.h"
 
 @implementation CourtesyWatchSessionManager
 
 - (void)startSession {
-    if ([WCSession isSupported]) {
-        WCSession *session = [WCSession defaultSession];
-        session.delegate = self;
-        [session activateSession];
+    if ([WCSession isSupported]) { // What's the fuking memory leak?
+        WCSession *watchSession = [WCSession defaultSession];
+        watchSession.delegate = self;
+        [watchSession activateSession];
     }
 }
 
@@ -42,3 +44,5 @@
 }
 
 @end
+
+#endif

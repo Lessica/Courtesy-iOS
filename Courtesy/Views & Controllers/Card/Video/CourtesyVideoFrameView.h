@@ -8,7 +8,7 @@
 
 #import "CourtesyImageFrameView.h"
 
-@interface CourtesyVideoFrameView : CourtesyImageFrameView
+@interface CourtesyVideoFrameView : CourtesyImageFrameView <UITextFieldDelegate>
 
 @property (nonatomic, copy) NSURL *videoURL;
 @property (nonatomic, strong) UIImageView *playBtn;

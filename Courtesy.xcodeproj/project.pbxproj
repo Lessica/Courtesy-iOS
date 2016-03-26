@@ -22,6 +22,10 @@
 		0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E21C9511D300F818AD /* CourtesyFontModel.m */; };
 		0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E51C951DDD00F818AD /* CourtesyFontManager.m */; };
 		0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */; };
+		0F55FCC61CA3D5060084C4E2 /* AppStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCC51CA3D5060084C4E2 /* AppStorage.m */; };
+		0F55FCC91CA3D82E0084C4E2 /* CourtesyDraftTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCC81CA3D82E0084C4E2 /* CourtesyDraftTableViewController.m */; };
+		0F55FCCC1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCCB1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.m */; };
+		0F55FCCF1CA40D8D0084C4E2 /* NSDate+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCCE1CA40D8D0084C4E2 /* NSDate+Compare.m */; };
 		0F5801061C98075600D18059 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5801051C98075600D18059 /* FCFileManager.m */; };
 		0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */; };
 		0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */; };
@@ -269,6 +273,14 @@
 		0F5064E51C951DDD00F818AD /* CourtesyFontManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyFontManager.m; path = Font/CourtesyFontManager.m; sourceTree = "<group>"; };
 		0F5064E71C95327F00F818AD /* CourtesyFontTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyFontTableViewCell.h; sourceTree = "<group>"; };
 		0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyFontTableViewCell.m; sourceTree = "<group>"; };
+		0F55FCC41CA3D5060084C4E2 /* AppStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppStorage.h; sourceTree = "<group>"; };
+		0F55FCC51CA3D5060084C4E2 /* AppStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppStorage.m; sourceTree = "<group>"; };
+		0F55FCC71CA3D82E0084C4E2 /* CourtesyDraftTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDraftTableViewController.h; sourceTree = "<group>"; };
+		0F55FCC81CA3D82E0084C4E2 /* CourtesyDraftTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyDraftTableViewController.m; sourceTree = "<group>"; };
+		0F55FCCA1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDraftTableViewCell.h; sourceTree = "<group>"; };
+		0F55FCCB1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyDraftTableViewCell.m; sourceTree = "<group>"; };
+		0F55FCCD1CA40D8D0084C4E2 /* NSDate+Compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Compare.h"; sourceTree = "<group>"; };
+		0F55FCCE1CA40D8D0084C4E2 /* NSDate+Compare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Compare.m"; sourceTree = "<group>"; };
 		0F56686A1C95E1BE00AD4F04 /* CourtesyWatchQueryKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CourtesyWatchQueryKeys.h; sourceTree = "<group>"; };
 		0F5801041C98075600D18059 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
 		0F5801051C98075600D18059 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
@@ -669,6 +681,17 @@
 			);
 			name = FCFileManager;
 			path = Extensions/FCFileManager;
+			sourceTree = "<group>";
+		};
+		0F6434221CA2CB4B005C29BF /* Draft */ = {
+			isa = PBXGroup;
+			children = (
+				0F55FCCA1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.h */,
+				0F55FCCB1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.m */,
+				0F55FCC71CA3D82E0084C4E2 /* CourtesyDraftTableViewController.h */,
+				0F55FCC81CA3D82E0084C4E2 /* CourtesyDraftTableViewController.m */,
+			);
+			path = Draft;
 			sourceTree = "<group>";
 		};
 		0F6DD55F1C9820D000CA4389 /* Markdown */ = {
@@ -1341,6 +1364,7 @@
 		0FFE044C1C93F45800E99DCC /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				0F6434221CA2CB4B005C29BF /* Draft */,
 				0FFE044D1C93F45800E99DCC /* About */,
 				0FFE04501C93F45800E99DCC /* Account */,
 				0FFE04531C93F45800E99DCC /* Agreement */,
@@ -1562,6 +1586,8 @@
 			children = (
 				0FFE04DD1C93F4D800E99DCC /* AppDelegate.h */,
 				0FFE04DE1C93F4D800E99DCC /* AppDelegate.m */,
+				0F55FCC41CA3D5060084C4E2 /* AppStorage.h */,
+				0F55FCC51CA3D5060084C4E2 /* AppStorage.m */,
 				0FFE04DF1C93F4D800E99DCC /* GlobalSettings.h */,
 				0FFE04E01C93F4D800E99DCC /* GlobalSettings.m */,
 			);
@@ -1617,6 +1643,8 @@
 				0FFE051B1C93F52C00E99DCC /* UIView+FrameMethods.m */,
 				0FF2D2691C95D93B007C23DE /* UIColor+MagicColor.h */,
 				0FF2D26A1C95D93B007C23DE /* UIColor+MagicColor.m */,
+				0F55FCCD1CA40D8D0084C4E2 /* NSDate+Compare.h */,
+				0F55FCCE1CA40D8D0084C4E2 /* NSDate+Compare.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -2045,6 +2073,7 @@
 				0FFE04761C93F45800E99DCC /* CourtesyMyInboxEmptyTipTableViewCell.m in Sources */,
 				0FFE04781C93F45800E99DCC /* CourtesyMyOutboxEmptyTipTableViewCell.m in Sources */,
 				0FFE04771C93F45800E99DCC /* CourtesyMyInboxTableViewController.m in Sources */,
+				0F55FCC91CA3D82E0084C4E2 /* CourtesyDraftTableViewController.m in Sources */,
 				0FDEFBC81C97D696007BE8D2 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				0FFE052D1C93F52C00E99DCC /* NSNotificationCenter+Action.m in Sources */,
 				0FEFDBA51C97D0F800952522 /* UIImage+PECrop.m in Sources */,
@@ -2059,9 +2088,11 @@
 				0FDEFBD51C97D70A007BE8D2 /* CNCityAreaCitiesModel.m in Sources */,
 				0FDEFBD61C97D70A007BE8D2 /* CNCityAreaFactory.m in Sources */,
 				0FFE04721C93F45800E99DCC /* CourtesyLoginRegisterViewController.m in Sources */,
+				0F55FCCF1CA40D8D0084C4E2 /* NSDate+Compare.m in Sources */,
 				0FEFDBBA1C97D17500952522 /* AFSoundItem.m in Sources */,
 				0FFE04711C93F45800E99DCC /* CourtesyLoginRegisterTextField.m in Sources */,
 				0FF2D26B1C95D93B007C23DE /* UIColor+MagicColor.m in Sources */,
+				0F55FCC61CA3D5060084C4E2 /* AppStorage.m in Sources */,
 				0F9D7D411C9A865400C51F23 /* MarkdownTokens.m in Sources */,
 				0FFE04821C93F45800E99DCC /* CourtesyProfileNickTableViewController.m in Sources */,
 				0FD2BECC1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m in Sources */,
@@ -2071,6 +2102,7 @@
 				0FFE047F1C93F45800E99DCC /* CourtesyProfileGenderTableViewController.m in Sources */,
 				0FDEFBFA1C97D7B8007BE8D2 /* RSKImageCropViewController.m in Sources */,
 				0FFE04691C93F45800E99DCC /* CourtesyVideoFrameView.m in Sources */,
+				0F55FCCC1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.m in Sources */,
 				0FF2D28A1C95DA80007C23DE /* LBXScanWrapper.m in Sources */,
 				0FEFDBAC1C97D16300952522 /* CourtesyAudioNoteRecorderView.m in Sources */,
 				0FF2D2831C95DA80007C23DE /* LBXScanLineAnimation.m in Sources */,
