@@ -12,8 +12,8 @@
 
 #define kCourtesyCardDraftListKey @"kCourtesyCardListKey"
 
-@interface CourtesyCardManager () <CourtesyCardComposeDelegate>
-@property (nonatomic, strong) NSMutableArray <NSString *> *cardDraftIDArray;
+@interface CourtesyCardManager () <CourtesyCardComposeDelegate, CourtesyCardDelegate>
+@property (nonatomic, strong) NSMutableArray <NSString *> *cardDraftTokenArray;
 @property (nonatomic, strong) NSMutableArray <CourtesyCardModel *> *cardDraftArray;
 
 @end
@@ -34,11 +34,35 @@
     if (self = [super init]) {
         id obj = [self.appStorage objectForKey:kCourtesyCardDraftListKey];
         if (obj && [obj isMemberOfClass:[NSMutableArray class]]) {
-            self.cardDraftIDArray = obj;
+            self.cardDraftTokenArray = obj;
         } else {
-            self.cardDraftIDArray = [[NSMutableArray alloc] init];
+            self.cardDraftTokenArray = [[NSMutableArray alloc] init];
         }
         self.cardDraftArray = [[NSMutableArray alloc] init];
+
+        // Load Draft Cards List From Database
+        id list_obj = [self.appStorage objectForKey:kCourtesyCardDraftListKey];
+        BOOL shouldSync = NO;
+        NSMutableArray *tokensShouldBeRemoved = [NSMutableArray new];
+        if (list_obj && [list_obj isKindOfClass:[NSMutableArray class]]) {
+            self.cardDraftTokenArray = list_obj;
+        }
+        for (NSString *token in self.cardDraftTokenArray) {
+            CourtesyCardModel *card = [[CourtesyCardModel alloc] initWithCardToken:token];
+            if (!card) {
+                shouldSync = YES;
+                [tokensShouldBeRemoved addObject:token];
+                continue;
+            }
+            card.delegate = self;
+            [self.cardDraftArray addObject:card];
+        }
+        if (shouldSync) { // 需要同步卡片列表数组，因为卡片不存在了
+            for (NSString *invalid_token in tokensShouldBeRemoved) {
+                [self.cardDraftTokenArray removeObject:invalid_token];
+            }
+            [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
+        }
     }
     return self;
 }
@@ -54,24 +78,21 @@
     card.is_editable = YES;
     card.is_public = [sharedSettings switchAutoPublic];
     card.view_count = 0;
-    card.created_at_object = [NSDate date];
-    card.modified_at_object = [NSDate date];
+    card.created_at = [[NSDate date] timeIntervalSince1970];
+    card.modified_at = [[NSDate date] timeIntervalSince1970];
     card.first_read_at = 0;
-    card.first_read_at_object = nil;
-    card.token = nil;
+    card.token = [[NSUUID UUID] UUIDString];
     card.edited_count = 0;
     card.stars = 0;
     card.author = kAccount;
     card.read_by = nil;
     card.local_template = nil;
-    card.local_token = [[NSUUID UUID] UUIDString];
     
     // 初始化卡片内容
     card.card_data = [CourtesyCardDataModel new];
     card.card_data.content = @"说点什么吧……";
     card.card_data.attachments = nil;
     card.card_data.styleID = kCourtesyCardStyleDefault;
-    card.card_data.style = [[CourtesyCardStyleManager sharedManager] styleWithID:card.card_data.styleID];
     card.card_data.fontType = [sharedSettings preferredFontType];
     card.card_data.fontSize = [sharedSettings preferredFontSize];
     card.card_data.shouldAutoPlayAudio = NO;
@@ -95,8 +116,9 @@
 
 - (void)deleteCardInDraft:(CourtesyCardModel *)card {
     [card deleteInLocalDatabase];
-    [self.cardDraftIDArray removeObject:card.local_token];
+    [self.cardDraftTokenArray removeObject:card.token];
     [self.cardDraftArray removeObject:card];
+    [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
 }
 
 - (NSMutableArray <CourtesyCardModel *> *)draftboxCardsList {
@@ -137,10 +159,10 @@
 
 - (void)cardDidFinishSaving:(nonnull CourtesyCardModel *)card newRecord:(BOOL)newRecord {
     if (newRecord) {
-        [self.cardDraftIDArray addObject:card.local_token];
+        [self.cardDraftTokenArray addObject:card.token];
         [self.cardDraftArray addObject:card];
+        [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
     }
-    [self.appStorage setObject:self.cardDraftIDArray forKey:kCourtesyCardDraftListKey];
     [JDStatusBarNotification showWithStatus:@"卡片已保存到草稿箱"
                                dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleSuccess];

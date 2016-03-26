@@ -19,6 +19,11 @@
 		0F2A36731C8D325200028E96 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2A36721C8D325200028E96 /* AVKit.framework */; };
 		0F2A36751C8D397D00028E96 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */; };
 		0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F305C981C93222D0052882A /* StoreKit.framework */; };
+		0F47D9011CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D8FC1CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.m */; };
+		0F47D9021CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D8FE1CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m */; };
+		0F47D9031CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9001CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m */; };
+		0F47D9091CA6D7EC001300FE /* CourtesyCardEditRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */; };
+		0F47D90A1CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9081CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m */; };
 		0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E21C9511D300F818AD /* CourtesyFontModel.m */; };
 		0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E51C951DDD00F818AD /* CourtesyFontManager.m */; };
 		0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */; };
@@ -156,13 +161,8 @@
 		0FFE04891C93F45800E99DCC /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE045E1C93F45800E99DCC /* CourtesyMyStarEmptyTipTableViewCell.m */; };
 		0FFE048A1C93F45800E99DCC /* CourtesyMyStarTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04601C93F45800E99DCC /* CourtesyMyStarTableViewController.m */; };
 		0FFE04BB1C93F47400E99DCC /* CourtesyAccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE048E1C93F47400E99DCC /* CourtesyAccountModel.m */; };
-		0FFE04BC1C93F47400E99DCC /* CourtesyCardAttachmentCacheRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04921C93F47400E99DCC /* CourtesyCardAttachmentCacheRequestModel.m */; };
 		0FFE04BD1C93F47400E99DCC /* CourtesyCardAttachmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04941C93F47400E99DCC /* CourtesyCardAttachmentModel.m */; };
-		0FFE04BE1C93F47400E99DCC /* CourtesyCardAttachmentQueryRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04961C93F47400E99DCC /* CourtesyCardAttachmentQueryRequestModel.m */; };
-		0FFE04BF1C93F47400E99DCC /* CourtesyCardAttachmentUploadRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04981C93F47400E99DCC /* CourtesyCardAttachmentUploadRequestModel.m */; };
-		0FFE04C01C93F47400E99DCC /* CourtesyCardEditRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE049A1C93F47400E99DCC /* CourtesyCardEditRequestModel.m */; };
 		0FFE04C11C93F47400E99DCC /* CourtesyCardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE049C1C93F47400E99DCC /* CourtesyCardModel.m */; };
-		0FFE04C21C93F47400E99DCC /* CourtesyCardPublishRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE049E1C93F47400E99DCC /* CourtesyCardPublishRequestModel.m */; };
 		0FFE04C31C93F47400E99DCC /* CourtesyCardDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04A11C93F47400E99DCC /* CourtesyCardDataModel.m */; };
 		0FFE04C41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04A41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m */; };
 		0FFE04C51C93F47400E99DCC /* CourtesyCardStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04A71C93F47400E99DCC /* CourtesyCardStyleModel.m */; };
@@ -267,6 +267,16 @@
 		0F2A36721C8D325200028E96 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		0F305C981C93222D0052882A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		0F47D8FB1CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentCacheRequestModel.h; sourceTree = "<group>"; };
+		0F47D8FC1CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentCacheRequestModel.m; sourceTree = "<group>"; };
+		0F47D8FD1CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentQueryRequestModel.h; sourceTree = "<group>"; };
+		0F47D8FE1CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentQueryRequestModel.m; sourceTree = "<group>"; };
+		0F47D8FF1CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentUploadRequestModel.h; sourceTree = "<group>"; };
+		0F47D9001CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentUploadRequestModel.m; sourceTree = "<group>"; };
+		0F47D9051CA6D7EC001300FE /* CourtesyCardEditRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardEditRequestModel.h; sourceTree = "<group>"; };
+		0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardEditRequestModel.m; sourceTree = "<group>"; };
+		0F47D9071CA6D7EC001300FE /* CourtesyCardPublishRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublishRequestModel.h; sourceTree = "<group>"; };
+		0F47D9081CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishRequestModel.m; sourceTree = "<group>"; };
 		0F5064E11C9511D300F818AD /* CourtesyFontModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyFontModel.h; path = Font/CourtesyFontModel.h; sourceTree = "<group>"; };
 		0F5064E21C9511D300F818AD /* CourtesyFontModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyFontModel.m; path = Font/CourtesyFontModel.m; sourceTree = "<group>"; };
 		0F5064E41C951DDD00F818AD /* CourtesyFontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyFontManager.h; path = Font/CourtesyFontManager.h; sourceTree = "<group>"; };
@@ -528,20 +538,10 @@
 		0FFE04601C93F45800E99DCC /* CourtesyMyStarTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyStarTableViewController.m; sourceTree = "<group>"; };
 		0FFE048D1C93F47400E99DCC /* CourtesyAccountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAccountModel.h; sourceTree = "<group>"; };
 		0FFE048E1C93F47400E99DCC /* CourtesyAccountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAccountModel.m; sourceTree = "<group>"; };
-		0FFE04911C93F47400E99DCC /* CourtesyCardAttachmentCacheRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentCacheRequestModel.h; sourceTree = "<group>"; };
-		0FFE04921C93F47400E99DCC /* CourtesyCardAttachmentCacheRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentCacheRequestModel.m; sourceTree = "<group>"; };
 		0FFE04931C93F47400E99DCC /* CourtesyCardAttachmentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentModel.h; sourceTree = "<group>"; };
 		0FFE04941C93F47400E99DCC /* CourtesyCardAttachmentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentModel.m; sourceTree = "<group>"; };
-		0FFE04951C93F47400E99DCC /* CourtesyCardAttachmentQueryRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentQueryRequestModel.h; sourceTree = "<group>"; };
-		0FFE04961C93F47400E99DCC /* CourtesyCardAttachmentQueryRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentQueryRequestModel.m; sourceTree = "<group>"; };
-		0FFE04971C93F47400E99DCC /* CourtesyCardAttachmentUploadRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentUploadRequestModel.h; sourceTree = "<group>"; };
-		0FFE04981C93F47400E99DCC /* CourtesyCardAttachmentUploadRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentUploadRequestModel.m; sourceTree = "<group>"; };
-		0FFE04991C93F47400E99DCC /* CourtesyCardEditRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardEditRequestModel.h; sourceTree = "<group>"; };
-		0FFE049A1C93F47400E99DCC /* CourtesyCardEditRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardEditRequestModel.m; sourceTree = "<group>"; };
 		0FFE049B1C93F47400E99DCC /* CourtesyCardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardModel.h; sourceTree = "<group>"; };
 		0FFE049C1C93F47400E99DCC /* CourtesyCardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardModel.m; sourceTree = "<group>"; };
-		0FFE049D1C93F47400E99DCC /* CourtesyCardPublishRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublishRequestModel.h; sourceTree = "<group>"; };
-		0FFE049E1C93F47400E99DCC /* CourtesyCardPublishRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishRequestModel.m; sourceTree = "<group>"; };
 		0FFE04A01C93F47400E99DCC /* CourtesyCardDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardDataModel.h; sourceTree = "<group>"; };
 		0FFE04A11C93F47400E99DCC /* CourtesyCardDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardDataModel.m; sourceTree = "<group>"; };
 		0FFE04A31C93F47400E99DCC /* CourtesyCardPreviewGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPreviewGenerator.h; sourceTree = "<group>"; };
@@ -660,6 +660,30 @@
 				0F2851681C97D8AD0066F5C5 /* UIImage+Jot.m */,
 			);
 			path = jot;
+			sourceTree = "<group>";
+		};
+		0F47D8FA1CA6D7A9001300FE /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				0F47D8FB1CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.h */,
+				0F47D8FC1CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.m */,
+				0F47D8FD1CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.h */,
+				0F47D8FE1CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m */,
+				0F47D8FF1CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.h */,
+				0F47D9001CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		0F47D9041CA6D7EC001300FE /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				0F47D9051CA6D7EC001300FE /* CourtesyCardEditRequestModel.h */,
+				0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */,
+				0F47D9071CA6D7EC001300FE /* CourtesyCardPublishRequestModel.h */,
+				0F47D9081CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m */,
+			);
+			path = Requests;
 			sourceTree = "<group>";
 		};
 		0F5064DD1C9511A500F818AD /* Font */ = {
@@ -1112,13 +1136,13 @@
 		0FFE03F51C93F45800E99DCC /* Card */ = {
 			isa = PBXGroup;
 			children = (
+				0FFE03FB1C93F45800E99DCC /* CourtesyTextView.h */,
+				0FFE03FC1C93F45800E99DCC /* CourtesyTextView.m */,
+				0FFE03F91C93F45800E99DCC /* CourtesyCardComposeViewController.h */,
+				0FFE03FA1C93F45800E99DCC /* CourtesyCardComposeViewController.m */,
 				0F6DD55F1C9820D000CA4389 /* Markdown */,
 				0FDEFBAD1C97D58F007BE8D2 /* Photo */,
 				0FFE03F61C93F45800E99DCC /* Audio */,
-				0FFE03F91C93F45800E99DCC /* CourtesyCardComposeViewController.h */,
-				0FFE03FA1C93F45800E99DCC /* CourtesyCardComposeViewController.m */,
-				0FFE03FB1C93F45800E99DCC /* CourtesyTextView.h */,
-				0FFE03FC1C93F45800E99DCC /* CourtesyTextView.m */,
 				0FFE03FD1C93F45800E99DCC /* Font */,
 				0FFE04001C93F45800E99DCC /* Freehand */,
 				0FFE04031C93F45800E99DCC /* Image */,
@@ -1234,13 +1258,13 @@
 		0FFE041E1C93F45800E99DCC /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				0FFE04231C93F45800E99DCC /* CourtesyLoginRegisterViewController.xib */,
+				0FFE04241C93F45800E99DCC /* CourtesyQuickLoginButton.h */,
+				0FFE04251C93F45800E99DCC /* CourtesyQuickLoginButton.m */,
 				0FFE041F1C93F45800E99DCC /* CourtesyLoginRegisterTextField.h */,
 				0FFE04201C93F45800E99DCC /* CourtesyLoginRegisterTextField.m */,
 				0FFE04211C93F45800E99DCC /* CourtesyLoginRegisterViewController.h */,
 				0FFE04221C93F45800E99DCC /* CourtesyLoginRegisterViewController.m */,
-				0FFE04231C93F45800E99DCC /* CourtesyLoginRegisterViewController.xib */,
-				0FFE04241C93F45800E99DCC /* CourtesyQuickLoginButton.h */,
-				0FFE04251C93F45800E99DCC /* CourtesyQuickLoginButton.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1292,12 +1316,12 @@
 		0FFE04371C93F45800E99DCC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				0FFE043E1C93F45800E99DCC /* CourtesyProfileTableViewController.h */,
+				0FFE043F1C93F45800E99DCC /* CourtesyProfileTableViewController.m */,
 				0FDEFBE41C97D7B8007BE8D2 /* Avatar */,
 				0FDEFBB21C97D5C2007BE8D2 /* Astro */,
 				0FFE04381C93F45800E99DCC /* Birthday */,
 				0FFE043B1C93F45800E99DCC /* City */,
-				0FFE043E1C93F45800E99DCC /* CourtesyProfileTableViewController.h */,
-				0FFE043F1C93F45800E99DCC /* CourtesyProfileTableViewController.m */,
 				0FFE04401C93F45800E99DCC /* Gender */,
 				0FFE04431C93F45800E99DCC /* Introduction */,
 				0FFE04461C93F45800E99DCC /* Mobile */,
@@ -1368,9 +1392,9 @@
 				0FFE044D1C93F45800E99DCC /* About */,
 				0FFE04501C93F45800E99DCC /* Account */,
 				0FFE04531C93F45800E99DCC /* Agreement */,
+				0FFE04591C93F45800E99DCC /* Notification */,
 				0FFE04571C93F45800E99DCC /* CourtesySettingsTableViewController.h */,
 				0FFE04581C93F45800E99DCC /* CourtesySettingsTableViewController.m */,
-				0FFE04591C93F45800E99DCC /* Notification */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1450,12 +1474,9 @@
 		0FFE048F1C93F47400E99DCC /* Card */ = {
 			isa = PBXGroup;
 			children = (
+				0F47D9041CA6D7EC001300FE /* Requests */,
 				0F5064DD1C9511A500F818AD /* Font */,
 				0FFE04901C93F47400E99DCC /* Attachment */,
-				0FFE04991C93F47400E99DCC /* CourtesyCardEditRequestModel.h */,
-				0FFE049A1C93F47400E99DCC /* CourtesyCardEditRequestModel.m */,
-				0FFE049D1C93F47400E99DCC /* CourtesyCardPublishRequestModel.h */,
-				0FFE049E1C93F47400E99DCC /* CourtesyCardPublishRequestModel.m */,
 				0FFE049B1C93F47400E99DCC /* CourtesyCardModel.h */,
 				0FFE049C1C93F47400E99DCC /* CourtesyCardModel.m */,
 				0F193D641C9787150015F2B1 /* CourtesyCardManager.h */,
@@ -1469,14 +1490,9 @@
 		0FFE04901C93F47400E99DCC /* Attachment */ = {
 			isa = PBXGroup;
 			children = (
-				0FFE04911C93F47400E99DCC /* CourtesyCardAttachmentCacheRequestModel.h */,
-				0FFE04921C93F47400E99DCC /* CourtesyCardAttachmentCacheRequestModel.m */,
+				0F47D8FA1CA6D7A9001300FE /* Requests */,
 				0FFE04931C93F47400E99DCC /* CourtesyCardAttachmentModel.h */,
 				0FFE04941C93F47400E99DCC /* CourtesyCardAttachmentModel.m */,
-				0FFE04951C93F47400E99DCC /* CourtesyCardAttachmentQueryRequestModel.h */,
-				0FFE04961C93F47400E99DCC /* CourtesyCardAttachmentQueryRequestModel.m */,
-				0FFE04971C93F47400E99DCC /* CourtesyCardAttachmentUploadRequestModel.h */,
-				0FFE04981C93F47400E99DCC /* CourtesyCardAttachmentUploadRequestModel.m */,
 			);
 			path = Attachment;
 			sourceTree = "<group>";
@@ -1998,7 +2014,6 @@
 				0FFE04871C93F45800E99DCC /* CourtesySettingsTableViewController.m in Sources */,
 				0FDEFBB91C97D5F7007BE8D2 /* UIImagePickerController+LandScapeImagePicker.m in Sources */,
 				0FFE047D1C93F45800E99DCC /* CourtesyProfileCityTableViewController.m in Sources */,
-				0FFE04BC1C93F47400E99DCC /* CourtesyCardAttachmentCacheRequestModel.m in Sources */,
 				0FFE04C11C93F47400E99DCC /* CourtesyCardModel.m in Sources */,
 				0FFE04CA1C93F47400E99DCC /* CourtesyLoginRegisterModel.m in Sources */,
 				0FFE052F1C93F52C00E99DCC /* UIView+FrameMethods.m in Sources */,
@@ -2022,7 +2037,6 @@
 				0FF2D2891C95DA80007C23DE /* LBXScanViewStyle.m in Sources */,
 				0FFE04801C93F45800E99DCC /* CourtesyProfileIntroductionTableViewController.m in Sources */,
 				0FDEFBFC1C97D7B8007BE8D2 /* RSKInternalUtility.m in Sources */,
-				0FFE04BF1C93F47400E99DCC /* CourtesyCardAttachmentUploadRequestModel.m in Sources */,
 				0FDEFBE21C97D75B007BE8D2 /* FYPhotoLibrary.m in Sources */,
 				0FFE05271C93F52C00E99DCC /* NSObject+nl_dynamicPropertyStore.m in Sources */,
 				0FFE052C1C93F52C00E99DCC /* NSDictionary+Subscript.m in Sources */,
@@ -2035,18 +2049,15 @@
 				0F28516C1C97D8AD0066F5C5 /* JotTextView.m in Sources */,
 				0FFE05261C93F52C00E99DCC /* NSObject+nl_dynamicPropertyCustomeStruct.m in Sources */,
 				0FFE04701C93F45800E99DCC /* CourtesyGithubWebViewController.m in Sources */,
-				0FFE04C21C93F47400E99DCC /* CourtesyCardPublishRequestModel.m in Sources */,
 				0FF2D2661C95D90F007C23DE /* JVFloatingDrawerSpringAnimator.m in Sources */,
 				0FFE04C51C93F47400E99DCC /* CourtesyCardStyleModel.m in Sources */,
 				0FFE04CB1C93F47400E99DCC /* CourtesyAccountProfileModel.m in Sources */,
 				0FFE04751C93F45800E99DCC /* CourtesyMyTabBarController.m in Sources */,
 				0F28516E1C97D8AD0066F5C5 /* JotTouchPoint.m in Sources */,
 				0FFE05281C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport.m in Sources */,
-				0FFE04C01C93F47400E99DCC /* CourtesyCardEditRequestModel.m in Sources */,
 				0FFE04841C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.m in Sources */,
 				0FFE04621C93F45800E99DCC /* CourtesyAudioFrameView.m in Sources */,
 				0FDEFBFB1C97D7B8007BE8D2 /* RSKImageScrollView.m in Sources */,
-				0FFE04BE1C93F47400E99DCC /* CourtesyCardAttachmentQueryRequestModel.m in Sources */,
 				0FDEFBB01C97D58F007BE8D2 /* PHPhotoLibrary+CustomPhotoCollection.m in Sources */,
 				0FD2BEC91C966D9400B5BBC9 /* CourtesyCardStyleManager.m in Sources */,
 				0FEFDBBC1C97D17500952522 /* AFSoundQueue.m in Sources */,
@@ -2054,6 +2065,7 @@
 				0FFE04E11C93F4D800E99DCC /* AppDelegate.m in Sources */,
 				0FDEFBB51C97D5C2007BE8D2 /* NSDate+Astro.m in Sources */,
 				0FFE04C41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m in Sources */,
+				0F47D9011CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.m in Sources */,
 				0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */,
 				0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */,
 				0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */,
@@ -2067,6 +2079,8 @@
 				0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */,
 				0FFE04851C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m in Sources */,
 				0FF2D2681C95D90F007C23DE /* JVFloatingDrawerViewController.m in Sources */,
+				0F47D9031CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m in Sources */,
+				0F47D9021CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m in Sources */,
 				0FF2D28C1C95DA80007C23DE /* ZXingWrapper.m in Sources */,
 				0FFE04631C93F45800E99DCC /* CourtesyCardComposeViewController.m in Sources */,
 				0FFE04671C93F45800E99DCC /* CourtesyImageFrameView.m in Sources */,
@@ -2081,6 +2095,7 @@
 				0FEFDBA11C97D0F800952522 /* PECropView.m in Sources */,
 				0F28516A1C97D8AD0066F5C5 /* JotDrawView.m in Sources */,
 				0FFE046E1C93F45800E99DCC /* CourtesyGalleryEmptyTipTableViewCell.m in Sources */,
+				0F47D9091CA6D7EC001300FE /* CourtesyCardEditRequestModel.m in Sources */,
 				0FB0A55D1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m in Sources */,
 				0FFE04CC1C93F47400E99DCC /* CourtesyQRCodeModel.m in Sources */,
 				0FFE048A1C93F45800E99DCC /* CourtesyMyStarTableViewController.m in Sources */,
@@ -2108,6 +2123,7 @@
 				0FF2D2831C95DA80007C23DE /* LBXScanLineAnimation.m in Sources */,
 				0FFE04641C93F45800E99DCC /* CourtesyTextView.m in Sources */,
 				0FFE04791C93F45800E99DCC /* CourtesyMyOutboxTableViewController.m in Sources */,
+				0F47D90A1CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -41,14 +41,142 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m"
-            timestampString = "480675775.587499"
+            filePath = "Courtesy/Models/Card/Attachment/CourtesyCardAttachmentModel.m"
+            timestampString = "480696263.162643"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1829"
-            endingLineNumber = "1829"
-            landmarkName = "-serialize"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "-initWithSaltHash:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CourtesyCardAttachmentModel initWithSaltHash:]"
+                  moduleName = "&#x793c;&#x8bb0;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Zheng/Desktop/Courtesy/iOS/Courtesy/Courtesy/Models/Card/Attachment/CourtesyCardAttachmentModel.m"
+                  timestampString = "480697010.787794"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "432">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CourtesyCardAttachmentModel initWithSaltHash:]"
+                  moduleName = "&#x793c;&#x8bb0;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Zheng/Desktop/Courtesy/iOS/Courtesy/Courtesy/Models/Card/Attachment/CourtesyCardAttachmentModel.m"
+                  timestampString = "480697010.78801"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "468">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Courtesy/Models/Card/CourtesyCardModel.m"
+            timestampString = "480696310.469021"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "-initWithCardToken:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CourtesyCardModel initWithCardToken:]"
+                  moduleName = "&#x793c;&#x8bb0;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Zheng/Desktop/Courtesy/iOS/Courtesy/Courtesy/Models/Card/CourtesyCardModel.m"
+                  timestampString = "480697010.789056"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "436">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CourtesyCardModel initWithCardToken:]"
+                  moduleName = "&#x793c;&#x8bb0;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Zheng/Desktop/Courtesy/iOS/Courtesy/Courtesy/Models/Card/CourtesyCardModel.m"
+                  timestampString = "480697010.789183"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "472">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Courtesy/Models/Card/CourtesyCardModel.m"
+            timestampString = "480696311.034536"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "-initWithCardToken:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CourtesyCardModel initWithCardToken:]"
+                  moduleName = "&#x793c;&#x8bb0;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Zheng/Desktop/Courtesy/iOS/Courtesy/Courtesy/Models/Card/CourtesyCardModel.m"
+                  timestampString = "480697010.789939"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "908">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CourtesyCardModel initWithCardToken:]"
+                  moduleName = "&#x793c;&#x8bb0;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Zheng/Desktop/Courtesy/iOS/Courtesy/Courtesy/Models/Card/CourtesyCardModel.m"
+                  timestampString = "480697010.790064"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "944">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
