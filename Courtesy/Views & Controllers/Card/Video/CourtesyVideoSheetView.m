@@ -42,26 +42,29 @@
         rightView.layer.borderWidth = 0.5;
         [self addSubview:rightView];
         
-        UIButton *shortCameraBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, leftUpView.frame.size.width / 4, leftUpView.frame.size.height / 2)];
+        UIButton *shortCameraBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, leftUpView.frame.size.width / 4, leftUpView.frame.size.width / 4)];
         shortCameraBtn.tintColor = self.style.toolbarTintColor;
         shortCameraBtn.backgroundColor = [UIColor clearColor];
         shortCameraBtn.center = CGPointMake(leftUpView.frame.size.width / 2, leftUpView.frame.size.height / 2);
+        [shortCameraBtn.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [shortCameraBtn setImage:[[UIImage imageNamed:@"58-wechat-camera"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [shortCameraBtn addTarget:self.delegate action:@selector(videoSheetViewShortCameraButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [leftUpView addSubview:shortCameraBtn];
         
-        UIButton *cameraBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, leftUpView.frame.size.width / 4, leftUpView.frame.size.height / 2)];
+        UIButton *cameraBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, leftUpView.frame.size.width / 4, leftUpView.frame.size.width / 4)];
         cameraBtn.tintColor = self.style.toolbarTintColor;
         cameraBtn.backgroundColor = [UIColor clearColor];
         cameraBtn.center = CGPointMake(leftUpView.frame.size.width / 2, leftUpView.frame.size.height / 2);
+        [cameraBtn.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [cameraBtn setImage:[[UIImage imageNamed:@"55-video-camera"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [cameraBtn addTarget:self.delegate action:@selector(videoSheetViewCameraButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [leftDownView addSubview:cameraBtn];
         
-        UIButton *albumBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, rightView.frame.size.width / 4, rightView.frame.size.height / 4)];
+        UIButton *albumBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, rightView.frame.size.width / 4, rightView.frame.size.width / 4)];
         albumBtn.tintColor = self.style.toolbarTintColor;
         albumBtn.backgroundColor = [UIColor clearColor];
         albumBtn.center = CGPointMake(rightView.frame.size.width / 2, rightView.frame.size.height / 2);
+        [albumBtn.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [albumBtn setImage:[[UIImage imageNamed:@"56-video-album"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [albumBtn addTarget:self.delegate action:@selector(videoSheetViewAlbumButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [rightView addSubview:albumBtn];

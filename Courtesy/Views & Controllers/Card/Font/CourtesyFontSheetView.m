@@ -73,6 +73,7 @@
         fontSizeUpBtn.frame = CGRectMake(0, 0, 40, 31);
         fontSizeUpBtn.center = CGPointMake(sizeAdjustLeftView.frame.size.width / 2, sizeAdjustLeftView.frame.size.height / 2);
         fontSizeUpBtn.tintColor = self.style.toolbarTintColor;
+        [fontSizeUpBtn.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [fontSizeUpBtn setImage:[[UIImage imageNamed:@"font-size-up"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         fontSizeUpBtn.backgroundColor = [UIColor clearColor];
         [fontSizeUpBtn addTarget:self action:@selector(addFontSize:) forControlEvents:UIControlEventTouchUpInside];
@@ -82,6 +83,7 @@
         fontSizeDownBtn.frame = CGRectMake(0, 0, 40, 31);
         fontSizeDownBtn.center = CGPointMake(sizeAdjustRightView.frame.size.width / 2, sizeAdjustRightView.frame.size.height / 2);
         fontSizeDownBtn.tintColor = self.style.toolbarTintColor;
+        [fontSizeDownBtn.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [fontSizeDownBtn setImage:[[UIImage imageNamed:@"font-size-down"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         fontSizeDownBtn.backgroundColor = [UIColor clearColor];
         [fontSizeDownBtn addTarget:self action:@selector(cutFontSize:) forControlEvents:UIControlEventTouchUpInside];

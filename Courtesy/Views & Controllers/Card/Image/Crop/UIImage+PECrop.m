@@ -30,7 +30,7 @@
     CGSize size = self.size;
     
     UIGraphicsBeginImageContextWithOptions(size,
-                                           YES,                     // Opaque
+                                           NO,                     // Not Opaque
                                            self.scale);             // Use image scale
     CGContextRef context = UIGraphicsGetCurrentContext();
     

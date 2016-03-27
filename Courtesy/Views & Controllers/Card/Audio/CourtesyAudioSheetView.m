@@ -37,18 +37,20 @@
         rightView.layer.borderWidth = 0.5;
         [self addSubview:rightView];
         
-        UIButton *recordBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, leftView.frame.size.width / 4, leftView.frame.size.height / 4)];
+        UIButton *recordBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, leftView.frame.size.width / 4, leftView.frame.size.width / 4)];
         recordBtn.tintColor = self.style.toolbarTintColor;
         recordBtn.backgroundColor = [UIColor clearColor];
         recordBtn.center = CGPointMake(leftView.frame.size.width / 2, leftView.frame.size.height / 2);
+        [recordBtn.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [recordBtn setImage:[[UIImage imageNamed:@"52-record-btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [recordBtn addTarget:self.delegate action:@selector(audioSheetViewRecordButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [leftView addSubview:recordBtn];
         
-        UIButton *musicBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, rightView.frame.size.width / 4, rightView.frame.size.height / 4)];
+        UIButton *musicBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, rightView.frame.size.width / 4, rightView.frame.size.width / 4)];
         musicBtn.tintColor = self.style.toolbarTintColor;
         musicBtn.backgroundColor = [UIColor clearColor];
         musicBtn.center = CGPointMake(rightView.frame.size.width / 2, rightView.frame.size.height / 2);
+        [musicBtn.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [musicBtn setImage:[[UIImage imageNamed:@"53-music-btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [musicBtn addTarget:self.delegate action:@selector(audioSheetViewMusicButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [rightView addSubview:musicBtn];
