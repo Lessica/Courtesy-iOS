@@ -24,6 +24,18 @@
 		0F47D9031CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9001CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m */; };
 		0F47D9091CA6D7EC001300FE /* CourtesyCardEditRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */; };
 		0F47D90A1CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9081CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m */; };
+		0F4E0E0A1CA8051800C4D76C /* UIColor+FlatColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E091CA8051800C4D76C /* UIColor+FlatColors.m */; };
+		0F4E0E201CA8054200C4D76C /* DefaultDirectionInterpretor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E0D1CA8054200C4D76C /* DefaultDirectionInterpretor.m */; };
+		0F4E0E211CA8054200C4D76C /* DefaultShouldSwipeDeterminator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E0F1CA8054200C4D76C /* DefaultShouldSwipeDeterminator.m */; };
+		0F4E0E221CA8054200C4D76C /* DefaultViewAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E111CA8054200C4D76C /* DefaultViewAnimator.m */; };
+		0F4E0E231CA8054200C4D76C /* PanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E131CA8054200C4D76C /* PanGestureRecognizer.m */; };
+		0F4E0E241CA8054200C4D76C /* Scheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E151CA8054200C4D76C /* Scheduler.m */; };
+		0F4E0E251CA8054200C4D76C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E171CA8054200C4D76C /* Utils.m */; };
+		0F4E0E261CA8054200C4D76C /* ViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E191CA8054200C4D76C /* ViewManager.m */; };
+		0F4E0E271CA8054200C4D76C /* ZLSwipeableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E1B1CA8054200C4D76C /* ZLSwipeableView.m */; };
+		0F4E0E281CA8054200C4D76C /* ZLSwipeableViewMovement.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E1D1CA8054200C4D76C /* ZLSwipeableViewMovement.m */; };
+		0F4E0E291CA8054200C4D76C /* ZLSwipeableViewSwipeOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E1F1CA8054200C4D76C /* ZLSwipeableViewSwipeOptions.m */; };
+		0F4E0E2C1CA805F200C4D76C /* CourtesyStarredCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E2B1CA805F200C4D76C /* CourtesyStarredCardView.m */; };
 		0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E21C9511D300F818AD /* CourtesyFontModel.m */; };
 		0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E51C951DDD00F818AD /* CourtesyFontManager.m */; };
 		0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */; };
@@ -158,8 +170,7 @@
 		0FFE04861C93F45800E99DCC /* tos.html in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE04561C93F45800E99DCC /* tos.html */; };
 		0FFE04871C93F45800E99DCC /* CourtesySettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04581C93F45800E99DCC /* CourtesySettingsTableViewController.m */; };
 		0FFE04881C93F45800E99DCC /* CourtesyMessageNotificationSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE045B1C93F45800E99DCC /* CourtesyMessageNotificationSettingsTableViewController.m */; };
-		0FFE04891C93F45800E99DCC /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE045E1C93F45800E99DCC /* CourtesyMyStarEmptyTipTableViewCell.m */; };
-		0FFE048A1C93F45800E99DCC /* CourtesyMyStarTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04601C93F45800E99DCC /* CourtesyMyStarTableViewController.m */; };
+		0FFE048A1C93F45800E99DCC /* CourtesyMyStarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04601C93F45800E99DCC /* CourtesyMyStarViewController.m */; };
 		0FFE04BB1C93F47400E99DCC /* CourtesyAccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE048E1C93F47400E99DCC /* CourtesyAccountModel.m */; };
 		0FFE04BD1C93F47400E99DCC /* CourtesyCardAttachmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04941C93F47400E99DCC /* CourtesyCardAttachmentModel.m */; };
 		0FFE04C11C93F47400E99DCC /* CourtesyCardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE049C1C93F47400E99DCC /* CourtesyCardModel.m */; };
@@ -277,6 +288,30 @@
 		0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardEditRequestModel.m; sourceTree = "<group>"; };
 		0F47D9071CA6D7EC001300FE /* CourtesyCardPublishRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublishRequestModel.h; sourceTree = "<group>"; };
 		0F47D9081CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishRequestModel.m; sourceTree = "<group>"; };
+		0F4E0E081CA8051800C4D76C /* UIColor+FlatColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FlatColors.h"; sourceTree = "<group>"; };
+		0F4E0E091CA8051800C4D76C /* UIColor+FlatColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FlatColors.m"; sourceTree = "<group>"; };
+		0F4E0E0C1CA8054200C4D76C /* DefaultDirectionInterpretor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultDirectionInterpretor.h; sourceTree = "<group>"; };
+		0F4E0E0D1CA8054200C4D76C /* DefaultDirectionInterpretor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultDirectionInterpretor.m; sourceTree = "<group>"; };
+		0F4E0E0E1CA8054200C4D76C /* DefaultShouldSwipeDeterminator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultShouldSwipeDeterminator.h; sourceTree = "<group>"; };
+		0F4E0E0F1CA8054200C4D76C /* DefaultShouldSwipeDeterminator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultShouldSwipeDeterminator.m; sourceTree = "<group>"; };
+		0F4E0E101CA8054200C4D76C /* DefaultViewAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultViewAnimator.h; sourceTree = "<group>"; };
+		0F4E0E111CA8054200C4D76C /* DefaultViewAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultViewAnimator.m; sourceTree = "<group>"; };
+		0F4E0E121CA8054200C4D76C /* PanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanGestureRecognizer.h; sourceTree = "<group>"; };
+		0F4E0E131CA8054200C4D76C /* PanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanGestureRecognizer.m; sourceTree = "<group>"; };
+		0F4E0E141CA8054200C4D76C /* Scheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scheduler.h; sourceTree = "<group>"; };
+		0F4E0E151CA8054200C4D76C /* Scheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scheduler.m; sourceTree = "<group>"; };
+		0F4E0E161CA8054200C4D76C /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		0F4E0E171CA8054200C4D76C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		0F4E0E181CA8054200C4D76C /* ViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewManager.h; sourceTree = "<group>"; };
+		0F4E0E191CA8054200C4D76C /* ViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewManager.m; sourceTree = "<group>"; };
+		0F4E0E1A1CA8054200C4D76C /* ZLSwipeableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLSwipeableView.h; sourceTree = "<group>"; };
+		0F4E0E1B1CA8054200C4D76C /* ZLSwipeableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLSwipeableView.m; sourceTree = "<group>"; };
+		0F4E0E1C1CA8054200C4D76C /* ZLSwipeableViewMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLSwipeableViewMovement.h; sourceTree = "<group>"; };
+		0F4E0E1D1CA8054200C4D76C /* ZLSwipeableViewMovement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLSwipeableViewMovement.m; sourceTree = "<group>"; };
+		0F4E0E1E1CA8054200C4D76C /* ZLSwipeableViewSwipeOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLSwipeableViewSwipeOptions.h; sourceTree = "<group>"; };
+		0F4E0E1F1CA8054200C4D76C /* ZLSwipeableViewSwipeOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLSwipeableViewSwipeOptions.m; sourceTree = "<group>"; };
+		0F4E0E2A1CA805F200C4D76C /* CourtesyStarredCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyStarredCardView.h; sourceTree = "<group>"; };
+		0F4E0E2B1CA805F200C4D76C /* CourtesyStarredCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyStarredCardView.m; sourceTree = "<group>"; };
 		0F5064E11C9511D300F818AD /* CourtesyFontModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyFontModel.h; path = Font/CourtesyFontModel.h; sourceTree = "<group>"; };
 		0F5064E21C9511D300F818AD /* CourtesyFontModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyFontModel.m; path = Font/CourtesyFontModel.m; sourceTree = "<group>"; };
 		0F5064E41C951DDD00F818AD /* CourtesyFontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyFontManager.h; path = Font/CourtesyFontManager.h; sourceTree = "<group>"; };
@@ -532,10 +567,8 @@
 		0FFE04581C93F45800E99DCC /* CourtesySettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesySettingsTableViewController.m; sourceTree = "<group>"; };
 		0FFE045A1C93F45800E99DCC /* CourtesyMessageNotificationSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMessageNotificationSettingsTableViewController.h; sourceTree = "<group>"; };
 		0FFE045B1C93F45800E99DCC /* CourtesyMessageNotificationSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMessageNotificationSettingsTableViewController.m; sourceTree = "<group>"; };
-		0FFE045D1C93F45800E99DCC /* CourtesyMyStarEmptyTipTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyStarEmptyTipTableViewCell.h; sourceTree = "<group>"; };
-		0FFE045E1C93F45800E99DCC /* CourtesyMyStarEmptyTipTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyStarEmptyTipTableViewCell.m; sourceTree = "<group>"; };
-		0FFE045F1C93F45800E99DCC /* CourtesyMyStarTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyStarTableViewController.h; sourceTree = "<group>"; };
-		0FFE04601C93F45800E99DCC /* CourtesyMyStarTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyStarTableViewController.m; sourceTree = "<group>"; };
+		0FFE045F1C93F45800E99DCC /* CourtesyMyStarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMyStarViewController.h; sourceTree = "<group>"; };
+		0FFE04601C93F45800E99DCC /* CourtesyMyStarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMyStarViewController.m; sourceTree = "<group>"; };
 		0FFE048D1C93F47400E99DCC /* CourtesyAccountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAccountModel.h; sourceTree = "<group>"; };
 		0FFE048E1C93F47400E99DCC /* CourtesyAccountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAccountModel.m; sourceTree = "<group>"; };
 		0FFE04931C93F47400E99DCC /* CourtesyCardAttachmentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentModel.h; sourceTree = "<group>"; };
@@ -684,6 +717,42 @@
 				0F47D9081CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m */,
 			);
 			path = Requests;
+			sourceTree = "<group>";
+		};
+		0F4E0E071CA8051800C4D76C /* UIColor+FlatColors */ = {
+			isa = PBXGroup;
+			children = (
+				0F4E0E081CA8051800C4D76C /* UIColor+FlatColors.h */,
+				0F4E0E091CA8051800C4D76C /* UIColor+FlatColors.m */,
+			);
+			path = "UIColor+FlatColors";
+			sourceTree = "<group>";
+		};
+		0F4E0E0B1CA8054200C4D76C /* ZLSwipeableView */ = {
+			isa = PBXGroup;
+			children = (
+				0F4E0E0C1CA8054200C4D76C /* DefaultDirectionInterpretor.h */,
+				0F4E0E0D1CA8054200C4D76C /* DefaultDirectionInterpretor.m */,
+				0F4E0E0E1CA8054200C4D76C /* DefaultShouldSwipeDeterminator.h */,
+				0F4E0E0F1CA8054200C4D76C /* DefaultShouldSwipeDeterminator.m */,
+				0F4E0E101CA8054200C4D76C /* DefaultViewAnimator.h */,
+				0F4E0E111CA8054200C4D76C /* DefaultViewAnimator.m */,
+				0F4E0E121CA8054200C4D76C /* PanGestureRecognizer.h */,
+				0F4E0E131CA8054200C4D76C /* PanGestureRecognizer.m */,
+				0F4E0E141CA8054200C4D76C /* Scheduler.h */,
+				0F4E0E151CA8054200C4D76C /* Scheduler.m */,
+				0F4E0E161CA8054200C4D76C /* Utils.h */,
+				0F4E0E171CA8054200C4D76C /* Utils.m */,
+				0F4E0E181CA8054200C4D76C /* ViewManager.h */,
+				0F4E0E191CA8054200C4D76C /* ViewManager.m */,
+				0F4E0E1A1CA8054200C4D76C /* ZLSwipeableView.h */,
+				0F4E0E1B1CA8054200C4D76C /* ZLSwipeableView.m */,
+				0F4E0E1C1CA8054200C4D76C /* ZLSwipeableViewMovement.h */,
+				0F4E0E1D1CA8054200C4D76C /* ZLSwipeableViewMovement.m */,
+				0F4E0E1E1CA8054200C4D76C /* ZLSwipeableViewSwipeOptions.h */,
+				0F4E0E1F1CA8054200C4D76C /* ZLSwipeableViewSwipeOptions.m */,
+			);
+			path = ZLSwipeableView;
 			sourceTree = "<group>";
 		};
 		0F5064DD1C9511A500F818AD /* Font */ = {
@@ -1439,10 +1508,11 @@
 		0FFE045C1C93F45800E99DCC /* Star */ = {
 			isa = PBXGroup;
 			children = (
-				0FFE045D1C93F45800E99DCC /* CourtesyMyStarEmptyTipTableViewCell.h */,
-				0FFE045E1C93F45800E99DCC /* CourtesyMyStarEmptyTipTableViewCell.m */,
-				0FFE045F1C93F45800E99DCC /* CourtesyMyStarTableViewController.h */,
-				0FFE04601C93F45800E99DCC /* CourtesyMyStarTableViewController.m */,
+				0F4E0E0B1CA8054200C4D76C /* ZLSwipeableView */,
+				0F4E0E2A1CA805F200C4D76C /* CourtesyStarredCardView.h */,
+				0F4E0E2B1CA805F200C4D76C /* CourtesyStarredCardView.m */,
+				0FFE045F1C93F45800E99DCC /* CourtesyMyStarViewController.h */,
+				0FFE04601C93F45800E99DCC /* CourtesyMyStarViewController.m */,
 			);
 			path = Star;
 			sourceTree = "<group>";
@@ -1646,6 +1716,7 @@
 		0FFE04F51C93F52C00E99DCC /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				0F4E0E071CA8051800C4D76C /* UIColor+FlatColors */,
 				0FDEFBC11C97D696007BE8D2 /* CJStringValidator */,
 				0FDEFBC41C97D696007BE8D2 /* FDFullscreenPopGesture */,
 				0FFE04F61C93F52C00E99DCC /* iOSCategoryPropertyDynamicSupport */,
@@ -1990,7 +2061,6 @@
 				0FEFDBBE1C97D17500952522 /* NSTimer+AFSoundManager.m in Sources */,
 				0FF2D2881C95DA80007C23DE /* LBXScanViewController.m in Sources */,
 				0FFE04651C93F45800E99DCC /* CourtesyFontSheetView.m in Sources */,
-				0FFE04891C93F45800E99DCC /* CourtesyMyStarEmptyTipTableViewCell.m in Sources */,
 				0FFE04C31C93F47400E99DCC /* CourtesyCardDataModel.m in Sources */,
 				0F9D7D421C9A865400C51F23 /* NSAttributedStringMarkdownParser.m in Sources */,
 				0FFE04811C93F45800E99DCC /* CourtesyProfileMobileTableViewController.m in Sources */,
@@ -2007,6 +2077,7 @@
 				0FFE046D1C93F45800E99DCC /* CourtesyLeftDrawerTableViewController.m in Sources */,
 				0FF2D2851C95DA80007C23DE /* LBXScanNetAnimation.m in Sources */,
 				0FF2D2A81C95DAC7007C23DE /* SCRecordSessionManager.m in Sources */,
+				0F4E0E221CA8054200C4D76C /* DefaultViewAnimator.m in Sources */,
 				0FDEFBC01C97D655007BE8D2 /* UIView+Gaussian.m in Sources */,
 				0FDEFBFD1C97D7B8007BE8D2 /* RSKTouchView.m in Sources */,
 				0FEFDBA01C97D0F800952522 /* PECropRectView.m in Sources */,
@@ -2017,6 +2088,7 @@
 				0FFE04C11C93F47400E99DCC /* CourtesyCardModel.m in Sources */,
 				0FFE04CA1C93F47400E99DCC /* CourtesyLoginRegisterModel.m in Sources */,
 				0FFE052F1C93F52C00E99DCC /* UIView+FrameMethods.m in Sources */,
+				0F4E0E211CA8054200C4D76C /* DefaultShouldSwipeDeterminator.m in Sources */,
 				0FFE04661C93F45800E99DCC /* CourtesyJotViewController.m in Sources */,
 				0F28516D1C97D8AD0066F5C5 /* JotTouchBezier.m in Sources */,
 				0F2851701C97D8AD0066F5C5 /* UIImage+Jot.m in Sources */,
@@ -2039,6 +2111,7 @@
 				0FDEFBFC1C97D7B8007BE8D2 /* RSKInternalUtility.m in Sources */,
 				0FDEFBE21C97D75B007BE8D2 /* FYPhotoLibrary.m in Sources */,
 				0FFE05271C93F52C00E99DCC /* NSObject+nl_dynamicPropertyStore.m in Sources */,
+				0F4E0E241CA8054200C4D76C /* Scheduler.m in Sources */,
 				0FFE052C1C93F52C00E99DCC /* NSDictionary+Subscript.m in Sources */,
 				0FF2D28B1C95DA80007C23DE /* LBXZXCapture.m in Sources */,
 				0FFE046C1C93F45800E99DCC /* CourtesyLeftDrawerMenuTableViewCell.m in Sources */,
@@ -2049,6 +2122,7 @@
 				0F28516C1C97D8AD0066F5C5 /* JotTextView.m in Sources */,
 				0FFE05261C93F52C00E99DCC /* NSObject+nl_dynamicPropertyCustomeStruct.m in Sources */,
 				0FFE04701C93F45800E99DCC /* CourtesyGithubWebViewController.m in Sources */,
+				0F4E0E2C1CA805F200C4D76C /* CourtesyStarredCardView.m in Sources */,
 				0FF2D2661C95D90F007C23DE /* JVFloatingDrawerSpringAnimator.m in Sources */,
 				0FFE04C51C93F47400E99DCC /* CourtesyCardStyleModel.m in Sources */,
 				0FFE04CB1C93F47400E99DCC /* CourtesyAccountProfileModel.m in Sources */,
@@ -2060,17 +2134,20 @@
 				0FDEFBFB1C97D7B8007BE8D2 /* RSKImageScrollView.m in Sources */,
 				0FDEFBB01C97D58F007BE8D2 /* PHPhotoLibrary+CustomPhotoCollection.m in Sources */,
 				0FD2BEC91C966D9400B5BBC9 /* CourtesyCardStyleManager.m in Sources */,
+				0F4E0E0A1CA8051800C4D76C /* UIColor+FlatColors.m in Sources */,
 				0FEFDBBC1C97D17500952522 /* AFSoundQueue.m in Sources */,
 				0FFE047C1C93F45800E99DCC /* CourtesyProfileBirthdayTableViewController.m in Sources */,
 				0FFE04E11C93F4D800E99DCC /* AppDelegate.m in Sources */,
 				0FDEFBB51C97D5C2007BE8D2 /* NSDate+Astro.m in Sources */,
 				0FFE04C41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m in Sources */,
 				0F47D9011CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.m in Sources */,
+				0F4E0E251CA8054200C4D76C /* Utils.m in Sources */,
 				0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */,
 				0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */,
 				0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */,
 				0FFE053F1C940D8A00E99DCC /* CourtesyWatchSessionManager.m in Sources */,
 				0F28516F1C97D8AD0066F5C5 /* JotViewController.m in Sources */,
+				0F4E0E281CA8054200C4D76C /* ZLSwipeableViewMovement.m in Sources */,
 				0FEFDBBB1C97D17500952522 /* AFSoundPlayback.m in Sources */,
 				0F28516B1C97D8AD0066F5C5 /* JotTextEditView.m in Sources */,
 				0FF2D2841C95DA80007C23DE /* LBXScanNative.m in Sources */,
@@ -2085,6 +2162,7 @@
 				0FFE04631C93F45800E99DCC /* CourtesyCardComposeViewController.m in Sources */,
 				0FFE04671C93F45800E99DCC /* CourtesyImageFrameView.m in Sources */,
 				0FFE04761C93F45800E99DCC /* CourtesyMyInboxEmptyTipTableViewCell.m in Sources */,
+				0F4E0E261CA8054200C4D76C /* ViewManager.m in Sources */,
 				0FFE04781C93F45800E99DCC /* CourtesyMyOutboxEmptyTipTableViewCell.m in Sources */,
 				0FFE04771C93F45800E99DCC /* CourtesyMyInboxTableViewController.m in Sources */,
 				0F55FCC91CA3D82E0084C4E2 /* CourtesyDraftTableViewController.m in Sources */,
@@ -2094,16 +2172,18 @@
 				0FFE047E1C93F45800E99DCC /* CourtesyProfileTableViewController.m in Sources */,
 				0FEFDBA11C97D0F800952522 /* PECropView.m in Sources */,
 				0F28516A1C97D8AD0066F5C5 /* JotDrawView.m in Sources */,
+				0F4E0E271CA8054200C4D76C /* ZLSwipeableView.m in Sources */,
 				0FFE046E1C93F45800E99DCC /* CourtesyGalleryEmptyTipTableViewCell.m in Sources */,
 				0F47D9091CA6D7EC001300FE /* CourtesyCardEditRequestModel.m in Sources */,
 				0FB0A55D1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m in Sources */,
 				0FFE04CC1C93F47400E99DCC /* CourtesyQRCodeModel.m in Sources */,
-				0FFE048A1C93F45800E99DCC /* CourtesyMyStarTableViewController.m in Sources */,
+				0FFE048A1C93F45800E99DCC /* CourtesyMyStarViewController.m in Sources */,
 				0F5801061C98075600D18059 /* FCFileManager.m in Sources */,
 				0FDEFBD51C97D70A007BE8D2 /* CNCityAreaCitiesModel.m in Sources */,
 				0FDEFBD61C97D70A007BE8D2 /* CNCityAreaFactory.m in Sources */,
 				0FFE04721C93F45800E99DCC /* CourtesyLoginRegisterViewController.m in Sources */,
 				0F55FCCF1CA40D8D0084C4E2 /* NSDate+Compare.m in Sources */,
+				0F4E0E231CA8054200C4D76C /* PanGestureRecognizer.m in Sources */,
 				0FEFDBBA1C97D17500952522 /* AFSoundItem.m in Sources */,
 				0FFE04711C93F45800E99DCC /* CourtesyLoginRegisterTextField.m in Sources */,
 				0FF2D26B1C95D93B007C23DE /* UIColor+MagicColor.m in Sources */,
@@ -2115,6 +2195,7 @@
 				0FFE04BB1C93F47400E99DCC /* CourtesyAccountModel.m in Sources */,
 				0FFE052A1C93F52C00E99DCC /* NSArray+QueryItems.m in Sources */,
 				0FFE047F1C93F45800E99DCC /* CourtesyProfileGenderTableViewController.m in Sources */,
+				0F4E0E201CA8054200C4D76C /* DefaultDirectionInterpretor.m in Sources */,
 				0FDEFBFA1C97D7B8007BE8D2 /* RSKImageCropViewController.m in Sources */,
 				0FFE04691C93F45800E99DCC /* CourtesyVideoFrameView.m in Sources */,
 				0F55FCCC1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.m in Sources */,
@@ -2124,6 +2205,7 @@
 				0FFE04641C93F45800E99DCC /* CourtesyTextView.m in Sources */,
 				0FFE04791C93F45800E99DCC /* CourtesyMyOutboxTableViewController.m in Sources */,
 				0F47D90A1CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m in Sources */,
+				0F4E0E291CA8054200C4D76C /* ZLSwipeableViewSwipeOptions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -38,8 +38,9 @@
 #define kComposeTopBarInsectUpdated 64.0
 #define kComposeCardViewMargin 12.0
 #define kComposeCardViewBorderWidth 4.0
-#define kComposeCardViewShadowOpacity 0.45
-#define kComposeCardViewShadowRadius 2.0
+#define kComposeCardViewShadowOpacity 0.33
+#define kComposeCardViewShadowRadius 4.0
+#define kComposeCardViewCornerRadius 10.0
 #define kComposeCardViewEditInset UIEdgeInsetsMake(-kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2)
 
 @interface CourtesyCardComposeViewController ()
@@ -63,6 +64,7 @@
     LGAlertViewDelegate
 >
 
+@property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, strong) UIView *cardView;
 
 @property (nonatomic, strong) CourtesyTextView *textView;
@@ -115,16 +117,26 @@
     }
     
     /* Init of main view */
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blackColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = NO;
+
+    /* Init of background view */
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    backgroundImageView.image = [[UIImage imageNamed:@"street"] imageByBlurLight];
+    backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.backgroundImageView = backgroundImageView;
+    [self.view addSubview:backgroundImageView];
+
+    [backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
+    }];
     
     /* Init of Fake Status Bar */
     CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
     UIView *fakeBar = [[UIView alloc] initWithFrame:frame];
     fakeBar.alpha = self.style.standardAlpha;
     fakeBar.backgroundColor = self.style.statusBarColor;
-    fakeBar.hidden = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
     
     /* Layouts of Fake Status Bar */
     self.fakeBar = fakeBar;
@@ -133,12 +145,13 @@
     /* Init of Card View */
     UIView *cardView = [[UIView alloc] initWithFrame:CGRectMake(kComposeCardViewMargin, fakeBar.frame.size.height + kComposeCardViewMargin, self.view.frame.size.width - kComposeCardViewMargin * 2, self.view.frame.size.height - kComposeCardViewMargin * 2)];
     cardView.backgroundColor = self.style.cardBackgroundColor;
-    cardView.layer.borderColor = self.style.cardBorderColor.CGColor;
-    cardView.layer.borderWidth = kComposeCardViewBorderWidth;
-    cardView.layer.shadowOffset = CGSizeMake(0, 0);
+    cardView.layer.shadowOffset = CGSizeMake(0, 1.5);
     cardView.layer.shadowColor = [UIColor blackColor].CGColor;
     cardView.layer.shadowOpacity = kComposeCardViewShadowOpacity;
     cardView.layer.shadowRadius = kComposeCardViewShadowRadius;
+    cardView.layer.cornerRadius = kComposeCardViewCornerRadius;
+    cardView.layer.shouldRasterize = YES;
+    cardView.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     /* Layouts of Card View */
     self.cardView = cardView;
@@ -146,7 +159,7 @@
     [cardView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view).with.insets(kComposeCardViewEditInset);
     }];
-    cardView.transform = CGAffineTransformMakeScale(0.9, 0.9);
+    cardView.transform = CGAffineTransformMakeScale(0.75, 0.75);
     
     /* Elements of tool bar items */
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -424,8 +437,8 @@
     [self.view addSubview:circleSaveBtn];
     [self.view bringSubviewToFront:circleSaveBtn];
     [circleSaveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom).with.offset(-fakeBar.frame.size.height - kComposeCardViewMargin * 2);
-        make.right.equalTo(self.view.mas_right).with.offset(-kComposeCardViewMargin * 2);
+        make.centerX.equalTo(cardView.mas_centerX);
+        make.bottom.equalTo(self.view.mas_bottom).with.offset(-kComposeCardViewMargin * 2);
         make.width.equalTo(@32);
         make.height.equalTo(@32);
     }];
@@ -553,7 +566,7 @@
         [UIView setAnimationDelay:0.0f];
         [UIView setAnimationDuration:0.3f];
         self.textView.showsVerticalScrollIndicator = NO;
-        self.cardView.transform = CGAffineTransformMakeScale(0.9, 0.9);
+        self.cardView.transform = CGAffineTransformMakeScale(0.75, 0.75);
         self.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectPortrait, 0, 0, 0);
         [UIView commitAnimations];
     }
@@ -639,7 +652,7 @@
                         duration:kStatusBarNotificationTime
                         position:CSToastPositionCenter];
             return;
-        } else if (self.textView.text.length <= 0) {
+        } else if (self.textView.text.length <= 0 || self.cardEdited == NO) {
             [self.view makeToast:@"再说点儿什么吧"
                         duration:kStatusBarNotificationTime
                         position:CSToastPositionCenter];
