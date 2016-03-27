@@ -11,7 +11,7 @@
 
 // 常用常量
 #define APP_NAME_EN @"Courtesy"
-#define APP_NAME_CN [[UIApplication sharedApplication] appBundleName]
+#define APP_NAME_CN @"礼记"
 #define VERSION_STRING [[UIApplication sharedApplication] appVersion]
 #define VERSION_BUILD [[UIApplication sharedApplication] appBuildVersion]
 #define SERVICE_EMAIL @"i.82@me.com"

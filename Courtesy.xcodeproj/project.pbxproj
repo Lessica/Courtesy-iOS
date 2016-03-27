@@ -630,7 +630,7 @@
 		0FFE051B1C93F52C00E99DCC /* UIView+FrameMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FrameMethods.m"; sourceTree = "<group>"; };
 		0FFE053D1C940D8A00E99DCC /* CourtesyWatchSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyWatchSessionManager.h; sourceTree = "<group>"; };
 		0FFE053E1C940D8A00E99DCC /* CourtesyWatchSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyWatchSessionManager.m; sourceTree = "<group>"; };
-		2CE7E65D1A62D8470072121A /* 礼记.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "礼记.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CE7E65D1A62D8470072121A /* Courtesy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Courtesy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FB0FFE1C1F7CBDA90EFB14A /* libPods-Courtesy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Courtesy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		993EA91F94F1ED81DAB9EF52 /* Pods-Courtesy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Courtesy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Courtesy/Pods-Courtesy.debug.xcconfig"; sourceTree = "<group>"; };
 		E72577B8FA0EA5F79D783A5F /* Pods-Courtesy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Courtesy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Courtesy/Pods-Courtesy.release.xcconfig"; sourceTree = "<group>"; };
@@ -1783,7 +1783,7 @@
 		2CE7E65E1A62D8470072121A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2CE7E65D1A62D8470072121A /* 礼记.app */,
+				2CE7E65D1A62D8470072121A /* Courtesy.app */,
 				0FD3EE2A1C95CDC100DE5347 /* CourtesyWatch.app */,
 				0FD3EE361C95CDC100DE5347 /* CourtesyWatch Extension.appex */,
 			);
@@ -1875,7 +1875,7 @@
 			);
 			name = Courtesy;
 			productName = JVFloatingDrawer;
-			productReference = 2CE7E65D1A62D8470072121A /* 礼记.app */;
+			productReference = 2CE7E65D1A62D8470072121A /* Courtesy.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -2438,7 +2438,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
-				PRODUCT_NAME = "礼记";
+				PRODUCT_NAME = Courtesy;
 				PROVISIONING_PROFILE = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;
@@ -2479,7 +2479,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
-				PRODUCT_NAME = "礼记";
+				PRODUCT_NAME = Courtesy;
 				PROVISIONING_PROFILE = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;
