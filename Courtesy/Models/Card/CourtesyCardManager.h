@@ -10,11 +10,13 @@
 #import "CourtesyCardModel.h"
 
 @interface CourtesyCardManager : NSObject
+@property (nonatomic, strong) NSMutableArray <NSString *> *cardDraftTokenArray;
+@property (nonatomic, strong) NSMutableArray <CourtesyCardModel *> *cardDraftArray;
+
 + (id)sharedManager;
-+ (CourtesyCardModel *)newCard;
+- (CourtesyCardModel *)newCard;
 - (void)composeNewCardWithViewController:(UIViewController *)controller;
 - (void)editCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller;
-- (NSMutableArray <CourtesyCardModel *> *)draftboxCardsList;
 - (void)deleteCardInDraft:(CourtesyCardModel *)card;
 
 @end

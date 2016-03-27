@@ -13,8 +13,6 @@
 #define kCourtesyCardDraftListKey @"kCourtesyCardListKey"
 
 @interface CourtesyCardManager () <CourtesyCardComposeDelegate, CourtesyCardDelegate>
-@property (nonatomic, strong) NSMutableArray <NSString *> *cardDraftTokenArray;
-@property (nonatomic, strong) NSMutableArray <CourtesyCardModel *> *cardDraftArray;
 
 @end
 
@@ -71,10 +69,10 @@
     return [AppStorage sharedInstance];
 }
 
-+ (CourtesyCardModel *)newCard {
+- (CourtesyCardModel *)newCard {
     // 初始化卡片
     CourtesyCardModel *card = [CourtesyCardModel new];
-    card.delegate = [self sharedManager];
+    card.delegate = self;
     card.is_editable = YES;
     card.is_public = [sharedSettings switchAutoPublic];
     card.view_count = 0;
@@ -103,7 +101,7 @@
 }
 
 - (void)composeNewCardWithViewController:(UIViewController *)controller {
-    CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:[CourtesyCardManager newCard]];
+    CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:[self newCard]];
     vc.delegate = self;
     [controller presentViewController:vc animated:YES completion:nil];
 }
@@ -119,10 +117,6 @@
     [self.cardDraftTokenArray removeObject:card.token];
     [self.cardDraftArray removeObject:card];
     [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
-}
-
-- (NSMutableArray <CourtesyCardModel *> *)draftboxCardsList {
-    return self.cardDraftArray;
 }
 
 #pragma mark - CourtesyCardComposeDelegate

@@ -1500,6 +1500,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [self presentViewController:navc animated:YES completion:nil];
 }
 
+- (void)imageFrameDidBeginEditing:(CourtesyImageFrameView *)imageFrame {
+    CGRect rect = [self getAttachmentRect:imageFrame];
+    CGRect newRect = CGRectMake(rect.origin.x, rect.size.height, rect.size.width, self.view.frame.size.height / 2 + 128);
+    [self.textView scrollRectToVisible:newRect animated:YES];
+}
+
+- (void)imageFrameDidEndEditing:(CourtesyImageFrameView *)imageFrame {
+    
+}
+
 #pragma mark - CourtesyCardPreviewGeneratorDelegate
 
 - (void)generatorDidFinishWorking:(CourtesyCardPreviewGenerator *)generator result:(UIImage *)result {
@@ -1564,6 +1574,22 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         index++;
     }
     return NSMakeRange(0, 0);
+}
+
+- (CGRect)getAttachmentRect:(id)atta {
+    NSUInteger index = 0;
+    for (id object in self.textView.textLayout.attachments) {
+        if (![object isKindOfClass:[YYTextAttachment class]]) continue;
+        YYTextAttachment *attachment = (YYTextAttachment *)object;
+        id obj = attachment.content;
+        if (obj == atta) {
+            NSValue *rect_val = [self.textView.textLayout.attachmentRects objectAtIndex:index];
+            CGRect rect = [rect_val CGRectValue];
+            return rect;
+        }
+        index++;
+    }
+    return CGRectMake(0, 0, 0, 0);
 }
 
 - (void)syncAttachmentsStyle {
@@ -1638,7 +1664,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (BOOL)textView:(YYTextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ((textView.text.length + text.length - range.length) > self.style.maxContentLength) {
-        [self.view makeToast:[NSString stringWithFormat:@"超出最大长度限制 (%lu)", self.style.maxContentLength]
+        [self.view makeToast:[NSString stringWithFormat:@"超出最大长度限制 (%lu)", (unsigned long)self.style.maxContentLength]
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
         return NO;
@@ -1654,7 +1680,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - YYTextKeyboardObserver
 
 - (void)keyboardChangedWithTransition:(YYTextKeyboardTransition)transition {
-    self.keyboardFrame = transition.toFrame;
+    if (self.inputViewType == kCourtesyInputViewDefault) {
+        self.keyboardFrame = transition.toFrame;
+    }
 }
 
 #pragma mark - Memory Leaks

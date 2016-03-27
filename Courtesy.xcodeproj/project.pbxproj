@@ -2360,7 +2360,7 @@
 				PROVISIONING_PROFILE = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -2401,7 +2401,7 @@
 				PROVISIONING_PROFILE = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

@@ -40,7 +40,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 #pragma mark - Table view data source
 
 - (void)reloadCards {
-    self.cardArray = [[CourtesyCardManager sharedManager] draftboxCardsList];
+    self.cardArray = [[CourtesyCardManager sharedManager] cardDraftArray];
     self.draftCount = self.cardArray.count;
 }
 
