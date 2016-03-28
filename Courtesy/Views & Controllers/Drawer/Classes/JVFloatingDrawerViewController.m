@@ -23,12 +23,12 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
     return [NSString stringWithCString:c_str encoding:NSASCIIStringEncoding];
 }
 
-@interface JVFloatingDrawerViewController ()
+@interface JVFloatingDrawerViewController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong, readonly) JVFloatingDrawerView *drawerView;
 @property (nonatomic, assign) JVFloatingDrawerSide currentlyOpenedSide;
 @property (nonatomic, strong) UITapGestureRecognizer *toggleDrawerTapGestureRecognizer;
-@property (nonatomic, strong) UISwipeGestureRecognizer *toggleDrawerSwipeGestureRecognizer;
+@property (nonatomic, strong) UIPanGestureRecognizer *toggleDrawerPanGestureRecognizer;
 
 @end
 
@@ -38,7 +38,7 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
 
 - (instancetype)init {
     self = [super init];
-    if(self) {
+    if (self) {
         [self setup];
     }
     return self;
@@ -47,6 +47,8 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
 - (void)setup {
     self.currentlyOpenedSide = JVFloatingDrawerSideNone;
     self.dragToRevealEnabled = YES;
+    self.minimumDragDistance = 80.0;
+    self.dragRespondingWidth = 80.0;
 }
 
 #pragma mark - View Related
@@ -71,12 +73,12 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
 #pragma mark - Interaction
 
 - (void)openDrawerWithSide:(JVFloatingDrawerSide)drawerSide animated:(BOOL)animated completion:(void(^)(BOOL finished))completion {
-    if(self.currentlyOpenedSide != drawerSide) {
+    if (self.currentlyOpenedSide != drawerSide) {
         UIView *sideView   = [self.drawerView viewContainerForDrawerSide:drawerSide];
         UIView *centerView = self.drawerView.centerViewContainer;
         
         // First close opened drawer and then open new drawer
-        if(self.currentlyOpenedSide != JVFloatingDrawerSideNone) {
+        if (self.currentlyOpenedSide != JVFloatingDrawerSideNone) {
             [self closeDrawerWithSide:self.currentlyOpenedSide animated:animated completion:^(BOOL finished) {
                 [self.animator presentationWithSide:drawerSide sideView:sideView centerView:centerView animated:animated completion:completion];
             }];
@@ -92,7 +94,7 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
 }
 
 - (void)closeDrawerWithSide:(JVFloatingDrawerSide)drawerSide animated:(BOOL)animated completion:(void(^)(BOOL finished))completion {
-    if(self.currentlyOpenedSide == drawerSide && self.currentlyOpenedSide != JVFloatingDrawerSideNone) {
+    if (self.currentlyOpenedSide == drawerSide && self.currentlyOpenedSide != JVFloatingDrawerSideNone) {
         UIView *sideView   = [self.drawerView viewContainerForDrawerSide:drawerSide];
         UIView *centerView = self.drawerView.centerViewContainer;
         
@@ -106,9 +108,15 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
     }
 }
 
+- (void)moveCenterViewWithSide:(JVFloatingDrawerSide)drawerSide translation:(CGPoint)translation {
+    UIView *sideView   = [self.drawerView viewContainerForDrawerSide:drawerSide];
+    UIView *centerView = self.drawerView.centerViewContainer;
+    [self.animator moveWithTranslation:translation sideView:sideView centerView:centerView];
+}
+
 - (void)toggleDrawerWithSide:(JVFloatingDrawerSide)drawerSide animated:(BOOL)animated completion:(void(^)(BOOL finished))completion {
-    if(drawerSide != JVFloatingDrawerSideNone) {
-        if(drawerSide == self.currentlyOpenedSide) {
+    if (drawerSide != JVFloatingDrawerSideNone) {
+        if (drawerSide == self.currentlyOpenedSide) {
             [self closeDrawerWithSide:drawerSide animated:animated completion:completion];
         } else {
             [self openDrawerWithSide:drawerSide animated:animated completion:completion];
@@ -120,9 +128,10 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
 
 - (void)addDrawerGestures {
     self.centerViewController.view.userInteractionEnabled = NO;
-    if ((self.dragToRevealEnabled || self.toggleDrawerSwipeGestureRecognizer != nil) && [_centerViewController isKindOfClass:[UINavigationController class]]) {
-        [((UINavigationController *)_centerViewController).topViewController.view removeGestureRecognizer:self.toggleDrawerSwipeGestureRecognizer];
-        self.toggleDrawerSwipeGestureRecognizer = nil;
+    if ((self.dragToRevealEnabled || self.toggleDrawerPanGestureRecognizer != nil) && [_centerViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navc = ((UINavigationController *)_centerViewController);
+        [navc.topViewController.view removeGestureRecognizer:self.toggleDrawerPanGestureRecognizer];
+        self.toggleDrawerPanGestureRecognizer = nil;
     }
     if (self.toggleDrawerTapGestureRecognizer == nil) {
         self.toggleDrawerTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionCenterViewContainerTapped:)];
@@ -135,9 +144,11 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
         [self.drawerView.centerViewContainer removeGestureRecognizer:self.toggleDrawerTapGestureRecognizer];
         self.toggleDrawerTapGestureRecognizer = nil;
     }
-    if (self.toggleDrawerSwipeGestureRecognizer == nil && self.dragToRevealEnabled && [_centerViewController isKindOfClass:[UINavigationController class]]) {
-        self.toggleDrawerSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(actionCenterViewContainerSwiped:)];
-        [((UINavigationController *)_centerViewController).topViewController.view addGestureRecognizer:self.toggleDrawerSwipeGestureRecognizer];
+    if (self.toggleDrawerPanGestureRecognizer == nil && self.dragToRevealEnabled && [_centerViewController isKindOfClass:[UINavigationController class]]) {
+        self.toggleDrawerPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(actionCenterViewContainerPanned:)];
+        self.toggleDrawerPanGestureRecognizer.delegate = self;
+        UINavigationController *navc = ((UINavigationController *)_centerViewController);
+        [navc.topViewController.view addGestureRecognizer:self.toggleDrawerPanGestureRecognizer];
     }
     self.centerViewController.view.userInteractionEnabled = YES;
 }
@@ -146,11 +157,74 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
     [self closeDrawerWithSide:self.currentlyOpenedSide animated:YES completion:nil];
 }
 
-- (void)actionCenterViewContainerSwiped:(UISwipeGestureRecognizer *)gesture {
-    if (gesture.direction == UISwipeGestureRecognizerDirectionLeft) {
-        
-    } else if (gesture.direction == UISwipeGestureRecognizerDirectionRight) {
-        [self openDrawerWithSide:JVFloatingDrawerSideLeft animated:YES completion:nil];
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    UIView *centerView = self.drawerView.centerViewContainer;
+    CGPoint where = [gestureRecognizer locationInView:centerView];
+    if (where.x < self.dragRespondingWidth ||
+        where.x > (centerView.bounds.size.width - self.dragRespondingWidth)) {
+        return YES;
+    }
+    return NO;
+}
+
+static BOOL canMove = NO;
+- (void)actionCenterViewContainerPanned:(UIPanGestureRecognizer *)gesture {
+    CGPoint trans = [gesture translationInView:self.view];
+    CGFloat transX = trans.x;
+    CGFloat transY = trans.y;
+    CGFloat transWidth = fabs(transX);
+    BOOL toLeft = (transX >= 0.0);
+    
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        canMove = (transY == 0.0);
+        [self.drawerView willOpenFloatingDrawerViewController:self];
+    } else if (gesture.state == UIGestureRecognizerStateChanged) {
+        if (!canMove) {
+            return;
+        }
+        if (toLeft) {
+            [self moveCenterViewWithSide:JVFloatingDrawerSideLeft translation:trans];
+        } else {
+            [self moveCenterViewWithSide:JVFloatingDrawerSideRight translation:trans];
+        }
+    } else if (gesture.state == UIGestureRecognizerStateEnded) {
+        if (!canMove) {
+            return;
+        }
+        BOOL canOpen = YES;
+        UIView *sideView    = [self.drawerView viewContainerForDrawerSide:self.currentlyOpenedSide];
+        UIView *centerView  = self.drawerView.centerViewContainer;
+        UINavigationController *navc = ((UINavigationController *)_centerViewController);
+        UIViewController <JVFloatingDrawerCenterViewController> *topViewController = ((UIViewController <JVFloatingDrawerCenterViewController> *)navc.topViewController);
+        if (toLeft) {
+            if ((
+                 [topViewController respondsToSelector:@selector(shouldOpenDrawerWithSide:)]
+                 && ![topViewController shouldOpenDrawerWithSide:JVFloatingDrawerSideLeft]
+                 )
+                || transWidth <= self.minimumDragDistance) {
+                canOpen = NO;
+            }
+            if (canOpen) {
+                [self openDrawerWithSide:JVFloatingDrawerSideLeft animated:YES completion:nil];
+            } else {
+                [self.animator dismissWithSide:JVFloatingDrawerSideLeft sideView:sideView centerView:centerView animated:YES completion:nil];
+                [self.drawerView willCloseFloatingDrawerViewController:self];
+            }
+        } else {
+            if ((
+                 [topViewController respondsToSelector:@selector(shouldOpenDrawerWithSide:)]
+                 && ![topViewController shouldOpenDrawerWithSide:JVFloatingDrawerSideRight]
+                 )
+                || transWidth <= self.minimumDragDistance) {
+                canOpen = NO;
+            }
+            if (canOpen) {
+                [self openDrawerWithSide:JVFloatingDrawerSideRight animated:YES completion:nil];
+            } else {
+                [self.animator dismissWithSide:JVFloatingDrawerSideRight sideView:sideView centerView:centerView animated:YES completion:nil];
+                [self.drawerView willCloseFloatingDrawerViewController:self];
+            }
+        }
     }
 }
 
@@ -184,17 +258,19 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
     [sourceViewController.view removeFromSuperview];
     [sourceViewController removeFromParentViewController];
     
-    [self addChildViewController:destinationViewController];
-    [container addSubview:destinationViewController.view];
-   
-    UIView *destinationView = destinationViewController.view;
-    destinationView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    NSDictionary *views = NSDictionaryOfVariableBindings(destinationView);
-    [container addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[destinationView]|" options:0 metrics:nil views:views]];
-    [container addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[destinationView]|" options:0 metrics:nil views:views]];
-
-    [destinationViewController didMoveToParentViewController:self];
+    if (destinationViewController) {
+        [self addChildViewController:destinationViewController];
+        [container addSubview:destinationViewController.view];
+        
+        UIView *destinationView = destinationViewController.view;
+        destinationView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        NSDictionary *views = NSDictionaryOfVariableBindings(destinationView);
+        [container addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[destinationView]|" options:0 metrics:nil views:views]];
+        [container addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[destinationView]|" options:0 metrics:nil views:views]];
+        
+        [destinationViewController didMoveToParentViewController:self];
+    }
 }
 
 #pragma mark - Reveal Widths
@@ -232,7 +308,8 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
     switch (drawerSide) {
         case JVFloatingDrawerSideLeft: sideViewController = self.leftViewController; break;
         case JVFloatingDrawerSideRight: sideViewController = self.rightViewController; break;
-        case JVFloatingDrawerSideNone: sideViewController = nil; break;
+        case JVFloatingDrawerSideNone:
+            sideViewController = nil; break;
     }
     return sideViewController;
 }
@@ -252,7 +329,7 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    if(self.currentlyOpenedSide != JVFloatingDrawerSideNone) {
+    if (self.currentlyOpenedSide != JVFloatingDrawerSideNone) {
         UIView *sideView   = [self.drawerView viewContainerForDrawerSide:self.currentlyOpenedSide];
         UIView *centerView = self.drawerView.centerViewContainer;
         
@@ -263,7 +340,7 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    if(self.currentlyOpenedSide != JVFloatingDrawerSideNone) {
+    if (self.currentlyOpenedSide != JVFloatingDrawerSideNone) {
         UIView *sideView   = [self.drawerView viewContainerForDrawerSide:self.currentlyOpenedSide];
         UIView *centerView = self.drawerView.centerViewContainer;
         

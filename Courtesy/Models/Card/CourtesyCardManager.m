@@ -119,6 +119,12 @@
     [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
 }
 
+- (void)exchangeCardAtIndex:(NSInteger)sourceRow withCardAtIndex:(NSInteger)destinationRow {
+    [self.cardDraftArray exchangeObjectAtIndex:sourceRow withObjectAtIndex:destinationRow];
+    [self.cardDraftTokenArray exchangeObjectAtIndex:sourceRow withObjectAtIndex:destinationRow];
+    [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
+}
+
 #pragma mark - CourtesyCardComposeDelegate
 
 - (void)cardComposeViewDidFinishEditing:(nonnull CourtesyCardComposeViewController *)controller {
@@ -152,11 +158,18 @@
 }
 
 - (void)cardDidFinishSaving:(nonnull CourtesyCardModel *)card newRecord:(BOOL)newRecord {
-    if (newRecord) {
-        [self.cardDraftTokenArray addObject:card.token];
-        [self.cardDraftArray addObject:card];
-        [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
+    if (newRecord) { // 添加记录则将元素加入数组并写入数据库
+        [self.cardDraftTokenArray insertObject:card.token atIndex:0];
+        [self.cardDraftArray insertObject:card atIndex:0];
     }
+//    else { // 修改记录则将元素提到最前 (Is that necessary?)
+//        NSInteger origIndex = [self.cardDraftArray indexOfObject:card];
+//        [self.cardDraftTokenArray removeObjectAtIndex:origIndex];
+//        [self.cardDraftArray removeObjectAtIndex:origIndex];
+//        [self.cardDraftTokenArray insertObject:card.token atIndex:0];
+//        [self.cardDraftArray insertObject:card atIndex:0];
+//    }
+    [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
     [JDStatusBarNotification showWithStatus:@"卡片已保存到草稿箱"
                                dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleSuccess];

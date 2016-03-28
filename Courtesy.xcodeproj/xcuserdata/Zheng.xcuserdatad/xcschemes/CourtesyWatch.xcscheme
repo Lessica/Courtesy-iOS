@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0FD7BAF31C9326BB00F9F4D2"
+               BlueprintIdentifier = "0FD3EE291C95CDC100DE5347"
                BuildableName = "CourtesyWatch.app"
                BlueprintName = "CourtesyWatch"
                ReferencedContainer = "container:Courtesy.xcodeproj">
@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2CE7E65C1A62D8470072121A"
-               BuildableName = "&#x793c;&#x8bb0;.app"
+               BuildableName = "Courtesy.app"
                BlueprintName = "Courtesy"
                ReferencedContainer = "container:Courtesy.xcodeproj">
             </BuildableReference>
@@ -60,7 +60,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0FD7BAF31C9326BB00F9F4D2"
+            BlueprintIdentifier = "0FD3EE291C95CDC100DE5347"
             BuildableName = "CourtesyWatch.app"
             BlueprintName = "CourtesyWatch"
             ReferencedContainer = "container:Courtesy.xcodeproj">
@@ -79,14 +79,14 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
-      notificationPayloadFile = "CourtesyWatchExtension/PushNotificationPayload.apns">
+      notificationPayloadFile = "CourtesyWatch Extension/PushNotificationPayload.apns">
       <RemoteRunnable
          runnableDebuggingMode = "2"
          BundleIdentifier = "com.apple.carousel"
          RemotePath = "/&#x793c;&#x8bb0;">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0FD7BAF31C9326BB00F9F4D2"
+            BlueprintIdentifier = "0FD3EE291C95CDC100DE5347"
             BuildableName = "CourtesyWatch.app"
             BlueprintName = "CourtesyWatch"
             ReferencedContainer = "container:Courtesy.xcodeproj">
@@ -95,7 +95,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0FD7BAF31C9326BB00F9F4D2"
+            BlueprintIdentifier = "0FD3EE291C95CDC100DE5347"
             BuildableName = "CourtesyWatch.app"
             BlueprintName = "CourtesyWatch"
             ReferencedContainer = "container:Courtesy.xcodeproj">
@@ -116,7 +116,7 @@
          RemotePath = "/&#x793c;&#x8bb0;">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0FD7BAF31C9326BB00F9F4D2"
+            BlueprintIdentifier = "0FD3EE291C95CDC100DE5347"
             BuildableName = "CourtesyWatch.app"
             BlueprintName = "CourtesyWatch"
             ReferencedContainer = "container:Courtesy.xcodeproj">
@@ -125,7 +125,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0FD7BAF31C9326BB00F9F4D2"
+            BlueprintIdentifier = "0FD3EE291C95CDC100DE5347"
             BuildableName = "CourtesyWatch.app"
             BlueprintName = "CourtesyWatch"
             ReferencedContainer = "container:Courtesy.xcodeproj">

@@ -13,7 +13,7 @@
 #import "CourtesyPortraitViewController.h"
 #import "CourtesyLoginRegisterViewController.h"
 
-@interface CourtesyMyTabBarController ()
+@interface CourtesyMyTabBarController () <JVFloatingDrawerCenterViewController>
 
 @end
 
@@ -33,6 +33,13 @@
         return;
     }
     [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
+}
+
+#pragma mark - JVFloatingDrawerCenterViewController
+
+- (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {
+    if (drawerSide == JVFloatingDrawerSideLeft) return YES;
+    return NO;
 }
 
 @end

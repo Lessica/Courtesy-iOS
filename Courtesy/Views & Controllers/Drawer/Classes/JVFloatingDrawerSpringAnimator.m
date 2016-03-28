@@ -46,9 +46,10 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
               initialSpringVelocity:self.initialSpringVelocity
                             options:UIViewAnimationOptionCurveLinear
                          animations:springAnimation
-                         completion:nil];
+                         completion:completion];
     } else {
         springAnimation(); // Call spring animation block without animating
+        completion(YES);
     }
 }
 
@@ -63,9 +64,11 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
              usingSpringWithDamping:self.springDamping
               initialSpringVelocity:self.initialSpringVelocity
                             options:UIViewAnimationOptionCurveLinear
-                         animations:springAnimation completion:completion];
+                         animations:springAnimation
+                         completion:completion];
     } else {
         springAnimation(); // Call spring animation block without animating
+        completion(YES);
     }
 }
 
@@ -141,6 +144,29 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
 - (void)removeTransformsWithSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView centerView:(UIView *)centerView {
     sideView.transform = CGAffineTransformIdentity;
     centerView.transform = CGAffineTransformIdentity;
+}
+
+- (void)moveWithTranslation:(CGPoint)trans sideView:(UIView *)sideView centerView:(UIView *)centerView {
+    CGFloat transX = trans.x;
+    CGFloat transWidth = fabs(transX);
+    BOOL toLeft = (transX >= 0.0);
+    
+    CGFloat sideWidth   = sideView.bounds.size.width;
+    CGFloat centerWidth = centerView.bounds.size.width;
+    CGFloat direction = toLeft ? 1.0 : -1.0;
+    CGFloat scaledValue = (transWidth / centerWidth);
+    CGFloat centerViewHorizontalOffset = direction * sideWidth * scaledValue;
+    
+    CGAffineTransform sideTranslate = CGAffineTransformMakeTranslation(centerViewHorizontalOffset / 1.5, 0.0);
+    sideView.transform = sideTranslate;
+    
+    CGFloat scaledScale = 1.0 - (1.0 - kJVCenterViewDestinationScale) * scaledValue;
+    CGAffineTransform centerScale = CGAffineTransformMakeScale(scaledScale, scaledScale);
+    
+    CGFloat scaledCenterViewHorizontalOffset = direction * (sideWidth * scaledValue - (transWidth - scaledScale * transWidth));
+    CGAffineTransform centerTranslate = CGAffineTransformMakeTranslation(scaledCenterViewHorizontalOffset, 0.0);
+    
+    centerView.transform = CGAffineTransformConcat(centerScale, centerTranslate);
 }
 
 @end

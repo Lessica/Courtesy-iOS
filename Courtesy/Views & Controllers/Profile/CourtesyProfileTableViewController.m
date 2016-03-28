@@ -41,7 +41,8 @@ enum {
 UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 CourtesyUploadAvatarDelegate,
-RSKImageCropViewControllerDelegate>
+RSKImageCropViewControllerDelegate,
+JVFloatingDrawerCenterViewController>
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
@@ -292,5 +293,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
                                   styleName:JDStatusBarStyleError];
 }
 
+#pragma mark - JVFloatingDrawerCenterViewController
+
+- (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {
+    if (drawerSide == JVFloatingDrawerSideLeft) return YES;
+    return NO;
+}
 
 @end

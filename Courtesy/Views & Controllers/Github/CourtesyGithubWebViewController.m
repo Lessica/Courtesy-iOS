@@ -11,7 +11,7 @@
 
 static NSString * const kJVGithubProjectPage = @"https://github.com/Lessica";
 
-@interface CourtesyGithubWebViewController ()
+@interface CourtesyGithubWebViewController () <JVFloatingDrawerCenterViewController>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
 
@@ -34,6 +34,14 @@ static NSString * const kJVGithubProjectPage = @"https://github.com/Lessica";
 
 - (IBAction)actionToggleLeftDrawer:(id)sender {
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
+}
+
+
+#pragma mark - JVFloatingDrawerCenterViewController
+
+- (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {
+    if (drawerSide == JVFloatingDrawerSideLeft) return YES;
+    return NO;
 }
 
 @end

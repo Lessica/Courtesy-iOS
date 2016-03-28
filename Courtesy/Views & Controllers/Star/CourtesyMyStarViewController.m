@@ -17,7 +17,7 @@ typedef enum : NSUInteger {
     kCourtesyStarViewControllerStatusNoNetwork = 2,
 } CourtesyStarViewControllerStatus;
 
-@interface CourtesyMyStarViewController ()
+@interface CourtesyMyStarViewController () <JVFloatingDrawerCenterViewController>
 @property (nonatomic, assign) CourtesyStarViewControllerStatus currentStatus;
 @property (nonatomic, strong) NSArray *colors;
 @property (nonatomic) NSUInteger colorIndex;
@@ -73,6 +73,8 @@ typedef enum : NSUInteger {
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
+
+
 
 #pragma mark - Actions
 
@@ -135,6 +137,13 @@ typedef enum : NSUInteger {
     NSString *selectorString = [NSString stringWithFormat:@"flat%@Color", sanitizedName];
     Class colorClass = [UIColor class];
     return [colorClass performSelector:NSSelectorFromString(selectorString)];
+}
+
+#pragma mark - JVFloatingDrawerCenterViewController
+
+- (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {
+    if (drawerSide == JVFloatingDrawerSideLeft) return YES;
+    return NO;
 }
 
 @end

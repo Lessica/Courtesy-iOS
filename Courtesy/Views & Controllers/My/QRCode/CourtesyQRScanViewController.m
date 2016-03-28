@@ -16,7 +16,7 @@
 // 振动系统声音
 static SystemSoundID shake_sound_male_id = 0;
 
-@interface CourtesyQRScanViewController () <LGAlertViewDelegate, CourtesyQRCodeQueryDelegate>
+@interface CourtesyQRScanViewController () <LGAlertViewDelegate, CourtesyQRCodeQueryDelegate, JVFloatingDrawerCenterViewController>
 
 @end
 
@@ -308,6 +308,13 @@ static SystemSoundID shake_sound_male_id = 0;
     } else {
         [self showError:@"请到「设置 - 隐私」中，找到应用程序「礼记」开启应用相册访问权限。"];
     }
+}
+
+#pragma mark - JVFloatingDrawerCenterViewController
+
+- (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {
+    if (drawerSide == JVFloatingDrawerSideLeft) return YES;
+    return NO;
 }
 
 @end

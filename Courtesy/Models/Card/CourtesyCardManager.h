@@ -18,5 +18,6 @@
 - (void)composeNewCardWithViewController:(UIViewController *)controller;
 - (void)editCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller;
 - (void)deleteCardInDraft:(CourtesyCardModel *)card;
+- (void)exchangeCardAtIndex:(NSInteger)sourceRow withCardAtIndex:(NSInteger)destinationRow;
 
 @end

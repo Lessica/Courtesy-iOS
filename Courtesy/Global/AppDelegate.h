@@ -6,8 +6,8 @@
 //  Copyright (c) 2016 82Flex. All rights reserved.
 //  It is a singleton.
 
-@class JVFloatingDrawerViewController;
-@class JVFloatingDrawerSpringAnimator;
+#import "JVFloatingDrawerViewController.h"
+#import "JVFloatingDrawerSpringAnimator.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

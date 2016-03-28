@@ -137,7 +137,8 @@ static const CGFloat kJVDefaultViewContainerWidth = 280.0;
     switch (drawerSide) {
         case JVFloatingDrawerSideLeft: viewContainer = self.leftViewContainer; break;
         case JVFloatingDrawerSideRight: viewContainer = self.rightViewContainer; break;
-        case JVFloatingDrawerSideNone: viewContainer = nil; break;
+        case JVFloatingDrawerSideNone:
+            viewContainer = nil; break;
     }
     return viewContainer;
 }

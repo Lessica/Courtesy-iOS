@@ -652,8 +652,8 @@
                         duration:kStatusBarNotificationTime
                         position:CSToastPositionCenter];
             return;
-        } else if (self.textView.text.length <= 0 || self.cardEdited == NO) {
-            [self.view makeToast:@"再说点儿什么吧"
+        } else if (self.textView.text.length <= 0) {
+            [self.view makeToast:@"无法发布空白卡片"
                         duration:kStatusBarNotificationTime
                         position:CSToastPositionCenter];
             return;

@@ -8,8 +8,6 @@
 
 #import "AppDelegate.h"
 #import "UMessage.h"
-#import "JVFloatingDrawerViewController.h"
-#import "JVFloatingDrawerSpringAnimator.h"
 #import "CourtesyLeftDrawerTableViewController.h"
 
 static NSString * const kJVDrawersStoryboardName = @"Drawers";

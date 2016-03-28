@@ -20,8 +20,11 @@
  *  @param animated   An animated flag indicating if the caller wants this presentation to be animated
  *  @param completion A completion block to be called when the presentation is finished
  */
-- (void)presentationWithSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView
-                  centerView:(UIView *)centerView animated:(BOOL)animated completion:(void(^)(BOOL finished))completion;
+- (void)presentationWithSide:(JVFloatingDrawerSide)drawerSide
+                    sideView:(UIView *)sideView
+                  centerView:(UIView *)centerView
+                    animated:(BOOL)animated
+                  completion:(void(^)(BOOL finished))completion;
 
 
 /**
@@ -33,8 +36,11 @@
  *  @param animated   An animated flag indicating if the caller wants this dismissal to be animated
  *  @param completion A completion block to be called when the presentation is finished
  */
-- (void)dismissWithSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView
-             centerView:(UIView *)centerView animated:(BOOL)animated completion:(void(^)(BOOL finished))completion;
+- (void)dismissWithSide:(JVFloatingDrawerSide)drawerSide
+               sideView:(UIView *)sideView
+             centerView:(UIView *)centerView
+               animated:(BOOL)animated
+             completion:(void(^)(BOOL finished))completion;
 
 @optional
 /**
@@ -45,7 +51,9 @@
  *  @param sideView   The containing side view that is open
  *  @param centerView The containing center view
  */
-- (void)willRotateOpenDrawerWithOpenSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView centerView:(UIView *)centerView;
+- (void)willRotateOpenDrawerWithOpenSide:(JVFloatingDrawerSide)drawerSide
+                                sideView:(UIView *)sideView
+                              centerView:(UIView *)centerView;
 
 /**
  *  Invoked after a rotation is finished with the drawer open. Implementations should
@@ -55,7 +63,21 @@
  *  @param sideView   The containing side view that is open
  *  @param centerView The containing center view
  */
-- (void)didRotateOpenDrawerWithOpenSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView centerView:(UIView *)centerView;
+- (void)didRotateOpenDrawerWithOpenSide:(JVFloatingDrawerSide)drawerSide
+                               sideView:(UIView *)sideView
+                             centerView:(UIView *)centerView;
+
+/**
+ *  Implementations should move the side view and the center view.
+ *
+ *  @param trans      The point that your finger points to
+ *  @param sideView   The view of the side of the drawer to be presented
+ *  @param centerView The center view
+ */
+@optional
+- (void)moveWithTranslation:(CGPoint)trans
+                   sideView:(UIView *)sideView
+                 centerView:(UIView *)centerView;
 
 @end
 

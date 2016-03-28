@@ -13,8 +13,6 @@
 static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyDraftTableViewCellReuseIdentifier";
 
 @interface CourtesyDraftTableViewController ()
-@property (nonatomic, assign) NSInteger draftCount;
-@property (nonatomic, strong) NSMutableArray <CourtesyCardModel *> *cardArray;
 
 @end
 
@@ -28,7 +26,6 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self reloadCards];
     [self.tableView reloadData];
 }
 
@@ -37,12 +34,19 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
-
-- (void)reloadCards {
-    self.cardArray = [[CourtesyCardManager sharedManager] cardDraftArray];
-    self.draftCount = self.cardArray.count;
+- (CourtesyCardManager *)cardManager {
+    return [CourtesyCardManager sharedManager];
 }
+
+- (NSMutableArray <CourtesyCardModel *> *)cardArray {
+    return self.cardManager.cardDraftArray;
+}
+
+- (NSInteger)draftCount {
+    return self.cardArray.count;
+}
+
+#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -83,11 +87,15 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     if (indexPath.section == 0) {
         CourtesyCardModel *card = [self.cardArray objectAtIndex:indexPath.row];
         card.is_editable = YES;
-        [[CourtesyCardManager sharedManager] editCard:card withViewController:self];
+        [self.cardManager editCard:card withViewController:self];
     }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES; // Always allow in draft box
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES; // Always allow in draft box
 }
 
@@ -96,12 +104,16 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
         if (indexPath.section == 0) {
             // Delete Card Model
             CourtesyCardModel *card = [self.cardArray objectAtIndex:indexPath.row];
-            [[CourtesyCardManager sharedManager] deleteCardInDraft:card];
-            [self.cardArray removeObject:card];
-            [self reloadCards];
+            [self.cardManager deleteCardInDraft:card];
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView reloadData];
         }
+    }
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    if (sourceIndexPath.section == destinationIndexPath.section && sourceIndexPath.section == 0) {
+        // [self.cardArray exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+        [self.cardManager exchangeCardAtIndex:sourceIndexPath.row withCardAtIndex:destinationIndexPath.row];
     }
 }
 

@@ -39,7 +39,7 @@ enum {
     kUserLogoutIndex          = 0
 };
 
-@interface CourtesySettingsTableViewController () <MFMailComposeViewControllerDelegate>
+@interface CourtesySettingsTableViewController () <MFMailComposeViewControllerDelegate, JVFloatingDrawerCenterViewController>
 @property (weak, nonatomic) IBOutlet UISwitch *autoSaveSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *autoPublicSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *cleanCacheTitleLabel;
@@ -207,6 +207,13 @@ enum {
                         error:(NSError*)error
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - JVFloatingDrawerCenterViewController
+
+- (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {
+    if (drawerSide == JVFloatingDrawerSideLeft) return YES;
+    return NO;
 }
 
 @end

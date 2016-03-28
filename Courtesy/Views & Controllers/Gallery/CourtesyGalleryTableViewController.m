@@ -12,7 +12,7 @@
 
 static NSString * const kCourtesyGalleryEmptyTipCellReuseIdentifier = @"CourtesyGalleryEmptyTipCellReuseIdentifier";
 
-@interface CourtesyGalleryTableViewController ()
+@interface CourtesyGalleryTableViewController () <JVFloatingDrawerCenterViewController>
 
 @end
 
@@ -64,6 +64,12 @@ static NSString * const kCourtesyGalleryEmptyTipCellReuseIdentifier = @"Courtesy
         return cell;
     }
     return nil;
+}
+
+#pragma mark - JVFloatingDrawerCenterViewController
+
+- (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {
+    return YES;
 }
 
 @end
