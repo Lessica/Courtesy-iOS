@@ -668,6 +668,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="账户设置" id="tcb-r8-cQP"/>
                     <connections>
+                        <outlet property="avatarView" destination="LTs-9V-mVZ" id="faF-Fl-Mrq"/>
                         <outlet property="incognitoSwitch" destination="Kpw-lc-FmW" id="xJC-4p-Yqv"/>
                         <outlet property="label_1" destination="jmC-ZK-Txn" id="azK-a3-cMT"/>
                         <outlet property="label_2" destination="4fS-k1-dBX" id="gRL-eu-Fme"/>
@@ -1360,7 +1361,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jau-tm-wmT">
-                                <rect key="frame" x="144" y="500" width="32" height="32"/>
+                                <rect key="frame" x="144" y="482" width="32" height="32"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="32" id="R1a-ng-oeg"/>
@@ -1371,12 +1372,23 @@
                                     <action selector="actionAddButtonTapped:" destination="Jqa-RS-eCU" eventType="touchUpInside" id="PRs-GO-CYb"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CG5-cJ-VXy" customClass="MiniDateView">
+                                <rect key="frame" x="32" y="468" width="64" height="64"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="64" id="bMM-9f-mxh"/>
+                                    <constraint firstAttribute="height" constant="64" id="rSZ-6A-nN5"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="jI8-fD-Ins" firstAttribute="top" secondItem="jau-tm-wmT" secondAttribute="bottom" constant="36" id="JK5-jA-sGN"/>
+                            <constraint firstItem="jI8-fD-Ins" firstAttribute="top" secondItem="CG5-cJ-VXy" secondAttribute="bottom" constant="36" id="818-wG-yJb"/>
+                            <constraint firstItem="jI8-fD-Ins" firstAttribute="top" secondItem="jau-tm-wmT" secondAttribute="bottom" constant="54" id="JK5-jA-sGN"/>
                             <constraint firstAttribute="trailing" secondItem="RuZ-HX-dDr" secondAttribute="trailing" id="TAd-8B-gJr"/>
                             <constraint firstItem="jau-tm-wmT" firstAttribute="centerX" secondItem="jHg-fy-E6p" secondAttribute="centerX" id="TWU-NE-i9p"/>
+                            <constraint firstItem="CG5-cJ-VXy" firstAttribute="leading" secondItem="jHg-fy-E6p" secondAttribute="leadingMargin" constant="16" id="YOC-Qw-RYz"/>
                             <constraint firstItem="jI8-fD-Ins" firstAttribute="top" secondItem="RuZ-HX-dDr" secondAttribute="bottom" id="dav-Hc-gqK"/>
                             <constraint firstItem="RuZ-HX-dDr" firstAttribute="top" secondItem="jHg-fy-E6p" secondAttribute="top" id="h5q-4C-Z5R"/>
                             <constraint firstItem="RuZ-HX-dDr" firstAttribute="leading" secondItem="jHg-fy-E6p" secondAttribute="leading" id="yaS-VI-CoD"/>
@@ -1396,6 +1408,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="backgroundImage" destination="RuZ-HX-dDr" id="Kwk-ie-T5b"/>
+                        <outlet property="dateView" destination="CG5-cJ-VXy" id="tn0-ld-kU0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QR6-82-DhT" userLabel="First Responder" sceneMemberID="firstResponder"/>

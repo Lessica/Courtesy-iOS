@@ -143,7 +143,9 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         labelColor = [self textSelectedColor];
     }
 
-    [self.dayLabel setBackgroundColor:circleColor];
+    //[self.dayLabel setBackgroundColor:circleColor];
+    self.dayLabel.layer.borderColor = circleColor.CGColor;
+    self.dayLabel.layer.borderWidth = 1;
     [self.dayLabel setTextColor:labelColor];
 }
 

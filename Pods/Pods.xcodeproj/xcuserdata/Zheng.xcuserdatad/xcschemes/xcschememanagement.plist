@@ -54,6 +54,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MiniDateView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>NJKWebViewProgress.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -107,22 +112,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>13D5C7F1A3DA277D593D90321C804FAD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1C3436CEA5C3D39764C5F54374794ECB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1F3D037EEAEDECA40A82C74352FEE5D9</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>2252F46682431106F93645DF49EFC503</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>2D5972649AAE1D058DB351BC96B4343E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -137,12 +137,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3843BA44A7E8CA607BC002A89256A74C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>51467450E0D9C74559BEA27C2B666926</key>
+		<key>3B97F96DCB0402E8D38292D7E3CF1073</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -157,6 +152,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>930625258FB41D43BC34EEB6801201C6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>99F9DBDCBC0566BEF09534F11C71C172</key>
 		<dict>
 			<key>primary</key>
@@ -167,12 +167,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BE433B29725BB617905275185E2C3687</key>
+		<key>B318E2716320529433997B87FB1DB641</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D8297765193CEF847D3DBDBA3E6305A5</key>
+		<key>B5E30A72BB6DF4504A0E7DE895D6E5E3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BD35857964C96E4B51475E8A6DE62BBE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E1CFEDCFF264D3AD18D27DE8B86BA7CD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E29D92D8D06CA8618A3C5F9D100007D8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -183,11 +198,6 @@
 			<true/>
 		</dict>
 		<key>E61CE3B6DFA1FE6B3E296965C76C0E10</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E71BE99EA4485BF1CE22F5EC0E6CB47B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

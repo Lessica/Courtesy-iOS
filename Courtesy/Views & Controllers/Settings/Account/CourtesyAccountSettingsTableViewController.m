@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *label_1;
 @property (weak, nonatomic) IBOutlet UILabel *label_2;
 @property (weak, nonatomic) IBOutlet UILabel *label_3;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarView;
 
 @end
 
@@ -33,6 +34,9 @@
         _tencentSwitch.on = [kAccount hasTencentAccount];
         _label_2.text = kProfile.nick;
         // _incognito
+        _avatarView.imageURL = kProfile.avatar_url;
+    } else {
+        _avatarView.image = [UIImage imageNamed:@"3-avatar"];
     }
 }
 
@@ -46,6 +50,7 @@
         _label_1.alpha = _label_3.alpha = 0.0;
         _label_2.text = @"你尚未登录";
     }
+    _avatarView.layer.cornerRadius = _avatarView.frame.size.width / 2;
 }
 
 @end

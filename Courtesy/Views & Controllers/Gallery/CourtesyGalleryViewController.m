@@ -12,8 +12,9 @@
 #import "CourtesyPortraitViewController.h"
 #import "CourtesyLoginRegisterViewController.h"
 #import "CourtesyGalleryViewController.h"
-#import "CourtesyCalenderViewController.h"
+#import "CourtesyCalendarViewController.h"
 #import "UIColor+FlatColors.h"
+#import "MiniDateView.h"
 
 typedef enum : NSUInteger {
     kCourtesyGalleryViewControllerStatusDefault = 0,
@@ -26,6 +27,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSArray *colors;
 @property (nonatomic, assign) NSUInteger colorIndex;
 @property (nonatomic, strong) NSDate *selectedDate;
+@property (nonatomic, strong) IBOutlet MiniDateView *dateView;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 
 @end
@@ -46,6 +48,12 @@ typedef enum : NSUInteger {
     self.backgroundImage.image = [[UIImage imageNamed:@"street"] imageByBlurRadius:20 tintColor:[UIColor colorWithWhite:0.11 alpha:0.72] tintMode:kCGBlendModeNormal saturation:1.2 maskImage:nil];
     self.extendedLayoutIncludesOpaqueBars = NO;
     self.edgesForExtendedLayout =  UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
+    
+    self.dateView.tintColor = [UIColor whiteColor];
+    self.dateView.userInteractionEnabled = YES;
+    [self.dateView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionDateViewTapped:)]];
+    
+    // Debug
     self.currentStatus = kCourtesyGalleryViewControllerStatusDefault;
     if (self.currentStatus == kCourtesyGalleryViewControllerStatusDefault) {
         self.colorIndex = 0;
@@ -79,6 +87,15 @@ typedef enum : NSUInteger {
     [super viewDidAppear:animated];
 }
 
+#pragma mark - Getter / Setter
+
+- (NSDate *)selectedDate {
+    if (!_selectedDate) {
+        _selectedDate = [NSDate date];
+    }
+    return _selectedDate;
+}
+
 #pragma mark - Actions
 
 - (IBAction)actionToggleLeftDrawer:(id)sender {
@@ -95,22 +112,18 @@ typedef enum : NSUInteger {
     [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
 }
 
-- (NSDate *)selectedDate {
-    if (!_selectedDate) {
-        _selectedDate = [NSDate date];
-    }
-    return _selectedDate;
+- (IBAction)actionSearchTapped:(id)sender {
+    
 }
 
-- (IBAction)actionSearchTapped:(id)sender {
-    CourtesyCalenderViewController *calendarViewController = [[CourtesyCalenderViewController alloc] init];
-    [calendarViewController setDelegate:self];
-    calendarViewController.firstDate = [[NSDate date] dateByAddingYears:-1];
+- (void)actionDateViewTapped:(UITapGestureRecognizer *)sender {
+    CourtesyCalendarViewController *calendarViewController = [[CourtesyCalendarViewController alloc] init];
     calendarViewController.lastDate = [NSDate date];
     calendarViewController.selectedDate = self.selectedDate;
-    calendarViewController.weekdayHeaderEnabled = YES;
-    calendarViewController.weekdayTextType = PDTSimpleCalendarViewWeekdayTextTypeStandAlone;
-    [self.navigationController pushViewController:calendarViewController animated:YES];
+    calendarViewController.weekdayHeaderEnabled = NO;
+    [calendarViewController setDelegate:self];
+    CourtesyPortraitViewController *vc = [[CourtesyPortraitViewController alloc] initWithRootViewController:calendarViewController];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 #pragma mark - ZLSwipeableViewDelegate
@@ -172,10 +185,12 @@ typedef enum : NSUInteger {
 
 #pragma mark - PDTSimpleCalendarViewDelegate
 
-- (void)simpleCalendarViewController:(PDTSimpleCalendarViewController *)controller
+- (void)simpleCalendarViewController:(CourtesyCalendarViewController *)controller
                        didSelectDate:(NSDate *)date {
-    [controller.navigationController popViewControllerAnimated:YES];
+    [controller close:self];
     self.selectedDate = date;
+    self.dateView.date = date;
+    [self.dateView setNeedsDisplay];
 }
 
 @end

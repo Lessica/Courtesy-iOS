@@ -24,6 +24,7 @@ PODS:
   - LGAlertView (2.0.13)
   - Masonry (0.6.4)
   - MBProgressHUD (0.9.2)
+  - MiniDateView (0.2.0)
   - MJRefresh (3.1.0)
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
@@ -52,6 +53,7 @@ DEPENDENCIES:
   - LGAlertView
   - Masonry
   - MBProgressHUD
+  - MiniDateView
   - MJRefresh
   - NJKWebViewProgress
   - PDTSimpleCalendar
@@ -72,6 +74,7 @@ SPEC CHECKSUMS:
   LGAlertView: 9a5dcbf4f81b02b718083539d7f222280adc9547
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  MiniDateView: 640ba92a108dfaf86ec61c76aef4404a0d684021
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   PDTSimpleCalendar: d1c03387678422715dc021aa1a85d70f4d1014f2
@@ -82,6 +85,6 @@ SPEC CHECKSUMS:
   YYKit: 8b618ca8d8cefa534d8d4fe2cad10fe9fbd030ed
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
-PODFILE CHECKSUM: fc7a9eb3584ff36bb68abb272ba365dafa6e7ba2
+PODFILE CHECKSUM: 27999dd60a625910f119cbd1316ecdd76c57e695
 
 COCOAPODS: 1.0.0.beta.4

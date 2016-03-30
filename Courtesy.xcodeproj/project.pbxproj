@@ -54,8 +54,6 @@
 		0FA7268A1CAAB80B00315E09 /* ZLSwipeableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA7267C1CAAB80B00315E09 /* ZLSwipeableView.m */; };
 		0FA7268B1CAAB80B00315E09 /* ZLSwipeableViewMovement.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA7267E1CAAB80B00315E09 /* ZLSwipeableViewMovement.m */; };
 		0FA7268C1CAAB80B00315E09 /* ZLSwipeableViewSwipeOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA726801CAAB80B00315E09 /* ZLSwipeableViewSwipeOptions.m */; };
-		0FA7268F1CAAC79A00315E09 /* CourtesyCalenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA7268E1CAAC79A00315E09 /* CourtesyCalenderViewController.m */; };
-		0FA726951CAAD5E100315E09 /* CourtesyMiniDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA726941CAAD5E100315E09 /* CourtesyMiniDateView.m */; };
 		0FB0A5571C9ABDD0004B06F3 /* CourtesyAudioSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A5561C9ABDD0004B06F3 /* CourtesyAudioSheetView.m */; };
 		0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A5591C9AD9E6004B06F3 /* CourtesyImageSheetView.m */; };
 		0FB0A55D1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A55C1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m */; };
@@ -71,6 +69,8 @@
 		0FD3EE4B1C95CDC100DE5347 /* CourtesyWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0FD3EE2A1C95CDC100DE5347 /* CourtesyWatch.app */; };
 		0FD43FCD1C846CA700D6C564 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD43FCC1C846CA700D6C564 /* AVFoundation.framework */; };
 		0FD43FCF1C846CAF00D6C564 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD43FCE1C846CAF00D6C564 /* MediaPlayer.framework */; };
+		0FDDF1F21CABE4050067FB7F /* CourtesyCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDDF1F11CABE4050067FB7F /* CourtesyCalendarViewController.m */; };
+		0FDDF1F41CABE5370067FB7F /* CourtesyCalendar.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FDDF1F31CABE5370067FB7F /* CourtesyCalendar.bundle */; };
 		0FDEFBB01C97D58F007BE8D2 /* PHPhotoLibrary+CustomPhotoCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBAF1C97D58F007BE8D2 /* PHPhotoLibrary+CustomPhotoCollection.m */; };
 		0FDEFBB51C97D5C2007BE8D2 /* NSDate+Astro.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBB41C97D5C2007BE8D2 /* NSDate+Astro.m */; };
 		0FDEFBB91C97D5F7007BE8D2 /* UIImagePickerController+LandScapeImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBB81C97D5F7007BE8D2 /* UIImagePickerController+LandScapeImagePicker.m */; };
@@ -340,10 +340,6 @@
 		0FA7267E1CAAB80B00315E09 /* ZLSwipeableViewMovement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLSwipeableViewMovement.m; sourceTree = "<group>"; };
 		0FA7267F1CAAB80B00315E09 /* ZLSwipeableViewSwipeOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLSwipeableViewSwipeOptions.h; sourceTree = "<group>"; };
 		0FA726801CAAB80B00315E09 /* ZLSwipeableViewSwipeOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLSwipeableViewSwipeOptions.m; sourceTree = "<group>"; };
-		0FA7268D1CAAC79A00315E09 /* CourtesyCalenderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCalenderViewController.h; sourceTree = "<group>"; };
-		0FA7268E1CAAC79A00315E09 /* CourtesyCalenderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCalenderViewController.m; sourceTree = "<group>"; };
-		0FA726931CAAD5E100315E09 /* CourtesyMiniDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyMiniDateView.h; sourceTree = "<group>"; };
-		0FA726941CAAD5E100315E09 /* CourtesyMiniDateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyMiniDateView.m; sourceTree = "<group>"; };
 		0FB0A5551C9ABDD0004B06F3 /* CourtesyAudioSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAudioSheetView.h; sourceTree = "<group>"; };
 		0FB0A5561C9ABDD0004B06F3 /* CourtesyAudioSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAudioSheetView.m; sourceTree = "<group>"; };
 		0FB0A5581C9AD9E6004B06F3 /* CourtesyImageSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyImageSheetView.h; sourceTree = "<group>"; };
@@ -370,6 +366,9 @@
 		0FD3EE481C95CDC100DE5347 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0FD43FCC1C846CA700D6C564 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		0FD43FCE1C846CAF00D6C564 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		0FDDF1F01CABE4050067FB7F /* CourtesyCalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCalendarViewController.h; sourceTree = "<group>"; };
+		0FDDF1F11CABE4050067FB7F /* CourtesyCalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCalendarViewController.m; sourceTree = "<group>"; };
+		0FDDF1F31CABE5370067FB7F /* CourtesyCalendar.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CourtesyCalendar.bundle; sourceTree = "<group>"; };
 		0FDEFBAE1C97D58F007BE8D2 /* PHPhotoLibrary+CustomPhotoCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PHPhotoLibrary+CustomPhotoCollection.h"; sourceTree = "<group>"; };
 		0FDEFBAF1C97D58F007BE8D2 /* PHPhotoLibrary+CustomPhotoCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PHPhotoLibrary+CustomPhotoCollection.m"; sourceTree = "<group>"; };
 		0FDEFBB31C97D5C2007BE8D2 /* NSDate+Astro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Astro.h"; sourceTree = "<group>"; };
@@ -799,10 +798,9 @@
 			children = (
 				0FA7266A1CAAB80B00315E09 /* CourtesyStarredCardView.h */,
 				0FA7266B1CAAB80B00315E09 /* CourtesyStarredCardView.m */,
-				0FA7268D1CAAC79A00315E09 /* CourtesyCalenderViewController.h */,
-				0FA7268E1CAAC79A00315E09 /* CourtesyCalenderViewController.m */,
 				0FA726681CAAB80B00315E09 /* CourtesyGalleryViewController.h */,
 				0FA726691CAAB80B00315E09 /* CourtesyGalleryViewController.m */,
+				0FDDF1EF1CABE4050067FB7F /* Calendar */,
 				0FA7266C1CAAB80B00315E09 /* ZLSwipeableView */,
 			);
 			path = Gallery;
@@ -889,6 +887,16 @@
 				0FD3EE3C1C95CDC100DE5347 /* PushNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0FDDF1EF1CABE4050067FB7F /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				0FDDF1F31CABE5370067FB7F /* CourtesyCalendar.bundle */,
+				0FDDF1F01CABE4050067FB7F /* CourtesyCalendarViewController.h */,
+				0FDDF1F11CABE4050067FB7F /* CourtesyCalendarViewController.m */,
+			);
+			path = Calendar;
 			sourceTree = "<group>";
 		};
 		0FDEFBAD1C97D58F007BE8D2 /* Photo */ = {
@@ -1289,8 +1297,6 @@
 		0FFE040C1C93F45800E99DCC /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				0FA726931CAAD5E100315E09 /* CourtesyMiniDateView.h */,
-				0FA726941CAAD5E100315E09 /* CourtesyMiniDateView.m */,
 				0FFE040D1C93F45800E99DCC /* CourtesyPortraitViewController.h */,
 				0FFE040E1C93F45800E99DCC /* CourtesyPortraitViewController.m */,
 			);
@@ -1903,6 +1909,7 @@
 				0FEFDBA31C97D0F800952522 /* PEPhotoCropEditor.bundle in Resources */,
 				0FF2D2A41C95DAC7007C23DE /* WechatShortVideo_close@3x.png in Resources */,
 				0FF2D2A61C95DAC7007C23DE /* WechatShortVideo_scan_focus@2x.png in Resources */,
+				0FDDF1F41CABE5370067FB7F /* CourtesyCalendar.bundle in Resources */,
 				0FFE04861C93F45800E99DCC /* tos.html in Resources */,
 				0FFE04731C93F45800E99DCC /* CourtesyLoginRegisterViewController.xib in Resources */,
 				0FF2D2AA1C95DAC7007C23DE /* WechatShortVideoController.xib in Resources */,
@@ -2030,7 +2037,6 @@
 				0FFE04831C93F45800E99DCC /* CourtesyAboutViewController.m in Sources */,
 				0FF2D2A91C95DAC7007C23DE /* WechatShortVideoController.m in Sources */,
 				0FFE04C61C93F47400E99DCC /* CourtesyCommonRequestModel.m in Sources */,
-				0FA7268F1CAAC79A00315E09 /* CourtesyCalenderViewController.m in Sources */,
 				0FFE04E21C93F4D800E99DCC /* GlobalSettings.m in Sources */,
 				0F2851691C97D8AD0066F5C5 /* JotDrawingContainer.m in Sources */,
 				0FDEFBFF1C97D7B8007BE8D2 /* UIImage+RSKImageCropper.m in Sources */,
@@ -2083,7 +2089,6 @@
 				0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */,
 				0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */,
 				0FFE04851C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m in Sources */,
-				0FA726951CAAD5E100315E09 /* CourtesyMiniDateView.m in Sources */,
 				0FF2D2681C95D90F007C23DE /* JVFloatingDrawerViewController.m in Sources */,
 				0F47D9031CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m in Sources */,
 				0F47D9021CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m in Sources */,
@@ -2092,6 +2097,7 @@
 				0FFE04671C93F45800E99DCC /* CourtesyImageFrameView.m in Sources */,
 				0F55FCC91CA3D82E0084C4E2 /* CourtesyDraftTableViewController.m in Sources */,
 				0FDEFBC81C97D696007BE8D2 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
+				0FDDF1F21CABE4050067FB7F /* CourtesyCalendarViewController.m in Sources */,
 				0FFE052D1C93F52C00E99DCC /* NSNotificationCenter+Action.m in Sources */,
 				0FEFDBA51C97D0F800952522 /* UIImage+PECrop.m in Sources */,
 				0FA726811CAAB80B00315E09 /* CourtesyGalleryViewController.m in Sources */,
