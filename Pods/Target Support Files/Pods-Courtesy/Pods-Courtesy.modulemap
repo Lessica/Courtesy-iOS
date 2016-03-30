@@ -1,0 +1,6 @@
+framework module Pods_Courtesy {
+  umbrella header "Pods-Courtesy-umbrella.h"
+
+  export *
+  module * { export * }
+}

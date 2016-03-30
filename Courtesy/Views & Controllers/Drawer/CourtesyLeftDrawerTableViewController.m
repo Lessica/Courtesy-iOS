@@ -28,11 +28,8 @@ enum {
 enum {
     kCourtesyScanIndex        = 0,
     kCourtesyGalleryIndex     = 1,
-    kCourtesyMainIndex        = 2,
-    kCourtesyStarIndex        = 3,
-    kCourtesySettingsIndex    = 4,
-    kJVDrawerSettingsIndex    = 5,
-    kJVGitHubProjectPageIndex = 6
+    kCourtesyAlbumIndex        = 2,
+    kCourtesySettingsIndex    = 3
 };
 
 static const CGFloat kJVTableViewTopInset = 80.0;
@@ -143,30 +140,20 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     if (section == kAvatarSection) {
         return 1;
     }
-    return 5;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == kMenuSection) {
         CourtesyLeftDrawerMenuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kJVDrawerCellReuseIdentifier forIndexPath:indexPath];
-        
-        if (indexPath.row == kCourtesyMainIndex) {
-            cell.titleText = @"我的卡片";
-            cell.iconImage = [UIImage imageNamed:@"1-gift"];
-        } else if (indexPath.row == kCourtesyGalleryIndex) {
+        if (indexPath.row == kCourtesyGalleryIndex) {
             cell.titleText = @"探索";
             cell.iconImage = [UIImage imageNamed:@"5-gallery"];
         } else if (indexPath.row == kCourtesySettingsIndex) {
             cell.titleText = @"设置";
             cell.iconImage = [UIImage imageNamed:@"665-gear"];
-        } else if (indexPath.row == kJVDrawerSettingsIndex) {
-            cell.titleText = @"动画";
-            cell.iconImage = [UIImage imageNamed:@"2-magic"];
-        } else if (indexPath.row == kJVGitHubProjectPageIndex) {
-            cell.titleText = @"Github Page";
-            cell.iconImage = [UIImage imageNamed:@"488-github"];
-        } else if (indexPath.row == kCourtesyStarIndex) {
-            cell.titleText = @"收藏夹";
+        } else if (indexPath.row == kCourtesyAlbumIndex) {
+            cell.titleText = @"我的卡片";
             cell.iconImage = [UIImage imageNamed:@"19-star"];
         } else if (indexPath.row == kCourtesyScanIndex) {
             cell.titleText = @"扫一扫";
@@ -185,19 +172,16 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == kMenuSection) {
         UIViewController *destinationViewController = nil;
-        
+        /*
         if (indexPath.row == kCourtesyMainIndex) {
             destinationViewController = [[AppDelegate globalDelegate] myViewController];
-        } else if (indexPath.row == kCourtesyGalleryIndex) {
+        } else */
+        if (indexPath.row == kCourtesyGalleryIndex) {
             destinationViewController = [[AppDelegate globalDelegate] galleryViewController];
         } else if (indexPath.row == kCourtesySettingsIndex) {
             destinationViewController = [[AppDelegate globalDelegate] settingsViewController];
-        } else if (indexPath.row == kJVDrawerSettingsIndex) {
-            destinationViewController = [[AppDelegate globalDelegate] drawerSettingsViewController];
-        } else if (indexPath.row == kJVGitHubProjectPageIndex) {
-            destinationViewController = [[AppDelegate globalDelegate] githubViewController];
-        } else if (indexPath.row == kCourtesyStarIndex) {
-            destinationViewController = [[AppDelegate globalDelegate] starViewController];
+        } else if (indexPath.row == kCourtesyAlbumIndex) {
+            destinationViewController = [[AppDelegate globalDelegate] albumViewController];
         } else if (indexPath.row == kCourtesyScanIndex) {
             destinationViewController = [self scanPortraitView];
         }
@@ -278,14 +262,12 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         return NO;
     }
     [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
-    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCourtesyMainIndex inSection:kMenuSection] animated:NO scrollPosition:UITableViewScrollPositionNone];
     return YES;
 }
 
 - (BOOL)shortcutShare {
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:NO];
-    [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:[[AppDelegate globalDelegate] myViewController]];
-    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCourtesyMainIndex inSection:kMenuSection] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:[[AppDelegate globalDelegate] albumViewController]];
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:NO];
     return YES;
 }

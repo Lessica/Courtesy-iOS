@@ -18,14 +18,10 @@
 
 @property (nonatomic, strong) UITableViewController *leftDrawerViewController;
 @property (nonatomic, strong) UITableViewController *rightDrawerViewController;
-@property (nonatomic, strong) UIViewController *myViewController;
-@property (nonatomic, strong) UIViewController *starViewController;
+@property (nonatomic, strong) UIViewController *albumViewController;
 @property (nonatomic, strong) UIViewController *galleryViewController;
 @property (nonatomic, strong) UIViewController *settingsViewController;
-@property (nonatomic, strong) UIViewController *drawerSettingsViewController;
-@property (nonatomic, strong) UIViewController *githubViewController;
 @property (nonatomic, strong) UIViewController *profileViewController;
-@property (nonatomic, strong) UIViewController *emptyViewController;
 
 + (AppDelegate *)globalDelegate;
 

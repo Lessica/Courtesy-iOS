@@ -1,1 +1,0 @@
-../../../SCRecorder/Library/Sources/SCRecorderToolsView.h

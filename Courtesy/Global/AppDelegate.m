@@ -14,13 +14,9 @@ static NSString * const kJVDrawersStoryboardName = @"Drawers";
 static NSString * const kJVLeftDrawerStoryboardID = @"JVLeftDrawerViewControllerStoryboardID";
 static NSString * const kJVRightDrawerStoryboardID = @"JVRightDrawerViewControllerStoryboardID";
 static NSString * const kCourtesyProfileTableViewControllerStoryboardID = @"CourtesyProfileTableViewControllerStoryboardID";
-static NSString * const kCourtesyMyTabViewControllerStoryboardID = @"CourtesyMyTabViewControllerStoryboardID";
-static NSString * const kCourtesyStarTableViewControllerStoryboardID = @"CourtesyStarTableViewControllerStoryboardID";
-static NSString * const kCourtesyGalleryTableViewControllerStoryboardID = @"CourtesyGalleryTableViewControllerStoryboardID";
-static NSString * const kJVDrawerSettingsViewControllerStoryboardID = @"JVDrawerSettingsViewControllerStoryboardID";
+static NSString * const kCourtesyAlbumTableViewControllerStoryboardID = @"CourtesyAlbumTableViewControllerStoryboardID";
+static NSString * const kCourtesyGalleryViewControllerStoryboardID = @"CourtesyGalleryViewControllerStoryboardID";
 static NSString * const kCourtesySettingsViewControllerStoryboardID = @"CourtesySettingsViewControllerStoryboardID";
-static NSString * const kJVGitHubProjectPageViewControllerStoryboardID = @"JVGitHubProjectPageViewControllerStoryboardID";
-static NSString * const kCourtesyEmptyViewControllerStoryboardID = @"CourtesyEmptyViewControllerStoryboardID";
 
 @interface AppDelegate ()
 @property (nonatomic, strong, readonly) UIStoryboard *drawersStoryboard;
@@ -172,25 +168,17 @@ static NSString * const kCourtesyEmptyViewControllerStoryboardID = @"CourtesyEmp
 
 #pragma mark - 各个菜单视图
 
-- (UIViewController *)myViewController {
-    if (!_myViewController) {
-        _myViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyMyTabViewControllerStoryboardID];
+- (UIViewController *)albumViewController {
+    if (!_albumViewController) {
+        _albumViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyAlbumTableViewControllerStoryboardID];
     }
     
-    return _myViewController;
-}
-
-- (UIViewController *)starViewController {
-    if (!_starViewController) {
-        _starViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyStarTableViewControllerStoryboardID];
-    }
-    
-    return _starViewController;
+    return _albumViewController;
 }
 
 - (UIViewController *)galleryViewController {
     if (!_galleryViewController) {
-        _galleryViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyGalleryTableViewControllerStoryboardID];
+        _galleryViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyGalleryViewControllerStoryboardID];
     }
     
     return _galleryViewController;
@@ -204,34 +192,11 @@ static NSString * const kCourtesyEmptyViewControllerStoryboardID = @"CourtesyEmp
     return _settingsViewController;
 }
 
-- (UIViewController *)drawerSettingsViewController {
-    if (!_drawerSettingsViewController) {
-        _drawerSettingsViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kJVDrawerSettingsViewControllerStoryboardID];
-    }
-    
-    return _drawerSettingsViewController;
-}
-
-- (UIViewController *)githubViewController {
-    if (!_githubViewController) {
-        _githubViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kJVGitHubProjectPageViewControllerStoryboardID];
-    }
-    
-    return _githubViewController;
-}
-
 - (UIViewController *)profileViewController {
     if (!_profileViewController) {
         _profileViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyProfileTableViewControllerStoryboardID];
     }
     return _profileViewController;
-}
-
-- (UIViewController *)emptyViewController {
-    if (!_emptyViewController) {
-        _emptyViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyEmptyViewControllerStoryboardID];
-    }
-    return _emptyViewController;
 }
 
 @end

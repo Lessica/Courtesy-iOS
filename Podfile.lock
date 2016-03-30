@@ -30,6 +30,7 @@ PODS:
     - NJKWebViewProgress/ProgressView (= 0.2.3)
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
+  - PDTSimpleCalendar (0.9.1)
   - SCRecorder (2.7.0)
   - SSZipArchive (1.1)
   - SwipeView (1.3.2)
@@ -53,6 +54,7 @@ DEPENDENCIES:
   - MBProgressHUD
   - MJRefresh
   - NJKWebViewProgress
+  - PDTSimpleCalendar
   - SCRecorder
   - SSZipArchive
   - SwipeView
@@ -72,6 +74,7 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  PDTSimpleCalendar: d1c03387678422715dc021aa1a85d70f4d1014f2
   SCRecorder: bbb521dbc222908876ec9cd9156bbc8a893bed44
   SSZipArchive: de3d215ab73f87db627f81f2ce24f1731e3886c3
   SwipeView: bd67cfaf7760c036438446b3ccb28a3b84fce009
@@ -79,6 +82,6 @@ SPEC CHECKSUMS:
   YYKit: 8b618ca8d8cefa534d8d4fe2cad10fe9fbd030ed
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
-PODFILE CHECKSUM: 6166c438eb96fb694bcffb1c51dbb29c0678999c
+PODFILE CHECKSUM: fc7a9eb3584ff36bb68abb272ba365dafa6e7ba2
 
 COCOAPODS: 1.0.0.beta.4

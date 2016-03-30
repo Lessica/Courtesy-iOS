@@ -1,0 +1,6 @@
+framework module SCRecorder {
+  umbrella header "SCRecorder-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,1 +1,0 @@
-../../../SCRecorder/Library/Sources/NSURL+SCSaveToCameraRoll.h

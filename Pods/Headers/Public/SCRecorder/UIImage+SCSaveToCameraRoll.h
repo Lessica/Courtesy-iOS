@@ -1,1 +1,0 @@
-../../../SCRecorder/Library/Sources/UIImage+SCSaveToCameraRoll.h

@@ -82,3 +82,43 @@ strip_invalid_archs() {
   fi
 }
 
+
+if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "$CONFIGURATION_BUILD_DIR/AFNetworking/AFNetworking.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/Colours/Colours.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/FLEX/FLEX.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/JDStatusBarNotification/JDStatusBarNotification.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/JSONModel/JSONModel.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/JTSImageViewController/JTSImageViewController.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/LGAlertView/LGAlertView.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/MBProgressHUD/MBProgressHUD.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/MJRefresh/MJRefresh.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/Masonry/Masonry.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/NJKWebViewProgress/NJKWebViewProgress.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/PDTSimpleCalendar/PDTSimpleCalendar.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/SCRecorder/SCRecorder.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/SSZipArchive/SSZipArchive.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/SwipeView/SwipeView.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/Toast/Toast.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/YYKit/YYKit.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/ZXingObjC/ZXingObjC.framework"
+fi
+if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "$CONFIGURATION_BUILD_DIR/AFNetworking/AFNetworking.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/Colours/Colours.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/JDStatusBarNotification/JDStatusBarNotification.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/JSONModel/JSONModel.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/JTSImageViewController/JTSImageViewController.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/LGAlertView/LGAlertView.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/MBProgressHUD/MBProgressHUD.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/MJRefresh/MJRefresh.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/Masonry/Masonry.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/NJKWebViewProgress/NJKWebViewProgress.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/PDTSimpleCalendar/PDTSimpleCalendar.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/SCRecorder/SCRecorder.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/SSZipArchive/SSZipArchive.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/SwipeView/SwipeView.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/Toast/Toast.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/YYKit/YYKit.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/ZXingObjC/ZXingObjC.framework"
+fi
