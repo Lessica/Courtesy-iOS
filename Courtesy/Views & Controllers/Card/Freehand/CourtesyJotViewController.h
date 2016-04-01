@@ -5,6 +5,7 @@
 //  Created by Zheng on 3/4/16.
 //  Copyright © 2016 82Flex. All rights reserved.
 //
+#warning Freehand has been disabled.
 
 #import "jot.h"
 #import "CourtesyCardComposeViewController.h"

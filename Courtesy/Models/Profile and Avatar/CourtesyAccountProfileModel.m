@@ -171,7 +171,7 @@
                           NSInteger errorCode = [[responseObject objectForKey:@"error"] integerValue];
                           if (errorCode == 0) {
                               NSString *recv = [responseObject objectForKey:@"id"];
-                              strongSelf.avatar = [recv stringByAppendingString:kAvatarSizeLarge];
+                              strongSelf.avatar = recv;
                               [strongSelf callbackAvatarDelegateSucceed];
                               return;
                           } else if (errorCode == 403) {
@@ -198,8 +198,25 @@
 
 #pragma mark - 组合远程头像地址
 
-- (NSURL *)avatar_url {
-    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_AVATAR, self.avatar]];
+- (NSString *)avatar {
+#warning Replace unnecessary fix
+    return [_avatar stringByReplacingOccurrencesOfString:kAvatarSizeLarge withString:@""];
+}
+
+- (NSURL *)avatar_url_small {
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_AVATAR, [self.avatar stringByAppendingString:kAvatarSizeSmall]]];
+}
+
+- (NSURL *)avatar_url_medium {
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_AVATAR, [self.avatar stringByAppendingString:kAvatarSizeMiddle]]];
+}
+
+- (NSURL *)avatar_url_large {
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_AVATAR, [self.avatar stringByAppendingString:kAvatarSizeLarge]]];
+}
+
+- (NSURL *)avatar_url_original {
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_AVATAR, [self.avatar stringByAppendingString:kAvatarSizeOriginal]]];
 }
 
 - (void)dealloc {

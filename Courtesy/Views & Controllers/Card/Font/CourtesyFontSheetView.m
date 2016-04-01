@@ -48,52 +48,52 @@
         self.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
         self.layer.borderWidth = 0.5;
         
-        UIView *sizeAdjustView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width / 2, self.frame.size.height / 2)];
+        UIView *sizeAdjustView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width / 4, self.frame.size.height)];
         sizeAdjustView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
         sizeAdjustView.layer.borderWidth = 0.5;
         [self addSubview:sizeAdjustView];
         
-        UIView *sizeAdjustLeftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, sizeAdjustView.frame.size.width / 2, sizeAdjustView.frame.size.height)];
-        sizeAdjustLeftView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
-        sizeAdjustLeftView.layer.borderWidth = 0.5;
-        [self addSubview:sizeAdjustLeftView];
+        UIView *sizeAdjustUpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, sizeAdjustView.frame.size.width, sizeAdjustView.frame.size.height / 2)];
+        sizeAdjustUpView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
+        sizeAdjustUpView.layer.borderWidth = 0.5;
+        [sizeAdjustView addSubview:sizeAdjustUpView];
         
-        UIView *sizeAdjustRightView = [[UIView alloc] initWithFrame:CGRectMake(sizeAdjustView.frame.size.width / 2 - 0.5, 0, sizeAdjustView.frame.size.width / 2 + 0.5, sizeAdjustView.frame.size.height)];
-        sizeAdjustRightView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
-        sizeAdjustRightView.layer.borderWidth = 0.5;
-        [self addSubview:sizeAdjustRightView];
+        UIView *sizeAdjustDownView = [[UIView alloc] initWithFrame:CGRectMake(0, sizeAdjustView.frame.size.height / 2 - 0.5, sizeAdjustView.frame.size.width, sizeAdjustView.frame.size.height / 2)];
+        sizeAdjustDownView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
+        sizeAdjustDownView.layer.borderWidth = 0.5;
+        [sizeAdjustView addSubview:sizeAdjustDownView];
         
-        UIView *styleAdjustView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height / 2 - 0.5, self.frame.size.width / 2, self.frame.size.height / 2)];
-        styleAdjustView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
-        styleAdjustView.layer.borderWidth = 0.5;
-        [self addSubview:styleAdjustView];
+//        UIView *styleAdjustView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height / 2 - 0.5, self.frame.size.width / 2, self.frame.size.height / 2)];
+//        styleAdjustView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
+//        styleAdjustView.layer.borderWidth = 0.5;
+//        [self addSubview:styleAdjustView];
         
         // Font size
         fontSizeUpBtn = [UIButton new];
         fontSizeUpBtn.frame = CGRectMake(0, 0, 40, 31);
-        fontSizeUpBtn.center = CGPointMake(sizeAdjustLeftView.frame.size.width / 2, sizeAdjustLeftView.frame.size.height / 2);
+        fontSizeUpBtn.center = CGPointMake(sizeAdjustUpView.frame.size.width / 2, sizeAdjustUpView.frame.size.height / 2);
         fontSizeUpBtn.tintColor = self.style.toolbarTintColor;
         [fontSizeUpBtn.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [fontSizeUpBtn setImage:[[UIImage imageNamed:@"font-size-up"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         fontSizeUpBtn.backgroundColor = [UIColor clearColor];
         [fontSizeUpBtn addTarget:self action:@selector(addFontSize:) forControlEvents:UIControlEventTouchUpInside];
-        [sizeAdjustLeftView addSubview:fontSizeUpBtn];
+        [sizeAdjustUpView addSubview:fontSizeUpBtn];
         
         fontSizeDownBtn = [UIButton new];
         fontSizeDownBtn.frame = CGRectMake(0, 0, 40, 31);
-        fontSizeDownBtn.center = CGPointMake(sizeAdjustRightView.frame.size.width / 2, sizeAdjustRightView.frame.size.height / 2);
+        fontSizeDownBtn.center = CGPointMake(sizeAdjustDownView.frame.size.width / 2, sizeAdjustDownView.frame.size.height / 2);
         fontSizeDownBtn.tintColor = self.style.toolbarTintColor;
         [fontSizeDownBtn.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [fontSizeDownBtn setImage:[[UIImage imageNamed:@"font-size-down"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         fontSizeDownBtn.backgroundColor = [UIColor clearColor];
         [fontSizeDownBtn addTarget:self action:@selector(cutFontSize:) forControlEvents:UIControlEventTouchUpInside];
-        [sizeAdjustRightView addSubview:fontSizeDownBtn];
+        [sizeAdjustDownView addSubview:fontSizeDownBtn];
         
         // Font select
         UITableView *tableView = [UITableView new];
         tableView.dataSource = self;
         tableView.delegate = self;
-        tableView.frame = CGRectMake((self.frame.size.width / 2) + 6, 24, (self.frame.size.width / 2) - 24, self.frame.size.height - 48);
+        tableView.frame = CGRectMake((self.frame.size.width / 4) + 6, 24, (self.frame.size.width * 0.75) - 24, self.frame.size.height - 48);
         tableView.backgroundColor = [UIColor clearColor];
         tableView.showsVerticalScrollIndicator = NO;
         tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -101,6 +101,7 @@
         [self addSubview:tableView];
         _fontTableView = tableView;
         
+        /*
         // Style select
         UIScrollView *styleScrollView = [UIScrollView new];
         styleScrollView.frame = styleAdjustView.bounds;
@@ -112,7 +113,7 @@
         styleScrollView.indicatorStyle = UIScrollViewIndicatorStyleDefault;
         styleScrollView.contentSize = CGSizeMake(styleScrollView.frame.size.width * 6, styleScrollView.frame.size.height);
         [styleAdjustView addSubview:styleScrollView];
-        /*
+        
         UIImageView *leftArrow = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 14, 24)];
         leftArrow.center = CGPointMake(15, styleAdjustView.frame.size.height / 2);
         leftArrow.tintColor = self.style.toolbarTintColor;
@@ -124,7 +125,7 @@
         rightArrow.tintColor = self.style.toolbarTintColor;
         rightArrow.image = [[UIImage imageNamed:@"60-arrow-right"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [styleAdjustView addSubview:rightArrow];
-        */
+        
         pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 0, styleAdjustView.frame.size.width, 6)];
         pageControl.center = CGPointMake(styleAdjustView.frame.size.width / 2, styleAdjustView.frame.size.height - 8);
         pageControl.currentPageIndicatorTintColor = self.style.toolbarHighlightColor;
@@ -132,17 +133,18 @@
         pageControl.currentPage = 0;
         pageControl.numberOfPages = 6;
         [styleAdjustView addSubview:pageControl];
+         */
     }
     return self;
 }
 
 #pragma mark - UIScrollViewDelegate
-
+/*
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)sView {
     NSInteger index = fabs(sView.contentOffset.x) / sView.frame.size.width;
     [pageControl setCurrentPage:index];
 }
-
+*/
 #pragma mark - UITableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

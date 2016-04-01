@@ -36,7 +36,10 @@
 @property (nonatomic, copy) NSString<Optional> *nick;
 @property (nonatomic, assign) NSUInteger gender;
 @property (nonatomic, copy) NSString<Optional> *avatar;
-@property (nonatomic, copy) NSURL<Ignore> *avatar_url;
+@property (nonatomic, copy, readonly) NSURL<Ignore> *avatar_url_small;
+@property (nonatomic, copy, readonly) NSURL<Ignore> *avatar_url_medium;
+@property (nonatomic, copy, readonly) NSURL<Ignore> *avatar_url_large;
+@property (nonatomic, copy, readonly) NSURL<Ignore> *avatar_url_original;
 @property (nonatomic, copy) NSString<Optional> *mobile;
 @property (nonatomic, copy) NSString<Optional> *birthday;
 @property (nonatomic, copy) NSString<Optional> *province;

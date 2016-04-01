@@ -112,6 +112,19 @@
     [controller presentViewController:vc animated:YES completion:nil];
 }
 
+- (UIViewController *)prepareCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller {
+    CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:card];
+    vc.previewContext = YES;
+    vc.delegate = self;
+    return vc;
+}
+
+- (void)commitCardComposeViewController:(UIViewController *)viewController withViewController:(UIViewController *)controller {
+    CourtesyCardComposeViewController *vc = (CourtesyCardComposeViewController *)viewController;
+    vc.previewContext = NO;
+    [controller presentViewController:vc animated:YES completion:nil];
+}
+
 - (void)deleteCardInDraft:(CourtesyCardModel *)card {
     [card deleteInLocalDatabase];
     [self.cardDraftTokenArray removeObject:card.token];

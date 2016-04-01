@@ -15,7 +15,7 @@
 #import "CourtesyImageFrameView.h"
 #import "CourtesyVideoFrameView.h"
 #import "CourtesyCardComposeViewController.h"
-#import "CourtesyJotViewController.h"
+//#import "CourtesyJotViewController.h"
 #import "WechatShortVideoController.h"
 #import "PECropViewController.h"
 #import "CourtesyAudioNoteRecorderView.h"
@@ -54,14 +54,15 @@
     CourtesyAudioNoteRecorderDelegate,
     CourtesyImageFrameDelegate,
     WechatShortVideoDelegate,
-    JotViewControllerDelegate,
+//    JotViewControllerDelegate,
     JTSImageViewControllerInteractionsDelegate,
     CourtesyCardPreviewGeneratorDelegate,
     CourtesyFontSheetViewDelegate,
     CourtesyAudioSheetViewDelegate,
     CourtesyImageSheetViewDelegate,
     CourtesyVideoSheetViewDelegate,
-    LGAlertViewDelegate
+    LGAlertViewDelegate,
+    UIPreviewActionItem
 >
 
 @property (nonatomic, strong) UIImageView *backgroundImageView;
@@ -77,17 +78,17 @@
 @property (nonatomic, strong) UIButton *circleCloseBtn;
 @property (nonatomic, strong) UIButton *circleApproveBtn;
 @property (nonatomic, strong) UIImageView *circleSaveBtn;
-@property (nonatomic, strong) UIImageView *circleBackBtn;
+//@property (nonatomic, strong) UIImageView *circleBackBtn;
 
-@property (nonatomic, strong) UIView *jotView;
-@property (nonatomic, strong) CourtesyJotViewController *jotViewController;
+//@property (nonatomic, strong) UIView *jotView;
+//@property (nonatomic, strong) CourtesyJotViewController *jotViewController;
 
 @property (nonatomic, strong) UIToolbar *toolbar;
 @property (nonatomic, strong) UIBarButtonItem *audioButton;
 @property (nonatomic, strong) UIBarButtonItem *imageButton;
 @property (nonatomic, strong) UIBarButtonItem *videoButton;
 @property (nonatomic, strong) UIBarButtonItem *urlButton;
-@property (nonatomic, strong) UIBarButtonItem *drawButton;
+//@property (nonatomic, strong) UIBarButtonItem *drawButton;
 @property (nonatomic, strong) UIBarButtonItem *fontButton;
 @property (nonatomic, strong) UIBarButtonItem *alignmentButton;
 
@@ -104,6 +105,7 @@
     if (self = [super init]) {
         self.fd_interactivePopDisabled = YES; // 禁用全屏手势
         _card = card;
+        _previewContext = NO;
     }
     return self;
 }
@@ -135,7 +137,7 @@
     /* Init of Fake Status Bar */
     CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
     UIView *fakeBar = [[UIView alloc] initWithFrame:frame];
-    fakeBar.alpha = self.style.standardAlpha;
+    fakeBar.alpha = 0.0;
     fakeBar.backgroundColor = self.style.statusBarColor;
     
     /* Layouts of Fake Status Bar */
@@ -159,7 +161,9 @@
     [cardView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view).with.insets(kComposeCardViewEditInset);
     }];
-    cardView.transform = CGAffineTransformMakeScale(0.75, 0.75);
+    if (!_previewContext) {
+        cardView.transform = CGAffineTransformMakeScale(0.75, 0.75);
+    }
     
     /* Elements of tool bar items */
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -172,8 +176,8 @@
     [myToolBarItems addObject:self.videoButton]; [myToolBarItems addObject:flexibleSpace];
     self.urlButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrlButtonTapped:)];
     [myToolBarItems addObject:self.urlButton]; [myToolBarItems addObject:flexibleSpace];
-    self.drawButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(openFreehandButtonTapped:)];
-    [myToolBarItems addObject:self.drawButton]; [myToolBarItems addObject:flexibleSpace];
+//    self.drawButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(openFreehandButtonTapped:)];
+//    [myToolBarItems addObject:self.drawButton]; [myToolBarItems addObject:flexibleSpace];
     self.fontButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(fontButtonTapped:)];
     [myToolBarItems addObject:self.fontButton]; [myToolBarItems addObject:flexibleSpace];
     NSString *alignmentImageName = nil;
@@ -295,31 +299,31 @@
     [fakeBar addGestureRecognizer:tapFakeBar];
     [fakeBar setUserInteractionEnabled:YES];
     
-    /* Init of Jot Scroll View */
+    /* Init of Jot Scroll View
     UIView *jotView = [[UIView alloc] initWithFrame:self.textView.frame];
     jotView.backgroundColor = [UIColor clearColor];
     jotView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    /* Layout of Jot Scroll View */
+    */
+    /* Layout of Jot Scroll View
     self.jotView = jotView;
     [cardView insertSubview:jotView belowSubview:textView];
     [jotView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(cardView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
-    
-    /* Init of Jot View Controller */
+    */
+    /* Init of Jot View Controller
     CourtesyJotViewController *jotViewController = [[CourtesyJotViewController alloc] initWithMasterController:self];
     [self addChildViewController:jotViewController];
     jotViewController.view.frame = jotView.frame;
     [jotView addSubview:jotViewController.view];
     [jotViewController didMoveToParentViewController:self];
     self.jotViewController = jotViewController;
-    
+    */
     /* Init of close circle button */
     UIButton *circleCloseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleCloseBtn.backgroundColor = self.style.buttonBackgroundColor;
     circleCloseBtn.tintColor = self.style.buttonTintColor;
-    circleCloseBtn.alpha = self.style.standardAlpha - 0.2;
+    circleCloseBtn.alpha = 0.0;
     [circleCloseBtn setImage:[[UIImage imageNamed:@"101-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [circleCloseBtn setImage:[[UIImage imageNamed:@"39-close-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
     circleCloseBtn.selected = NO;
@@ -348,7 +352,7 @@
     UIButton *circleApproveBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleApproveBtn.backgroundColor = self.style.buttonBackgroundColor;
     circleApproveBtn.tintColor = self.style.buttonTintColor;
-    circleApproveBtn.alpha = self.style.standardAlpha - 0.2;
+    circleApproveBtn.alpha = 0.0;
     [circleApproveBtn setImage:[[UIImage imageNamed:@"40-approve-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [circleApproveBtn setImage:[[UIImage imageNamed:@"102-paper-plane"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
     circleApproveBtn.selected = NO;
@@ -373,7 +377,7 @@
         make.height.equalTo(@32);
     }];
     
-    /* Init of back button */
+    /* Init of back button
     UIImageView *circleBackBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleBackBtn.backgroundColor = self.style.buttonBackgroundColor;
     circleBackBtn.tintColor = self.style.buttonTintColor;
@@ -382,22 +386,22 @@
     circleBackBtn.layer.masksToBounds = YES;
     circleBackBtn.layer.cornerRadius = circleBackBtn.frame.size.height / 2;
     circleBackBtn.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    /* Back button is not visible */
+     */
+    /* Back button is not visible
     circleBackBtn.alpha = 0.0;
     circleBackBtn.hidden = YES;
-    
-    /* Tap gesture of back button */
+     */
+    /* Tap gesture of back button
     UITapGestureRecognizer *tapBackBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(closeFreehandButtonTapped:)];
     tapBackBtn.numberOfTouchesRequired = 1;
     tapBackBtn.numberOfTapsRequired = 1;
     [circleBackBtn addGestureRecognizer:tapBackBtn];
-    
-    /* Enable interaction for back button */
+     */
+    /* Enable interaction for back button
     [circleBackBtn setUserInteractionEnabled:YES];
-    
-    /* Auto layouts of back button */
+    */
+    /* Auto layouts of back button
     self.circleBackBtn = circleBackBtn;
     [self.view addSubview:circleBackBtn];
     [self.view bringSubviewToFront:circleBackBtn];
@@ -407,7 +411,7 @@
         make.width.equalTo(@32);
         make.height.equalTo(@32);
     }];
-    
+    */
     /* Init of save button */
     UIImageView *circleSaveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleSaveBtn.backgroundColor = self.style.buttonBackgroundColor;
@@ -505,20 +509,15 @@
                                      @"type": @(attachment.type),
                                      @"url": attachment.local_url,
                                      }];
-        } else if (attachment.type == CourtesyAttachmentDraw) {
+        }/* else if (attachment.type == CourtesyAttachmentDraw) {
 
-        } else {
+        } */else {
             continue;
         }
     }
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        firstAnimation = YES;
-        _cardEdited = NO;
-        [self doCardViewAnimation];
-    });
-    
     // 设置输入区域属性
+    _cardEdited = NO;
     [[YYTextKeyboardManager defaultManager] addObserver:self];
     self.inputViewType = kCourtesyInputViewDefault;
 
@@ -534,12 +533,24 @@
 //    [self.textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (!_previewContext) {
+        [self doFirstCardViewAnimation];
+    }
+}
+
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 //    [self.textView removeObserver:self forKeyPath:@"typingAttributes"];
 }
 
 #pragma mark - animation
+
+- (void)doFirstCardViewAnimation {
+    firstAnimation = YES;
+    [self doCardViewAnimation];
+}
 
 - (void)doCardViewAnimation {
     if (self.editable) {
@@ -554,6 +565,9 @@
         self.cardView.transform = CGAffineTransformMakeScale(1.0, 1.0);
         self.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectUpdated, 0, 0, 0);
         if (firstAnimation) {
+            self.fakeBar.alpha = self.style.standardAlpha;
+            self.circleApproveBtn.alpha = self.style.standardAlpha - 0.2;
+            self.circleCloseBtn.alpha = self.style.standardAlpha - 0.2;
             [self.textView scrollToTop];
         }
         [UIView commitAnimations];
@@ -677,10 +691,10 @@
 
 - (void)savePreview:(id)sender {
     [self.view makeToastActivity:CSToastPositionCenter];
-    [self performSelectorInBackground:@selector(generateTextViewLayer) withObject:nil];
+    [self performSelectorInBackground:@selector(generateTextViewLayer:) withObject:self];
 }
 
-- (void)generateTextViewLayer {
+- (void)generateTextViewLayer:(id)delegate {
     CGSize imageSize = CGSizeMake(self.textView.yyContainerView.frame.size.width, self.textView.yyContainerView.frame.size.height);
     UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.0); // Retina Support
     CALayer *originalLayer = self.textView.yyContainerView.layer;
@@ -689,7 +703,7 @@
     UIImage *originalImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     CourtesyCardPreviewGenerator *generator = [CourtesyCardPreviewGenerator new];
-    generator.delegate = self;
+    generator.delegate = delegate;
     generator.previewStyle = self.style.previewStyle;
     generator.contentImage = originalImage;
     [generator generate];
@@ -706,7 +720,7 @@
         self.audioButton.tintColor =
         self.videoButton.tintColor =
         self.urlButton.tintColor =
-        self.drawButton.tintColor =
+//        self.drawButton.tintColor =
         self.alignmentButton.tintColor = self.style.toolbarTintColor;
         CourtesyImageSheetView *imageView = [[CourtesyImageSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
         self.textView.inputView = imageView;
@@ -728,7 +742,7 @@
         self.imageButton.tintColor =
         self.videoButton.tintColor =
         self.urlButton.tintColor =
-        self.drawButton.tintColor =
+//        self.drawButton.tintColor =
         self.alignmentButton.tintColor = self.style.toolbarTintColor;
         CourtesyAudioSheetView *audioView = [[CourtesyAudioSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
         self.textView.inputView = audioView;
@@ -750,7 +764,7 @@
         self.imageButton.tintColor =
         self.audioButton.tintColor =
         self.urlButton.tintColor =
-        self.drawButton.tintColor =
+//        self.drawButton.tintColor =
         self.alignmentButton.tintColor = self.style.toolbarTintColor;
         CourtesyVideoSheetView *videoView = [[CourtesyVideoSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
         self.textView.inputView = videoView;
@@ -764,7 +778,7 @@
 }
 
 #pragma mark - Freehand
-
+/*
 - (void)closeFreehandButtonTapped:(UIGestureRecognizer *)sender {
     [self.jotViewController setState:JotViewStateDefault];
     [self.jotViewController setControlEnabled:NO];
@@ -817,7 +831,7 @@
                          }
                      }];
 }
-
+*/
 #pragma mark - Font & Alignment
 
 - (void)fontButtonTapped:(UIBarButtonItem *)sender {
@@ -829,7 +843,7 @@
         self.imageButton.tintColor =
         self.videoButton.tintColor =
         self.urlButton.tintColor =
-        self.drawButton.tintColor =
+//        self.drawButton.tintColor =
         self.alignmentButton.tintColor = self.style.toolbarTintColor;
         CourtesyFontSheetView *fontView = [[CourtesyFontSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
         self.textView.inputView = fontView;
@@ -955,7 +969,7 @@
     self.imageButton.tintColor =
     self.videoButton.tintColor =
     self.urlButton.tintColor =
-    self.drawButton.tintColor =
+//    self.drawButton.tintColor =
     self.alignmentButton.tintColor = self.style.toolbarTintColor;
     CourtesyAudioSheetView *audioView = [[CourtesyAudioSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
     self.textView.inputView = audioView;
@@ -970,7 +984,7 @@
     self.imageButton.tintColor =
     self.videoButton.tintColor =
     self.urlButton.tintColor =
-    self.drawButton.tintColor =
+//    self.drawButton.tintColor =
     self.alignmentButton.tintColor =
     self.audioButton.tintColor = self.style.toolbarTintColor;
     self.textView.inputView = nil;
@@ -1013,7 +1027,7 @@
     self.imageButton.tintColor =
     self.videoButton.tintColor =
     self.urlButton.tintColor =
-    self.drawButton.tintColor =
+//    self.drawButton.tintColor =
     self.alignmentButton.tintColor = self.style.toolbarTintColor;
     self.audioButton.tintColor = self.style.toolbarHighlightColor;
     CourtesyAudioNoteRecorderView *audioNoteView = [[CourtesyAudioNoteRecorderView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
@@ -1361,8 +1375,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - Insert Frame Helper
 
 - (id)insertFrameToTextView:(UIView *)frameView
-                           at:(NSRange)range
-                     animated:(BOOL)animated {
+                         at:(NSRange)range
+                   animated:(BOOL)animated {
     if (!self.editable) return nil;
     if (animated) [frameView setAlpha:0.0];
     // Add Frame View to Text View (Method 1)
@@ -1384,15 +1398,17 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         [(CourtesyAudioFrameView *)frameView setBindingLength:attachText.length];
     }
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithAttributedString:self.textView.attributedText];
-    if (range.location + range.length <= text.length) {
+    if (range.length != 0 && range.location + range.length <= text.length) {
         [text replaceCharactersInRange:range withAttributedString:attachText];
     } else if (range.location <= text.length) {
         [text insertAttributedString:attachText atIndex:range.location];
+    } else {
+        CYLog(@"Insert Error!");
     }
     CYLog(@"attachment: location = %lu, length = %lu", range.location, attachText.length);
     [self.textView setAttributedText:text];
-    
     if (animated) {
+        [self.textView setSelectedRange:NSMakeRange(range.location + attachText.length, 0)];
         [self.textView scrollRangeToVisible:NSMakeRange(range.location, range.length)];
         [UIView animateWithDuration:0.2 animations:^{ [frameView setAlpha:1.0]; } completion:nil];
     }
@@ -1531,18 +1547,30 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                         completion:^(BOOL success) {
                                             if (success) {
                                                 dispatch_async_on_main_queue(^{
-                                                    [self.view hideToastActivity];
-                                                    [self.view makeToast:@"预览图已保存到「礼记」相簿"
-                                                                duration:kStatusBarNotificationTime
-                                                                position:CSToastPositionCenter];
+                                                    if (_previewContext) {
+                                                        [JDStatusBarNotification showWithStatus:@"预览图已保存到「礼记」相簿"
+                                                                                   dismissAfter:kStatusBarNotificationTime
+                                                                                      styleName:JDStatusBarStyleSuccess];
+                                                    } else {
+                                                        [self.view hideToastActivity];
+                                                        [self.view makeToast:@"预览图已保存到「礼记」相簿"
+                                                                    duration:kStatusBarNotificationTime
+                                                                    position:CSToastPositionCenter];
+                                                    }
                                                 });
                                             }
                                         } failure:^(NSError * _Nullable error) {
                                             dispatch_async_on_main_queue(^{
-                                                [self.view hideToastActivity];
-                                                [self.view makeToast:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
-                                                            duration:kStatusBarNotificationTime
-                                                            position:CSToastPositionCenter];
+                                                if (_previewContext) {
+                                                    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
+                                                                               dismissAfter:kStatusBarNotificationTime
+                                                                                  styleName:JDStatusBarStyleError];
+                                                } else {
+                                                    [self.view hideToastActivity];
+                                                    [self.view makeToast:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
+                                                                duration:kStatusBarNotificationTime
+                                                                position:CSToastPositionCenter];
+                                                }
                                             });
                                         }];
 }
@@ -1615,7 +1643,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             }
         }
     }
-    [self.jotViewController reloadStyle];
+//    [self.jotViewController reloadStyle];
 }
 
 - (NSUInteger)countOfAudioFrame { return [self countOfClass:[CourtesyAudioFrameView class]]; }
@@ -1866,7 +1894,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                 }
             }
         }
-#warning TODO: Freehand as attachment
         card.card_data.attachments = attachments_arr;
         card.card_dict = [card.card_data toDictionary];
         if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishEditing:)]) {
@@ -1882,6 +1909,24 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         [self.view hideToastActivity];
         [self.view setUserInteractionEnabled:YES];
     }
+}
+
+#pragma mark - UIPreviewActionItem
+
+- (NSArray <id <UIPreviewActionItem>> *)previewActionItems {
+    
+    UIPreviewAction *tap1 = [UIPreviewAction actionWithTitle:@"发布" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+        CYLog(@"Publish selected.");
+#warning Publish card selected.
+    }];
+    
+    UIPreviewAction *tap2 = [UIPreviewAction actionWithTitle:@"保存到相册" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+        [self performSelectorInBackground:@selector(generateTextViewLayer:) withObject:previewViewController];
+    }];
+    
+    NSArray *taps = @[tap1, tap2];
+    
+    return taps;
 }
 
 @end

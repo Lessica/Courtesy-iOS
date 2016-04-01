@@ -12,9 +12,9 @@ typedef NS_ENUM(NSInteger, CourtesyAttachmentType) {
     CourtesyAttachmentImage = 0,
     CourtesyAttachmentAudio = 1,
     CourtesyAttachmentVideo = 2,
-    CourtesyAttachmentDraw  = 3,
+//    CourtesyAttachmentDraw  = 3,
     CourtesyAttachmentAnimatedImage = 4,
-    CourtesyAttachmentLivePhoto     = 5
+//    CourtesyAttachmentLivePhoto     = 5
 };
 
 @interface CourtesyCardAttachmentModel : JSONModel

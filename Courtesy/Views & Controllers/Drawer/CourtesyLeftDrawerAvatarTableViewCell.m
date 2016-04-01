@@ -50,7 +50,7 @@
 #pragma mark - Remote
 
 - (void)loadRemoteImage {
-    _avatarImageView.imageURL = kProfile.avatar_url;
+    _avatarImageView.imageURL = kProfile.avatar_url_large;
 }
 
 @end

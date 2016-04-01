@@ -10,6 +10,8 @@
 #import "CourtesyProfileTableViewController.h"
 #import "CourtesyAccountProfileModel.h"
 #import "RSKImageCropper.h"
+#import "JTSImageViewController.h"
+#import "ParallaxHeaderView.h"
 
 #define kProfileAvatarReuseIdentifier @"kProfileAvatarReuseIdentifier"
 #define kProfileNickReuseIdentifier @"kProfileNickReuseIdentifier"
@@ -42,7 +44,9 @@ UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 CourtesyUploadAvatarDelegate,
 RSKImageCropViewControllerDelegate,
-JVFloatingDrawerCenterViewController>
+JVFloatingDrawerCenterViewController,
+JTSImageViewControllerInteractionsDelegate,
+UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
@@ -69,6 +73,10 @@ JVFloatingDrawerCenterViewController>
 - (void)viewDidLoad {
     [super viewDidLoad];
     last_hash = [[kProfile toDictionary] mutableCopy]; // 初始化备份
+    
+    self.extendedLayoutIncludesOpaqueBars = NO;
+    self.edgesForExtendedLayout =  UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
+    
     self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.size.height / 2;
     self.avatarImageView.layer.masksToBounds = YES;
     UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressToCopy:)];
@@ -76,9 +84,21 @@ JVFloatingDrawerCenterViewController>
     [self.tableView addGestureRecognizer:longPress];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == self.tableView) {
+        [(ParallaxHeaderView *)self.tableView.tableHeaderView layoutHeaderViewForScrollViewOffset:scrollView.contentOffset];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    _avatarImageView.imageURL = kProfile.avatar_url;
+    
+    // Header View
+    ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithImage:[UIImage imageNamed:@"street"] forSize:CGSizeMake(self.tableView.frame.size.width, 220)];
+    headerView.headerTitleLabel.text = kProfile.introduction;
+    [self.tableView setTableHeaderView:headerView];
+    
+    _avatarImageView.imageURL = kProfile.avatar_url_medium;
     _avatarNickLabel.text = kProfile.nick;
     _avatarDetailLabel.text = kAccount.email;
     _nickDetailLabel.text = kProfile.nick;
@@ -164,22 +184,63 @@ JVFloatingDrawerCenterViewController>
 }
 
 - (void)openMenu {
-    LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"上传头像" message:@"请选择一种方式" style:LGAlertViewStyleActionSheet buttonTitles:@[@"相机", @"本地相册"] cancelButtonTitle:@"取消" destructiveButtonTitle:nil actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+    LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"上传头像"
+                                                    message:@"请选择一种方式"
+                                                      style:LGAlertViewStyleActionSheet buttonTitles:@[@"相机", @"本地相册", @"查看原图"]
+                                          cancelButtonTitle:@"取消"
+                                     destructiveButtonTitle:nil
+                                              actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
         if (index == 0) {
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];
             picker.sourceType = UIImagePickerControllerSourceTypeCamera;
             picker.delegate = self;
             picker.allowsEditing = NO;
             [self presentViewController:picker animated:YES completion:nil];
-        } else {
+        } else if (index == 1) {
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];
             picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             picker.delegate = self;
             picker.allowsEditing = NO;
             [self presentViewController:picker animated:YES completion:nil];
+        } else {
+            JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
+            imageInfo.referenceRect = self.avatarImageView.frame;
+            imageInfo.referenceView = self.avatarImageView;
+            imageInfo.imageURL = kProfile.avatar_url_original;
+            JTSImageViewController *imageViewer = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
+                                                                                               mode:JTSImageViewControllerMode_Image
+                                                                                    backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+            imageViewer.interactionsDelegate = self;
+            [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
         }
     } cancelHandler:nil destructiveHandler:nil];
     [alert showAnimated:YES completionHandler:nil];
+}
+
+#pragma mark - JTSImageViewControllerInteractionsDelegate
+
+- (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer
+                         atRect:(CGRect)rect {
+    [imageViewer.view makeToastActivity:CSToastPositionCenter];
+    [[PHPhotoLibrary sharedPhotoLibrary] saveImage:imageViewer.image
+                                           toAlbum:@"礼记"
+                                        completion:^(BOOL success) {
+                                            if (success) {
+                                                dispatch_async_on_main_queue(^{
+                                                    [imageViewer.view hideToastActivity];
+                                                    [imageViewer.view makeToast:@"头像原图已保存到「礼记」相簿"
+                                                                       duration:kStatusBarNotificationTime
+                                                                       position:CSToastPositionCenter];
+                                                });
+                                            }
+                                        } failure:^(NSError * _Nullable error) {
+                                            dispatch_async_on_main_queue(^{
+                                                [imageViewer.view hideToastActivity];
+                                                [imageViewer.view makeToast:[NSString stringWithFormat:@"头像原图保存失败 - %@", [error localizedDescription]]
+                                                                   duration:kStatusBarNotificationTime
+                                                                   position:CSToastPositionCenter];
+                                            });
+                                        }];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -281,7 +342,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     [JDStatusBarNotification showWithStatus:@"头像上传成功"
                                dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleSuccess];
-    _avatarImageView.imageURL = kProfile.avatar_url;
+    _avatarImageView.imageURL = kProfile.avatar_url_medium;
     [NSNotificationCenter sendCTAction:kActionProfileEdited message:nil];
     last_hash = [[kProfile toDictionary] mutableCopy]; // 头像更新以后需要更新备份
 }

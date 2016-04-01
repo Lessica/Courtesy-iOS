@@ -9,10 +9,11 @@
 #import "CourtesyDraftTableViewController.h"
 #import "CourtesyDraftTableViewCell.h"
 #import "CourtesyCardManager.h"
+#import "CourtesyCardPreviewGenerator.h"
 
 static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyDraftTableViewCellReuseIdentifier";
 
-@interface CourtesyDraftTableViewController ()
+@interface CourtesyDraftTableViewController () <UIViewControllerPreviewingDelegate>
 
 @end
 
@@ -22,6 +23,10 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     [super viewDidLoad];
     self.clearsSelectionOnViewWillAppear = NO;
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+        // 注册 3D Touch
+        [self registerForPreviewingWithDelegate:self sourceView:self.view];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -115,6 +120,30 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
         // [self.cardArray exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
         [self.cardManager exchangeCardAtIndex:sourceIndexPath.row withCardAtIndex:destinationIndexPath.row];
     }
+}
+
+#pragma mark - UIViewControllerPreviewingDelegate
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+              viewControllerForLocation:(CGPoint)location {
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    if (!indexPath) {
+        return nil;
+    }
+    CourtesyDraftTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    if (!cell) {
+        return nil;
+    }
+    cell.card.is_editable = YES;
+    UIViewController *previewViewController = [self.cardManager prepareCard:cell.card withViewController:self];
+    previewViewController.preferredContentSize = CGSizeMake(0.0, 0.0);
+    previewingContext.sourceRect = cell.frame;
+    return previewViewController;
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+     commitViewController:(UIViewController *)viewControllerToCommit {
+    [self.cardManager commitCardComposeViewController:viewControllerToCommit withViewController:self];
 }
 
 @end

@@ -1742,7 +1742,7 @@ AFNetworking (MIT), Colours (MIT), FCFileManager (MIT), FDFullscreenPopGesture (
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
-                            <tableViewSection footerTitle="一个类似于个性签名的东西，我们比腾讯良心的是，我们不限制字数，您可以在这里储存您的小说 (笑" id="tKH-bc-LtG">
+                            <tableViewSection footerTitle="一个类似于个性签名的东西，显示在你的背景封面大图中。" id="tKH-bc-LtG">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="132" id="4RN-GI-Bul">
                                         <rect key="frame" x="0.0" y="99" width="320" height="132"/>

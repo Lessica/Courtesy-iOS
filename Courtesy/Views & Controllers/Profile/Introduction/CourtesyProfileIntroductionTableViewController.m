@@ -25,8 +25,8 @@
 
 - (IBAction)saveButtonClicked:(id)sender {
     [self.view endEditing:YES];
-    if (![_introductionField.text isMaxLength:(2048)]) {
-        [self.navigationController.view makeToast:@"你居然真的往这里面粘贴了一部小说！？"
+    if (![_introductionField.text isMaxLength:(72)]) {
+        [self.navigationController.view makeToast:@"座右铭至多 72 个字符"
                                          duration:kStatusBarNotificationTime
                                          position:CSToastPositionCenter
                                             style:nil];

@@ -35,5 +35,6 @@
 #define kAvatarSizeSmall @"_60.png"
 #define kAvatarSizeMiddle @"_150.png"
 #define kAvatarSizeLarge @"_300.png"
+#define kAvatarSizeOriginal @".png"
 
 #endif /* CourtesyInterface_h */

@@ -49,7 +49,9 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
                          completion:completion];
     } else {
         springAnimation(); // Call spring animation block without animating
-        completion(YES);
+        if (completion) {
+            completion(YES);
+        }
     }
 }
 
@@ -68,7 +70,9 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
                          completion:completion];
     } else {
         springAnimation(); // Call spring animation block without animating
-        completion(YES);
+        if (completion) {
+            completion(YES);
+        }
     }
 }
 

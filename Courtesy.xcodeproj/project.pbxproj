@@ -24,6 +24,7 @@
 		0F47D9031CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9001CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m */; };
 		0F47D9091CA6D7EC001300FE /* CourtesyCardEditRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */; };
 		0F47D90A1CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9081CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m */; };
+		0F4B12E71CAE1D3900650996 /* ParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4B12E41CAE1D3900650996 /* ParallaxHeaderView.m */; };
 		0F4E0E0A1CA8051800C4D76C /* UIColor+FlatColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E091CA8051800C4D76C /* UIColor+FlatColors.m */; };
 		0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E21C9511D300F818AD /* CourtesyFontModel.m */; };
 		0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E51C951DDD00F818AD /* CourtesyFontManager.m */; };
@@ -282,6 +283,8 @@
 		0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardEditRequestModel.m; sourceTree = "<group>"; };
 		0F47D9071CA6D7EC001300FE /* CourtesyCardPublishRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublishRequestModel.h; sourceTree = "<group>"; };
 		0F47D9081CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishRequestModel.m; sourceTree = "<group>"; };
+		0F4B12E31CAE1D3900650996 /* ParallaxHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallaxHeaderView.h; sourceTree = "<group>"; };
+		0F4B12E41CAE1D3900650996 /* ParallaxHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallaxHeaderView.m; sourceTree = "<group>"; };
 		0F4E0E081CA8051800C4D76C /* UIColor+FlatColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FlatColors.h"; sourceTree = "<group>"; };
 		0F4E0E091CA8051800C4D76C /* UIColor+FlatColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FlatColors.m"; sourceTree = "<group>"; };
 		0F5064E11C9511D300F818AD /* CourtesyFontModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyFontModel.h; path = Font/CourtesyFontModel.h; sourceTree = "<group>"; };
@@ -698,6 +701,15 @@
 				0F47D9081CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m */,
 			);
 			path = Requests;
+			sourceTree = "<group>";
+		};
+		0F4B12E21CAE1D3900650996 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				0F4B12E31CAE1D3900650996 /* ParallaxHeaderView.h */,
+				0F4B12E41CAE1D3900650996 /* ParallaxHeaderView.m */,
+			);
+			path = Header;
 			sourceTree = "<group>";
 		};
 		0F4E0E071CA8051800C4D76C /* UIColor+FlatColors */ = {
@@ -1336,6 +1348,7 @@
 			children = (
 				0FFE043E1C93F45800E99DCC /* CourtesyProfileTableViewController.h */,
 				0FFE043F1C93F45800E99DCC /* CourtesyProfileTableViewController.m */,
+				0F4B12E21CAE1D3900650996 /* Header */,
 				0FDEFBE41C97D7B8007BE8D2 /* Avatar */,
 				0FDEFBB21C97D5C2007BE8D2 /* Astro */,
 				0FFE04381C93F45800E99DCC /* Birthday */,
@@ -2032,6 +2045,7 @@
 				0FEFDBBD1C97D17500952522 /* AFSoundRecord.m in Sources */,
 				0FF2D29F1C95DAC7007C23DE /* CALayer+AddUIColor.m in Sources */,
 				0FFE04BD1C93F47400E99DCC /* CourtesyCardAttachmentModel.m in Sources */,
+				0F4B12E71CAE1D3900650996 /* ParallaxHeaderView.m in Sources */,
 				0FDEFBD81C97D70A007BE8D2 /* CNCityPickerView.m in Sources */,
 				0FFE05251C93F52C00E99DCC /* NLPropertyDescriptor.m in Sources */,
 				0FFE04831C93F45800E99DCC /* CourtesyAboutViewController.m in Sources */,
