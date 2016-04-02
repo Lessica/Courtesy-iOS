@@ -76,6 +76,7 @@ static CGFloat kLabelPaddingDist = 8.0f;
         rect.origin.y -= delta;
         rect.size.height += delta;
         self.imageScrollView.frame = rect;
+        self.bluredImageView.alpha = 0.0;
         self.clipsToBounds = NO;
         self.headerTitleLabel.alpha = 1 - (delta) * 1 / kMaxTitleAlphaOffset;
     }

@@ -64,6 +64,8 @@ UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *lastLoginAtDetailLabel;
 @property (weak, nonatomic) IBOutlet UITextView *introductionLabel;
 
+@property (strong, nonatomic) ParallaxHeaderView *headerView;
+
 @end
 
 @implementation CourtesyProfileTableViewController {
@@ -82,6 +84,11 @@ UIScrollViewDelegate>
     UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressToCopy:)];
     longPress.minimumPressDuration = 1.0;
     [self.tableView addGestureRecognizer:longPress];
+    
+    // Header View
+    ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithImage:[UIImage imageNamed:@"street"] forSize:CGSizeMake(self.tableView.frame.size.width, 220)];
+    self.headerView = headerView;
+    [self.tableView setTableHeaderView:headerView];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -92,11 +99,6 @@ UIScrollViewDelegate>
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    // Header View
-    ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithImage:[UIImage imageNamed:@"street"] forSize:CGSizeMake(self.tableView.frame.size.width, 220)];
-    headerView.headerTitleLabel.text = kProfile.introduction;
-    [self.tableView setTableHeaderView:headerView];
     
     _avatarImageView.imageURL = kProfile.avatar_url_medium;
     _avatarNickLabel.text = kProfile.nick;
@@ -122,6 +124,7 @@ UIScrollViewDelegate>
         @finally {}
     }
     _introductionLabel.text = kProfile.introduction;
+    self.headerView.headerTitleLabel.text = kProfile.introduction;
     _emailDetailLabel.text = kAccount.email;
     [self.tableView reloadData];
     if (![[kProfile toDictionary] isEqual:last_hash]) { // 判断是否进行过修改
