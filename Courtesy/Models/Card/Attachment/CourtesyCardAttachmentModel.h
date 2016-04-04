@@ -8,6 +8,12 @@
 
 #import "JSONModel.h"
 
+#define kCardThumbnailImageExtraSmall CGSizeMake(80, 80)
+#define kCardThumbnailImageSmall  CGSizeMake(160, 160)
+#define kCardThumbnailImageMedium CGSizeMake(320, 320)
+#define kCardThumbnailImageLarge  CGSizeMake(640, 640)
+#define kCardThumbnailImageExtraLarge CGSizeMake(1280, 1280)
+
 typedef NS_ENUM(NSInteger, CourtesyAttachmentType) {
     CourtesyAttachmentImage = 0,
     CourtesyAttachmentAudio = 1,
@@ -36,5 +42,9 @@ typedef NS_ENUM(NSInteger, CourtesyAttachmentType) {
 - (instancetype)initWithSaltHash:(NSString *)salt;
 - (NSString *)saveToLocalDatabase;
 - (void)deleteInLocalDatabase;
++ (NSString *)savedAttachmentsPath;
++ (NSString *)savedThumbnailsPath;
+- (NSURL *)thumbnailImageURLWithSize:(CGSize)size;
+- (NSString *)thumbnailPathWithSize:(CGSize)size;
 
 @end

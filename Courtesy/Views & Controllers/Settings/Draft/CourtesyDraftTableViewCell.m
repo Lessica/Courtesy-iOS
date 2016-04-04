@@ -33,8 +33,9 @@
     self.mainTitleLabel.text = card.card_data.mainTitle;
     self.briefTitleLabel.text = card.card_data.briefTitle;
     self.dateLabel.text = [NSString stringWithFormat:@"%@ | 字数 %lu", [[NSDate dateWithTimeIntervalSince1970:card.modified_at] compareCurrentTime], (unsigned long)card.card_data.content.length];
-    if (card.card_data.smallThumbnailURL) {
-        [self.imagePreview setImageWithURL:card.card_data.smallThumbnailURL
+    NSURL *thumbnailURL = card.card_data.smallThumbnailURL;
+    if (thumbnailURL) {
+        [self.imagePreview setImageWithURL:thumbnailURL
                                placeholder:nil
                                    options:YYWebImageOptionSetImageWithFadeAnimation
                                    manager:nil
@@ -44,6 +45,8 @@
                                                            contentMode:UIViewContentModeScaleAspectFit];
                                  }
                                 completion:nil];
+    } else {
+        [self.imagePreview setImage:nil]; // 清除缩略图
     }
 }
 

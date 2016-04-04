@@ -1059,14 +1059,14 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.view makeToast:@"当前设备不支持拍照"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
         return;
     }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.mediaTypes = @[(NSString *)kUTTypeImage];
     picker.delegate = self;
@@ -1081,14 +1081,14 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         [self.view makeToast:@"当前设备不支持相册"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
         return;
     }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.mediaTypes = @[(NSString *)kUTTypeImage];
     picker.delegate = self;
@@ -1105,14 +1105,14 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self.view makeToast:@"当前设备不支持摄像"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
         return;
     }
+    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
     picker.videoMaximumDuration = 30.0;
@@ -1125,6 +1125,12 @@
 - (void)videoSheetViewShortCameraButtonTapped:(CourtesyVideoSheetView *)videoSheetView {
     if ([self countOfVideoFrame] >= self.style.maxVideoNum) {
         [self.view makeToast:@"视频数量已达上限"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+        return;
+    }
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [self.view makeToast:@"当前设备不支持摄像"
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
         return;
@@ -1745,13 +1751,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         [self.view setUserInteractionEnabled:NO];
         [self.view makeToastActivity:CSToastPositionCenter];
         NSError *error = nil;
-        NSString *tPath = [[NSURL fileURLWithPath:[[[UIApplication sharedApplication] documentsPath] stringByAppendingPathComponent:@"SavedAttachments"]] path];
-        if (![FCFileManager isDirectoryItemAtPath:tPath])
-            [FCFileManager createDirectoriesForPath:tPath error:&error];
-        if (error) {
-            @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
-            return;
-        }
+        NSString *aPath = [CourtesyCardAttachmentModel savedAttachmentsPath];
         CourtesyCardModel *card = self.card;
         card.is_public = [sharedSettings switchAutoPublic];
         card.modified_at = [[NSDate date] timeIntervalSince1970];
@@ -1770,13 +1770,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                 if ([attachment.content isMemberOfClass:[CourtesyImageFrameView class]]) {
                     CourtesyImageFrameView *imageFrameView = (CourtesyImageFrameView *)attachment.content;
                     CourtesyAttachmentType file_type = [[imageFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
-                    NSData *binary = nil;
+                    NSData *binary = [imageFrameView.userinfo objectForKey:@"data"];
                     NSString *ext = nil;
                     if (file_type == CourtesyAttachmentImage) {
-                        binary = [imageFrameView.centerImage imageDataRepresentation];
                         ext = @"png";
                     } else if (file_type == CourtesyAttachmentAnimatedImage) {
-                        binary = [imageFrameView.userinfo objectForKey:@"data"];
                         ext = @"gif";
                     } else {
                         return;
@@ -1787,7 +1785,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     }
                     NSString *salt_hash = [binary sha256String];
                     NSString *filename = [salt_hash stringByAppendingPathExtension:ext];
-                    NSString *file_path = [tPath stringByAppendingPathComponent:filename];
+                    NSString *file_path = [aPath stringByAppendingPathComponent:filename];
                     if (![FCFileManager existsItemAtPath:file_path]) {
                         [binary writeToFile:file_path options:NSDataWritingWithoutOverwriting error:&error];
                         if (error) {
@@ -1829,9 +1827,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     }
                     NSString *salt_hash = [binary sha256String];
                     NSString *filename = [salt_hash stringByAppendingPathExtension:[originalURL pathExtension]];
-                    NSString *file_path = [tPath stringByAppendingPathComponent:filename];
+                    NSString *file_path = [aPath stringByAppendingPathComponent:filename];
                     if (![FCFileManager existsItemAtPath:file_path]) {
-                        [binary writeToFile:file_path options:NSDataWritingWithoutOverwriting error:&error];
+                        [binary writeToFile:file_path
+                                    options:NSDataWritingWithoutOverwriting
+                                      error:&error];
                         if (error) {
                             @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
                             return;
@@ -1849,6 +1849,19 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     a.created_at = [card.modified_at_object timeIntervalSince1970];
                     a.salt_hash = salt_hash;
                     [attachments_arr addObject:a];
+                    
+                    // 保存视频缩略图
+                    NSString *videoThumbnailPath = [a thumbnailPathWithSize:CGSizeMake(0, 0)];
+                    if (![FCFileManager existsItemAtPath:videoThumbnailPath]) {
+                        NSData *thumbnailBinary = [videoFrameView.centerImage imageDataRepresentation];
+                        [thumbnailBinary writeToFile:videoThumbnailPath
+                                             options:NSDataWritingWithoutOverwriting
+                                               error:&error];
+                        if (error) {
+                            @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                            return;
+                        }
+                    }
                 } else if ([attachment.content isMemberOfClass:[CourtesyAudioFrameView class]]) {
                     CourtesyAudioFrameView *audioFrameView = (CourtesyAudioFrameView *)attachment.content;
                     CourtesyAttachmentType file_type = [[audioFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
@@ -1871,7 +1884,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     }
                     NSString *salt_hash = [binary sha256String];
                     NSString *filename = [salt_hash stringByAppendingPathExtension:[originalURL pathExtension]];
-                    NSString *file_path = [tPath stringByAppendingPathComponent:filename];
+                    NSString *file_path = [aPath stringByAppendingPathComponent:filename];
                     if (![FCFileManager existsItemAtPath:file_path]) {
                         [binary writeToFile:file_path options:NSDataWritingWithoutOverwriting error:&error];
                         if (error) {

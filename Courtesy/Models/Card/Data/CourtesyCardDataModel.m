@@ -10,12 +10,20 @@
 #import "CourtesyCardAttachmentModel.h"
 #import "CourtesyCardStyleManager.h"
 
-@implementation CourtesyCardDataModel
+@interface CourtesyCardDataModel ()
+
+@end
+
+@implementation CourtesyCardDataModel {
+    NSURL *_thumbnailURL;
+}
 
 #pragma mark - Getter / Setter
 
 - (void)setContent:(NSString *)content {
     _content = content;
+    // 清除缩略图
+    _thumbnailURL = nil;
     BOOL mainTitled = NO;
     BOOL briefTitled = NO;
     content = [content stringByReplacingOccurrencesOfString:@"\U0000fffc" withString:@""];
@@ -64,17 +72,20 @@
 }
 
 - (NSURL *)smallThumbnailURL {
-    if ([[self attachments] count] == 0) {
-        return nil;
-    }
-    for (CourtesyCardAttachmentModel *m in self.attachments) {
-        if (m.type == CourtesyAttachmentImage && m.local_url) {
-#warning TODO: Other types of media should also have thumbnail images
-            NSURL *url = [NSURL fileURLWithPath:[m.local_url path]];
-            return url;
+    if (!_thumbnailURL) {
+        if (!self.attachments || [[self attachments] count] == 0) {
+            return nil;
+        }
+        for (CourtesyCardAttachmentModel *m in self.attachments) {
+            NSURL *thumbnailURL = [m thumbnailImageURLWithSize:kCardThumbnailImageSmall];
+            if (thumbnailURL) {
+                _thumbnailURL = thumbnailURL;
+            } else {
+                CYLog(@"Cannot fetch thumbnail URL!");
+            }
         }
     }
-    return nil;
+    return _thumbnailURL;
 }
 
 - (CourtesyCardStyleModel *)style { // Lazy Loading

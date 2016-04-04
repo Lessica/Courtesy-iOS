@@ -12,6 +12,6 @@
 
 @property (nonatomic, copy) NSURL *videoURL;
 @property (nonatomic, strong) UIImageView *playBtn;
-@property (nonatomic, strong) UIImageView *centerBtn;
+@property (nonatomic, strong) UIButton *centerBtn;
 
 @end

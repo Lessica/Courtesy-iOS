@@ -61,16 +61,17 @@
              [self playBtn]];
 }
 
-- (UIImageView *)centerBtn {
+- (UIButton *)centerBtn {
     if (!_centerBtn) {
-        _centerBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
+        _centerBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
         _centerBtn.center = CGPointMake(self.centerImageView.frame.size.width / 2, self.centerImageView.frame.size.height / 2);
-        _centerBtn.backgroundColor = [UIColor clearColor];
+        _centerBtn.layer.cornerRadius = _centerBtn.frame.size.width / 2;
+        _centerBtn.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.65f];
         _centerBtn.tintColor = [UIColor whiteColor];
         _centerBtn.userInteractionEnabled = YES;
-        _centerBtn.image = [[UIImage imageNamed:@"53-play-center"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        UITapGestureRecognizer *playGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo)];
-        [_centerBtn addGestureRecognizer:playGesture];
+        [_centerBtn setImage:[[UIImage imageNamed:@"53-play-center"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        _centerBtn.contentMode = UIViewContentModeCenter;
+        [_centerBtn addTarget:self action:@selector(playVideo) forControlEvents:UIControlEventTouchUpInside];
     }
     return _centerBtn;
 }
