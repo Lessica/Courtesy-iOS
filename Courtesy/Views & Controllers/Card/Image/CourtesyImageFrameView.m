@@ -155,7 +155,9 @@
     if (!self.labelOpen) {
         [self toggleBottomLabelView:YES animated:YES];
     } else {
-        [self toggleBottomLabelView:NO animated:YES];
+        if (![self.bottomLabel isFirstResponder]) {
+            [self.bottomLabel becomeFirstResponder];
+        }
     }
 }
 

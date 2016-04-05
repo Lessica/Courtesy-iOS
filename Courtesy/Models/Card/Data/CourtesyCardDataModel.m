@@ -80,8 +80,7 @@
             NSURL *thumbnailURL = [m thumbnailImageURLWithSize:kCardThumbnailImageSmall];
             if (thumbnailURL) {
                 _thumbnailURL = thumbnailURL;
-            } else {
-                CYLog(@"Cannot fetch thumbnail URL!");
+                break;
             }
         }
     }

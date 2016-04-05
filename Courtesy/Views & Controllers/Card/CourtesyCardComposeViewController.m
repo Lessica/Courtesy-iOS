@@ -520,6 +520,13 @@
     _cardEdited = NO;
     [[YYTextKeyboardManager defaultManager] addObserver:self];
     self.inputViewType = kCourtesyInputViewDefault;
+    
+    // 延迟播放动画
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (!_previewContext) {
+            [self doFirstCardViewAnimation];
+        }
+    });
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishLoading:)]) {
         [self.delegate cardComposeViewDidFinishLoading:self];
@@ -535,9 +542,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (!_previewContext) {
-        [self doFirstCardViewAnimation];
-    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -1551,10 +1555,12 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)imageFrameDidBeginEditing:(CourtesyImageFrameView *)imageFrame {
-    CGRect rect = [self getAttachmentRect:imageFrame];
-    CGRect newRect = CGRectMake(rect.origin.x, rect.size.height, rect.size.width, self.view.frame.size.height / 2 + 128);
-    [self.textView scrollRectToVisible:newRect
-                              animated:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        CGRect rect = [self getAttachmentRect:imageFrame];
+        CGRect newRect = CGRectMake(rect.origin.x, rect.origin.y + rect.size.height + self.view.frame.size.height / 2, rect.size.width, 24);
+        [self.textView scrollRectToVisible:newRect
+                                  animated:YES];
+    });
 }
 
 - (void)imageFrameDidEndEditing:(CourtesyImageFrameView *)imageFrame {

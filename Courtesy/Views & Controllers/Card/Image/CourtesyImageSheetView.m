@@ -30,11 +30,13 @@
         UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width / 2, self.frame.size.height)];
         leftView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
         leftView.layer.borderWidth = 0.5;
+        [leftView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(imageSheetViewCameraButtonTapped:)]];
         [self addSubview:leftView];
         
         UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width / 2 - 0.5, 0, self.frame.size.width / 2, self.frame.size.height)];
         rightView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
         rightView.layer.borderWidth = 0.5;
+        [rightView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(imageSheetViewAlbumButtonTapped:)]];
         [self addSubview:rightView];
         
         UIButton *cameraBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, leftView.frame.size.width / 4, leftView.frame.size.width / 4)];

@@ -167,8 +167,6 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
     CGFloat scaledCenterViewHorizontalOffset = sideViewHorizontalOffset - direction * (transWidth * (1 - centerScaleValue));
     
     if (ratio > 1.0 && centerScaleValue < kJVCenterViewDestinationScale) return;
-    CYLog(@"Ratio: %f", ratio);
-    CYLog(@"Center Scale: %f", centerScaleValue);
     
     CGAffineTransform sideTranslate = CGAffineTransformMakeTranslation(sideViewHorizontalOffset, 0.0);
     sideView.transform = sideTranslate;
