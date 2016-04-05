@@ -357,12 +357,15 @@
 
 #pragma mark - PECropViewControllerDelegate
 
-- (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage {
+- (void)cropViewController:(PECropViewController *)controller
+    didFinishCroppingImage:(UIImage *)croppedImage {
     if (!self.editable) return;
     if (controller) {
         [controller dismissViewControllerAnimated:YES completion:nil];
         if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameShouldReplaced:by:userinfo:)]) {
-            [self.delegate imageFrameShouldReplaced:self by:croppedImage userinfo:self.userinfo];
+            [self.delegate imageFrameShouldReplaced:self
+                                                 by:croppedImage
+                                           userinfo:self.userinfo];
         }
     }
 }

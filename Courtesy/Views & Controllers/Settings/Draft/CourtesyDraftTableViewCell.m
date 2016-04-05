@@ -36,15 +36,7 @@
     NSURL *thumbnailURL = card.card_data.smallThumbnailURL;
     if (thumbnailURL) {
         [self.imagePreview setImageWithURL:thumbnailURL
-                               placeholder:nil
-                                   options:YYWebImageOptionSetImageWithFadeAnimation
-                                   manager:nil
-                                  progress:nil
-                                 transform:^UIImage * _Nullable(UIImage * _Nonnull image, NSURL * _Nonnull url) {
-                                     return [image imageByResizeToSize:CGSizeMake(self.frame.size.height, self.frame.size.height) // Square ones
-                                                           contentMode:UIViewContentModeScaleAspectFit];
-                                 }
-                                completion:nil];
+                                   options:YYWebImageOptionSetImageWithFadeAnimation];
     } else {
         [self.imagePreview setImage:nil]; // 清除缩略图
     }

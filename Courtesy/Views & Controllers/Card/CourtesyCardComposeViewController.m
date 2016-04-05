@@ -1350,7 +1350,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (!self.editable) return nil;
     CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, self.style.cardLineHeight * 2) andDelegate:self andUserinfo:info];
     [frameView setAudioURL:url];
-    return [self insertFrameToTextView:frameView at:range animated:animated];
+    return [self insertFrameToTextView:frameView
+                                    at:range
+                              animated:animated];
 }
 
 #pragma mark - Image Frame Builder
@@ -1363,7 +1365,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, 0) andDelegate:self andUserinfo:info];
     [frameView setCenterImage:image];
     if (frameView.frame.size.height < self.style.cardLineHeight) return nil;
-    return [self insertFrameToTextView:frameView at:range animated:animated];
+    return [self insertFrameToTextView:frameView
+                                    at:range
+                              animated:animated];
 }
 
 #pragma mark - Video Frame Builder
@@ -1488,7 +1492,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                                                                            mode:JTSImageViewControllerMode_Image
                                                                                 backgroundStyle:JTSImageViewControllerBackgroundOption_Scaled];
         imageViewer.interactionsDelegate = self;
-        [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+        [imageViewer showFromViewController:self
+                                 transition:JTSImageViewControllerTransition_FromOriginalPosition];
     }
 }
 
@@ -1497,8 +1502,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                         userinfo:(NSDictionary *)userinfo {
     if (!self.editable) return;
     NSRange beforeRange = [self getAttachmentRange:imageFrame];
-    [self imageFrameShouldDeleted:imageFrame animated:NO];
-    [self addNewImageFrame:image at:NSMakeRange(beforeRange.location, 0) animated:NO userinfo:userinfo];
+    [self imageFrameShouldDeleted:imageFrame
+                         animated:NO];
+    [self addNewImageFrame:image
+                        at:NSMakeRange(beforeRange.location, 0)
+                  animated:NO
+                  userinfo:@{
+                             @"title": [userinfo hasKey:@"title"] ? [userinfo objectForKey:@"title"] : @"",
+                             @"type": @(CourtesyAttachmentImage),
+                             @"data": [image imageDataRepresentation]
+                             }];
 }
 
 - (void)imageFrameShouldDeleted:(CourtesyImageFrameView *)imageFrame
@@ -1532,13 +1545,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     cropViewController.delegate = imageFrame;
     cropViewController.image = imageFrame.centerImage;
     UINavigationController *navc = [[UINavigationController alloc] initWithRootViewController:cropViewController];
-    [self presentViewController:navc animated:YES completion:nil];
+    [self presentViewController:navc
+                       animated:YES
+                     completion:nil];
 }
 
 - (void)imageFrameDidBeginEditing:(CourtesyImageFrameView *)imageFrame {
     CGRect rect = [self getAttachmentRect:imageFrame];
     CGRect newRect = CGRectMake(rect.origin.x, rect.size.height, rect.size.width, self.view.frame.size.height / 2 + 128);
-    [self.textView scrollRectToVisible:newRect animated:YES];
+    [self.textView scrollRectToVisible:newRect
+                              animated:YES];
 }
 
 - (void)imageFrameDidEndEditing:(CourtesyImageFrameView *)imageFrame {
