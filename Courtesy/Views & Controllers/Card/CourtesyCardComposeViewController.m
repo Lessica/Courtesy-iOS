@@ -99,6 +99,7 @@
 
 @implementation CourtesyCardComposeViewController {
     BOOL firstAnimation;
+    BOOL firstAppear;
 }
 
 - (instancetype)initWithCard:(nullable CourtesyCardModel *)card {
@@ -518,15 +519,10 @@
     
     // 设置输入区域属性
     _cardEdited = NO;
+    firstAnimation = YES;
+    firstAppear = YES;
     [[YYTextKeyboardManager defaultManager] addObserver:self];
     self.inputViewType = kCourtesyInputViewDefault;
-    
-    // 延迟播放动画
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (!_previewContext) {
-            [self doFirstCardViewAnimation];
-        }
-    });
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishLoading:)]) {
         [self.delegate cardComposeViewDidFinishLoading:self];
@@ -542,6 +538,10 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    if (firstAppear && !_previewContext) {
+        [self doCardViewAnimation];
+        firstAppear = NO;
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -550,11 +550,6 @@
 }
 
 #pragma mark - animation
-
-- (void)doFirstCardViewAnimation {
-    firstAnimation = YES;
-    [self doCardViewAnimation];
-}
 
 - (void)doCardViewAnimation {
     if (self.editable) {
