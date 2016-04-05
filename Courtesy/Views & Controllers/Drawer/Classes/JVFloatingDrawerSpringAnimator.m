@@ -157,19 +157,24 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
     
     CGFloat sideWidth   = sideView.bounds.size.width;
     CGFloat centerWidth = centerView.bounds.size.width;
-    CGFloat direction = toLeft ? 1.0 : -1.0;
-    CGFloat scaledValue = (transWidth / centerWidth);
-    CGFloat centerViewHorizontalOffset = direction * sideWidth * scaledValue;
     
-    CGAffineTransform sideTranslate = CGAffineTransformMakeTranslation(centerViewHorizontalOffset / 1.5, 0.0);
+    CGFloat direction = toLeft ? 1.0 : -1.0;
+    CGFloat ratio = (transWidth / (centerWidth * kJVCenterViewDestinationScale));
+    
+    CGFloat sideViewHorizontalOffset = direction * sideWidth * ratio;
+    CGFloat centerScaleValue = 1.0 - (1.0 - kJVCenterViewDestinationScale) * ratio;
+    
+    CGFloat scaledCenterViewHorizontalOffset = sideViewHorizontalOffset - direction * (transWidth * (1 - centerScaleValue));
+    
+    if (ratio > 1.0 && centerScaleValue < kJVCenterViewDestinationScale) return;
+    CYLog(@"Ratio: %f", ratio);
+    CYLog(@"Center Scale: %f", centerScaleValue);
+    
+    CGAffineTransform sideTranslate = CGAffineTransformMakeTranslation(sideViewHorizontalOffset, 0.0);
     sideView.transform = sideTranslate;
     
-    CGFloat scaledScale = 1.0 - (1.0 - kJVCenterViewDestinationScale) * scaledValue;
-    CGAffineTransform centerScale = CGAffineTransformMakeScale(scaledScale, scaledScale);
-    
-    CGFloat scaledCenterViewHorizontalOffset = direction * (sideWidth * scaledValue - (transWidth - scaledScale * transWidth));
+    CGAffineTransform centerScale = CGAffineTransformMakeScale(centerScaleValue, centerScaleValue);
     CGAffineTransform centerTranslate = CGAffineTransformMakeTranslation(scaledCenterViewHorizontalOffset, 0.0);
-    
     centerView.transform = CGAffineTransformConcat(centerScale, centerTranslate);
 }
 

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ParallaxHeaderView : UIView
+@interface CourtesyParallaxHeaderView : UIView
 @property (nonatomic, strong) IBOutlet UILabel *headerTitleLabel;
 @property (nonatomic, strong) UIImage *headerImage;
 @property (nonatomic, strong) NSURL *headerImageURL;

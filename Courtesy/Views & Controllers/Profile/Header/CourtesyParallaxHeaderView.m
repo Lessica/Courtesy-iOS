@@ -8,9 +8,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-#import "ParallaxHeaderView.h"
+#import "CourtesyParallaxHeaderView.h"
 
-@interface ParallaxHeaderView ()
+@interface CourtesyParallaxHeaderView ()
 @property (weak, nonatomic) IBOutlet UIScrollView *imageScrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIView *subView;
@@ -23,11 +23,11 @@ static CGFloat kParallaxDeltaFactor = 0.5f;
 static CGFloat kMaxTitleAlphaOffset = 100.0f;
 static CGFloat kLabelPaddingDist = 8.0f;
 
-@implementation ParallaxHeaderView
+@implementation CourtesyParallaxHeaderView
 
 + (id)parallaxHeaderViewWithImage:(UIImage *)image forSize:(CGSize)headerSize;
 {
-    ParallaxHeaderView *headerView = [[ParallaxHeaderView alloc] initWithFrame:CGRectMake(0, 0, headerSize.width, headerSize.height)];
+    CourtesyParallaxHeaderView *headerView = [[CourtesyParallaxHeaderView alloc] initWithFrame:CGRectMake(0, 0, headerSize.width, headerSize.height)];
     headerView.headerImage = image;
     [headerView initialSetupForDefaultHeader];
     return headerView;
@@ -35,7 +35,7 @@ static CGFloat kLabelPaddingDist = 8.0f;
 
 + (id)parallaxHeaderViewWithImageURL:(NSURL *)imageURL forSize:(CGSize)headerSize;
 {
-    ParallaxHeaderView *headerView = [[ParallaxHeaderView alloc] initWithFrame:CGRectMake(0, 0, headerSize.width, headerSize.height)];
+    CourtesyParallaxHeaderView *headerView = [[CourtesyParallaxHeaderView alloc] initWithFrame:CGRectMake(0, 0, headerSize.width, headerSize.height)];
     headerView.headerImageURL = imageURL;
     [headerView initialSetupForDefaultHeader];
     return headerView;
@@ -43,7 +43,7 @@ static CGFloat kLabelPaddingDist = 8.0f;
 
 + (id)parallaxHeaderViewWithSubView:(UIView *)subView
 {
-    ParallaxHeaderView *headerView = [[ParallaxHeaderView alloc] initWithFrame:CGRectMake(0, 0, subView.frame.size.width, subView.frame.size.height)];
+    CourtesyParallaxHeaderView *headerView = [[CourtesyParallaxHeaderView alloc] initWithFrame:CGRectMake(0, 0, subView.frame.size.width, subView.frame.size.height)];
     [headerView initialSetupForCustomSubView:subView];
     return headerView;
 }

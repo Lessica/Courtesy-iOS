@@ -11,7 +11,7 @@
 #import "CourtesyAccountProfileModel.h"
 #import "RSKImageCropper.h"
 #import "JTSImageViewController.h"
-#import "ParallaxHeaderView.h"
+#import "CourtesyParallaxHeaderView.h"
 
 #define kProfileAvatarReuseIdentifier @"kProfileAvatarReuseIdentifier"
 #define kProfileNickReuseIdentifier @"kProfileNickReuseIdentifier"
@@ -64,7 +64,7 @@ UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *lastLoginAtDetailLabel;
 @property (weak, nonatomic) IBOutlet UITextView *introductionLabel;
 
-@property (strong, nonatomic) ParallaxHeaderView *headerView;
+@property (strong, nonatomic) CourtesyParallaxHeaderView *headerView;
 
 @end
 
@@ -86,14 +86,14 @@ UIScrollViewDelegate>
     [self.tableView addGestureRecognizer:longPress];
     
     // Header View
-    ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithImage:[UIImage imageNamed:@"street"] forSize:CGSizeMake(self.tableView.frame.size.width, 220)];
+    CourtesyParallaxHeaderView *headerView = [CourtesyParallaxHeaderView parallaxHeaderViewWithImage:[UIImage imageNamed:@"street"] forSize:CGSizeMake(self.tableView.frame.size.width, 220)];
     self.headerView = headerView;
     [self.tableView setTableHeaderView:headerView];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == self.tableView) {
-        [(ParallaxHeaderView *)self.tableView.tableHeaderView layoutHeaderViewForScrollViewOffset:scrollView.contentOffset];
+        [(CourtesyParallaxHeaderView *)self.tableView.tableHeaderView layoutHeaderViewForScrollViewOffset:scrollView.contentOffset];
     }
 }
 
