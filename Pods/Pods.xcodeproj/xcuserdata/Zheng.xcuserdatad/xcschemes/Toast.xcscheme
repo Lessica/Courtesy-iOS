@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'B318E2716320529433997B87FB1DB641'
-               BlueprintName = 'Toast'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Toast.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B318E2716320529433997B87FB1DB641"
+               BlueprintName = "Toast"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "Toast.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

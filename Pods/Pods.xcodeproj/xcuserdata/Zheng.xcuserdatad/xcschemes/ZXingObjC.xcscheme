@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '13D5C7F1A3DA277D593D90321C804FAD'
-               BlueprintName = 'ZXingObjC'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'ZXingObjC.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "13D5C7F1A3DA277D593D90321C804FAD"
+               BlueprintName = "ZXingObjC"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "ZXingObjC.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -146,7 +146,7 @@
     [self.view addSubview:fakeBar];
     
     /* Init of Card View */
-    UIView *cardView = [[UIView alloc] initWithFrame:CGRectMake(kComposeCardViewMargin, fakeBar.frame.size.height + kComposeCardViewMargin, self.view.frame.size.width - kComposeCardViewMargin * 2, self.view.frame.size.height - kComposeCardViewMargin * 2)];
+    UIView *cardView = [[UIView alloc] initWithFrame:CGRectMake(kComposeCardViewMargin, (CGFloat) (fakeBar.frame.size.height + kComposeCardViewMargin), (CGFloat) (self.view.frame.size.width - kComposeCardViewMargin * 2), (CGFloat) (self.view.frame.size.height - kComposeCardViewMargin * 2))];
     cardView.backgroundColor = self.style.cardBackgroundColor;
     cardView.layer.shadowOffset = CGSizeMake(0, 1.5);
     cardView.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -343,8 +343,8 @@
     [self.view addSubview:circleCloseBtn];
     [self.view bringSubviewToFront:circleCloseBtn];
     [circleCloseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).with.offset(fakeBar.frame.size.height + kComposeCardViewMargin * 2);
-        make.left.equalTo(self.view.mas_left).with.offset(kComposeCardViewMargin * 2);
+        make.top.equalTo(self.view.mas_top).with.offset((CGFloat) (fakeBar.frame.size.height + kComposeCardViewMargin * 2));
+        make.left.equalTo(self.view.mas_left).with.offset((CGFloat) (kComposeCardViewMargin * 2));
         make.width.equalTo(@32);
         make.height.equalTo(@32);
     }];
@@ -372,8 +372,8 @@
     [self.view addSubview:circleApproveBtn];
     [self.view bringSubviewToFront:circleApproveBtn];
     [circleApproveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).with.offset(fakeBar.frame.size.height + kComposeCardViewMargin * 2);
-        make.right.equalTo(self.view.mas_right).with.offset(-kComposeCardViewMargin * 2);
+        make.top.equalTo(self.view.mas_top).with.offset((CGFloat) (fakeBar.frame.size.height + kComposeCardViewMargin * 2));
+        make.right.equalTo(self.view.mas_right).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
         make.width.equalTo(@32);
         make.height.equalTo(@32);
     }];
@@ -417,7 +417,7 @@
     UIImageView *circleSaveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleSaveBtn.backgroundColor = self.style.buttonBackgroundColor;
     circleSaveBtn.tintColor = self.style.buttonTintColor;
-    circleSaveBtn.alpha = self.style.standardAlpha - 0.2;
+    circleSaveBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
     circleSaveBtn.image = [[UIImage imageNamed:@"103-down"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     circleSaveBtn.layer.masksToBounds = YES;
     circleSaveBtn.layer.cornerRadius = circleSaveBtn.frame.size.height / 2;
@@ -443,7 +443,7 @@
     [self.view bringSubviewToFront:circleSaveBtn];
     [circleSaveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(cardView.mas_centerX);
-        make.bottom.equalTo(self.view.mas_bottom).with.offset(-kComposeCardViewMargin * 2);
+        make.bottom.equalTo(self.view.mas_bottom).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
         make.width.equalTo(@32);
         make.height.equalTo(@32);
     }];
@@ -565,8 +565,8 @@
         self.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectUpdated, 0, 0, 0);
         if (firstAnimation) {
             self.fakeBar.alpha = self.style.standardAlpha;
-            self.circleApproveBtn.alpha = self.style.standardAlpha - 0.2;
-            self.circleCloseBtn.alpha = self.style.standardAlpha - 0.2;
+            self.circleApproveBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
+            self.circleCloseBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
             [self.textView scrollToTop];
         }
         [UIView commitAnimations];
@@ -680,7 +680,7 @@
         __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.5 animations:^{
             __strong typeof(self) strongSelf = weakSelf;
-            strongSelf.circleSaveBtn.alpha = strongSelf.style.standardAlpha - 0.2;
+            strongSelf.circleSaveBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
         } completion:nil];
         [self.view makeToast:@"发布前预览"
                     duration:kStatusBarNotificationTime
@@ -916,12 +916,12 @@
     if (!self.editable) return;
     NSRange range = self.textView.selectedRange;
     if (range.length <= 0 && [self.textView.typingAttributes hasKey:NSParagraphStyleAttributeName]) {
-        NSParagraphStyle *paragraphStyle = [self.textView.typingAttributes objectForKey:NSParagraphStyleAttributeName];
+        NSParagraphStyle *paragraphStyle = self.textView.typingAttributes[NSParagraphStyleAttributeName];
         NSMutableParagraphStyle *newParagraphStyle = [[NSMutableParagraphStyle alloc] init];
         [newParagraphStyle setParagraphStyle:paragraphStyle];
         newParagraphStyle.alignment = alignment;
         NSMutableDictionary *newTypingAttributes = [[NSMutableDictionary alloc] initWithDictionary:self.textView.typingAttributes];
-        [newTypingAttributes setObject:newParagraphStyle forKey:NSParagraphStyleAttributeName];
+        newTypingAttributes[NSParagraphStyleAttributeName] = newParagraphStyle;
         [self.textView setTypingAttributes:newTypingAttributes];
     }
     [self.textView setTextAlignment:alignment];
@@ -940,19 +940,19 @@
 - (void)alertView:(LGAlertView *)alertView buttonPressedWithTitle:(NSString *)title index:(NSUInteger)index {
     if (index == 0) {
         if (
-            [alertView.textFieldsArray objectAtIndex:0]
-            && [[alertView.textFieldsArray objectAtIndex:0] isKindOfClass:[UITextField class]]
-            && [alertView.textFieldsArray objectAtIndex:1]
-            && [[alertView.textFieldsArray objectAtIndex:1] isKindOfClass:[UITextField class]]
+            alertView.textFieldsArray[0]
+            && [alertView.textFieldsArray[0] isKindOfClass:[UITextField class]]
+            && alertView.textFieldsArray[1]
+            && [alertView.textFieldsArray[1] isKindOfClass:[UITextField class]]
             ) {
             NSRange range = self.textView.selectedRange;
-            NSString *title = [(UITextField *)[alertView.textFieldsArray objectAtIndex:0] text];
-            NSString *url = [(UITextField *)[alertView.textFieldsArray objectAtIndex:1] text];
+            NSString *field_title = [(UITextField *) alertView.textFieldsArray[0] text];
+            NSString *url = [(UITextField *) alertView.textFieldsArray[1] text];
             NSString *insert_str = nil;
             if ([url isUrl] || [url isEmail]) {
-                insert_str = [NSString stringWithFormat:@"[%@] (%@)", title, url];
+                insert_str = [NSString stringWithFormat:@"[%@] (%@)", field_title, url];
             } else {
-                insert_str = [NSString stringWithFormat:@"[%@]: %@", title, url];
+                insert_str = [NSString stringWithFormat:@"[%@]: %@", field_title, url];
             }
             [self.textView replaceRange:[YYTextRange rangeWithRange:range] withText:insert_str];
         }
@@ -1177,7 +1177,7 @@
     if (mediaItemCollection.count == 1) {
         if (mediaItemCollection.mediaTypes <= MPMediaTypeAnyAudio) {
             for (MPMediaItem *item in [mediaItemCollection items]) {
-                if ([item hasProtectedAsset] == NO && [item isCloudItem] == NO)
+                if (![item isCloudItem])
                 { // Common Music
                     __weak typeof(self) weakSelf = self;
                     NSString *tempPath = NSTemporaryDirectory();
@@ -1226,14 +1226,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if ([info hasKey:UIImagePickerControllerMediaType]
         && [info hasKey:UIImagePickerControllerMediaURL]
         && (
-            [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeMovie] ||
-            [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeVideo]
+            [info[UIImagePickerControllerMediaType] isEqualToString:(NSString *) kUTTypeMovie] ||
+            [info[UIImagePickerControllerMediaType] isEqualToString:(NSString *) kUTTypeVideo]
             ))
     { // 视频或电影
         if (
-            [[info objectForKey:UIImagePickerControllerMediaURL] isKindOfClass:[NSURL class]]
+            [info[UIImagePickerControllerMediaURL] isKindOfClass:[NSURL class]]
             ) {
-            __block NSURL *mediaURL = (NSURL *)[info objectForKey:UIImagePickerControllerMediaURL];
+            __block NSURL *mediaURL = (NSURL *) info[UIImagePickerControllerMediaURL];
             __strong typeof(self) weakSelf = self;
             [picker dismissViewControllerAnimated:YES completion:^{
                 __strong typeof(self) strongSelf = weakSelf;
@@ -1249,16 +1249,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                   [info hasKey:UIImagePickerControllerReferenceURL]
                   )
               && (
-                  [[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]
+                  [info[UIImagePickerControllerMediaType] isEqualToString:(NSString *) kUTTypeImage]
                   ))
    { // 静态图片、动态图片
        if (
            [info hasKey:UIImagePickerControllerReferenceURL]
            && (
-               [[info objectForKey:UIImagePickerControllerReferenceURL] isKindOfClass:[NSURL class]]
+               [info[UIImagePickerControllerReferenceURL] isKindOfClass:[NSURL class]]
            )) { // 从别的什么地方保存的或者相册里的
                __weak typeof(self) weakSelf = self;
-               __block NSURL *assetURL = (NSURL *)[info objectForKey:UIImagePickerControllerReferenceURL];
+               __block NSURL *assetURL = (NSURL *) info[UIImagePickerControllerReferenceURL];
                NSUInteger imageType = CourtesyAttachmentImage; // 静态图
                if ([[[assetURL pathExtension] uppercaseString] isEqualToString:@"GIF"])
                { // 动态图
@@ -1288,14 +1288,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
        }
        else if (
                 [info hasKey:UIImagePickerControllerOriginalImage]
-                && [[info objectForKey:UIImagePickerControllerOriginalImage] isKindOfClass:[UIImage class]]
+                && [info[UIImagePickerControllerOriginalImage] isKindOfClass:[UIImage class]]
                 ) { // 直接拍摄的，或者是相册里的原画
            NSData *imageData = nil;
            float quality = [sharedSettings preferredImageQuality];
            if (quality != kCourtesyQualityBest) {
-               imageData = UIImageJPEGRepresentation([info objectForKey:UIImagePickerControllerOriginalImage], quality);
+               imageData = UIImageJPEGRepresentation(info[UIImagePickerControllerOriginalImage], quality);
            } else {
-               imageData = [[info objectForKey:UIImagePickerControllerOriginalImage] imageDataRepresentation];
+               imageData = [info[UIImagePickerControllerOriginalImage] imageDataRepresentation];
            }
            __block YYImage *image = [YYImage imageWithData:imageData];
            __weak typeof(self) weakSelf = self;
@@ -1347,7 +1347,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, self.style.cardLineHeight * 2) andDelegate:self andUserinfo:info];
+    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, (CGFloat) (self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect), self.style.cardLineHeight * 2) andDelegate:self andUserinfo:info];
     [frameView setAudioURL:url];
     return [self insertFrameToTextView:frameView
                                     at:range
@@ -1361,7 +1361,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
     if (!self.editable) return nil;
-    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect, 0) andDelegate:self andUserinfo:info];
+    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, (CGFloat) (self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect), 0) andDelegate:self andUserinfo:info];
     [frameView setCenterImage:image];
     if (frameView.frame.size.height < self.style.cardLineHeight) return nil;
     return [self insertFrameToTextView:frameView
@@ -1390,7 +1390,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (animated) [frameView setAlpha:0.0];
     // Add Frame View to Text View (Method 1)
     NSMutableString *insertHelper = [[NSMutableString alloc] initWithString:@"\n"];
-    int t = floor(frameView.height / self.style.cardLineHeight);
+    int t = (int) floor(frameView.height / self.style.cardLineHeight);
     for (int i = 0; i < t; i++) [insertHelper appendString:@"\n"];
     NSMutableAttributedString *attachText = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSAttributedString alloc] initWithString:insertHelper attributes:self.originalAttributes]];
     [attachText appendAttributedString:[NSMutableAttributedString attachmentStringWithContent:frameView
@@ -1414,7 +1414,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     } else {
         CYLog(@"Insert Error!");
     }
-    CYLog(@"attachment: location = %lu, length = %lu", range.location, attachText.length);
+    CYLog(@"attachment: location = %lu, length = %lu", (unsigned long) range.location, (unsigned long) attachText.length);
     [self.textView setAttributedText:text];
     if (animated) {
         [self.textView setSelectedRange:NSMakeRange(range.location + attachText.length, 0)];
@@ -1470,9 +1470,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         { // 本地图片，判断是否为动态图
             if (
                 [imageFrame.userinfo hasKey:@"type"]
-                && [[imageFrame.userinfo objectForKey:@"type"] isKindOfClass:[NSNumber class]]
+                && [imageFrame.userinfo[@"type"] isKindOfClass:[NSNumber class]]
                 ) {
-                NSUInteger type = [(NSNumber *)[imageFrame.userinfo objectForKey:@"type"] unsignedIntegerValue];
+                NSUInteger type = [(NSNumber *) imageFrame.userinfo[@"type"] unsignedIntegerValue];
                 if (
                     type == CourtesyAttachmentImage
                     || type == CourtesyAttachmentVideo
@@ -1481,7 +1481,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                 }
                 else if (type == CourtesyAttachmentAnimatedImage)
                 { // 如果是动态图
-                    imageInfo.image = [JTSAnimatedGIFUtility animatedImageWithAnimatedGIFData:[imageFrame.userinfo objectForKey:@"data"]];
+                    imageInfo.image = [JTSAnimatedGIFUtility animatedImageWithAnimatedGIFData:imageFrame.userinfo[@"data"]];
                 }
             }
         }
@@ -1507,7 +1507,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                         at:NSMakeRange(beforeRange.location, 0)
                   animated:NO
                   userinfo:@{
-                             @"title": [userinfo hasKey:@"title"] ? [userinfo objectForKey:@"title"] : @"",
+                             @"title": [userinfo hasKey:@"title"] ? userinfo[@"title"] : @"",
                              @"type": @(CourtesyAttachmentImage),
                              @"data": [image imageDataRepresentation]
                              }];
@@ -1621,7 +1621,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         YYTextAttachment *attachment = (YYTextAttachment *)object;
         id obj = attachment.content;
         if (obj == atta) {
-            NSValue *range_val = [self.textView.textLayout.attachmentRanges objectAtIndex:index];
+            NSValue *range_val = self.textView.textLayout.attachmentRanges[index];
             NSRange range = [range_val rangeValue];
             NSUInteger bindingLength = 0;
             if ([obj isMemberOfClass:[CourtesyImageFrameView class]]) {
@@ -1632,7 +1632,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                 bindingLength = [(CourtesyVideoFrameView *)obj bindingLength];
             }
             NSRange realRange = NSMakeRange(range.location - bindingLength + 2, range.length + bindingLength - 1);
-            CYLog(@"attachment: location = %lu, length = %lu", realRange.location, realRange.length);
+            CYLog(@"attachment: location = %lu, length = %lu", (unsigned long) realRange.location, (unsigned long) realRange.length);
             return realRange;
         }
         index++;
@@ -1647,7 +1647,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         YYTextAttachment *attachment = (YYTextAttachment *)object;
         id obj = attachment.content;
         if (obj == atta) {
-            NSValue *rect_val = [self.textView.textLayout.attachmentRects objectAtIndex:index];
+            NSValue *rect_val = self.textView.textLayout.attachmentRects[index];
             CGRect rect = [rect_val CGRectValue];
             return rect;
         }
@@ -1705,10 +1705,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (self.markdownParser) {
         self.markdownParser.currentFont = cardFont;
         self.markdownParser.fontSize = fontSize;
-        self.markdownParser.headerFontSize = fontSize + 8.0;
+        self.markdownParser.headerFontSize = (CGFloat) (fontSize + 8.0);
     }
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:self.originalAttributes];
-    [dict setObject:cardFont forKey:NSFontAttributeName];
+    dict[NSFontAttributeName] = cardFont;
     _originalAttributes = dict;
     _originalFont = cardFont;
     self.textView.font = cardFont;
@@ -1771,7 +1771,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         NSString *aPath = [CourtesyCardAttachmentModel savedAttachmentsPath];
         CourtesyCardModel *card = self.card;
         card.is_public = [sharedSettings switchAutoPublic];
-        card.modified_at = [[NSDate date] timeIntervalSince1970];
+        card.modified_at = (NSUInteger) [[NSDate date] timeIntervalSince1970];
         if (card.newcard) {
             card.edited_count = 0;
             card.newcard = NO;
@@ -1786,8 +1786,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             if (attachment.content) {
                 if ([attachment.content isMemberOfClass:[CourtesyImageFrameView class]]) {
                     CourtesyImageFrameView *imageFrameView = (CourtesyImageFrameView *)attachment.content;
-                    CourtesyAttachmentType file_type = [[imageFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
-                    NSData *binary = [imageFrameView.userinfo objectForKey:@"data"];
+                    CourtesyAttachmentType file_type = (CourtesyAttachmentType) [[imageFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
+                    NSData *binary = imageFrameView.userinfo[@"data"];
                     NSString *ext = nil;
                     if (file_type == CourtesyAttachmentImage) {
                         ext = @"png";
@@ -1819,14 +1819,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     NSRange selfRange = [self getAttachmentRange:imageFrameView];
                     a.length = selfRange.length;
                     a.location = selfRange.location;
-                    a.created_at = [card.modified_at_object timeIntervalSince1970];
+                    a.created_at = (NSUInteger) [card.modified_at_object timeIntervalSince1970];
                     a.salt_hash = salt_hash;
                     [attachments_arr addObject:a];
                 } else if ([attachment.content isMemberOfClass:[CourtesyVideoFrameView class]]) {
                     CourtesyVideoFrameView *videoFrameView = (CourtesyVideoFrameView *)attachment.content;
-                    CourtesyAttachmentType file_type = [[videoFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
+                    CourtesyAttachmentType file_type = (CourtesyAttachmentType) [[videoFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
                     NSData *binary = nil;
-                    NSURL *originalURL = [videoFrameView.userinfo objectForKey:@"url"];
+                    NSURL *originalURL = videoFrameView.userinfo[@"url"];
                     if (!originalURL) {
                         @throw NSException(kCourtesyUnexceptedStatus, @"找不到视频地址");
                         return;
@@ -1863,7 +1863,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     NSRange selfRange = [self getAttachmentRange:videoFrameView];
                     a.length = selfRange.length;
                     a.location = selfRange.location;
-                    a.created_at = [card.modified_at_object timeIntervalSince1970];
+                    a.created_at = (NSUInteger) [card.modified_at_object timeIntervalSince1970];
                     a.salt_hash = salt_hash;
                     [attachments_arr addObject:a];
                     
@@ -1881,9 +1881,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     }
                 } else if ([attachment.content isMemberOfClass:[CourtesyAudioFrameView class]]) {
                     CourtesyAudioFrameView *audioFrameView = (CourtesyAudioFrameView *)attachment.content;
-                    CourtesyAttachmentType file_type = [[audioFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
+                    CourtesyAttachmentType file_type = (CourtesyAttachmentType) [audioFrameView.userinfo[@"type"] unsignedIntegerValue];
                     NSData *binary = nil;
-                    NSURL *originalURL = [audioFrameView.userinfo objectForKey:@"url"];
+                    NSURL *originalURL = audioFrameView.userinfo[@"url"];
                     if (!originalURL) {
                         @throw NSException(kCourtesyUnexceptedStatus, @"找不到音频地址");
                         return;
@@ -1918,7 +1918,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     NSRange selfRange = [self getAttachmentRange:audioFrameView];
                     a.length = selfRange.length;
                     a.location = selfRange.location;
-                    a.created_at = [card.modified_at_object timeIntervalSince1970];
+                    a.created_at = (NSUInteger) [card.modified_at_object timeIntervalSince1970];
                     a.salt_hash = salt_hash;
                     [attachments_arr addObject:a];
                 }

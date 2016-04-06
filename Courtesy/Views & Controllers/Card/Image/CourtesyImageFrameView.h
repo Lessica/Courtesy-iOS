@@ -42,7 +42,7 @@
 
 @optional
 - (void)imageFrameShouldReplaced:(CourtesyImageFrameView *)imageFrame
-                              by:(UIImage *)image
+                              by:(YYImage *)image
                         userinfo:(NSDictionary *)userinfo;
 
 @end
