@@ -7,7 +7,6 @@
 //
 
 #import "CourtesyMarkdownParser.h"
-#import "NSAttributedStringMarkdownParser.h"
 
 @implementation CourtesyMarkdownParser {
     UIFont *_font;
