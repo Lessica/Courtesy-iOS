@@ -160,8 +160,10 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     UIView *centerView = self.drawerView.centerViewContainer;
     CGPoint where = [gestureRecognizer locationInView:centerView];
-    if (where.x < self.dragRespondingWidth ||
-        where.x > (centerView.bounds.size.width - self.dragRespondingWidth)) {
+    UINavigationController *navc = ((UINavigationController *)_centerViewController);
+    UIViewController <JVFloatingDrawerCenterViewController> *topViewController = ((UIViewController <JVFloatingDrawerCenterViewController> *)navc.topViewController);
+    if ((where.x < self.dragRespondingWidth && [topViewController shouldOpenDrawerWithSide:JVFloatingDrawerSideLeft]) ||
+        (where.x > (centerView.bounds.size.width - self.dragRespondingWidth) && [topViewController shouldOpenDrawerWithSide:JVFloatingDrawerSideRight])) {
         return YES;
     }
     return NO;

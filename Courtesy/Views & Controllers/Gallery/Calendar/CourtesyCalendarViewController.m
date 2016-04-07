@@ -59,4 +59,8 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
+
 @end

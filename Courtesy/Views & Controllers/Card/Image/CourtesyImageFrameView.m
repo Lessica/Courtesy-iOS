@@ -366,7 +366,7 @@
         [controller dismissViewControllerAnimated:YES completion:nil];
         if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameShouldReplaced:by:userinfo:)]) {
             [self.delegate imageFrameShouldReplaced:self
-                                                 by:croppedImage
+                                                 by:(YYImage *)croppedImage
                                            userinfo:self.userinfo];
         }
     }

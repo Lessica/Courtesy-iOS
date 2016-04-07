@@ -7,11 +7,14 @@
 //
 
 #import "AppDelegate.h"
+#import "AppStorage.h"
 #import "CourtesyProfileTableViewController.h"
 #import "CourtesyAccountProfileModel.h"
 #import "RSKImageCropper.h"
 #import "JTSImageViewController.h"
 #import "CourtesyParallaxHeaderView.h"
+
+#define kCourtesyAvatarCachePrefix @"kCourtesyAvatarCache-%@"
 
 #define kProfileAvatarReuseIdentifier @"kProfileAvatarReuseIdentifier"
 #define kProfileNickReuseIdentifier @"kProfileNickReuseIdentifier"
@@ -46,6 +49,7 @@ CourtesyUploadAvatarDelegate,
 RSKImageCropViewControllerDelegate,
 JVFloatingDrawerCenterViewController,
 JTSImageViewControllerInteractionsDelegate,
+JTSImageViewControllerDismissalDelegate,
 UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
@@ -81,6 +85,9 @@ UIScrollViewDelegate>
     
     self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.size.height / 2;
     self.avatarImageView.layer.masksToBounds = YES;
+    self.avatarImageView.userInteractionEnabled = YES;
+    [self.avatarImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showOriginalAvatarImage:)]];
+    
     UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressToCopy:)];
     longPress.minimumPressDuration = 1.0;
     [self.tableView addGestureRecognizer:longPress];
@@ -100,7 +107,8 @@ UIScrollViewDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    _avatarImageView.imageURL = kProfile.avatar_url_medium;
+    [_avatarImageView setImageWithURL:kProfile.avatar_url_medium
+                              options:YYWebImageOptionSetImageWithFadeAnimation];
     _avatarNickLabel.text = kProfile.nick;
     _avatarDetailLabel.text = kAccount.email;
     _nickDetailLabel.text = kProfile.nick;
@@ -189,7 +197,7 @@ UIScrollViewDelegate>
 - (void)openMenu {
     LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"上传头像"
                                                     message:@"请选择一种方式"
-                                                      style:LGAlertViewStyleActionSheet buttonTitles:@[@"相机", @"本地相册", @"查看原图"]
+                                                      style:LGAlertViewStyleActionSheet buttonTitles:@[@"相机", @"本地相册"]
                                           cancelButtonTitle:@"取消"
                                      destructiveButtonTitle:nil
                                               actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
@@ -206,18 +214,30 @@ UIScrollViewDelegate>
             picker.allowsEditing = NO;
             [self presentViewController:picker animated:YES completion:nil];
         } else {
-            JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
-            imageInfo.referenceRect = self.avatarImageView.frame;
-            imageInfo.referenceView = self.avatarImageView;
-            imageInfo.imageURL = kProfile.avatar_url_original;
-            JTSImageViewController *imageViewer = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
-                                                                                               mode:JTSImageViewControllerMode_Image
-                                                                                    backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
-            imageViewer.interactionsDelegate = self;
-            [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+            
         }
     } cancelHandler:nil destructiveHandler:nil];
     [alert showAnimated:YES completionHandler:nil];
+}
+
+- (void)showOriginalAvatarImage:(id)sender {
+    JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
+    imageInfo.referenceRect = self.avatarImageView.frame;
+    imageInfo.referenceView = self.avatarImageView;
+    NSString *avatar_cache_hash = [[kProfile.avatar_url_original path] md5String];
+    NSString *avatar_cache_key = [NSString stringWithFormat:kCourtesyAvatarCachePrefix, avatar_cache_hash];
+    if ([[AppStorage sharedInstance] objectForKey:avatar_cache_key]) {
+        imageInfo.image = [UIImage imageWithData:[[AppStorage sharedInstance] objectForKey:avatar_cache_key]];
+    } else {
+        imageInfo.imageURL = kProfile.avatar_url_original;
+    }
+    JTSImageViewController *imageViewer = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
+                                                                                       mode:JTSImageViewControllerMode_Image
+                                                                            backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+    imageViewer.interactionsDelegate = self;
+    imageViewer.dismissalDelegate = self;
+    [imageViewer showFromViewController:self
+                             transition:JTSImageViewControllerTransition_FromOffscreen];
 }
 
 #pragma mark - JTSImageViewControllerInteractionsDelegate
@@ -244,6 +264,18 @@ UIScrollViewDelegate>
                                                                    position:CSToastPositionCenter];
                                             });
                                         }];
+}
+
+#pragma mark - JTSImageViewControllerDismissalDelegate
+
+- (void)imageViewerDidDismiss:(JTSImageViewController *)imageViewer {
+    if (imageViewer.image && imageViewer.imageInfo.imageURL) {
+        NSString *avatar_cache_hash = [[imageViewer.imageInfo.imageURL path] md5String];
+        NSString *avatar_cache_key = [NSString stringWithFormat:kCourtesyAvatarCachePrefix, avatar_cache_hash];
+        if (![[AppStorage sharedInstance] objectForKey:avatar_cache_key]) {
+            [[AppStorage sharedInstance] setObject:[imageViewer.image imageDataRepresentation] forKey:avatar_cache_key];
+        }
+    }
 }
 
 #pragma mark - UIImagePickerControllerDelegate

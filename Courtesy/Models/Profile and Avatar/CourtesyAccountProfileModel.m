@@ -198,11 +198,6 @@
 
 #pragma mark - 组合远程头像地址
 
-- (NSString *)avatar {
-#warning Replace unnecessary fix
-    return [_avatar stringByReplacingOccurrencesOfString:kAvatarSizeLarge withString:@""];
-}
-
 - (NSURL *)avatar_url_small {
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_AVATAR, [self.avatar stringByAppendingString:kAvatarSizeSmall]]];
 }

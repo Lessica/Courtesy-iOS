@@ -8,9 +8,10 @@
 
 #import "CourtesyCardAttachmentModel.h"
 #import "AppStorage.h"
-#import "FCFileManager.h"
+#import "FCFileManager.h" 
 
 #define kCourtesyAttachmentPrefix @"kCourtesyAttachmentPrefix-%@"
+#define kCourtesyThumbnailPrefix @"kCourtesyThumbnailPrefix-%@-%d-%d"
 
 @interface CourtesyCardAttachmentModel ()
 
@@ -127,7 +128,7 @@
 #pragma mark - thumbnail engine
 
 - (NSURL *)thumbnailImageURLWithSize:(CGSize)size {
-#warning Should handle remote cache request here
+    // TODO: Should handle remote cache request here
     if (self.type == CourtesyAttachmentImage || self.type == CourtesyAttachmentAnimatedImage) { // 图片
         // Find existing thumbnail
         NSError *error = nil;

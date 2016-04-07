@@ -590,15 +590,9 @@
 }
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
-    if (!self.editable) {
-        [self.textView scrollToTop];
-    } else {
+    if (self.editable) {
         if (firstAnimation) {
             firstAnimation = NO;
-            self.textView.selectedRange = NSMakeRange(self.textView.text.length, 0);
-            [self.textView becomeFirstResponder];
-        } else {
-            [self.textView scrollRangeToVisible:self.textView.selectedRange];
         }
     }
 }
@@ -694,17 +688,10 @@
 }
 
 - (void)generateTextViewLayer:(id)delegate {
-    CGSize imageSize = CGSizeMake(self.textView.yyContainerView.frame.size.width, self.textView.yyContainerView.frame.size.height);
-    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0.0); // Retina Support
-    CALayer *originalLayer = self.textView.yyContainerView.layer;
-    originalLayer.backgroundColor = [UIColor clearColor].CGColor;
-    [originalLayer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *originalImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
     CourtesyCardPreviewGenerator *generator = [CourtesyCardPreviewGenerator new];
     generator.delegate = delegate;
     generator.previewStyle = self.style.previewStyle;
-    generator.contentImage = originalImage;
+    generator.contentView = self.textView.yyContainerView;
     [generator generate];
 }
 
@@ -1947,7 +1934,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     UIPreviewAction *tap1 = [UIPreviewAction actionWithTitle:@"发布" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
         CYLog(@"Publish selected.");
-#warning Publish card selected.
+        // TODO: Publish card selected.
     }];
     
     UIPreviewAction *tap2 = [UIPreviewAction actionWithTitle:@"保存到相册" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {

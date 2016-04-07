@@ -84,7 +84,7 @@
 }
 
 - (void)_updateFonts {
-#warning CHANGED: Why would you replace my fonts?
+    // TODO: Why would you replace my fonts?
     _font = _currentFont ? [_currentFont fontWithSize:_fontSize] : [UIFont systemFontOfSize:_fontSize];
     _headerFonts = [NSMutableArray new];
     for (int i = 0; i < 6; i++) {

@@ -19,7 +19,7 @@
 
 @interface CourtesyCardPreviewGenerator : NSObject
 @property (nonatomic, strong) CourtesyPreviewStyleModel *previewStyle;
-@property (nonatomic, strong) UIImage *contentImage;
+@property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, weak) id<CourtesyCardPreviewGeneratorDelegate> delegate;
 
 - (void)generate;
