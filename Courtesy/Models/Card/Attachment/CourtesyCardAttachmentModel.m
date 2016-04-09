@@ -17,55 +17,82 @@
 
 @end
 
-@implementation CourtesyCardAttachmentModel
+@implementation CourtesyCardAttachmentModel {
+    NSString *_attachmentPath;
+    NSURL *_attachmentURL;
+}
 
 #pragma mark - paths
 
-+ (NSString *)savedAttachmentsPath {
++ (NSString *)savedAttachmentsPathWithCardToken:(NSString *)token {
     static NSString *tPath = nil;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-        tPath = [[NSURL fileURLWithPath:[[[UIApplication sharedApplication] documentsPath] stringByAppendingPathComponent:@"SavedAttachments"]] path];
+        NSString *documentPath = [[UIApplication sharedApplication] documentsPath];
+        NSString *savedAttachmentsDirectoryPath = [documentPath stringByAppendingPathComponent:@"SavedAttachments"];
+        NSString *savedAttachmentsDirectoryHashPath = [savedAttachmentsDirectoryPath stringByAppendingPathComponent:token];
+        tPath = [[NSURL fileURLWithPath:savedAttachmentsDirectoryHashPath] path];
         if (![FCFileManager isDirectoryItemAtPath:tPath])
             [FCFileManager createDirectoriesForPath:tPath error:nil];
     });
     return tPath;
 }
 
-+ (NSString *)savedThumbnailsPath {
-    static NSString *tPath = nil;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        tPath = [[NSURL fileURLWithPath:[[[UIApplication sharedApplication] documentsPath] stringByAppendingPathComponent:@"SavedThumbnails"]] path];
-        if (![FCFileManager isDirectoryItemAtPath:tPath])
-            [FCFileManager createDirectoriesForPath:tPath error:nil];
-    });
-    return tPath;
+- (NSString *)attachmentPath {
+    if (!_attachmentPath) {
+        NSString *attachmentPath = [[[self class] savedAttachmentsPathWithCardToken:self.card_token] stringByAppendingPathComponent:[NSString stringWithFormat:kCourtesyAttachmentPrefix, self.salt_hash]];
+        if (self.type == CourtesyAttachmentImage) {
+            attachmentPath = [attachmentPath stringByAppendingPathExtension:@"png"];
+        } else if (self.type == CourtesyAttachmentAnimatedImage) {
+            attachmentPath = [attachmentPath stringByAppendingPathExtension:@"gif"];
+        } else if (self.type == CourtesyAttachmentVideo) {
+            attachmentPath = [attachmentPath stringByAppendingPathExtension:@"mov"];
+        } else if (self.type == CourtesyAttachmentAudio) {
+            attachmentPath = [attachmentPath stringByAppendingPathExtension:@"caf"];
+        } else {
+            
+        }
+        _attachmentPath = attachmentPath;
+    }
+    CYLog(@"%@", _attachmentPath);
+    return _attachmentPath;
+}
+
+- (NSURL *)attachmentURL {
+    if (!_attachmentURL) {
+        _attachmentURL = [NSURL fileURLWithPath:[self attachmentPath]];
+    }
+    return _attachmentURL;
 }
 
 - (NSString *)thumbnailPathWithSize:(CGSize)size {
-    if (self.type == CourtesyAttachmentImage || self.type == CourtesyAttachmentAnimatedImage) {
-        return [[[self class] savedThumbnailsPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-%d-%d", self.salt_hash, (int)size.width, (int)size.height]];
-    } else if (self.type == CourtesyAttachmentVideo) {
-        return [[[self class] savedThumbnailsPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-preview", self.salt_hash]];
-    }
-    return nil;
+    NSString *thumbnailPath = [[[self class] savedAttachmentsPathWithCardToken:self.card_token] stringByAppendingPathComponent:[NSString stringWithFormat:kCourtesyThumbnailPrefix, self.salt_hash, (int)size.width, (int)size.height]];
+    thumbnailPath = [thumbnailPath stringByAppendingPathExtension:@"jpg"];
+    CYLog(@"%@", thumbnailPath);
+    return thumbnailPath;
 }
 
 #pragma mark - Init
 
-- (instancetype)initWithSaltHash:(NSString *)salt {
-    id obj = [[self appStorage] objectForKey:[NSString stringWithFormat:kCourtesyAttachmentPrefix, salt]];
-    if (!obj) {
-        return nil;
+- (instancetype)initWithSaltHash:(NSString *)salt andCardToken:(NSString *)token fromDatabase:(BOOL)fromDatabase {
+    if (fromDatabase) {
+        id obj = [[self appStorage] objectForKey:[NSString stringWithFormat:kCourtesyAttachmentPrefix, salt]];
+        if (!obj) {
+            return nil;
+        }
+        NSError *err = nil;
+        NSDictionary *aDict = obj;
+        if (self = [super initWithDictionary:aDict error:&err]) {
+            _salt_hash = salt;
+            _card_token = token;
+        }
+        NSAssert(err == nil, @"Error occured when parsing attachment model with its hash!");
+    } else {
+        if (self = [super init]) {
+            _salt_hash = salt;
+            _card_token = token;
+        }
     }
-    _salt_hash = salt;
-    NSError *err = nil;
-    NSDictionary *aDict = obj;
-    if (self = [super initWithDictionary:aDict error:&err]) {
-
-    }
-    NSAssert(err == nil, @"Error occured when parsing attachment model with its hash!");
     return self;
 }
 
@@ -73,21 +100,6 @@
 
 - (AppStorage *)appStorage {
     return [AppStorage sharedInstance];
-}
-
-- (void)setLocal_filename:(NSString<Optional> *)local_filename {
-    _local_filename = local_filename;
-    if (_local_filename) {
-        NSString *targetPath = [[NSURL fileURLWithPath:[[[UIApplication sharedApplication] documentsPath] stringByAppendingPathComponent:@"SavedAttachments"]] path];
-        _local_url = [NSURL fileURLWithPath:[targetPath stringByAppendingPathComponent:_local_filename]];
-    }
-}
-
-- (void)setRemote_url_path:(NSString<Optional> *)remote_url_path {
-    _remote_url_path = remote_url_path;
-    if (_remote_url_path) {
-        _remote_url = [NSURL URLWithString:_remote_url_path];
-    }
 }
 
 - (void)setUploaded_at:(NSUInteger)uploaded_at {
@@ -121,7 +133,7 @@
 }
 
 - (void)deleteInLocalDatabase {
-    [FCFileManager removeItemAtPath:[_local_url path]];
+    [FCFileManager removeItemAtPath:[self attachmentPath]];
     [[self appStorage] removeObjectForKey:[NSString stringWithFormat:kCourtesyAttachmentPrefix, self.salt_hash]];
 }
 
@@ -136,8 +148,8 @@
         if ([FCFileManager existsItemAtPath:thumbnailPath]) {
             return [NSURL fileURLWithPath:thumbnailPath];
         }
-        if (self.local_url) { // 本地缓存
-            UIImage *originalImage = [UIImage imageWithContentsOfFile:[self.local_url path]];
+        if ([self attachmentPath]) { // 本地缓存
+            UIImage *originalImage = [UIImage imageWithContentsOfFile:[self attachmentPath]];
             UIImage *resizedImage = [originalImage imageByResizeToSize:size contentMode:UIViewContentModeScaleAspectFit];
             NSData *resizedData = UIImageJPEGRepresentation(resizedImage, 0.618);
             [resizedData writeToFile:thumbnailPath
@@ -149,7 +161,8 @@
             return [NSURL fileURLWithPath:thumbnailPath];
         }
     } else if (self.type == CourtesyAttachmentVideo) { // 视频
-        if (self.local_url) { // 本地缓存
+        size = CGSizeMake(0, 0);
+        if ([self attachmentPath]) { // 本地缓存
             NSString *thumbnailPath = [self thumbnailPathWithSize:size];
             if ([FCFileManager existsItemAtPath:thumbnailPath]) {
                 return [NSURL fileURLWithPath:thumbnailPath];

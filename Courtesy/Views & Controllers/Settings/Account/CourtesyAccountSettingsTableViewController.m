@@ -34,7 +34,8 @@
         _tencentSwitch.on = [kAccount hasTencentAccount];
         _label_2.text = kProfile.nick;
         // _incognito
-        _avatarView.imageURL = kProfile.avatar_url_medium;
+        [_avatarView setImageWithURL:kProfile.avatar_url_medium
+                             options:YYWebImageOptionShowNetworkActivity | YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation];
     } else {
         _avatarView.image = [UIImage imageNamed:@"3-avatar"];
     }

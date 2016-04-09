@@ -108,7 +108,7 @@ UIScrollViewDelegate>
     [super viewWillAppear:animated];
     
     [_avatarImageView setImageWithURL:kProfile.avatar_url_medium
-                              options:YYWebImageOptionSetImageWithFadeAnimation];
+                              options:YYWebImageOptionShowNetworkActivity | YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation];
     _avatarNickLabel.text = kProfile.nick;
     _avatarDetailLabel.text = kAccount.email;
     _nickDetailLabel.text = kProfile.nick;

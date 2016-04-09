@@ -18,6 +18,23 @@
     NSURL *_thumbnailURL;
 }
 
+#pragma mark - Init
+
+- (instancetype)initWithCardToken:(NSString *)token {
+    if (self = [super init]) {
+        _card_token = token;
+    }
+    return self;
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict andCardToken:(NSString *)token error:(NSError *__autoreleasing *)err {
+    _card_token = token; // Set token before lazy loading
+    if (self = [super initWithDictionary:dict error:err]) {
+        
+    }
+    return self;
+}
+
 #pragma mark - Getter / Setter
 
 - (void)setContent:(NSString *)content {
@@ -64,11 +81,11 @@
     _attachments_hashes = attachments_hashes;
     NSMutableArray *newAttachmentsArr = [NSMutableArray new];
     for (NSString *hash in attachments_hashes) {
-        CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:hash];
+        CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:hash andCardToken:self.card_token fromDatabase:YES];
         NSAssert(a != nil, @"Cannot load attachment hash!");
         [newAttachmentsArr addObject:a];
     }
-    _attachments = newAttachmentsArr;
+    _attachments = [newAttachmentsArr copy];
 }
 
 - (NSURL *)smallThumbnailURL {

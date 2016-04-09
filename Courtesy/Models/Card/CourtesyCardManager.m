@@ -87,7 +87,7 @@
     card.local_template = nil;
     
     // 初始化卡片内容
-    card.card_data = [CourtesyCardDataModel new];
+    card.card_data = [[CourtesyCardDataModel alloc] initWithCardToken:card.token];
     card.card_data.content = @"说点什么吧……";
     card.card_data.attachments = nil;
     card.card_data.styleID = kCourtesyCardStyleDefault;

@@ -32,8 +32,8 @@
 
     }
     NSAssert(err == nil, @"Error occured when parsing card model with its hash!");
-    if ((self.card_data = [[CourtesyCardDataModel alloc] initWithDictionary:self.card_dict error:&err])) {
-
+    if ((self.card_data = [[CourtesyCardDataModel alloc] initWithDictionary:self.card_dict andCardToken:token error:&err])) {
+        CYLog(@"%@", [self toJSONString]);
     }
     NSAssert(err == nil, @"Error occured when parsing card data model with its hash!");
     return self;

@@ -26,11 +26,8 @@ typedef NS_ENUM(NSInteger, CourtesyAttachmentType) {
 @interface CourtesyCardAttachmentModel : JSONModel
 @property (nonatomic, assign) CourtesyAttachmentType type;
 @property (nonatomic, copy)   NSString<Optional> *title;
-@property (nonatomic, copy)   NSString<Optional> *remote_url_path;
-@property (nonatomic, strong, readonly) NSURL<Ignore> *remote_url;
-@property (nonatomic, copy)   NSString<Optional> *local_filename;
-@property (nonatomic, strong, readonly) NSURL<Ignore> *local_url;
 @property (nonatomic, copy)   NSString<Optional> *attachment_id; // Came from server
+@property (nonatomic, copy)   NSString *card_token;
 @property (nonatomic, copy)   NSString *salt_hash;
 @property (nonatomic, assign) NSUInteger location;
 @property (nonatomic, assign) NSUInteger length;
@@ -39,12 +36,14 @@ typedef NS_ENUM(NSInteger, CourtesyAttachmentType) {
 @property (nonatomic, assign) NSUInteger uploaded_at;
 @property (nonatomic, strong, readonly) NSDate<Optional> *uploaded_at_object;
 
-- (instancetype)initWithSaltHash:(NSString *)salt;
+- (instancetype)initWithSaltHash:(NSString *)salt andCardToken:(NSString *)token fromDatabase:(BOOL)fromDatabase;
 - (NSString *)saveToLocalDatabase;
 - (void)deleteInLocalDatabase;
-+ (NSString *)savedAttachmentsPath;
-+ (NSString *)savedThumbnailsPath;
-- (NSURL *)thumbnailImageURLWithSize:(CGSize)size;
++ (NSString *)savedAttachmentsPathWithCardToken:(NSString *)token;
+
+- (NSString *)attachmentPath;
+- (NSURL *)attachmentURL;
 - (NSString *)thumbnailPathWithSize:(CGSize)size;
+- (NSURL *)thumbnailImageURLWithSize:(CGSize)size;
 
 @end

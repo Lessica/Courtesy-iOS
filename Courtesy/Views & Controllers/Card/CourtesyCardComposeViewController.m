@@ -477,17 +477,17 @@
     /* Load Card Attachments */
     for (CourtesyCardAttachmentModel *attachment in self.card.card_data.attachments) {
         if (attachment.type == CourtesyAttachmentAudio) {
-            [self addNewAudioFrame:attachment.local_url
+            [self addNewAudioFrame:[attachment attachmentURL]
                                 at:NSMakeRange(attachment.location, attachment.length)
                           animated:NO
                           userinfo:@{
                                      @"title": attachment.title ? attachment.title : @"",
                                      @"type": @(attachment.type),
-                                     @"url": attachment.local_url,
+                                     @"url": [attachment attachmentURL],
                                      }];
         } else if (attachment.type == CourtesyAttachmentImage || attachment.type == CourtesyAttachmentAnimatedImage) {
             NSError *err = nil;
-            NSData *imgData = [NSData dataWithContentsOfFile:[attachment.local_url path]
+            NSData *imgData = [NSData dataWithContentsOfFile:[attachment attachmentPath]
                                                      options:NSDataReadingMappedAlways
                                                        error:&err];
             NSAssert(err == nil, @"Cannot load imgData!");
@@ -498,17 +498,17 @@
                           userinfo:@{
                                      @"title": attachment.title ? attachment.title : @"",
                                      @"type": @(attachment.type),
-                                     @"url": attachment.local_url,
+                                     @"url": [attachment attachmentURL],
                                      @"data": imgData
                                      }];
         } else if (attachment.type == CourtesyAttachmentVideo) {
-            [self addNewVideoFrame:attachment.local_url
+            [self addNewVideoFrame:[attachment attachmentURL]
                                 at:NSMakeRange(attachment.location, attachment.length)
                           animated:NO
                           userinfo:@{
                                      @"title": attachment.title ? attachment.title : @"",
                                      @"type": @(attachment.type),
-                                     @"url": attachment.local_url,
+                                     @"url": [attachment attachmentURL],
                                      }];
         }/* else if (attachment.type == CourtesyAttachmentDraw) {
 
@@ -1770,7 +1770,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         [self.view setUserInteractionEnabled:NO];
         [self.view makeToastActivity:CSToastPositionCenter];
         NSError *error = nil;
-        NSString *aPath = [CourtesyCardAttachmentModel savedAttachmentsPath];
         CourtesyCardModel *card = self.card;
         card.is_public = [sharedSettings switchAutoPublic];
         card.modified_at = (NSUInteger) [[NSDate date] timeIntervalSince1970];
@@ -1790,21 +1789,24 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     CourtesyImageFrameView *imageFrameView = (CourtesyImageFrameView *)attachment.content;
                     CourtesyAttachmentType file_type = (CourtesyAttachmentType) [[imageFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
                     NSData *binary = imageFrameView.userinfo[@"data"];
-                    NSString *ext = nil;
-                    if (file_type == CourtesyAttachmentImage) {
-                        ext = @"png";
-                    } else if (file_type == CourtesyAttachmentAnimatedImage) {
-                        ext = @"gif";
-                    } else {
-                        return;
-                    }
                     if (!binary) {
                         @throw NSException(kCourtesyUnexceptedStatus, @"图片解析失败");
                         return;
                     }
+                    
                     NSString *salt_hash = [binary sha256String];
-                    NSString *filename = [salt_hash stringByAppendingPathExtension:ext];
-                    NSString *file_path = [aPath stringByAppendingPathComponent:filename];
+                    
+                    CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:salt_hash andCardToken:card.token fromDatabase:NO];
+                    a.type = file_type;
+                    a.title = imageFrameView.labelText;
+                    a.attachment_id = nil;
+                    NSRange selfRange = [self getAttachmentRange:imageFrameView];
+                    a.length = selfRange.length;
+                    a.location = selfRange.location;
+                    a.created_at = (NSUInteger) [card.modified_at_object timeIntervalSince1970];
+                    [attachments_arr addObject:a];
+                    
+                    NSString *file_path = [a attachmentPath];
                     if (![FCFileManager existsItemAtPath:file_path]) {
                         [binary writeToFile:file_path options:NSDataWritingWithoutOverwriting error:&error];
                         if (error) {
@@ -1812,18 +1814,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                             return;
                         }
                     }
-                    CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
-                    a.type = file_type;
-                    a.title = imageFrameView.labelText;
-                    a.remote_url_path = nil;
-                    a.local_filename = filename;
-                    a.attachment_id = nil;
-                    NSRange selfRange = [self getAttachmentRange:imageFrameView];
-                    a.length = selfRange.length;
-                    a.location = selfRange.location;
-                    a.created_at = (NSUInteger) [card.modified_at_object timeIntervalSince1970];
-                    a.salt_hash = salt_hash;
-                    [attachments_arr addObject:a];
                 } else if ([attachment.content isMemberOfClass:[CourtesyVideoFrameView class]]) {
                     CourtesyVideoFrameView *videoFrameView = (CourtesyVideoFrameView *)attachment.content;
                     CourtesyAttachmentType file_type = (CourtesyAttachmentType) [videoFrameView.userinfo[@"type"] unsignedIntegerValue];
@@ -1845,34 +1835,34 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                         return;
                     }
                     NSString *salt_hash = [binary sha256String];
-                    NSString *filename = [salt_hash stringByAppendingPathExtension:[originalURL pathExtension]];
-                    NSString *file_path = [aPath stringByAppendingPathComponent:filename];
-                    if (![FCFileManager existsItemAtPath:file_path]) {
-                        [binary writeToFile:file_path
-                                    options:NSDataWritingWithoutOverwriting
-                                      error:&error];
-                        if (error) {
-                            @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
-                            return;
-                        }
-                    }
-                    CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
+                    
+                    CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:salt_hash andCardToken:card.token fromDatabase:NO];
                     a.type = file_type;
                     a.title = videoFrameView.labelText;
-                    a.remote_url_path = nil;
-                    a.local_filename = filename;
                     a.attachment_id = nil;
                     NSRange selfRange = [self getAttachmentRange:videoFrameView];
                     a.length = selfRange.length;
                     a.location = selfRange.location;
                     a.created_at = (NSUInteger) [card.modified_at_object timeIntervalSince1970];
-                    a.salt_hash = salt_hash;
                     [attachments_arr addObject:a];
+                    
+                    NSString *file_path = [a attachmentPath];
+                    if (![FCFileManager existsItemAtPath:file_path]) {
+                        [binary writeToFile:file_path options:NSDataWritingWithoutOverwriting error:&error];
+                        if (error) {
+                            @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                            return;
+                        }
+                    }
                     
                     // 保存视频缩略图
                     NSString *videoThumbnailPath = [a thumbnailPathWithSize:CGSizeMake(0, 0)];
                     if (![FCFileManager existsItemAtPath:videoThumbnailPath]) {
-                        NSData *thumbnailBinary = [videoFrameView.centerImage imageDataRepresentation];
+                        UIImage *originalImage = videoFrameView.centerImage;
+                        CGFloat length = (originalImage.size.width > originalImage.size.height) ? originalImage.size.height : originalImage.size.width;
+                        CGSize size = CGSizeMake(length, length);
+                        UIImage *resizedImage = [originalImage imageByResizeToSize:size contentMode:UIViewContentModeScaleAspectFit];
+                        NSData *thumbnailBinary = [resizedImage imageDataRepresentation];
                         [thumbnailBinary writeToFile:videoThumbnailPath
                                              options:NSDataWritingWithoutOverwriting
                                                error:&error];
@@ -1902,8 +1892,18 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                         return;
                     }
                     NSString *salt_hash = [binary sha256String];
-                    NSString *filename = [salt_hash stringByAppendingPathExtension:[originalURL pathExtension]];
-                    NSString *file_path = [aPath stringByAppendingPathComponent:filename];
+                    
+                    CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:salt_hash andCardToken:card.token fromDatabase:NO];
+                    a.type = file_type;
+                    a.title = audioFrameView.labelText;
+                    a.attachment_id = nil;
+                    NSRange selfRange = [self getAttachmentRange:audioFrameView];
+                    a.length = selfRange.length;
+                    a.location = selfRange.location;
+                    a.created_at = (NSUInteger) [card.modified_at_object timeIntervalSince1970];
+                    [attachments_arr addObject:a];
+                    
+                    NSString *file_path = [a attachmentPath];
                     if (![FCFileManager existsItemAtPath:file_path]) {
                         [binary writeToFile:file_path options:NSDataWritingWithoutOverwriting error:&error];
                         if (error) {
@@ -1911,22 +1911,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                             return;
                         }
                     }
-                    CourtesyCardAttachmentModel *a = [CourtesyCardAttachmentModel new];
-                    a.type = file_type;
-                    a.title = audioFrameView.labelText;
-                    a.remote_url_path = nil;
-                    a.local_filename = filename;
-                    a.attachment_id = nil;
-                    NSRange selfRange = [self getAttachmentRange:audioFrameView];
-                    a.length = selfRange.length;
-                    a.location = selfRange.location;
-                    a.created_at = (NSUInteger) [card.modified_at_object timeIntervalSince1970];
-                    a.salt_hash = salt_hash;
-                    [attachments_arr addObject:a];
                 }
             }
         }
-        card.card_data.attachments = attachments_arr;
+        card.card_data.attachments = [attachments_arr copy];
         card.card_dict = [card.card_data toDictionary];
         if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishEditing:)]) {
             [self.delegate cardComposeViewDidFinishEditing:self];

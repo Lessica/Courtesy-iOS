@@ -50,7 +50,8 @@
 #pragma mark - Remote
 
 - (void)loadRemoteImage {
-    _avatarImageView.imageURL = kProfile.avatar_url_large;
+    [_avatarImageView setImageWithURL:kProfile.avatar_url_large
+                              options:YYWebImageOptionShowNetworkActivity | YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation];
 }
 
 @end
