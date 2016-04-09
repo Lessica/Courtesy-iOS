@@ -22,10 +22,13 @@ typedef enum : NSUInteger {
     kCourtesyGalleryViewControllerStatusNoNetwork = 2,
 } CourtesyStarViewControllerStatus;
 
+typedef enum : NSUInteger {
+    kCourtesyGalleryDailyCard = 0,
+    kCourtesyGalleryLinkCard = 1,
+} CourtesyGalleryMainIndex;
+
 @interface CourtesyGalleryViewController () <JVFloatingDrawerCenterViewController, PDTSimpleCalendarViewDelegate>
 @property (nonatomic, assign) CourtesyStarViewControllerStatus currentStatus;
-@property (nonatomic, strong) NSArray *colors;
-@property (nonatomic, assign) NSUInteger colorIndex;
 @property (nonatomic, strong) NSDate *selectedDate;
 @property (nonatomic, strong) IBOutlet MiniDateView *dateView;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
@@ -56,15 +59,9 @@ typedef enum : NSUInteger {
     // Debug
     self.currentStatus = kCourtesyGalleryViewControllerStatusDefault;
     if (self.currentStatus == kCourtesyGalleryViewControllerStatusDefault) {
-        self.colorIndex = 0;
-        self.colors = @[
-            @"Clouds",
-            @"Clouds",
-            @"Clouds",
-            @"Clouds"
-        ];
-
         ZLSwipeableView *swipeableView = [[ZLSwipeableView alloc] initWithFrame:CGRectZero];
+        swipeableView.numberOfActiveViews = 4;
+        swipeableView.numberOfHistoryItem = 20;
         self.swipeableView = swipeableView;
         [self.view addSubview:self.swipeableView];
         // Required Data Source
@@ -116,6 +113,10 @@ typedef enum : NSUInteger {
     
 }
 
+- (IBAction)actionRewindTapped:(id)sender {
+    [self.swipeableView rewind];
+}
+
 - (void)actionDateViewTapped:(UITapGestureRecognizer *)sender {
     CourtesyCalendarViewController *calendarViewController = [[CourtesyCalendarViewController alloc] init];
     calendarViewController.lastDate = [NSDate date];
@@ -161,13 +162,8 @@ typedef enum : NSUInteger {
 #pragma mark - ZLSwipeableViewDataSource
 
 - (UIView *)nextViewForSwipeableView:(ZLSwipeableView *)swipeableView {
-    if (self.colorIndex >= self.colors.count) {
-        self.colorIndex = 0;
-    }
-
     CourtesyStarredCardView *view = [[CourtesyStarredCardView alloc] initWithFrame:swipeableView.bounds];
-    view.backgroundColor = [self colorForName:self.colors[self.colorIndex]];
-    self.colorIndex++;
+    view.backgroundColor = [self colorForName:@"Clouds"];
 
     return view;
 }
@@ -176,6 +172,32 @@ typedef enum : NSUInteger {
     return [[UIColor class] performSelector:@selector(flatCloudsColor)];
 }
 
+- (UIView *)previousViewForSwipeableView:(ZLSwipeableView *)swipeableView {
+    [self.view makeToast:@"已经是第一张卡片了"
+                duration:kStatusBarNotificationTime
+                position:CSToastPositionCenter];
+    return nil;
+}
+//    UIView *view = [self nextViewForSwipeableView:swipeableView];
+//    [self applyRandomTransform:view];
+//    return view;
+
+/*
+- (void)applyRandomTransform:(UIView *)view {
+    CGFloat width = self.swipeableView.bounds.size.width;
+    CGFloat height = self.swipeableView.bounds.size.height;
+    CGFloat distance = MAX(width, height);
+    
+    CGAffineTransform transform = CGAffineTransformMakeRotation([self randomRadian]);
+    transform = CGAffineTransformTranslate(transform, distance, 0);
+    transform = CGAffineTransformRotate(transform, [self randomRadian]);
+    view.transform = transform;
+}
+
+- (CGFloat)randomRadian {
+    return (random() % 360) * (M_PI / 180.0);
+}
+*/
 #pragma mark - JVFloatingDrawerCenterViewController
 
 - (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {

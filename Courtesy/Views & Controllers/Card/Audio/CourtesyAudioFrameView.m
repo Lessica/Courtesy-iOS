@@ -113,7 +113,7 @@
     [self.audioQueue listenFeedbackUpdatesWithBlock:^(AFSoundItem *item) {
         __strong typeof(self) strongSelf = weakSelf;
         [UIView animateWithDuration:1.0 animations:^{
-            strongSelf.waveform.progressSamples = strongSelf.scale * item.timePlayed;
+            strongSelf.waveform.progressSamples = (unsigned long) (strongSelf.scale * item.timePlayed);
         }];
         CYLog(@"Item duration: %ld - time elapsed: %ld", (long)item.duration, (long)item.timePlayed);
     } andFinishedBlock:^() {
@@ -201,7 +201,7 @@
     if (!self.userinfo || ![self.userinfo hasKey:@"title"]) {
         return;
     }
-    self.labelText = [self.userinfo objectForKey:@"title"];
+    self.labelText = self.userinfo[@"title"];
 }
 
 - (void)waveformViewDidFailedLoading:(FDWaveformView *)waveformView
@@ -225,7 +225,7 @@
     }
     if (self.isPlaying) {
         [self.playBtn setSelected:YES];
-        self.audioItem.timePlayed = (((float)self.waveform.progressSamples / self.waveform.totalSamples) * [self.audioQueue currentItem].duration);
+        self.audioItem.timePlayed = (NSInteger) (((float)self.waveform.progressSamples / self.waveform.totalSamples) * [self.audioQueue currentItem].duration);
         [self.audioQueue playAtSecond:self.audioItem.timePlayed];
         [self.audioQueue play];
     } else {

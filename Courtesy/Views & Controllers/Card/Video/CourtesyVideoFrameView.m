@@ -12,6 +12,11 @@
 #import <AVKit/AVKit.h>
 #import "CourtesyVideoFrameView.h"
 
+@interface CourtesyVideoFrameView ()
+@property (nonatomic, strong) AVPlayer *player;
+
+@end
+
 @implementation CourtesyVideoFrameView
 
 - (void)setVideoURL:(NSURL *)videoURL {
@@ -100,6 +105,7 @@
     if (![[self delegate] isKindOfClass:[UIViewController class]]) {
         return;
     }
+    self.player = player;
     UIViewController *superViewController = (UIViewController *)self.delegate;
     [superViewController presentViewController:movie animated:YES completion:^{
         [player play];

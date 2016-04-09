@@ -90,8 +90,8 @@
     [month_image drawInRect:CGRectMake(54, 27, 10, 34)];
     
     // Draw Zero
-    UIImage *zero = MiniDateViewSrc(@"chosen_zero");
-    [zero drawInRect:CGRectMake(28, 48, 16, 16)];
+//    UIImage *zero = MiniDateViewSrc(@"chosen_zero");
+//    [zero drawInRect:CGRectMake(28, 48, 16, 16)];
 }
 
 @end

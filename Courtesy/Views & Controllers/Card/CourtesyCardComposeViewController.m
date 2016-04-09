@@ -1650,6 +1650,21 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         if (attachment.content) {
             if ([attachment.content respondsToSelector:@selector(reloadStyle)]) {
                 objc_msgSend(attachment.content, @selector(reloadStyle));
+                return;
+            }
+        }
+    }
+//    [self.jotViewController reloadStyle];
+}
+
+- (void)pauseAttachmentAudio {
+    for (id object in self.textView.textLayout.attachments) {
+        if (![object isKindOfClass:[YYTextAttachment class]]) continue;
+        YYTextAttachment *attachment = (YYTextAttachment *)object;
+        if (attachment.content) {
+            if ([attachment.content respondsToSelector:@selector(pausePlaying)]) {
+                objc_msgSend(attachment.content, @selector(pausePlaying));
+                return;
             }
         }
     }
@@ -1811,7 +1826,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     [attachments_arr addObject:a];
                 } else if ([attachment.content isMemberOfClass:[CourtesyVideoFrameView class]]) {
                     CourtesyVideoFrameView *videoFrameView = (CourtesyVideoFrameView *)attachment.content;
-                    CourtesyAttachmentType file_type = (CourtesyAttachmentType) [[videoFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
+                    CourtesyAttachmentType file_type = (CourtesyAttachmentType) [videoFrameView.userinfo[@"type"] unsignedIntegerValue];
                     NSData *binary = nil;
                     NSURL *originalURL = videoFrameView.userinfo[@"url"];
                     if (!originalURL) {
@@ -1944,6 +1959,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     NSArray *taps = @[tap1, tap2];
     
     return taps;
+}
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)event {
+    if (event.type == UIEventTypeRemoteControl) {
+        if (event.subtype == UIEventSubtypeRemoteControlPause) {
+            [self pauseAttachmentAudio];
+        }
+    }
 }
 
 @end

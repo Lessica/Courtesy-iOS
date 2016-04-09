@@ -1361,11 +1361,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jau-tm-wmT">
-                                <rect key="frame" x="144" y="482" width="32" height="32"/>
+                                <rect key="frame" x="28" y="468" width="36" height="36"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="R1a-ng-oeg"/>
-                                    <constraint firstAttribute="height" constant="32" id="ZRg-GJ-I23"/>
+                                    <constraint firstAttribute="width" constant="36" id="R1a-ng-oeg"/>
+                                    <constraint firstAttribute="height" constant="36" id="ZRg-GJ-I23"/>
                                 </constraints>
                                 <state key="normal" image="666-square-add"/>
                                 <connections>
@@ -1373,7 +1373,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CG5-cJ-VXy" customClass="MiniDateView">
-                                <rect key="frame" x="32" y="468" width="64" height="64"/>
+                                <rect key="frame" x="128" y="468" width="64" height="64"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1381,16 +1381,30 @@
                                     <constraint firstAttribute="height" constant="64" id="rSZ-6A-nN5"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeM-z7-bal">
+                                <rect key="frame" x="256" y="468" width="36" height="36"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="36" id="8Ul-zc-jq9"/>
+                                    <constraint firstAttribute="height" constant="36" id="e0M-3K-rJr"/>
+                                </constraints>
+                                <state key="normal" image="668-square-refresh"/>
+                                <connections>
+                                    <action selector="actionRewindTapped:" destination="Jqa-RS-eCU" eventType="touchUpInside" id="END-UX-pGn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="jI8-fD-Ins" firstAttribute="top" secondItem="CG5-cJ-VXy" secondAttribute="bottom" constant="36" id="818-wG-yJb"/>
-                            <constraint firstItem="jI8-fD-Ins" firstAttribute="top" secondItem="jau-tm-wmT" secondAttribute="bottom" constant="54" id="JK5-jA-sGN"/>
+                            <constraint firstItem="SeM-z7-bal" firstAttribute="leading" secondItem="CG5-cJ-VXy" secondAttribute="trailing" constant="64" id="KmX-sS-rGK"/>
                             <constraint firstAttribute="trailing" secondItem="RuZ-HX-dDr" secondAttribute="trailing" id="TAd-8B-gJr"/>
-                            <constraint firstItem="jau-tm-wmT" firstAttribute="centerX" secondItem="jHg-fy-E6p" secondAttribute="centerX" id="TWU-NE-i9p"/>
-                            <constraint firstItem="CG5-cJ-VXy" firstAttribute="leading" secondItem="jHg-fy-E6p" secondAttribute="leadingMargin" constant="16" id="YOC-Qw-RYz"/>
+                            <constraint firstItem="SeM-z7-bal" firstAttribute="top" secondItem="CG5-cJ-VXy" secondAttribute="top" id="Xh3-12-uuL"/>
+                            <constraint firstItem="CG5-cJ-VXy" firstAttribute="centerX" secondItem="jHg-fy-E6p" secondAttribute="centerX" id="Xum-QZ-u4R"/>
                             <constraint firstItem="jI8-fD-Ins" firstAttribute="top" secondItem="RuZ-HX-dDr" secondAttribute="bottom" id="dav-Hc-gqK"/>
+                            <constraint firstItem="CG5-cJ-VXy" firstAttribute="leading" secondItem="jau-tm-wmT" secondAttribute="trailing" constant="64" id="fH6-R5-AcY"/>
                             <constraint firstItem="RuZ-HX-dDr" firstAttribute="top" secondItem="jHg-fy-E6p" secondAttribute="top" id="h5q-4C-Z5R"/>
+                            <constraint firstItem="CG5-cJ-VXy" firstAttribute="top" secondItem="jau-tm-wmT" secondAttribute="top" id="xva-0N-uG7"/>
                             <constraint firstItem="RuZ-HX-dDr" firstAttribute="leading" secondItem="jHg-fy-E6p" secondAttribute="leading" id="yaS-VI-CoD"/>
                         </constraints>
                     </view>
@@ -1965,8 +1979,9 @@ AFNetworking (MIT), Colours (MIT), FCFileManager (MIT), FDFullscreenPopGesture (
         <image name="3-avatar" width="53" height="53"/>
         <image name="399-list1" width="19" height="15"/>
         <image name="6-messages" width="16" height="11"/>
-        <image name="666-square-add" width="64" height="64"/>
+        <image name="666-square-add" width="216" height="216"/>
         <image name="667-search" width="18" height="18"/>
+        <image name="668-square-refresh" width="216" height="216"/>
         <image name="7-cloud" width="16" height="14"/>
         <image name="8-public" width="16" height="10"/>
         <image name="9-box" width="16" height="16"/>
