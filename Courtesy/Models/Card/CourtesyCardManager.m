@@ -6,9 +6,10 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#import "AppStorage.h"
 #import "CourtesyCardManager.h"
 #import "CourtesyCardComposeViewController.h"
-#import "AppStorage.h"
+#import "CourtesyCardPublishQueue.h"
 
 #define kCourtesyCardDraftListKey @"kCourtesyCardListKey"
 
@@ -141,7 +142,10 @@
 #pragma mark - CourtesyCardComposeDelegate
 
 - (void)cardComposeViewDidFinishEditing:(nonnull CourtesyCardComposeViewController *)controller {
-
+    if (controller.card) {
+        [controller.card saveToLocalDatabaseWithPublishFlag:YES];
+    }
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)cardComposeViewWillBeginLoading:(nonnull CourtesyCardComposeViewController *)controller {
@@ -155,13 +159,12 @@
 - (void)cardComposeViewDidCancelEditing:(CourtesyCardComposeViewController *)controller shouldSaveToDraftBox:(BOOL)save {
     if (save && controller.card) {
         [JDStatusBarNotification showWithStatus:@"正在保存卡片……"
-                                   dismissAfter:kStatusBarNotificationTime
                                       styleName:JDStatusBarStyleDefault];
         [JDStatusBarNotification showActivityIndicator:YES
                                         indicatorStyle:UIActivityIndicatorViewStyleGray];
-        [controller.card saveToLocalDatabase];
+        [controller.card saveToLocalDatabaseWithPublishFlag:NO];
     }
-    [controller dismissViewControllerAnimated:YES completion:^() {  }];
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - CourtesyCardDelegate
@@ -170,28 +173,25 @@
 
 }
 
-- (void)cardDidFinishSaving:(nonnull CourtesyCardModel *)card newRecord:(BOOL)newRecord {
+- (void)cardDidFinishSaving:(nonnull CourtesyCardModel *)card isNewRecord:(BOOL)newRecord willPublish:(BOOL)willPublish {
     if (newRecord) { // 添加记录则将元素加入数组并写入数据库
         [self.cardDraftTokenArray insertObject:card.token atIndex:0];
         [self.cardDraftArray insertObject:card atIndex:0];
     }
-//    else { // 修改记录则将元素提到最前 (Is that necessary?)
-//        NSInteger origIndex = [self.cardDraftArray indexOfObject:card];
-//        [self.cardDraftTokenArray removeObjectAtIndex:origIndex];
-//        [self.cardDraftArray removeObjectAtIndex:origIndex];
-//        [self.cardDraftTokenArray insertObject:card.token atIndex:0];
-//        [self.cardDraftArray insertObject:card atIndex:0];
-//    }
     [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
-    [JDStatusBarNotification showWithStatus:@"卡片已保存到草稿箱"
-                               dismissAfter:kStatusBarNotificationTime
-                                  styleName:JDStatusBarStyleSuccess];
+    if (willPublish == NO) {
+        [JDStatusBarNotification showWithStatus:@"卡片已保存到草稿箱"
+                                   dismissAfter:kStatusBarNotificationTime
+                                      styleName:JDStatusBarStyleSuccess];
+    } else {
+        [[CourtesyCardPublishQueue sharedQueue] addCardPublishTask:card];
+    }
 }
 
 - (void)cardDidFailedSaving:(nonnull CourtesyCardModel *)card {
     [JDStatusBarNotification showWithStatus:@"卡片保存失败"
-                                   dismissAfter:kStatusBarNotificationTime
-                                      styleName:JDStatusBarStyleError];
+                               dismissAfter:kStatusBarNotificationTime
+                                  styleName:JDStatusBarStyleError];
 }
 
 @end

@@ -12,4 +12,5 @@
 @interface CourtesyDraftTableViewCell : UITableViewCell
 @property (nonatomic, strong) CourtesyCardModel *card;
 
+- (void)setPublishProgressWithTotalBytes:(int64_t)totalBytes andLogicalBytes:(int64_t)logicalBytes;
 @end

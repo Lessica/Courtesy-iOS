@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, CourtesyAttachmentType) {
 
 - (instancetype)initWithSaltHash:(NSString *)salt andCardToken:(NSString *)token fromDatabase:(BOOL)fromDatabase;
 - (NSString *)saveToLocalDatabase;
-- (void)deleteInLocalDatabase;
+- (void)removeFromLocalDatabase;
 + (NSString *)savedAttachmentsPathWithCardToken:(NSString *)token;
 
 - (NSString *)attachmentPath;

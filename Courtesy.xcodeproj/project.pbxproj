@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F0DC07D1CBC9E8500DDFE36 /* CourtesyCardPublishTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0DC07C1CBC9E8500DDFE36 /* CourtesyCardPublishTask.m */; };
 		0F193D661C9787150015F2B1 /* CourtesyCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F193D651C9787150015F2B1 /* CourtesyCardManager.m */; };
 		0F2744CB1CB559FB00BCF173 /* CourtesyCommonResourceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2744CA1CB559FB00BCF173 /* CourtesyCommonResourceModel.m */; };
 		0F2744F51CB55C6D00BCF173 /* CourtesyGalleryDailyCardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2744E81CB55C6D00BCF173 /* CourtesyGalleryDailyCardModel.m */; };
@@ -43,13 +44,13 @@
 		0F55FCCF1CA40D8D0084C4E2 /* NSDate+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCCE1CA40D8D0084C4E2 /* NSDate+Compare.m */; };
 		0F5801061C98075600D18059 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5801051C98075600D18059 /* FCFileManager.m */; };
 		0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */; };
-		0F6241531CB9FF4D0060E489 /* libacrosync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F62414E1CB9FF4D0060E489 /* libacrosync.a */; };
-		0F6241541CB9FF4D0060E489 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F62414F1CB9FF4D0060E489 /* libcrypto.a */; };
-		0F6241551CB9FF4D0060E489 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6241501CB9FF4D0060E489 /* libiconv.a */; };
-		0F6241561CB9FF4D0060E489 /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6241511CB9FF4D0060E489 /* libssh2.a */; };
-		0F6241571CB9FF4D0060E489 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6241521CB9FF4D0060E489 /* libz.a */; };
 		0F62415A1CBA00750060E489 /* CourtesyRsyncHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0F6241591CBA00750060E489 /* CourtesyRsyncHelper.mm */; };
 		0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */; };
+		0F71364F1CBBB0E200341AC9 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F71364A1CBBB0E200341AC9 /* libcrypto.a */; };
+		0F7136511CBBB0E200341AC9 /* librsync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F71364C1CBBB0E200341AC9 /* librsync.a */; };
+		0F7136521CBBB0E200341AC9 /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F71364D1CBBB0E200341AC9 /* libssh2.a */; };
+		0F7136611CBBB37900341AC9 /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7136601CBBB37900341AC9 /* libiconv.2.4.0.tbd */; };
+		0F7136641CBBB3CD00341AC9 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7136621CBBB3B700341AC9 /* libz.1.2.5.tbd */; };
 		0F90DC431C844C4E00607277 /* Drawers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */; };
 		0FA726611CAAB32B00315E09 /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FA7265E1CAAB32B00315E09 /* CodeScan.bundle */; };
 		0FA726621CAAB32B00315E09 /* CourtesyQRScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA726601CAAB32B00315E09 /* CourtesyQRScanViewController.m */; };
@@ -259,6 +260,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0F0DC07B1CBC9E8500DDFE36 /* CourtesyCardPublishTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublishTask.h; sourceTree = "<group>"; };
+		0F0DC07C1CBC9E8500DDFE36 /* CourtesyCardPublishTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishTask.m; sourceTree = "<group>"; };
 		0F193D641C9787150015F2B1 /* CourtesyCardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardManager.h; sourceTree = "<group>"; };
 		0F193D651C9787150015F2B1 /* CourtesyCardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardManager.m; sourceTree = "<group>"; };
 		0F2744C91CB559FB00BCF173 /* CourtesyCommonResourceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCommonResourceModel.h; sourceTree = "<group>"; };
@@ -425,16 +428,17 @@
 		0F6241481CB9FF4D0060E489 /* libssh2_sftp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libssh2_sftp.h; sourceTree = "<group>"; };
 		0F62414B1CB9FF4D0060E489 /* zconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zconf.h; sourceTree = "<group>"; };
 		0F62414C1CB9FF4D0060E489 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
-		0F62414E1CB9FF4D0060E489 /* libacrosync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libacrosync.a; sourceTree = "<group>"; };
-		0F62414F1CB9FF4D0060E489 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		0F6241501CB9FF4D0060E489 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiconv.a; sourceTree = "<group>"; };
-		0F6241511CB9FF4D0060E489 /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssh2.a; sourceTree = "<group>"; };
-		0F6241521CB9FF4D0060E489 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libz.a; sourceTree = "<group>"; };
 		0F6241581CBA00750060E489 /* CourtesyRsyncHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyRsyncHelper.h; sourceTree = "<group>"; };
 		0F6241591CBA00750060E489 /* CourtesyRsyncHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CourtesyRsyncHelper.mm; sourceTree = "<group>"; };
 		0F6DD5791C98227600CA4389 /* CocoaMarkdown.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = CocoaMarkdown.framework; path = "/Users/Zheng/Library/Developer/Xcode/DerivedData/Courtesy-cvykwatzvshbxtdkjzlrnfwqiekw/Build/Products/Debug-iphoneos/CocoaMarkdown.framework"; sourceTree = "<absolute>"; };
 		0F6DD57D1C98369200CA4389 /* CourtesyMarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyMarkdownParser.h; path = Markdown/CourtesyMarkdownParser.h; sourceTree = "<group>"; };
 		0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyMarkdownParser.m; path = Markdown/CourtesyMarkdownParser.m; sourceTree = "<group>"; };
+		0F71364A1CBBB0E200341AC9 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		0F71364C1CBBB0E200341AC9 /* librsync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = librsync.a; sourceTree = "<group>"; };
+		0F71364D1CBBB0E200341AC9 /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssh2.a; sourceTree = "<group>"; };
+		0F71365E1CBBB36900341AC9 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		0F7136601CBBB37900341AC9 /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = usr/lib/libiconv.2.4.0.tbd; sourceTree = SDKROOT; };
+		0F7136621CBBB3B700341AC9 /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
 		0FA7265E1CAAB32B00315E09 /* CodeScan.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CodeScan.bundle; sourceTree = "<group>"; };
 		0FA7265F1CAAB32B00315E09 /* CourtesyQRScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyQRScanViewController.h; sourceTree = "<group>"; };
 		0FA726601CAAB32B00315E09 /* CourtesyQRScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyQRScanViewController.m; sourceTree = "<group>"; };
@@ -747,21 +751,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F6241571CB9FF4D0060E489 /* libz.a in Frameworks */,
+				0F7136641CBBB3CD00341AC9 /* libz.1.2.5.tbd in Frameworks */,
+				0F7136611CBBB37900341AC9 /* libiconv.2.4.0.tbd in Frameworks */,
 				0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */,
 				0FD3EE261C95CD2200DE5347 /* WatchConnectivity.framework in Frameworks */,
-				0F6241541CB9FF4D0060E489 /* libcrypto.a in Frameworks */,
 				0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */,
 				0F2A36751C8D397D00028E96 /* MobileCoreServices.framework in Frameworks */,
 				0FF2D2B01C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a in Frameworks */,
+				0F7136511CBBB0E200341AC9 /* librsync.a in Frameworks */,
 				0F2A36731C8D325200028E96 /* AVKit.framework in Frameworks */,
+				0F71364F1CBBB0E200341AC9 /* libcrypto.a in Frameworks */,
 				0FD43FCF1C846CAF00D6C564 /* MediaPlayer.framework in Frameworks */,
-				0F6241531CB9FF4D0060E489 /* libacrosync.a in Frameworks */,
 				0FD43FCD1C846CA700D6C564 /* AVFoundation.framework in Frameworks */,
-				0F6241551CB9FF4D0060E489 /* libiconv.a in Frameworks */,
 				0FBA71741C7B2A0400053696 /* MessageUI.framework in Frameworks */,
 				D697AA70586A6B18581066A0 /* Pods_Courtesy.framework in Frameworks */,
-				0F6241561CB9FF4D0060E489 /* libssh2.a in Frameworks */,
+				0F7136521CBBB0E200341AC9 /* libssh2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1128,11 +1132,9 @@
 		0F62414D1CB9FF4D0060E489 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				0F62414E1CB9FF4D0060E489 /* libacrosync.a */,
-				0F62414F1CB9FF4D0060E489 /* libcrypto.a */,
-				0F6241501CB9FF4D0060E489 /* libiconv.a */,
-				0F6241511CB9FF4D0060E489 /* libssh2.a */,
-				0F6241521CB9FF4D0060E489 /* libz.a */,
+				0F71364A1CBBB0E200341AC9 /* libcrypto.a */,
+				0F71364C1CBBB0E200341AC9 /* librsync.a */,
+				0F71364D1CBBB0E200341AC9 /* libssh2.a */,
 			);
 			path = libs;
 			sourceTree = "<group>";
@@ -1955,6 +1957,8 @@
 		0FFE04AB1C93F47400E99DCC /* Compose Queue */ = {
 			isa = PBXGroup;
 			children = (
+				0F0DC07B1CBC9E8500DDFE36 /* CourtesyCardPublishTask.h */,
+				0F0DC07C1CBC9E8500DDFE36 /* CourtesyCardPublishTask.m */,
 				0FFE04B01C93F47400E99DCC /* CourtesyCardPublishQueue.h */,
 				0FFE04B11C93F47400E99DCC /* CourtesyCardPublishQueue.m */,
 			);
@@ -2123,6 +2127,9 @@
 		45444505B80B6AF6A0D335BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F7136621CBBB3B700341AC9 /* libz.1.2.5.tbd */,
+				0F7136601CBBB37900341AC9 /* libiconv.2.4.0.tbd */,
+				0F71365E1CBBB36900341AC9 /* libiconv.tbd */,
 				0F6DD5791C98227600CA4389 /* CocoaMarkdown.framework */,
 				0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */,
 				0FD3EE251C95CD2200DE5347 /* WatchConnectivity.framework */,
@@ -2402,6 +2409,7 @@
 				0F2744F51CB55C6D00BCF173 /* CourtesyGalleryDailyCardModel.m in Sources */,
 				0FEFDBA41C97D0F800952522 /* PEResizeControl.m in Sources */,
 				0FEFDBAD1C97D16300952522 /* FDWaveformView.m in Sources */,
+				0F0DC07D1CBC9E8500DDFE36 /* CourtesyCardPublishTask.m in Sources */,
 				0FFE046D1C93F45800E99DCC /* CourtesyLeftDrawerTableViewController.m in Sources */,
 				0FF2D2851C95DA80007C23DE /* LBXScanNetAnimation.m in Sources */,
 				0FF2D2A81C95DAC7007C23DE /* SCRecordSessionManager.m in Sources */,
@@ -2748,7 +2756,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Prefix/PrefixHeader.pch";
@@ -2798,7 +2806,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Prefix/PrefixHeader.pch";

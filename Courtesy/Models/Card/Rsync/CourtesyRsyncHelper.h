@@ -29,7 +29,7 @@ typedef enum : NSUInteger {
 @optional
 - (BOOL)rsyncShouldStart:(CourtesyRsyncHelper *)helper;
 @optional
-- (void)rsyncDidStart:(CourtesyRsyncHelper *)helper withProgress:(float)progress;
+- (void)rsyncDidStart:(CourtesyRsyncHelper *)helper;
 @optional
 - (void)rsyncDidEnd:(CourtesyRsyncHelper *)helper withError:(NSError *)error;
 

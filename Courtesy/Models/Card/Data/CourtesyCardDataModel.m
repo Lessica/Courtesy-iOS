@@ -16,21 +16,23 @@
 
 @implementation CourtesyCardDataModel {
     NSURL *_thumbnailURL;
+    NSString *card_token;
 }
 
 #pragma mark - Init
 
 - (instancetype)initWithCardToken:(NSString *)token {
     if (self = [super init]) {
-        _card_token = token;
+        card_token = token;
+        _thumbnailURL = nil;
     }
     return self;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict andCardToken:(NSString *)token error:(NSError *__autoreleasing *)err {
-    _card_token = token; // Set token before lazy loading
+    card_token = token; // Before Lazy Loading
     if (self = [super initWithDictionary:dict error:err]) {
-        
+        _thumbnailURL = nil;
     }
     return self;
 }
@@ -69,11 +71,26 @@
 }
 
 - (void)setAttachments:(NSArray<Ignore> *)attachments {
-    _attachments = attachments;
     NSMutableArray *newAttachmentsHashesArr = [NSMutableArray new];
     for (CourtesyCardAttachmentModel *m in attachments) {
         [newAttachmentsHashesArr addObject:m.salt_hash];
     }
+    // 删除无效的附件
+    if (_attachments && [_attachments isKindOfClass:[NSArray class]]) {
+        for (CourtesyCardAttachmentModel *n in _attachments) {
+            BOOL sameAttachment = NO;
+            for (NSString *p in newAttachmentsHashesArr) {
+                if ([n.salt_hash isEqualToString:p]) {
+                    sameAttachment = YES;
+                    break;
+                }
+            }
+            if (!sameAttachment) {
+                [n removeFromLocalDatabase];
+            }
+        }
+    }
+    _attachments = [attachments copy];
     _attachments_hashes = newAttachmentsHashesArr;
 }
 
@@ -81,7 +98,7 @@
     _attachments_hashes = attachments_hashes;
     NSMutableArray *newAttachmentsArr = [NSMutableArray new];
     for (NSString *hash in attachments_hashes) {
-        CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:hash andCardToken:self.card_token fromDatabase:YES];
+        CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:hash andCardToken:card_token fromDatabase:YES];
         NSAssert(a != nil, @"Cannot load attachment hash!");
         [newAttachmentsArr addObject:a];
     }
@@ -109,6 +126,10 @@
         _style = [[CourtesyCardStyleManager sharedManager] styleWithID:self.styleID];
     }
     return _style;
+}
+
+- (NSString *)savedAttachmentsPath {
+    return [CourtesyCardAttachmentModel savedAttachmentsPathWithCardToken:card_token];
 }
 
 @end

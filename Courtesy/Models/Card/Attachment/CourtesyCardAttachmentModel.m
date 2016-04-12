@@ -26,15 +26,12 @@
 
 + (NSString *)savedAttachmentsPathWithCardToken:(NSString *)token {
     static NSString *tPath = nil;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        NSString *documentPath = [[UIApplication sharedApplication] documentsPath];
-        NSString *savedAttachmentsDirectoryPath = [documentPath stringByAppendingPathComponent:@"SavedAttachments"];
-        NSString *savedAttachmentsDirectoryHashPath = [savedAttachmentsDirectoryPath stringByAppendingPathComponent:token];
-        tPath = [[NSURL fileURLWithPath:savedAttachmentsDirectoryHashPath] path];
-        if (![FCFileManager isDirectoryItemAtPath:tPath])
-            [FCFileManager createDirectoriesForPath:tPath error:nil];
-    });
+    NSString *documentPath = [[UIApplication sharedApplication] documentsPath];
+    NSString *savedAttachmentsDirectoryPath = [documentPath stringByAppendingPathComponent:@"SavedAttachments"];
+    NSString *savedAttachmentsDirectoryHashPath = [savedAttachmentsDirectoryPath stringByAppendingPathComponent:token];
+    tPath = [[NSURL fileURLWithPath:savedAttachmentsDirectoryHashPath] path];
+    if (![FCFileManager isDirectoryItemAtPath:tPath])
+        [FCFileManager createDirectoriesForPath:tPath error:nil];
     return tPath;
 }
 
@@ -75,6 +72,7 @@
 #pragma mark - Init
 
 - (instancetype)initWithSaltHash:(NSString *)salt andCardToken:(NSString *)token fromDatabase:(BOOL)fromDatabase {
+    NSAssert(salt != nil && token != nil, @"Empty salt hash or card token!");
     if (fromDatabase) {
         id obj = [[self appStorage] objectForKey:[NSString stringWithFormat:kCourtesyAttachmentPrefix, salt]];
         if (!obj) {
@@ -132,8 +130,9 @@
     return self.salt_hash;
 }
 
-- (void)deleteInLocalDatabase {
-    [FCFileManager removeItemAtPath:[self attachmentPath]];
+- (void)removeFromLocalDatabase {
+    CYLog(@"Old attachment removed: %@", self.attachmentPath);
+    [FCFileManager removeItemAtPath:self.attachmentPath];
     [[self appStorage] removeObjectForKey:[NSString stringWithFormat:kCourtesyAttachmentPrefix, self.salt_hash]];
 }
 

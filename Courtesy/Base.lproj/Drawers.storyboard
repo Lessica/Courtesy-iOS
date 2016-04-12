@@ -732,14 +732,22 @@
                                                 <constraint firstAttribute="width" constant="64" id="VkL-g0-20c"/>
                                             </constraints>
                                         </imageView>
+                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B73-ei-icK">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="2"/>
+                                            <color key="progressTintColor" red="0.85098039219999999" green="0.098039215690000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </progressView>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="B73-ei-icK" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leading" id="2F0-0x-Rkp"/>
                                         <constraint firstItem="o71-8w-e5H" firstAttribute="leading" secondItem="QMa-xQ-dtz" secondAttribute="trailing" constant="12" id="4Pb-mT-s0j"/>
                                         <constraint firstItem="FbZ-mm-uJg" firstAttribute="top" secondItem="bg7-b9-VxG" secondAttribute="bottom" constant="8" id="4x6-dq-f3T"/>
                                         <constraint firstItem="o71-8w-e5H" firstAttribute="leading" secondItem="FbZ-mm-uJg" secondAttribute="trailing" constant="12" id="6Px-Kc-O18"/>
                                         <constraint firstItem="QMa-xQ-dtz" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="topMargin" constant="8" id="9g8-w7-io8"/>
                                         <constraint firstItem="bg7-b9-VxG" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="FK6-Mr-8h6"/>
+                                        <constraint firstItem="B73-ei-icK" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="top" id="HGb-mt-wnH"/>
                                         <constraint firstItem="FbZ-mm-uJg" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="HQG-IM-5lp"/>
+                                        <constraint firstAttribute="trailing" secondItem="B73-ei-icK" secondAttribute="trailing" id="LL6-TG-W06"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="o71-8w-e5H" secondAttribute="trailing" constant="12" id="N6X-5z-dWO"/>
                                         <constraint firstItem="QMa-xQ-dtz" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="a1v-Wi-tIM"/>
                                         <constraint firstItem="o71-8w-e5H" firstAttribute="leading" secondItem="bg7-b9-VxG" secondAttribute="trailing" constant="12" id="bjG-MX-w1S"/>
@@ -752,6 +760,7 @@
                                     <outlet property="dateLabel" destination="FbZ-mm-uJg" id="NtN-eg-giu"/>
                                     <outlet property="imagePreview" destination="o71-8w-e5H" id="3gy-yO-zzv"/>
                                     <outlet property="mainTitleLabel" destination="QMa-xQ-dtz" id="0fa-UW-V0U"/>
+                                    <outlet property="publishProgressView" destination="B73-ei-icK" id="Gmq-V4-r22"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1899,7 +1908,7 @@ AFNetworking (MIT), Colours (MIT), FCFileManager (MIT), FDFullscreenPopGesture (
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <datePicker key="tableFooterView" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" id="TVi-kA-ZgL">
-                            <rect key="frame" x="0.0" y="169.5" width="320" height="220"/>
+                            <rect key="frame" x="0.0" y="170" width="320" height="220"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <date key="date" timeIntervalSinceReferenceDate="478159181.32658398">

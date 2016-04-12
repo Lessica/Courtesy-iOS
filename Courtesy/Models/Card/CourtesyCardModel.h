@@ -14,7 +14,7 @@
 @protocol CourtesyCardDelegate <NSObject>
 
 - (void)cardDidFinishLoading:(CourtesyCardModel *)card;
-- (void)cardDidFinishSaving:(CourtesyCardModel *)card newRecord:(BOOL)newRecord;
+- (void)cardDidFinishSaving:(CourtesyCardModel *)card isNewRecord:(BOOL)newRecord willPublish:(BOOL)willPublish;
 - (void)cardDidFailedSaving:(CourtesyCardModel *)card;
 
 @end
@@ -41,7 +41,7 @@
 @property (nonatomic, weak)   id<CourtesyCardDelegate> delegate;
 
 - (instancetype)initWithCardToken:(NSString *)token;
-- (NSString *)saveToLocalDatabase;
+- (NSString *)saveToLocalDatabaseWithPublishFlag:(BOOL)willPublish;
 - (void)deleteInLocalDatabase;
 
 @end

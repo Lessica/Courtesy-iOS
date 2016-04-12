@@ -77,7 +77,7 @@
     return YES;
 }
 
-- (NSString *)saveToLocalDatabase {
+- (NSString *)saveToLocalDatabaseWithPublishFlag:(BOOL)willPublish {
     BOOL hasLocal = [self hasLocalRecord];
     NSDictionary *cardDict = [self toDictionary];
     [[self appStorage] setObject:cardDict forKey:[NSString stringWithFormat:kCourtesyCardPrefix, self.token]]; // Save Card Model
@@ -85,15 +85,15 @@
     for (CourtesyCardAttachmentModel *a in self.card_data.attachments) {
         [a saveToLocalDatabase];
     }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(cardDidFinishSaving:newRecord:)]) {
-        [self.delegate cardDidFinishSaving:self newRecord:!hasLocal];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cardDidFinishSaving:isNewRecord:willPublish:)]) {
+        [self.delegate cardDidFinishSaving:self isNewRecord:!hasLocal willPublish:willPublish];
     }
     return self.token;
 }
 
 - (void)deleteInLocalDatabase {
     for (CourtesyCardAttachmentModel *a in self.card_data.attachments) {
-        [a deleteInLocalDatabase];
+        [a removeFromLocalDatabase];
     }
     [[self appStorage] removeObjectForKey:[NSString stringWithFormat:kCourtesyCardPrefix, self.token]];
 }

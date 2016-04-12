@@ -35,11 +35,43 @@
 
 @implementation CourtesyRsyncHelper
 
+#ifdef DEBUG
+struct Dummy
+{
+    int d_i;
+    int d_double;
+};
+
+class Sink : public Dummy {
+private:
+    mutable int d_numCalls;
+public:
+    Sink() : d_numCalls(0) {
+        
+    }
+    int numCalls() const { return d_numCalls; }
+    void entryOut(const char * path, bool isDir, int64_t size, int64_t time, const char * symlink) {
+        ++d_numCalls;
+        CYLog(@"path = %s, size = %lld, time = %lld", path, size, time);
+    }
+    void statusOut(const char * status) {
+        ++d_numCalls;
+        CYLog(@"status = %s", status);
+    }
+};
+#endif
+
 - (void)callbackDelegateWithErrorMessage:(NSString *)msg {
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:msg                                                                      forKey:NSLocalizedDescriptionKey];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:msg forKey:NSLocalizedDescriptionKey];
     NSError *error = [NSError errorWithDomain:kCourtesyRsyncErrorDomain code:CourtesyRsyncHelperInvalidProperty userInfo:userInfo];
     if (self.delegate && [self.delegate respondsToSelector:@selector(rsyncDidEnd:withError:)]) {
         [self.delegate rsyncDidEnd:self withError:error];
+    }
+}
+
+- (void)callbackDelegateWithProgress {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(rsyncDidStart:)]) {
+        [self.delegate rsyncDidStart:self];
     }
 }
 
@@ -105,11 +137,6 @@
         [self callbackDelegateWithErrorMessage:@"Invalid Caches Path."];
         return NO;
     }
-    BOOL existsCachesPath = [FCFileManager isReadableItemAtPath:self.cachesPath];
-    if (!existsCachesPath) {
-        [self callbackDelegateWithErrorMessage:@"Caches Path is not readable."];
-        return NO;
-    }
     return YES;
 }
 
@@ -117,23 +144,11 @@
     if (![self checkProperties]) {
         return;
     }
-    
-    [self addObserver:self
-           forKeyPath:@"totalBytes"
-              options:NSKeyValueObservingOptionNew
-              context:nil];
-    [self addObserver:self
-           forKeyPath:@"physicalBytes"
-              options:NSKeyValueObservingOptionNew
-              context:nil];
-    [self addObserver:self
-           forKeyPath:@"logicalBytes"
-              options:NSKeyValueObservingOptionNew
-              context:nil];
-    [self addObserver:self
-           forKeyPath:@"skippedBytes"
-              options:NSKeyValueObservingOptionNew
-              context:nil];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(rsyncShouldStart:)]) {
+        if (![self.delegate rsyncShouldStart:self]) {
+            return;
+        }
+    }
     
     rsync::SocketUtil::startup();
     rsync::Log::setLevel(rsync::Log::Debug);
@@ -150,11 +165,21 @@
     const char *user = [self.username UTF8String];
     const char *password = [self.password UTF8String];
     int port = (int)self.port;
+    BOOL succeed = NO;
     
     std::string temporaryFile = rsync::PathUtil::join([self.cachesPath UTF8String], [[[NSUUID UUID] UUIDString] UTF8String]);
     std::string remoteDir = std::string([self.remotePath UTF8String]);
     std::string localDir = std::string([self.localPath UTF8String]);
     std::string module = std::string([self.moduleName UTF8String]);
+    std::string errMsg;
+    
+    NSTimer *timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(callbackDelegateWithProgress) userInfo:nil repeats:YES];
+    if (timer) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+            [[NSRunLoop currentRunLoop] run];
+        });
+    }
     
     try {
         if (self.secure) {
@@ -163,9 +188,14 @@
             sshio.connect(server, port, user, password, 0, 0);
             rsync::Client client(&sshio, "rsync", 30, &_g_cancelFlag);
             
-            client.setSpeedLimits(self.downloadSpeedLimit, self.uploadSpeedLimit);
+            client.setDeletionEnabled(true);
             client.setStatsAddresses(&_totalBytes, &_physicalBytes, &_logicalBytes, &_skippedBytes);
-            
+#ifdef DEBUG
+            client.setSpeedLimits(self.downloadSpeedLimit, self.uploadSpeedLimit);
+            Sink sink;
+            client.entryOut.connect(&sink, &Sink::entryOut);
+            client.statusOut.connect(&sink, &Sink::statusOut);
+#endif
             if (self.requestType == CourtesyRsyncHelperRequestTypeUpload) {
                 _status = CourtesyRsyncHelperStatusUploading;
                 client.upload(localDir.c_str(), remoteDir.c_str());
@@ -173,17 +203,21 @@
                 _status = CourtesyRsyncHelperStatusDownloading;
                 client.download(localDir.c_str(), remoteDir.c_str(), temporaryFile.c_str());
             }
-            
-            [self callbackDelegateWithSuccess];
         } else {
             rsync::SocketIO io;
             
             io.connect(server, port, user, password, module.c_str());
             rsync::Client client(&io, "rsync", 30, &_g_cancelFlag);
             
+            client.setDeletionEnabled(true);
             client.setSpeedLimits(self.downloadSpeedLimit, self.uploadSpeedLimit);
             client.setStatsAddresses(&_totalBytes, &_physicalBytes, &_logicalBytes, &_skippedBytes);
-            
+#ifdef DEBUG
+            client.setSpeedLimits(self.downloadSpeedLimit, self.uploadSpeedLimit);
+            Sink sink;
+            client.entryOut.connect(&sink, &Sink::entryOut);
+            client.statusOut.connect(&sink, &Sink::statusOut);
+#endif
             if (self.requestType == CourtesyRsyncHelperRequestTypeUpload) {
                 _status = CourtesyRsyncHelperStatusUploading;
                 client.upload(localDir.c_str(), remoteDir.c_str());
@@ -191,38 +225,38 @@
                 _status = CourtesyRsyncHelperStatusDownloading;
                 client.download(localDir.c_str(), remoteDir.c_str(), temporaryFile.c_str());
             }
-            
-            [self callbackDelegateWithSuccess];
         }
+        succeed = YES;
     } catch (rsync::Exception &e) {
+        errMsg = e.getMessage();
         LOG_ERROR(RSYNC_ERROR) << "Sync failed: " << e.getMessage() << LOG_END
     }
     
-    [self removeObserver:self
-              forKeyPath:@"totalBytes"];
-    [self removeObserver:self
-              forKeyPath:@"physicalBytes"];
-    [self removeObserver:self
-              forKeyPath:@"logicalBytes"];
-    [self removeObserver:self
-              forKeyPath:@"skippedBytes"];
+    if (timer) {
+        [timer invalidate];
+    }
     
     if (self.secure) {
         libssh2_exit();
     }
     
     rsync::SocketUtil::cleanup();
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-    CYLog(@"%@", change);
+    
+    if (succeed) {
+        [self callbackDelegateWithSuccess];
+    } else if (errMsg.c_str()) {
+        [self callbackDelegateWithErrorMessage:[NSString stringWithUTF8String:errMsg.c_str()]];
+    } else {
+        [self callbackDelegateWithErrorMessage:@"Unknown Error"];
+    }
 }
 
 - (void)pauseRsync {
     _g_cancelFlag = 1;
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

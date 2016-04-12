@@ -14,7 +14,6 @@
 @property (nonatomic, strong, readonly) NSString<Ignore> *mainTitle; // 20 chars
 @property (nonatomic, strong, readonly) NSString<Ignore> *briefTitle; // 50 chars
 @property (nonatomic, strong, readonly) NSURL<Ignore> *smallThumbnailURL; // From the first attachment image
-@property (nonatomic, copy) NSString *card_token;
 @property (nonatomic, copy) NSString *content;
 @property (nonatomic, strong) NSArray<Ignore> *attachments;
 @property (nonatomic, strong) NSArray<NSString *> *attachments_hashes;
@@ -27,5 +26,6 @@
 
 - (instancetype)initWithCardToken:(NSString *)token;
 - (instancetype)initWithDictionary:(NSDictionary *)dict andCardToken:(NSString *)token error:(NSError *__autoreleasing *)err;
+- (NSString *)savedAttachmentsPath;
 
 @end

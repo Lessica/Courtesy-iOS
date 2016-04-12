@@ -12,6 +12,7 @@
 
 // 接口常量
 #ifdef WWW_API
+
 #define API_DOMAIN @"115.28.214.126"
 #define API_TIMEOUT 20.0
 #define API_URL @"http://115.28.214.126:8000/api/courtesy"
@@ -20,7 +21,15 @@
 #define API_FORGET_PASSWORD @"http://115.28.214.126:8000/courtesy/reset"
 #define API_DOWNLOAD_FONT @"http://115.28.214.126:8000/static/fonts"
 #define API_QRCODE_PATH @"/qrcode"
+
+#define API_RSYNC_HOST @"10.0.1.2"
+#define API_RSYNC_PORT 873
+#define API_RSYNC_USERNAME @""
+#define API_RSYNC_PASSWORD @""
+#define API_RSYNC_MODULE @"test"
+
 #else
+
 #define API_DOMAIN @"10.0.1.222"
 #define API_TIMEOUT 20.0
 #define API_URL @"http://10.0.1.222/api/courtesy"
@@ -29,6 +38,7 @@
 #define API_FORGET_PASSWORD @"http://10.0.1.222/courtesy/reset"
 #define API_DOWNLOAD_FONT @"http://10.0.1.222/static/fonts"
 #define API_QRCODE_PATH @"/qrcode"
+
 #endif
 
 // 头像尺寸相关

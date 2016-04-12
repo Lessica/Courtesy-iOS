@@ -208,6 +208,9 @@
     [toolbarContainerView addSubview:toolbar];
     
     /* Initial text */
+    if (self.card.card_data.content.length == 0) {
+        self.card.card_data.content = @"说点什么吧……";
+    }
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:self.card.card_data.content];
     text.font = [[CourtesyFontManager sharedManager] fontWithID:self.card.card_data.fontType];
     if (!text.font) text.font = [UIFont systemFontOfSize:self.card.card_data.fontSize];
@@ -637,8 +640,6 @@
                             duration:kStatusBarNotificationTime
                             position:CSToastPositionCenter];
                 return;
-            } else if (self.textView.text.length <= 0) {
-                _cardEdited = NO;
             } else {
                 self.editable = NO;
                 [self serialize];
@@ -653,6 +654,9 @@
 - (void)doneComposeView:(UIButton *)sender {
     if (sender.selected) {
         [self serialize];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishEditing:)]) {
+            [self.delegate cardComposeViewDidFinishEditing:self];
+        }
     } else {
         if (self.textView.text.length >= self.style.maxContentLength) {
             [self.view makeToast:@"卡片内容太多了喔"
@@ -880,6 +884,7 @@
 
 - (void)alignButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
+    _cardEdited = YES;
     if (self.card.card_data.alignmentType == NSTextAlignmentLeft) {
         self.card.card_data.alignmentType = NSTextAlignmentCenter;
     } else if (self.card.card_data.alignmentType == NSTextAlignmentCenter) {
@@ -1537,6 +1542,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)imageFrameDidBeginEditing:(CourtesyImageFrameView *)imageFrame {
+    if (!self.editable) return;
+    _cardEdited = YES;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         CGRect rect = [self getAttachmentRect:imageFrame];
         CGRect newRect = CGRectMake(rect.origin.x, rect.origin.y + rect.size.height + self.view.frame.size.height / 2, rect.size.width, 24);
@@ -1546,6 +1553,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)imageFrameDidEndEditing:(CourtesyImageFrameView *)imageFrame {
+    if (!self.editable) return;
     
 }
 
@@ -1702,6 +1710,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)setNewCardFont:(UIFont *)cardFont {
     if (!cardFont) return;
+    _cardEdited = YES;
     CGFloat fontSize = self.card.card_data.fontSize;
     cardFont = [cardFont fontWithSize:fontSize];
     if (self.markdownParser) {
@@ -1916,9 +1925,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         }
         card.card_data.attachments = [attachments_arr copy];
         card.card_dict = [card.card_data toDictionary];
-        if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishEditing:)]) {
-            [self.delegate cardComposeViewDidFinishEditing:self];
-        }
     }
     @catch (NSException *exception) {
         [self.view makeToast:exception.reason

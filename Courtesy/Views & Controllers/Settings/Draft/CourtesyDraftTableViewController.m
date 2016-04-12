@@ -10,6 +10,7 @@
 #import "CourtesyDraftTableViewCell.h"
 #import "CourtesyCardManager.h"
 #import "CourtesyCardPreviewGenerator.h"
+#import "CourtesyCardPublishQueue.h"
 
 static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyDraftTableViewCellReuseIdentifier";
 
@@ -109,8 +110,14 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
         if (indexPath.section == 0) {
             // Delete Card Model
             CourtesyCardModel *card = [self.cardArray objectAtIndex:indexPath.row];
-            [self.cardManager deleteCardInDraft:card];
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
+            if ([queue publishTaskInPublishQueueWithCard:card]) {
+                [queue removeCardPublishTask:card];
+                [tableView setEditing:NO animated:YES];
+            } else {
+                [self.cardManager deleteCardInDraft:card];
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
         }
     }
 }
