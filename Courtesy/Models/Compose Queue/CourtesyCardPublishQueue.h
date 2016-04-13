@@ -10,10 +10,6 @@
 #import "CourtesyCardPublishTask.h"
 
 @interface CourtesyCardPublishQueue : NSObject
-
-@property (nonatomic, assign, readonly) NSUInteger totalTasks;
-@property (nonatomic, assign, readonly) NSUInteger finishedTasks;
-
 @property (nonatomic, strong, readonly) CourtesyCardPublishTask *currentTask;
 
 + (id)sharedQueue;

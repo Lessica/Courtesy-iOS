@@ -79,6 +79,29 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     return 0;
 }
 
+- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        __block CourtesyCardModel *card = [self.cardArray objectAtIndex:indexPath.row];
+        __block CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
+        if ([queue publishTaskInPublishQueueWithCard:card]) {
+            UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"取消上传" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+                [queue removeCardPublishTask:card];
+                [tableView setEditing:NO animated:YES];
+            }];
+            editAction.backgroundColor = [UIColor lightGrayColor];
+            return @[editAction];
+        } else {
+            __weak typeof(self) weakSelf = self;
+            UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                [weakSelf.cardManager deleteCardInDraft:card];
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }];
+            return @[deleteAction];
+        }
+    }
+    return nil;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         CourtesyDraftTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourtesyDraftTableViewCellReuseIdentifier forIndexPath:indexPath];
@@ -103,23 +126,6 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES; // Always allow in draft box
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if (indexPath.section == 0) {
-            // Delete Card Model
-            CourtesyCardModel *card = [self.cardArray objectAtIndex:indexPath.row];
-            CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
-            if ([queue publishTaskInPublishQueueWithCard:card]) {
-                [queue removeCardPublishTask:card];
-                [tableView setEditing:NO animated:YES];
-            } else {
-                [self.cardManager deleteCardInDraft:card];
-                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            }
-        }
-    }
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {

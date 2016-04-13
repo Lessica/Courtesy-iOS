@@ -47,10 +47,10 @@
 		0F62415A1CBA00750060E489 /* CourtesyRsyncHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0F6241591CBA00750060E489 /* CourtesyRsyncHelper.mm */; };
 		0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */; };
 		0F71364F1CBBB0E200341AC9 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F71364A1CBBB0E200341AC9 /* libcrypto.a */; };
-		0F7136511CBBB0E200341AC9 /* librsync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F71364C1CBBB0E200341AC9 /* librsync.a */; };
 		0F7136521CBBB0E200341AC9 /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F71364D1CBBB0E200341AC9 /* libssh2.a */; };
 		0F7136611CBBB37900341AC9 /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7136601CBBB37900341AC9 /* libiconv.2.4.0.tbd */; };
 		0F7136641CBBB3CD00341AC9 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7136621CBBB3B700341AC9 /* libz.1.2.5.tbd */; };
+		0F8A56281CBE14D8000527D8 /* libacrosync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F8A56271CBE14D8000527D8 /* libacrosync.a */; };
 		0F90DC431C844C4E00607277 /* Drawers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */; };
 		0FA726611CAAB32B00315E09 /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FA7265E1CAAB32B00315E09 /* CodeScan.bundle */; };
 		0FA726621CAAB32B00315E09 /* CourtesyQRScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA726601CAAB32B00315E09 /* CourtesyQRScanViewController.m */; };
@@ -434,11 +434,11 @@
 		0F6DD57D1C98369200CA4389 /* CourtesyMarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyMarkdownParser.h; path = Markdown/CourtesyMarkdownParser.h; sourceTree = "<group>"; };
 		0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyMarkdownParser.m; path = Markdown/CourtesyMarkdownParser.m; sourceTree = "<group>"; };
 		0F71364A1CBBB0E200341AC9 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		0F71364C1CBBB0E200341AC9 /* librsync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = librsync.a; sourceTree = "<group>"; };
 		0F71364D1CBBB0E200341AC9 /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssh2.a; sourceTree = "<group>"; };
 		0F71365E1CBBB36900341AC9 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		0F7136601CBBB37900341AC9 /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = usr/lib/libiconv.2.4.0.tbd; sourceTree = SDKROOT; };
 		0F7136621CBBB3B700341AC9 /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
+		0F8A56271CBE14D8000527D8 /* libacrosync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libacrosync.a; sourceTree = "<group>"; };
 		0FA7265E1CAAB32B00315E09 /* CodeScan.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CodeScan.bundle; sourceTree = "<group>"; };
 		0FA7265F1CAAB32B00315E09 /* CourtesyQRScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyQRScanViewController.h; sourceTree = "<group>"; };
 		0FA726601CAAB32B00315E09 /* CourtesyQRScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyQRScanViewController.m; sourceTree = "<group>"; };
@@ -752,13 +752,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F7136641CBBB3CD00341AC9 /* libz.1.2.5.tbd in Frameworks */,
+				0F8A56281CBE14D8000527D8 /* libacrosync.a in Frameworks */,
 				0F7136611CBBB37900341AC9 /* libiconv.2.4.0.tbd in Frameworks */,
 				0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */,
 				0FD3EE261C95CD2200DE5347 /* WatchConnectivity.framework in Frameworks */,
 				0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */,
 				0F2A36751C8D397D00028E96 /* MobileCoreServices.framework in Frameworks */,
 				0FF2D2B01C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a in Frameworks */,
-				0F7136511CBBB0E200341AC9 /* librsync.a in Frameworks */,
 				0F2A36731C8D325200028E96 /* AVKit.framework in Frameworks */,
 				0F71364F1CBBB0E200341AC9 /* libcrypto.a in Frameworks */,
 				0FD43FCF1C846CAF00D6C564 /* MediaPlayer.framework in Frameworks */,
@@ -1132,8 +1132,8 @@
 		0F62414D1CB9FF4D0060E489 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				0F8A56271CBE14D8000527D8 /* libacrosync.a */,
 				0F71364A1CBBB0E200341AC9 /* libcrypto.a */,
-				0F71364C1CBBB0E200341AC9 /* librsync.a */,
 				0F71364D1CBBB0E200341AC9 /* libssh2.a */,
 			);
 			path = libs;

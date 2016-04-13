@@ -50,7 +50,7 @@
     CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
     CourtesyCardPublishTask *task = [queue publishTaskInPublishQueueWithCard:card];
     if (task) {
-        [self setPublishProgressWithStatus:task.status];
+        [self setPublishProgressWithStatus:task.status withError:nil];
         if (!task.hasObserver) {
             [task addObserver:self
                    forKeyPath:@"status"
@@ -69,15 +69,7 @@
     }
 }
 
-- (void)setPublishProgressWithTotalBytes:(int64_t)totalBytes andLogicalBytes:(int64_t)logicalBytes {
-    if (totalBytes < 1) return;
-    [self.publishProgressView setProgress:((float)logicalBytes / totalBytes) animated:YES];
-    self.dateLabel.text = [NSString stringWithFormat:@"正在上传 - %@ / %@",
-                           [FCFileManager sizeFormatted:[NSNumber numberWithFloat:logicalBytes]],
-                           [FCFileManager sizeFormatted:[NSNumber numberWithFloat:totalBytes]]];
-}
-
-- (void)setPublishProgressWithStatus:(CourtesyCardPublishTaskStatus)status {
+- (void)setPublishProgressWithStatus:(CourtesyCardPublishTaskStatus)status withError:(NSError *)err {
     if (status == CourtesyCardPublishTaskStatusProcessing) {
         self.dateLabel.text = @"正在上传";
         return;
@@ -86,7 +78,11 @@
     } else if (status == CourtesyCardPublishTaskStatusReady) {
         self.dateLabel.text = @"正在准备上传";
     } else if (status == CourtesyCardPublishTaskStatusCanceled) {
-        self.dateLabel.text = @"上传失败";
+        if (err) {
+            self.dateLabel.text = [NSString stringWithFormat:@"上传失败 - %@", [err localizedDescription]];
+        } else {
+            self.dateLabel.text = @"用户取消上传";
+        }
     } else if (status == CourtesyCardPublishTaskStatusDone) {
         self.dateLabel.text = @"上传成功";
     }
@@ -117,9 +113,13 @@
     if (object == self.targetTask &&
         [keyPath isEqualToString:@"status"]) {
         dispatch_async_on_main_queue(^{
-            [self setPublishProgressWithStatus:self.targetTask.status];
+            [self setPublishProgressWithStatus:self.targetTask.status withError:self.targetTask.error];
             if (self.targetTask.status == CourtesyCardPublishTaskStatusProcessing) {
-                [self setPublishProgressWithTotalBytes:self.targetTask.totalBytes andLogicalBytes:self.targetTask.logicalBytes];
+                if (self.targetTask.totalBytes < 1) return;
+                [self.publishProgressView setProgress:((float)self.targetTask.currentProgress) animated:YES];
+                self.dateLabel.text = [NSString stringWithFormat:@"正在上传 - %@ / %@",
+                                       [FCFileManager sizeFormatted:[NSNumber numberWithFloat:self.targetTask.logicalBytes]],
+                                       [FCFileManager sizeFormatted:[NSNumber numberWithFloat:(self.targetTask.totalBytes - self.targetTask.skippedBytes)]]];
             }
         });
     }

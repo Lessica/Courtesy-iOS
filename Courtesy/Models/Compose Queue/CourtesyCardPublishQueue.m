@@ -7,69 +7,42 @@
 //
 
 #import "CourtesyCardPublishQueue.h"
-#import "CourtesyRsyncHelper.h"
 #import "FCFileManager.h"
 
-#define kCourtesyCardPublishQueueIdentifier @"kCourtesyCardPublishQueueIdentifier-%@"
-#define kCourtesyCardPublishQueueCacheIdentifier @"kCourtesyCardPublishQueueCacheIdentifier-%@"
-
-@interface CourtesyCardPublishQueue () <CourtesyRsyncHelperDelegate>
+@interface CourtesyCardPublishQueue () <CourtesyCardPublishTaskDelegate>
 @property (nonatomic, strong) NSMutableArray <CourtesyCardPublishTask *> *cardQueue;
 
 @end
 
 @implementation CourtesyCardPublishQueue {
     NSUInteger maxQueueSize;
-    CourtesyRsyncHelper *currentHelper;
 }
 
-- (BOOL)rsyncShouldStart:(CourtesyRsyncHelper *)helper {
-    NSAssert(self.currentTask != nil, @"Card Publish Task was deallocated while rsync helper was still registered with it!");
-    if (self.currentTask.status == CourtesyCardPublishTaskStatusNone) {
-        self.currentTask.status = CourtesyCardPublishTaskStatusReady;
-        return YES;
-    }
-    return NO;
+#pragma mark - CourtesyCardPublishTaskDelegate
+
+- (void)publishTaskDidStart:(CourtesyCardPublishTask *)task {
+    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"开始发布卡片 - %@", task.card.card_data.mainTitle]
+                                   dismissAfter:kStatusBarNotificationTime
+                                      styleName:JDStatusBarStyleSuccess];
 }
 
-- (void)rsyncDidStart:(CourtesyRsyncHelper *)helper {
-    CYLog(@"totalBytes = %lld, physicalBytes = %lld, logicalBytes = %lld, skippedBytes = %lld", helper.totalBytes, helper.physicalBytes, helper.logicalBytes, helper.skippedBytes);
-    NSAssert(self.currentTask != nil, @"Card Publish Task was deallocated while rsync helper was still registered with it!");
-    self.currentTask.status = CourtesyCardPublishTaskStatusProcessing;
-    self.currentTask.currentProgress = (float)helper.logicalBytes / helper.totalBytes;
-    self.currentTask.totalBytes = helper.totalBytes;
-    self.currentTask.physicalBytes = helper.physicalBytes;
-    self.currentTask.logicalBytes = helper.logicalBytes;
-    self.currentTask.skippedBytes = helper.skippedBytes;
-}
-
-- (void)rsyncDidEnd:(CourtesyRsyncHelper *)helper withError:(NSError *)error {
-    NSAssert(self.currentTask != nil, @"Card Publish Task was deallocated while rsync helper was still registered with it!");
-    if (error) {
-        CYLog(@"%@", error);
-        self.currentTask.error = error;
-        self.currentTask.status = CourtesyCardPublishTaskStatusCanceled;
-        dispatch_async_on_main_queue(^{
+- (void)publishTaskDidFinished:(CourtesyCardPublishTask *)task withError:(NSError *)error {
+    if ([self countOfTasksInPublishQueue] == 0) {
+        NSUInteger currentSize = maxQueueSize;
+        if (error == nil) {
+            if (currentSize != 0) {
+                [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"%lu 张卡片发布成功", (unsigned long)currentSize]
+                                           dismissAfter:kStatusBarNotificationTime
+                                              styleName:JDStatusBarStyleSuccess];
+            }
+        } else {
             [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片上传失败 - %@", [error localizedDescription]]
                                        dismissAfter:kStatusBarNotificationTime
                                           styleName:JDStatusBarStyleError];
-        });
-    } else {
-        if ([self countOfTasksInPublishQueue] > 1) {
-            
-        } else {
-            NSUInteger currentSize = maxQueueSize;
-            dispatch_async_on_main_queue(^{
-                [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"%lu 张卡片上传成功", (unsigned long)currentSize]
-                                           dismissAfter:kStatusBarNotificationTime
-                                              styleName:JDStatusBarStyleSuccess];
-            });
-            maxQueueSize = 0;
         }
-        self.currentTask.status = CourtesyCardPublishTaskStatusDone;
+        maxQueueSize = 0;
     }
     // 清理状态
-    currentHelper = nil;
     _currentTask = nil;
     [self removeCompletedTasks];
     // 开始下一个
@@ -90,7 +63,6 @@
         // 初始化
         self.cardQueue = [NSMutableArray new];
         _currentTask = nil;
-        currentHelper = nil;
         maxQueueSize = 0;
     }
     return self;
@@ -105,32 +77,14 @@
     if (!_currentTask) {
         return;
     }
-    NSString *queueIdentifier = [NSString stringWithFormat:kCourtesyCardPublishQueueIdentifier, self.currentTask.card.token];
-    dispatch_queue_t rsyncNewQueue = dispatch_queue_create([queueIdentifier UTF8String], NULL);
-    dispatch_async(rsyncNewQueue, ^{
-        currentHelper = [CourtesyRsyncHelper new];
-        currentHelper.secure = NO;
-        currentHelper.requestType = CourtesyRsyncHelperRequestTypeUpload;
-        currentHelper.host = API_RSYNC_HOST;
-        currentHelper.port = API_RSYNC_PORT;
-        currentHelper.username = API_RSYNC_USERNAME;
-        currentHelper.password = API_RSYNC_PASSWORD;
-        currentHelper.moduleName = API_RSYNC_MODULE;
-        currentHelper.remotePath = [@"/" stringByAppendingPathComponent:self.currentTask.card.token];
-        currentHelper.localPath = [self.currentTask.card.card_data savedAttachmentsPath];
-        currentHelper.cachesPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:kCourtesyCardPublishQueueCacheIdentifier, self.currentTask.card.token]];
-#ifdef DEBUG
-        currentHelper.uploadSpeedLimit = 1024.0;
-        currentHelper.downloadSpeedLimit = 1024.0;
-#endif
-        currentHelper.delegate = self;
-        [currentHelper startRsync];
-    });
+    _currentTask.delegate = self;
+    [_currentTask startTask];
 }
 
 - (void)addCardPublishTask:(CourtesyCardModel *)card {
     NSAssert(card != nil, @"Add Card Publish Task With Nil Value!");
-    if ([self taskInPublishQueueWithCard:card]) {
+    [self removeCompletedTasks];
+    if ([self publishTaskInPublishQueueWithCard:card]) {
         CYLog(@"Card was in queue.");
         return;
     }
@@ -140,7 +94,6 @@
     if (!self.currentTask) {
         [self startQueue];
     }
-    [self removeCompletedTasks];
 }
 
 - (CourtesyCardPublishTask *)firstWaitingTask {
@@ -163,16 +116,6 @@
     return count;
 }
 
-- (CourtesyCardPublishTask *)taskInPublishQueueWithCard:(CourtesyCardModel *)card {
-    NSAssert(card != nil, @"Check Card Publish Task With Nil Value!");
-    for (CourtesyCardPublishTask *t in self.cardQueue) {
-        if (t.card == card) {
-            return t;
-        }
-    }
-    return nil;
-}
-
 - (CourtesyCardPublishTask *)publishTaskInPublishQueueWithCard:(CourtesyCardModel *)card {
     NSAssert(card != nil, @"Check Card Publish Task With Nil Value!");
     for (CourtesyCardPublishTask *t in self.cardQueue) {
@@ -188,9 +131,7 @@
 - (void)removeCardPublishTask:(CourtesyCardModel *)card {
     NSAssert(card != nil, @"Remove Card Publish Task With Nil Value!");
     if (card == self.currentTask.card) {
-        if (currentHelper) {
-            [currentHelper pauseRsync];
-        }
+        [self.currentTask stopTask];
     } else {
         CourtesyCardPublishTask *task = [self publishTaskInPublishQueueWithCard:card];
         if (task) {
@@ -202,13 +143,11 @@
 }
 
 - (void)removeAllTasks {
-    if (self.currentTask != nil) {
-        if (currentHelper) {
-            [currentHelper pauseRsync];
-        }
-    }
     for (CourtesyCardPublishTask *t in self.cardQueue) {
         t.status = CourtesyCardPublishTaskStatusCanceled;
+    }
+    if (self.currentTask != nil) {
+        [self.currentTask stopTask];
     }
     maxQueueSize = 0;
     [self removeCompletedTasks];

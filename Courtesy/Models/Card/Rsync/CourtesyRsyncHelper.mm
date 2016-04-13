@@ -33,8 +33,6 @@
 #include <cstring>
 #include <sstream>
 
-@implementation CourtesyRsyncHelper
-
 #ifdef DEBUG
 struct Dummy
 {
@@ -47,7 +45,7 @@ private:
     mutable int d_numCalls;
 public:
     Sink() : d_numCalls(0) {
-        
+
     }
     int numCalls() const { return d_numCalls; }
     void entryOut(const char * path, bool isDir, int64_t size, int64_t time, const char * symlink) {
@@ -61,8 +59,10 @@ public:
 };
 #endif
 
+@implementation CourtesyRsyncHelper
+
 - (void)callbackDelegateWithErrorMessage:(NSString *)msg {
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:msg forKey:NSLocalizedDescriptionKey];
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : msg};
     NSError *error = [NSError errorWithDomain:kCourtesyRsyncErrorDomain code:CourtesyRsyncHelperInvalidProperty userInfo:userInfo];
     if (self.delegate && [self.delegate respondsToSelector:@selector(rsyncDidEnd:withError:)]) {
         [self.delegate rsyncDidEnd:self withError:error];
@@ -81,69 +81,7 @@ public:
     }
 }
 
-- (BOOL)checkProperties {
-    if (
-        self.requestType != CourtesyRsyncHelperRequestTypeUpload &&
-        self.requestType != CourtesyRsyncHelperRequestTypeDownload
-        ) {
-        [self callbackDelegateWithErrorMessage:@"Invalid Request Type."];
-        return NO;
-    }
-    if (!self.host) {
-        [self callbackDelegateWithErrorMessage:@"Empty Host."];
-        return NO;
-    }
-    if (self.port == 0) {
-        [self callbackDelegateWithErrorMessage:@"Invalid Port."];
-        return NO;
-    }
-    if (!self.username) {
-        [self callbackDelegateWithErrorMessage:@"Empty Username."];
-        return NO;
-    }
-    if (!self.password) {
-        [self callbackDelegateWithErrorMessage:@"Empty Password."];
-        return NO;
-    }
-    if (!self.moduleName) {
-        [self callbackDelegateWithErrorMessage:@"Empty Module Name."];
-        return NO;
-    }
-    if (!self.remotePath) {
-        [self callbackDelegateWithErrorMessage:@"Empty Remote Path."];
-        return NO;
-    }
-    NSURL *remoteURL = [NSURL URLWithString:self.remotePath];
-    if (!remoteURL) {
-        [self callbackDelegateWithErrorMessage:@"Invalid Remote Path."];
-        return NO;
-    }
-    if (!self.localPath) {
-        [self callbackDelegateWithErrorMessage:@"Empty Local Path."];
-        return NO;
-    }
-    NSURL *localURL = [NSURL fileURLWithPath:self.localPath];
-    if (!localURL) {
-        [self callbackDelegateWithErrorMessage:@"Invalid Local Path."];
-        return NO;
-    }
-    BOOL existsLocalPath = [FCFileManager isReadableItemAtPath:self.localPath];
-    if (!existsLocalPath) {
-        [self callbackDelegateWithErrorMessage:@"Local Path is not readable."];
-        return NO;
-    }
-    NSURL *cachesURL = [NSURL fileURLWithPath:self.cachesPath];
-    if (!cachesURL) {
-        [self callbackDelegateWithErrorMessage:@"Invalid Caches Path."];
-        return NO;
-    }
-    return YES;
-}
-
 - (void)startRsync {
-    if (![self checkProperties]) {
-        return;
-    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(rsyncShouldStart:)]) {
         if (![self.delegate rsyncShouldStart:self]) {
             return;
@@ -151,16 +89,23 @@ public:
     }
     
     rsync::SocketUtil::startup();
+
+#ifdef DEBUG
     rsync::Log::setLevel(rsync::Log::Debug);
-    
+#else
+    rsync::Log::setLevel(rsync::Log::Fatal);
+#endif
+
     if (self.secure) {
         int rc = libssh2_init(0);
         if (rc != 0) {
             LOG_ERROR(LIBSSH2_INIT) << "libssh2 initialization failed: " << rc << LOG_END
+            [self callbackDelegateWithErrorMessage:@"安全连接建立失败"];
             return;
         }
     }
-    
+
+    NSString *errorMessage = @"未知错误";
     const char *server = [self.host UTF8String];
     const char *user = [self.username UTF8String];
     const char *password = [self.password UTF8String];
@@ -171,7 +116,6 @@ public:
     std::string remoteDir = std::string([self.remotePath UTF8String]);
     std::string localDir = std::string([self.localPath UTF8String]);
     std::string module = std::string([self.moduleName UTF8String]);
-    std::string errMsg;
     
     NSTimer *timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(callbackDelegateWithProgress) userInfo:nil repeats:YES];
     if (timer) {
@@ -205,10 +149,10 @@ public:
             }
         } else {
             rsync::SocketIO io;
-            
+
             io.connect(server, port, user, password, module.c_str());
             rsync::Client client(&io, "rsync", 30, &_g_cancelFlag);
-            
+
             client.setDeletionEnabled(true);
             client.setSpeedLimits(self.downloadSpeedLimit, self.uploadSpeedLimit);
             client.setStatsAddresses(&_totalBytes, &_physicalBytes, &_logicalBytes, &_skippedBytes);
@@ -228,8 +172,18 @@ public:
         }
         succeed = YES;
     } catch (rsync::Exception &e) {
-        errMsg = e.getMessage();
-        LOG_ERROR(RSYNC_ERROR) << "Sync failed: " << e.getMessage() << LOG_END
+        std::string errMsg = e.getMessage();
+        std::string errID = e.getID();
+        NSString *errIDObj = [NSString stringWithUTF8String:errID.c_str()];
+        if ([errIDObj isEqualToString:@"RSYNC_CANCEL"]) {
+            errorMessage = @"用户取消上传";
+        } else if ([errIDObj isEqualToString:@"SOCKET_CONNECT"]) {
+            errorMessage = @"连接超时";
+        } else if ([errIDObj isEqualToString:@"RSYNC_SOCKET"]) {
+            errorMessage = @"连接失败";
+        }
+        LOG_ERROR(RSYNC_ERROR) << "Sync failed: (" << errID << ") : "
+                    << errMsg << LOG_END
     }
     
     if (timer) {
@@ -244,8 +198,8 @@ public:
     
     if (succeed) {
         [self callbackDelegateWithSuccess];
-    } else if (errMsg.c_str()) {
-        [self callbackDelegateWithErrorMessage:[NSString stringWithUTF8String:errMsg.c_str()]];
+    } else if (errorMessage) {
+        [self callbackDelegateWithErrorMessage:errorMessage];
     } else {
         [self callbackDelegateWithErrorMessage:@"Unknown Error"];
     }

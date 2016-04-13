@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CourtesyCardModel.h"
+#import "CourtesyRsyncHelper.h"
 
 typedef enum : NSUInteger {
     CourtesyCardPublishTaskStatusNone = 0,
@@ -17,8 +18,21 @@ typedef enum : NSUInteger {
     CourtesyCardPublishTaskStatusCanceled = 5
 } CourtesyCardPublishTaskStatus;
 
+@class CourtesyCardPublishTask;
+
+@protocol CourtesyCardPublishTaskDelegate <NSObject>
+@optional
+- (void)publishTaskDidStart:(CourtesyCardPublishTask *)task;
+@optional
+- (void)publishTaskDidFinished:(CourtesyCardPublishTask *)task withError:(NSError *)error;
+
+@end
+
 @interface CourtesyCardPublishTask : NSObject
 @property (nonatomic, strong, readonly) CourtesyCardModel *card;
+@property (nonatomic, strong, readonly) CourtesyRsyncHelper *helper;
+@property (nonatomic, weak) id<CourtesyCardPublishTaskDelegate> delegate;
+
 @property (nonatomic, assign) CourtesyCardPublishTaskStatus status;
 @property (nonatomic, strong) NSError *error;
 @property (nonatomic, assign) float currentProgress;
@@ -29,5 +43,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign, readonly) BOOL hasObserver;
 
 - (instancetype)initWithCard:(CourtesyCardModel *)card;
+- (void)startTask;
+- (void)stopTask;
 
 @end

@@ -22,10 +22,10 @@
 #define API_DOWNLOAD_FONT @"http://115.28.214.126:8000/static/fonts"
 #define API_QRCODE_PATH @"/qrcode"
 
-#define API_RSYNC_HOST @"10.0.1.2"
+#define API_RSYNC_HOST @"115.28.214.126"
 #define API_RSYNC_PORT 873
-#define API_RSYNC_USERNAME @""
-#define API_RSYNC_PASSWORD @""
+#define API_RSYNC_USERNAME @"ursync"
+#define API_RSYNC_PASSWORD @"rsync"
 #define API_RSYNC_MODULE @"test"
 
 #else
@@ -38,6 +38,12 @@
 #define API_FORGET_PASSWORD @"http://10.0.1.222/courtesy/reset"
 #define API_DOWNLOAD_FONT @"http://10.0.1.222/static/fonts"
 #define API_QRCODE_PATH @"/qrcode"
+
+#define API_RSYNC_HOST @"10.0.1.2"
+#define API_RSYNC_PORT 873
+#define API_RSYNC_USERNAME @""
+#define API_RSYNC_PASSWORD @""
+#define API_RSYNC_MODULE @"test"
 
 #endif
 
