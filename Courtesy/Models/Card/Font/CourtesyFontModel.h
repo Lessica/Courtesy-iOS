@@ -16,6 +16,15 @@ typedef enum : NSUInteger {
     kCourtesyFontXXMTK   = 4
 } CourtesyFontType;
 
+typedef enum : NSUInteger {
+    CourtesyFontDownloadingTaskStatusNone     = 0,
+    CourtesyFontDownloadingTaskStatusDownload = 1,
+    CourtesyFontDownloadingTaskStatusSuspend  = 2,
+    CourtesyFontDownloadingTaskStatusExtract  = 3,
+    CourtesyFontDownloadingTaskStatusDone     = 4,
+    CourtesyFontDownloadingTaskStatusReady    = 5
+} CourtesyFontDownloadingTaskStatus;
+
 @class CourtesyFontModel;
 
 @protocol CourtesyFontDownloadDelegate <NSObject>
@@ -28,25 +37,25 @@ typedef enum : NSUInteger {
              withErrorMessage:(NSString *)message;
 
 @optional
-- (void)fontDownload:(CourtesyFontModel *)font withProgress:(float)progress;
+- (void)fontDownloadProgressNotify:(CourtesyFontModel *)font;
 
 @end
 
 @interface CourtesyFontModel : NSObject <SSZipArchiveDelegate>
 @property (nonatomic, strong) NSString *fontName;
 @property (nonatomic, strong) UIImage *fontPreview;
-@property (nonatomic, assign, readonly) BOOL downloaded;
 @property (nonatomic, strong) NSURL *remoteURL;
 @property (nonatomic, strong) NSURL *localURL;
 @property (nonatomic, assign) CGFloat defaultSize;
 @property (nonatomic, assign) float fileSize;
 @property (nonatomic, strong) UIFont *font;
-@property (nonatomic, assign, readonly) BOOL downloading;
+@property (nonatomic, assign) CourtesyFontDownloadingTaskStatus status;
 @property (nonatomic, assign, readonly) float downloadProgress;
 @property (nonatomic, assign) CourtesyFontType type;
 @property (nonatomic, weak) id<CourtesyFontDownloadDelegate> delegate;
 
-- (void)downloadFont;
-- (void)pauseDownloadFont;
+- (instancetype)initWithLocalURL:(NSURL *)localURL;
+- (void)startDownloadTask;
+- (void)pauseDownloadTask;
 
 @end

@@ -31,47 +31,40 @@
         fontSystem.fontPreview = [[UIImage imageNamed:@"font-applepf"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];;
         fontSystem.delegate = self;
         fontSystem.type = kCourtesyFontDefault;
+        fontSystem.status = CourtesyFontDownloadingTaskStatusDone; // 默认字体是处于下载完成状态的
         
-        CourtesyFontModel *fontSong = [CourtesyFontModel new];
+        CourtesyFontModel *fontSong = [[CourtesyFontModel alloc] initWithLocalURL:[NSURL fileURLWithPath:[[[UIApplication sharedApplication] libraryPath] stringByAppendingPathComponent:@"Fonts/FZSSK.TTF"]]];
         fontSong.remoteURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_FONT, @"FZSSK.TTF.zip"]];
-        fontSong.localURL = [NSURL fileURLWithPath:[[[UIApplication sharedApplication] documentsPath] stringByAppendingPathComponent:@"Fonts/FZSSK.TTF"]];
         fontSong.fontName = @"方正书宋";
         fontSong.fileSize = 5430465.0;
         fontSong.defaultSize = 16.0;
-        fontSong.font = nil;
         fontSong.fontPreview = [[UIImage imageNamed:@"font-fzssk"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         fontSong.delegate = self;
         fontSong.type = kCourtesyFontFZSSK;
         
-        CourtesyFontModel *fontKai = [CourtesyFontModel new];
+        CourtesyFontModel *fontKai = [[CourtesyFontModel alloc] initWithLocalURL:[NSURL fileURLWithPath:[[[UIApplication sharedApplication] libraryPath] stringByAppendingPathComponent:@"Fonts/FZKTK.TTF"]]];
         fontKai.remoteURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_FONT, @"FZKTK.TTF.zip"]];
-        fontKai.localURL = [NSURL fileURLWithPath:[[[UIApplication sharedApplication] documentsPath] stringByAppendingPathComponent:@"Fonts/FZKTK.TTF"]];;
         fontKai.fontName = @"方正楷体";
         fontKai.defaultSize = 16.0;
         fontKai.fileSize = 7314268.0;
-        fontKai.font = nil;
         fontKai.fontPreview = [[UIImage imageNamed:@"font-fzktk"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         fontKai.delegate = self;
         fontKai.type = kCourtesyFontFZKTK;
         
-        CourtesyFontModel *fontHei = [CourtesyFontModel new];
+        CourtesyFontModel *fontHei = [[CourtesyFontModel alloc] initWithLocalURL:[NSURL fileURLWithPath:[[[UIApplication sharedApplication] libraryPath] stringByAppendingPathComponent:@"Fonts/FZHTK.TTF"]]];
         fontHei.remoteURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_FONT, @"FZHTK.TTF.zip"]];
-        fontHei.localURL = [NSURL fileURLWithPath:[[[UIApplication sharedApplication] documentsPath] stringByAppendingPathComponent:@"Fonts/FZHTK.TTF"]];;
         fontHei.fontName = @"方正黑体";
         fontHei.defaultSize = 16.0;
         fontHei.fileSize = 4990672.0;
-        fontHei.font = nil;
         fontHei.fontPreview = [[UIImage imageNamed:@"font-fzhtk"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         fontHei.delegate = self;
         fontHei.type = kCourtesyFontFZHTK;
         
-        CourtesyFontModel *fontXinXi = [CourtesyFontModel new];
+        CourtesyFontModel *fontXinXi = [[CourtesyFontModel alloc] initWithLocalURL:[NSURL fileURLWithPath:[[[UIApplication sharedApplication] libraryPath] stringByAppendingPathComponent:@"Fonts/XXMTK.TTF"]]];
         fontXinXi.remoteURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_FONT, @"XXMTK.TTF.zip"]];
-        fontXinXi.localURL = [NSURL fileURLWithPath:[[[UIApplication sharedApplication] documentsPath] stringByAppendingPathComponent:@"Fonts/XXMTK.TTF"]];;
         fontXinXi.fontName = @"微软新细明体";
         fontXinXi.defaultSize = 16.0;
         fontXinXi.fileSize = 5340326.0;
-        fontXinXi.font = nil;
         fontXinXi.fontPreview = [[UIImage imageNamed:@"font-xxmtk"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         fontXinXi.delegate = self;
         fontXinXi.type = kCourtesyFontXXMTK;
@@ -82,26 +75,13 @@
 }
 
 - (void)downloadFont:(CourtesyFontModel *)font {
-    if (_downloadingModel && _downloadingModel != font) {
-        [self pauseDownloadFont:_downloadingModel];
-        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"暂停下载 %@ | 正在下载 %@", _downloadingModel.fontName, font.fontName]
-                                      styleName:JDStatusBarStyleDefault];
-        _downloadingModel = font;
-    } else {
-        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"正在下载 %@", font.fontName]
-                                      styleName:JDStatusBarStyleDefault];
-        _downloadingModel = font;
-    }
-    
-    [JDStatusBarNotification showActivityIndicator:YES
-                                    indicatorStyle:UIActivityIndicatorViewStyleGray];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [font downloadFont];
+        [font startDownloadTask];
     });
 }
 
 - (void)pauseDownloadFont:(CourtesyFontModel *)font {
-    [font pauseDownloadFont];
+    [font pauseDownloadTask];
     [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"暂停下载 %@", font.fontName]
                                dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleDefault];
@@ -110,13 +90,9 @@
 #pragma mark - CourtesyFontDownloadDelegate
 
 - (void)fontDownloadDidSucceed:(CourtesyFontModel *)font {
-    if (_delegate && [_delegate respondsToSelector:@selector(fontManager:shouldReloadData:)]) {
-        [_delegate fontManager:self shouldReloadData:YES];
-    }
     [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"%@ 下载成功", font.fontName]
                                dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleSuccess];
-    _downloadingModel = nil;
 }
 
 - (void)fontDownloadDidFailed:(CourtesyFontModel *)font
@@ -124,19 +100,10 @@
     [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"%@ 下载失败 - %@", font.fontName, message]
                                dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleError];
-    _downloadingModel = nil;
 }
 
-- (void)fontDownload:(CourtesyFontModel *)font
-        withProgress:(float)progress {
-    if (font == _downloadingModel) {
-        // This is not called back on the main queue.
-        // You are responsible for dispatching to the main queue for UI updates
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //Update the progress view
-            [JDStatusBarNotification showProgress:progress];
-        });
-    }
+- (void)fontDownloadProgressNotify:(CourtesyFontModel *)font {
+    CYLog(@"Font %@, Progress = %f", font.fontName, font.downloadProgress);
 }
 
 - (CourtesyFontModel *)fontModelWithID:(CourtesyFontType)fontType {

@@ -23,6 +23,7 @@
 #define API_QRCODE_PATH @"/qrcode"
 
 #define API_RSYNC_HOST @"115.28.214.126"
+#define API_RSYNC_PROTOCOL 30
 #define API_RSYNC_PORT 873
 #define API_RSYNC_USERNAME @"ursync"
 #define API_RSYNC_PASSWORD @"rsync"
@@ -40,6 +41,7 @@
 #define API_QRCODE_PATH @"/qrcode"
 
 #define API_RSYNC_HOST @"10.0.1.2"
+#define API_RSYNC_PROTOCOL 29
 #define API_RSYNC_PORT 873
 #define API_RSYNC_USERNAME @""
 #define API_RSYNC_PASSWORD @""

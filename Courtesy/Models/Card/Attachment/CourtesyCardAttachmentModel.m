@@ -26,7 +26,7 @@
 
 + (NSString *)savedAttachmentsPathWithCardToken:(NSString *)token {
     static NSString *tPath = nil;
-    NSString *documentPath = [[UIApplication sharedApplication] documentsPath];
+    NSString *documentPath = [[UIApplication sharedApplication] libraryPath];
     NSString *savedAttachmentsDirectoryPath = [documentPath stringByAppendingPathComponent:@"SavedAttachments"];
     NSString *savedAttachmentsDirectoryHashPath = [savedAttachmentsDirectoryPath stringByAppendingPathComponent:token];
     tPath = [[NSURL fileURLWithPath:savedAttachmentsDirectoryHashPath] path];

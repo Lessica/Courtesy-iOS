@@ -9,12 +9,12 @@
 #import "FCFileManager.h"
 #import "CourtesyFontSheetView.h"
 #import "CourtesyFontTableViewCell.h"
-#import "CourtesyFontManager.h"
+#import "CourtesyFontModel.h"
 
 #define kMaxFontSize 22
 #define kMinFontSize 14
 
-@interface CourtesyFontSheetView () <UITableViewDelegate, UITableViewDataSource, CourtesyFontManagerDelegate, UIScrollViewDelegate>
+@interface CourtesyFontSheetView () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 @property (nonatomic, strong) UITableView *fontTableView;
 
 
@@ -41,7 +41,6 @@
         self.delegate = viewController;
         
         CourtesyFontManager *manager = [CourtesyFontManager sharedManager];
-        manager.delegate = self;
         fontCount = [manager fontList].count;
         
         self.backgroundColor = self.style.toolbarColor;
@@ -172,7 +171,7 @@
             cell.backgroundColor = [UIColor clearColor];
             cell.tintColor = self.style.toolbarTintColor;
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-            if (font.fileSize != 0.0 && !font.downloaded) {
+            if (font.fileSize != 0.0 && font.status != CourtesyFontDownloadingTaskStatusDone) {
                 cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [font fontName], [FCFileManager sizeFormatted:[NSNumber numberWithFloat:[font fileSize]]]];
             } else {
                 cell.textLabel.text = [font fontName];
@@ -192,19 +191,18 @@
     if (indexPath.section == 0) {
         CourtesyFontManager *manager = [CourtesyFontManager sharedManager];
         CourtesyFontModel *fontModel = [[manager fontList] objectAtIndex:indexPath.row];
-        if (fontModel.downloaded) {
+        if (fontModel.status == CourtesyFontDownloadingTaskStatusDone) {
             CYLog(@"%@ has downloaded.", fontModel.fontName);
             self.cdata.fontType = fontModel.type;
             [sharedSettings setPreferredFontType:fontModel.type];
             [self doneWithFont:fontModel.font];
-        } else {
-            if (fontModel.downloading) {
-                CYLog(@"Pause downloading: %@.", fontModel.fontName);
-                [manager pauseDownloadFont:fontModel];
-            } else {
-                CYLog(@"Start downloading: %@.", fontModel.fontName);
-                [manager downloadFont:fontModel];
-            }
+        } else if (fontModel.status == CourtesyFontDownloadingTaskStatusDownload) {
+            CYLog(@"Pause downloading: %@.", fontModel.fontName);
+            [manager pauseDownloadFont:fontModel];
+        } else if (fontModel.status == CourtesyFontDownloadingTaskStatusNone ||
+                   fontModel.status == CourtesyFontDownloadingTaskStatusSuspend) {
+            CYLog(@"Start downloading: %@.", fontModel.fontName);
+            [manager downloadFont:fontModel];
         }
     }
 }
@@ -248,13 +246,6 @@
     if (_delegate && [_delegate respondsToSelector:@selector(fontSheetView:changeFontSize:)]) {
         [_delegate fontSheetView:self changeFontSize:self.cdata.fontSize];
     }
-}
-
-#pragma mark - CourtesyFontManagerDelegate
-
-- (void)fontManager:(CourtesyFontManager *)fontManager
-   shouldReloadData:(BOOL)reload {
-    if (reload && _fontTableView) [_fontTableView reloadData];
 }
 
 - (void)dealloc {

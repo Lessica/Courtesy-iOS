@@ -6,6 +6,10 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+// "libacrosync" is licensed under the RPL License, no commerical use.
+// Github: https://github.com/gilbertchen/acrosync-library
+// Reference: https://rsync.samba.org/tech_report/
+
 #import <Foundation/Foundation.h>
 
 typedef enum : NSUInteger {

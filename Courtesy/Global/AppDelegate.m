@@ -87,6 +87,14 @@ static NSString * const kCourtesySettingsViewControllerStoryboardID = @"Courtesy
     }
 }
 
+// URL Scheme
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<NSString *,id> *)options {
+    NSLog(@"URL scheme: %@", [url path]);
+    return YES;
+}
+
 // Bug: http://stackoverflow.com/questions/32344082/error-handlenonlaunchspecificactions-in-ios9
 - (void)applicationDidBecomeActive:(UIApplication *)application {}
 - (void)applicationWillTerminate:(UIApplication *)application {}

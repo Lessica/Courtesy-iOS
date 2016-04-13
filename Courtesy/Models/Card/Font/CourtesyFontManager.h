@@ -11,18 +11,8 @@
 
 @class CourtesyFontManager;
 
-@protocol CourtesyFontManagerDelegate <NSObject>
-
-@optional
-- (void)fontManager:(CourtesyFontManager *)fontManager
-   shouldReloadData:(BOOL)reload;
-
-@end
-
 @interface CourtesyFontManager : NSObject <CourtesyFontDownloadDelegate>
 @property (nonatomic, strong, readonly) NSArray<CourtesyFontModel *> *fontList;
-@property (nonatomic, weak) id<CourtesyFontManagerDelegate> delegate;
-@property (nonatomic, assign) CourtesyFontModel *downloadingModel;
 
 + (id)sharedManager;
 - (void)downloadFont:(CourtesyFontModel *)font;

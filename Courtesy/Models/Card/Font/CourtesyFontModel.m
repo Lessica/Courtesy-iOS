@@ -12,68 +12,117 @@
 
 @implementation CourtesyFontModel {
     NSURLSessionTask *downloadTask;
+    BOOL hasObserver;
 }
 
-- (BOOL)downloaded {
-    if (_font) return YES;
-    if (!_localURL) return NO;
-    if (![FCFileManager isDirectoryItemAtPath:[[_localURL path] stringByDeletingLastPathComponent]])
-        [FCFileManager createDirectoriesForFileAtPath:[_localURL path]];
-    return [FCFileManager isReadableItemAtPath:[_localURL path]];
+- (instancetype)init {
+    if (self = [super init]) {
+        hasObserver = NO;
+        downloadTask = nil;
+    }
+    return self;
 }
 
-- (UIFont *)font {
-    if (!_font) {
-        if (!_localURL) return nil;
-        if (![FCFileManager isReadableItemAtPath:[_localURL path]]) return nil;
-        NSError *error = nil;
-        _font = [UIFont loadFontFromData:[NSData dataWithContentsOfURL:_localURL
-                                                               options:NSDataReadingMappedAlways
-                                                                 error:&error]];
-        if (error) {
-            CYLog(@"%@", error);
-            return nil;
+- (instancetype)initWithLocalURL:(NSURL *)localURL {
+    if (self = [super init]) {
+        NSAssert(localURL != nil, @"Init new font with invalid local url!");
+        hasObserver = NO;
+        downloadTask = nil;
+        _localURL = localURL;
+        NSString *urlPath = [_localURL path];
+        BOOL fontReadable = [FCFileManager isReadableItemAtPath:urlPath];
+        if (fontReadable) {
+            [self loadFontFromLocalURL];
+        } else {
+            if (![FCFileManager isDirectoryItemAtPath:[urlPath stringByDeletingLastPathComponent]])
+                [FCFileManager createDirectoriesForFileAtPath:urlPath];
+            _font = nil;
+            self.status = CourtesyFontDownloadingTaskStatusNone;
         }
     }
-    return _font;
+    return self;
+}
+
+- (void)loadFontFromLocalURL {
+    NSError *error = nil;
+    _font = [UIFont loadFontFromData:[NSData dataWithContentsOfURL:_localURL
+                                                           options:NSDataReadingMappedAlways
+                                                             error:&error]];
+    NSAssert(_font != nil && error == nil, @"Error occured when load font from local url!");
+    if (self.status == CourtesyFontDownloadingTaskStatusNone) {
+        self.status = CourtesyFontDownloadingTaskStatusDone;
+    }
 }
 
 #pragma mark - Send Message to CourtesyFontDownloadDelegate
 
 - (void)callbackDelegateSucceed {
-    if (!_delegate || ![_delegate respondsToSelector:@selector(fontDownloadDidSucceed:)]) {
-        return;
-    }
-    [_delegate fontDownloadDidSucceed:self];
+    dispatch_async_on_main_queue(^{
+        if (self.status == CourtesyFontDownloadingTaskStatusExtract) {
+            self.status = CourtesyFontDownloadingTaskStatusDone;
+        }
+        if (!_delegate || ![_delegate respondsToSelector:@selector(fontDownloadDidSucceed:)]) {
+            return;
+        }
+        [_delegate fontDownloadDidSucceed:self];
+    });
 }
 
 - (void)callbackDelegateFailedWithError:(NSError *)error {
-    if (!_delegate || ![_delegate respondsToSelector:@selector(fontDownloadDidFailed:withErrorMessage:)]) {
-        return;
-    }
-    [_delegate fontDownloadDidFailed:self withErrorMessage:[error localizedDescription]];
+    dispatch_async_on_main_queue(^{
+        self.status = CourtesyFontDownloadingTaskStatusNone;
+        if (!_delegate || ![_delegate respondsToSelector:@selector(fontDownloadDidFailed:withErrorMessage:)]) {
+            return;
+        }
+        [_delegate fontDownloadDidFailed:self withErrorMessage:[error localizedDescription]];
+    });
 }
 
 - (void)callbackDelegateWithProcess {
-    if (!_delegate || ![_delegate respondsToSelector:@selector(fontDownload:withProgress:)]) {
-        return;
+    dispatch_async_on_main_queue(^{
+        if (self.status != CourtesyFontDownloadingTaskStatusSuspend) {
+            self.status = CourtesyFontDownloadingTaskStatusDownload;
+        }
+        if (!_delegate || ![_delegate respondsToSelector:@selector(fontDownloadProgressNotify:)]) {
+            return;
+        }
+        [_delegate fontDownloadProgressNotify:self];
+    });
+}
+
+- (void)addObserver:(NSObject *)observer
+         forKeyPath:(NSString *)keyPath
+            options:(NSKeyValueObservingOptions)options
+            context:(void *)context {
+    if (hasObserver == NO) {
+        [super addObserver:observer forKeyPath:keyPath options:options context:context];
+        hasObserver = YES;
     }
-    [_delegate fontDownload:self withProgress:_downloadProgress];
+}
+
+- (void)removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath {
+    if (hasObserver == YES) {
+        [super removeObserver:observer forKeyPath:keyPath];
+        hasObserver = NO;
+    }
 }
 
 #pragma mark - 下载字体
 
-- (void)downloadFont {
-    if (_downloading || self.downloaded) return;
-    if (!_remoteURL || !_localURL) return;
-    if (downloadTask) {
-        _downloading = YES;
-        [downloadTask resume];
+- (void)startDownloadTask {
+    if (self.status == CourtesyFontDownloadingTaskStatusSuspend) {
+        self.status = CourtesyFontDownloadingTaskStatusReady;
+        if (downloadTask) {
+            [downloadTask resume];
+        }
+        return;
+    } else if (self.status == CourtesyFontDownloadingTaskStatusNone) {
+        self.status = CourtesyFontDownloadingTaskStatusReady;
+    } else {
         return;
     }
     NSURLRequest *request = [NSURLRequest requestWithURL:self.remoteURL];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    _downloading = YES;
     __weak typeof(self) weakSelf = self;
     downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
         __strong typeof(self) strongSelf = weakSelf;
@@ -85,7 +134,6 @@
         return targetURL;
     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
         __strong typeof(self) strongSelf = weakSelf;
-        _downloading = NO;
         if (error) {
             CYLog(@"%@", error);
             [strongSelf callbackDelegateFailedWithError:error];
@@ -107,25 +155,32 @@
     [downloadTask resume];
 }
 
-- (void)pauseDownloadFont {
-    _downloading = NO;
-    [downloadTask suspend];
+- (void)pauseDownloadTask {
+    if (self.status == CourtesyFontDownloadingTaskStatusDownload) {
+        if (downloadTask) {
+            [downloadTask suspend];
+        }
+        self.status = CourtesyFontDownloadingTaskStatusSuspend;
+        return;
+    }
 }
 
 #pragma mark - SSZipArchiveDelegate
 
 - (void)zipArchiveProgressEvent:(unsigned long long)loaded total:(unsigned long long)total {
-    
+    dispatch_async_on_main_queue(^{
+        if (self.status == CourtesyFontDownloadingTaskStatusDownload) {
+            self.status = CourtesyFontDownloadingTaskStatusExtract;
+        }
+    });
 }
 
 - (void)zipArchiveDidUnzipArchiveAtPath:(NSString *)path
                                 zipInfo:(unz_global_info)zipInfo
                            unzippedPath:(NSString *)unzippedPath
 {
-    if (self.downloaded) {
-        _downloadProgress = 1.0;
-        [self callbackDelegateSucceed];
-    }
+    [self loadFontFromLocalURL];
+    [self callbackDelegateSucceed];
 }
 
 #pragma mark - Memory Check

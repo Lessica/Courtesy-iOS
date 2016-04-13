@@ -11,27 +11,16 @@
 #import "CourtesyRsyncHelper.h"
 #import "FCFileManager.h"
 
-#include "rsync_client.h"
-#include "rsync_entry.h"
-#include "rsync_file.h"
-#include "rsync_log.h"
-#include "rsync_pathutil.h"
-#include "rsync_socketutil.h"
-#include "rsync_sshio.h"
-#include "rsync_socketio.h"
-
-#include <libssh2.h>
-#include <openssl/md5.h>
-
-#include <string>
-#include <vector>
-#include <set>
-
-#include <cassert>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <sstream>
+#import "rsync_client.h"
+#import "rsync_entry.h"
+#import "rsync_file.h"
+#import "rsync_log.h"
+#import "rsync_pathutil.h"
+#import "rsync_socketutil.h"
+#import "rsync_sshio.h"
+#import "rsync_socketio.h"
+#import <libssh2.h>
+#import <string>
 
 #ifdef DEBUG
 struct Dummy
@@ -130,7 +119,7 @@ public:
             rsync::SSHIO sshio;
             
             sshio.connect(server, port, user, password, 0, 0);
-            rsync::Client client(&sshio, "rsync", 30, &_g_cancelFlag);
+            rsync::Client client(&sshio, "rsync", API_RSYNC_PROTOCOL, &_g_cancelFlag);
             
             client.setDeletionEnabled(true);
             client.setStatsAddresses(&_totalBytes, &_physicalBytes, &_logicalBytes, &_skippedBytes);
@@ -151,7 +140,7 @@ public:
             rsync::SocketIO io;
 
             io.connect(server, port, user, password, module.c_str());
-            rsync::Client client(&io, "rsync", 30, &_g_cancelFlag);
+            rsync::Client client(&io, "rsync", API_RSYNC_PROTOCOL, &_g_cancelFlag);
 
             client.setDeletionEnabled(true);
             client.setSpeedLimits(self.downloadSpeedLimit, self.uploadSpeedLimit);
