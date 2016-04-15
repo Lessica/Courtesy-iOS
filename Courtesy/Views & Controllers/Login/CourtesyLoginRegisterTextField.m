@@ -15,7 +15,7 @@
 @implementation CourtesyLoginRegisterTextField
 
 #define CYPlaceholderColorKey @"placeholderLabel.textColor"
-#define CYPlaceholderDefaultColor [UIColor grayColor]
+#define CYPlaceholderDefaultColor [UIColor lightGrayColor]
 #define CYPlaceholderFocusColor [UIColor whiteColor]
 
 - (void)awakeFromNib {

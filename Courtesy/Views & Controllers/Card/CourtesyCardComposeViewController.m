@@ -79,6 +79,7 @@
 @property (nonatomic, strong) UIButton *circleApproveBtn;
 @property (nonatomic, strong) UIImageView *circleSaveBtn;
 //@property (nonatomic, strong) UIImageView *circleBackBtn;
+@property (nonatomic, strong) UIButton *circleLocationBtn;
 
 //@property (nonatomic, strong) UIView *jotView;
 //@property (nonatomic, strong) CourtesyJotViewController *jotViewController;
@@ -445,12 +446,43 @@
     [self.view addSubview:circleSaveBtn];
     [self.view bringSubviewToFront:circleSaveBtn];
     [circleSaveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(cardView.mas_centerX);
+        make.right.equalTo(self.view.mas_right).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
         make.bottom.equalTo(self.view.mas_bottom).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
         make.width.equalTo(@32);
         make.height.equalTo(@32);
     }];
     
+    UIButton *circleLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 96, 32)];
+    circleLocationBtn.backgroundColor = self.style.buttonBackgroundColor;
+    circleLocationBtn.tintColor = self.style.buttonTintColor;
+    circleLocationBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
+    [circleLocationBtn setImage:[[UIImage imageNamed:@"104-location"]
+            imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+                       forState:UIControlStateNormal];
+    [circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
+    circleLocationBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
+    circleLocationBtn.layer.masksToBounds = YES;
+    circleLocationBtn.layer.cornerRadius = circleLocationBtn.frame.size.height / 2;
+    circleLocationBtn.translatesAutoresizingMaskIntoConstraints = NO;
+
+    /* Location button is not visible */
+    circleLocationBtn.alpha = 0.0;
+    circleLocationBtn.hidden = YES;
+
+    /* Touch Event of Location Button */
+    [circleLocationBtn setTarget:self action:@selector(locationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+
+    /* Auto layouts of location button */
+    self.circleLocationBtn = circleLocationBtn;
+    [self.view addSubview:circleLocationBtn];
+    [self.view bringSubviewToFront:circleLocationBtn];
+    [circleLocationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).with.offset((CGFloat) (kComposeCardViewMargin * 2));
+        make.bottom.equalTo(self.view.mas_bottom).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
+        make.width.equalTo(@96);
+        make.height.equalTo(@32);
+    }];
+
     /* Init of Title Label */
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, 24)];
     titleLabel.backgroundColor = [UIColor clearColor];
@@ -616,6 +648,10 @@
 
 #pragma mark - Floating Actions & Navigation Bar Items
 
+- (void)locationButtonTapped {
+    CYLog(@"");
+}
+
 - (void)closeComposeView:(UIButton *)sender {
     if (sender.selected) {
         self.circleApproveBtn.selected = NO;
@@ -625,9 +661,13 @@
         if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
         __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.5 animations:^{
-            weakSelf.circleSaveBtn.alpha = 0.0;
+            __strong typeof(self) strongSelf = weakSelf;
+            strongSelf.circleSaveBtn.alpha = 0.0;
+            strongSelf.circleLocationBtn.alpha = 0.0;
         } completion:^(BOOL finished) {
-            weakSelf.circleSaveBtn.hidden = YES;
+            __strong typeof(self) strongSelf = weakSelf;
+            strongSelf.circleSaveBtn.hidden = YES;
+            strongSelf.circleLocationBtn.hidden = YES;
         }];
         [self.view makeToast:@"退出预览模式"
                     duration:kStatusBarNotificationTime
@@ -673,12 +713,14 @@
         self.circleApproveBtn.selected = YES;
         self.circleCloseBtn.selected = YES;
         self.circleSaveBtn.hidden = NO;
+        self.circleLocationBtn.hidden = NO;
         self.editable = NO;
         [self doCardViewAnimation];
         __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.5 animations:^{
             __strong typeof(self) strongSelf = weakSelf;
             strongSelf.circleSaveBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
+            strongSelf.circleLocationBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
         } completion:nil];
         [self.view makeToast:@"发布前预览"
                     duration:kStatusBarNotificationTime
@@ -1942,7 +1984,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 - (NSArray <id <UIPreviewActionItem>> *)previewActionItems {
     
     UIPreviewAction *tap1 = [UIPreviewAction actionWithTitle:@"发布" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
-        CYLog(@"Publish selected.");
+        [self doneComposeView:nil];
         // TODO: Publish card selected.
     }];
     

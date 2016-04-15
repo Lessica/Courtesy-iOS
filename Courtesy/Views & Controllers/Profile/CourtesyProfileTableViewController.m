@@ -287,7 +287,6 @@ UIScrollViewDelegate>
 - (void)imagePickerController:(UIImagePickerController*)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    [picker dismissViewControllerAnimated:YES completion:nil];
     __block UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) {
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -296,6 +295,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:image];
     imageCropVC.delegate = self;
     [self.navigationController pushViewController:imageCropVC animated:YES];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - RSKImageCropViewControllerDelegate

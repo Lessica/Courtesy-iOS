@@ -19,10 +19,11 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         
-        UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 2)];
+        UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:frame];
         progressView.progressTintColor = self.tintColor;
         progressView.trackTintColor = [UIColor clearColor];
         [self addSubview:progressView];
+        [self sendSubviewToBack:progressView];
         
         UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, frame.size.height / 2, frame.size.height / 2)];
         indicatorView.center = CGPointMake(indicatorView.frame.size.width / 2, frame.size.height / 2);

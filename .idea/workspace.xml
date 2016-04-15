@@ -3,20 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="aacbf76c-f05a-45ec-bf36-f43631af2cb6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy.xcworkspace/xcuserdata/Zheng.xcuserdatad/UserInterfaceState.xcuserstate" afterPath="$PROJECT_DIR$/Courtesy.xcworkspace/xcuserdata/Zheng.xcuserdatad/UserInterfaceState.xcuserstate" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Categories/iOSCategoryPropertyDynamicSupport" afterPath="$PROJECT_DIR$/Courtesy/Categories/iOSCategoryPropertyDynamicSupport" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Courtesy.iml" afterPath="$PROJECT_DIR$/.idea/Courtesy.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/Courtesy.xcodeproj/project.pbxproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Models/Card/Rsync/CourtesyRsyncHelper.mm" afterPath="$PROJECT_DIR$/Courtesy/Models/Card/Rsync/CourtesyRsyncHelper.mm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Models/Compose Queue/CourtesyCardPublishQueue.h" afterPath="$PROJECT_DIR$/Courtesy/Models/Compose Queue/CourtesyCardPublishQueue.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Models/Compose Queue/CourtesyCardPublishQueue.m" afterPath="$PROJECT_DIR$/Courtesy/Models/Compose Queue/CourtesyCardPublishQueue.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Models/Compose Queue/CourtesyCardPublishTask.h" afterPath="$PROJECT_DIR$/Courtesy/Models/Compose Queue/CourtesyCardPublishTask.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Models/Compose Queue/CourtesyCardPublishTask.m" afterPath="$PROJECT_DIR$/Courtesy/Models/Compose Queue/CourtesyCardPublishTask.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Prefix/Headers/CourtesyInterface.h" afterPath="$PROJECT_DIR$/Courtesy/Prefix/Headers/CourtesyInterface.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Prefix/PrefixHeader.pch" afterPath="$PROJECT_DIR$/Courtesy/Prefix/PrefixHeader.pch" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Settings/Draft/CourtesyDraftTableViewCell.h" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Settings/Draft/CourtesyDraftTableViewCell.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Settings/Draft/CourtesyDraftTableViewCell.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Settings/Draft/CourtesyDraftTableViewCell.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Settings/Draft/CourtesyDraftTableViewController.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Settings/Draft/CourtesyDraftTableViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Font/CourtesyFontTableViewCell.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Font/CourtesyFontTableViewCell.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Login/CourtesyLoginRegisterTextField.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Login/CourtesyLoginRegisterTextField.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Login/CourtesyLoginRegisterViewController.xib" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Login/CourtesyLoginRegisterViewController.xib" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Profile/CourtesyProfileTableViewController.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Profile/CourtesyProfileTableViewController.m" />
     </list>
     <ignored path="Courtesy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,27 +31,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CourtesyCardComposeViewController.m" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CourtesyCardComposeViewController.m" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44758">
-              <caret line="1946" column="7" selection-start-line="1946" selection-start-column="7" selection-end-line="1946" selection-end-column="7" />
+            <state relative-caret-position="759">
+              <caret line="474" column="44" selection-start-line="474" selection-start-column="44" selection-end-line="474" selection-end-column="44" />
               <folding>
                 <element signature="e#145#169#0" expanded="true" />
                 <element signature="e#498#536#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CourtesyRsyncHelper.mm" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Courtesy/Models/Card/Rsync/CourtesyRsyncHelper.mm">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="172" column="22" selection-start-line="172" selection-start-column="22" selection-end-line="172" selection-end-column="22" />
-              <folding>
-                <element signature="e#197#228#0" expanded="true" />
-                <element signature="e#2351#2391#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -80,8 +61,8 @@
         <option value="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Markdown/CourtesyMarkdownParser.m" />
         <option value="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Video/CourtesyVideoFrameView.m" />
         <option value="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Audio/CourtesyAudioFrameView.m" />
-        <option value="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m" />
         <option value="$PROJECT_DIR$/Courtesy/Models/Card/Rsync/CourtesyRsyncHelper.mm" />
+        <option value="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m" />
       </list>
     </option>
   </component>
@@ -363,62 +344,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Card" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Courtesy" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Courtesy" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Models" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Card" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Rsync" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Courtesy" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Courtesy" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Models" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Card" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Rsync" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -730,28 +655,28 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.175" sideWeight="0.4914361" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13359149" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26143023" sideWeight="0.49722221" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26143023" sideWeight="0.50277776" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24878994" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2777778" sideWeight="0.4914361" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.49538866" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19726562" sideWeight="0.5085639" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2274326" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26143023" sideWeight="0.49722221" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24878994" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2274326" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -777,6 +702,28 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44758">
+          <caret line="1946" column="7" selection-start-line="1946" selection-start-column="7" selection-end-line="1946" selection-end-column="7" />
+          <folding>
+            <element signature="e#145#169#0" expanded="true" />
+            <element signature="e#498#536#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Courtesy/Models/Card/Rsync/CourtesyRsyncHelper.mm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#197#228#0" expanded="true" />
+            <element signature="e#2351#2391#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44758">
@@ -947,17 +894,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44758">
-          <caret line="1946" column="7" selection-start-line="1946" selection-start-column="7" selection-end-line="1946" selection-end-column="7" />
-          <folding>
-            <element signature="e#145#169#0" expanded="true" />
-            <element signature="e#498#536#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.3.sdk/usr/include/dispatch/once.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="509">
@@ -967,11 +903,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Courtesy/Models/Card/Rsync/CourtesyRsyncHelper.mm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="172" column="22" selection-start-line="172" selection-start-column="22" selection-end-line="172" selection-end-column="22" />
+        <state relative-caret-position="250">
+          <caret line="164" column="38" selection-start-line="164" selection-start-column="38" selection-end-line="164" selection-end-column="38" />
           <folding>
             <element signature="e#197#228#0" expanded="true" />
             <element signature="e#2351#2391#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="759">
+          <caret line="474" column="44" selection-start-line="474" selection-start-column="44" selection-end-line="474" selection-end-column="44" />
+          <folding>
+            <element signature="e#145#169#0" expanded="true" />
+            <element signature="e#498#536#0" expanded="true" />
           </folding>
         </state>
       </provider>
