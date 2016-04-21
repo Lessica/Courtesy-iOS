@@ -16,6 +16,5 @@
 #define VERSION_BUILD [[UIApplication sharedApplication] appBuildVersion]
 #define SERVICE_EMAIL @"i.82@me.com"
 #define UMENG_APP_KEY @"56ca911667e58ec982000f95"
-// #define WATCH_SUPPORT 1
 
 #endif /* CourtesyTarget_h */

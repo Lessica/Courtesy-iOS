@@ -85,26 +85,28 @@
     card.stars = 0;
     card.author = kAccount;
     card.read_by = nil;
-    card.local_template = nil;
     
+    card.local_template = [CourtesyCardDataModel new];
     // 初始化卡片内容
-    card.card_data = [[CourtesyCardDataModel alloc] initWithCardToken:card.token];
-    card.card_data.content = @"说点什么吧……";
-    card.card_data.attachments = nil;
-    card.card_data.styleID = kCourtesyCardStyleDefault;
-    card.card_data.fontType = [sharedSettings preferredFontType];
-    card.card_data.fontSize = [sharedSettings preferredFontSize];
-    card.card_data.shouldAutoPlayAudio = NO;
-    card.card_data.alignmentType = NSTextAlignmentLeft;
+    card.local_template.content = @"说点什么吧……";
+    card.local_template.attachments = nil;
+    card.local_template.styleID = kCourtesyCardStyleDefault;
+    card.local_template.fontType = [sharedSettings preferredFontType];
+    card.local_template.fontSize = [sharedSettings preferredFontSize];
+    card.local_template.shouldAutoPlayAudio = NO;
+    card.local_template.alignmentType = NSTextAlignmentLeft;
+    card.local_template.card_token = card.token;
     
     card.newcard = YES;
     return card;
 }
 
-- (void)composeNewCardWithViewController:(UIViewController *)controller {
-    CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:[self newCard]];
+- (CourtesyCardModel *)composeNewCardWithViewController:(UIViewController *)controller {
+    CourtesyCardModel *newCard = [self newCard];
+    CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:newCard];
     vc.delegate = self;
     [controller presentViewController:vc animated:YES completion:nil];
+    return newCard;
 }
 
 - (void)editCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller {

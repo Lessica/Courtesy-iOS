@@ -26,11 +26,11 @@ static SystemSoundID record_sound_id = 0;
 }
 
 - (CourtesyCardDataModel *)cdata {
-    return self.delegate.card.card_data;
+    return self.delegate.card.local_template;
 }
 
 - (CourtesyCardStyleModel *)style {
-    return self.delegate.card.card_data.style;
+    return self.delegate.card.local_template.style;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame

@@ -48,6 +48,10 @@ public:
 };
 #endif
 
+@interface CourtesyRsyncHelper ()
+
+@end
+
 @implementation CourtesyRsyncHelper
 
 - (void)callbackDelegateWithErrorMessage:(NSString *)msg {

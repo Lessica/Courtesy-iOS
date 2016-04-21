@@ -29,6 +29,8 @@
 #define API_RSYNC_PASSWORD @"rsync"
 #define API_RSYNC_MODULE @"test"
 
+#define API_USE_LOCAL_THUMBNAIL 1
+
 #else
 
 #define API_DOMAIN @"10.0.1.222"
@@ -46,6 +48,8 @@
 #define API_RSYNC_USERNAME @""
 #define API_RSYNC_PASSWORD @""
 #define API_RSYNC_MODULE @"test"
+
+#define API_USE_LOCAL_THUMBNAIL 1
 
 #endif
 

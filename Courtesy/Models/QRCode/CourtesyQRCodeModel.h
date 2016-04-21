@@ -7,7 +7,6 @@
 //
 
 #import "CourtesyCommonRequestModel.h"
-#import "JSONModel.h"
 
 @class CourtesyQRCodeModel;
 

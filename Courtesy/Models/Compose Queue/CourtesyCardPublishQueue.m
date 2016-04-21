@@ -21,7 +21,7 @@
 #pragma mark - CourtesyCardPublishTaskDelegate
 
 - (void)publishTaskDidStart:(CourtesyCardPublishTask *)task {
-    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"开始发布卡片 - %@", task.card.card_data.mainTitle]
+    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"开始发布卡片 - %@", task.card.local_template.mainTitle]
                                    dismissAfter:kStatusBarNotificationTime
                                       styleName:JDStatusBarStyleSuccess];
 }
@@ -78,7 +78,7 @@
         return;
     }
     _currentTask.delegate = self;
-    [_currentTask startTask];
+    [_currentTask startTaskWithQuery:YES];
 }
 
 - (void)addCardPublishTask:(CourtesyCardModel *)card {

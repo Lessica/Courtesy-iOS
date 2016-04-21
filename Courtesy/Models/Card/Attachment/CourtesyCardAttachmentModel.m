@@ -8,7 +8,8 @@
 
 #import "CourtesyCardAttachmentModel.h"
 #import "AppStorage.h"
-#import "FCFileManager.h" 
+#import "FCFileManager.h"
+#import "NSString+Mime.h"
 
 #define kCourtesyAttachmentPrefix @"kCourtesyAttachmentPrefix-%@"
 #define kCourtesyThumbnailPrefix @"kCourtesyThumbnailPrefix-%@-%d-%d"
@@ -71,8 +72,8 @@
 
 #pragma mark - Init
 
-- (instancetype)initWithSaltHash:(NSString *)salt andCardToken:(NSString *)token fromDatabase:(BOOL)fromDatabase {
-    NSAssert(salt != nil && token != nil, @"Empty salt hash or card token!");
+- (instancetype)initWithSaltHash:(NSString *)salt fromDatabase:(BOOL)fromDatabase {
+    NSAssert(salt != nil, @"Empty salt hash!");
     if (fromDatabase) {
         id obj = [[self appStorage] objectForKey:[NSString stringWithFormat:kCourtesyAttachmentPrefix, salt]];
         if (!obj) {
@@ -82,13 +83,11 @@
         NSDictionary *aDict = obj;
         if (self = [super initWithDictionary:aDict error:&err]) {
             _salt_hash = salt;
-            _card_token = token;
         }
         NSAssert(err == nil, @"Error occured when parsing attachment model with its hash!");
     } else {
         if (self = [super init]) {
             _salt_hash = salt;
-            _card_token = token;
         }
     }
     return self;
@@ -98,16 +97,6 @@
 
 - (AppStorage *)appStorage {
     return [AppStorage sharedInstance];
-}
-
-- (void)setUploaded_at:(NSUInteger)uploaded_at {
-    _uploaded_at = uploaded_at;
-    _uploaded_at_object = [NSDate dateWithTimeIntervalSince1970:_uploaded_at];
-}
-
-- (void)setCreated_at:(NSUInteger)created_at {
-    _created_at = created_at;
-    _created_at_object = [NSDate dateWithTimeIntervalSince1970:_created_at];
 }
 
 #pragma mark - Card Storage
@@ -150,7 +139,7 @@
         if ([self attachmentPath]) { // 本地缓存
             UIImage *originalImage = [UIImage imageWithContentsOfFile:[self attachmentPath]];
             UIImage *resizedImage = [originalImage imageByResizeToSize:size contentMode:UIViewContentModeScaleAspectFit];
-            NSData *resizedData = UIImageJPEGRepresentation(resizedImage, 0.618);
+            NSData *resizedData = UIImageJPEGRepresentation(resizedImage, kCourtesyQualityLow);
             [resizedData writeToFile:thumbnailPath
                              options:NSDataWritingWithoutOverwriting
                                error:&error];
@@ -169,6 +158,44 @@
         }
     }
     return nil;
+}
+
+- (void)generateThumbnails {
+    if (self.type == CourtesyAttachmentImage || self.type == CourtesyAttachmentAnimatedImage) {
+        CGSize size[] = {
+            kCardThumbnailImageExtraSmall,
+            kCardThumbnailImageSmall,
+            kCardThumbnailImageMedium,
+            kCardThumbnailImageLarge,
+            kCardThumbnailImageExtraLarge
+        };
+        int count = sizeof(size) / sizeof(CGSize);
+        NSMutableArray *resourcesArr = [NSMutableArray new];
+        for (int i = 0; i < count; i++) {
+            NSURL *newThumbnailURL = [self thumbnailImageURLWithSize:size[i]];
+            if (newThumbnailURL != nil) {
+                NSString *newThumbnailPath = [newThumbnailURL path];
+                CourtesyCardResourceModel *newModel = [CourtesyCardResourceModel new];
+                newModel.filename = [newThumbnailPath lastPathComponent];
+                newModel.sha256 = [[NSData dataWithContentsOfFile:newThumbnailPath] sha256String];
+                newModel.mime = [newThumbnailPath mime];
+                newModel.type = CourtesyAttachmentThumbnailImage;
+                [resourcesArr addObject:newModel];
+            }
+        }
+        _thumbnails = [resourcesArr copy];
+    } else if (self.type == CourtesyAttachmentVideo) {
+        NSURL *newThumbnailURL = [self thumbnailImageURLWithSize:CGSizeMake(0, 0)];
+        if (newThumbnailURL != nil) {
+            NSString *newThumbnailPath = [newThumbnailURL path];
+            CourtesyCardResourceModel *newModel = [CourtesyCardResourceModel new];
+            newModel.filename = [newThumbnailPath lastPathComponent];
+            newModel.sha256 = [[NSData dataWithContentsOfFile:newThumbnailPath] sha256String];
+            newModel.mime = [newThumbnailPath mime];
+            newModel.type = CourtesyAttachmentThumbnailImage;
+            _thumbnails = [[NSArray arrayWithObject:newModel] copy];
+        }
+    }
 }
 
 @end

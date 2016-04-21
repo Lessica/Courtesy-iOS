@@ -45,15 +45,21 @@ static SystemSoundID shake_sound_male_id = 0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-    }
+    
     self.view.backgroundColor = [UIColor blackColor];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    [navigationBar setTintColor:[UIColor whiteColor]];
+    [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"399-list1"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+                                                                 style:UIBarButtonItemStylePlain
+                                                                target:self
+                                                                action:@selector(autobackToDrawer)];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    [[[navigationBar subviews] objectAtIndex:0] setAlpha:0.6];
+    [navigationBar setBarTintColor:[UIColor blackColor]];
+    self.edgesForExtendedLayout = UIRectEdgeAll;
+    self.extendedLayoutIncludesOpaqueBars = YES;
+    self.title = @"扫一扫";
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -63,99 +69,50 @@ static SystemSoundID shake_sound_male_id = 0;
                                      position:CSToastPositionCenter];
 }
 
-#pragma mark - 处理相机旋转事件
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        [self viewDidDisappear:NO];
-     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-         [self viewDidAppear:NO];
-     }];
-    
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-}
-
 #pragma mark - 处理界面出现、消失事件
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    if (self.topTitle) {
-        [self.topTitle removeFromSuperview];
-        self.topTitle = nil;
-    }
-    if (self.bottomItemsView) {
-        [self.bottomItemsView removeFromSuperview];
-        self.bottomItemsView = nil;
-    }
-    if (self.qRScanView) {
-        [self.qRScanView removeFromSuperview];
-        self.qRScanView = nil;
-    }
-    if (self.scanObj) {
-        [self stopCapture];
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    if (self.scanObj) {
-        [self removeCapture];
-        self.scanObj = nil;
-    }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self drawScanView];
     [self drawBottomItems];
-    [self drawTitle];
-    [self.view bringSubviewToFront:_topTitle];
     [self performSelector:@selector(startScan) withObject:nil afterDelay:0.2];
 }
 
 #pragma mark - 画界面元素
 
-- (void)drawTitle {
-    if (!_topTitle) {
-        _topTitle = [[UILabel alloc] init];
-        _topTitle.bounds = CGRectMake(0, 0, 210, 120);
-        _topTitle.center = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, 100);
-        if ([UIScreen mainScreen].bounds.size.height <= 568) {
-            _topTitle.center = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, 76);
-            _topTitle.font = [UIFont systemFontOfSize:14];
-        }
-        _topTitle.textAlignment = NSTextAlignmentCenter;
-        _topTitle.numberOfLines = 2;
-        _topTitle.text = @"将取景框对准二维码\n即可自动扫描";
-        _topTitle.textColor = [UIColor whiteColor];
-        [self.view addSubview:_topTitle];
-    }
-}
-
 - (void)drawBottomItems {
     if (_bottomItemsView) {
+        [_btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_nor"] forState:UIControlStateNormal];
+        [self.view bringSubviewToFront:_bottomItemsView];
         return;
     }
     
     // 修正横屏情况，重新计算
     NSUInteger selfHeight = 100;
-    self.bottomItemsView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.view.bounds) - selfHeight, CGRectGetWidth(self.view.bounds), selfHeight)];
-    _bottomItemsView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
-    [self.view addSubview:_bottomItemsView];
+    UIView *bottomItemsView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.view.bounds) - selfHeight, CGRectGetWidth(self.view.bounds), selfHeight)];
+    bottomItemsView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+    _bottomItemsView = bottomItemsView;
     
     CGSize size = CGSizeMake(65, 87);
     
-    self.btnFlash = [[UIButton alloc] init];
-    _btnFlash.bounds = CGRectMake(0, 0, size.width, size.height);
-    _btnFlash.center = CGPointMake(CGRectGetWidth(_bottomItemsView.frame) / 3 * 2, CGRectGetHeight(_bottomItemsView.frame) / 2);
-    [_btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_nor"] forState:UIControlStateNormal];
-    [_btnFlash addTarget:self action:@selector(openOrCloseFlash) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *btnFlash = [[UIButton alloc] init];
+    btnFlash.bounds = CGRectMake(0, 0, size.width, size.height);
+    btnFlash.center = CGPointMake(CGRectGetWidth(bottomItemsView.frame) / 3 * 2, CGRectGetHeight(bottomItemsView.frame) / 2);
+    [btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_nor"] forState:UIControlStateNormal];
+    [btnFlash addTarget:self action:@selector(openOrCloseFlash) forControlEvents:UIControlEventTouchUpInside];
+    _btnFlash = btnFlash;
     
-    self.btnPhoto = [[UIButton alloc] init];
-    _btnPhoto.bounds = _btnFlash.bounds;
-    _btnPhoto.center = CGPointMake(CGRectGetWidth(_bottomItemsView.frame) / 3, CGRectGetHeight(_bottomItemsView.frame) / 2);
-    [_btnPhoto setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_photo_nor"] forState:UIControlStateNormal];
-    [_btnPhoto setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_photo_down"] forState:UIControlStateHighlighted];
-    [_btnPhoto addTarget:self action:@selector(openPhoto) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *btnPhoto = [[UIButton alloc] init];
+    btnPhoto.bounds = btnFlash.bounds;
+    btnPhoto.center = CGPointMake(CGRectGetWidth(bottomItemsView.frame) / 3, CGRectGetHeight(bottomItemsView.frame) / 2);
+    [btnPhoto setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_photo_nor"] forState:UIControlStateNormal];
+    [btnPhoto setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_photo_down"] forState:UIControlStateHighlighted];
+    [btnPhoto addTarget:self action:@selector(openPhoto) forControlEvents:UIControlEventTouchUpInside];
+    _btnPhoto = btnPhoto;
     
-    [_bottomItemsView addSubview:_btnFlash];
-    [_bottomItemsView addSubview:_btnPhoto];
+    [self.view addSubview:bottomItemsView];
+    [bottomItemsView addSubview:btnFlash];
+    [bottomItemsView addSubview:btnPhoto];
 }
 
 #pragma mark - 扫描结果处理

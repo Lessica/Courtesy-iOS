@@ -183,8 +183,8 @@
     self.fontButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(fontButtonTapped:)];
     [myToolBarItems addObject:self.fontButton]; [myToolBarItems addObject:flexibleSpace];
     NSString *alignmentImageName = nil;
-    if (self.card.card_data.alignmentType == NSTextAlignmentLeft) alignmentImageName = @"46-align-left";
-    else if (self.card.card_data.alignmentType == NSTextAlignmentCenter) alignmentImageName = @"48-align-center";
+    if (self.card.local_template.alignmentType == NSTextAlignmentLeft) alignmentImageName = @"46-align-left";
+    else if (self.card.local_template.alignmentType == NSTextAlignmentCenter) alignmentImageName = @"48-align-center";
     else alignmentImageName = @"47-align-right";
     self.alignmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:alignmentImageName] style:UIBarButtonItemStylePlain target:self action:@selector(alignButtonTapped:)];
     [myToolBarItems addObject:self.alignmentButton];
@@ -209,18 +209,18 @@
     [toolbarContainerView addSubview:toolbar];
     
     /* Initial text */
-    if (self.card.card_data.content.length == 0) {
-        self.card.card_data.content = @"说点什么吧……";
+    if (self.card.local_template.content.length == 0) {
+        self.card.local_template.content = @"说点什么吧……";
     }
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:self.card.card_data.content];
-    text.font = [[CourtesyFontManager sharedManager] fontWithID:self.card.card_data.fontType];
-    if (!text.font) text.font = [UIFont systemFontOfSize:self.card.card_data.fontSize];
-    else text.font = [text.font fontWithSize:self.card.card_data.fontSize];
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:self.card.local_template.content];
+    text.font = [[CourtesyFontManager sharedManager] fontWithID:self.card.local_template.fontType];
+    if (!text.font) text.font = [UIFont systemFontOfSize:self.card.local_template.fontSize];
+    else text.font = [text.font fontWithSize:self.card.local_template.fontSize];
     text.color = self.style.cardTextColor;
     text.lineSpacing = self.style.cardLineSpacing;
     text.paragraphSpacing = self.style.paragraphSpacing;
     text.lineBreakMode = NSLineBreakByWordWrapping;
-    text.alignment = self.card.card_data.alignmentType;
+    text.alignment = self.card.local_template.alignmentType;
     _originalFont = text.font;
     _originalAttributes = text.attributes;
     
@@ -285,7 +285,7 @@
         /* Markdown Support */
         CourtesyMarkdownParser *parser = [CourtesyMarkdownParser new];
         parser.currentFont = text.font;
-        parser.fontSize = self.card.card_data.fontSize;
+        parser.fontSize = self.card.local_template.fontSize;
         parser.headerFontSize = [self.style.headerFontSize floatValue];
         parser.textColor = self.style.cardTextColor;
         parser.controlTextColor = self.style.controlTextColor;
@@ -495,7 +495,7 @@
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     [dateFormatter setDateFormat:self.style.cardCreateTimeFormat];
     [dateFormatter setLocale:[NSLocale currentLocale]];
-    titleLabel.text = [dateFormatter stringFromDate:self.card.created_at_object];
+    titleLabel.text = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:self.card.created_at]];
     
     /* Auto layouts of Title Label */
     self.dateFormatter = dateFormatter;
@@ -510,7 +510,7 @@
     }];
 
     /* Load Card Attachments */
-    for (CourtesyCardAttachmentModel *attachment in self.card.card_data.attachments) {
+    for (CourtesyCardAttachmentModel *attachment in self.card.local_template.attachments) {
         if (attachment.type == CourtesyAttachmentAudio) {
             [self addNewAudioFrame:[attachment attachmentURL]
                                 at:NSMakeRange(attachment.location, attachment.length)
@@ -927,23 +927,23 @@
 - (void)alignButtonTapped:(UIBarButtonItem *)sender {
     if (!self.editable) return;
     _cardEdited = YES;
-    if (self.card.card_data.alignmentType == NSTextAlignmentLeft) {
-        self.card.card_data.alignmentType = NSTextAlignmentCenter;
-    } else if (self.card.card_data.alignmentType == NSTextAlignmentCenter) {
-        self.card.card_data.alignmentType = NSTextAlignmentRight;
+    if (self.card.local_template.alignmentType == NSTextAlignmentLeft) {
+        self.card.local_template.alignmentType = NSTextAlignmentCenter;
+    } else if (self.card.local_template.alignmentType == NSTextAlignmentCenter) {
+        self.card.local_template.alignmentType = NSTextAlignmentRight;
     } else {
-        self.card.card_data.alignmentType = NSTextAlignmentLeft;
+        self.card.local_template.alignmentType = NSTextAlignmentLeft;
     }
     NSString *alignmentImageName = nil;
-    if (self.card.card_data.alignmentType == NSTextAlignmentLeft) {
+    if (self.card.local_template.alignmentType == NSTextAlignmentLeft) {
         alignmentImageName = @"46-align-left";
-    } else if (self.card.card_data.alignmentType == NSTextAlignmentCenter) {
+    } else if (self.card.local_template.alignmentType == NSTextAlignmentCenter) {
         alignmentImageName = @"48-align-center";
     } else {
         alignmentImageName = @"47-align-right";
     }
     [sender setImage:[UIImage imageNamed:alignmentImageName]];
-    [self setTextViewAlignment:self.card.card_data.alignmentType];
+    [self setTextViewAlignment:self.card.local_template.alignmentType];
 }
 
 - (void)setTextViewAlignment:(NSTextAlignment)alignment {
@@ -1041,7 +1041,7 @@
 
 - (void)fontSheetView:(CourtesyFontSheetView *)fontView changeFontSize:(CGFloat)size {
     CYLog(@"%.1f", size);
-    self.card.card_data.fontSize = size;
+    self.card.local_template.fontSize = size;
     [self setNewCardFont:[_originalFont fontWithSize:size]];
 }
 
@@ -1596,7 +1596,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)imageFrameDidEndEditing:(CourtesyImageFrameView *)imageFrame {
     if (!self.editable) return;
-    
 }
 
 #pragma mark - CourtesyCardPreviewGeneratorDelegate
@@ -1700,7 +1699,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         if (attachment.content) {
             if ([attachment.content respondsToSelector:@selector(reloadStyle)]) {
                 objc_msgSend(attachment.content, @selector(reloadStyle));
-                return;
             }
         }
     }
@@ -1714,7 +1712,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         if (attachment.content) {
             if ([attachment.content respondsToSelector:@selector(pausePlaying)]) {
                 objc_msgSend(attachment.content, @selector(pausePlaying));
-                return;
             }
         }
     }
@@ -1747,13 +1744,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (CourtesyCardStyleModel *)style {
-    return _card.card_data.style;
+    return _card.local_template.style;
 }
 
 - (void)setNewCardFont:(UIFont *)cardFont {
     if (!cardFont) return;
     _cardEdited = YES;
-    CGFloat fontSize = self.card.card_data.fontSize;
+    CGFloat fontSize = self.card.local_template.fontSize;
     cardFont = [cardFont fontWithSize:fontSize];
     if (self.markdownParser) {
         self.markdownParser.currentFont = cardFont;
@@ -1830,7 +1827,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         } else {
             card.edited_count++;
         }
-        card.card_data.content = self.textView.text;
+        card.local_template.content = self.textView.text;
         NSMutableArray *attachments_arr = [NSMutableArray new];
         for (id object in self.textView.textLayout.attachments) {
             if (![object isKindOfClass:[YYTextAttachment class]]) continue;
@@ -1847,14 +1844,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     
                     NSString *salt_hash = [binary sha256String];
                     
-                    CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:salt_hash andCardToken:card.token fromDatabase:NO];
+                    CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:salt_hash fromDatabase:NO];
                     a.type = file_type;
                     a.title = imageFrameView.labelText;
                     a.attachment_id = nil;
                     NSRange selfRange = [self getAttachmentRange:imageFrameView];
                     a.length = selfRange.length;
                     a.location = selfRange.location;
-                    a.created_at = (NSUInteger) [card.modified_at_object timeIntervalSince1970];
                     [attachments_arr addObject:a];
                     
                     NSString *file_path = [a attachmentPath];
@@ -1887,14 +1883,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     }
                     NSString *salt_hash = [binary sha256String];
                     
-                    CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:salt_hash andCardToken:card.token fromDatabase:NO];
+                    CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:salt_hash fromDatabase:NO];
                     a.type = file_type;
                     a.title = videoFrameView.labelText;
                     a.attachment_id = nil;
                     NSRange selfRange = [self getAttachmentRange:videoFrameView];
                     a.length = selfRange.length;
                     a.location = selfRange.location;
-                    a.created_at = (NSUInteger) [card.modified_at_object timeIntervalSince1970];
                     [attachments_arr addObject:a];
                     
                     NSString *file_path = [a attachmentPath];
@@ -1944,14 +1939,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     }
                     NSString *salt_hash = [binary sha256String];
                     
-                    CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:salt_hash andCardToken:card.token fromDatabase:NO];
+                    CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:salt_hash fromDatabase:NO];
                     a.type = file_type;
                     a.title = audioFrameView.labelText;
                     a.attachment_id = nil;
                     NSRange selfRange = [self getAttachmentRange:audioFrameView];
                     a.length = selfRange.length;
                     a.location = selfRange.location;
-                    a.created_at = (NSUInteger) [card.modified_at_object timeIntervalSince1970];
                     [attachments_arr addObject:a];
                     
                     NSString *file_path = [a attachmentPath];
@@ -1965,8 +1959,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                 }
             }
         }
-        card.card_data.attachments = [attachments_arr copy];
-        card.card_dict = [card.card_data toDictionary];
+        card.local_template.attachments = [attachments_arr copy];
     }
     @catch (NSException *exception) {
         [self.view makeToast:exception.reason

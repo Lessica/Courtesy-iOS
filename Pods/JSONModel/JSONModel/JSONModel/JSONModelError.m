@@ -25,7 +25,8 @@ NSString* const kJSONModelKeyPath = @"kJSONModelKeyPath";
 
 +(id)errorInvalidDataWithMessage:(NSString*)message
 {
-	message = [NSString stringWithFormat:@"Invalid JSON data: %@", message];
+//	message = [NSString stringWithFormat:@"Invalid JSON data: %@", message];
+    message = [NSString stringWithFormat:@"无效的 JSON 数据: %@", message];
     return [JSONModelError errorWithDomain:JSONModelErrorDomain
                                       code:kJSONModelErrorInvalidData
                                   userInfo:@{NSLocalizedDescriptionKey:message}];
@@ -35,42 +36,54 @@ NSString* const kJSONModelKeyPath = @"kJSONModelKeyPath";
 {
     return [JSONModelError errorWithDomain:JSONModelErrorDomain
                                       code:kJSONModelErrorInvalidData
-                                  userInfo:@{NSLocalizedDescriptionKey:@"Invalid JSON data. Required JSON keys are missing from the input. Check the error user information.",kJSONModelMissingKeys:[keys allObjects]}];
+//                                  userInfo:@{NSLocalizedDescriptionKey:@"Invalid JSON data. Required JSON keys are missing from the input. Check the error user information.",kJSONModelMissingKeys:[keys allObjects]}
+                                  userInfo:@{NSLocalizedDescriptionKey:@"无效的 JSON 数据",kJSONModelMissingKeys:[keys allObjects]}
+            ];
 }
 
 +(id)errorInvalidDataWithTypeMismatch:(NSString*)mismatchDescription
 {
     return [JSONModelError errorWithDomain:JSONModelErrorDomain
                                       code:kJSONModelErrorInvalidData
-                                  userInfo:@{NSLocalizedDescriptionKey:@"Invalid JSON data. The JSON type mismatches the expected type. Check the error user information.",kJSONModelTypeMismatch:mismatchDescription}];
+//                                  userInfo:@{NSLocalizedDescriptionKey:@"Invalid JSON data. The JSON type mismatches the expected type. Check the error user information.",kJSONModelTypeMismatch:mismatchDescription}
+                                  userInfo:@{NSLocalizedDescriptionKey:@"无效的 JSON 数据",kJSONModelTypeMismatch:mismatchDescription}
+            ];
 }
 
 +(id)errorBadResponse
 {
     return [JSONModelError errorWithDomain:JSONModelErrorDomain
                                       code:kJSONModelErrorBadResponse
-                                  userInfo:@{NSLocalizedDescriptionKey:@"Bad network response. Probably the JSON URL is unreachable."}];
+//                                  userInfo:@{NSLocalizedDescriptionKey:@"Bad network response. Probably the JSON URL is unreachable."}
+                                  userInfo:@{NSLocalizedDescriptionKey:@"无法连接到服务器"}
+            ];
 }
 
 +(id)errorBadJSON
 {
     return [JSONModelError errorWithDomain:JSONModelErrorDomain
                                       code:kJSONModelErrorBadJSON
-                                  userInfo:@{NSLocalizedDescriptionKey:@"Malformed JSON. Check the JSONModel data input."}];    
+//                                  userInfo:@{NSLocalizedDescriptionKey:@"Malformed JSON. Check the JSONModel data input."}
+                                  userInfo:@{NSLocalizedDescriptionKey:@"服务器发生错误"}
+            ];
 }
 
 +(id)errorModelIsInvalid
 {
     return [JSONModelError errorWithDomain:JSONModelErrorDomain
                                       code:kJSONModelErrorModelIsInvalid
-                                  userInfo:@{NSLocalizedDescriptionKey:@"Model does not validate. The custom validation for the input data failed."}];
+//                                  userInfo:@{NSLocalizedDescriptionKey:@"Model does not validate. The custom validation for the input data failed."}
+                                  userInfo:@{NSLocalizedDescriptionKey:@"数据校验失败"}
+            ];
 }
 
 +(id)errorInputIsNil
 {
     return [JSONModelError errorWithDomain:JSONModelErrorDomain
                                       code:kJSONModelErrorNilInput
-                                  userInfo:@{NSLocalizedDescriptionKey:@"Initializing model with nil input object."}];
+//                                  userInfo:@{NSLocalizedDescriptionKey:@"Initializing model with nil input object."}
+                                  userInfo:@{NSLocalizedDescriptionKey:@"无效的数据类型"}
+            ];
 }
 
 - (instancetype)errorByPrependingKeyPathComponent:(NSString*)component

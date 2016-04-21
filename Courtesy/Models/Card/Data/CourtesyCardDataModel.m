@@ -16,25 +16,6 @@
 
 @implementation CourtesyCardDataModel {
     NSURL *_thumbnailURL;
-    NSString *card_token;
-}
-
-#pragma mark - Init
-
-- (instancetype)initWithCardToken:(NSString *)token {
-    if (self = [super init]) {
-        card_token = token;
-        _thumbnailURL = nil;
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSDictionary *)dict andCardToken:(NSString *)token error:(NSError *__autoreleasing *)err {
-    card_token = token; // Before Lazy Loading
-    if (self = [super initWithDictionary:dict error:err]) {
-        _thumbnailURL = nil;
-    }
-    return self;
 }
 
 #pragma mark - Getter / Setter
@@ -73,6 +54,7 @@
 - (void)setAttachments:(NSArray<Ignore> *)attachments {
     NSMutableArray *newAttachmentsHashesArr = [NSMutableArray new];
     for (CourtesyCardAttachmentModel *m in attachments) {
+        m.card_token = self.card_token;
         [newAttachmentsHashesArr addObject:m.salt_hash];
     }
     // 删除无效的附件
@@ -98,7 +80,7 @@
     _attachments_hashes = attachments_hashes;
     NSMutableArray *newAttachmentsArr = [NSMutableArray new];
     for (NSString *hash in attachments_hashes) {
-        CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:hash andCardToken:card_token fromDatabase:YES];
+        CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:hash fromDatabase:YES];
         NSAssert(a != nil, @"Cannot load attachment hash!");
         [newAttachmentsArr addObject:a];
     }
@@ -129,7 +111,7 @@
 }
 
 - (NSString *)savedAttachmentsPath {
-    return [CourtesyCardAttachmentModel savedAttachmentsPathWithCardToken:card_token];
+    return [CourtesyCardAttachmentModel savedAttachmentsPathWithCardToken:_card_token];
 }
 
 @end

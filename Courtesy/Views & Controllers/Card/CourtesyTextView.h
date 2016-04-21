@@ -6,7 +6,6 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import <YYKit/YYKit.h>
 #import <objc/message.h>
 #import <objc/runtime.h>
 

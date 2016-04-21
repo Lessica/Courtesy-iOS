@@ -39,18 +39,20 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.navigationController.navigationBar.translucent = YES;
+    
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    navigationBar.translucent = YES;
+    navigationBar.barTintColor = [UIColor clearColor];
+    navigationBar.tintColor = [UIColor whiteColor];
+    
     self.navigationController.toolbar.translucent = YES;
-    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.toolbar.barTintColor = [UIColor clearColor];
     self.navigationController.toolbar.tintColor = [UIColor whiteColor];
 
     self.view.backgroundColor = [UIColor blackColor];
     self.backgroundImage.image = [[UIImage imageNamed:@"street"] imageByBlurRadius:20 tintColor:[UIColor colorWithWhite:0.11 alpha:0.72] tintMode:kCGBlendModeNormal saturation:1.2 maskImage:nil];
     self.extendedLayoutIncludesOpaqueBars = NO;
-    self.edgesForExtendedLayout =  UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
+    self.edgesForExtendedLayout = UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
     
     self.dateView.tintColor = [UIColor whiteColor];
     self.dateView.userInteractionEnabled = YES;

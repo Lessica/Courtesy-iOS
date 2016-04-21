@@ -35,7 +35,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong, readonly, nullable) CourtesyCardModel *card;
 // Shortcut for card.editable
 @property (nonatomic, assign, readonly) BOOL editable;
-// Shortcut for card.card_data.style
+// Shortcut for card.local_template.style
 @property (nonatomic, strong, readonly, nullable) CourtesyCardStyleModel *style;
 // Preview flag
 @property (nonatomic, assign) BOOL previewContext;

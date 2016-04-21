@@ -6,7 +6,6 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //  It is a singleton.
 
-#import "JSONModel.h"
 #import "CourtesyAccountModel.h"
 #import "CourtesyFontModel.h"
 #import "CourtesyCardStyleModel.h"

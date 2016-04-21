@@ -36,9 +36,9 @@
 
 - (void)setCard:(CourtesyCardModel *)card {
     _card = card;
-    self.mainTitleLabel.text = card.card_data.mainTitle;
-    self.briefTitleLabel.text = card.card_data.briefTitle;
-    NSURL *thumbnailURL = card.card_data.smallThumbnailURL;
+    self.mainTitleLabel.text = card.local_template.mainTitle;
+    self.briefTitleLabel.text = card.local_template.briefTitle;
+    NSURL *thumbnailURL = card.local_template.smallThumbnailURL;
     if (thumbnailURL) {
         [self.imagePreview setImageWithURL:thumbnailURL
                                    options:YYWebImageOptionSetImageWithFadeAnimation];
@@ -65,26 +65,30 @@
 
 - (void)resetDateLabelText {
     if (self.card) {
-        self.dateLabel.text = [NSString stringWithFormat:@"%@ | 字数 %lu", [[NSDate dateWithTimeIntervalSince1970:self.card.modified_at] compareCurrentTime], (unsigned long)self.card.card_data.content.length];
+        self.dateLabel.text = [NSString stringWithFormat:@"%@ | 字数 %lu", [[NSDate dateWithTimeIntervalSince1970:self.card.modified_at] compareCurrentTime], (unsigned long)self.card.local_template.content.length];
     }
 }
 
 - (void)setPublishProgressWithStatus:(CourtesyCardPublishTaskStatus)status withError:(NSError *)err {
     if (status == CourtesyCardPublishTaskStatusProcessing) {
-        self.dateLabel.text = @"正在上传";
+        self.dateLabel.text = @"正在同步";
         return;
     } else if (status == CourtesyCardPublishTaskStatusNone) {
-        self.dateLabel.text = @"等待上传";
+        self.dateLabel.text = @"等待同步";
     } else if (status == CourtesyCardPublishTaskStatusReady) {
-        self.dateLabel.text = @"正在准备上传";
+        self.dateLabel.text = @"正在准备同步";
     } else if (status == CourtesyCardPublishTaskStatusCanceled) {
         if (err) {
-            self.dateLabel.text = [NSString stringWithFormat:@"上传失败 - %@", [err localizedDescription]];
+            self.dateLabel.text = [NSString stringWithFormat:@"发布失败 - %@", [err localizedDescription]];
         } else {
-            self.dateLabel.text = @"用户取消上传";
+            self.dateLabel.text = @"用户取消发布";
         }
     } else if (status == CourtesyCardPublishTaskStatusDone) {
-        self.dateLabel.text = @"上传成功";
+        self.dateLabel.text = @"同步成功";
+    } else if (status == CourtesyCardPublishTaskStatusPending) {
+        self.dateLabel.text = @"正在建立连接";
+    } else if (status == CourtesyCardPublishTaskStatusAcknowledging) {
+        self.dateLabel.text = @"正在发布卡片";
     }
     [self.publishProgressView setProgress:0.0 animated:NO];
 }
@@ -117,7 +121,7 @@
             if (self.targetTask.status == CourtesyCardPublishTaskStatusProcessing) {
                 if (self.targetTask.totalBytes < 1) return;
                 [self.publishProgressView setProgress:((float)self.targetTask.currentProgress) animated:YES];
-                self.dateLabel.text = [NSString stringWithFormat:@"正在上传 - %@ / %@",
+                self.dateLabel.text = [NSString stringWithFormat:@"正在同步 - %@ / %@",
                                        [FCFileManager sizeFormatted:[NSNumber numberWithFloat:self.targetTask.logicalBytes]],
                                        [FCFileManager sizeFormatted:[NSNumber numberWithFloat:(self.targetTask.totalBytes - self.targetTask.skippedBytes)]]];
             }

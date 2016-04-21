@@ -32,10 +32,6 @@
 
     }
     NSAssert(err == nil, @"Error occured when parsing card model with its hash!");
-    if ((self.card_data = [[CourtesyCardDataModel alloc] initWithDictionary:self.card_dict andCardToken:token error:&err])) {
-        CYLog(@"%@", [self toJSONString]);
-    }
-    NSAssert(err == nil, @"Error occured when parsing card data model with its hash!");
     return self;
 }
 
@@ -47,21 +43,6 @@
 
 - (AppStorage *)appStorage {
     return [AppStorage sharedInstance];
-}
-
-- (void)setCreated_at:(NSUInteger)created_at {
-    _created_at = created_at;
-    _created_at_object = [NSDate dateWithTimeIntervalSince1970:created_at];
-}
-
-- (void)setModified_at:(NSUInteger)modified_at {
-    _modified_at = modified_at;
-    _modified_at_object = [NSDate dateWithTimeIntervalSince1970:modified_at];
-}
-
-- (void)setFirst_read_at:(NSUInteger)first_read_at {
-    _first_read_at = first_read_at;
-    _first_read_at_object = [NSDate dateWithTimeIntervalSince1970:first_read_at];
 }
 
 #pragma mark - Card Storage
@@ -82,7 +63,7 @@
     NSDictionary *cardDict = [self toDictionary];
     [[self appStorage] setObject:cardDict forKey:[NSString stringWithFormat:kCourtesyCardPrefix, self.token]]; // Save Card Model
     // Save Attachments
-    for (CourtesyCardAttachmentModel *a in self.card_data.attachments) {
+    for (CourtesyCardAttachmentModel *a in self.local_template.attachments) {
         [a saveToLocalDatabase];
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(cardDidFinishSaving:isNewRecord:willPublish:)]) {
@@ -92,7 +73,7 @@
 }
 
 - (void)deleteInLocalDatabase {
-    for (CourtesyCardAttachmentModel *a in self.card_data.attachments) {
+    for (CourtesyCardAttachmentModel *a in self.local_template.attachments) {
         [a removeFromLocalDatabase];
     }
     [[self appStorage] removeObjectForKey:[NSString stringWithFormat:kCourtesyCardPrefix, self.token]];

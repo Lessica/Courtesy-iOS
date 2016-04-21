@@ -6,7 +6,7 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "JSONModel.h"
+#import "CourtesyCardResourceModel.h"
 
 #define kCardThumbnailImageExtraSmall CGSizeMake(80, 80)
 #define kCardThumbnailImageSmall  CGSizeMake(160, 160)
@@ -20,8 +20,12 @@ typedef NS_ENUM(NSInteger, CourtesyAttachmentType) {
     CourtesyAttachmentVideo = 2,
 //    CourtesyAttachmentDraw  = 3,
     CourtesyAttachmentAnimatedImage = 4,
-//    CourtesyAttachmentLivePhoto     = 5
+//    CourtesyAttachmentLivePhoto     = 5,
+    CourtesyAttachmentThumbnailImage = 8
 };
+
+@protocol CourtesyCardResourceModel <NSObject>
+@end
 
 @interface CourtesyCardAttachmentModel : JSONModel
 @property (nonatomic, assign) CourtesyAttachmentType type;
@@ -31,12 +35,10 @@ typedef NS_ENUM(NSInteger, CourtesyAttachmentType) {
 @property (nonatomic, copy)   NSString *salt_hash;
 @property (nonatomic, assign) NSUInteger location;
 @property (nonatomic, assign) NSUInteger length;
-@property (nonatomic, assign) NSUInteger created_at;
-@property (nonatomic, strong, readonly) NSDate<Optional> *created_at_object;
 @property (nonatomic, assign) NSUInteger uploaded_at;
-@property (nonatomic, strong, readonly) NSDate<Optional> *uploaded_at_object;
+@property (nonatomic, strong) NSArray<Optional, CourtesyCardResourceModel> *thumbnails;
 
-- (instancetype)initWithSaltHash:(NSString *)salt andCardToken:(NSString *)token fromDatabase:(BOOL)fromDatabase;
+- (instancetype)initWithSaltHash:(NSString *)salt fromDatabase:(BOOL)fromDatabase;
 - (NSString *)saveToLocalDatabase;
 - (void)removeFromLocalDatabase;
 + (NSString *)savedAttachmentsPathWithCardToken:(NSString *)token;
@@ -45,5 +47,6 @@ typedef NS_ENUM(NSInteger, CourtesyAttachmentType) {
 - (NSURL *)attachmentURL;
 - (NSString *)thumbnailPathWithSize:(CGSize)size;
 - (NSURL *)thumbnailImageURLWithSize:(CGSize)size;
+- (void)generateThumbnails;
 
 @end

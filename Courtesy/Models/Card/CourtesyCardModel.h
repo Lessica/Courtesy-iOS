@@ -20,23 +20,21 @@
 @end
 
 @interface CourtesyCardModel : JSONModel
+@property (nonatomic, copy) NSString<Optional> *qr_id;
 @property (nonatomic, assign) BOOL is_editable;
 @property (nonatomic, assign) BOOL is_public;
 @property (nonatomic, assign) NSUInteger view_count;
 @property (nonatomic, assign) NSUInteger created_at;
-@property (nonatomic, strong, readonly) NSDate<Ignore> *created_at_object;
 @property (nonatomic, assign) NSUInteger modified_at;
-@property (nonatomic, strong, readonly) NSDate<Ignore> *modified_at_object;
 @property (nonatomic, assign) NSUInteger first_read_at;
-@property (nonatomic, strong, readonly) NSDate<Ignore> *first_read_at_object;
+@property (nonatomic, assign) NSUInteger visible_at;
+
 @property (nonatomic, copy)   NSString *token;
 @property (nonatomic, assign) NSUInteger edited_count;
 @property (nonatomic, assign) NSUInteger stars;
 @property (nonatomic, strong) CourtesyAccountModel<Ignore> *author;
 @property (nonatomic, strong) CourtesyAccountModel<Ignore> *read_by;
-@property (nonatomic, copy)   NSString<Optional> *local_template;
-@property (nonatomic, strong) NSDictionary *card_dict;
-@property (nonatomic, strong) CourtesyCardDataModel<Ignore> *card_data;
+@property (nonatomic, strong) CourtesyCardDataModel *local_template;
 @property (nonatomic, assign) BOOL newcard;
 @property (nonatomic, weak)   id<CourtesyCardDelegate> delegate;
 

@@ -13,11 +13,11 @@
 }
 
 - (CourtesyCardDataModel *)cdata {
-    return self.delegate.card.card_data;
+    return self.delegate.card.local_template;
 }
 
 - (CourtesyCardStyleModel *)style {
-    return self.delegate.card.card_data.style;
+    return self.delegate.card.local_template.style;
 }
 
 - (BOOL)editable {
@@ -43,6 +43,13 @@
         [self reloadStyle];
     }
     return self;
+}
+
+- (void)removeFromSuperview {
+    [super removeFromSuperview];
+    if (self.optionsOpen) {
+        [self toggleOptions:NO];
+    }
 }
 
 - (void)dealloc {
@@ -128,7 +135,9 @@
 
 - (void)cropGestureRecognized:(UIGestureRecognizer *)sender {
     if (!self.editable) return;
-    [self frameTapped:sender];
+    if (self.optionsOpen) {
+        [self toggleOptions:NO];
+    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameShouldCropped:)]) {
         [self.delegate imageFrameShouldCropped:self];
     }
@@ -151,7 +160,9 @@
 
 - (void)editGestureRecognized:(UIGestureRecognizer *)sender {
     if (!self.editable) return;
-    [self frameTapped:sender];
+    if (self.optionsOpen) {
+        [self toggleOptions:NO];
+    }
     if (!self.labelOpen) {
         [self toggleBottomLabelView:YES animated:YES];
     } else {
@@ -234,18 +245,18 @@
 }
 
 - (void)frameTapped:(id)sender {
-    if (!self.editable) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameTapped:)]) {
-            [self.delegate imageFrameTapped:self];
+    if (self.editable) {
+        if (self.optionsOpen) {
+            self.optionsOpen = NO;
+        } else {
+            self.optionsOpen = YES;
         }
-        return;
-    }
-    self.optionsOpen = !self.optionsOpen;
-    if (self.bottomLabel && [self.bottomLabel isFirstResponder]) {
-        [self.bottomLabel resignFirstResponder];
-    }
-    if (self.centerImageView) {
-        [self toggleOptions:self.optionsOpen];
+        if (self.bottomLabel && [self.bottomLabel isFirstResponder]) {
+            [self.bottomLabel resignFirstResponder];
+        }
+        if (self.centerImageView) {
+            [self toggleOptions:self.optionsOpen];
+        }
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameTapped:)]) {
         [self.delegate imageFrameTapped:self];
@@ -332,15 +343,25 @@
     if ([textField isFirstResponder]) {
         [textField resignFirstResponder];
     }
+    if (self.optionsOpen) {
+        [self toggleOptions:NO];
+    }
     if ([textField.text isEmpty]) {
         [self toggleBottomLabelView:NO animated:YES];
     }
     return YES;
 }
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    return self.editable;
+}
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if (!self.delegate.cardEdited) {
         self.delegate.cardEdited = YES;
+    }
+    if (self.optionsOpen) {
+        [self toggleOptions:NO];
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameDidBeginEditing:)]) {
         [self.delegate imageFrameDidBeginEditing:self];
@@ -351,6 +372,9 @@
     self.labelText = textField.text;
     if ([textField.text isEmpty]) {
         [self toggleBottomLabelView:NO animated:YES];
+    }
+    if (self.optionsOpen) {
+        [self toggleOptions:NO];
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameDidEndEditing:)]) {
         [self.delegate imageFrameDidEndEditing:self];

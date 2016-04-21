@@ -227,7 +227,8 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
             return;
         }
         // 发布新卡片界面
-        [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
+        CourtesyCardModel *newCard = [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
+        newCard.qr_id = qrcode.unique_id;
     }
 }
 

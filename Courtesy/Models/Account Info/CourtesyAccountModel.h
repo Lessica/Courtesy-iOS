@@ -6,7 +6,6 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "JSONModel.h"
 #import "CourtesyAccountProfileModel.h"
 
 @class CourtesyAccountModel;

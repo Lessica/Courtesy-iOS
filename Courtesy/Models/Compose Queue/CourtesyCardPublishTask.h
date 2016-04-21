@@ -15,7 +15,9 @@ typedef enum : NSUInteger {
     CourtesyCardPublishTaskStatusReady = 1,
     CourtesyCardPublishTaskStatusProcessing = 2,
     CourtesyCardPublishTaskStatusDone = 4,
-    CourtesyCardPublishTaskStatusCanceled = 5
+    CourtesyCardPublishTaskStatusCanceled = 5,
+    CourtesyCardPublishTaskStatusPending = 6,
+    CourtesyCardPublishTaskStatusAcknowledging = 7
 } CourtesyCardPublishTaskStatus;
 
 @class CourtesyCardPublishTask;
@@ -43,7 +45,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign, readonly) BOOL hasObserver;
 
 - (instancetype)initWithCard:(CourtesyCardModel *)card;
-- (void)startTask;
+- (void)startTaskWithQuery:(BOOL)query;
 - (void)stopTask;
 
 @end

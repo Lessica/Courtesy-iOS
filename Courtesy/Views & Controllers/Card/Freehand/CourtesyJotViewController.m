@@ -25,7 +25,7 @@
 @implementation CourtesyJotViewController
 
 - (CourtesyCardStyleModel *)style {
-    return ((CourtesyCardComposeViewController *)self.delegate).card.card_data.style;
+    return ((CourtesyCardComposeViewController *)self.delegate).card.local_template.style;
 }
 
 - (instancetype)initWithMasterController:(CourtesyCardComposeViewController<JotViewControllerDelegate> *)controller {

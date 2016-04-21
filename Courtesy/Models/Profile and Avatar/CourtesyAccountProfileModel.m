@@ -23,6 +23,7 @@
 - (instancetype)initWithDelegate:(id)delegate {
     if (self = [super init]) {
         isRequestingEditProfile = NO;
+        isRequestingUploadAvatar = NO;
         _delegate = delegate;
     }
     return self;
