@@ -75,6 +75,13 @@
 		0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A5591C9AD9E6004B06F3 /* CourtesyImageSheetView.m */; };
 		0FB0A55D1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A55C1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m */; };
 		0FBA71741C7B2A0400053696 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FBA71731C7B2A0400053696 /* MessageUI.framework */; };
+		0FC365AA1CCA51EB007FFEF6 /* PreTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC365A91CCA51EB007FFEF6 /* PreTools.framework */; };
+		0FC365AC1CCA5209007FFEF6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC365AB1CCA5209007FFEF6 /* CoreTelephony.framework */; };
+		0FC365AD1CCA520E007FFEF6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD0205C1C81733E0069AB72 /* SystemConfiguration.framework */; };
+		0FC365AF1CCA5214007FFEF6 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC365AE1CCA5214007FFEF6 /* ImageIO.framework */; };
+		0FC365B11CCA5219007FFEF6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC365B01CCA5219007FFEF6 /* QuartzCore.framework */; };
+		0FC365B31CCA521D007FFEF6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC365B21CCA521D007FFEF6 /* AudioToolbox.framework */; };
+		0FC365B51CCA5221007FFEF6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC365B41CCA5221007FFEF6 /* Security.framework */; };
 		0FD2BEC91C966D9400B5BBC9 /* CourtesyCardStyleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD2BEC81C966D9400B5BBC9 /* CourtesyCardStyleManager.m */; };
 		0FD2BECC1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD2BECB1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m */; };
 		0FD3EE261C95CD2200DE5347 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD3EE251C95CD2200DE5347 /* WatchConnectivity.framework */; };
@@ -487,6 +494,12 @@
 		0FB0A55C1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyVideoSheetView.m; sourceTree = "<group>"; };
 		0FBA71731C7B2A0400053696 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0FBBF7151C78BD4700A0A2D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawers.storyboard; sourceTree = "<group>"; };
+		0FC365A91CCA51EB007FFEF6 /* PreTools.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreTools.framework; path = Frameworks/PreTools.framework; sourceTree = "<group>"; };
+		0FC365AB1CCA5209007FFEF6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		0FC365AE1CCA5214007FFEF6 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		0FC365B01CCA5219007FFEF6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0FC365B21CCA521D007FFEF6 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0FC365B41CCA5221007FFEF6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0FD0205C1C81733E0069AB72 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0FD2BEC71C966D9400B5BBC9 /* CourtesyCardStyleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardStyleManager.h; sourceTree = "<group>"; };
 		0FD2BEC81C966D9400B5BBC9 /* CourtesyCardStyleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardStyleManager.m; sourceTree = "<group>"; };
@@ -762,12 +775,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FC365B51CCA5221007FFEF6 /* Security.framework in Frameworks */,
+				0FC365B31CCA521D007FFEF6 /* AudioToolbox.framework in Frameworks */,
+				0FC365B11CCA5219007FFEF6 /* QuartzCore.framework in Frameworks */,
+				0FC365AF1CCA5214007FFEF6 /* ImageIO.framework in Frameworks */,
+				0FC365AD1CCA520E007FFEF6 /* SystemConfiguration.framework in Frameworks */,
+				0FC365AC1CCA5209007FFEF6 /* CoreTelephony.framework in Frameworks */,
 				0F7136641CBBB3CD00341AC9 /* libz.1.2.5.tbd in Frameworks */,
 				0F7136611CBBB37900341AC9 /* libiconv.2.4.0.tbd in Frameworks */,
 				0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */,
 				0FD3EE261C95CD2200DE5347 /* WatchConnectivity.framework in Frameworks */,
 				0F3CECBA1CC4808C0073848F /* libacrosync.a in Frameworks */,
 				0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */,
+				0FC365AA1CCA51EB007FFEF6 /* PreTools.framework in Frameworks */,
 				0F3CECBB1CC4808C0073848F /* libcrypto.a in Frameworks */,
 				0F2A36751C8D397D00028E96 /* MobileCoreServices.framework in Frameworks */,
 				0F3CECBC1CC4808C0073848F /* libssh2.a in Frameworks */,
@@ -2178,6 +2198,12 @@
 		45444505B80B6AF6A0D335BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0FC365B41CCA5221007FFEF6 /* Security.framework */,
+				0FC365B21CCA521D007FFEF6 /* AudioToolbox.framework */,
+				0FC365B01CCA5219007FFEF6 /* QuartzCore.framework */,
+				0FC365AE1CCA5214007FFEF6 /* ImageIO.framework */,
+				0FC365AB1CCA5209007FFEF6 /* CoreTelephony.framework */,
+				0FC365A91CCA51EB007FFEF6 /* PreTools.framework */,
 				0F7136621CBBB3B700341AC9 /* libz.1.2.5.tbd */,
 				0F7136601CBBB37900341AC9 /* libiconv.2.4.0.tbd */,
 				0F71365E1CBBB36900341AC9 /* libiconv.tbd */,
@@ -2812,6 +2838,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Prefix/PrefixHeader.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
@@ -2862,6 +2892,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Prefix/PrefixHeader.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;

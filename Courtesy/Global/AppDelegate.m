@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "UMessage.h"
+#import <PreTools/PreTools.h>
 #import "CourtesyLeftDrawerTableViewController.h"
 
 static NSString * const kJVDrawersStoryboardName = @"Drawers";
@@ -44,6 +45,7 @@ static NSString * const kCourtesySettingsViewControllerStoryboardID = @"Courtesy
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [PreTools init:PREIM_APP_KEY channel:@"channel" config:[PreToolsConfig defaultConfig]];
     // 友盟推送
     [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
     [UMessage registerRemoteNotificationAndUserNotificationSettings:[sharedSettings requestedNotifications]];
