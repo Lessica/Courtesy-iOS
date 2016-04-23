@@ -12,6 +12,11 @@
 		0F13F53B1CC9088F00793FB9 /* CourtesyCardResourceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13F53A1CC9088F00793FB9 /* CourtesyCardResourceModel.m */; };
 		0F13F53E1CC90BC000793FB9 /* NSString+Mime.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13F53D1CC90BC000793FB9 /* NSString+Mime.m */; };
 		0F193D661C9787150015F2B1 /* CourtesyCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F193D651C9787150015F2B1 /* CourtesyCardManager.m */; };
+		0F1EF8D11CCB68EE00090830 /* CourtesyCardQueryRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1EF8D01CCB68EE00090830 /* CourtesyCardQueryRequestModel.m */; };
+		0F1EF8D41CCB9A5200090830 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F1EF8D21CCB9A5200090830 /* TencentOpenApi_IOS_Bundle.bundle */; };
+		0F1EF8D51CCB9A5200090830 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1EF8D31CCB9A5200090830 /* TencentOpenAPI.framework */; };
+		0F1EF8D71CCB9A7400090830 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1EF8D61CCB9A7400090830 /* CoreGraphics.framework */; };
+		0F1EF8D91CCB9A8A00090830 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1EF8D81CCB9A8A00090830 /* libstdc++.tbd */; };
 		0F2744CB1CB559FB00BCF173 /* CourtesyCommonResourceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2744CA1CB559FB00BCF173 /* CourtesyCommonResourceModel.m */; };
 		0F2744F51CB55C6D00BCF173 /* CourtesyGalleryDailyCardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2744E81CB55C6D00BCF173 /* CourtesyGalleryDailyCardModel.m */; };
 		0F2744F61CB55C6D00BCF173 /* CourtesyGalleryDailyCardStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2744EA1CB55C6D00BCF173 /* CourtesyGalleryDailyCardStyleModel.m */; };
@@ -40,7 +45,6 @@
 		0F47D9021CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D8FE1CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m */; };
 		0F47D9031CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9001CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m */; };
 		0F47D9091CA6D7EC001300FE /* CourtesyCardEditRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */; };
-		0F47D90A1CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9081CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m */; };
 		0F4B12E71CAE1D3900650996 /* CourtesyParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4B12E41CAE1D3900650996 /* CourtesyParallaxHeaderView.m */; };
 		0F4E0E0A1CA8051800C4D76C /* UIColor+FlatColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E091CA8051800C4D76C /* UIColor+FlatColors.m */; };
 		0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E21C9511D300F818AD /* CourtesyFontModel.m */; };
@@ -281,6 +285,12 @@
 		0F13F53D1CC90BC000793FB9 /* NSString+Mime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Mime.m"; sourceTree = "<group>"; };
 		0F193D641C9787150015F2B1 /* CourtesyCardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardManager.h; sourceTree = "<group>"; };
 		0F193D651C9787150015F2B1 /* CourtesyCardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardManager.m; sourceTree = "<group>"; };
+		0F1EF8CF1CCB68EE00090830 /* CourtesyCardQueryRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardQueryRequestModel.h; sourceTree = "<group>"; };
+		0F1EF8D01CCB68EE00090830 /* CourtesyCardQueryRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardQueryRequestModel.m; sourceTree = "<group>"; };
+		0F1EF8D21CCB9A5200090830 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = Frameworks/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		0F1EF8D31CCB9A5200090830 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = Frameworks/TencentOpenAPI.framework; sourceTree = "<group>"; };
+		0F1EF8D61CCB9A7400090830 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		0F1EF8D81CCB9A8A00090830 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		0F2744C91CB559FB00BCF173 /* CourtesyCommonResourceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCommonResourceModel.h; sourceTree = "<group>"; };
 		0F2744CA1CB559FB00BCF173 /* CourtesyCommonResourceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCommonResourceModel.m; sourceTree = "<group>"; };
 		0F2744E71CB55C6D00BCF173 /* CourtesyGalleryDailyCardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyGalleryDailyCardModel.h; sourceTree = "<group>"; };
@@ -428,8 +438,6 @@
 		0F47D9001CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentUploadRequestModel.m; sourceTree = "<group>"; };
 		0F47D9051CA6D7EC001300FE /* CourtesyCardEditRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardEditRequestModel.h; sourceTree = "<group>"; };
 		0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardEditRequestModel.m; sourceTree = "<group>"; };
-		0F47D9071CA6D7EC001300FE /* CourtesyCardPublishRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublishRequestModel.h; sourceTree = "<group>"; };
-		0F47D9081CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishRequestModel.m; sourceTree = "<group>"; };
 		0F4B12E31CAE1D3900650996 /* CourtesyParallaxHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyParallaxHeaderView.h; sourceTree = "<group>"; };
 		0F4B12E41CAE1D3900650996 /* CourtesyParallaxHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyParallaxHeaderView.m; sourceTree = "<group>"; };
 		0F4E0E081CA8051800C4D76C /* UIColor+FlatColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FlatColors.h"; sourceTree = "<group>"; };
@@ -775,6 +783,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F1EF8D91CCB9A8A00090830 /* libstdc++.tbd in Frameworks */,
+				0F1EF8D71CCB9A7400090830 /* CoreGraphics.framework in Frameworks */,
 				0FC365B51CCA5221007FFEF6 /* Security.framework in Frameworks */,
 				0FC365B31CCA521D007FFEF6 /* AudioToolbox.framework in Frameworks */,
 				0FC365B11CCA5219007FFEF6 /* QuartzCore.framework in Frameworks */,
@@ -784,6 +794,7 @@
 				0F7136641CBBB3CD00341AC9 /* libz.1.2.5.tbd in Frameworks */,
 				0F7136611CBBB37900341AC9 /* libiconv.2.4.0.tbd in Frameworks */,
 				0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */,
+				0F1EF8D51CCB9A5200090830 /* TencentOpenAPI.framework in Frameworks */,
 				0FD3EE261C95CD2200DE5347 /* WatchConnectivity.framework in Frameworks */,
 				0F3CECBA1CC4808C0073848F /* libacrosync.a in Frameworks */,
 				0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */,
@@ -1150,12 +1161,12 @@
 		0F47D9041CA6D7EC001300FE /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				0F1EF8CF1CCB68EE00090830 /* CourtesyCardQueryRequestModel.h */,
+				0F1EF8D01CCB68EE00090830 /* CourtesyCardQueryRequestModel.m */,
 				0FFC2F211CCB1EFC00676097 /* CourtesyCardDeleteRequestModel.h */,
 				0FFC2F221CCB1EFC00676097 /* CourtesyCardDeleteRequestModel.m */,
 				0F47D9051CA6D7EC001300FE /* CourtesyCardEditRequestModel.h */,
 				0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */,
-				0F47D9071CA6D7EC001300FE /* CourtesyCardPublishRequestModel.h */,
-				0F47D9081CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -2198,6 +2209,10 @@
 		45444505B80B6AF6A0D335BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F1EF8D81CCB9A8A00090830 /* libstdc++.tbd */,
+				0F1EF8D61CCB9A7400090830 /* CoreGraphics.framework */,
+				0F1EF8D21CCB9A5200090830 /* TencentOpenApi_IOS_Bundle.bundle */,
+				0F1EF8D31CCB9A5200090830 /* TencentOpenAPI.framework */,
 				0FC365B41CCA5221007FFEF6 /* Security.framework */,
 				0FC365B21CCA521D007FFEF6 /* AudioToolbox.framework */,
 				0FC365B01CCA5219007FFEF6 /* QuartzCore.framework */,
@@ -2393,6 +2408,7 @@
 				0FF2D2A11C95DAC7007C23DE /* WechatShortVideo_37x-Checkmark@2x.png in Resources */,
 				0FA726611CAAB32B00315E09 /* CodeScan.bundle in Resources */,
 				0FF2D2A31C95DAC7007C23DE /* WechatShortVideo_close@2x.png in Resources */,
+				0F1EF8D41CCB9A5200090830 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				0FDEFBF91C97D7B8007BE8D2 /* RSKImageCropperStrings.bundle in Resources */,
 				0FF2D2A71C95DAC7007C23DE /* WechatShortVideo_scan_focus@3x.png in Resources */,
 				0FFE04DB1C93F4C600E99DCC /* toggle-record.wav in Resources */,
@@ -2573,6 +2589,7 @@
 				0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */,
 				0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */,
 				0FFE04851C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m in Sources */,
+				0F1EF8D11CCB68EE00090830 /* CourtesyCardQueryRequestModel.m in Sources */,
 				0FF2D2681C95D90F007C23DE /* JVFloatingDrawerViewController.m in Sources */,
 				0F47D9031CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m in Sources */,
 				0F47D9021CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m in Sources */,
@@ -2621,7 +2638,6 @@
 				0FA726841CAAB80B00315E09 /* DefaultShouldSwipeDeterminator.m in Sources */,
 				0FF2D2831C95DA80007C23DE /* LBXScanLineAnimation.m in Sources */,
 				0FFE04641C93F45800E99DCC /* CourtesyTextView.m in Sources */,
-				0F47D90A1CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

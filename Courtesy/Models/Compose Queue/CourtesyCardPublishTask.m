@@ -149,7 +149,6 @@
             self.error = error;
             self.status = CourtesyCardPublishTaskStatusCanceled;
         } else {
-            self.status = CourtesyCardPublishTaskStatusNone;
             [self startTaskWithQuery:NO];
         }
         if (self.delegate && [self.delegate respondsToSelector:@selector(publishTaskDidFinished:withError:)]) {

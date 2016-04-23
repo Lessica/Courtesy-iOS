@@ -13,13 +13,6 @@
 
 @implementation CourtesyCardModel
 
-+ (BOOL)propertyIsIgnored:(NSString *)propertyName {
-    if ([propertyName isEqualToString:@"delegate"]) {
-        return YES;
-    }
-    return [super propertyIsIgnored:propertyName];
-}
-
 - (instancetype)initWithCardToken:(NSString *)token {
     id obj = [[self appStorage] objectForKey:[NSString stringWithFormat:kCourtesyCardPrefix, token]];
     if (!obj) {
@@ -29,8 +22,9 @@
     NSError *err = nil;
     NSDictionary *cDict = obj;
     if (self = [super initWithDictionary:cDict error:&err]) {
-
+        
     }
+    CYLog(@"%@", err);
     NSAssert(err == nil, @"Error occured when parsing card model with its hash!");
     return self;
 }

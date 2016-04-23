@@ -14,8 +14,9 @@
 @protocol CourtesyCardDelegate <NSObject>
 
 - (void)cardDidFinishLoading:(CourtesyCardModel *)card;
+- (void)cardDidFailedLoading:(CourtesyCardModel *)card withError:(NSError *)error;
 - (void)cardDidFinishSaving:(CourtesyCardModel *)card isNewRecord:(BOOL)newRecord willPublish:(BOOL)willPublish;
-- (void)cardDidFailedSaving:(CourtesyCardModel *)card;
+- (void)cardDidFailedSaving:(CourtesyCardModel *)card withError:(NSError *)error;
 
 @end
 
@@ -32,13 +33,13 @@
 @property (nonatomic, copy)   NSString *token;
 @property (nonatomic, assign) NSUInteger edited_count;
 @property (nonatomic, assign) NSUInteger stars;
-@property (nonatomic, strong) CourtesyAccountModel<Ignore> *author;
-@property (nonatomic, strong) CourtesyAccountModel<Ignore> *read_by;
+@property (nonatomic, strong) CourtesyAccountModel *author;
+@property (nonatomic, strong) CourtesyAccountModel<Optional> *read_by;
 @property (nonatomic, strong) CourtesyCardDataModel *local_template;
 @property (nonatomic, assign) BOOL isNewCard;
 @property (nonatomic, assign) BOOL hasPublished;
 
-@property (nonatomic, weak)   id<CourtesyCardDelegate> delegate;
+@property (nonatomic, weak)   id<Ignore, CourtesyCardDelegate> delegate;
 
 - (instancetype)initWithCardToken:(NSString *)token;
 - (NSString *)saveToLocalDatabaseShouldPublish:(BOOL)willPublish;

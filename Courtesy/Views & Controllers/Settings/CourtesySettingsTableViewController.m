@@ -40,7 +40,6 @@ enum {
 };
 
 @interface CourtesySettingsTableViewController () <MFMailComposeViewControllerDelegate, JVFloatingDrawerCenterViewController>
-@property (weak, nonatomic) IBOutlet UISwitch *autoSaveSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *autoPublicSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *cleanCacheTitleLabel;
 @property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;
@@ -64,7 +63,6 @@ enum {
     [self reloadCacheSizeLabelText:NO];
     [_logoutCell setHidden:!kLogin];
     _autoPublicSwitch.on = [sharedSettings switchAutoPublic];
-    _autoSaveSwitch.on = [sharedSettings switchAutoSave];
     _markdownSupportSwitch.on = [sharedSettings switchMarkdown];
 }
 
@@ -191,9 +189,7 @@ enum {
 #pragma mark - 开关设置项
 
 - (IBAction)switchTriggered:(id)sender {
-    if (sender == _autoSaveSwitch) {
-        [sharedSettings setSwitchAutoSave:_autoSaveSwitch.on];
-    } else if (sender == _autoPublicSwitch) {
+    if (sender == _autoPublicSwitch) {
         [sharedSettings setSwitchAutoPublic:_autoPublicSwitch.on];
     } else if (sender == _markdownSupportSwitch) {
         [sharedSettings setSwitchMarkdown:_markdownSupportSwitch.on];

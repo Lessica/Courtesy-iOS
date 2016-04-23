@@ -89,19 +89,27 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     if ([action isEqualToString:kActionLogin] ||
         [action isEqualToString:kActionProfileEdited]) {
         [self reloadAvatar:YES];
-    } else if ([action isEqualToString:kActionLogout]) {
+    }
+    else if ([action isEqualToString:kActionLogout])
+    {
         [self reloadAvatar:NO];
-    } else if ([action isEqualToString:kActionFetchSucceed]) {
+    }
+    else if ([action isEqualToString:kActionFetchSucceed])
+    {
         [self reloadAvatar:YES];
         [JDStatusBarNotification showWithStatus:@"登录成功"
                                    dismissAfter:kStatusBarNotificationTime
                                       styleName:JDStatusBarStyleSuccess];
-    } else if ([action isEqualToString:kActionFetchFailed]) {
+    }
+    else if ([action isEqualToString:kActionFetchFailed] || [action isEqualToString:kTencentLoginCancelled] || [action isEqualToString:kTencentLoginFailed])
+    {
         NSString *message = [notification.userInfo hasKey:@"message"] ? [notification.userInfo objectForKey:@"message"] : @"";
         [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"登录失败 - %@", message]
                                    dismissAfter:kStatusBarNotificationTime
                                       styleName:JDStatusBarStyleError];
-    } else if ([action isEqualToString:kActionFetching]) {
+    }
+    else if ([action isEqualToString:kActionFetching])
+    {
         [self showActivityMessage:@"登录中"];
     }
 }
@@ -239,6 +247,14 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         // 发布新卡片界面
         CourtesyCardModel *newCard = [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
         newCard.qr_id = qrcode.unique_id;
+    } else {
+        if (!qrcode.card_token) {
+            [self.view makeToast:@"卡片信息获取失败"
+                        duration:2.0
+                        position:CSToastPositionCenter];
+            return;
+        }
+        [[CourtesyCardManager sharedManager] handleRemoteCardToken:qrcode.card_token];
     }
 }
 

@@ -33,24 +33,24 @@
         CYLog(@"%@", [json jsonStringEncoded]);
         @try {
             if (err) {
-                @throw NSException(kCourtesyInvalidHttpResponse, [err localizedDescription]);
+                @throw NSCustomException(kCourtesyInvalidHttpResponse, [err localizedDescription]);
             }
             if (!json ||
                 ![json isKindOfClass:[NSDictionary class]]) {
-                @throw NSException(kCourtesyInvalidHttpResponse, @"服务器错误");
+                @throw NSCustomException(kCourtesyInvalidHttpResponse, @"服务器错误");
             }
             NSDictionary *dict = (NSDictionary *)json;
             if (![dict hasKey:@"error"]) {
-                @throw NSException(kCourtesyUnexceptedObject, @"服务器错误");
+                @throw NSCustomException(kCourtesyUnexceptedObject, @"服务器错误");
             }
             NSInteger errorCode = [[dict objectForKey:@"error"] integerValue];
             if (errorCode == 403) {
-                @throw NSException(kCourtesyForbidden, @"请重新登录");
+                @throw NSCustomException(kCourtesyForbidden, @"请重新登录");
             } else if (errorCode == 0) {
                 [self callbackDeleteDelegateSucceed];
                 return;
             }
-            @throw NSException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
+            @throw NSCustomException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
         } @catch (NSException *exception) {
             if ([exception.name isEqualToString:kCourtesyForbidden]) {
                 [sharedSettings setHasLogin:NO];

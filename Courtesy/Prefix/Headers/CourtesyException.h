@@ -10,7 +10,7 @@
 #define CourtesyException_h
 
 // 处理异常
-#define NSException(_name, _reason) ([[NSException alloc] initWithName:_name reason:_reason userInfo:nil])
+#define NSCustomException(_name, _reason) ([[NSException alloc] initWithName:_name reason:_reason userInfo:nil])
 #define kCourtesyCommonErrorDomain @"com.darwin.courtesy"
 #define kCourtesyInvalidHttpResponse @"kCourtesyInvalidHttpResponse"
 #define kCourtesyUnexceptedObject @"kCourtesyUnexceptedObject"

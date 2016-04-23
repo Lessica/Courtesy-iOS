@@ -30,7 +30,6 @@
 @property (nonatomic, copy) NSString<Optional> *qq_openid;
 @property (nonatomic, copy) NSString<Optional> *weibo_openid;
 @property (nonatomic, copy) NSString<Optional> *tencent_openid;
-@property (nonatomic, assign) BOOL has_profile;
 @property (nonatomic, strong) CourtesyAccountProfileModel<Optional> *profile;
 @property (nonatomic, weak) id<Ignore, CourtesyFetchAccountInfoDelegate> delegate;
 

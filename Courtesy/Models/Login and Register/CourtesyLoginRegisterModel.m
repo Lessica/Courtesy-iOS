@@ -90,26 +90,26 @@
         CYLog(@"%@", json);
         @try {
             if (err) {
-                @throw NSException(kCourtesyInvalidHttpResponse, [err localizedDescription]);
+                @throw NSCustomException(kCourtesyInvalidHttpResponse, [err localizedDescription]);
             }
             if (!json ||
                 ![json isKindOfClass:[NSDictionary class]]) {
-                @throw NSException(kCourtesyInvalidHttpResponse, @"服务器错误");
+                @throw NSCustomException(kCourtesyInvalidHttpResponse, @"服务器错误");
             }
             NSDictionary *dict = (NSDictionary *)json;
             if (![dict hasKey:@"error"]) {
-                @throw NSException(kCourtesyUnexceptedObject, @"服务器错误");
+                @throw NSCustomException(kCourtesyUnexceptedObject, @"服务器错误");
             }
             NSInteger errorCode = [[dict objectForKey:@"error"] integerValue];
             if (errorCode == 0) {
                 [self callbackDelegateWithSucceedAccount:_email isLogin:YES];
                 return;
             } else if (errorCode == 406) {
-                @throw NSException(kCourtesyUnexceptedStatus, @"电子邮箱或密码错误");
+                @throw NSCustomException(kCourtesyUnexceptedStatus, @"电子邮箱或密码错误");
             } else if (errorCode == 407) {
-                @throw NSException(kCourtesyUnexceptedStatus, @"账户被禁用");
+                @throw NSCustomException(kCourtesyUnexceptedStatus, @"账户被禁用");
             }
-            @throw NSException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
+            @throw NSCustomException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
         }
         @catch (NSException *exception) {
             [self callbackDelegateWithErrorMessage:exception.reason isLogin:YES];
@@ -132,24 +132,24 @@
         CYLog(@"%@", json);
         @try {
             if (err) {
-                @throw NSException(kCourtesyInvalidHttpResponse, [err localizedDescription]);
+                @throw NSCustomException(kCourtesyInvalidHttpResponse, [err localizedDescription]);
             }
             if (!json ||
                 ![json isKindOfClass:[NSDictionary class]]) {
-                @throw NSException(kCourtesyInvalidHttpResponse, @"服务器错误");
+                @throw NSCustomException(kCourtesyInvalidHttpResponse, @"服务器错误");
             }
             NSDictionary *dict = (NSDictionary *)json;
             if (![dict hasKey:@"error"]) {
-                @throw NSException(kCourtesyUnexceptedObject, @"服务器错误");
+                @throw NSCustomException(kCourtesyUnexceptedObject, @"服务器错误");
             }
             NSInteger errorCode = [[dict objectForKey:@"error"] integerValue];
             if (errorCode == 0) {
                 [self callbackDelegateWithSucceedAccount:_email isLogin:NO];
                 return;
             } else if (errorCode == 405) {
-                @throw NSException(kCourtesyUnexceptedStatus, @"电子邮箱已被占用");
+                @throw NSCustomException(kCourtesyUnexceptedStatus, @"电子邮箱已被占用");
             }
-            @throw NSException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
+            @throw NSCustomException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
         }
         @catch (NSException *exception) {
             [self callbackDelegateWithErrorMessage:exception.reason isLogin:NO];

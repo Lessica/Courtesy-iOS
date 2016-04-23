@@ -39,6 +39,7 @@
 
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, copy) NSString *password_enc;
+@property (nonatomic, assign) BOOL openAPI;
 @property (nonatomic, weak) id <CourtesyLoginRegisterDelegate> delegate;
 
 - (instancetype)initWithAccount:(NSString *)email

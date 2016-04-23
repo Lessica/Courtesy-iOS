@@ -29,8 +29,6 @@
 // THE SOFTWARE.
 
 //utils
-#define WeALColor(r, g, b)         [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
-#define WeALAColor(r, g, b, a)     [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 #define PATH_OF_CACHES         [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 
 #ifndef WechatShortVideo_WechatShortVideoConfig_h
@@ -53,9 +51,9 @@
 #define REPLAY_LABEL_TITLE  @"回放中"
 
 //Tip color normal
-#define NORMAL_TIPCOLOR     WeALColor(42, 200, 0)
+#define NORMAL_TIPCOLOR     [UIColor magicColor]
 //Tip color warning
-#define WARNING_TIPCOLOR    WeALColor(216, 0, 40)
+#define WARNING_TIPCOLOR    [UIColor blueberryColor]
 
 #endif
 

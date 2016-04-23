@@ -45,7 +45,9 @@ static NSString * const kCourtesySettingsViewControllerStoryboardID = @"Courtesy
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+#ifndef DEBUG
     [PreTools init:PREIM_APP_KEY channel:@"channel" config:[PreToolsConfig defaultConfig]];
+#endif
     // 友盟推送
     [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
     [UMessage registerRemoteNotificationAndUserNotificationSettings:[sharedSettings requestedNotifications]];
@@ -94,7 +96,7 @@ static NSString * const kCourtesySettingsViewControllerStoryboardID = @"Courtesy
             openURL:(NSURL *)url
             options:(NSDictionary<NSString *,id> *)options {
     NSLog(@"URL scheme: %@", [url path]);
-    return YES;
+    return [TencentOAuth HandleOpenURL:url];
 }
 
 // Bug: http://stackoverflow.com/questions/32344082/error-handlenonlaunchspecificactions-in-ios9

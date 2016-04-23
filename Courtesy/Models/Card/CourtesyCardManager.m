@@ -11,11 +11,12 @@
 #import "CourtesyCardManager.h"
 #import "CourtesyCardComposeViewController.h"
 #import "CourtesyCardPublishQueue.h"
+#import "CourtesyCardQueryRequestModel.h"
 #import "CourtesyCardDeleteRequestModel.h"
 
 #define kCourtesyCardDraftListKey @"kCourtesyCardListKey"
 
-@interface CourtesyCardManager () <CourtesyCardComposeDelegate, CourtesyCardDelegate, CourtesyCardDeleteRequestDelegate>
+@interface CourtesyCardManager () <CourtesyCardComposeDelegate, CourtesyCardDelegate, CourtesyCardDeleteRequestDelegate, CourtesyCardQueryRequestDelegate>
 
 @end
 
@@ -70,6 +71,14 @@
 
 - (AppStorage *)appStorage {
     return [AppStorage sharedInstance];
+}
+
+- (void)handleRemoteCardToken:(NSString *)token {
+    __block CourtesyCardQueryRequestModel *queryRequest = [[CourtesyCardQueryRequestModel alloc] initWithDelegate:self];
+    queryRequest.token = token;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [queryRequest sendRequest];
+    });
 }
 
 - (CourtesyCardModel *)newCard {
@@ -203,6 +212,10 @@
 
 }
 
+- (void)cardDidFailedLoading:(CourtesyCardModel *)card withError:(NSError *)error {
+    
+}
+
 - (void)cardDidFinishSaving:(nonnull CourtesyCardModel *)card isNewRecord:(BOOL)newRecord willPublish:(BOOL)willPublish {
     if (newRecord) { // 添加记录则将元素加入数组并写入数据库
         [self.cardDraftTokenArray insertObject:card.token atIndex:0];
@@ -220,9 +233,9 @@
     }
 }
 
-- (void)cardDidFailedSaving:(nonnull CourtesyCardModel *)card {
+- (void)cardDidFailedSaving:(nonnull CourtesyCardModel *)card withError:(NSError *)error {
     dispatch_async_on_main_queue(^{
-        [JDStatusBarNotification showWithStatus:@"卡片保存失败"
+        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片保存失败 - %@", [error localizedDescription]]
                                    dismissAfter:kStatusBarNotificationTime
                                       styleName:JDStatusBarStyleError];
     });
@@ -249,6 +262,31 @@
                                    dismissAfter:kStatusBarNotificationTime
                                       styleName:JDStatusBarStyleError];
     });
+}
+
+#pragma mark - CourtesyCardQueryRequestDelegate
+
+- (void)cardQueryRequestSucceed:(CourtesyCardQueryRequestModel *)sender {
+    NSMutableDictionary *card_dict = [[NSMutableDictionary alloc] initWithDictionary:sender.card_dict];
+    if (!card_dict) {
+        // 卡片信息为空
+    } else {
+        // 处理卡片字典键值
+        [card_dict setObject:@(0) forKey:@"isNewCard"];
+        [card_dict setObject:@(1) forKey:@"hasPublished"];
+        if (![[card_dict objectForKey:@"first_read_at"] isKindOfClass:[NSNumber class]]) {
+            [card_dict setObject:@(0) forKey:@"first_read_at"];
+        }
+    }
+    // 开始解析卡片信息
+//    NSError *error = nil;
+//    CourtesyCardModel *newCard = [[CourtesyCardModel alloc] initWithDictionary:card_dict error:&error];
+//    CYLog(@"%@", newCard);
+}
+
+- (void)cardQueryRequestFailed:(CourtesyCardQueryRequestModel *)sender
+                     withError:(NSError *)error {
+    
 }
 
 @end

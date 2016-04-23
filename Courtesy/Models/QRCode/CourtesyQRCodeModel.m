@@ -69,36 +69,36 @@
         CYLog(@"%@", json);
         @try {
             if (err) {
-                @throw NSException(kCourtesyInvalidHttpResponse, [err localizedDescription]);
+                @throw NSCustomException(kCourtesyInvalidHttpResponse, [err localizedDescription]);
             }
             if (!json ||
                 ![json isKindOfClass:[NSDictionary class]]) {
-                @throw NSException(kCourtesyInvalidHttpResponse, @"服务器错误");
+                @throw NSCustomException(kCourtesyInvalidHttpResponse, @"服务器错误");
             }
             NSDictionary *dict = (NSDictionary *)json;
             if (![dict hasKey:@"error"]) {
-                @throw NSException(kCourtesyUnexceptedObject, @"服务器错误");
+                @throw NSCustomException(kCourtesyUnexceptedObject, @"服务器错误");
             }
             NSInteger errorCode = [[dict objectForKey:@"error"] integerValue];
             if (errorCode == 403) {
-                @throw NSException(kCourtesyForbidden, @"请重新登录");
+                @throw NSCustomException(kCourtesyForbidden, @"请重新登录");
             } else if (errorCode == 0) {
                 NSDictionary *qr_info = nil;
                 if (![dict hasKey:@"qr_info"] || ![[dict objectForKey:@"qr_info"] isKindOfClass:[NSDictionary class]]) {
-                    @throw NSException(kCourtesyUnexceptedObject, @"数据解析失败");
+                    @throw NSCustomException(kCourtesyUnexceptedObject, @"数据解析失败");
                 }
                 NSError *error = nil;
                 qr_info = [dict objectForKey:@"qr_info"];
                 [self mergeFromDictionary:qr_info useKeyMapping:NO error:&error];
                 if (error) {
-                    @throw NSException(kCourtesyUnexceptedObject, @"数据解析失败");
+                    @throw NSCustomException(kCourtesyUnexceptedObject, @"数据解析失败");
                 }
                 [self callbackQueryDelegateSucceed];
                 return;
             } else if (errorCode == 404 || errorCode == 423) {
-                @throw NSException(kCourtesyUnexceptedStatus, @"「礼记」二维码不存在");
+                @throw NSCustomException(kCourtesyUnexceptedStatus, @"「礼记」二维码不存在");
             }
-            @throw NSException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
+            @throw NSCustomException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
         }
         @catch (NSException *exception) {
             if ([exception.name isEqualToString:kCourtesyForbidden]) {

@@ -9,9 +9,9 @@
 #import "AppStorage.h"
 #import "GlobalSettings.h"
 #import "JSONHTTPClient.h"
+#import "CourtesyLoginRegisterModel.h"
 
 #define kCourtesyDBCurrentLoginAccount @"kCourtesyDBCurrentLoginAccount"
-#define kSwitchAutoSave @"switchAutoSave"
 #define kSwitchAutoPublic @"switchAutoPublic"
 #define kSwitchMarkdown @"switchMarkdown"
 #define kPreferredImageQuality @"preferredImageQuality"
@@ -21,9 +21,9 @@
 #define kPreferredFontSize @"preferredFontSize"
 
 #ifdef WATCH_SUPPORT
-@interface GlobalSettings () <CourtesyFetchAccountInfoDelegate, WCSessionDelegate>
+@interface GlobalSettings () <CourtesyFetchAccountInfoDelegate, WCSessionDelegate, TencentSessionDelegate, TencentApiInterfaceDelegate, TCAPIRequestDelegate>
 #else
-@interface GlobalSettings () <CourtesyFetchAccountInfoDelegate>
+@interface GlobalSettings () <CourtesyFetchAccountInfoDelegate, TencentSessionDelegate, TencentApiInterfaceDelegate, TCAPIRequestDelegate>
 #endif
 
 @end
@@ -66,7 +66,7 @@
         // 初始化数据库设置
         self.currentAccount = [[CourtesyAccountModel alloc] initWithDelegate:self];
         if (!self.appStorage || !self.currentAccount) {
-            @throw NSException(kCourtesyAllocFailed, @"应用程序启动失败");
+            @throw NSCustomException(kCourtesyAllocFailed, @"应用程序启动失败");
         }
 #ifdef WATCH_SUPPORT
         // 初始化 Apple Watch 通信管理器
@@ -243,17 +243,6 @@
     [self.appStorage setObject:(switchAutoPublic ? @1 : @0) forKey:kSwitchAutoPublic];
 }
 
-- (BOOL)switchAutoSave {
-    if (![self.appStorage objectForKey:kSwitchAutoSave]) {
-        return YES;
-    }
-    return [(NSNumber *)[self.appStorage objectForKey:kSwitchAutoSave] isEqualToNumber:@0] ? NO : YES;
-}
-
-- (void)setSwitchAutoSave:(BOOL)switchAutoSave {
-    [self.appStorage setObject:(switchAutoSave ? @1 : @0) forKey:kSwitchAutoSave];
-}
-
 - (BOOL)switchMarkdown {
     if (![self.appStorage objectForKey:kSwitchMarkdown]) {
         return YES;
@@ -318,6 +307,36 @@
 
 - (void)setPreferredFontSize:(CGFloat)preferredFontSize {
     [self.appStorage setObject:[NSNumber numberWithFloat:preferredFontSize] forKey:kPreferredFontSize];
+}
+
+
+#pragma mark - 腾讯互联接口
+
+- (TencentOAuth *)tencentAuth {
+    if (!_tencentAuth) {
+        _tencentAuth = [[TencentOAuth alloc] initWithAppId:TENCENT_APP_ID andDelegate:self];
+    }
+    return _tencentAuth;
+}
+
+- (void)tencentDidNotLogin:(BOOL)cancelled {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo object:@{
+                                                                                                  @"action": kTencentLoginCancelled,
+                                                                                                  @"message": @"用户取消登录"}];
+}
+
+- (void)tencentDidNotNetWork {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo object:@{
+                                                                                                  @"action": kTencentLoginFailed,
+                                                                                                  @"message": @"请检查网络连接"}];
+}
+
+- (void)tencentDidLogin {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo object:@{@"action": kTencentLoginSuccessed}];
+}
+
+- (void)getUserInfoResponse:(APIResponse *)response {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo object:@{@"action": kTencentGetUserInfoSucceed, @"response": response}];
 }
 
 @end

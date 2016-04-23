@@ -10,10 +10,18 @@
 #import "CourtesyFontModel.h"
 #import "CourtesyCardStyleModel.h"
 #import <YYKit/YYReachability.h>
+#import <TencentOpenAPI/TencentOAuth.h>
+#import <TencentOpenAPI/TencentApiInterface.h>
+#import <TencentOpenAPI/TencentOAuthObject.h>
 
 #ifdef WATCH_SUPPORT
 #import "CourtesyWatchSessionManager.h"
 #endif
+
+#define kTencentLoginSuccessed @"kTencentLoginSuccessed"
+#define kTencentLoginFailed    @"kTencentLoginFailed"
+#define kTencentLoginCancelled @"kTencentLoginCancelled"
+#define kTencentGetUserInfoSucceed @"kTencentGetUserInfoSucceed"
 
 #define kCourtesyQualityLow 0.33
 #define kCourtesyQualityMedium 0.66
@@ -30,7 +38,6 @@
 @property (nonatomic, assign) BOOL fetchedCurrentAccount;
 @property (nonatomic, strong) YYReachability *localReachability;
 
-@property (nonatomic, assign) BOOL switchAutoSave;
 @property (nonatomic, assign) BOOL switchAutoPublic;
 @property (nonatomic, assign) BOOL switchMarkdown;
 @property (nonatomic, assign) CourtesyFontType preferredFontType;
@@ -38,6 +45,8 @@
 @property (nonatomic, assign) CourtesyCardStyleID preferredStyleID;
 @property (nonatomic, assign) float preferredImageQuality;
 @property (nonatomic, assign) UIImagePickerControllerQualityType preferredVideoQuality;
+
+@property (strong, nonatomic) TencentOAuth *tencentAuth;
 
 #ifdef WATCH_SUPPORT
 @property (nonatomic, strong) CourtesyWatchSessionManager *watchSessionManager;

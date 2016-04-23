@@ -80,8 +80,9 @@
     NSMutableArray *newAttachmentsArr = [NSMutableArray new];
     for (NSString *hash in attachments_hashes) {
         CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:hash fromDatabase:YES];
-        NSAssert(a != nil, @"Cannot load attachment hash!");
-        [newAttachmentsArr addObject:a];
+        if (a) {
+            [newAttachmentsArr addObject:a];
+        }
     }
     _attachments = [newAttachmentsArr copy];
 }

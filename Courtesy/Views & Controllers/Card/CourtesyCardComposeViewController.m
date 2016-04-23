@@ -574,7 +574,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if (firstAppear && !_previewContext) {
-        [self doCardViewAnimation];
+        [self doCardViewAnimation:YES];
         firstAppear = NO;
     }
 }
@@ -586,7 +586,7 @@
 
 #pragma mark - animation
 
-- (void)doCardViewAnimation {
+- (void)doCardViewAnimation:(BOOL)animated {
     if (self.editable) {
         self.textView.minContentSize = CGSizeMake(0, self.cardView.frame.size.height);
         [UIView beginAnimations:@"startEditing" context:nil];
@@ -657,7 +657,7 @@
         self.circleApproveBtn.selected = NO;
         self.circleCloseBtn.selected = NO;
         self.editable = YES;
-        [self doCardViewAnimation];
+        [self doCardViewAnimation:YES];
         if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
         __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.5 animations:^{
@@ -691,12 +691,16 @@
     }
 }
 
+- (void)publishCard {
+    [self serialize];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishEditing:)]) {
+        [self.delegate cardComposeViewDidFinishEditing:self];
+    }
+}
+
 - (void)doneComposeView:(UIButton *)sender {
     if (sender.selected) {
-        [self serialize];
-        if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishEditing:)]) {
-            [self.delegate cardComposeViewDidFinishEditing:self];
-        }
+        [self publishCard];
     } else {
         if (self.textView.text.length >= self.style.maxContentLength) {
             [self.view makeToast:@"卡片内容太多了喔"
@@ -715,7 +719,7 @@
         self.circleSaveBtn.hidden = NO;
         self.circleLocationBtn.hidden = NO;
         self.editable = NO;
-        [self doCardViewAnimation];
+        [self doCardViewAnimation:YES];
         __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.5 animations:^{
             __strong typeof(self) strongSelf = weakSelf;
@@ -1076,7 +1080,7 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+//    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     MPMediaPickerController * mediaPicker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
     mediaPicker.delegate = self;
     mediaPicker.allowsPickingMultipleItems = NO;
@@ -1098,7 +1102,7 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+//    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.mediaTypes = @[(NSString *)kUTTypeImage];
@@ -1120,7 +1124,7 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+//    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.mediaTypes = @[(NSString *)kUTTypeImage];
@@ -1144,7 +1148,7 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+//    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
@@ -1168,7 +1172,7 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+//    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     WechatShortVideoController *shortVideoController = [WechatShortVideoController new];
     shortVideoController.delegate = self;
     [self presentViewController:shortVideoController animated:YES completion:nil];
@@ -1181,7 +1185,7 @@
                     position:CSToastPositionCenter];
         return;
     }
-    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+//    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
@@ -1838,7 +1842,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     CourtesyAttachmentType file_type = (CourtesyAttachmentType) [[imageFrameView.userinfo objectForKey:@"type"] unsignedIntegerValue];
                     NSData *binary = imageFrameView.userinfo[@"data"];
                     if (!binary) {
-                        @throw NSException(kCourtesyUnexceptedStatus, @"图片解析失败");
+                        @throw NSCustomException(kCourtesyUnexceptedStatus, @"图片解析失败");
                         return;
                     }
                     
@@ -1858,7 +1862,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     if (![FCFileManager existsItemAtPath:file_path]) {
                         [binary writeToFile:file_path options:NSDataWritingWithoutOverwriting error:&error];
                         if (error) {
-                            @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                            @throw NSCustomException(kCourtesyUnexceptedStatus, [error localizedDescription]);
                             return;
                         }
                     }
@@ -1868,7 +1872,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     NSData *binary = nil;
                     NSURL *originalURL = videoFrameView.userinfo[@"url"];
                     if (!originalURL) {
-                        @throw NSException(kCourtesyUnexceptedStatus, @"找不到视频地址");
+                        @throw NSCustomException(kCourtesyUnexceptedStatus, @"找不到视频地址");
                         return;
                     }
                     if (file_type == CourtesyAttachmentVideo) {
@@ -1879,7 +1883,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                         return;
                     }
                     if (error || !binary) {
-                        @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                        @throw NSCustomException(kCourtesyUnexceptedStatus, [error localizedDescription]);
                         return;
                     }
                     NSString *salt_hash = [binary sha256String];
@@ -1898,7 +1902,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     if (![FCFileManager existsItemAtPath:file_path]) {
                         [binary writeToFile:file_path options:NSDataWritingWithoutOverwriting error:&error];
                         if (error) {
-                            @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                            @throw NSCustomException(kCourtesyUnexceptedStatus, [error localizedDescription]);
                             return;
                         }
                     }
@@ -1915,7 +1919,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                              options:NSDataWritingWithoutOverwriting
                                                error:&error];
                         if (error) {
-                            @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                            @throw NSCustomException(kCourtesyUnexceptedStatus, [error localizedDescription]);
                             return;
                         }
                     }
@@ -1925,7 +1929,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     NSData *binary = nil;
                     NSURL *originalURL = audioFrameView.userinfo[@"url"];
                     if (!originalURL) {
-                        @throw NSException(kCourtesyUnexceptedStatus, @"找不到音频地址");
+                        @throw NSCustomException(kCourtesyUnexceptedStatus, @"找不到音频地址");
                         return;
                     }
                     if (file_type == CourtesyAttachmentAudio) {
@@ -1936,7 +1940,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                         return;
                     }
                     if (error || !binary) {
-                        @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                        @throw NSCustomException(kCourtesyUnexceptedStatus, [error localizedDescription]);
                         return;
                     }
                     NSString *salt_hash = [binary sha256String];
@@ -1955,7 +1959,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     if (![FCFileManager existsItemAtPath:file_path]) {
                         [binary writeToFile:file_path options:NSDataWritingWithoutOverwriting error:&error];
                         if (error) {
-                            @throw NSException(kCourtesyUnexceptedStatus, [error localizedDescription]);
+                            @throw NSCustomException(kCourtesyUnexceptedStatus, [error localizedDescription]);
                             return;
                         }
                     }
@@ -1980,7 +1984,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 - (NSArray <id <UIPreviewActionItem>> *)previewActionItems {
     
     UIPreviewAction *tap1 = [UIPreviewAction actionWithTitle:@"发布" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
-        [self doneComposeView:nil];
+        [self publishCard];
         // TODO: Publish card selected.
     }];
     

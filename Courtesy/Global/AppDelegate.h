@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+
 @property (nonatomic, strong) JVFloatingDrawerViewController *drawerViewController;
 @property (nonatomic, strong) JVFloatingDrawerSpringAnimator *drawerAnimator;
 

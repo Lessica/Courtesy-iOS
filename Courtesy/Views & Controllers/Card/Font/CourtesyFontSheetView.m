@@ -55,11 +55,13 @@
         UIView *sizeAdjustUpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, sizeAdjustView.frame.size.width, sizeAdjustView.frame.size.height / 2)];
         sizeAdjustUpView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
         sizeAdjustUpView.layer.borderWidth = 0.5;
+        [sizeAdjustUpView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(addFontSize:)]];
         [sizeAdjustView addSubview:sizeAdjustUpView];
         
         UIView *sizeAdjustDownView = [[UIView alloc] initWithFrame:CGRectMake(0, sizeAdjustView.frame.size.height / 2 - 0.5, sizeAdjustView.frame.size.width, sizeAdjustView.frame.size.height / 2)];
         sizeAdjustDownView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
         sizeAdjustDownView.layer.borderWidth = 0.5;
+        [sizeAdjustDownView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(cutFontSize:)]];
         [sizeAdjustView addSubview:sizeAdjustDownView];
         
 //        UIView *styleAdjustView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height / 2 - 0.5, self.frame.size.width / 2, self.frame.size.height / 2)];

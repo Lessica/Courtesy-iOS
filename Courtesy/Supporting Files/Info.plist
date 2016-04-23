@@ -30,9 +30,19 @@
 				<string>courtesy</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.darwin.courtesy-tencent</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tencent1105118171</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>16</string>
+	<string>18</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wechat</string>
