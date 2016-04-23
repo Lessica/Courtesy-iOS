@@ -54,7 +54,6 @@
 - (void)setAttachments:(NSArray<Ignore> *)attachments {
     NSMutableArray *newAttachmentsHashesArr = [NSMutableArray new];
     for (CourtesyCardAttachmentModel *m in attachments) {
-        m.card_token = self.card_token;
         [newAttachmentsHashesArr addObject:m.salt_hash];
     }
     // 删除无效的附件

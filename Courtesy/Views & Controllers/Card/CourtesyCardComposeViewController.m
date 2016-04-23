@@ -1821,9 +1821,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         CourtesyCardModel *card = self.card;
         card.is_public = [sharedSettings switchAutoPublic];
         card.modified_at = (NSUInteger) [[NSDate date] timeIntervalSince1970];
-        if (card.newcard) {
+        if (card.isNewCard) {
             card.edited_count = 0;
-            card.newcard = NO;
+            card.isNewCard = NO;
         } else {
             card.edited_count++;
         }
@@ -1845,6 +1845,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     NSString *salt_hash = [binary sha256String];
                     
                     CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:salt_hash fromDatabase:NO];
+                    a.card_token = card.token;
                     a.type = file_type;
                     a.title = imageFrameView.labelText;
                     a.attachment_id = nil;
@@ -1884,6 +1885,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     NSString *salt_hash = [binary sha256String];
                     
                     CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:salt_hash fromDatabase:NO];
+                    a.card_token = card.token;
                     a.type = file_type;
                     a.title = videoFrameView.labelText;
                     a.attachment_id = nil;
@@ -1940,6 +1942,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                     NSString *salt_hash = [binary sha256String];
                     
                     CourtesyCardAttachmentModel *a = [[CourtesyCardAttachmentModel alloc] initWithSaltHash:salt_hash fromDatabase:NO];
+                    a.card_token = card.token;
                     a.type = file_type;
                     a.title = audioFrameView.labelText;
                     a.attachment_id = nil;

@@ -11,9 +11,11 @@
 
 // 处理异常
 #define NSException(_name, _reason) ([[NSException alloc] initWithName:_name reason:_reason userInfo:nil])
+#define kCourtesyCommonErrorDomain @"com.darwin.courtesy"
 #define kCourtesyInvalidHttpResponse @"kCourtesyInvalidHttpResponse"
 #define kCourtesyUnexceptedObject @"kCourtesyUnexceptedObject"
 #define kCourtesyUnexceptedStatus @"kCourtesyUnexceptedStatus"
+#define kCourtesyRepeatedOperation @"kCourtesyRepeatedOperation"
 #define kCourtesyForbidden @"kCourtesyForbidden"
 #define kCourtesyAllocFailed @"kCourtesyAllocFailed"
 

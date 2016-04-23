@@ -28,7 +28,7 @@ enum {
 enum {
     kCourtesyScanIndex        = 0,
     kCourtesyGalleryIndex     = 1,
-    kCourtesyAlbumIndex        = 2,
+    kCourtesyAlbumIndex       = 2,
     kCourtesySettingsIndex    = 3
 };
 
@@ -60,7 +60,17 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCourtesyGalleryIndex inSection:kMenuSection] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    AppDelegate *globalDelegate = [AppDelegate globalDelegate];
+    UIViewController *centerViewController = globalDelegate.drawerViewController.centerViewController;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:kCourtesyGalleryIndex inSection:kMenuSection];
+    if (centerViewController == globalDelegate.profileViewController) {
+        indexPath = [NSIndexPath indexPathForItem:kProfileSettingsIndex inSection:kAvatarSection];
+    } else if (centerViewController == globalDelegate.albumViewController) {
+        indexPath = [NSIndexPath indexPathForItem:kCourtesyAlbumIndex inSection:kMenuSection];
+    } else if (centerViewController == globalDelegate.settingsViewController) {
+        indexPath = [NSIndexPath indexPathForItem:kCourtesySettingsIndex inSection:kMenuSection];
+    }
+    [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     [self showActivityMessage:@"登录中"];
 }
 
@@ -269,6 +279,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
 - (BOOL)shortcutShare {
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:NO];
     [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:[[AppDelegate globalDelegate] albumViewController]];
+    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCourtesyAlbumIndex inSection:kMenuSection] animated:NO scrollPosition:UITableViewScrollPositionNone];
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:NO];
     return YES;
 }

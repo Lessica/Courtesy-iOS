@@ -19,6 +19,13 @@
 
 @implementation CourtesyCardPublishTask
 
+#pragma mark - Card Publish Status
+
+- (void)setCardPublished:(BOOL)published {
+    self.card.hasPublished = published;
+    [self.card saveToLocalDatabaseShouldPublish:NO];
+}
+
 #pragma mark - Task management
 
 - (void)startTaskWithQuery:(BOOL)query {
@@ -39,10 +46,6 @@
                 [_pendRequest stopRequest];
             } else if (self.status == CourtesyCardPublishTaskStatusProcessing) {
                 [_helper pauseRsync];
-            }
-            self.status = CourtesyCardPublishTaskStatusCanceled;
-            if (self.delegate && [self.delegate respondsToSelector:@selector(publishTaskDidFinished:withError:)]) {
-                [self.delegate publishTaskDidFinished:self withError:nil];
             }
         }
     });
@@ -80,6 +83,7 @@
     } else {
         if (self.status == CourtesyCardPublishTaskStatusAcknowledging) {
             dispatch_async_on_main_queue(^{
+                [self setCardPublished:YES];
                 self.status = CourtesyCardPublishTaskStatusDone;
                 if (self.delegate && [self.delegate respondsToSelector:@selector(publishTaskDidFinished:withError:)]) {
                     [self.delegate publishTaskDidFinished:self withError:nil];
@@ -93,9 +97,13 @@
                     withError:(NSError *)error {
     dispatch_async_on_main_queue(^{
         if (error) {
+            if ([[error localizedFailureReason] isEqualToString:kCourtesyRepeatedOperation]) {
+                [self setCardPublished:YES];
+            }
             self.error = error;
             self.status = CourtesyCardPublishTaskStatusCanceled;
         } else {
+            [self setCardPublished:YES];
             self.status = CourtesyCardPublishTaskStatusDone;
         }
         if (self.delegate && [self.delegate respondsToSelector:@selector(publishTaskDidFinished:withError:)]) {
@@ -141,7 +149,11 @@
             self.error = error;
             self.status = CourtesyCardPublishTaskStatusCanceled;
         } else {
+            self.status = CourtesyCardPublishTaskStatusNone;
             [self startTaskWithQuery:NO];
+        }
+        if (self.delegate && [self.delegate respondsToSelector:@selector(publishTaskDidFinished:withError:)]) {
+            [self.delegate publishTaskDidFinished:self withError:error];
         }
     });
 }

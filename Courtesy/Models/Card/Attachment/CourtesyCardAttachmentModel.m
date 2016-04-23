@@ -38,6 +38,7 @@
 
 - (NSString *)attachmentPath {
     if (!_attachmentPath) {
+        NSAssert(self.card_token != nil, @"Card token is nil!");
         NSString *attachmentPath = [[[self class] savedAttachmentsPathWithCardToken:self.card_token] stringByAppendingPathComponent:[NSString stringWithFormat:kCourtesyAttachmentPrefix, self.salt_hash]];
         if (self.type == CourtesyAttachmentImage) {
             attachmentPath = [attachmentPath stringByAppendingPathExtension:@"png"];

@@ -56,7 +56,7 @@
             } else if (errorCode == 424) {
                 @throw NSException(kCourtesyUnexceptedStatus, @"二维码已使用");
             } else if (errorCode == 434) {
-                @throw NSException(kCourtesyUnexceptedStatus, @"卡片已发布");
+                @throw NSException(kCourtesyRepeatedOperation, @"卡片已发布");
             } else if (errorCode == 430) {
                 @throw NSException(kCourtesyUnexceptedStatus, @"卡片资源移动失败");
             } else if (errorCode == 0) {
@@ -69,7 +69,7 @@
                 [sharedSettings setHasLogin:NO];
             }
             if (isRequestingPend) {
-                [self callbackPendDelegateWithErrorMessage:exception.reason];
+                [self callbackPendDelegateWithErrorMessage:exception.reason andReason:exception.name];
             }
             return;
         } @finally {
@@ -105,11 +105,11 @@
     [_delegate cardPublishPendSucceed:self];
 }
 
-- (void)callbackPendDelegateWithErrorMessage:(NSString *)message {
+- (void)callbackPendDelegateWithErrorMessage:(NSString *)message andReason:(NSString *)reason {
     if (!_delegate || ![_delegate respondsToSelector:@selector(cardPublishPendFailed:withError:)]) {
         return;
     }
-    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : message};
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey: reason};
     NSError *newError = [NSError errorWithDomain:kCourtesyRsyncErrorDomain code:CourtesyCardPublishPendStandardError userInfo:userInfo];
     [_delegate cardPublishPendFailed:self withError:newError];
 }

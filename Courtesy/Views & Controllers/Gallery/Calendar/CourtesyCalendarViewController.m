@@ -14,7 +14,7 @@
     self.backgroundColor = [UIColor clearColor];
     [[PDTSimpleCalendarViewCell appearance] setCircleDefaultColor:[UIColor clearColor]];
     [[PDTSimpleCalendarViewCell appearance] setCircleSelectedColor:[UIColor whiteColor]];
-    [[PDTSimpleCalendarViewCell appearance] setCircleTodayColor:[UIColor clearColor]];
+    [[PDTSimpleCalendarViewCell appearance] setCircleTodayColor:[UIColor whiteColor]];
     [[PDTSimpleCalendarViewCell appearance] setTextDefaultColor:[UIColor whiteColor]];
     [[PDTSimpleCalendarViewCell appearance] setTextSelectedColor:[UIColor whiteColor]];
     [[PDTSimpleCalendarViewCell appearance] setTextTodayColor:[UIColor whiteColor]];

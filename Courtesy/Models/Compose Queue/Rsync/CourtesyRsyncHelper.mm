@@ -194,7 +194,7 @@ public:
     } else if (errorMessage) {
         [self callbackDelegateWithErrorMessage:errorMessage];
     } else {
-        [self callbackDelegateWithErrorMessage:@"Unknown Error"];
+        [self callbackDelegateWithErrorMessage:@"未知错误"];
     }
 }
 

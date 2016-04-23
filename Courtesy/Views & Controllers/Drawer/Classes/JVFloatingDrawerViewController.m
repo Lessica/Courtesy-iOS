@@ -126,25 +126,28 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
 
 #pragma mark - Gestures
 
-- (void)addDrawerGestures {
-    self.centerViewController.view.userInteractionEnabled = NO;
-    if ((self.dragToRevealEnabled || self.toggleDrawerPanGestureRecognizer != nil) && [_centerViewController isKindOfClass:[UINavigationController class]]) {
+- (void)removeOldGestures {
+    if (self.toggleDrawerPanGestureRecognizer != nil) {
         UINavigationController *navc = ((UINavigationController *)_centerViewController);
         [navc.topViewController.view removeGestureRecognizer:self.toggleDrawerPanGestureRecognizer];
         self.toggleDrawerPanGestureRecognizer = nil;
     }
-    if (self.toggleDrawerTapGestureRecognizer == nil) {
-        self.toggleDrawerTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionCenterViewContainerTapped:)];
-        [self.drawerView.centerViewContainer addGestureRecognizer:self.toggleDrawerTapGestureRecognizer];
-    }
-}
-
-- (void)restoreGestures {
     if (self.toggleDrawerTapGestureRecognizer != nil) {
         [self.drawerView.centerViewContainer removeGestureRecognizer:self.toggleDrawerTapGestureRecognizer];
         self.toggleDrawerTapGestureRecognizer = nil;
     }
-    if (self.toggleDrawerPanGestureRecognizer == nil && self.dragToRevealEnabled && [_centerViewController isKindOfClass:[UINavigationController class]]) {
+}
+
+- (void)addDrawerGestures {
+    self.centerViewController.view.userInteractionEnabled = NO;
+    [self removeOldGestures];
+    self.toggleDrawerTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionCenterViewContainerTapped:)];
+    [self.drawerView.centerViewContainer addGestureRecognizer:self.toggleDrawerTapGestureRecognizer];
+}
+
+- (void)restoreGestures {
+    [self removeOldGestures];
+    if (self.dragToRevealEnabled && [_centerViewController isKindOfClass:[UINavigationController class]]) {
         self.toggleDrawerPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(actionCenterViewContainerPanned:)];
         self.toggleDrawerPanGestureRecognizer.delegate = self;
         UINavigationController *navc = ((UINavigationController *)_centerViewController);
@@ -251,6 +254,7 @@ static BOOL canMove = NO;
                       container:self.drawerView.centerViewContainer];
     
     _centerViewController = centerViewController;
+    [self.drawerView willCloseFloatingDrawerViewController:self];
     [self restoreGestures];
 }
 

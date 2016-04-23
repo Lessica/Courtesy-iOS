@@ -65,7 +65,18 @@
 
 - (void)resetDateLabelText {
     if (self.card) {
+        [self resetLabelColor];
         self.dateLabel.text = [NSString stringWithFormat:@"%@ | 字数 %lu", [[NSDate dateWithTimeIntervalSince1970:self.card.modified_at] compareCurrentTime], (unsigned long)self.card.local_template.content.length];
+    }
+}
+
+- (void)resetLabelColor {
+    if (self.card) {
+        if (!self.card.hasPublished) {
+            self.mainTitleLabel.textColor = [UIColor magicColor];
+        } else {
+            self.mainTitleLabel.textColor = [UIColor blackColor];
+        }
     }
 }
 
@@ -83,8 +94,10 @@
         } else {
             self.dateLabel.text = @"用户取消发布";
         }
+        [self resetLabelColor];
     } else if (status == CourtesyCardPublishTaskStatusDone) {
-        self.dateLabel.text = @"同步成功";
+        self.dateLabel.text = @"卡片发布成功";
+        [self resetLabelColor];
     } else if (status == CourtesyCardPublishTaskStatusPending) {
         self.dateLabel.text = @"正在建立连接";
     } else if (status == CourtesyCardPublishTaskStatusAcknowledging) {

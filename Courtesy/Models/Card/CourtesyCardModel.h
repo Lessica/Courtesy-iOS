@@ -35,11 +35,13 @@
 @property (nonatomic, strong) CourtesyAccountModel<Ignore> *author;
 @property (nonatomic, strong) CourtesyAccountModel<Ignore> *read_by;
 @property (nonatomic, strong) CourtesyCardDataModel *local_template;
-@property (nonatomic, assign) BOOL newcard;
+@property (nonatomic, assign) BOOL isNewCard;
+@property (nonatomic, assign) BOOL hasPublished;
+
 @property (nonatomic, weak)   id<CourtesyCardDelegate> delegate;
 
 - (instancetype)initWithCardToken:(NSString *)token;
-- (NSString *)saveToLocalDatabaseWithPublishFlag:(BOOL)willPublish;
+- (NSString *)saveToLocalDatabaseShouldPublish:(BOOL)willPublish;
 - (void)deleteInLocalDatabase;
 
 @end

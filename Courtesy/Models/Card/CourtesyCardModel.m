@@ -58,7 +58,7 @@
     return YES;
 }
 
-- (NSString *)saveToLocalDatabaseWithPublishFlag:(BOOL)willPublish {
+- (NSString *)saveToLocalDatabaseShouldPublish:(BOOL)willPublish {
     BOOL hasLocal = [self hasLocalRecord];
     NSDictionary *cardDict = [self toDictionary];
     [[self appStorage] setObject:cardDict forKey:[NSString stringWithFormat:kCourtesyCardPrefix, self.token]]; // Save Card Model

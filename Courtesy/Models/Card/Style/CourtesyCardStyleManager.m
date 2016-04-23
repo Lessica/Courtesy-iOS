@@ -54,14 +54,14 @@
         newStyle.cardElementShadowColor = [UIColor blackColor];
         
         newStyle.defaultAnimationDuration = 0.5;
-        newStyle.cardCreateTimeFormat = @"yyyy年M月d日 EEEE ah:mm";
+        newStyle.cardCreateTimeFormat = @"yy年LLLd日 EEEE ah:mm";
         newStyle.maxAudioNum = 1;
         newStyle.maxVideoNum = 1;
         newStyle.maxImageNum = 10;
         newStyle.maxContentLength = 4096;
         
         newStyle.headerFontSize = [NSNumber numberWithFloat:20.0];
-        newStyle.controlTextColor = [UIColor indigoColor];
+        newStyle.controlTextColor = [UIColor magicColor];
         newStyle.headerTextColor = [UIColor blackColor];
         newStyle.inlineTextColor = newStyle.cardTextColor;
         newStyle.codeTextColor = newStyle.cardTextColor;

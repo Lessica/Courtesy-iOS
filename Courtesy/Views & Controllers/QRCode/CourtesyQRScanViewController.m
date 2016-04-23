@@ -196,7 +196,6 @@ static SystemSoundID shake_sound_male_id = 0;
                                          position:CSToastPositionCenter];
     });
     // 返回上层并通知其弹出发布界面
-    [self performSelector:@selector(autobackToDrawer) withObject:nil afterDelay:kStatusBarNotificationTime];
     if (!_delegate || ![_delegate respondsToSelector:@selector(scanWithResult:)]) {
         CYLog(@"Delegate not found!");
         return;
@@ -272,6 +271,10 @@ static SystemSoundID shake_sound_male_id = 0;
 - (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {
     if (drawerSide == JVFloatingDrawerSideLeft) return YES;
     return NO;
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

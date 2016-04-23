@@ -23,7 +23,7 @@
 - (void)publishTaskDidStart:(CourtesyCardPublishTask *)task {
     [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"开始发布卡片 - %@", task.card.local_template.mainTitle]
                                    dismissAfter:kStatusBarNotificationTime
-                                      styleName:JDStatusBarStyleSuccess];
+                                      styleName:JDStatusBarStyleDefault];
 }
 
 - (void)publishTaskDidFinished:(CourtesyCardPublishTask *)task withError:(NSError *)error {

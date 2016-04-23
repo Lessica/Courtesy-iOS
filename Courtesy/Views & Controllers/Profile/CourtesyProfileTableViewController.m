@@ -66,7 +66,6 @@ UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *emailDetailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *registeredAtDetailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastLoginAtDetailLabel;
-@property (weak, nonatomic) IBOutlet UITextView *introductionLabel;
 
 @property (strong, nonatomic) CourtesyParallaxHeaderView *headerView;
 
@@ -131,7 +130,6 @@ UIScrollViewDelegate>
         @catch (NSException *exception) {}
         @finally {}
     }
-    _introductionLabel.text = kProfile.introduction;
     self.headerView.headerTitleLabel.text = kProfile.introduction;
     _emailDetailLabel.text = kAccount.email;
     [self.tableView reloadData];

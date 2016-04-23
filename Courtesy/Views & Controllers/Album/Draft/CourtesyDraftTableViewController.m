@@ -6,6 +6,7 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "CourtesyDraftTableViewController.h"
 #import "CourtesyDraftTableViewCell.h"
 #import "CourtesyCardManager.h"
@@ -14,7 +15,7 @@
 
 static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyDraftTableViewCellReuseIdentifier";
 
-@interface CourtesyDraftTableViewController () <UIViewControllerPreviewingDelegate>
+@interface CourtesyDraftTableViewController () <UIViewControllerPreviewingDelegate, JVFloatingDrawerCenterViewController>
 
 @end
 
@@ -40,6 +41,21 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - 探索导航栏按钮
+
+- (IBAction)actionToggleLeftDrawer:(id)sender {
+    [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
+}
+
+#pragma mark - JVFloatingDrawerCenterViewController
+
+- (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {
+    if (drawerSide == JVFloatingDrawerSideLeft) return YES;
+    return NO;
+}
+
+#pragma mark - Card management
+
 - (CourtesyCardManager *)cardManager {
     return [CourtesyCardManager sharedManager];
 }
@@ -60,7 +76,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 0) {
-        return @"编辑过但尚未发布的卡片将会保存在这里";
+        return @"未发布的卡片标题颜色为红色";
     }
     return nil;
 }
@@ -91,12 +107,21 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
             editAction.backgroundColor = [UIColor lightGrayColor];
             return @[editAction];
         } else {
-            __weak typeof(self) weakSelf = self;
-            UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-                [weakSelf.cardManager deleteCardInDraft:card];
-                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            }];
-            return @[deleteAction];
+            if (card.hasPublished) {
+                __weak typeof(self) weakSelf = self;
+                UITableViewRowAction *revokeAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"撤回" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                    [weakSelf.cardManager deleteCardInDraft:card];
+                    [tableView setEditing:NO animated:YES];
+                }];
+                return @[revokeAction];
+            } else {
+                __weak typeof(self) weakSelf = self;
+                UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                    [weakSelf.cardManager deleteCardInDraft:card];
+                    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                }];
+                return @[deleteAction];
+            }
         }
     }
     return nil;
@@ -130,7 +155,6 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
     if (sourceIndexPath.section == destinationIndexPath.section && sourceIndexPath.section == 0) {
-        // [self.cardArray exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
         [self.cardManager exchangeCardAtIndex:sourceIndexPath.row withCardAtIndex:destinationIndexPath.row];
     }
 }

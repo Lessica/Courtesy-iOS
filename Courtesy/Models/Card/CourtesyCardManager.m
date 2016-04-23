@@ -6,14 +6,16 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "AppStorage.h"
 #import "CourtesyCardManager.h"
 #import "CourtesyCardComposeViewController.h"
 #import "CourtesyCardPublishQueue.h"
+#import "CourtesyCardDeleteRequestModel.h"
 
 #define kCourtesyCardDraftListKey @"kCourtesyCardListKey"
 
-@interface CourtesyCardManager () <CourtesyCardComposeDelegate, CourtesyCardDelegate>
+@interface CourtesyCardManager () <CourtesyCardComposeDelegate, CourtesyCardDelegate, CourtesyCardDeleteRequestDelegate>
 
 @end
 
@@ -97,7 +99,8 @@
     card.local_template.alignmentType = NSTextAlignmentLeft;
     card.local_template.card_token = card.token;
     
-    card.newcard = YES;
+    card.isNewCard = YES;
+    card.hasPublished = NO;
     return card;
 }
 
@@ -129,10 +132,27 @@
 }
 
 - (void)deleteCardInDraft:(CourtesyCardModel *)card {
-    [card deleteInLocalDatabase];
-    [self.cardDraftTokenArray removeObject:card.token];
-    [self.cardDraftArray removeObject:card];
-    [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
+    if (card.hasPublished) {
+        dispatch_async_on_main_queue(^{
+            [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"正在撤回卡片 %@……", card.local_template.mainTitle]
+                                       dismissAfter:kStatusBarNotificationTime
+                                          styleName:JDStatusBarStyleDefault];
+            [JDStatusBarNotification showActivityIndicator:YES
+                                            indicatorStyle:UIActivityIndicatorViewStyleGray];
+        });
+        
+        __block CourtesyCardDeleteRequestModel *deleteRequest = [[CourtesyCardDeleteRequestModel alloc] initWithDelegate:self];
+        deleteRequest.token = card.token;
+        deleteRequest.card = card;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [deleteRequest sendRequest];
+        });
+    } else {
+        [card deleteInLocalDatabase];
+        [self.cardDraftTokenArray removeObject:card.token];
+        [self.cardDraftArray removeObject:card];
+        [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
+    }
 }
 
 - (void)exchangeCardAtIndex:(NSInteger)sourceRow withCardAtIndex:(NSInteger)destinationRow {
@@ -143,10 +163,15 @@
 
 #pragma mark - CourtesyCardComposeDelegate
 
+- (void)backToAlbumViewController {
+    [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:[[AppDelegate globalDelegate] albumViewController]];
+}
+
 - (void)cardComposeViewDidFinishEditing:(nonnull CourtesyCardComposeViewController *)controller {
     if (controller.card) {
-        [controller.card saveToLocalDatabaseWithPublishFlag:YES];
+        [controller.card saveToLocalDatabaseShouldPublish:YES];
     }
+    [self backToAlbumViewController];
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -160,11 +185,14 @@
 
 - (void)cardComposeViewDidCancelEditing:(CourtesyCardComposeViewController *)controller shouldSaveToDraftBox:(BOOL)save {
     if (save && controller.card) {
-        [JDStatusBarNotification showWithStatus:@"正在保存卡片……"
-                                      styleName:JDStatusBarStyleDefault];
-        [JDStatusBarNotification showActivityIndicator:YES
-                                        indicatorStyle:UIActivityIndicatorViewStyleGray];
-        [controller.card saveToLocalDatabaseWithPublishFlag:NO];
+        dispatch_async_on_main_queue(^{
+            [JDStatusBarNotification showWithStatus:@"正在保存卡片……"
+                                          styleName:JDStatusBarStyleDefault];
+            [JDStatusBarNotification showActivityIndicator:YES
+                                            indicatorStyle:UIActivityIndicatorViewStyleGray];
+        });
+        [controller.card saveToLocalDatabaseShouldPublish:NO];
+        [self backToAlbumViewController];
     }
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
@@ -182,18 +210,45 @@
     }
     [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
     if (willPublish == NO) {
-        [JDStatusBarNotification showWithStatus:@"卡片已保存到草稿箱"
-                                   dismissAfter:kStatusBarNotificationTime
-                                      styleName:JDStatusBarStyleSuccess];
+        dispatch_async_on_main_queue(^{
+            [JDStatusBarNotification showWithStatus:@"卡片已保存到草稿箱"
+                                       dismissAfter:kStatusBarNotificationTime
+                                          styleName:JDStatusBarStyleSuccess];
+        });
     } else {
         [[CourtesyCardPublishQueue sharedQueue] addCardPublishTask:card];
     }
 }
 
 - (void)cardDidFailedSaving:(nonnull CourtesyCardModel *)card {
-    [JDStatusBarNotification showWithStatus:@"卡片保存失败"
-                               dismissAfter:kStatusBarNotificationTime
-                                  styleName:JDStatusBarStyleError];
+    dispatch_async_on_main_queue(^{
+        [JDStatusBarNotification showWithStatus:@"卡片保存失败"
+                                   dismissAfter:kStatusBarNotificationTime
+                                      styleName:JDStatusBarStyleError];
+    });
+}
+
+#pragma mark - CourtesyCardDeleteRequestDelegate
+
+- (void)cardDeleteRequestSucceed:(CourtesyCardDeleteRequestModel *)sender {
+    CourtesyCardModel *card = sender.card;
+    dispatch_async_on_main_queue(^{
+        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片 %@ 撤回成功", card.local_template.mainTitle]
+                                   dismissAfter:kStatusBarNotificationTime
+                                      styleName:JDStatusBarStyleSuccess];
+    });
+    card.hasPublished = NO;
+    [card saveToLocalDatabaseShouldPublish:NO];
+}
+
+- (void)cardDeleteRequestFailed:(CourtesyCardDeleteRequestModel *)sender
+                      withError:(NSError *)error {
+    CourtesyCardModel *card = sender.card;
+    dispatch_async_on_main_queue(^{
+        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片 %@ 撤回失败 - %@", card.local_template.mainTitle, [error localizedDescription]]
+                                   dismissAfter:kStatusBarNotificationTime
+                                      styleName:JDStatusBarStyleError];
+    });
 }
 
 @end

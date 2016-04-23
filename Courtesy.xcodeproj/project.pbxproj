@@ -47,8 +47,6 @@
 		0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E51C951DDD00F818AD /* CourtesyFontManager.m */; };
 		0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */; };
 		0F55FCC61CA3D5060084C4E2 /* AppStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCC51CA3D5060084C4E2 /* AppStorage.m */; };
-		0F55FCC91CA3D82E0084C4E2 /* CourtesyDraftTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCC81CA3D82E0084C4E2 /* CourtesyDraftTableViewController.m */; };
-		0F55FCCC1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCCB1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.m */; };
 		0F55FCCF1CA40D8D0084C4E2 /* NSDate+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCCE1CA40D8D0084C4E2 /* NSDate+Compare.m */; };
 		0F5801061C98075600D18059 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5801051C98075600D18059 /* FCFileManager.m */; };
 		0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */; };
@@ -58,7 +56,6 @@
 		0F90DC431C844C4E00607277 /* Drawers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */; };
 		0FA726611CAAB32B00315E09 /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FA7265E1CAAB32B00315E09 /* CodeScan.bundle */; };
 		0FA726621CAAB32B00315E09 /* CourtesyQRScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA726601CAAB32B00315E09 /* CourtesyQRScanViewController.m */; };
-		0FA726661CAAB7EC00315E09 /* CourtesyAlbumTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA726651CAAB7EC00315E09 /* CourtesyAlbumTableViewController.m */; };
 		0FA726811CAAB80B00315E09 /* CourtesyGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA726691CAAB80B00315E09 /* CourtesyGalleryViewController.m */; };
 		0FA726821CAAB80B00315E09 /* CourtesyStarredCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA7266B1CAAB80B00315E09 /* CourtesyStarredCardView.m */; };
 		0FA726831CAAB80B00315E09 /* DefaultDirectionInterpretor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA7266E1CAAB80B00315E09 /* DefaultDirectionInterpretor.m */; };
@@ -161,6 +158,9 @@
 		0FF2D2A91C95DAC7007C23DE /* WechatShortVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D29D1C95DAC7007C23DE /* WechatShortVideoController.m */; };
 		0FF2D2AA1C95DAC7007C23DE /* WechatShortVideoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D29E1C95DAC7007C23DE /* WechatShortVideoController.xib */; };
 		0FF2D2B01C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF2D2AE1C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a */; };
+		0FFC2F1F1CCB14F000676097 /* CourtesyDraftTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFC2F1C1CCB14F000676097 /* CourtesyDraftTableViewCell.m */; };
+		0FFC2F201CCB14F000676097 /* CourtesyDraftTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFC2F1E1CCB14F000676097 /* CourtesyDraftTableViewController.m */; };
+		0FFC2F231CCB1EFC00676097 /* CourtesyCardDeleteRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFC2F221CCB1EFC00676097 /* CourtesyCardDeleteRequestModel.m */; };
 		0FFE04621C93F45800E99DCC /* CourtesyAudioFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03F81C93F45800E99DCC /* CourtesyAudioFrameView.m */; };
 		0FFE04631C93F45800E99DCC /* CourtesyCardComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03FA1C93F45800E99DCC /* CourtesyCardComposeViewController.m */; };
 		0FFE04641C93F45800E99DCC /* CourtesyTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03FC1C93F45800E99DCC /* CourtesyTextView.m */; };
@@ -442,10 +442,6 @@
 		0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyFontTableViewCell.m; sourceTree = "<group>"; };
 		0F55FCC41CA3D5060084C4E2 /* AppStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppStorage.h; sourceTree = "<group>"; };
 		0F55FCC51CA3D5060084C4E2 /* AppStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppStorage.m; sourceTree = "<group>"; };
-		0F55FCC71CA3D82E0084C4E2 /* CourtesyDraftTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDraftTableViewController.h; sourceTree = "<group>"; };
-		0F55FCC81CA3D82E0084C4E2 /* CourtesyDraftTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyDraftTableViewController.m; sourceTree = "<group>"; };
-		0F55FCCA1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDraftTableViewCell.h; sourceTree = "<group>"; };
-		0F55FCCB1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyDraftTableViewCell.m; sourceTree = "<group>"; };
 		0F55FCCD1CA40D8D0084C4E2 /* NSDate+Compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Compare.h"; sourceTree = "<group>"; };
 		0F55FCCE1CA40D8D0084C4E2 /* NSDate+Compare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Compare.m"; sourceTree = "<group>"; };
 		0F56686A1C95E1BE00AD4F04 /* CourtesyWatchQueryKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CourtesyWatchQueryKeys.h; sourceTree = "<group>"; };
@@ -460,8 +456,6 @@
 		0FA7265E1CAAB32B00315E09 /* CodeScan.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CodeScan.bundle; sourceTree = "<group>"; };
 		0FA7265F1CAAB32B00315E09 /* CourtesyQRScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyQRScanViewController.h; sourceTree = "<group>"; };
 		0FA726601CAAB32B00315E09 /* CourtesyQRScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyQRScanViewController.m; sourceTree = "<group>"; };
-		0FA726641CAAB7EC00315E09 /* CourtesyAlbumTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAlbumTableViewController.h; sourceTree = "<group>"; };
-		0FA726651CAAB7EC00315E09 /* CourtesyAlbumTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAlbumTableViewController.m; sourceTree = "<group>"; };
 		0FA726681CAAB80B00315E09 /* CourtesyGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyGalleryViewController.h; sourceTree = "<group>"; };
 		0FA726691CAAB80B00315E09 /* CourtesyGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyGalleryViewController.m; sourceTree = "<group>"; };
 		0FA7266A1CAAB80B00315E09 /* CourtesyStarredCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyStarredCardView.h; sourceTree = "<group>"; };
@@ -648,6 +642,12 @@
 		0FF2D29E1C95DAC7007C23DE /* WechatShortVideoController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WechatShortVideoController.xib; sourceTree = "<group>"; };
 		0FF2D2AE1C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		0FF2D2AF1C95DB9E007C23DE /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
+		0FFC2F1B1CCB14F000676097 /* CourtesyDraftTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDraftTableViewCell.h; sourceTree = "<group>"; };
+		0FFC2F1C1CCB14F000676097 /* CourtesyDraftTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyDraftTableViewCell.m; sourceTree = "<group>"; };
+		0FFC2F1D1CCB14F000676097 /* CourtesyDraftTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDraftTableViewController.h; sourceTree = "<group>"; };
+		0FFC2F1E1CCB14F000676097 /* CourtesyDraftTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyDraftTableViewController.m; sourceTree = "<group>"; };
+		0FFC2F211CCB1EFC00676097 /* CourtesyCardDeleteRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardDeleteRequestModel.h; sourceTree = "<group>"; };
+		0FFC2F221CCB1EFC00676097 /* CourtesyCardDeleteRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardDeleteRequestModel.m; sourceTree = "<group>"; };
 		0FFE03F71C93F45800E99DCC /* CourtesyAudioFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAudioFrameView.h; sourceTree = "<group>"; };
 		0FFE03F81C93F45800E99DCC /* CourtesyAudioFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAudioFrameView.m; sourceTree = "<group>"; };
 		0FFE03F91C93F45800E99DCC /* CourtesyCardComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardComposeViewController.h; sourceTree = "<group>"; };
@@ -1150,6 +1150,8 @@
 		0F47D9041CA6D7EC001300FE /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				0FFC2F211CCB1EFC00676097 /* CourtesyCardDeleteRequestModel.h */,
+				0FFC2F221CCB1EFC00676097 /* CourtesyCardDeleteRequestModel.m */,
 				0F47D9051CA6D7EC001300FE /* CourtesyCardEditRequestModel.h */,
 				0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */,
 				0F47D9071CA6D7EC001300FE /* CourtesyCardPublishRequestModel.h */,
@@ -1195,17 +1197,6 @@
 			);
 			name = FCFileManager;
 			path = Extensions/FCFileManager;
-			sourceTree = "<group>";
-		};
-		0F6434221CA2CB4B005C29BF /* Draft */ = {
-			isa = PBXGroup;
-			children = (
-				0F55FCCA1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.h */,
-				0F55FCCB1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.m */,
-				0F55FCC71CA3D82E0084C4E2 /* CourtesyDraftTableViewController.h */,
-				0F55FCC81CA3D82E0084C4E2 /* CourtesyDraftTableViewController.m */,
-			);
-			path = Draft;
 			sourceTree = "<group>";
 		};
 		0F6DD55F1C9820D000CA4389 /* Markdown */ = {
@@ -1255,8 +1246,7 @@
 		0FA726631CAAB7EC00315E09 /* Album */ = {
 			isa = PBXGroup;
 			children = (
-				0FA726641CAAB7EC00315E09 /* CourtesyAlbumTableViewController.h */,
-				0FA726651CAAB7EC00315E09 /* CourtesyAlbumTableViewController.m */,
+				0FFC2F1A1CCB14F000676097 /* Draft */,
 			);
 			path = Album;
 			sourceTree = "<group>";
@@ -1667,6 +1657,17 @@
 			path = UMessage;
 			sourceTree = "<group>";
 		};
+		0FFC2F1A1CCB14F000676097 /* Draft */ = {
+			isa = PBXGroup;
+			children = (
+				0FFC2F1B1CCB14F000676097 /* CourtesyDraftTableViewCell.h */,
+				0FFC2F1C1CCB14F000676097 /* CourtesyDraftTableViewCell.m */,
+				0FFC2F1D1CCB14F000676097 /* CourtesyDraftTableViewController.h */,
+				0FFC2F1E1CCB14F000676097 /* CourtesyDraftTableViewController.m */,
+			);
+			path = Draft;
+			sourceTree = "<group>";
+		};
 		0FFE03F11C93F45800E99DCC /* Views & Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1876,7 +1877,6 @@
 		0FFE044C1C93F45800E99DCC /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				0F6434221CA2CB4B005C29BF /* Draft */,
 				0FFE044D1C93F45800E99DCC /* About */,
 				0FFE04501C93F45800E99DCC /* Account */,
 				0FFE04531C93F45800E99DCC /* Agreement */,
@@ -2498,6 +2498,7 @@
 				0FDEFBB91C97D5F7007BE8D2 /* UIImagePickerController+LandScapeImagePicker.m in Sources */,
 				0FFE047D1C93F45800E99DCC /* CourtesyProfileCityTableViewController.m in Sources */,
 				0FFE04C11C93F47400E99DCC /* CourtesyCardModel.m in Sources */,
+				0FFC2F1F1CCB14F000676097 /* CourtesyDraftTableViewCell.m in Sources */,
 				0FFE04CA1C93F47400E99DCC /* CourtesyLoginRegisterModel.m in Sources */,
 				0FFE052F1C93F52C00E99DCC /* UIView+FrameMethods.m in Sources */,
 				0FA726831CAAB80B00315E09 /* DefaultDirectionInterpretor.m in Sources */,
@@ -2562,6 +2563,7 @@
 				0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */,
 				0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */,
 				0F13F53B1CC9088F00793FB9 /* CourtesyCardResourceModel.m in Sources */,
+				0FFC2F201CCB14F000676097 /* CourtesyDraftTableViewController.m in Sources */,
 				0F2744FA1CB55C6D00BCF173 /* CourtesyGalleryDailyCardVideoModel.m in Sources */,
 				0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */,
 				0F28516F1C97D8AD0066F5C5 /* JotViewController.m in Sources */,
@@ -2577,7 +2579,6 @@
 				0FF2D28C1C95DA80007C23DE /* ZXingWrapper.m in Sources */,
 				0FFE04631C93F45800E99DCC /* CourtesyCardComposeViewController.m in Sources */,
 				0FFE04671C93F45800E99DCC /* CourtesyImageFrameView.m in Sources */,
-				0F55FCC91CA3D82E0084C4E2 /* CourtesyDraftTableViewController.m in Sources */,
 				0FDEFBC81C97D696007BE8D2 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				0FDDF1F21CABE4050067FB7F /* CourtesyCalendarViewController.m in Sources */,
 				0FFE052D1C93F52C00E99DCC /* NSNotificationCenter+Action.m in Sources */,
@@ -2592,6 +2593,7 @@
 				0F5801061C98075600D18059 /* FCFileManager.m in Sources */,
 				0FA726621CAAB32B00315E09 /* CourtesyQRScanViewController.m in Sources */,
 				0FDEFBD51C97D70A007BE8D2 /* CNCityAreaCitiesModel.m in Sources */,
+				0FFC2F231CCB1EFC00676097 /* CourtesyCardDeleteRequestModel.m in Sources */,
 				0F2744F71CB55C6D00BCF173 /* CourtesyGalleryDailyRequestModel.m in Sources */,
 				0FDEFBD61C97D70A007BE8D2 /* CNCityAreaFactory.m in Sources */,
 				0FFE04721C93F45800E99DCC /* CourtesyLoginRegisterViewController.m in Sources */,
@@ -2614,11 +2616,9 @@
 				0FA7268C1CAAB80B00315E09 /* ZLSwipeableViewSwipeOptions.m in Sources */,
 				0FA726881CAAB80B00315E09 /* Utils.m in Sources */,
 				0FFE04691C93F45800E99DCC /* CourtesyVideoFrameView.m in Sources */,
-				0F55FCCC1CA3D9170084C4E2 /* CourtesyDraftTableViewCell.m in Sources */,
 				0FF2D28A1C95DA80007C23DE /* LBXScanWrapper.m in Sources */,
 				0FEFDBAC1C97D16300952522 /* CourtesyAudioNoteRecorderView.m in Sources */,
 				0FA726841CAAB80B00315E09 /* DefaultShouldSwipeDeterminator.m in Sources */,
-				0FA726661CAAB7EC00315E09 /* CourtesyAlbumTableViewController.m in Sources */,
 				0FF2D2831C95DA80007C23DE /* LBXScanLineAnimation.m in Sources */,
 				0FFE04641C93F45800E99DCC /* CourtesyTextView.m in Sources */,
 				0F47D90A1CA6D7EC001300FE /* CourtesyCardPublishRequestModel.m in Sources */,
