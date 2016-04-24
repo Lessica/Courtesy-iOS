@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface CourtesyProfileCityTableViewController : UITableViewController
++ (NSString *)generateCityStringWithState:(NSString *)state
+                                  andCity:(NSString *)city
+                           andSubLocality:(NSString *)subLocality;
 
 @end

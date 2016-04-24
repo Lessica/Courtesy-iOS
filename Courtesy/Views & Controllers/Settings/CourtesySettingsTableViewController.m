@@ -73,9 +73,9 @@ enum {
         return;
     }
     NSString *action = [notification.userInfo objectForKey:@"action"];
-    if ([action isEqualToString:kActionLogin]) {
+    if ([action isEqualToString:kCourtesyActionLogin]) {
         [_logoutCell setHidden:NO];
-    } else if ([action isEqualToString:kActionLogout]) {
+    } else if ([action isEqualToString:kCourtesyActionLogout]) {
         [_logoutCell setHidden:YES];
     }
 }

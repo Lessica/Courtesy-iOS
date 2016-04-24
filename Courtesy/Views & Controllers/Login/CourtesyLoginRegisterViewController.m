@@ -37,27 +37,6 @@
                                                  name:kCourtesyNotificationInfo object:nil];
 }
 
-- (void)didReceiveLocalNotification:(NSNotification *)notification {
-    if (!notification.object || ![notification.object hasKey:@"action"]) {
-        return;
-    }
-    NSString *action = [notification.object objectForKey:@"action"];
-    if ([action isEqualToString:kTencentLoginSuccessed]) { // 腾讯互联登录成功
-        // 用户 OpenId
-        GlobalSettings *globalSettings = [GlobalSettings sharedInstance];
-        CYLog(@"Tencent login success, openId: %@", globalSettings.tencentAuth.openId);
-        NSString *uniqueStr = [[globalSettings.tencentAuth.openId substringToIndex:6] lowercaseString];
-        _tencentOpenId = [@"qq" stringByAppendingString:uniqueStr];
-        _tencentFakeEmail = [_tencentOpenId stringByAppendingString:@"@82flex.com"];
-        // 尝试登录
-        CourtesyLoginRegisterModel *loginModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:_tencentFakeEmail password:_tencentOpenId delegate:self];
-        loginModel.openAPI = YES;
-        [loginModel sendRequestLogin];
-    } else if ([action isEqualToString:kTencentGetUserInfoSucceed]) {
-        [self handleTencentUserInfo:notification.object[@"response"]];
-    }
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
@@ -145,69 +124,62 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:API_FORGET_PASSWORD]];
 }
 
+#pragma mark - 第三方登录事件通知
+
+- (void)didReceiveLocalNotification:(NSNotification *)notification {
+    if (!notification.object || ![notification.object hasKey:@"action"]) {
+        return;
+    }
+    NSString *action = [notification.object objectForKey:@"action"];
+    if
+        ([action isEqualToString:kTencentLoginSuccessed])
+    {
+        // 腾讯互联登录成功
+        // 用户 OpenId
+        GlobalSettings *globalSettings = [GlobalSettings sharedInstance];
+        CYLog(@"Tencent login success, openId: %@", globalSettings.tencentAuth.openId);
+        NSString *uniqueStr = [[globalSettings.tencentAuth.openId substringToIndex:6] lowercaseString];
+        _tencentOpenId = [@"qq" stringByAppendingString:uniqueStr];
+        _tencentFakeEmail = [_tencentOpenId stringByAppendingString:@"@82flex.com"];
+        // 尝试登录
+        CourtesyLoginRegisterModel *loginModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:_tencentFakeEmail password:_tencentOpenId delegate:self];
+        loginModel.openAPI = CourtesyOpenApiTypeQQ;
+        [loginModel sendRequestLogin];
+    }
+    else if ([action isEqualToString:kTencentGetUserInfoSucceed])
+    {
+        // 腾讯互联用户信息获取成功
+        [self handleTencentUserInfo:notification.object[@"response"]];
+    }
+}
+
 #pragma mark - CourtesyLoginRegisterDelegate 注册登录委托方法
 
 - (void)loginRegisterFailed:(CourtesyLoginRegisterModel *)sender
                errorMessage:(NSString *)message
                     isLogin:(BOOL)login {
-    if (sender.openAPI) {
+    if (sender.openAPI == CourtesyOpenApiTypeQQ) {
         if (login) { // 腾讯互联账户登录请求
             // 尝试注册腾讯互联账户，先获取用户信息
             GlobalSettings *globalSettings = [GlobalSettings sharedInstance];
             [globalSettings.tencentAuth getUserInfo];
         } else { // 腾讯互联账户注册请求
-            [self.view hideToastActivity];
-            [self.view setUserInteractionEnabled:YES];
-            [self.view makeToast:[message stringByAppendingString:@" (Tencent)"]
-                        duration:1.2
-                        position:CSToastPositionCenter];
+            [self openApiFailed:message];
         }
-    } else {
-        [self.view hideToastActivity];
-        [self.view setUserInteractionEnabled:YES];
-        [self.view makeToast:message
-                    duration:1.2
-                    position:CSToastPositionCenter];
+    } else if (sender.openAPI == CourtesyOpenApiTypeNone) {
+        [self openApiFailed:message];
     }
 }
 
 - (void)loginRegisterSucceed:(CourtesyLoginRegisterModel *)sender
                      isLogin:(BOOL)login {
-    if (login) {
+    [kAccount setEmail:[sender email]]; // 设置账户邮箱
+    if (login)
+    {
+        [self notifyLoginStatus]; // 通知普通登录成功
         [self.view hideToastActivity];
         [self.view makeToast:@"登录成功"
-                    duration:3.0
-                    position:CSToastPositionCenter
-                       title:nil
-                       image:nil
-                       style:nil
-                  completion:^(BOOL didTap) {
-                      [self close];
-                  }];
-    } else {
-        if (sender.openAPI) {
-            _tencentAvatarURL = [NSURL URLWithString:self.tencentInfo[@"figureurl_2"]];
-            kProfile.nick = self.tencentInfo[@"nickname"];
-            if ([self.tencentInfo[@"gender"] isEqualToString:@"男"]) {
-                kProfile.gender = 0;
-            } else if ([self.tencentInfo[@"gender"] isEqualToString:@"女"]) {
-                kProfile.gender = 1;
-            } else {
-                kProfile.gender = 2;
-            }
-            kProfile.province = self.tencentInfo[@"province"];
-            kProfile.city = self.tencentInfo[@"city"];
-            kProfile.mobile = @"";
-            kProfile.area = @"";
-            kProfile.introduction = @"";
-            kProfile.birthday = @"";
-            kProfile.avatar = @"";
-            [kProfile setDelegate:self]; // 设置请求代理
-            [kProfile sendRequestEditProfile];
-        }
-        [self.view hideToastActivity];
-        [self.view makeToast:@"注册成功"
-                    duration:3.0
+                    duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter
                        title:nil
                        image:nil
@@ -216,65 +188,145 @@
                       [self close];
                   }];
     }
-    
-    // 设置登录成功状态
-    [kAccount setEmail:[sender email]];
-//    [self notifyLoginStatus];
+    else
+    {
+        if
+            (sender.openAPI == CourtesyOpenApiTypeNone)
+        {
+            [self notifyLoginStatus]; // 通知普通注册成功
+            [self.view hideToastActivity];
+            [self.view makeToast:@"注册成功"
+                        duration:3.0
+                        position:CSToastPositionCenter
+                           title:nil
+                           image:nil
+                           style:nil
+                      completion:^(BOOL didTap) {
+                          [self close];
+                      }];
+        }
+        else if
+            (sender.openAPI == CourtesyOpenApiTypeQQ)
+        {
+            // 来自腾讯互联的首次注册请求视为第三方登录请求
+            _tencentAvatarURL = [NSURL URLWithString:self.tencentInfo[@"figureurl_2"]];
+            kProfile.nick = self.tencentInfo[@"nickname"];
+            if
+                ([self.tencentInfo[@"gender"] isEqualToString:@"男"])
+            {
+                kProfile.gender = 0;
+            }
+            else if ([self.tencentInfo[@"gender"] isEqualToString:@"女"])
+            {
+                kProfile.gender = 1;
+            }
+            else
+            {
+                kProfile.gender = 2;
+            }
+            kProfile.province = self.tencentInfo[@"province"];
+            kProfile.city = self.tencentInfo[@"city"];
+            kProfile.mobile = @"13800138000";
+            kProfile.area = @"";
+            kProfile.introduction = @"Tell me why you did it,\nevery dream falling apart.";
+            kProfile.birthday = @"1996-01-01";
+            kProfile.avatar = @"";
+            [kProfile setDelegate:self]; // 设置请求代理
+            [kProfile sendRequestEditProfile]; // 发送修改个人资料请求
+        }
+    }
 }
 
-- (void)notifyLoginStatus {
+#pragma mark - 用户提示信息及系统通知
+
+- (void)openApiSucceed
+{
+    [self notifyLoginStatus];
+    [self.view hideToastActivity];
+    [self.view makeToast:@"第三方登录成功"
+                duration:3.0
+                position:CSToastPositionCenter
+                   title:nil
+                   image:nil
+                   style:nil
+              completion:^(BOOL didTap) {
+                  [self close];
+              }];
+}
+
+- (void)openApiFailed:(NSString *)errorMessage
+{
+    [self.view hideToastActivity];
+    [self.view setUserInteractionEnabled:YES];
+    [self.view makeToast:errorMessage
+                duration:kStatusBarNotificationTime
+                position:CSToastPositionCenter];
+}
+
+- (void)notifyLoginStatus
+{
     [sharedSettings setHasLogin:YES];
     // 发送全局登录成功通知
-    [NSNotificationCenter sendCTAction:kActionLogin message:nil];
+    [NSNotificationCenter sendCTAction:kCourtesyActionLogin message:nil];
 }
 
-#pragma mark - 修改资料请求回调
+#pragma mark - 第三方修改资料请求回调
 
-- (void)editProfileSucceed:(CourtesyAccountProfileModel *)sender {
+- (void)editProfileSucceed:(CourtesyAccountProfileModel *)sender
+{
     UIImage *avatarImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:_tencentAvatarURL]];
     if (avatarImage) {
         [kProfile sendRequestUploadAvatar:avatarImage];
     } else {
         CYLog(@"No tencent avatar image fetched.");
-        [self notifyLoginStatus];
+        [self openApiSucceed];
     }
 }
 
 - (void)editProfileFailed:(CourtesyAccountProfileModel *)sender
-             errorMessage:(NSString *)message {
+             errorMessage:(NSString *)message
+{
     CYLog(@"Tencent account info copy failed.");
-    [self notifyLoginStatus];
+    [self openApiSucceed];
 }
 
-#pragma mark - 上传头像请求回调
+#pragma mark - 第三方上传头像请求回调
 
-- (void)uploadAvatarSucceed:(CourtesyAccountProfileModel *)sender {
-    [self notifyLoginStatus];
+- (void)uploadAvatarSucceed:(CourtesyAccountProfileModel *)sender
+{
+    [self openApiSucceed];
 }
 
 - (void)uploadAvatarFailed:(CourtesyAccountProfileModel *)sender
-              errorMessage:(NSString *)message {
+              errorMessage:(NSString *)message
+{
     CYLog(@"Tencent avatar image upload failed.");
-    [self notifyLoginStatus];
+    [self openApiSucceed];
 }
 
-- (void)handleTencentUserInfo:(APIResponse *)response {
+#pragma mark - 处理腾讯互联用户信息
+
+- (void)handleTencentUserInfo:(APIResponse *)response
+{
     if (!response) return;
     if (URLREQUEST_SUCCEED == response.retCode
-        && kOpenSDKErrorSuccess == response.detailRetCode) {
+        && kOpenSDKErrorSuccess == response.detailRetCode)
+    {
         self.tencentInfo = response.jsonResponse;
         CourtesyLoginRegisterModel *registerModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:_tencentFakeEmail password:_tencentOpenId delegate:self];
         registerModel.openAPI = YES;
         [registerModel sendRequestRegister];
-    } else {
-        [self.view hideToastActivity];
-        [self.view makeToast:response.errorMsg
-                    duration:1.2
-                    position:CSToastPositionCenter];
+    }
+    else
+    {
+        [self openApiFailed:response.errorMsg];
     }
 }
 
-- (void)dealloc {
+#pragma mark - Memory Management
+
+- (void)dealloc
+{
     CYLog(@"");
 }
 

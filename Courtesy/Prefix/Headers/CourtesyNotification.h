@@ -14,11 +14,16 @@
 
 // 推送常量
 #define kCourtesyNotificationInfo @"kCourtesyNotificationInfo"
-#define kActionLogin @"login"
-#define kActionLogout @"logout"
-#define kActionFetching @"fetching"
-#define kActionFetchSucceed @"fetchInfoSucceed"
-#define kActionFetchFailed @"fetchInfoFailed"
-#define kActionProfileEdited @"profileEdited"
+#define kCourtesyActionLogin @"kCourtesyActionLogin"
+#define kCourtesyActionLogout @"kCourtesyActionLogout"
+#define kCourtesyActionFetching @"kCourtesyActionFetching"
+#define kCourtesyActionFetchSucceed @"kCourtesyActionFetchSucceed"
+#define kCourtesyActionFetchFailed @"kCourtesyActionFetchFailed"
+#define kCourtesyActionProfileEdited @"kCourtesyActionProfileEdited"
+
+#define kTencentLoginSuccessed @"kTencentLoginSuccessed"
+#define kTencentLoginFailed    @"kTencentLoginFailed"
+#define kTencentLoginCancelled @"kTencentLoginCancelled"
+#define kTencentGetUserInfoSucceed @"kTencentGetUserInfoSucceed"
 
 #endif /* CourtesyNotification_h */

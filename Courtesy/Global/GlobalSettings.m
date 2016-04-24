@@ -152,7 +152,7 @@
         if ([self.appStorage containsObjectForKey:kCourtesyDBCurrentLoginAccount]) {
             [self.appStorage removeObjectForKey:kCourtesyDBCurrentLoginAccount];
         }
-        [NSNotificationCenter sendCTAction:kActionLogout message:nil];
+        [NSNotificationCenter sendCTAction:kCourtesyActionLogout message:nil];
     }
 #ifdef WATCH_SUPPORT
     [self.watchSessionManager notifyLoginStatus];
@@ -162,7 +162,7 @@
 #pragma mark - 获取用户信息
 
 - (void)fetchCurrentAccountInfo {
-    [NSNotificationCenter sendCTAction:kActionFetching message:nil];
+    [NSNotificationCenter sendCTAction:kCourtesyActionFetching message:nil];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
         [self.currentAccount sendRequestFetchAccountInfo];
     });
@@ -171,12 +171,12 @@
 #pragma mark - CourtesyFetchAccountInfoDelegate
 
 - (void)fetchAccountInfoSucceed:(CourtesyAccountModel *)sender {
-    [NSNotificationCenter sendCTAction:kActionFetchSucceed message:nil];
+    [NSNotificationCenter sendCTAction:kCourtesyActionFetchSucceed message:nil];
 }
 
 - (void)fetchAccountInfoFailed:(CourtesyAccountModel *)sender
                   errorMessage:(NSString *)message {
-    [NSNotificationCenter sendCTAction:kActionFetchFailed message:message];
+    [NSNotificationCenter sendCTAction:kCourtesyActionFetchFailed message:message];
 }
 
 #pragma mark - 会话相关
@@ -309,7 +309,6 @@
     [self.appStorage setObject:[NSNumber numberWithFloat:preferredFontSize] forKey:kPreferredFontSize];
 }
 
-
 #pragma mark - 腾讯互联接口
 
 - (TencentOAuth *)tencentAuth {
@@ -320,23 +319,26 @@
 }
 
 - (void)tencentDidNotLogin:(BOOL)cancelled {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo object:@{
-                                                                                                  @"action": kTencentLoginCancelled,
-                                                                                                  @"message": @"用户取消登录"}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo
+                                                        object:@{@"action": kTencentLoginCancelled,
+                                                                 @"message": @"用户取消登录"}];
 }
 
 - (void)tencentDidNotNetWork {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo object:@{
-                                                                                                  @"action": kTencentLoginFailed,
-                                                                                                  @"message": @"请检查网络连接"}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo
+                                                        object:@{@"action": kTencentLoginFailed,
+                                                                 @"message": @"请检查网络连接"}];
 }
 
 - (void)tencentDidLogin {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo object:@{@"action": kTencentLoginSuccessed}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo
+                                                        object:@{@"action": kTencentLoginSuccessed}];
 }
 
 - (void)getUserInfoResponse:(APIResponse *)response {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo object:@{@"action": kTencentGetUserInfoSucceed, @"response": response}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo
+                                                        object:@{@"action": kTencentGetUserInfoSucceed,
+                                                                 @"response": response}];
 }
 
 @end

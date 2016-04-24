@@ -13,6 +13,7 @@
 #import "RSKImageCropper.h"
 #import "JTSImageViewController.h"
 #import "CourtesyParallaxHeaderView.h"
+#import "CourtesyProfileCityTableViewController.h"
 
 #define kCourtesyAvatarCachePrefix @"kCourtesyAvatarCache-%@"
 
@@ -122,14 +123,19 @@ UIScrollViewDelegate>
     _mobileDetailLabel.text = kProfile.mobile;
     if (![[kProfile birthday] isEmpty]) {
         @try {
-            _fromWhereDetailLabel.text = [NSString stringWithFormat:@"%@ - %@ - %@", kProfile.province, kProfile.city, kProfile.area];
             _constellationDetailLabel.text = [[NSDate dateWithString:kProfile.birthday format:@"yyyy-MM-dd"] constellationString];
-            _registeredAtDetailLabel.text = [[NSDate dateWithTimeIntervalSince1970:(float)kAccount.registered_at] stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];
-            _lastLoginAtDetailLabel.text = [[NSDate dateWithTimeIntervalSince1970:(float)kAccount.last_login_at] stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];
         }
-        @catch (NSException *exception) {}
-        @finally {}
+        @catch (NSException *exception) {} @finally {}
     }
+    @try {
+        _fromWhereDetailLabel.text = [CourtesyProfileCityTableViewController generateCityStringWithState:kProfile.province andCity:kProfile.city andSubLocality:kProfile.area];
+    } @catch (NSException *exception) {} @finally {}
+    @try {
+        _registeredAtDetailLabel.text = [[NSDate dateWithTimeIntervalSince1970:(float)kAccount.registered_at] stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    } @catch (NSException *exception) {} @finally {}
+    @try {
+        _lastLoginAtDetailLabel.text = [[NSDate dateWithTimeIntervalSince1970:(float)kAccount.last_login_at] stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    } @catch (NSException *exception) {} @finally {}
     self.headerView.headerTitleLabel.text = kProfile.introduction;
     _emailDetailLabel.text = kAccount.email;
     [self.tableView reloadData];
@@ -359,7 +365,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 - (void)editProfileSucceed:(CourtesyAccountProfileModel *)sender {
     [JDStatusBarNotification showWithStatus:@"资料更新成功" dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleSuccess];
-    [NSNotificationCenter sendCTAction:kActionProfileEdited message:nil];
+    [NSNotificationCenter sendCTAction:kCourtesyActionProfileEdited message:nil];
 }
 
 - (void)editProfileFailed:(CourtesyAccountProfileModel *)sender
@@ -376,7 +382,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
                                dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleSuccess];
     _avatarImageView.imageURL = kProfile.avatar_url_medium;
-    [NSNotificationCenter sendCTAction:kActionProfileEdited message:nil];
+    [NSNotificationCenter sendCTAction:kCourtesyActionProfileEdited message:nil];
     last_hash = [[kProfile toDictionary] mutableCopy]; // 头像更新以后需要更新备份
 }
 

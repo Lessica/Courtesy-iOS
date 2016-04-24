@@ -86,29 +86,29 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         return;
     }
     NSString *action = [notification.userInfo objectForKey:@"action"];
-    if ([action isEqualToString:kActionLogin] ||
-        [action isEqualToString:kActionProfileEdited]) {
+    if ([action isEqualToString:kCourtesyActionLogin] ||
+        [action isEqualToString:kCourtesyActionProfileEdited]) {
         [self reloadAvatar:YES];
     }
-    else if ([action isEqualToString:kActionLogout])
+    else if ([action isEqualToString:kCourtesyActionLogout])
     {
         [self reloadAvatar:NO];
     }
-    else if ([action isEqualToString:kActionFetchSucceed])
+    else if ([action isEqualToString:kCourtesyActionFetchSucceed])
     {
         [self reloadAvatar:YES];
         [JDStatusBarNotification showWithStatus:@"登录成功"
                                    dismissAfter:kStatusBarNotificationTime
                                       styleName:JDStatusBarStyleSuccess];
     }
-    else if ([action isEqualToString:kActionFetchFailed] || [action isEqualToString:kTencentLoginCancelled] || [action isEqualToString:kTencentLoginFailed])
+    else if ([action isEqualToString:kCourtesyActionFetchFailed] || [action isEqualToString:kTencentLoginCancelled] || [action isEqualToString:kTencentLoginFailed])
     {
         NSString *message = [notification.userInfo hasKey:@"message"] ? [notification.userInfo objectForKey:@"message"] : @"";
         [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"登录失败 - %@", message]
                                    dismissAfter:kStatusBarNotificationTime
                                       styleName:JDStatusBarStyleError];
     }
-    else if ([action isEqualToString:kActionFetching])
+    else if ([action isEqualToString:kCourtesyActionFetching])
     {
         [self showActivityMessage:@"登录中"];
     }

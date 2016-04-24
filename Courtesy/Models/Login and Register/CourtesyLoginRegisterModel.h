@@ -8,6 +8,13 @@
 
 #import "CourtesyCommonRequestModel.h"
 
+typedef enum : NSUInteger {
+    CourtesyOpenApiTypeNone     = 0,
+    CourtesyOpenApiTypeQQ       = 1,
+    CourtesyOpenApiTypeWeibo    = 2,
+    CourtesyOpenApiTypeWeixin   = 3
+} CourtesyOpenApiType;
+
 // 构建请求包的虚拟类声明
 @interface CourtesyLoginRegisterAccountRequestModel : JSONModel
 @property (strong, nonatomic) NSString *email;
@@ -39,7 +46,7 @@
 
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, copy) NSString *password_enc;
-@property (nonatomic, assign) BOOL openAPI;
+@property (nonatomic, assign) CourtesyOpenApiType openAPI;
 @property (nonatomic, weak) id <CourtesyLoginRegisterDelegate> delegate;
 
 - (instancetype)initWithAccount:(NSString *)email

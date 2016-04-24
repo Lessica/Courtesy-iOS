@@ -18,11 +18,6 @@
 #import "CourtesyWatchSessionManager.h"
 #endif
 
-#define kTencentLoginSuccessed @"kTencentLoginSuccessed"
-#define kTencentLoginFailed    @"kTencentLoginFailed"
-#define kTencentLoginCancelled @"kTencentLoginCancelled"
-#define kTencentGetUserInfoSucceed @"kTencentGetUserInfoSucceed"
-
 #define kCourtesyQualityLow 0.33
 #define kCourtesyQualityMedium 0.66
 #define kCourtesyQualityBest 1.00

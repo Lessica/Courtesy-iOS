@@ -23,18 +23,21 @@
     if (self = [super initWithFrame:frame]) {
         self.delegate = viewController;
         
+        UIColor *color = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+        CGColorRef cgColor = color.CGColor;
+        
         self.backgroundColor = self.style.toolbarColor;
-        self.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
+        self.layer.borderColor = cgColor;
         self.layer.borderWidth = 0.5;
         
         UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width / 2, self.frame.size.height)];
-        leftView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
+        leftView.layer.borderColor = cgColor;
         leftView.layer.borderWidth = 0.5;
         [leftView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(audioSheetViewRecordButtonTapped:)]];
         [self addSubview:leftView];
         
         UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width / 2 - 0.5, 0, self.frame.size.width / 2, self.frame.size.height)];
-        rightView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
+        rightView.layer.borderColor = cgColor;
         rightView.layer.borderWidth = 0.5;
         [rightView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(audioSheetViewMusicButtonTapped:)]];
         [self addSubview:rightView];
@@ -48,6 +51,13 @@
         [recordBtn addTarget:self.delegate action:@selector(audioSheetViewRecordButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [leftView addSubview:recordBtn];
         
+        UILabel *leftViewLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, recordBtn.bottom, leftView.frame.size.width, 24)];
+        leftViewLabel.text = @"录音机";
+        leftViewLabel.textColor = self.style.toolbarTintColor;
+        leftViewLabel.font = [UIFont systemFontOfSize:12.0];
+        leftViewLabel.textAlignment = NSTextAlignmentCenter;
+        [leftView addSubview:leftViewLabel];
+        
         UIButton *musicBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, rightView.frame.size.width / 4, rightView.frame.size.width / 4)];
         musicBtn.tintColor = self.style.toolbarTintColor;
         musicBtn.backgroundColor = [UIColor clearColor];
@@ -56,6 +66,13 @@
         [musicBtn setImage:[[UIImage imageNamed:@"53-music-btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [musicBtn addTarget:self.delegate action:@selector(audioSheetViewMusicButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [rightView addSubview:musicBtn];
+        
+        UILabel *rightViewLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, musicBtn.bottom, rightView.frame.size.width, 24)];
+        rightViewLabel.text = @"音乐库";
+        rightViewLabel.textColor = self.style.toolbarTintColor;
+        rightViewLabel.font = [UIFont systemFontOfSize:12.0];
+        rightViewLabel.textAlignment = NSTextAlignmentCenter;
+        [rightView addSubview:rightViewLabel];
     }
     return self;
 }

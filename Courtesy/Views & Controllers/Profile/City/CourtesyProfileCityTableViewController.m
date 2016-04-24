@@ -14,6 +14,7 @@
     IBOutlet CNCityPickerView *_cityPickerView;
 }
 @property (nonatomic, strong) CLLocationManager* locationManager;
+@property (nonatomic, strong) NSString *currentLocationString;
 @property (weak, nonatomic) IBOutlet UITextField *cityField;
 
 @end
@@ -23,23 +24,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     __weak UITextField *field = _cityField;
+    __weak typeof(self) weakSelf = self;
     [_cityPickerView setValueChangedCallback:^(NSString *province, NSString *city, NSString *area) {
-        field.text = [NSString stringWithFormat:@"%@ - %@ - %@", province, city, area];
+        field.text = [[weakSelf class] generateCityStringWithState:province andCity:city andSubLocality:area];
     }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    _cityField.text = [NSString stringWithFormat:@"%@ - %@ - %@", kProfile.province, kProfile.city, kProfile.area];
+    _cityField.text = [[self class] generateCityStringWithState:kProfile.province andCity:kProfile.city andSubLocality:kProfile.area];
 }
 
 - (IBAction)saveButtonCliced:(id)sender {
     [self.view endEditing:YES];
     NSArray *arr = [_cityField.text componentsSeparatedByString:@" - "];
     if ([arr count] == 3) {
-        [kProfile setProvince:[arr objectAtIndex:0]];
-        [kProfile setCity:[arr objectAtIndex:1]];
-        [kProfile setArea:[arr objectAtIndex:2]];
+        [kProfile setProvince:arr[0]];
+        [kProfile setCity:arr[1]];
+        [kProfile setArea:arr[2]];
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
@@ -48,14 +50,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1 && indexPath.row == 0) {
         if ([CLLocationManager locationServicesEnabled]) {
-            if (!_locationManager) {
-                self.locationManager = [[CLLocationManager alloc] init];
-                if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
-                    [self.locationManager requestWhenInUseAuthorization];
-                }
-                [self.locationManager setDelegate:self];
-                [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
-                [self.locationManager setDistanceFilter:100];
+            if (self.currentLocationString) {
+                self.cityField.text = self.currentLocationString;
+            }
+            else
+            {
                 [self.locationManager startUpdatingLocation];
                 [self.locationManager startUpdatingHeading];
             }
@@ -69,6 +68,18 @@
             [alertView showAnimated:YES completionHandler:nil];
         }
     }
+}
+
+- (CLLocationManager *)locationManager {
+    if (!_locationManager) {
+        _locationManager = [[CLLocationManager alloc] init];
+        if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+            [_locationManager requestWhenInUseAuthorization];
+        }
+        [_locationManager setDelegate:self];
+        [_locationManager setDesiredAccuracy:kCLLocationAccuracyThreeKilometers]; // 不需要精确
+    }
+    return _locationManager;
 }
 
 #pragma mark - CLLocationManangerDelegate
@@ -91,13 +102,36 @@
             CLPlacemark* placemark = placemarks.firstObject;
             NSDictionary *dict = [placemark addressDictionary];
             if (dict && [dict hasKey:@"State"] && [dict hasKey:@"City"] && [dict hasKey:@"SubLocality"]) {
-                _cityField.text = [NSString stringWithFormat:@"%@ - %@ - %@",
-                                   [[placemark addressDictionary] objectForKey:@"State"],
-                                   [[placemark addressDictionary] objectForKey:@"City"],
-                                   [[placemark addressDictionary] objectForKey:@"SubLocality"]];
+                self.currentLocationString = [[self class] generateCityStringWithState:dict [@"State"] andCity:dict [@"City"] andSubLocality:dict [@"SubLocality"]];
+                self.cityField.text = self.currentLocationString;
             }
         }
     }];
+}
+
+#pragma mark - 生成城市字符串
+
++ (NSString *)generateCityStringWithState:(NSString *)state
+                            andCity:(NSString *)city
+                     andSubLocality:(NSString *)subLocality
+{
+    NSString *finalString = @"";
+    if (state) {
+        [finalString stringByAppendingString:state];
+    }
+    if (city) {
+        if (state) {
+            [finalString stringByAppendingString:@" - "];
+        }
+        [finalString stringByAppendingString:city];
+    }
+    if (subLocality) {
+        if (city) {
+            [finalString stringByAppendingString:@" - "];
+        }
+        [finalString stringByAppendingString:subLocality];
+    }
+    return finalString;
 }
 
 @end
