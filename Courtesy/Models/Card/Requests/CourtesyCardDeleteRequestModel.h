@@ -29,6 +29,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) CourtesyCardModel<Ignore> *card;
 @property (nonatomic, copy) NSString *token;
 @property (nonatomic, weak) id<Ignore, CourtesyCardDeleteRequestDelegate> delegate;
+@property (nonatomic, assign) BOOL toBan;
 
 - (instancetype)initWithDelegate:(id)delegate;
 - (BOOL)isRequestingDelete;

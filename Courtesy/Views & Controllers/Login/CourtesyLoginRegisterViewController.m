@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *loginPasswordTextField;
 @property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *registerEmailTextField;
 @property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *registerPasswordTextField;
+@property (assign, nonatomic) BOOL usingOpenApi;
 @property (strong, nonatomic) NSDictionary *tencentInfo;
 @property (strong, nonatomic) NSString *tencentOpenId;
 @property (strong, nonatomic) NSString *tencentFakeEmail;
@@ -35,11 +36,20 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveLocalNotification:)
                                                  name:kCourtesyNotificationInfo object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,11 +93,12 @@
     [self.view endEditing:YES];
     [self.view setUserInteractionEnabled:NO];
     [self.view makeToastActivity:CSToastPositionCenter];
+    self.usingOpenApi = YES;
     [[[GlobalSettings sharedInstance] tencentAuth] authorize:@[
                                                                kOPEN_PERMISSION_GET_USER_INFO,
                                                                kOPEN_PERMISSION_GET_SIMPLE_USER_INFO,
                                                                kOPEN_PERMISSION_ADD_SHARE
-                                                               ] inSafari:NO];
+                                                               ]];
 }
 
 - (IBAction)loginFromWeibo:(id)sender {
@@ -126,6 +137,16 @@
 
 #pragma mark - 第三方登录事件通知
 
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
+    if (self.usingOpenApi) {
+        [self.view setUserInteractionEnabled:YES];
+        [self.view hideToastActivity];
+        [self.view makeToast:@"用户取消登录"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+    }
+}
+
 - (void)didReceiveLocalNotification:(NSNotification *)notification {
     if (!notification.object || ![notification.object hasKey:@"action"]) {
         return;
@@ -134,6 +155,7 @@
     if
         ([action isEqualToString:kTencentLoginSuccessed])
     {
+        self.usingOpenApi = NO;
         // 腾讯互联登录成功
         // 用户 OpenId
         GlobalSettings *globalSettings = [GlobalSettings sharedInstance];
@@ -196,7 +218,7 @@
             [self notifyLoginStatus]; // 通知普通注册成功
             [self.view hideToastActivity];
             [self.view makeToast:@"注册成功"
-                        duration:3.0
+                        duration:kStatusBarNotificationTime
                         position:CSToastPositionCenter
                            title:nil
                            image:nil
@@ -244,7 +266,7 @@
     [self notifyLoginStatus];
     [self.view hideToastActivity];
     [self.view makeToast:@"第三方登录成功"
-                duration:3.0
+                duration:kStatusBarNotificationTime
                 position:CSToastPositionCenter
                    title:nil
                    image:nil
@@ -328,6 +350,7 @@
 - (void)dealloc
 {
     CYLog(@"");
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

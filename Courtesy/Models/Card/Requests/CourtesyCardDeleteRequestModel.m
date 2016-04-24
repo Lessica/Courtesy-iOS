@@ -14,7 +14,11 @@
 }
 
 - (NSString *)action {
-    return @"card_delete";
+    if (self.toBan) {
+        return @"card_delete";
+    } else {
+        return @"card_restore";
+    }
 }
 
 - (instancetype)initWithDelegate:(id)delegate {

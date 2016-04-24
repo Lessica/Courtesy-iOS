@@ -75,6 +75,7 @@
 		0FB0A5571C9ABDD0004B06F3 /* CourtesyAudioSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A5561C9ABDD0004B06F3 /* CourtesyAudioSheetView.m */; };
 		0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A5591C9AD9E6004B06F3 /* CourtesyImageSheetView.m */; };
 		0FB0A55D1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A55C1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m */; };
+		0FB797021CCCBF3600DEBF2F /* CourtesyDraftTableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB797011CCCBF3600DEBF2F /* CourtesyDraftTableViewHeaderView.m */; };
 		0FBA71741C7B2A0400053696 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FBA71731C7B2A0400053696 /* MessageUI.framework */; };
 		0FC365AA1CCA51EB007FFEF6 /* PreTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC365A91CCA51EB007FFEF6 /* PreTools.framework */; };
 		0FC365AC1CCA5209007FFEF6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC365AB1CCA5209007FFEF6 /* CoreTelephony.framework */; };
@@ -494,6 +495,8 @@
 		0FB0A5591C9AD9E6004B06F3 /* CourtesyImageSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyImageSheetView.m; sourceTree = "<group>"; };
 		0FB0A55B1C9ADE8D004B06F3 /* CourtesyVideoSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyVideoSheetView.h; sourceTree = "<group>"; };
 		0FB0A55C1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyVideoSheetView.m; sourceTree = "<group>"; };
+		0FB797001CCCBF3600DEBF2F /* CourtesyDraftTableViewHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDraftTableViewHeaderView.h; sourceTree = "<group>"; };
+		0FB797011CCCBF3600DEBF2F /* CourtesyDraftTableViewHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyDraftTableViewHeaderView.m; sourceTree = "<group>"; };
 		0FBA71731C7B2A0400053696 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0FBBF7151C78BD4700A0A2D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawers.storyboard; sourceTree = "<group>"; };
 		0FC365A91CCA51EB007FFEF6 /* PreTools.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreTools.framework; path = Frameworks/PreTools.framework; sourceTree = "<group>"; };
@@ -1673,6 +1676,8 @@
 			children = (
 				0FFC2F1B1CCB14F000676097 /* CourtesyDraftTableViewCell.h */,
 				0FFC2F1C1CCB14F000676097 /* CourtesyDraftTableViewCell.m */,
+				0FB797001CCCBF3600DEBF2F /* CourtesyDraftTableViewHeaderView.h */,
+				0FB797011CCCBF3600DEBF2F /* CourtesyDraftTableViewHeaderView.m */,
 				0FFC2F1D1CCB14F000676097 /* CourtesyDraftTableViewController.h */,
 				0FFC2F1E1CCB14F000676097 /* CourtesyDraftTableViewController.m */,
 			);
@@ -2618,6 +2623,7 @@
 				0FA726861CAAB80B00315E09 /* PanGestureRecognizer.m in Sources */,
 				0FEFDBBA1C97D17500952522 /* AFSoundItem.m in Sources */,
 				0FFE04711C93F45800E99DCC /* CourtesyLoginRegisterTextField.m in Sources */,
+				0FB797021CCCBF3600DEBF2F /* CourtesyDraftTableViewHeaderView.m in Sources */,
 				0FF2D26B1C95D93B007C23DE /* UIColor+MagicColor.m in Sources */,
 				0F55FCC61CA3D5060084C4E2 /* AppStorage.m in Sources */,
 				0FFE04821C93F45800E99DCC /* CourtesyProfileNickTableViewController.m in Sources */,

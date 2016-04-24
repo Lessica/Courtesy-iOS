@@ -10,7 +10,7 @@
 #define CourtesyShortcuts_h
 
 #define tryValue(property, value) (property = property ? property : value)
-#define sharedSettings [GlobalSettings sharedInstance]
+#define sharedSettings ([GlobalSettings sharedInstance])
 #define kLogin [sharedSettings hasLogin]
 #define kAccount [sharedSettings currentAccount]
 #define kProfile [kAccount profile]

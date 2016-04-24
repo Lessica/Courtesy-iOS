@@ -21,7 +21,11 @@
 #pragma mark - CourtesyCardPublishTaskDelegate
 
 - (void)publishTaskDidStart:(CourtesyCardPublishTask *)task {
-    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"开始发布卡片 - %@", task.card.local_template.mainTitle]
+    NSString *type = @"发布";
+    if (task.card.hasPublished) {
+        type = @"编辑";
+    }
+    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"开始%@卡片 - %@", type, task.card.local_template.mainTitle]
                                    dismissAfter:kStatusBarNotificationTime
                                       styleName:JDStatusBarStyleDefault];
 }
@@ -31,12 +35,12 @@
         NSUInteger currentSize = maxQueueSize;
         if (error == nil) {
             if (currentSize != 0) {
-                [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"%lu 张卡片发布成功", (unsigned long)currentSize]
+                [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"%lu 张卡片同步成功", (unsigned long)currentSize]
                                            dismissAfter:kStatusBarNotificationTime
                                               styleName:JDStatusBarStyleSuccess];
             }
         } else {
-            [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片上传失败 - %@", [error localizedDescription]]
+            [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片同步失败 - %@", [error localizedDescription]]
                                        dismissAfter:kStatusBarNotificationTime
                                           styleName:JDStatusBarStyleError];
         }

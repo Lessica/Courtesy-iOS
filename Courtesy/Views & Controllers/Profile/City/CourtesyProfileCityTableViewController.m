@@ -117,19 +117,19 @@
 {
     NSString *finalString = @"";
     if (state) {
-        [finalString stringByAppendingString:state];
+        finalString = [finalString stringByAppendingString:state];
     }
     if (city) {
         if (state) {
-            [finalString stringByAppendingString:@" - "];
+            finalString = [finalString stringByAppendingString:@" - "];
         }
-        [finalString stringByAppendingString:city];
+        finalString = [finalString stringByAppendingString:city];
     }
     if (subLocality) {
         if (city) {
-            [finalString stringByAppendingString:@" - "];
+            finalString = [finalString stringByAppendingString:@" - "];
         }
-        [finalString stringByAppendingString:subLocality];
+        finalString = [finalString stringByAppendingString:subLocality];
     }
     return finalString;
 }

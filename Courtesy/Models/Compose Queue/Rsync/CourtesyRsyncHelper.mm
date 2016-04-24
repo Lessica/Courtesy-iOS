@@ -169,7 +169,7 @@ public:
         std::string errID = e.getID();
         NSString *errIDObj = [NSString stringWithUTF8String:errID.c_str()];
         if ([errIDObj isEqualToString:@"RSYNC_CANCEL"]) {
-            errorMessage = @"用户取消上传";
+            errorMessage = @"用户取消同步";
         } else if ([errIDObj isEqualToString:@"SOCKET_CONNECT"]) {
             errorMessage = @"连接超时";
         } else if ([errIDObj isEqualToString:@"RSYNC_SOCKET"]) {

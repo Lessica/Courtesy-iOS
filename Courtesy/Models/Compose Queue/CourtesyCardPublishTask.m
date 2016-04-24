@@ -23,7 +23,7 @@
 
 - (void)setCardPublished:(BOOL)published {
     self.card.hasPublished = published;
-    [self.card saveToLocalDatabaseShouldPublish:NO];
+    [self.card saveToLocalDatabaseShouldPublish:NO andNotify:NO];
 }
 
 #pragma mark - Task management

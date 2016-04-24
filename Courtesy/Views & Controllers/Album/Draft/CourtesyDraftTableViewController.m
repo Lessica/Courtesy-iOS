@@ -12,10 +12,12 @@
 #import "CourtesyCardManager.h"
 #import "CourtesyCardPreviewGenerator.h"
 #import "CourtesyCardPublishQueue.h"
+#import "CourtesyDraftTableViewHeaderView.h"
 
 static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyDraftTableViewCellReuseIdentifier";
 
 @interface CourtesyDraftTableViewController () <UIViewControllerPreviewingDelegate, JVFloatingDrawerCenterViewController>
+@property (nonatomic, strong) CourtesyDraftTableViewHeaderView *headerView;
 
 @end
 
@@ -29,6 +31,18 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
         // 注册 3D Touch
         [self registerForPreviewingWithDelegate:self sourceView:self.view];
     }
+    
+    /* Init of header view */
+    UIView *headerContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 180)];
+    CourtesyDraftTableViewHeaderView *headerView = [[CourtesyDraftTableViewHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 148)];
+    [headerContainerView addSubview:headerView];
+    self.headerView = headerView;
+    self.tableView.tableHeaderView = headerContainerView;
+    
+    // 注册接收通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveLocalNotification:)
+                                                 name:kCourtesyNotificationInfo object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -39,6 +53,31 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)didReceiveLocalNotification:(NSNotification *)notification {
+    if (!notification.userInfo || ![notification.userInfo hasKey:@"action"]) {
+        return;
+    }
+    NSString *action = [notification.userInfo objectForKey:@"action"];
+    if ([action isEqualToString:kCourtesyActionLogin]) {
+        [_headerView updateAccountInfo];
+    }
+    else if ([action isEqualToString:kCourtesyActionProfileEdited]) {
+        [_headerView updateAccountInfo];
+    }
+    else if ([action isEqualToString:kCourtesyActionLogout])
+    {
+        [[CourtesyCardManager sharedManager] clearCards];
+        [self.tableView reloadData];
+        [_headerView updateAccountInfo];
+    }
+    else if ([action isEqualToString:kCourtesyActionFetchSucceed])
+    {
+        [[CourtesyCardManager sharedManager] reloadCards];
+        [self.tableView reloadData];
+        [_headerView updateAccountInfo];
+    }
 }
 
 #pragma mark - 探索导航栏按钮
@@ -65,20 +104,15 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 }
 
 - (NSInteger)draftCount {
-    return self.cardArray.count;
+    NSUInteger count = self.cardArray.count;
+    _headerView.cardCount = count;
+    return count;
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    if (section == 0) {
-        return @"未发布的卡片标题颜色为红色";
-    }
-    return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -90,7 +124,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return 102;
+        return 128;
     }
     return 0;
 }
@@ -108,12 +142,25 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
             return @[editAction];
         } else {
             if (card.hasPublished) {
-                __weak typeof(self) weakSelf = self;
-                UITableViewRowAction *revokeAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"撤回" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-                    [weakSelf.cardManager deleteCardInDraft:card];
-                    [tableView setEditing:NO animated:YES];
-                }];
-                return @[revokeAction];
+                if (card.hasBanned == NO) {
+                    __weak typeof(self) weakSelf = self;
+                    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"禁用" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                        [weakSelf.cardManager deleteCardInDraft:card];
+                        [tableView setEditing:NO animated:YES];
+                    }];
+                    return @[deleteAction];
+                } else {
+                    __weak typeof(self) weakSelf = self;
+                    UITableViewRowAction *restoreAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"启用" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                        [weakSelf.cardManager restoreCardInDraft:card];
+                        [tableView setEditing:NO animated:YES];
+                    }];
+                    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                        [weakSelf.cardManager deleteCardInDraft:card];
+                        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                    }];
+                    return @[deleteAction, restoreAction];
+                }
             } else {
                 __weak typeof(self) weakSelf = self;
                 UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
@@ -181,6 +228,10 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 - (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
      commitViewController:(UIViewController *)viewControllerToCommit {
     [self.cardManager commitCardComposeViewController:viewControllerToCommit withViewController:self];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

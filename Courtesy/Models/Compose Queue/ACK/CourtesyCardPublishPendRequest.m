@@ -25,11 +25,16 @@
 }
 
 - (NSString *)action {
-    if (self.query) {
-        return @"card_create_query";
+    NSString *operation = @"card";
+    if (self.card_info.hasPublished) {
+        operation = [operation stringByAppendingString:@"_edit"];
     } else {
-        return @"card_create";
+        operation = [operation stringByAppendingString:@"_create"];
     }
+    if (self.query) {
+        operation = [operation stringByAppendingString:@"_query"];
+    }
+    return operation;
 }
 
 - (void)sendRequest {
@@ -56,7 +61,7 @@
             } else if (errorCode == 424) {
                 @throw NSCustomException(kCourtesyUnexceptedStatus, @"二维码已使用");
             } else if (errorCode == 434) {
-                @throw NSCustomException(kCourtesyRepeatedOperation, @"卡片已发布");
+                @throw NSCustomException(kCourtesyRepeatedOperation, @"请勿重复发布卡片");
             } else if (errorCode == 430) {
                 @throw NSCustomException(kCourtesyUnexceptedStatus, @"卡片资源移动失败");
             } else if (errorCode == 0) {

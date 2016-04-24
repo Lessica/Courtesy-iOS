@@ -208,6 +208,9 @@
     [toolbarContainerView setContentSize:toolbar.frame.size];
     [toolbarContainerView addSubview:toolbar];
     
+    /* Init of header view */
+    
+    
     /* Initial text */
     if (self.card.local_template.content.length == 0) {
         self.card.local_template.content = @"说点什么吧……";
@@ -726,7 +729,11 @@
             strongSelf.circleSaveBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
             strongSelf.circleLocationBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
         } completion:nil];
-        [self.view makeToast:@"发布前预览"
+        NSString *type = @"发布";
+        if (self.card.hasPublished) {
+            type = @"修改";
+        }
+        [self.view makeToast:[NSString stringWithFormat:@"%@前预览", type]
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
     }
@@ -1982,8 +1989,12 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - UIPreviewActionItem
 
 - (NSArray <id <UIPreviewActionItem>> *)previewActionItems {
+    NSString *type = @"发布";
+    if (self.card.hasPublished) {
+        type = @"修改";
+    }
     
-    UIPreviewAction *tap1 = [UIPreviewAction actionWithTitle:@"发布" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+    UIPreviewAction *tap1 = [UIPreviewAction actionWithTitle:type style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
         [self publishCard];
         // TODO: Publish card selected.
     }];

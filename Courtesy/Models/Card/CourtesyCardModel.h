@@ -15,7 +15,7 @@
 
 - (void)cardDidFinishLoading:(CourtesyCardModel *)card;
 - (void)cardDidFailedLoading:(CourtesyCardModel *)card withError:(NSError *)error;
-- (void)cardDidFinishSaving:(CourtesyCardModel *)card isNewRecord:(BOOL)newRecord willPublish:(BOOL)willPublish;
+- (void)cardDidFinishSaving:(CourtesyCardModel *)card isNewRecord:(BOOL)newRecord willPublish:(BOOL)willPublish andNotify:(BOOL)notify;
 - (void)cardDidFailedSaving:(CourtesyCardModel *)card withError:(NSError *)error;
 
 @end
@@ -38,11 +38,12 @@
 @property (nonatomic, strong) CourtesyCardDataModel *local_template;
 @property (nonatomic, assign) BOOL isNewCard;
 @property (nonatomic, assign) BOOL hasPublished;
+@property (nonatomic, assign) BOOL hasBanned;
 
 @property (nonatomic, weak)   id<Ignore, CourtesyCardDelegate> delegate;
 
 - (instancetype)initWithCardToken:(NSString *)token;
-- (NSString *)saveToLocalDatabaseShouldPublish:(BOOL)willPublish;
+- (NSString *)saveToLocalDatabaseShouldPublish:(BOOL)willPublish andNotify:(BOOL)notify;
 - (void)deleteInLocalDatabase;
 
 @end

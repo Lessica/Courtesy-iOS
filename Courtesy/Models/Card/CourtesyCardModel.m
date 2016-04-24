@@ -52,7 +52,7 @@
     return YES;
 }
 
-- (NSString *)saveToLocalDatabaseShouldPublish:(BOOL)willPublish {
+- (NSString *)saveToLocalDatabaseShouldPublish:(BOOL)willPublish andNotify:(BOOL)notify {
     BOOL hasLocal = [self hasLocalRecord];
     NSDictionary *cardDict = [self toDictionary];
     [[self appStorage] setObject:cardDict forKey:[NSString stringWithFormat:kCourtesyCardPrefix, self.token]]; // Save Card Model
@@ -60,8 +60,14 @@
     for (CourtesyCardAttachmentModel *a in self.local_template.attachments) {
         [a saveToLocalDatabase];
     }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(cardDidFinishSaving:isNewRecord:willPublish:)]) {
-        [self.delegate cardDidFinishSaving:self isNewRecord:!hasLocal willPublish:willPublish];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cardDidFinishSaving:isNewRecord:willPublish:andNotify:)]) {
+        BOOL newRecord = NO;
+        if (hasLocal) {
+            newRecord = NO;
+        } else {
+            newRecord = YES;
+        }
+        [self.delegate cardDidFinishSaving:self isNewRecord:newRecord willPublish:willPublish andNotify:notify];
     }
     return self.token;
 }
