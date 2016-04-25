@@ -10,6 +10,8 @@
 #import "AppStorage.h"
 #import "CourtesyCardManager.h"
 #import "CourtesyCardComposeViewController.h"
+#import "CourtesyPortraitViewController.h"
+#import "CourtesyLoginRegisterViewController.h"
 #import "CourtesyCardPublishQueue.h"
 #import "CourtesyCardQueryRequestModel.h"
 #import "CourtesyCardDeleteRequestModel.h"
@@ -70,9 +72,13 @@
             [tokensShouldBeRemoved addObject:token];
             continue;
         }
-        if (card.author.user_id == kAccount.user_id)
+        if (
+            (card.author.user_id == kAccount.user_id) ||
+            (card.read_by && card.read_by.user_id == kAccount.user_id)
+            )
         {
             // 如果是当前用户编写的卡片
+            // 或者是当前用户接收到的卡片
             card.author = kAccount;
             card.delegate = self;
             [self.cardDraftArray addObject:card];
@@ -124,6 +130,12 @@
 #pragma mark - 卡片编辑与查看控制
 
 - (CourtesyCardModel *)composeNewCardWithViewController:(UIViewController *)controller {
+    if (![sharedSettings hasLogin]) { // 未登录
+        CourtesyLoginRegisterViewController *vc = [CourtesyLoginRegisterViewController new];
+        CourtesyPortraitViewController *navc = [[CourtesyPortraitViewController alloc] initWithRootViewController:vc];
+        [controller presentViewController:navc animated:YES completion:nil];
+        return nil;
+    }
     CourtesyCardModel *newCard = [self newCard];
     CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:newCard];
     vc.delegate = self;

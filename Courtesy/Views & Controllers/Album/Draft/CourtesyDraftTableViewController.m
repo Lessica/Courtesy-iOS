@@ -13,6 +13,7 @@
 #import "CourtesyCardPreviewGenerator.h"
 #import "CourtesyCardPublishQueue.h"
 #import "CourtesyDraftTableViewHeaderView.h"
+#import <MJRefresh/MJRefresh.h>
 
 static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyDraftTableViewCellReuseIdentifier";
 
@@ -35,9 +36,28 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     /* Init of header view */
     UIView *headerContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 180)];
     CourtesyDraftTableViewHeaderView *headerView = [[CourtesyDraftTableViewHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 148)];
+    
+    /* Init of pencil edit */
+    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+    [editButton setTarget:self action:@selector(composeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [editButton setImage:[[UIImage imageNamed:@"669-pencil-edit"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    headerView.editButton = editButton;
+    [headerView addSubview:editButton];
+    
     [headerContainerView addSubview:headerView];
     self.headerView = headerView;
     self.tableView.tableHeaderView = headerContainerView;
+    
+    /* Init of MJRefresh */
+    MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadTableView)];
+    normalHeader.lastUpdatedTimeLabel.hidden = YES;
+    [normalHeader setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
+    [normalHeader setTitle:@"释放更新" forState:MJRefreshStatePulling];
+    [normalHeader setTitle:@"加载中……" forState:MJRefreshStateRefreshing];
+    normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
+    normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
+    [normalHeader beginRefreshing];
+    self.tableView.mj_header = normalHeader;
     
     // 注册接收通知
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -80,10 +100,20 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     }
 }
 
+#pragma mark - 刷新
+
+- (void)reloadTableView {
+    [self.tableView.mj_header endRefreshing];
+}
+
 #pragma mark - 探索导航栏按钮
 
 - (IBAction)actionToggleLeftDrawer:(id)sender {
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
+}
+
+- (void)composeButtonTapped:(id)sender {
+    [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
 }
 
 #pragma mark - JVFloatingDrawerCenterViewController

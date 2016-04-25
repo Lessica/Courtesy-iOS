@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B5E30A72BB6DF4504A0E7DE895D6E5E3"
-               BlueprintName = "MiniDateView"
-               ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "MiniDateView.framework">
+               BuildableIdentifier = 'primary'
+               BlueprintIdentifier = 'B5E30A72BB6DF4504A0E7DE895D6E5E3'
+               BlueprintName = 'MiniDateView'
+               ReferencedContainer = 'container:Pods.xcodeproj'
+               BuildableName = 'MiniDateView.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

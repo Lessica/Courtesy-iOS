@@ -10,7 +10,6 @@
 #import "CourtesyCardManager.h"
 #import "CourtesyStarredCardView.h"
 #import "CourtesyPortraitViewController.h"
-#import "CourtesyLoginRegisterViewController.h"
 #import "CourtesyGalleryViewController.h"
 #import "CourtesyCalendarViewController.h"
 #import "UIColor+FlatColors.h"
@@ -102,12 +101,6 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)actionAddButtonTapped:(id)sender {
-    if (![sharedSettings hasLogin]) { // 未登录
-        CourtesyLoginRegisterViewController *vc = [CourtesyLoginRegisterViewController new];
-        CourtesyPortraitViewController *navc = [[CourtesyPortraitViewController alloc] initWithRootViewController:vc];
-        [self presentViewController:navc animated:YES completion:nil];
-        return;
-    }
     [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
 }
 

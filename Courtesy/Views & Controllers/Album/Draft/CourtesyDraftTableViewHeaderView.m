@@ -6,11 +6,9 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "AppDelegate.h"
 #import "CourtesyDraftTableViewHeaderView.h"
 
 @interface CourtesyDraftTableViewHeaderView ()
-@property (nonatomic, strong) UIButton *editButton;
 
 @end
 
@@ -30,6 +28,7 @@
         
         /* Init of avatar view */
         UIImageView *circleAvatarView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 42, 42)];
+        circleAvatarView.layer.masksToBounds = YES;
         circleAvatarView.layer.cornerRadius = circleAvatarView.frame.size.width / 2;
         self.circleAvatarView = circleAvatarView;
         [self addSubview:circleAvatarView];
@@ -57,13 +56,6 @@
         countLabel.textColor = [UIColor lightGrayColor];
         self.countLabel = countLabel;
         [self addSubview:countLabel];
-        
-        /* Init of pencil edit */
-        UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-        [editButton setTarget:self action:@selector(editProfile:) forControlEvents:UIControlEventTouchUpInside];
-        [editButton setImage:[[UIImage imageNamed:@"669-pencil-edit"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        self.editButton = editButton;
-        [self addSubview:editButton];
         
         [self updateAccountInfo];
     }
@@ -135,10 +127,6 @@
         [_introLabel setText:@"登录以查看「我的卡片」"];
         [_circleAvatarView setImage:[UIImage imageNamed:@"3-avatar"]];
     }
-}
-
-- (void)editProfile:(id)sender {
-    
 }
 
 @end

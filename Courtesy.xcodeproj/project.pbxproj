@@ -34,6 +34,8 @@
 		0F2851701C97D8AD0066F5C5 /* UIImage+Jot.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2851681C97D8AD0066F5C5 /* UIImage+Jot.m */; };
 		0F2A36731C8D325200028E96 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2A36721C8D325200028E96 /* AVKit.framework */; };
 		0F2A36751C8D397D00028E96 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */; };
+		0F2BC5B11CCE01B000DDAF23 /* CourtesyPaddingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2BC5B01CCE01B000DDAF23 /* CourtesyPaddingLabel.m */; };
+		0F30298E1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F30298D1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m */; };
 		0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F305C981C93222D0052882A /* StoreKit.framework */; };
 		0F35C6A01CB9EBDF00C31ED3 /* CourtesyWatchSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F35C69F1CB9EBDF00C31ED3 /* CourtesyWatchSessionManager.m */; };
 		0F3CECB91CC4808C0073848F /* CourtesyRsyncHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0F3CEC471CC4808C0073848F /* CourtesyRsyncHelper.mm */; };
@@ -325,6 +327,10 @@
 		0F2851681C97D8AD0066F5C5 /* UIImage+Jot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Jot.m"; sourceTree = "<group>"; };
 		0F2A36721C8D325200028E96 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		0F2BC5AF1CCE01B000DDAF23 /* CourtesyPaddingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyPaddingLabel.h; sourceTree = "<group>"; };
+		0F2BC5B01CCE01B000DDAF23 /* CourtesyPaddingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyPaddingLabel.m; sourceTree = "<group>"; };
+		0F30298C1CCE46A700161BA7 /* CourtesyCardAuthorHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAuthorHeader.h; sourceTree = "<group>"; };
+		0F30298D1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAuthorHeader.m; sourceTree = "<group>"; };
 		0F305C981C93222D0052882A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0F35C69E1CB9EBDF00C31ED3 /* CourtesyWatchSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyWatchSessionManager.h; sourceTree = "<group>"; };
 		0F35C69F1CB9EBDF00C31ED3 /* CourtesyWatchSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyWatchSessionManager.m; sourceTree = "<group>"; };
@@ -899,6 +905,15 @@
 				0F2851681C97D8AD0066F5C5 /* UIImage+Jot.m */,
 			);
 			path = jot;
+			sourceTree = "<group>";
+		};
+		0F30298B1CCE468300161BA7 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				0F30298C1CCE46A700161BA7 /* CourtesyCardAuthorHeader.h */,
+				0F30298D1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m */,
+			);
+			path = Header;
 			sourceTree = "<group>";
 		};
 		0F35C69D1CB9EBDF00C31ED3 /* Watch */ = {
@@ -1674,6 +1689,8 @@
 		0FFC2F1A1CCB14F000676097 /* Draft */ = {
 			isa = PBXGroup;
 			children = (
+				0F2BC5AF1CCE01B000DDAF23 /* CourtesyPaddingLabel.h */,
+				0F2BC5B01CCE01B000DDAF23 /* CourtesyPaddingLabel.m */,
 				0FFC2F1B1CCB14F000676097 /* CourtesyDraftTableViewCell.h */,
 				0FFC2F1C1CCB14F000676097 /* CourtesyDraftTableViewCell.m */,
 				0FB797001CCCBF3600DEBF2F /* CourtesyDraftTableViewHeaderView.h */,
@@ -1707,6 +1724,7 @@
 				0FFE03FC1C93F45800E99DCC /* CourtesyTextView.m */,
 				0FFE03F91C93F45800E99DCC /* CourtesyCardComposeViewController.h */,
 				0FFE03FA1C93F45800E99DCC /* CourtesyCardComposeViewController.m */,
+				0F30298B1CCE468300161BA7 /* Header */,
 				0F72856D1CC0BF800029C66A /* Location */,
 				0F6DD55F1C9820D000CA4389 /* Markdown */,
 				0FDEFBAD1C97D58F007BE8D2 /* Photo */,
@@ -2591,7 +2609,9 @@
 				0FEFDBBB1C97D17500952522 /* AFSoundPlayback.m in Sources */,
 				0F28516B1C97D8AD0066F5C5 /* JotTextEditView.m in Sources */,
 				0FF2D2841C95DA80007C23DE /* LBXScanNative.m in Sources */,
+				0F30298E1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m in Sources */,
 				0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */,
+				0F2BC5B11CCE01B000DDAF23 /* CourtesyPaddingLabel.m in Sources */,
 				0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */,
 				0FFE04851C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m in Sources */,
 				0F1EF8D11CCB68EE00090830 /* CourtesyCardQueryRequestModel.m in Sources */,

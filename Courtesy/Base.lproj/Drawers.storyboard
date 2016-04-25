@@ -632,10 +632,10 @@
                                 <rect key="frame" x="0.0" y="114" width="320" height="128"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uuA-WS-N75" id="Ybd-8x-II0">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="127.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="无标题卡片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QMa-xQ-dtz">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="无标题卡片" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QMa-xQ-dtz" customClass="CourtesyPaddingLabel">
                                             <rect key="frame" x="20" y="16" width="204" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="pUx-y2-Mu3"/>
@@ -697,6 +697,13 @@
                                                 </mask>
                                             </variation>
                                         </label>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="qrc-small" translatesAutoresizingMaskIntoConstraints="NO" id="jDa-tV-TJh">
+                                            <rect key="frame" x="20" y="17" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="YfR-6G-tbL"/>
+                                                <constraint firstAttribute="width" constant="20" id="u1h-TQ-K4z"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="B73-ei-icK" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leading" id="2F0-0x-Rkp"/>
@@ -704,14 +711,16 @@
                                         <constraint firstItem="6oy-xn-zkv" firstAttribute="leading" secondItem="l1T-Bw-TPw" secondAttribute="trailing" constant="8" id="5hZ-5d-qk0"/>
                                         <constraint firstItem="QMa-xQ-dtz" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="topMargin" constant="8" id="9g8-w7-io8"/>
                                         <constraint firstItem="bg7-b9-VxG" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="FK6-Mr-8h6"/>
+                                        <constraint firstItem="QMa-xQ-dtz" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="GlN-g0-cLj"/>
                                         <constraint firstItem="B73-ei-icK" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="top" id="HGb-mt-wnH"/>
                                         <constraint firstAttribute="trailing" secondItem="B73-ei-icK" secondAttribute="trailing" id="LL6-TG-W06"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="o71-8w-e5H" secondAttribute="trailing" constant="12" id="N6X-5z-dWO"/>
                                         <constraint firstItem="Ycf-uq-zhc" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="UgA-no-7yt"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="l1T-Bw-TPw" secondAttribute="bottom" constant="4" id="WBm-ry-Djf"/>
-                                        <constraint firstItem="QMa-xQ-dtz" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="a1v-Wi-tIM"/>
                                         <constraint firstItem="o71-8w-e5H" firstAttribute="leading" secondItem="bg7-b9-VxG" secondAttribute="trailing" constant="12" id="bjG-MX-w1S"/>
                                         <constraint firstItem="bg7-b9-VxG" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="topMargin" constant="36" id="c5D-09-f1v"/>
+                                        <constraint firstItem="jDa-tV-TJh" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="cee-H5-C9m"/>
+                                        <constraint firstItem="jDa-tV-TJh" firstAttribute="top" secondItem="B73-ei-icK" secondAttribute="bottom" constant="15" id="flD-ui-Wpq"/>
                                         <constraint firstItem="o71-8w-e5H" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="topMargin" constant="8" id="hb4-Qb-vNb"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="6oy-xn-zkv" secondAttribute="bottom" constant="4" id="hmp-su-Jf8"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="6oy-xn-zkv" secondAttribute="trailing" constant="12" id="pgI-xv-h1j"/>
@@ -731,6 +740,7 @@
                                     <outlet property="imagePreview" destination="o71-8w-e5H" id="3gy-yO-zzv"/>
                                     <outlet property="mainTitleLabel" destination="QMa-xQ-dtz" id="0fa-UW-V0U"/>
                                     <outlet property="publishProgressView" destination="B73-ei-icK" id="Gmq-V4-r22"/>
+                                    <outlet property="qrcImageView" destination="jDa-tV-TJh" id="hJx-1T-Vsl"/>
                                     <outlet property="smallAvatarView" destination="Ycf-uq-zhc" id="YRv-YF-ebW"/>
                                     <outlet property="smallNickLabel" destination="l1T-Bw-TPw" id="qhg-dC-vWM"/>
                                     <outlet property="smallTimeLabel" destination="6oy-xn-zkv" id="53m-NC-i0x"/>
@@ -1914,6 +1924,7 @@ AFNetworking (MIT), Colours (MIT), FCFileManager (MIT), FDFullscreenPopGesture (
         <image name="667-search" width="18" height="18"/>
         <image name="668-square-refresh" width="216" height="216"/>
         <image name="8-public" width="16" height="10"/>
+        <image name="qrc-small" width="32" height="32"/>
     </resources>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

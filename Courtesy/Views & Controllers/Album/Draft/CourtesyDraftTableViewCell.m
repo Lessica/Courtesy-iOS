@@ -11,9 +11,10 @@
 #import "FCFileManager.h"
 #import "CourtesyCardPublishTask.h"
 #import "CourtesyCardPublishQueue.h"
+#import "CourtesyPaddingLabel.h"
 
 @interface CourtesyDraftTableViewCell ()
-@property (weak, nonatomic) IBOutlet UILabel *mainTitleLabel;
+@property (weak, nonatomic) IBOutlet CourtesyPaddingLabel *mainTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *briefTitleLabel;
 //@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imagePreview;
@@ -22,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *smallAvatarView;
 @property (weak, nonatomic) IBOutlet UILabel *smallNickLabel;
 @property (weak, nonatomic) IBOutlet UILabel *smallTimeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *qrcImageView;
 
 @end
 
@@ -36,6 +38,7 @@
     self.mainTitleLabel.numberOfLines = 1;
     self.briefTitleLabel.numberOfLines = 2;
     self.smallNickLabel.numberOfLines = 1;
+    self.imagePreview.layer.masksToBounds = YES;
     self.imagePreview.layer.cornerRadius = 3.0;
     self.smallAvatarView.layer.cornerRadius = self.smallAvatarView.frame.size.width / 2;
     self.targetTask = nil;
@@ -53,6 +56,12 @@
                                    options:YYWebImageOptionSetImageWithFadeAnimation];
     } else {
         [self.imagePreview setImage:nil]; // 清除缩略图
+    }
+    if (card.qr_id) {
+        self.mainTitleLabel.edgeInsets = UIEdgeInsetsMake(0, 28, 0, 0);
+        self.qrcImageView.hidden = NO;
+    } else {
+        self.qrcImageView.hidden = YES;
     }
     
     // Fetch Task
@@ -91,31 +100,27 @@
 }
 
 - (void)setPublishProgressWithStatus:(CourtesyCardPublishTaskStatus)status withError:(NSError *)err {
-    NSString *type = @"发布";
-    if (self.card.hasPublished) {
-        type = @"修改";
-    }
     if (status == CourtesyCardPublishTaskStatusProcessing) {
         self.smallTimeLabel.text = @"正在同步";
         return;
     } else if (status == CourtesyCardPublishTaskStatusNone) {
         self.smallTimeLabel.text = @"等待同步";
     } else if (status == CourtesyCardPublishTaskStatusReady) {
-        self.smallTimeLabel.text = @"正在准备同步";
+        self.smallTimeLabel.text = @"准备同步";
     } else if (status == CourtesyCardPublishTaskStatusCanceled) {
         if (err) {
-            self.smallTimeLabel.text = [NSString stringWithFormat:@"%@失败 - %@", type, [err localizedDescription]];
+            self.smallTimeLabel.text = [NSString stringWithFormat:@"同步失败 - %@", [err localizedDescription]];
         } else {
-            self.smallTimeLabel.text = [NSString stringWithFormat:@"用户取消%@", type];
+            self.smallTimeLabel.text = [NSString stringWithFormat:@"取消同步"];
         }
         [self resetLabelColor];
     } else if (status == CourtesyCardPublishTaskStatusDone) {
-        self.smallTimeLabel.text = [NSString stringWithFormat:@"卡片%@成功", type];
+        self.smallTimeLabel.text = [NSString stringWithFormat:@"同步成功"];
         [self resetLabelColor];
     } else if (status == CourtesyCardPublishTaskStatusPending) {
-        self.smallTimeLabel.text = @"正在建立连接";
+        self.smallTimeLabel.text = @"建立连接";
     } else if (status == CourtesyCardPublishTaskStatusAcknowledging) {
-        self.smallTimeLabel.text = [NSString stringWithFormat:@"正在%@卡片", type];
+        self.smallTimeLabel.text = [NSString stringWithFormat:@"完成同步"];
     }
     [self.publishProgressView setProgress:0.0 animated:NO];
 }

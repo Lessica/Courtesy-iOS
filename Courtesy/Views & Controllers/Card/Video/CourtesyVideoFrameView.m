@@ -69,6 +69,7 @@
     if (!_centerBtn) {
         _centerBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
         _centerBtn.center = CGPointMake(self.centerImageView.frame.size.width / 2, self.centerImageView.frame.size.height / 2);
+        _centerBtn.layer.masksToBounds = YES;
         _centerBtn.layer.cornerRadius = _centerBtn.frame.size.width / 2;
         _centerBtn.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.65f];
         _centerBtn.tintColor = [UIColor whiteColor];

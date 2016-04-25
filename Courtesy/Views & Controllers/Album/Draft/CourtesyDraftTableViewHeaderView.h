@@ -15,6 +15,8 @@
 @property (nonatomic, strong) UILabel *countLabel;
 @property (nonatomic, assign) NSUInteger cardCount;
 
+@property (nonatomic, strong) UIButton *editButton;
+
 - (void)updateAccountInfo;
 
 @end

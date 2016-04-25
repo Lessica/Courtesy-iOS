@@ -29,6 +29,7 @@
 #import "CourtesyVideoSheetView.h"
 #import "CourtesyMarkdownParser.h"
 #import "FCFileManager.h"
+#import "CourtesyCardAuthorHeader.h"
 
 #define kComposeTopInsect 24.0
 #define kComposeBottomInsect 24.0
@@ -93,6 +94,8 @@
 @property (nonatomic, strong) UIBarButtonItem *fontButton;
 @property (nonatomic, strong) UIBarButtonItem *alignmentButton;
 
+@property (nonatomic, strong) CourtesyCardAuthorHeader *authorHeader;
+
 @property (nonatomic, assign) CGRect keyboardFrame;
 @property (nonatomic, assign) CourtesyInputViewType inputViewType;
 
@@ -149,6 +152,7 @@
     /* Init of Card View */
     UIView *cardView = [[UIView alloc] initWithFrame:CGRectMake(kComposeCardViewMargin, (CGFloat) (fakeBar.frame.size.height + kComposeCardViewMargin), (CGFloat) (self.view.frame.size.width - kComposeCardViewMargin * 2), (CGFloat) (self.view.frame.size.height - kComposeCardViewMargin * 2))];
     cardView.backgroundColor = self.style.cardBackgroundColor;
+    cardView.layer.masksToBounds = YES;
     cardView.layer.shadowOffset = CGSizeMake(0, 1.5);
     cardView.layer.shadowColor = [UIColor blackColor].CGColor;
     cardView.layer.shadowOpacity = kComposeCardViewShadowOpacity;
@@ -207,9 +211,6 @@
     toolbarContainerView.backgroundColor = self.style.toolbarColor;
     [toolbarContainerView setContentSize:toolbar.frame.size];
     [toolbarContainerView addSubview:toolbar];
-    
-    /* Init of header view */
-    
     
     /* Initial text */
     if (self.card.local_template.content.length == 0) {
@@ -299,6 +300,14 @@
         textView.textParser = parser;
         self.markdownParser = parser;
     }
+    
+    /* Init of header view */
+    CourtesyCardAuthorHeader *authorHeader = [CourtesyCardAuthorHeader headerWithRefreshingBlock:^{}];
+    authorHeader.avatarImageView.imageURL = self.card.author.profile.avatar_url_medium;
+    authorHeader.nickLabelView.text = self.card.author.profile.nick;
+    authorHeader.nickLabelView.font = [text.font fontWithSize:12.0];
+    textView.mj_header = authorHeader;
+    self.authorHeader = authorHeader;
     
     /* Tap Gesture of Fake Status Bar */
     UITapGestureRecognizer *tapFakeBar = [[UITapGestureRecognizer alloc] initWithTarget:textView action:@selector(scrollToTop)];
@@ -1713,6 +1722,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             }
         }
     }
+    self.authorHeader.nickLabelView.font = [_originalFont fontWithSize:12.0];
 //    [self.jotViewController reloadStyle];
 }
 

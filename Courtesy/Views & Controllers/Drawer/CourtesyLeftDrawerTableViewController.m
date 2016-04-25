@@ -244,7 +244,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
                         position:CSToastPositionCenter];
             return;
         }
-        // 发布新卡片界面
+        // 发布新卡片界面并设置二维码数据
         CourtesyCardModel *newCard = [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
         newCard.qr_id = qrcode.unique_id;
     } else {

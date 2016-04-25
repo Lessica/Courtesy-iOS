@@ -53,8 +53,8 @@
         UIButton *playBtn = [UIButton new];
         playBtn.frame = CGRectMake(kAudioFrameBtnInterval, kAudioFrameBorderWidth, kAudioFrameBtnWidth, kAudioFrameBtnWidth);
         playBtn.centerY = self.frame.size.height / 2;
-        playBtn.layer.cornerRadius = playBtn.frame.size.width / 2;
         playBtn.layer.masksToBounds = YES;
+        playBtn.layer.cornerRadius = playBtn.frame.size.width / 2;
         playBtn.backgroundColor = [UIColor clearColor];
         [playBtn setImage:[[UIImage imageNamed:@"54-play-audio"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         [playBtn setImage:[[UIImage imageNamed:@"55-pause-audio"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
