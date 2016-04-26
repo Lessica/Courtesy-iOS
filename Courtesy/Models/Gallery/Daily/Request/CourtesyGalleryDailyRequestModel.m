@@ -10,4 +10,8 @@
 
 @implementation CourtesyGalleryDailyRequestModel
 
+- (NSString *)action {
+    return @"news_query";
+}
+
 @end

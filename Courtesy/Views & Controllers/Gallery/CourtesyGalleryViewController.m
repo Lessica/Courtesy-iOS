@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "CourtesyCardManager.h"
-#import "CourtesyStarredCardView.h"
+#import "CourtesyCommonCardView.h"
 #import "CourtesyPortraitViewController.h"
 #import "CourtesyGalleryViewController.h"
 #import "CourtesyCalendarViewController.h"
@@ -49,13 +49,18 @@ typedef enum : NSUInteger {
     self.navigationController.toolbar.tintColor = [UIColor whiteColor];
 
     self.view.backgroundColor = [UIColor blackColor];
-    self.backgroundImage.image = [[UIImage imageNamed:@"street"] imageByBlurRadius:20 tintColor:[UIColor colorWithWhite:0.11 alpha:0.72] tintMode:kCGBlendModeNormal saturation:1.2 maskImage:nil];
+    self.backgroundImage.image = [[UIImage imageNamed:@"street"] imageByBlurRadius:20
+                                                                         tintColor:[UIColor colorWithWhite:0.11 alpha:0.72]
+                                                                          tintMode:kCGBlendModeNormal
+                                                                        saturation:1.2
+                                                                         maskImage:nil];
     self.extendedLayoutIncludesOpaqueBars = NO;
     self.edgesForExtendedLayout = UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
     
     self.dateView.tintColor = [UIColor whiteColor];
     self.dateView.userInteractionEnabled = YES;
-    [self.dateView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionDateViewTapped:)]];
+    [self.dateView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                action:@selector(actionDateViewTapped:)]];
     
     // Debug
     self.currentStatus = kCourtesyGalleryViewControllerStatusDefault;
@@ -157,7 +162,7 @@ typedef enum : NSUInteger {
 #pragma mark - ZLSwipeableViewDataSource
 
 - (UIView *)nextViewForSwipeableView:(ZLSwipeableView *)swipeableView {
-    CourtesyStarredCardView *view = [[CourtesyStarredCardView alloc] initWithFrame:swipeableView.bounds];
+    CourtesyCommonCardView *view = [[CourtesyCommonCardView alloc] initWithFrame:swipeableView.bounds];
     view.backgroundColor = [self colorForName:@"Clouds"];
 
     return view;

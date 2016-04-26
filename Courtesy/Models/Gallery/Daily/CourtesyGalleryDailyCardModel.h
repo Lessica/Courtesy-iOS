@@ -6,18 +6,17 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "CourtesyGalleryDailyCardStyleModel.h"
 #import "CourtesyGalleryDailyCardImageModel.h"
 #import "CourtesyGalleryDailyCardVideoModel.h"
 #import "CourtesyGalleryDailyCardAudioModel.h"
 
-@interface CourtesyGalleryDailyCardModel : NSObject
+@interface CourtesyGalleryDailyCardModel : JSONModel
 @property (nonatomic, strong) CourtesyGalleryDailyCardStyleModel *style;
 @property (nonatomic, copy) NSString *string;
 @property (nonatomic, strong) NSString *date;
-@property (nonatomic, strong) CourtesyGalleryDailyCardImageModel *image;
-@property (nonatomic, strong) CourtesyGalleryDailyCardVideoModel *video;
-@property (nonatomic, strong) CourtesyGalleryDailyCardAudioModel *audio;
+@property (nonatomic, strong) CourtesyGalleryDailyCardImageModel<Optional> *image;
+@property (nonatomic, strong) CourtesyGalleryDailyCardVideoModel<Optional> *video;
+@property (nonatomic, strong) CourtesyGalleryDailyCardAudioModel<Optional> *audio;
 
 @end

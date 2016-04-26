@@ -1,5 +1,5 @@
 //
-//  CourtesyStarredCardView.h
+//  CourtesyCommonCardView.h
 //  Courtesy
 //
 //  Created by Zheng on 3/27/16.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CourtesyStarredCardView : UIView
+@interface CourtesyCommonCardView : UIView
 
 @end

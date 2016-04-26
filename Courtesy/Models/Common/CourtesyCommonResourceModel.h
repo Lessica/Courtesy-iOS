@@ -6,9 +6,7 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-@interface CourtesyCommonResourceModel : NSObject
+@interface CourtesyCommonResourceModel : JSONModel
 @property (nonatomic, copy) NSString *rid;
 @property (nonatomic, copy) NSString *sha256;
 

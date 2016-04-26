@@ -63,7 +63,6 @@
 		0FA726611CAAB32B00315E09 /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FA7265E1CAAB32B00315E09 /* CodeScan.bundle */; };
 		0FA726621CAAB32B00315E09 /* CourtesyQRScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA726601CAAB32B00315E09 /* CourtesyQRScanViewController.m */; };
 		0FA726811CAAB80B00315E09 /* CourtesyGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA726691CAAB80B00315E09 /* CourtesyGalleryViewController.m */; };
-		0FA726821CAAB80B00315E09 /* CourtesyStarredCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA7266B1CAAB80B00315E09 /* CourtesyStarredCardView.m */; };
 		0FA726831CAAB80B00315E09 /* DefaultDirectionInterpretor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA7266E1CAAB80B00315E09 /* DefaultDirectionInterpretor.m */; };
 		0FA726841CAAB80B00315E09 /* DefaultShouldSwipeDeterminator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA726701CAAB80B00315E09 /* DefaultShouldSwipeDeterminator.m */; };
 		0FA726851CAAB80B00315E09 /* DefaultViewAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA726721CAAB80B00315E09 /* DefaultViewAnimator.m */; };
@@ -79,6 +78,7 @@
 		0FB0A55D1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A55C1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m */; };
 		0FB797021CCCBF3600DEBF2F /* CourtesyDraftTableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB797011CCCBF3600DEBF2F /* CourtesyDraftTableViewHeaderView.m */; };
 		0FBA71741C7B2A0400053696 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FBA71731C7B2A0400053696 /* MessageUI.framework */; };
+		0FC0B1A71CCF154B00E4A73E /* CourtesyCommonCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC0B1A61CCF154B00E4A73E /* CourtesyCommonCardView.m */; };
 		0FC365AA1CCA51EB007FFEF6 /* PreTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC365A91CCA51EB007FFEF6 /* PreTools.framework */; };
 		0FC365AC1CCA5209007FFEF6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC365AB1CCA5209007FFEF6 /* CoreTelephony.framework */; };
 		0FC365AD1CCA520E007FFEF6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD0205C1C81733E0069AB72 /* SystemConfiguration.framework */; };
@@ -473,8 +473,6 @@
 		0FA726601CAAB32B00315E09 /* CourtesyQRScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyQRScanViewController.m; sourceTree = "<group>"; };
 		0FA726681CAAB80B00315E09 /* CourtesyGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyGalleryViewController.h; sourceTree = "<group>"; };
 		0FA726691CAAB80B00315E09 /* CourtesyGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyGalleryViewController.m; sourceTree = "<group>"; };
-		0FA7266A1CAAB80B00315E09 /* CourtesyStarredCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyStarredCardView.h; sourceTree = "<group>"; };
-		0FA7266B1CAAB80B00315E09 /* CourtesyStarredCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyStarredCardView.m; sourceTree = "<group>"; };
 		0FA7266D1CAAB80B00315E09 /* DefaultDirectionInterpretor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultDirectionInterpretor.h; sourceTree = "<group>"; };
 		0FA7266E1CAAB80B00315E09 /* DefaultDirectionInterpretor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultDirectionInterpretor.m; sourceTree = "<group>"; };
 		0FA7266F1CAAB80B00315E09 /* DefaultShouldSwipeDeterminator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultShouldSwipeDeterminator.h; sourceTree = "<group>"; };
@@ -505,6 +503,8 @@
 		0FB797011CCCBF3600DEBF2F /* CourtesyDraftTableViewHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyDraftTableViewHeaderView.m; sourceTree = "<group>"; };
 		0FBA71731C7B2A0400053696 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0FBBF7151C78BD4700A0A2D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Drawers.storyboard; sourceTree = "<group>"; };
+		0FC0B1A51CCF154B00E4A73E /* CourtesyCommonCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCommonCardView.h; sourceTree = "<group>"; };
+		0FC0B1A61CCF154B00E4A73E /* CourtesyCommonCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCommonCardView.m; sourceTree = "<group>"; };
 		0FC365A91CCA51EB007FFEF6 /* PreTools.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreTools.framework; path = Frameworks/PreTools.framework; sourceTree = "<group>"; };
 		0FC365AB1CCA5209007FFEF6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		0FC365AE1CCA5214007FFEF6 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -1283,10 +1283,9 @@
 		0FA726671CAAB80B00315E09 /* Gallery */ = {
 			isa = PBXGroup;
 			children = (
-				0FA7266A1CAAB80B00315E09 /* CourtesyStarredCardView.h */,
-				0FA7266B1CAAB80B00315E09 /* CourtesyStarredCardView.m */,
 				0FA726681CAAB80B00315E09 /* CourtesyGalleryViewController.h */,
 				0FA726691CAAB80B00315E09 /* CourtesyGalleryViewController.m */,
+				0FC0B1A41CCF140700E4A73E /* Cover */,
 				0FDDF1EF1CABE4050067FB7F /* Calendar */,
 				0FA7266C1CAAB80B00315E09 /* ZLSwipeableView */,
 			);
@@ -1342,6 +1341,15 @@
 				0FFE04EC1C93F51900E99DCC /* Supporting Files */,
 			);
 			path = Courtesy;
+			sourceTree = "<group>";
+		};
+		0FC0B1A41CCF140700E4A73E /* Cover */ = {
+			isa = PBXGroup;
+			children = (
+				0FC0B1A51CCF154B00E4A73E /* CourtesyCommonCardView.h */,
+				0FC0B1A61CCF154B00E4A73E /* CourtesyCommonCardView.m */,
+			);
+			path = Cover;
 			sourceTree = "<group>";
 		};
 		0FD3EE2B1C95CDC100DE5347 /* CourtesyWatch */ = {
@@ -2579,7 +2587,6 @@
 				0FF2D2661C95D90F007C23DE /* JVFloatingDrawerSpringAnimator.m in Sources */,
 				0FFE04C51C93F47400E99DCC /* CourtesyCardStyleModel.m in Sources */,
 				0FFE04CB1C93F47400E99DCC /* CourtesyAccountProfileModel.m in Sources */,
-				0FA726821CAAB80B00315E09 /* CourtesyStarredCardView.m in Sources */,
 				0F28516E1C97D8AD0066F5C5 /* JotTouchPoint.m in Sources */,
 				0FA7268A1CAAB80B00315E09 /* ZLSwipeableView.m in Sources */,
 				0FFE05281C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport.m in Sources */,
@@ -2648,6 +2655,7 @@
 				0F55FCC61CA3D5060084C4E2 /* AppStorage.m in Sources */,
 				0FFE04821C93F45800E99DCC /* CourtesyProfileNickTableViewController.m in Sources */,
 				0F2744CB1CB559FB00BCF173 /* CourtesyCommonResourceModel.m in Sources */,
+				0FC0B1A71CCF154B00E4A73E /* CourtesyCommonCardView.m in Sources */,
 				0F2744F91CB55C6D00BCF173 /* CourtesyGalleryDailyCardImageModel.m in Sources */,
 				0F35C6A01CB9EBDF00C31ED3 /* CourtesyWatchSessionManager.m in Sources */,
 				0FD2BECC1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m in Sources */,
@@ -2705,7 +2713,7 @@
 		0FD3EE4D1C95CDC100DE5347 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2713,6 +2721,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "14d8fae4-2161-486b-bb88-d7d3d5a79e03";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -2723,7 +2732,7 @@
 		0FD3EE4E1C95CDC100DE5347 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -2732,6 +2741,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "14d8fae4-2161-486b-bb88-d7d3d5a79e03";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -2743,8 +2753,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2752,6 +2762,7 @@
 				INFOPLIST_FILE = CourtesyWatch/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "00437ff3-bc46-41a1-ace0-8bb48cbe2867";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -2763,8 +2774,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -2773,6 +2784,7 @@
 				INFOPLIST_FILE = CourtesyWatch/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "00437ff3-bc46-41a1-ace0-8bb48cbe2867";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -2875,8 +2887,8 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
@@ -2909,7 +2921,7 @@
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = Courtesy;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "55b896e6-b6a3-49f9-9ee8-0e9d7c5272fc";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2929,8 +2941,8 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
@@ -2963,7 +2975,7 @@
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = Courtesy;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "55b896e6-b6a3-49f9-9ee8-0e9d7c5272fc";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";

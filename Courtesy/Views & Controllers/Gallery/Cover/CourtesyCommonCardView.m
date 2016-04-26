@@ -1,14 +1,14 @@
 //
-//  CourtesyStarredCardView.m
+//  CourtesyCommonCardView.m
 //  Courtesy
 //
 //  Created by Zheng on 3/27/16.
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "CourtesyStarredCardView.h"
+#import "CourtesyCommonCardView.h"
 
-@implementation CourtesyStarredCardView
+@implementation CourtesyCommonCardView
 
 - (instancetype)init {
     self = [super init];
