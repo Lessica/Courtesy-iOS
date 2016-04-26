@@ -103,7 +103,6 @@
 		0FDEFBB51C97D5C2007BE8D2 /* NSDate+Astro.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBB41C97D5C2007BE8D2 /* NSDate+Astro.m */; };
 		0FDEFBB91C97D5F7007BE8D2 /* UIImagePickerController+LandScapeImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBB81C97D5F7007BE8D2 /* UIImagePickerController+LandScapeImagePicker.m */; };
 		0FDEFBBC1C97D617007BE8D2 /* MSDPreventImagePickerCrashOn3DTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBBB1C97D617007BE8D2 /* MSDPreventImagePickerCrashOn3DTouch.m */; };
-		0FDEFBC01C97D655007BE8D2 /* UIView+Gaussian.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBBF1C97D655007BE8D2 /* UIView+Gaussian.m */; };
 		0FDEFBC71C97D696007BE8D2 /* NSString+CJStringValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBC31C97D696007BE8D2 /* NSString+CJStringValidator.m */; };
 		0FDEFBC81C97D696007BE8D2 /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBC61C97D696007BE8D2 /* UINavigationController+FDFullscreenPopGesture.m */; };
 		0FDEFBD41C97D70A007BE8D2 /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FDEFBCB1C97D70A007BE8D2 /* area.plist */; };
@@ -214,10 +213,6 @@
 		0FFE04E21C93F4D800E99DCC /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04E01C93F4D800E99DCC /* GlobalSettings.m */; };
 		0FFE04F11C93F51900E99DCC /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE04ED1C93F51900E99DCC /* area.plist */; };
 		0FFE04F31C93F51900E99DCC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04EF1C93F51900E99DCC /* main.m */; };
-		0FFE05251C93F52C00E99DCC /* NLPropertyDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE05081C93F52C00E99DCC /* NLPropertyDescriptor.m */; };
-		0FFE05261C93F52C00E99DCC /* NSObject+nl_dynamicPropertyCustomeStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE050A1C93F52C00E99DCC /* NSObject+nl_dynamicPropertyCustomeStruct.m */; };
-		0FFE05271C93F52C00E99DCC /* NSObject+nl_dynamicPropertyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE050C1C93F52C00E99DCC /* NSObject+nl_dynamicPropertyStore.m */; };
-		0FFE05281C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE050E1C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport.m */; };
 		0FFE052A1C93F52C00E99DCC /* NSArray+QueryItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE05111C93F52C00E99DCC /* NSArray+QueryItems.m */; };
 		0FFE052C1C93F52C00E99DCC /* NSDictionary+Subscript.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE05151C93F52C00E99DCC /* NSDictionary+Subscript.m */; };
 		0FFE052D1C93F52C00E99DCC /* NSNotificationCenter+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE05171C93F52C00E99DCC /* NSNotificationCenter+Action.m */; };
@@ -540,8 +535,6 @@
 		0FDEFBB81C97D5F7007BE8D2 /* UIImagePickerController+LandScapeImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImagePickerController+LandScapeImagePicker.m"; sourceTree = "<group>"; };
 		0FDEFBBA1C97D617007BE8D2 /* MSDPreventImagePickerCrashOn3DTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDPreventImagePickerCrashOn3DTouch.h; sourceTree = "<group>"; };
 		0FDEFBBB1C97D617007BE8D2 /* MSDPreventImagePickerCrashOn3DTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDPreventImagePickerCrashOn3DTouch.m; sourceTree = "<group>"; };
-		0FDEFBBE1C97D655007BE8D2 /* UIView+Gaussian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Gaussian.h"; sourceTree = "<group>"; };
-		0FDEFBBF1C97D655007BE8D2 /* UIView+Gaussian.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Gaussian.m"; sourceTree = "<group>"; };
 		0FDEFBC21C97D696007BE8D2 /* NSString+CJStringValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CJStringValidator.h"; sourceTree = "<group>"; };
 		0FDEFBC31C97D696007BE8D2 /* NSString+CJStringValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CJStringValidator.m"; sourceTree = "<group>"; };
 		0FDEFBC51C97D696007BE8D2 /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
@@ -758,14 +751,6 @@
 		0FFE04ED1C93F51900E99DCC /* area.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = area.plist; sourceTree = "<group>"; };
 		0FFE04EE1C93F51900E99DCC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0FFE04EF1C93F51900E99DCC /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0FFE05071C93F52C00E99DCC /* NLPropertyDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLPropertyDescriptor.h; sourceTree = "<group>"; };
-		0FFE05081C93F52C00E99DCC /* NLPropertyDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLPropertyDescriptor.m; sourceTree = "<group>"; };
-		0FFE05091C93F52C00E99DCC /* NSObject+nl_dynamicPropertyCustomeStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+nl_dynamicPropertyCustomeStruct.h"; sourceTree = "<group>"; };
-		0FFE050A1C93F52C00E99DCC /* NSObject+nl_dynamicPropertyCustomeStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+nl_dynamicPropertyCustomeStruct.m"; sourceTree = "<group>"; };
-		0FFE050B1C93F52C00E99DCC /* NSObject+nl_dynamicPropertyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+nl_dynamicPropertyStore.h"; sourceTree = "<group>"; };
-		0FFE050C1C93F52C00E99DCC /* NSObject+nl_dynamicPropertyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+nl_dynamicPropertyStore.m"; sourceTree = "<group>"; };
-		0FFE050D1C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+nl_dynamicPropertySupport.h"; sourceTree = "<group>"; };
-		0FFE050E1C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+nl_dynamicPropertySupport.m"; sourceTree = "<group>"; };
 		0FFE05101C93F52C00E99DCC /* NSArray+QueryItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+QueryItems.h"; sourceTree = "<group>"; };
 		0FFE05111C93F52C00E99DCC /* NSArray+QueryItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+QueryItems.m"; sourceTree = "<group>"; };
 		0FFE05141C93F52C00E99DCC /* NSDictionary+Subscript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Subscript.h"; sourceTree = "<group>"; };
@@ -1424,15 +1409,6 @@
 			path = Picker;
 			sourceTree = "<group>";
 		};
-		0FDEFBBD1C97D655007BE8D2 /* Filter */ = {
-			isa = PBXGroup;
-			children = (
-				0FDEFBBE1C97D655007BE8D2 /* UIView+Gaussian.h */,
-				0FDEFBBF1C97D655007BE8D2 /* UIView+Gaussian.m */,
-			);
-			path = Filter;
-			sourceTree = "<group>";
-		};
 		0FDEFBC11C97D696007BE8D2 /* CJStringValidator */ = {
 			isa = PBXGroup;
 			children = (
@@ -1783,7 +1759,6 @@
 		0FFE04031C93F45800E99DCC /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				0FDEFBBD1C97D655007BE8D2 /* Filter */,
 				0FDEFBB61C97D5F7007BE8D2 /* Picker */,
 				0FEFDB941C97D0F800952522 /* Crop */,
 				0FFE04041C93F45800E99DCC /* CourtesyImageFrameView.h */,
@@ -2173,7 +2148,6 @@
 				0F4E0E071CA8051800C4D76C /* UIColor+FlatColors */,
 				0FDEFBC11C97D696007BE8D2 /* CJStringValidator */,
 				0FDEFBC41C97D696007BE8D2 /* FDFullscreenPopGesture */,
-				0FFE04F61C93F52C00E99DCC /* iOSCategoryPropertyDynamicSupport */,
 				0FFE05101C93F52C00E99DCC /* NSArray+QueryItems.h */,
 				0FFE05111C93F52C00E99DCC /* NSArray+QueryItems.m */,
 				0FFE05141C93F52C00E99DCC /* NSDictionary+Subscript.h */,
@@ -2190,29 +2164,6 @@
 				0F13F53D1CC90BC000793FB9 /* NSString+Mime.m */,
 			);
 			path = Categories;
-			sourceTree = "<group>";
-		};
-		0FFE04F61C93F52C00E99DCC /* iOSCategoryPropertyDynamicSupport */ = {
-			isa = PBXGroup;
-			children = (
-				0FFE05061C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport */,
-			);
-			path = iOSCategoryPropertyDynamicSupport;
-			sourceTree = "<group>";
-		};
-		0FFE05061C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport */ = {
-			isa = PBXGroup;
-			children = (
-				0FFE05071C93F52C00E99DCC /* NLPropertyDescriptor.h */,
-				0FFE05081C93F52C00E99DCC /* NLPropertyDescriptor.m */,
-				0FFE05091C93F52C00E99DCC /* NSObject+nl_dynamicPropertyCustomeStruct.h */,
-				0FFE050A1C93F52C00E99DCC /* NSObject+nl_dynamicPropertyCustomeStruct.m */,
-				0FFE050B1C93F52C00E99DCC /* NSObject+nl_dynamicPropertyStore.h */,
-				0FFE050C1C93F52C00E99DCC /* NSObject+nl_dynamicPropertyStore.m */,
-				0FFE050D1C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport.h */,
-				0FFE050E1C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport.m */,
-			);
-			path = "NSObject+nl_dynamicPropertySupport";
 			sourceTree = "<group>";
 		};
 		2CE7E6541A62D8470072121A = {
@@ -2537,7 +2488,6 @@
 				0FFE046D1C93F45800E99DCC /* CourtesyLeftDrawerTableViewController.m in Sources */,
 				0FF2D2851C95DA80007C23DE /* LBXScanNetAnimation.m in Sources */,
 				0FF2D2A81C95DAC7007C23DE /* SCRecordSessionManager.m in Sources */,
-				0FDEFBC01C97D655007BE8D2 /* UIView+Gaussian.m in Sources */,
 				0FDEFBFD1C97D7B8007BE8D2 /* RSKTouchView.m in Sources */,
 				0FEFDBA01C97D0F800952522 /* PECropRectView.m in Sources */,
 				0FEFDBA21C97D0F800952522 /* PECropViewController.m in Sources */,
@@ -2560,7 +2510,6 @@
 				0FFE04BD1C93F47400E99DCC /* CourtesyCardAttachmentModel.m in Sources */,
 				0F4B12E71CAE1D3900650996 /* CourtesyParallaxHeaderView.m in Sources */,
 				0FDEFBD81C97D70A007BE8D2 /* CNCityPickerView.m in Sources */,
-				0FFE05251C93F52C00E99DCC /* NLPropertyDescriptor.m in Sources */,
 				0FFE04831C93F45800E99DCC /* CourtesyAboutViewController.m in Sources */,
 				0FF2D2A91C95DAC7007C23DE /* WechatShortVideoController.m in Sources */,
 				0FFE04C61C93F47400E99DCC /* CourtesyCommonRequestModel.m in Sources */,
@@ -2572,7 +2521,6 @@
 				0FFE04801C93F45800E99DCC /* CourtesyProfileIntroductionTableViewController.m in Sources */,
 				0FDEFBFC1C97D7B8007BE8D2 /* RSKInternalUtility.m in Sources */,
 				0FDEFBE21C97D75B007BE8D2 /* FYPhotoLibrary.m in Sources */,
-				0FFE05271C93F52C00E99DCC /* NSObject+nl_dynamicPropertyStore.m in Sources */,
 				0FFE052C1C93F52C00E99DCC /* NSDictionary+Subscript.m in Sources */,
 				0F2744F81CB55C6D00BCF173 /* CourtesyGalleryDailyCardAudioModel.m in Sources */,
 				0FF2D28B1C95DA80007C23DE /* LBXZXCapture.m in Sources */,
@@ -2583,13 +2531,11 @@
 				0FF2D2861C95DA80007C23DE /* LBXScanResult.m in Sources */,
 				0FDEFBE11C97D75B007BE8D2 /* FYPhotoAsset.m in Sources */,
 				0F28516C1C97D8AD0066F5C5 /* JotTextView.m in Sources */,
-				0FFE05261C93F52C00E99DCC /* NSObject+nl_dynamicPropertyCustomeStruct.m in Sources */,
 				0FF2D2661C95D90F007C23DE /* JVFloatingDrawerSpringAnimator.m in Sources */,
 				0FFE04C51C93F47400E99DCC /* CourtesyCardStyleModel.m in Sources */,
 				0FFE04CB1C93F47400E99DCC /* CourtesyAccountProfileModel.m in Sources */,
 				0F28516E1C97D8AD0066F5C5 /* JotTouchPoint.m in Sources */,
 				0FA7268A1CAAB80B00315E09 /* ZLSwipeableView.m in Sources */,
-				0FFE05281C93F52C00E99DCC /* NSObject+nl_dynamicPropertySupport.m in Sources */,
 				0FFE04841C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.m in Sources */,
 				0F2744F61CB55C6D00BCF173 /* CourtesyGalleryDailyCardStyleModel.m in Sources */,
 				0FFE04621C93F45800E99DCC /* CourtesyAudioFrameView.m in Sources */,

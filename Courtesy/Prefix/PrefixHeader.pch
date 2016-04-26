@@ -42,7 +42,6 @@
 #import "NSNotificationCenter+Action.h"
 #import "NSDate+Astro.h"
 #import "NSArray+QueryItems.h"
-#import "UIView+Gaussian.h"
 #import "NSString+CJStringValidator.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import "UIColor+MagicColor.h"

@@ -10,6 +10,7 @@
 
 @implementation CourtesyImageFrameView {
     UITapGestureRecognizer *tapGesture;
+    UIVisualEffectView *visualEffectView;
 }
 
 - (CourtesyCardDataModel *)cdata {
@@ -28,6 +29,8 @@
                   andDelegate:(CourtesyCardComposeViewController<CourtesyImageFrameDelegate> *)delegate
                   andUserinfo:(NSDictionary *)userinfo {
     if (self = [super initWithFrame:frame]) {
+        visualEffectView = nil;
+        tapGesture = nil;
         self.delegate = delegate;
         _userinfo = userinfo;
         // Init of Frame View
@@ -223,7 +226,6 @@
     centerImageView.clipsToBounds = YES;
     centerImageView.userInteractionEnabled = YES;
     centerImageView.image = centerImage;
-    centerImageView.nl_hasGaussian = NO;
     // Reset Frame View
     if (_labelOpen) {
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, centerImageView.frame.size.height + kImageFrameBorderWidth * 2 + kImageFrameLabelHeight);
@@ -265,7 +267,7 @@
 
 - (void)toggleOptions:(BOOL)on {
     if (on) {
-        [self.centerImageView setHasGaussian:YES];
+        [self setHasGaussian:YES];
         for (UIImageView *btn in self.optionButtons) {
             btn.hidden = NO;
         }
@@ -277,7 +279,7 @@
                              }
                          } completion:nil];
     } else {
-        [self.centerImageView setHasGaussian:NO];
+        [self setHasGaussian:NO];
         __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:0.2
                          animations:^{
@@ -399,6 +401,33 @@
 - (void)cropViewControllerDidCancel:(PECropViewController *)controller {
     if (controller) {
         [controller dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+#pragma mark - gaussian effects
+
+- (void)setHasGaussian:(BOOL)hasGaussian {
+    if (hasGaussian) {
+        UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        if (!visualEffectView) {
+            visualEffectView = [UIVisualEffectView new];
+            visualEffectView.frame = self.centerImageView.bounds;
+        }
+        [self.centerImageView addSubview:visualEffectView];
+        [self.centerImageView bringSubviewToFront:visualEffectView];
+        [UIView animateWithDuration:0.2
+                         animations:^() {
+                             visualEffectView.effect = blurEffect;
+                         } completion:^(BOOL finished) {
+                             
+                         }];
+    } else {
+        [UIView animateWithDuration:0.2
+                         animations:^() {
+                             visualEffectView.effect = nil;
+                         } completion:^(BOOL finished) {
+                             if (finished) [visualEffectView removeFromSuperview];
+                         }];
     }
 }
 
