@@ -22,7 +22,7 @@
 }
 
 - (BOOL)editable {
-    return self.delegate.card.is_editable;
+    return self.delegate.editable;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -74,7 +74,7 @@
 - (void)reloadStyle {
     self.layer.shadowColor = self.style.cardElementShadowColor.CGColor;
     self.backgroundColor = self.style.cardElementBackgroundColor;
-    if (self.delegate.card.is_editable) {
+    if (self.editable) {
         if (self.bottomLabel) {
             self.bottomLabel.textColor = self.style.cardTextColor;
             self.bottomLabel.tintColor = self.style.cardElementTintColor;
@@ -137,7 +137,6 @@
 }
 
 - (void)cropGestureRecognized:(UIGestureRecognizer *)sender {
-    if (!self.editable) return;
     if (self.optionsOpen) {
         [self toggleOptions:NO];
     }
@@ -162,7 +161,6 @@
 }
 
 - (void)editGestureRecognized:(UIGestureRecognizer *)sender {
-    if (!self.editable) return;
     if (self.optionsOpen) {
         [self toggleOptions:NO];
     }
@@ -191,14 +189,12 @@
 }
 
 - (void)deleteGestureRecognized:(UIGestureRecognizer *)sender {
-    if (!self.editable) return;
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameShouldDeleted:animated:)]) {
         [self.delegate imageFrameShouldDeleted:self animated:YES];
     }
 }
 
 - (void)setCenterImage:(YYImage *)centerImage {
-    if (!self.editable) return;
     // Remove Old Image View
     if (self.centerImageView) {
         [self.centerImageView removeFromSuperview];
@@ -387,7 +383,6 @@
 
 - (void)cropViewController:(PECropViewController *)controller
     didFinishCroppingImage:(UIImage *)croppedImage {
-    if (!self.editable) return;
     if (controller) {
         [controller dismissViewControllerAnimated:YES completion:nil];
         if (self.delegate && [self.delegate respondsToSelector:@selector(imageFrameShouldReplaced:by:userinfo:)]) {

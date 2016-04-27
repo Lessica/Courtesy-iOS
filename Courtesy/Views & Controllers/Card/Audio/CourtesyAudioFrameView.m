@@ -36,7 +36,7 @@
 }
 
 - (BOOL)editable {
-    return self.delegate.card.is_editable;
+    return self.delegate.editable;
 }
 
 - (void)dealloc {

@@ -56,6 +56,14 @@
 		0F55FCCF1CA40D8D0084C4E2 /* NSDate+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCCE1CA40D8D0084C4E2 /* NSDate+Compare.m */; };
 		0F5801061C98075600D18059 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5801051C98075600D18059 /* FCFileManager.m */; };
 		0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */; };
+		0F6D380E1CD100BA001155DF /* CGContextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D37FF1CD100BA001155DF /* CGContextObject.m */; };
+		0F6D380F1CD100BA001155DF /* CGContextObjectConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D38011CD100BA001155DF /* CGContextObjectConfig.m */; };
+		0F6D38101CD100BA001155DF /* DrawGradientColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D38031CD100BA001155DF /* DrawGradientColorView.m */; };
+		0F6D38111CD100BA001155DF /* GradientColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D38051CD100BA001155DF /* GradientColor.m */; };
+		0F6D38121CD100BA001155DF /* RGBColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D38071CD100BA001155DF /* RGBColor.m */; };
+		0F6D38131CD100BA001155DF /* DrawLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D38091CD100BA001155DF /* DrawLineView.m */; };
+		0F6D38141CD100BA001155DF /* DrawValues.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D380B1CD100BA001155DF /* DrawValues.m */; };
+		0F6D38151CD100BA001155DF /* DrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D380D1CD100BA001155DF /* DrawView.m */; };
 		0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */; };
 		0F7136611CBBB37900341AC9 /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7136601CBBB37900341AC9 /* libiconv.2.4.0.tbd */; };
 		0F7136641CBBB3CD00341AC9 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7136621CBBB3B700341AC9 /* libz.1.2.5.tbd */; };
@@ -458,6 +466,22 @@
 		0F5801041C98075600D18059 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
 		0F5801051C98075600D18059 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
 		0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		0F6D37FE1CD100BA001155DF /* CGContextObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGContextObject.h; sourceTree = "<group>"; };
+		0F6D37FF1CD100BA001155DF /* CGContextObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGContextObject.m; sourceTree = "<group>"; };
+		0F6D38001CD100BA001155DF /* CGContextObjectConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGContextObjectConfig.h; sourceTree = "<group>"; };
+		0F6D38011CD100BA001155DF /* CGContextObjectConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGContextObjectConfig.m; sourceTree = "<group>"; };
+		0F6D38021CD100BA001155DF /* DrawGradientColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawGradientColorView.h; sourceTree = "<group>"; };
+		0F6D38031CD100BA001155DF /* DrawGradientColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawGradientColorView.m; sourceTree = "<group>"; };
+		0F6D38041CD100BA001155DF /* GradientColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientColor.h; sourceTree = "<group>"; };
+		0F6D38051CD100BA001155DF /* GradientColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientColor.m; sourceTree = "<group>"; };
+		0F6D38061CD100BA001155DF /* RGBColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGBColor.h; sourceTree = "<group>"; };
+		0F6D38071CD100BA001155DF /* RGBColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGBColor.m; sourceTree = "<group>"; };
+		0F6D38081CD100BA001155DF /* DrawLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawLineView.h; sourceTree = "<group>"; };
+		0F6D38091CD100BA001155DF /* DrawLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawLineView.m; sourceTree = "<group>"; };
+		0F6D380A1CD100BA001155DF /* DrawValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawValues.h; sourceTree = "<group>"; };
+		0F6D380B1CD100BA001155DF /* DrawValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawValues.m; sourceTree = "<group>"; };
+		0F6D380C1CD100BA001155DF /* DrawView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawView.h; sourceTree = "<group>"; };
+		0F6D380D1CD100BA001155DF /* DrawView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawView.m; sourceTree = "<group>"; };
 		0F6DD57D1C98369200CA4389 /* CourtesyMarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyMarkdownParser.h; path = Markdown/CourtesyMarkdownParser.h; sourceTree = "<group>"; };
 		0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyMarkdownParser.m; path = Markdown/CourtesyMarkdownParser.m; sourceTree = "<group>"; };
 		0F71365E1CBBB36900341AC9 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
@@ -1213,6 +1237,37 @@
 			path = Extensions/FCFileManager;
 			sourceTree = "<group>";
 		};
+		0F6D37FC1CD100BA001155DF /* DrawView */ = {
+			isa = PBXGroup;
+			children = (
+				0F6D37FD1CD100BA001155DF /* CGContextObject */,
+				0F6D38081CD100BA001155DF /* DrawLineView.h */,
+				0F6D38091CD100BA001155DF /* DrawLineView.m */,
+				0F6D380A1CD100BA001155DF /* DrawValues.h */,
+				0F6D380B1CD100BA001155DF /* DrawValues.m */,
+				0F6D380C1CD100BA001155DF /* DrawView.h */,
+				0F6D380D1CD100BA001155DF /* DrawView.m */,
+			);
+			path = DrawView;
+			sourceTree = "<group>";
+		};
+		0F6D37FD1CD100BA001155DF /* CGContextObject */ = {
+			isa = PBXGroup;
+			children = (
+				0F6D37FE1CD100BA001155DF /* CGContextObject.h */,
+				0F6D37FF1CD100BA001155DF /* CGContextObject.m */,
+				0F6D38001CD100BA001155DF /* CGContextObjectConfig.h */,
+				0F6D38011CD100BA001155DF /* CGContextObjectConfig.m */,
+				0F6D38021CD100BA001155DF /* DrawGradientColorView.h */,
+				0F6D38031CD100BA001155DF /* DrawGradientColorView.m */,
+				0F6D38041CD100BA001155DF /* GradientColor.h */,
+				0F6D38051CD100BA001155DF /* GradientColor.m */,
+				0F6D38061CD100BA001155DF /* RGBColor.h */,
+				0F6D38071CD100BA001155DF /* RGBColor.m */,
+			);
+			path = CGContextObject;
+			sourceTree = "<group>";
+		};
 		0F6DD55F1C9820D000CA4389 /* Markdown */ = {
 			isa = PBXGroup;
 			children = (
@@ -1526,6 +1581,7 @@
 		0FEFDBA61C97D16300952522 /* Record */ = {
 			isa = PBXGroup;
 			children = (
+				0F6D37FC1CD100BA001155DF /* DrawView */,
 				0FEFDBA71C97D16300952522 /* CourtesyAudioNoteRecorderView.h */,
 				0FEFDBA81C97D16300952522 /* CourtesyAudioNoteRecorderView.m */,
 			);
@@ -2469,6 +2525,7 @@
 				0FF2D2671C95D90F007C23DE /* JVFloatingDrawerView.m in Sources */,
 				0FDEFBBC1C97D617007BE8D2 /* MSDPreventImagePickerCrashOn3DTouch.m in Sources */,
 				0FFE04C91C93F47400E99DCC /* CourtesyCardPublishQueue.m in Sources */,
+				0F6D38111CD100BA001155DF /* GradientColor.m in Sources */,
 				0FFE04741C93F45800E99DCC /* CourtesyQuickLoginButton.m in Sources */,
 				0FEFDBBE1C97D17500952522 /* NSTimer+AFSoundManager.m in Sources */,
 				0FF2D2881C95DA80007C23DE /* LBXScanViewController.m in Sources */,
@@ -2493,12 +2550,14 @@
 				0FEFDBA21C97D0F800952522 /* PECropViewController.m in Sources */,
 				0FFE04871C93F45800E99DCC /* CourtesySettingsTableViewController.m in Sources */,
 				0FDEFBB91C97D5F7007BE8D2 /* UIImagePickerController+LandScapeImagePicker.m in Sources */,
+				0F6D38121CD100BA001155DF /* RGBColor.m in Sources */,
 				0FFE047D1C93F45800E99DCC /* CourtesyProfileCityTableViewController.m in Sources */,
 				0FFE04C11C93F47400E99DCC /* CourtesyCardModel.m in Sources */,
 				0FFC2F1F1CCB14F000676097 /* CourtesyDraftTableViewCell.m in Sources */,
 				0FFE04CA1C93F47400E99DCC /* CourtesyLoginRegisterModel.m in Sources */,
 				0FFE052F1C93F52C00E99DCC /* UIView+FrameMethods.m in Sources */,
 				0FA726831CAAB80B00315E09 /* DefaultDirectionInterpretor.m in Sources */,
+				0F6D38131CD100BA001155DF /* DrawLineView.m in Sources */,
 				0FA726851CAAB80B00315E09 /* DefaultViewAnimator.m in Sources */,
 				0FFE04661C93F45800E99DCC /* CourtesyJotViewController.m in Sources */,
 				0F28516D1C97D8AD0066F5C5 /* JotTouchBezier.m in Sources */,
@@ -2538,12 +2597,14 @@
 				0FA7268A1CAAB80B00315E09 /* ZLSwipeableView.m in Sources */,
 				0FFE04841C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.m in Sources */,
 				0F2744F61CB55C6D00BCF173 /* CourtesyGalleryDailyCardStyleModel.m in Sources */,
+				0F6D380F1CD100BA001155DF /* CGContextObjectConfig.m in Sources */,
 				0FFE04621C93F45800E99DCC /* CourtesyAudioFrameView.m in Sources */,
 				0FA7268B1CAAB80B00315E09 /* ZLSwipeableViewMovement.m in Sources */,
 				0FDEFBFB1C97D7B8007BE8D2 /* RSKImageScrollView.m in Sources */,
 				0F3CECC01CC481570073848F /* CourtesyCardPublishPendRequest.m in Sources */,
 				0FDEFBB01C97D58F007BE8D2 /* PHPhotoLibrary+CustomPhotoCollection.m in Sources */,
 				0FD2BEC91C966D9400B5BBC9 /* CourtesyCardStyleManager.m in Sources */,
+				0F6D38101CD100BA001155DF /* DrawGradientColorView.m in Sources */,
 				0F4E0E0A1CA8051800C4D76C /* UIColor+FlatColors.m in Sources */,
 				0FEFDBBC1C97D17500952522 /* AFSoundQueue.m in Sources */,
 				0FFE047C1C93F45800E99DCC /* CourtesyProfileBirthdayTableViewController.m in Sources */,
@@ -2574,6 +2635,7 @@
 				0FF2D28C1C95DA80007C23DE /* ZXingWrapper.m in Sources */,
 				0FFE04631C93F45800E99DCC /* CourtesyCardComposeViewController.m in Sources */,
 				0FFE04671C93F45800E99DCC /* CourtesyImageFrameView.m in Sources */,
+				0F6D38151CD100BA001155DF /* DrawView.m in Sources */,
 				0FDEFBC81C97D696007BE8D2 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				0FDDF1F21CABE4050067FB7F /* CourtesyCalendarViewController.m in Sources */,
 				0FFE052D1C93F52C00E99DCC /* NSNotificationCenter+Action.m in Sources */,
@@ -2607,6 +2669,7 @@
 				0FD2BECC1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m in Sources */,
 				0FFE04F31C93F51900E99DCC /* main.m in Sources */,
 				0FFE04BB1C93F47400E99DCC /* CourtesyAccountModel.m in Sources */,
+				0F6D38141CD100BA001155DF /* DrawValues.m in Sources */,
 				0FFE052A1C93F52C00E99DCC /* NSArray+QueryItems.m in Sources */,
 				0FFE047F1C93F45800E99DCC /* CourtesyProfileGenderTableViewController.m in Sources */,
 				0FDEFBFA1C97D7B8007BE8D2 /* RSKImageCropViewController.m in Sources */,
@@ -2617,6 +2680,7 @@
 				0FEFDBAC1C97D16300952522 /* CourtesyAudioNoteRecorderView.m in Sources */,
 				0FA726841CAAB80B00315E09 /* DefaultShouldSwipeDeterminator.m in Sources */,
 				0FF2D2831C95DA80007C23DE /* LBXScanLineAnimation.m in Sources */,
+				0F6D380E1CD100BA001155DF /* CGContextObject.m in Sources */,
 				0FFE04641C93F45800E99DCC /* CourtesyTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2870,7 +2934,7 @@
 				PROVISIONING_PROFILE = "55b896e6-b6a3-49f9-9ee8-0e9d7c5272fc";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Debug;
@@ -2924,7 +2988,7 @@
 				PROVISIONING_PROFILE = "55b896e6-b6a3-49f9-9ee8-0e9d7c5272fc";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Release;

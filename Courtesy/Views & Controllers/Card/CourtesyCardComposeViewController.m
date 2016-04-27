@@ -95,6 +95,7 @@
 @property (nonatomic, strong) UIBarButtonItem *alignmentButton;
 
 @property (nonatomic, strong) CourtesyCardAuthorHeader *authorHeader;
+@property (nonatomic, strong) UIScrollView *toolbarContainerView;
 
 @property (nonatomic, assign) CGRect keyboardFrame;
 @property (nonatomic, assign) CourtesyInputViewType inputViewType;
@@ -104,6 +105,7 @@
 @implementation CourtesyCardComposeViewController {
     BOOL firstAnimation;
     BOOL firstAppear;
+    BOOL isAuthor;
 }
 
 - (instancetype)initWithCard:(nullable CourtesyCardModel *)card {
@@ -111,6 +113,11 @@
         self.fd_interactivePopDisabled = YES; // 禁用全屏手势
         _card = card;
         _previewContext = NO;
+        if (card.author.user_id == kAccount.user_id) {
+            isAuthor = YES;
+        } else {
+            isAuthor = NO;
+        }
     }
     return self;
 }
@@ -211,6 +218,7 @@
     toolbarContainerView.backgroundColor = self.style.toolbarColor;
     [toolbarContainerView setContentSize:toolbar.frame.size];
     [toolbarContainerView addSubview:toolbar];
+    self.toolbarContainerView = toolbarContainerView;
     
     /* Initial text */
     if (self.card.local_template.content.length == 0) {
@@ -599,7 +607,7 @@
 #pragma mark - animation
 
 - (void)doCardViewAnimation:(BOOL)animated {
-    if (self.editable) {
+    if (animated) {
         self.textView.minContentSize = CGSizeMake(0, self.cardView.frame.size.height);
         [UIView beginAnimations:@"startEditing" context:nil];
         [UIView setAnimationDelegate:self];
@@ -665,40 +673,63 @@
 }
 
 - (void)closeComposeView:(UIButton *)sender {
-    if (sender.selected) {
-        self.circleApproveBtn.selected = NO;
-        self.circleCloseBtn.selected = NO;
-        self.editable = YES;
-        [self doCardViewAnimation:YES];
-        if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
-        __weak typeof(self) weakSelf = self;
-        [UIView animateWithDuration:0.5 animations:^{
-            __strong typeof(self) strongSelf = weakSelf;
-            strongSelf.circleSaveBtn.alpha = 0.0;
-            strongSelf.circleLocationBtn.alpha = 0.0;
-        } completion:^(BOOL finished) {
-            __strong typeof(self) strongSelf = weakSelf;
-            strongSelf.circleSaveBtn.hidden = YES;
-            strongSelf.circleLocationBtn.hidden = YES;
-        }];
-        [self.view makeToast:@"退出预览模式"
-                    duration:kStatusBarNotificationTime
-                    position:CSToastPositionCenter];
-    } else {
-        if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-        if (_cardEdited) {
-            if (self.textView.text.length >= self.style.maxContentLength) {
-                [self.view makeToast:@"卡片内容太多了喔"
-                            duration:kStatusBarNotificationTime
-                            position:CSToastPositionCenter];
-                return;
-            } else {
-                self.editable = NO;
-                [self serialize];
+    if (isAuthor) {
+        if (sender.selected) {
+            self.circleApproveBtn.selected = NO;
+            self.circleCloseBtn.selected = NO;
+            self.editable = YES;
+            [self doCardViewAnimation:YES];
+            if (!self.textView.isFirstResponder) [self.textView becomeFirstResponder];
+            __weak typeof(self) weakSelf = self;
+            [UIView animateWithDuration:0.5 animations:^{
+                __strong typeof(self) strongSelf = weakSelf;
+                strongSelf.circleSaveBtn.alpha = 0.0;
+                strongSelf.circleLocationBtn.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                __strong typeof(self) strongSelf = weakSelf;
+                strongSelf.circleSaveBtn.hidden = YES;
+                strongSelf.circleLocationBtn.hidden = YES;
+            }];
+            [self.view makeToast:@"退出预览模式"
+                        duration:kStatusBarNotificationTime
+                        position:CSToastPositionCenter];
+        } else {
+            if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+            if (_cardEdited) {
+                if (self.textView.text.length >= self.style.maxContentLength) {
+                    [self.view makeToast:@"卡片内容太多了喔"
+                                duration:kStatusBarNotificationTime
+                                position:CSToastPositionCenter];
+                    return;
+                } else {
+                    self.editable = NO;
+                    [self serialize];
+                }
+            }
+            if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidCancelEditing:shouldSaveToDraftBox:)]) {
+                [self.delegate cardComposeViewDidCancelEditing:self shouldSaveToDraftBox:_cardEdited];
             }
         }
-        if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidCancelEditing:shouldSaveToDraftBox:)]) {
-            [self.delegate cardComposeViewDidCancelEditing:self shouldSaveToDraftBox:_cardEdited];
+    } else {
+        if (sender.selected) {
+            self.circleCloseBtn.selected = NO;
+            self.circleApproveBtn.hidden = NO;
+            [self doCardViewAnimation:YES];
+            __weak typeof(self) weakSelf = self;
+            [UIView animateWithDuration:0.5 animations:^{
+                __strong typeof(self) strongSelf = weakSelf;
+                strongSelf.circleSaveBtn.alpha = 0.0;
+                strongSelf.circleLocationBtn.alpha = 0.0;
+                strongSelf.circleApproveBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
+            } completion:^(BOOL finished) {
+                __strong typeof(self) strongSelf = weakSelf;
+                strongSelf.circleSaveBtn.hidden = YES;
+                strongSelf.circleLocationBtn.hidden = YES;
+            }];
+        } else {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidCancelEditing:shouldSaveToDraftBox:)]) {
+                [self.delegate cardComposeViewDidCancelEditing:self shouldSaveToDraftBox:_cardEdited];
+            }
         }
     }
 }
@@ -711,40 +742,61 @@
 }
 
 - (void)doneComposeView:(UIButton *)sender {
-    if (sender.selected) {
-        [self publishCard];
+    if (isAuthor) {
+        if (sender.selected) {
+            [self publishCard];
+        } else {
+            if (self.textView.text.length >= self.style.maxContentLength) {
+                [self.view makeToast:@"卡片内容太多了喔"
+                            duration:kStatusBarNotificationTime
+                            position:CSToastPositionCenter];
+                return;
+            } else if (self.textView.text.length <= 0) {
+                [self.view makeToast:@"无法发布空白卡片"
+                            duration:kStatusBarNotificationTime
+                            position:CSToastPositionCenter];
+                return;
+            }
+            if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
+            self.circleApproveBtn.selected = YES;
+            self.circleCloseBtn.selected = YES;
+            self.circleSaveBtn.hidden = NO;
+            self.circleLocationBtn.hidden = NO;
+            self.editable = NO;
+            [self doCardViewAnimation:NO];
+            __weak typeof(self) weakSelf = self;
+            [UIView animateWithDuration:0.5 animations:^{
+                __strong typeof(self) strongSelf = weakSelf;
+                strongSelf.circleSaveBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
+                strongSelf.circleLocationBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
+            } completion:nil];
+            NSString *type = @"发布";
+            if (self.card.hasPublished) {
+                type = @"修改";
+            }
+            [self.view makeToast:[NSString stringWithFormat:@"%@前预览", type]
+                        duration:kStatusBarNotificationTime
+                        position:CSToastPositionCenter];
+        }
     } else {
-        if (self.textView.text.length >= self.style.maxContentLength) {
-            [self.view makeToast:@"卡片内容太多了喔"
-                        duration:kStatusBarNotificationTime
-                        position:CSToastPositionCenter];
-            return;
-        } else if (self.textView.text.length <= 0) {
-            [self.view makeToast:@"无法发布空白卡片"
-                        duration:kStatusBarNotificationTime
-                        position:CSToastPositionCenter];
-            return;
+        if (sender.selected) {
+            
+        } else {
+            self.circleCloseBtn.selected = YES;
+            self.circleSaveBtn.hidden = NO;
+            self.circleLocationBtn.hidden = NO;
+            [self doCardViewAnimation:NO];
+            __weak typeof(self) weakSelf = self;
+            [UIView animateWithDuration:0.5 animations:^{
+                __strong typeof(self) strongSelf = weakSelf;
+                strongSelf.circleSaveBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
+                strongSelf.circleLocationBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
+                strongSelf.circleApproveBtn.alpha = 0;
+            } completion:^(BOOL finished) {
+                __strong typeof(self) strongSelf = weakSelf;
+                strongSelf.circleApproveBtn.hidden = YES;
+            }];
         }
-        if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-        self.circleApproveBtn.selected = YES;
-        self.circleCloseBtn.selected = YES;
-        self.circleSaveBtn.hidden = NO;
-        self.circleLocationBtn.hidden = NO;
-        self.editable = NO;
-        [self doCardViewAnimation:YES];
-        __weak typeof(self) weakSelf = self;
-        [UIView animateWithDuration:0.5 animations:^{
-            __strong typeof(self) strongSelf = weakSelf;
-            strongSelf.circleSaveBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
-            strongSelf.circleLocationBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
-        } completion:nil];
-        NSString *type = @"发布";
-        if (self.card.hasPublished) {
-            type = @"修改";
-        }
-        [self.view makeToast:[NSString stringWithFormat:@"%@前预览", type]
-                    duration:kStatusBarNotificationTime
-                    position:CSToastPositionCenter];
     }
 }
 
@@ -764,7 +816,6 @@
 #pragma mark - Media Elements
 
 - (void)addNewImageButtonTapped:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
     if (self.inputViewType != kCourtesyInputViewImageSheet) {
         self.inputViewType = kCourtesyInputViewImageSheet;
         sender.tintColor = self.style.toolbarHighlightColor;
@@ -786,7 +837,6 @@
 }
 
 - (void)addNewAudioButtonTapped:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
     if (self.inputViewType != kCourtesyInputViewAudioSheet && self.inputViewType != kCourtesyInputViewAudioNote) {
         self.inputViewType = kCourtesyInputViewAudioSheet;
         sender.tintColor = self.style.toolbarHighlightColor;
@@ -808,7 +858,6 @@
 }
 
 - (void)addNewVideoButtonTapped:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
     if (self.inputViewType != kCourtesyInputViewVideoSheet) {
         self.inputViewType = kCourtesyInputViewVideoSheet;
         sender.tintColor = self.style.toolbarHighlightColor;
@@ -887,7 +936,6 @@
 #pragma mark - Font & Alignment
 
 - (void)fontButtonTapped:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
     if (self.inputViewType != kCourtesyInputViewFontSheet) {
         self.inputViewType = kCourtesyInputViewFontSheet;
         sender.tintColor = self.style.toolbarHighlightColor;
@@ -909,7 +957,6 @@
 }
 
 - (void)addUrlButtonTapped:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
     if (!self.markdownParser) {
         [self.view makeToast:@"未启用 Markdown 支持"
                     duration:kStatusBarNotificationTime
@@ -945,7 +992,6 @@
 }
 
 - (void)alignButtonTapped:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
     _cardEdited = YES;
     if (self.card.local_template.alignmentType == NSTextAlignmentLeft) {
         self.card.local_template.alignmentType = NSTextAlignmentCenter;
@@ -967,7 +1013,6 @@
 }
 
 - (void)setTextViewAlignment:(NSTextAlignment)alignment {
-    if (!self.editable) return;
     NSRange range = self.textView.selectedRange;
     if (range.length <= 0 && [self.textView.typingAttributes hasKey:NSParagraphStyleAttributeName]) {
         NSParagraphStyle *paragraphStyle = self.textView.typingAttributes[NSParagraphStyleAttributeName];
@@ -1032,7 +1077,6 @@
 
 - (void)audioNoteRecorderDidTapDone:(CourtesyAudioNoteRecorderView *)audioNoteRecorder
                     withRecordedURL:(NSURL *)recordedURL {
-    if (!self.editable) return;
     self.fontButton.tintColor =
     self.imageButton.tintColor =
     self.videoButton.tintColor =
@@ -1068,7 +1112,6 @@
 #pragma mark - CourtesyAudioSheetViewDelegate
 
 - (void)audioSheetViewRecordButtonTapped:(CourtesyAudioSheetView *)audioSheetView {
-    if (!self.editable) return;
     if ([self countOfAudioFrame] >= self.style.maxAudioNum) {
         [self.view makeToast:@"音频数量已达上限"
                     duration:kStatusBarNotificationTime
@@ -1226,7 +1269,6 @@
 
 - (void)mediaPicker:(MPMediaPickerController *)mediaPicker
  didPickMediaItems:(MPMediaItemCollection *)mediaItemCollection {
-    if (!self.editable) return;
     if (!mediaItemCollection) return;
     if (mediaItemCollection.count == 1) {
         if (mediaItemCollection.mediaTypes <= MPMediaTypeAnyAudio) {
@@ -1276,7 +1318,6 @@
 
 - (void)imagePickerController:(UIImagePickerController*)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    if (!self.editable) return;
     if ([info hasKey:UIImagePickerControllerMediaType]
         && [info hasKey:UIImagePickerControllerMediaURL]
         && (
@@ -1382,7 +1423,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)finishWechatShortVideoCapture:(WechatShortVideoController *)controller
                                  path:(NSURL *)filePath {
-    if (!self.editable) return;
     __block NSURL *newPath = filePath;
     __weak typeof(self) weakSelf = self;
     [controller dismissViewControllerAnimated:YES completion:^{
@@ -1400,7 +1440,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                           at:(NSRange)range
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
-    if (!self.editable) return nil;
     CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, (CGFloat) (self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect), self.style.cardLineHeight * 2) andDelegate:self andUserinfo:info];
     [frameView setAudioURL:url];
     return [self insertFrameToTextView:frameView
@@ -1414,7 +1453,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                           at:(NSRange)range
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
-    if (!self.editable) return nil;
     CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, (CGFloat) (self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect), 0) andDelegate:self andUserinfo:info];
     [frameView setCenterImage:image];
     if (frameView.frame.size.height < self.style.cardLineHeight) return nil;
@@ -1429,7 +1467,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                           at:(NSRange)range
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
-    if (!self.editable) return nil;
     CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - 48, 0) andDelegate:self andUserinfo:info];
     [frameView setVideoURL:url];
     return [self insertFrameToTextView:frameView at:range animated:animated];
@@ -1440,7 +1477,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 - (id)insertFrameToTextView:(UIView *)frameView
                          at:(NSRange)range
                    animated:(BOOL)animated {
-    if (!self.editable) return nil;
     if (animated) [frameView setAlpha:0.0];
     // Add Frame View to Text View (Method 1)
     NSMutableString *insertHelper = [[NSMutableString alloc] initWithString:@"\n"];
@@ -1512,7 +1548,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)imageFrameTapped:(CourtesyImageFrameView *)imageFrame {
     if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
-    if (!self.card.is_editable) {
+    if (!self.editable) {
         JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
         imageInfo.title = imageFrame.labelText;
         if (imageFrame.originalImageURL)
@@ -1553,7 +1589,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 - (void)imageFrameShouldReplaced:(CourtesyImageFrameView *)imageFrame
                               by:(YYImage *)image
                         userinfo:(NSDictionary *)userinfo {
-    if (!self.editable) return;
     NSRange beforeRange = [self getAttachmentRange:imageFrame];
     [self imageFrameShouldDeleted:imageFrame
                          animated:NO];
@@ -1569,7 +1604,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)imageFrameShouldDeleted:(CourtesyImageFrameView *)imageFrame
                        animated:(BOOL)animated {
-    if (!self.editable) return;
     if (!animated) [self removeImageFrameFromTextView:imageFrame];
     else {
         __weak typeof(self) weakSelf = self;
@@ -1580,7 +1614,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)removeImageFrameFromTextView:(CourtesyImageFrameView *)imageFrame {
-    if (!self.editable) return;
     CYLog(@"%@", self.textView.textLayout.attachments);
     [imageFrame removeFromSuperview];
     NSMutableAttributedString *mStr = [[NSMutableAttributedString alloc] initWithAttributedString:[self.textView attributedText]];
@@ -1593,7 +1626,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)imageFrameShouldCropped:(CourtesyImageFrameView *)imageFrame {
-    if (!self.editable) return;
     PECropViewController *cropViewController = [[PECropViewController alloc] init];
     cropViewController.delegate = imageFrame;
     cropViewController.image = imageFrame.centerImage;
@@ -1604,7 +1636,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)imageFrameDidBeginEditing:(CourtesyImageFrameView *)imageFrame {
-    if (!self.editable) return;
     _cardEdited = YES;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         CGRect rect = [self getAttachmentRect:imageFrame];
@@ -1615,7 +1646,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)imageFrameDidEndEditing:(CourtesyImageFrameView *)imageFrame {
-    if (!self.editable) return;
+    
 }
 
 #pragma mark - CourtesyCardPreviewGeneratorDelegate
@@ -1761,7 +1792,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - Style Modifier
 
 - (BOOL)editable {
-    return _card.is_editable;
+    return (_card.is_editable && isAuthor);
 }
 
 - (CourtesyCardStyleModel *)style {
@@ -1790,9 +1821,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)setEditable:(BOOL)editable {
-    _card.is_editable = editable;
-    self.textView.editable = editable;
-    [self syncAttachmentsStyle];
+    if (isAuthor) {
+        if (editable == NO) {
+            self.textView.inputAccessoryView = nil;
+        } else {
+            self.textView.inputAccessoryView = self.toolbarContainerView;
+        }
+        _card.is_editable = editable;
+        self.textView.editable = editable;
+        [self syncAttachmentsStyle];
+    }
 }
 
 #pragma mark - YYTextViewDelegate
@@ -1823,8 +1861,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - Memory Leaks
 
 - (void)dealloc {
-    [[YYTextKeyboardManager defaultManager] removeObserver:self];
     CYLog(@"");
+    if (!isAuthor) return;
+    [[YYTextKeyboardManager defaultManager] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -1834,6 +1873,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - Serialize
 
 - (void)serialize {
+    if (!isAuthor) return;
     @try {
         [self syncAttachmentsStyle];
         [self.view setUserInteractionEnabled:NO];
@@ -1999,23 +2039,33 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - UIPreviewActionItem
 
 - (NSArray <id <UIPreviewActionItem>> *)previewActionItems {
-    NSString *type = @"发布";
-    if (self.card.hasPublished) {
-        type = @"修改";
+    if (isAuthor) {
+        NSString *type = @"发布";
+        if (self.card.hasPublished) {
+            type = @"修改";
+        }
+        
+        UIPreviewAction *tap1 = [UIPreviewAction actionWithTitle:type style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+            [self publishCard];
+            // TODO: Publish card selected.
+        }];
+        
+        UIPreviewAction *tap2 = [UIPreviewAction actionWithTitle:@"保存到相册" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+            [self performSelectorInBackground:@selector(generateTextViewLayer:) withObject:previewViewController];
+        }];
+        
+        NSArray *taps = @[tap1, tap2];
+        
+        return taps;
+    } else {
+        UIPreviewAction *tap2 = [UIPreviewAction actionWithTitle:@"保存到相册" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+            [self performSelectorInBackground:@selector(generateTextViewLayer:) withObject:previewViewController];
+        }];
+        
+        NSArray *taps = @[tap2];
+        
+        return taps;
     }
-    
-    UIPreviewAction *tap1 = [UIPreviewAction actionWithTitle:type style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
-        [self publishCard];
-        // TODO: Publish card selected.
-    }];
-    
-    UIPreviewAction *tap2 = [UIPreviewAction actionWithTitle:@"保存到相册" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
-        [self performSelectorInBackground:@selector(generateTextViewLayer:) withObject:previewViewController];
-    }];
-    
-    NSArray *taps = @[tap1, tap2];
-    
-    return taps;
 }
 
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event {

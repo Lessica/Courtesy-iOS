@@ -5,6 +5,7 @@
 //
 
 #import "CourtesyAudioNoteRecorderView.h"
+#import "DrawLineView.h"
 
 static SystemSoundID record_sound_id = 0;
 
@@ -19,6 +20,9 @@ static SystemSoundID record_sound_id = 0;
 @property (nonatomic, strong) AVAudioRecorder *recorder;
 @property (nonatomic, strong) AVAudioPlayer *player;
 @property (nonatomic, strong) NSTimer *recordingTimer;
+
+@property (nonatomic, strong) DrawLineView *drawView;
+@property (nonatomic, strong) CADisplayLink *displayLink;
 @end
 
 @implementation CourtesyAudioNoteRecorderView {
@@ -43,67 +47,84 @@ static SystemSoundID record_sound_id = 0;
         self.layer.borderWidth = 0.5;
         CGFloat barHeight = 64.0f;
         
+        // Draw view
+        DrawLineView *drawView = [[DrawLineView alloc] initWithFrame:self.bounds];
+        [self addSubview:drawView];
+        self.drawView = drawView;
+        
+        CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawEvent)];
+        self.displayLink = displayLink;
+        
         // top bar
         UIView *topBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, barHeight)];
         [self addSubview:topBar];
         
         // Record name label
-        self.recordName = [UITextField new];
-        _recordName.frame = CGRectMake(0, topBar.frame.size.height / 2 - 16, topBar.frame.size.width, 32);
-        _recordName.backgroundColor = [UIColor clearColor];
-        _recordName.font = [UIFont systemFontOfSize:16];
-        _recordName.textColor = self.style.toolbarTintColor;
-        _recordName.textAlignment = NSTextAlignmentCenter;
-        _recordName.text = @"新录音";
-        _recordName.userInteractionEnabled = NO;
-        [topBar addSubview:_recordName];
+        UITextField *recordName = [UITextField new];
+        recordName.frame = CGRectMake(0, topBar.frame.size.height / 2 - 16, topBar.frame.size.width, 32);
+        recordName.backgroundColor = [UIColor clearColor];
+        recordName.font = [UIFont systemFontOfSize:16];
+        recordName.textColor = self.style.toolbarTintColor;
+        recordName.textAlignment = NSTextAlignmentCenter;
+        recordName.text = @"新录音";
+        recordName.userInteractionEnabled = NO;
+        [topBar addSubview:recordName];
+        self.recordName = recordName;
         
         // Top buttons
-        self.doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _doneBtn.frame = CGRectMake(self.frame.size.width - 12 - 48, 12, 48, 48);
-        _doneBtn.enabled = NO;
-        [_doneBtn setTintColor:self.style.toolbarTintColor];
-        [_doneBtn setImage:[[UIImage imageNamed:@"approve"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        [_doneBtn setImage:nil forState:UIControlStateDisabled];
-        [_doneBtn addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
-        [_doneBtn sizeToFit];
-        [topBar addSubview:_doneBtn];
+        UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        doneBtn.frame = CGRectMake(self.frame.size.width - 12 - 48, 12, 48, 48);
+        doneBtn.enabled = NO;
+        [doneBtn setTintColor:self.style.toolbarTintColor];
+        [doneBtn setImage:[[UIImage imageNamed:@"approve"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [doneBtn setImage:nil forState:UIControlStateDisabled];
+        [doneBtn addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
+        [doneBtn sizeToFit];
+        [topBar addSubview:doneBtn];
+        self.doneBtn = doneBtn;
         
-        self.cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _cancelBtn.frame = CGRectMake(12, 12, 48, 48);
-        [_cancelBtn setTintColor:self.style.toolbarTintColor];
-        [_cancelBtn setImage:[[UIImage imageNamed:@"close"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        [_cancelBtn addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
-        [_cancelBtn sizeToFit];
-        [topBar addSubview:_cancelBtn];
+        UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        cancelBtn.frame = CGRectMake(12, 12, 48, 48);
+        [cancelBtn setTintColor:self.style.toolbarTintColor];
+        [cancelBtn setImage:[[UIImage imageNamed:@"close"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [cancelBtn addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
+        [cancelBtn sizeToFit];
+        [topBar addSubview:cancelBtn];
+        self.cancelBtn = cancelBtn;
         
         // Control buttons
-        self.recordLengthLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - 20, 64)];
-        _recordLengthLabel.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2 - _recordLengthLabel.height / 4);
-        _recordLengthLabel.text = @"00:00.00";
-        _recordLengthLabel.font = [UIFont systemFontOfSize:48.0 weight:UIFontWeightUltraLight];
-        _recordLengthLabel.textAlignment = NSTextAlignmentCenter;
-        [_recordLengthLabel setTextColor:self.style.toolbarTintColor];
-        [self addSubview:_recordLengthLabel];
+        UILabel *recordLengthLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - 20, 64)];
+        recordLengthLabel.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2 - recordLengthLabel.height / 4);
+        recordLengthLabel.text = @"00:00.00";
+        recordLengthLabel.font = [UIFont systemFontOfSize:48.0 weight:UIFontWeightUltraLight];
+        recordLengthLabel.textAlignment = NSTextAlignmentCenter;
+        [recordLengthLabel setTextColor:self.style.toolbarTintColor];
+        [self addSubview:recordLengthLabel];
+        self.recordLengthLabel = recordLengthLabel;
         
-        self.record = [UIButton buttonWithType:UIButtonTypeCustom];
-        _record.frame = CGRectMake(0, 0, 64, 64);
-        _record.center = CGPointMake(24 + _record.frame.size.width / 2, self.frame.size.height - 56);
-        [_record setTintColor:self.style.toolbarTintColor];
-        [_record setImage:[[UIImage imageNamed:@"record"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        [_record setImage:[[UIImage imageNamed:@"pause"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
-        [_record addTarget:self action:@selector(recordTap:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:_record];
+        // Reset Draw View Origin
+        self.drawView.centerY = recordLengthLabel.centerY + 45.0;
         
-        self.play = [UIButton buttonWithType:UIButtonTypeCustom];
-        _play.frame = CGRectMake(0, 0, 64, 64);
-        _play.center = CGPointMake(self.frame.size.width - 24 - _play.frame.size.width / 2, self.frame.size.height - 56);
-        _play.enabled = NO;
-        [_play setTintColor:self.style.toolbarTintColor];
-        [_play setImage:[[UIImage imageNamed:@"play"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        [_play setImage:nil forState:UIControlStateDisabled];
-        [_play addTarget:self action:@selector(playTap:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:_play];
+        UIButton *record = [UIButton buttonWithType:UIButtonTypeCustom];
+        record.frame = CGRectMake(0, 0, 64, 64);
+        record.center = CGPointMake(24 + record.frame.size.width / 2, self.frame.size.height - 56);
+        [record setTintColor:self.style.toolbarTintColor];
+        [record setImage:[[UIImage imageNamed:@"record"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [record setImage:[[UIImage imageNamed:@"pause"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+        [record addTarget:self action:@selector(recordTap:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:record];
+        self.record = record;
+        
+        UIButton *play = [UIButton buttonWithType:UIButtonTypeCustom];
+        play.frame = CGRectMake(0, 0, 64, 64);
+        play.center = CGPointMake(self.frame.size.width - 24 - play.frame.size.width / 2, self.frame.size.height - 56);
+        play.enabled = NO;
+        [play setTintColor:self.style.toolbarTintColor];
+        [play setImage:[[UIImage imageNamed:@"play"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [play setImage:nil forState:UIControlStateDisabled];
+        [play addTarget:self action:@selector(playTap:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:play];
+        self.play = play;
         
         isPlaying = NO;
     }
@@ -125,13 +146,14 @@ static SystemSoundID record_sound_id = 0;
 }
 
 - (void)recordTap:(UIButton *) sender {
-    if (sender.selected) {
+    if (sender.selected) { // 停止录音
         [self.recorder stop];
+        [self.displayLink removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         _play.enabled = YES;
         _doneBtn.enabled = YES;
         [self.recordingTimer invalidate];
         self.recordingTimer = nil;
-    } else {
+    } else { // 开始播放录音
         [self playRecordSound];
         _play.enabled = NO;
         _doneBtn.enabled = NO;
@@ -140,7 +162,7 @@ static SystemSoundID record_sound_id = 0;
     sender.selected = !sender.selected;
 }
 
-- (void)startRecord {
+- (void)startRecord { // 开始录音
     NSDictionary* recorderSettings = [NSDictionary dictionaryWithObjectsAndKeys:
                                       [NSNumber numberWithInt:kAudioFormatLinearPCM],AVFormatIDKey,
                                       [NSNumber numberWithInt:44100], AVSampleRateKey,
@@ -164,12 +186,14 @@ static SystemSoundID record_sound_id = 0;
     if (error) CYLog(@"%@", error);
     
     self.recorder.delegate = self;
+    self.recorder.meteringEnabled = YES;
     [self.recorder record];
+    [self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     self.recordingTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(recordingTimerUpdate:) userInfo:nil repeats:YES];
     [_recordingTimer fire];
 }
 
-- (void)playTap:(UIButton *)sender {
+- (void)playTap:(UIButton *)sender { // 开始播放录音
     if (isPlaying) return;
     NSError* error = nil;
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:_recorder.url error:&error];
@@ -191,6 +215,15 @@ static SystemSoundID record_sound_id = 0;
         AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &record_sound_id);
         AudioServicesPlaySystemSound(record_sound_id);
     }
+}
+
+- (void)drawEvent {
+    [self.recorder updateMeters]; // 更新仪表读数
+    
+    // 读取每个声道的平均电平和峰值电平，代表每个声道的分贝数，范围在 -100 ~ 0 之间。
+    self.drawView.avgValue = [self.recorder averagePowerForChannel:0];
+    
+    [self.drawView setNeedsDisplay];
 }
 
 - (void)recordingTimerUpdate:(id)sender {

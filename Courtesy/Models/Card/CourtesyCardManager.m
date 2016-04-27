@@ -274,7 +274,7 @@
     if (willPublish == NO) {
         if (notify) {
             dispatch_async_on_main_queue(^{
-                [JDStatusBarNotification showWithStatus:@"卡片已保存到草稿箱"
+                [JDStatusBarNotification showWithStatus:@"卡片已保存"
                                            dismissAfter:kStatusBarNotificationTime
                                               styleName:JDStatusBarStyleSuccess];
             });
@@ -338,6 +338,14 @@
 #pragma mark - 远程卡片
 
 - (void)handleRemoteCardToken:(NSString *)token {
+    // 先判断卡在不在本地，如果在，直接打开卡片
+    for (CourtesyCardModel *arr_card in _cardDraftArray) {
+        if ([arr_card.token isEqualToString:token]) { // 这张是本地卡片，直接打开以供编辑
+            [self editCard:arr_card withViewController:[[AppDelegate globalDelegate] leftDrawerViewController]];
+            return;
+        }
+    }
+    // 否则发送卡片状态查询请求查询卡片状态
     __block CourtesyCardQueryRequestModel *queryRequest = [[CourtesyCardQueryRequestModel alloc] initWithDelegate:self];
     queryRequest.token = token;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -360,14 +368,28 @@
         }
     }
     // 开始解析卡片信息
-//    NSError *error = nil;
-//    CourtesyCardModel *newCard = [[CourtesyCardModel alloc] initWithDictionary:card_dict error:&error];
-//    CYLog(@"%@", newCard);
+    NSError *error = nil;
+    CourtesyCardModel *newCard = [[CourtesyCardModel alloc] initWithDictionary:card_dict error:&error];
+    if (error) { // 卡片信息无法被反序列化
+        CYLog(@"%@", error);
+        return;
+    }
+    // 卡片信息可被序列化，读出卡片作者
+    if (newCard.author.user_id == kAccount.user_id) { // 如果查询到的卡片是自己的
+        [newCard saveToLocalDatabaseShouldPublish:NO andNotify:YES]; // 保存卡片并提醒
+        return;
+    }
+    // 如果查询到的卡片不是自己的，显示收到卡片动画控制器
+    
 }
 
 - (void)cardQueryRequestFailed:(CourtesyCardQueryRequestModel *)sender
                      withError:(NSError *)error {
-    
+    dispatch_async_on_main_queue(^{ // 通过状态栏提醒告知卡片信息查询失败的状态
+        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片信息查询失败 - %@", [error localizedDescription]]
+                                   dismissAfter:kStatusBarNotificationTime
+                                      styleName:JDStatusBarStyleError];
+    });
 }
 
 @end

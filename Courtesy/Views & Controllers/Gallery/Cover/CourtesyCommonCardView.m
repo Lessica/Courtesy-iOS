@@ -44,7 +44,6 @@
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;
 
     // Corner Radius
-    self.layer.masksToBounds = YES;
     self.layer.cornerRadius = 10.0;
 }
 

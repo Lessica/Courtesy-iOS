@@ -171,6 +171,7 @@ enum {
 // 发送邮件
 - (void)displayComposerSheet {
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+    if (!picker) return;
     picker.mailComposeDelegate = self;
     [picker setSubject:@"关于「礼记」我有些话想说……"];
     NSArray *toRecipients = [NSArray arrayWithObject:SERVICE_EMAIL];
