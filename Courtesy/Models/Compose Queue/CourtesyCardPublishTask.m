@@ -63,7 +63,7 @@
                 self.status = CourtesyCardPublishTaskStatusPending;
             }
         } else {
-            if (self.status == CourtesyCardPublishTaskStatusProcessing) {
+            if (self.status == CourtesyCardPublishTaskStatusProcessing || self.status == CourtesyCardPublishTaskStatusReady) { // 防止因为同步过快而无法通知结束
                 self.status = CourtesyCardPublishTaskStatusAcknowledging;
             }
         }
@@ -176,8 +176,8 @@
         currentHelper.localPath = [self.card.local_template savedAttachmentsPath];
         currentHelper.cachesPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:kCourtesyCardPublishQueueCacheIdentifier, self.card.token]];
 #ifdef DEBUG
-        currentHelper.uploadSpeedLimit = 64.0;
-        currentHelper.downloadSpeedLimit = 64.0;
+        currentHelper.uploadSpeedLimit = 1024.0;
+        currentHelper.downloadSpeedLimit = 1024.0;
 #endif
         currentHelper.delegate = self;
         

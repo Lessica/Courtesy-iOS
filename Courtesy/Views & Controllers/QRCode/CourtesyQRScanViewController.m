@@ -12,11 +12,13 @@
 #import "CourtesyQRCodeModel.h"
 #import "LBXScanResult.h"
 #import "LBXScanWrapper.h"
+#import "CourtesyCardManager.h"
+#import "CourtesyCardQueryRequestModel.h"
 
 // 振动系统声音
 static SystemSoundID shake_sound_male_id = 0;
 
-@interface CourtesyQRScanViewController () <LGAlertViewDelegate, CourtesyQRCodeQueryDelegate, JVFloatingDrawerCenterViewController>
+@interface CourtesyQRScanViewController () <LGAlertViewDelegate, CourtesyQRCodeQueryDelegate, JVFloatingDrawerCenterViewController, CourtesyCardQueryRequestDelegate>
 
 @end
 
@@ -195,12 +197,7 @@ static SystemSoundID shake_sound_male_id = 0;
                                          duration:kStatusBarNotificationTime
                                          position:CSToastPositionCenter];
     });
-    // 返回上层并通知其弹出发布界面
-    if (!_delegate || ![_delegate respondsToSelector:@selector(scanWithResult:)]) {
-        CYLog(@"Delegate not found!");
-        return;
-    }
-    [_delegate scanWithResult:qrcode];
+    [self scanWithResult:qrcode];
     return;
 }
 
@@ -275,6 +272,93 @@ static SystemSoundID shake_sound_male_id = 0;
 
 - (void)dealloc {
     CYLog(@"");
+}
+
+#pragma mark - CourtesyQRCodeScanDelegate
+
+- (void)scanWithResult:(CourtesyQRCodeModel *)qrcode {
+    if (!qrcode) {
+        return;
+    }
+    // 发布、修改或查看
+    if (qrcode.is_recorded == NO) {
+        if (![sharedSettings hasLogin]) { // 未登录
+            [self.view makeToast:@"登录后才能发布新卡片"
+                        duration:2.0
+                        position:CSToastPositionCenter];
+            return;
+        }
+        // 发布新卡片界面并设置二维码数据
+        CourtesyCardModel *newCard = [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
+        newCard.qr_id = qrcode.unique_id;
+    } else {
+        if (!qrcode.card_token) {
+            [self.view makeToast:@"卡片信息获取失败"
+                        duration:2.0
+                        position:CSToastPositionCenter];
+            return;
+        }
+        [self handleRemoteCardToken:qrcode.card_token];
+    }
+}
+
+
+#pragma mark - 远程卡片
+
+- (void)handleRemoteCardToken:(NSString *)token {
+    CourtesyCardManager *manager = [CourtesyCardManager sharedManager];
+    // 先判断卡在不在本地，如果在，直接打开卡片
+    for (CourtesyCardModel *arr_card in manager.cardDraftArray) {
+        if ([arr_card.token isEqualToString:token]) { // 这张是本地卡片，直接打开以供编辑
+            [manager editCard:arr_card withViewController:self];
+            return;
+        }
+    }
+    // 否则发送卡片状态查询请求查询卡片状态
+    __block CourtesyCardQueryRequestModel *queryRequest = [[CourtesyCardQueryRequestModel alloc] initWithDelegate:self];
+    queryRequest.token = token;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [queryRequest sendRequest];
+    });
+}
+
+#pragma mark - CourtesyCardQueryRequestDelegate
+
+- (void)cardQueryRequestSucceed:(CourtesyCardQueryRequestModel *)sender {
+    NSMutableDictionary *card_dict = [[NSMutableDictionary alloc] initWithDictionary:sender.card_dict];
+    if (!card_dict) {
+        // 卡片信息为空
+    } else {
+        // 处理卡片字典键值
+        [card_dict setObject:@(0) forKey:@"isNewCard"];
+        [card_dict setObject:@(0) forKey:@"hasBanned"];
+        [card_dict setObject:@(1) forKey:@"hasPublished"];
+        if (![[card_dict objectForKey:@"first_read_at"] isKindOfClass:[NSNumber class]]) {
+            [card_dict setObject:@(0) forKey:@"first_read_at"];
+        }
+    }
+    // 开始解析卡片信息
+    NSError *error = nil;
+    CourtesyCardModel *newCard = [[CourtesyCardModel alloc] initWithDictionary:card_dict error:&error];
+    if (error) { // 卡片信息无法被反序列化
+        CYLog(@"%@", error);
+        return;
+    }
+    newCard.read_by = kAccount;
+    CourtesyCardManager *manager = [CourtesyCardManager sharedManager];
+    newCard.delegate = manager;
+    // 卡片信息可被序列化，读出卡片作者
+    [newCard saveToLocalDatabaseShouldPublish:NO andNotify:YES];
+    [manager editCard:newCard withViewController:self];
+}
+
+- (void)cardQueryRequestFailed:(CourtesyCardQueryRequestModel *)sender
+                     withError:(NSError *)error {
+    dispatch_async_on_main_queue(^{ // 通过状态栏提醒告知卡片信息查询失败的状态
+        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片信息查询失败 - %@", [error localizedDescription]]
+                                   dismissAfter:kStatusBarNotificationTime
+                                      styleName:JDStatusBarStyleError];
+    });
 }
 
 @end

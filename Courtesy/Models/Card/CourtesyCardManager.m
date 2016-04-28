@@ -8,17 +8,17 @@
 
 #import "AppDelegate.h"
 #import "AppStorage.h"
+#import "FCFileManager.h"
 #import "CourtesyCardManager.h"
 #import "CourtesyCardComposeViewController.h"
 #import "CourtesyPortraitViewController.h"
 #import "CourtesyLoginRegisterViewController.h"
 #import "CourtesyCardPublishQueue.h"
-#import "CourtesyCardQueryRequestModel.h"
 #import "CourtesyCardDeleteRequestModel.h"
 
 #define kCourtesyCardDraftListKey @"kCourtesyCardListKey"
 
-@interface CourtesyCardManager () <CourtesyCardComposeDelegate, CourtesyCardDelegate, CourtesyCardDeleteRequestDelegate, CourtesyCardQueryRequestDelegate>
+@interface CourtesyCardManager () <CourtesyCardComposeDelegate, CourtesyCardDeleteRequestDelegate>
 
 @end
 
@@ -73,13 +73,16 @@
             continue;
         }
         if (
-            (card.author.user_id == kAccount.user_id) ||
-            (card.read_by && card.read_by.user_id == kAccount.user_id)
+            (card.author.user_id == kAccount.user_id)
             )
         {
             // 如果是当前用户编写的卡片
-            // 或者是当前用户接收到的卡片
             card.author = kAccount;
+            card.delegate = self;
+            [self.cardDraftArray addObject:card];
+        } else if (card.read_by && card.read_by.user_id == kAccount.user_id) {
+            // 或者是当前用户接收到的卡片
+            card.read_by = kAccount;
             card.delegate = self;
             [self.cardDraftArray addObject:card];
         }
@@ -139,14 +142,51 @@
     CourtesyCardModel *newCard = [self newCard];
     CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:newCard];
     vc.delegate = self;
-    [controller presentViewController:vc animated:YES completion:nil];
+    [controller presentViewController:vc animated:YES completion:^() {
+        [controller.view hideToastActivity];
+    }];
     return newCard;
 }
 
 - (void)editCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller {
-    CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:card];
-    vc.delegate = self;
-    [controller presentViewController:vc animated:YES completion:nil];
+    [controller.view setUserInteractionEnabled:NO];
+    [controller.view makeToastActivity:CSToastPositionCenter];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [self loadCardRemoteAttachments:card withViewController:controller];
+    });
+}
+
+#warning Wait for improvement
+- (void)loadCardRemoteAttachments:(CourtesyCardModel *)card withViewController:(UIViewController *)controller {
+    for (CourtesyCardAttachmentModel *attr in card.local_template.attachments) {
+        NSString *localPath = [attr attachmentPath];
+        if (![FCFileManager isReadableItemAtPath:localPath]) {
+            NSError *err = nil;
+            NSData *remoteData = [NSData dataWithContentsOfURL:[attr remoteAttachmentURL]
+                                                       options:NSDataReadingMappedAlways
+                                                         error:&err];
+            if (err || remoteData == nil) {
+                dispatch_async_on_main_queue(^{
+                    [controller.view hideToastActivity];
+                    [controller.view setUserInteractionEnabled:YES];
+                });
+                return;
+            }
+            [remoteData writeToFile:localPath atomically:YES];
+        }
+    }
+    [self displayCard:card withViewController:controller];
+}
+
+- (void)displayCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller {
+    dispatch_async_on_main_queue(^{
+        CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:card];
+        vc.delegate = self;
+        [controller presentViewController:vc animated:YES completion:^() {
+            [controller.view hideToastActivity];
+            [controller.view setUserInteractionEnabled:YES];
+        }];
+    });
 }
 
 - (UIViewController *)prepareCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller {
@@ -187,24 +227,26 @@
 }
 
 - (void)deleteCardInDraft:(CourtesyCardModel *)card {
-    if (card.hasPublished) {
-        if (card.hasBanned == NO) {
-            dispatch_async_on_main_queue(^{
-                [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"正在禁用卡片 %@……", card.local_template.mainTitle]
-                                           dismissAfter:kStatusBarNotificationTime
-                                              styleName:JDStatusBarStyleDefault];
-                [JDStatusBarNotification showActivityIndicator:YES
-                                                indicatorStyle:UIActivityIndicatorViewStyleGray];
-            });
-            
-            __block CourtesyCardDeleteRequestModel *deleteRequest = [[CourtesyCardDeleteRequestModel alloc] initWithDelegate:self];
-            deleteRequest.token = card.token;
-            deleteRequest.card = card;
-            deleteRequest.toBan = YES;
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                [deleteRequest sendRequest];
-            });
-            return;
+    if (card.author.user_id == kAccount.user_id) {
+        if (card.hasPublished) {
+            if (card.hasBanned == NO) {
+                dispatch_async_on_main_queue(^{
+                    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"正在禁用卡片 %@……", card.local_template.mainTitle]
+                                               dismissAfter:kStatusBarNotificationTime
+                                                  styleName:JDStatusBarStyleDefault];
+                    [JDStatusBarNotification showActivityIndicator:YES
+                                                    indicatorStyle:UIActivityIndicatorViewStyleGray];
+                });
+                
+                __block CourtesyCardDeleteRequestModel *deleteRequest = [[CourtesyCardDeleteRequestModel alloc] initWithDelegate:self];
+                deleteRequest.token = card.token;
+                deleteRequest.card = card;
+                deleteRequest.toBan = YES;
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                    [deleteRequest sendRequest];
+                });
+                return;
+            }
         }
     }
     [card deleteInLocalDatabase];
@@ -250,8 +292,8 @@
                                             indicatorStyle:UIActivityIndicatorViewStyleGray];
         });
         [controller.card saveToLocalDatabaseShouldPublish:NO andNotify:YES];
-        [self backToAlbumViewController];
     }
+    [self backToAlbumViewController];
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -266,7 +308,13 @@
 }
 
 - (void)cardDidFinishSaving:(nonnull CourtesyCardModel *)card isNewRecord:(BOOL)newRecord willPublish:(BOOL)willPublish andNotify:(BOOL)notify {
-    if (newRecord) { // 添加记录则将元素加入数组并写入数据库
+    BOOL newToken = YES;
+    for (NSString *token in self.cardDraftTokenArray) {
+        if ([token isEqualToString:card.token]) {
+            newToken = NO;
+        }
+    }
+    if (newToken) { // 添加记录则将元素加入数组并写入数据库
         [self.cardDraftTokenArray insertObject:card.token atIndex:0];
         [self.cardDraftArray insertObject:card atIndex:0];
     }
@@ -333,63 +381,6 @@
                                           styleName:JDStatusBarStyleError];
         });
     }
-}
-
-#pragma mark - 远程卡片
-
-- (void)handleRemoteCardToken:(NSString *)token {
-    // 先判断卡在不在本地，如果在，直接打开卡片
-    for (CourtesyCardModel *arr_card in _cardDraftArray) {
-        if ([arr_card.token isEqualToString:token]) { // 这张是本地卡片，直接打开以供编辑
-            [self editCard:arr_card withViewController:[[AppDelegate globalDelegate] leftDrawerViewController]];
-            return;
-        }
-    }
-    // 否则发送卡片状态查询请求查询卡片状态
-    __block CourtesyCardQueryRequestModel *queryRequest = [[CourtesyCardQueryRequestModel alloc] initWithDelegate:self];
-    queryRequest.token = token;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [queryRequest sendRequest];
-    });
-}
-
-#pragma mark - CourtesyCardQueryRequestDelegate
-
-- (void)cardQueryRequestSucceed:(CourtesyCardQueryRequestModel *)sender {
-    NSMutableDictionary *card_dict = [[NSMutableDictionary alloc] initWithDictionary:sender.card_dict];
-    if (!card_dict) {
-        // 卡片信息为空
-    } else {
-        // 处理卡片字典键值
-        [card_dict setObject:@(0) forKey:@"isNewCard"];
-        [card_dict setObject:@(1) forKey:@"hasPublished"];
-        if (![[card_dict objectForKey:@"first_read_at"] isKindOfClass:[NSNumber class]]) {
-            [card_dict setObject:@(0) forKey:@"first_read_at"];
-        }
-    }
-    // 开始解析卡片信息
-    NSError *error = nil;
-    CourtesyCardModel *newCard = [[CourtesyCardModel alloc] initWithDictionary:card_dict error:&error];
-    if (error) { // 卡片信息无法被反序列化
-        CYLog(@"%@", error);
-        return;
-    }
-    // 卡片信息可被序列化，读出卡片作者
-    if (newCard.author.user_id == kAccount.user_id) { // 如果查询到的卡片是自己的
-        [newCard saveToLocalDatabaseShouldPublish:NO andNotify:YES]; // 保存卡片并提醒
-        return;
-    }
-    // 如果查询到的卡片不是自己的，显示收到卡片动画控制器
-    
-}
-
-- (void)cardQueryRequestFailed:(CourtesyCardQueryRequestModel *)sender
-                     withError:(NSError *)error {
-    dispatch_async_on_main_queue(^{ // 通过状态栏提醒告知卡片信息查询失败的状态
-        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片信息查询失败 - %@", [error localizedDescription]]
-                                   dismissAfter:kStatusBarNotificationTime
-                                      styleName:JDStatusBarStyleError];
-    });
 }
 
 @end

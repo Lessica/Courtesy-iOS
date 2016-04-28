@@ -171,7 +171,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
             editAction.backgroundColor = [UIColor lightGrayColor];
             return @[editAction];
         } else {
-            if (card.hasPublished) {
+            if (card.author.user_id == kAccount.user_id && card.hasPublished) {
                 if (card.hasBanned == NO) {
                     __weak typeof(self) weakSelf = self;
                     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"禁用" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
@@ -217,6 +217,10 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         CourtesyCardModel *card = [self.cardArray objectAtIndex:indexPath.row];
+        CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
+        if ([queue publishTaskInPublishQueueWithCard:card]) {
+            return;
+        }
         card.is_editable = YES;
         [self.cardManager editCard:card withViewController:self];
     }
@@ -246,6 +250,11 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     }
     CourtesyDraftTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     if (!cell) {
+        return nil;
+    }
+    CourtesyCardModel *card = cell.card;
+    CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
+    if ([queue publishTaskInPublishQueueWithCard:card]) {
         return nil;
     }
     cell.card.is_editable = YES;

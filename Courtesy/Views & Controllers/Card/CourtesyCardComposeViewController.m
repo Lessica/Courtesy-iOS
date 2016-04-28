@@ -532,6 +532,18 @@
     /* Load Card Attachments */
     for (CourtesyCardAttachmentModel *attachment in self.card.local_template.attachments) {
         if (attachment.type == CourtesyAttachmentAudio) {
+            NSError *err = nil;
+            NSString *localPath = [attachment attachmentPath];
+            if ([FCFileManager isReadableItemAtPath:localPath]) {
+                
+            } else { // 下载卡片音频资源
+                NSData *audioData = nil;
+                audioData = [NSData dataWithContentsOfURL:[attachment remoteAttachmentURL]
+                                                options:NSDataReadingMappedAlways
+                                                  error:&err];
+                [audioData writeToFile:localPath atomically:YES];
+                NSAssert(audioData != nil && err == nil, @"Cannot load audioData!");
+            }
             [self addNewAudioFrame:[attachment attachmentURL]
                                 at:NSMakeRange(attachment.location, attachment.length)
                           animated:NO
@@ -542,10 +554,19 @@
                                      }];
         } else if (attachment.type == CourtesyAttachmentImage || attachment.type == CourtesyAttachmentAnimatedImage) {
             NSError *err = nil;
-            NSData *imgData = [NSData dataWithContentsOfFile:[attachment attachmentPath]
-                                                     options:NSDataReadingMappedAlways
-                                                       error:&err];
-            NSAssert(err == nil, @"Cannot load imgData!");
+            NSData *imgData = nil;
+            NSString *localPath = [attachment attachmentPath];
+            if ([FCFileManager isReadableItemAtPath:localPath]) {
+                imgData = [NSData dataWithContentsOfFile:localPath
+                                                 options:NSDataReadingMappedAlways
+                                                   error:&err];
+            } else { // 下载卡片图像资源
+                imgData = [NSData dataWithContentsOfURL:[attachment remoteAttachmentURL]
+                                                options:NSDataReadingMappedAlways
+                                                  error:&err];
+                [imgData writeToFile:localPath atomically:YES];
+            }
+            NSAssert(imgData != nil && err == nil, @"Cannot load imgData!");
             YYImage *img = [YYImage imageWithData:imgData];
             [self addNewImageFrame:img
                                 at:NSMakeRange(attachment.location, attachment.length)
@@ -557,6 +578,18 @@
                                      @"data": imgData
                                      }];
         } else if (attachment.type == CourtesyAttachmentVideo) {
+            NSError *err = nil;
+            NSString *localPath = [attachment attachmentPath];
+            if ([FCFileManager isReadableItemAtPath:localPath]) {
+                
+            } else { // 下载卡片视频资源
+                NSData *videoData = nil;
+                videoData = [NSData dataWithContentsOfURL:[attachment remoteAttachmentURL]
+                                                  options:NSDataReadingMappedAlways
+                                                    error:&err];
+                [videoData writeToFile:localPath atomically:YES];
+                NSAssert(videoData != nil && err == nil, @"Cannot load videoData!");
+            }
             [self addNewVideoFrame:[attachment attachmentURL]
                                 at:NSMakeRange(attachment.location, attachment.length)
                           animated:NO

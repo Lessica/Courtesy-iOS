@@ -57,10 +57,11 @@
     } else {
         [self.imagePreview setImage:nil]; // 清除缩略图
     }
-    if (card.qr_id) {
+    if (card.qr_id || card.local_template.qrcode) {
         self.mainTitleLabel.edgeInsets = UIEdgeInsetsMake(0, 28, 0, 0);
         self.qrcImageView.hidden = NO;
     } else {
+        self.mainTitleLabel.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
         self.qrcImageView.hidden = YES;
     }
     

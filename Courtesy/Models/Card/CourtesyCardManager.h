@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "CourtesyCardModel.h"
 
-@interface CourtesyCardManager : NSObject
+@interface CourtesyCardManager : NSObject <CourtesyCardDelegate>
 @property (nonatomic, strong) NSMutableArray <NSString *> *cardDraftTokenArray;
 @property (nonatomic, strong) NSMutableArray <CourtesyCardModel *> *cardDraftArray;
 
@@ -24,6 +24,5 @@
 - (void)exchangeCardAtIndex:(NSInteger)sourceRow withCardAtIndex:(NSInteger)destinationRow;
 - (UIViewController *)prepareCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller;
 - (void)commitCardComposeViewController:(UIViewController *)viewController withViewController:(UIViewController *)controller;
-- (void)handleRemoteCardToken:(NSString *)token;
 
 @end

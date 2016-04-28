@@ -39,6 +39,13 @@
     return [AppStorage sharedInstance];
 }
 
+- (void)setQr_id:(NSString<Optional> *)qr_id {
+    _qr_id = qr_id;
+    if (_local_template) {
+        _local_template.qrcode = qr_id;
+    }
+}
+
 #pragma mark - Card Storage
 
 - (BOOL)hasLocalRecord {

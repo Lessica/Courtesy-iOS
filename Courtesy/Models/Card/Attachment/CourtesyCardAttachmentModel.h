@@ -42,9 +42,11 @@ typedef NS_ENUM(NSInteger, CourtesyAttachmentType) {
 - (NSString *)saveToLocalDatabase;
 - (void)removeFromLocalDatabase;
 + (NSString *)savedAttachmentsPathWithCardToken:(NSString *)token;
++ (NSURL *)remoteAttachmentsURLWithCardToken:(NSString *)token;
 
 - (NSString *)attachmentPath;
 - (NSURL *)attachmentURL;
+- (NSURL *)remoteAttachmentURL;
 - (NSString *)thumbnailPathWithSize:(CGSize)size;
 - (NSURL *)thumbnailImageURLWithSize:(CGSize)size;
 - (void)generateThumbnails;

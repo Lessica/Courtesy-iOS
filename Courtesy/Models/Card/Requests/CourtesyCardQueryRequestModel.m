@@ -46,6 +46,8 @@
             NSInteger errorCode = [[dict objectForKey:@"error"] integerValue];
             if (errorCode == 403) {
                 @throw NSCustomException(kCourtesyForbidden, @"请重新登录");
+            } else if (errorCode == 425) {
+                @throw NSCustomException(kCourtesyUnexceptedStatus, @"卡片不可用");
             } else if (errorCode == 0) {
                 self.card_dict = json[@"card_info"];
                 [self callbackQueryDelegateSucceed];

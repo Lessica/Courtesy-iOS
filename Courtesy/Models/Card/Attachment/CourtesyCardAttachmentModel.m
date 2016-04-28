@@ -21,6 +21,7 @@
 @implementation CourtesyCardAttachmentModel {
     NSString *_attachmentPath;
     NSURL *_attachmentURL;
+    NSURL *_remoteAttachmentURL;
 }
 
 #pragma mark - paths
@@ -34,6 +35,10 @@
     if (![FCFileManager isDirectoryItemAtPath:tPath])
         [FCFileManager createDirectoriesForPath:tPath error:nil];
     return tPath;
+}
+
++ (NSURL *)remoteAttachmentsURLWithCardToken:(NSString *)token {
+    return [[NSURL URLWithString:API_STATIC_RESOURCES] URLByAppendingPathComponent:token];
 }
 
 - (NSString *)attachmentPath {
@@ -57,6 +62,27 @@
     return _attachmentPath;
 }
 
+- (NSURL *)remoteAttachmentURL {
+    if (!_remoteAttachmentURL) {
+        NSAssert(self.card_token != nil, @"Card token is nil!");
+        NSURL *remoteAttachmentURL = [[[self class] remoteAttachmentsURLWithCardToken:self.card_token] URLByAppendingPathComponent:[NSString stringWithFormat:kCourtesyAttachmentPrefix, self.salt_hash]];
+        if (self.type == CourtesyAttachmentImage) {
+            remoteAttachmentURL = [remoteAttachmentURL URLByAppendingPathExtension:@"png"];
+        } else if (self.type == CourtesyAttachmentAnimatedImage) {
+            remoteAttachmentURL = [remoteAttachmentURL URLByAppendingPathExtension:@"gif"];
+        } else if (self.type == CourtesyAttachmentVideo) {
+            remoteAttachmentURL = [remoteAttachmentURL URLByAppendingPathExtension:@"mov"];
+        } else if (self.type == CourtesyAttachmentAudio) {
+            remoteAttachmentURL = [remoteAttachmentURL URLByAppendingPathExtension:@"caf"];
+        } else {
+            
+        }
+        _remoteAttachmentURL = remoteAttachmentURL;
+    }
+    CYLog(@"%@", _remoteAttachmentURL);
+    return _remoteAttachmentURL;
+}
+
 - (NSURL *)attachmentURL {
     if (!_attachmentURL) {
         _attachmentURL = [NSURL fileURLWithPath:[self attachmentPath]];
@@ -69,6 +95,14 @@
     thumbnailPath = [thumbnailPath stringByAppendingPathExtension:@"jpg"];
     CYLog(@"%@", thumbnailPath);
     return thumbnailPath;
+}
+
+- (NSURL *)remoteThumbnailURLWithSize:(CGSize)size {
+    NSURL *remoteDir = [[self class] remoteAttachmentsURLWithCardToken:self.card_token];
+    NSURL *remoteThumbnailURL = [remoteDir URLByAppendingPathComponent:[NSString stringWithFormat:kCourtesyThumbnailPrefix, self.salt_hash, (int)size.width, (int)size.height]];
+    remoteThumbnailURL = [remoteThumbnailURL URLByAppendingPathExtension:@"jpg"];
+    CYLog(@"%@", remoteThumbnailURL);
+    return remoteThumbnailURL;
 }
 
 #pragma mark - Init
@@ -137,7 +171,12 @@
         if ([FCFileManager existsItemAtPath:thumbnailPath]) {
             return [NSURL fileURLWithPath:thumbnailPath];
         }
-        if ([self attachmentPath]) { // 本地缓存
+        if ([self attachmentPath]) {
+            // 获取图像网络缩略图
+            if (![FCFileManager existsItemAtPath:[self attachmentPath]]) {
+                return [self remoteThumbnailURLWithSize:size];
+            }
+            // 本地缩略图缓存
             UIImage *originalImage = [UIImage imageWithContentsOfFile:[self attachmentPath]];
             UIImage *resizedImage = [originalImage imageByResizeToSize:size contentMode:UIViewContentModeScaleAspectFit];
             NSData *resizedData = UIImageJPEGRepresentation(resizedImage, kCourtesyQualityLow);
@@ -151,7 +190,12 @@
         }
     } else if (self.type == CourtesyAttachmentVideo) { // 视频
         size = CGSizeMake(0, 0);
-        if ([self attachmentPath]) { // 本地缓存
+        if ([self attachmentPath]) {
+            // 获取视频网络缩略图
+            if (![FCFileManager existsItemAtPath:[self attachmentPath]]) {
+                return [self remoteThumbnailURLWithSize:size];
+            }
+            // 本地缩略图缓存
             NSString *thumbnailPath = [self thumbnailPathWithSize:size];
             if ([FCFileManager existsItemAtPath:thumbnailPath]) {
                 return [NSURL fileURLWithPath:thumbnailPath];

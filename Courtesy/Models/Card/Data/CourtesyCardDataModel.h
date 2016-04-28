@@ -13,6 +13,7 @@
 @end
 
 @interface CourtesyCardDataModel : JSONModel
+@property (nonatomic, copy) NSString<Optional> *qrcode;
 @property (nonatomic, strong, readonly) NSString<Ignore> *mainTitle; // 20 chars
 @property (nonatomic, strong, readonly) NSString<Ignore> *briefTitle; // 50 chars
 @property (nonatomic, strong, readonly) NSURL<Ignore> *smallThumbnailURL; // From the first attachment image

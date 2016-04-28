@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "CourtesyCardManager.h"
 #import "CourtesyCardStyleManager.h"
+#import "CourtesyQRScanViewController.h"
 #import "CourtesyLeftDrawerTableViewController.h"
 #import "CourtesyLeftDrawerMenuTableViewCell.h"
 #import "CourtesyLeftDrawerAvatarTableViewCell.h"
@@ -230,40 +231,11 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     }
 }
 
-#pragma mark - CourtesyQRCodeScanDelegate
-
-- (void)scanWithResult:(CourtesyQRCodeModel *)qrcode {
-    if (!qrcode) {
-        return;
-    }
-    // 发布、修改或查看
-    if (qrcode.is_recorded == NO) {
-        if (![sharedSettings hasLogin]) { // 未登录
-            [self.view makeToast:@"登录后才能发布新卡片"
-                        duration:2.0
-                        position:CSToastPositionCenter];
-            return;
-        }
-        // 发布新卡片界面并设置二维码数据
-        CourtesyCardModel *newCard = [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
-        newCard.qr_id = qrcode.unique_id;
-    } else {
-        if (!qrcode.card_token) {
-            [self.view makeToast:@"卡片信息获取失败"
-                        duration:2.0
-                        position:CSToastPositionCenter];
-            return;
-        }
-        [[CourtesyCardManager sharedManager] handleRemoteCardToken:qrcode.card_token];
-    }
-}
-
 #pragma mark - Views
 
 - (CourtesyPortraitViewController *)scanPortraitView {
     if (!qrscanView) {
         CourtesyQRScanViewController *vc = [CourtesyQRScanViewController new];
-        vc.delegate = self;
         qrscanView = [[CourtesyPortraitViewController alloc] initWithRootViewController:vc];
     }
     return qrscanView;
