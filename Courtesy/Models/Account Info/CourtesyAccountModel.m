@@ -42,13 +42,6 @@
     [_profile setNick:_email];
 }
 
-- (BOOL)hasQQAccount {
-    if (!_qq_openid || [_qq_openid isEmpty]) {
-        return NO;
-    }
-    return YES;
-}
-
 - (BOOL)hasWeiboAccount {
     if (!_weibo_openid || [_weibo_openid isEmpty]) {
         return NO;
@@ -56,8 +49,15 @@
     return YES;
 }
 
+- (CourtesyTencentAccountModel *)tencentModel {
+    if (!_tencentModel) {
+        _tencentModel = [[CourtesyTencentAccountModel alloc] init];
+    }
+    return _tencentModel;
+}
+
 - (BOOL)hasTencentAccount {
-    if (!_tencent_openid || [_tencent_openid isEmpty]) {
+    if (!_tencentModel || !_tencentModel.accessToken) {
         return NO;
     }
     return YES;

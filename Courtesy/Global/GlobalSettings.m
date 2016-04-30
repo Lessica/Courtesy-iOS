@@ -331,6 +331,10 @@
 }
 
 - (void)tencentDidLogin {
+    kAccount.tencentModel.openId = _tencentAuth.openId;
+    kAccount.tencentModel.accessToken = _tencentAuth.accessToken;
+    kAccount.tencentModel.expirationTime = [_tencentAuth.expirationDate timeIntervalSince1970];
+    [self reloadAccount];
     [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo
                                                         object:@{@"action": kTencentLoginSuccessed}];
 }

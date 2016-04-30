@@ -148,7 +148,7 @@ static SystemSoundID record_sound_id = 0;
 - (void)recordTap:(UIButton *) sender {
     if (sender.selected) { // 停止录音
         [self.recorder stop];
-        [self.displayLink removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        [self.displayLink invalidate];
         _play.enabled = YES;
         _doneBtn.enabled = YES;
         [self.recordingTimer invalidate];
@@ -227,6 +227,9 @@ static SystemSoundID record_sound_id = 0;
 }
 
 - (void)recordingTimerUpdate:(id)sender {
+    if (!_recorder) {
+        return;
+    }
     int minute = (int)(_recorder.currentTime / 60);
     int second = (int)(_recorder.currentTime) % 60;
     int micro = (int)(_recorder.currentTime * 100) % 100;
@@ -235,6 +238,14 @@ static SystemSoundID record_sound_id = 0;
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     isPlaying = NO;
+}
+
+- (void)removeFromSuperview {
+    [super removeFromSuperview];
+    [self.displayLink invalidate]; self.displayLink = nil;
+    [self.recordingTimer invalidate]; self.recordingTimer = nil;
+    [self.recorder stop]; self.recorder = nil;
+    [self.player stop]; self.player = nil;
 }
 
 - (void)dealloc {

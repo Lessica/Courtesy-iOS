@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "CourtesyCardManager.h"
 #import "CourtesyCommonCardView.h"
+#import "CourtesyDefaultCoverView.h"
 #import "CourtesyPortraitViewController.h"
 #import "CourtesyGalleryViewController.h"
 #import "CourtesyCalendarViewController.h"
@@ -23,11 +24,14 @@ typedef enum : NSUInteger {
 
 typedef enum : NSUInteger {
     kCourtesyGalleryDailyCard = 0,
-    kCourtesyGalleryLinkCard = 1,
+    kCourtesyGalleryGroupCard = 1,
+    kCourtesyGalleryLinkCard  = 2,
+    kCourtesyGalleryShareCard = 3
 } CourtesyGalleryMainIndex;
 
 @interface CourtesyGalleryViewController () <JVFloatingDrawerCenterViewController, PDTSimpleCalendarViewDelegate>
 @property (nonatomic, assign) CourtesyStarViewControllerStatus currentStatus;
+@property (nonatomic, assign) CourtesyGalleryMainIndex currentIndex;
 @property (nonatomic, strong) NSDate *selectedDate;
 @property (nonatomic, strong) IBOutlet MiniDateView *dateView;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
@@ -39,6 +43,7 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    /* Init of navigation bar */
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
     navigationBar.translucent = YES;
     navigationBar.barTintColor = [UIColor clearColor];
@@ -48,6 +53,7 @@ typedef enum : NSUInteger {
     self.navigationController.toolbar.barTintColor = [UIColor clearColor];
     self.navigationController.toolbar.tintColor = [UIColor whiteColor];
 
+    /* Init of background view */
     self.view.backgroundColor = [UIColor blackColor];
     self.backgroundImage.image = [[UIImage imageNamed:@"street"] imageByBlurRadius:20
                                                                          tintColor:[UIColor colorWithWhite:0.11 alpha:0.72]
@@ -57,29 +63,27 @@ typedef enum : NSUInteger {
     self.extendedLayoutIncludesOpaqueBars = NO;
     self.edgesForExtendedLayout = UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
     
+    /* Init of date view */
     self.dateView.tintColor = [UIColor whiteColor];
     self.dateView.userInteractionEnabled = YES;
     [self.dateView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                 action:@selector(actionDateViewTapped:)]];
     
-    // Debug
-    self.currentStatus = kCourtesyGalleryViewControllerStatusDefault;
-    if (self.currentStatus == kCourtesyGalleryViewControllerStatusDefault) {
-        ZLSwipeableView *swipeableView = [[ZLSwipeableView alloc] initWithFrame:CGRectZero];
-        swipeableView.numberOfActiveViews = 4;
-        swipeableView.numberOfHistoryItem = 20;
-        self.swipeableView = swipeableView;
-        [self.view addSubview:self.swipeableView];
-        // Required Data Source
-        self.swipeableView.dataSource = self;
-        // Optional Delegate
-        self.swipeableView.delegate = self;
-        self.swipeableView.allowedDirection = ZLSwipeableViewDirectionHorizontal;
-        self.swipeableView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.swipeableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(50, 50, 160, 50));
-        }];
-    }
+    /* Init of swipeable view */
+    ZLSwipeableView *swipeableView = [[ZLSwipeableView alloc] initWithFrame:CGRectZero];
+    swipeableView.numberOfActiveViews = 4;
+    swipeableView.numberOfHistoryItem = 20;
+    // Required Data Source
+    swipeableView.dataSource = self;
+    // Optional Delegate
+    swipeableView.delegate = self;
+    swipeableView.allowedDirection = ZLSwipeableViewDirectionHorizontal;
+    swipeableView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:swipeableView];
+    self.swipeableView = swipeableView;
+    
+    /* Init of view index */
+    self.currentIndex = kCourtesyGalleryDailyCard;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -88,6 +92,13 @@ typedef enum : NSUInteger {
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+}
+
+- (void)updateViewConstraints {
+    [super updateViewConstraints];
+    [self.swipeableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(50, 50, 160, 50));
+    }];
 }
 
 #pragma mark - Getter / Setter
@@ -162,10 +173,28 @@ typedef enum : NSUInteger {
 #pragma mark - ZLSwipeableViewDataSource
 
 - (UIView *)nextViewForSwipeableView:(ZLSwipeableView *)swipeableView {
-    CourtesyCommonCardView *view = [[CourtesyCommonCardView alloc] initWithFrame:swipeableView.bounds];
-    view.backgroundColor = [self colorForName:@"Clouds"];
-
-    return view;
+    if (_currentIndex == kCourtesyGalleryDailyCard) {
+        _currentIndex++;
+        CourtesyDefaultCoverView *view = [[CourtesyDefaultCoverView alloc] initWithFrame:swipeableView.bounds];
+        view.backgroundColor = [self colorForName:@"Clouds"];
+        return view;
+    } else if (_currentIndex == kCourtesyGalleryGroupCard) {
+        _currentIndex++;
+        CourtesyCommonCardView *view = [[CourtesyCommonCardView alloc] initWithFrame:swipeableView.bounds];
+        view.backgroundColor = [self colorForName:@"Clouds"];
+        return view;
+    } else if (_currentIndex == kCourtesyGalleryLinkCard) {
+        _currentIndex++;
+        CourtesyCommonCardView *view = [[CourtesyCommonCardView alloc] initWithFrame:swipeableView.bounds];
+        view.backgroundColor = [self colorForName:@"Clouds"];
+        return view;
+    } else if (_currentIndex == kCourtesyGalleryShareCard) {
+        _currentIndex++;
+        CourtesyCommonCardView *view = [[CourtesyCommonCardView alloc] initWithFrame:swipeableView.bounds];
+        view.backgroundColor = [self colorForName:@"Clouds"];
+        return view;
+    }
+    return nil;
 }
 
 - (UIColor *)colorForName:(NSString *)name {
@@ -178,26 +207,7 @@ typedef enum : NSUInteger {
                 position:CSToastPositionCenter];
     return nil;
 }
-//    UIView *view = [self nextViewForSwipeableView:swipeableView];
-//    [self applyRandomTransform:view];
-//    return view;
 
-/*
-- (void)applyRandomTransform:(UIView *)view {
-    CGFloat width = self.swipeableView.bounds.size.width;
-    CGFloat height = self.swipeableView.bounds.size.height;
-    CGFloat distance = MAX(width, height);
-    
-    CGAffineTransform transform = CGAffineTransformMakeRotation([self randomRadian]);
-    transform = CGAffineTransformTranslate(transform, distance, 0);
-    transform = CGAffineTransformRotate(transform, [self randomRadian]);
-    view.transform = transform;
-}
-
-- (CGFloat)randomRadian {
-    return (random() % 360) * (M_PI / 180.0);
-}
-*/
 #pragma mark - JVFloatingDrawerCenterViewController
 
 - (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {

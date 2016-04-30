@@ -23,7 +23,7 @@
 @interface CourtesyCardModel : JSONModel
 @property (nonatomic, copy) NSString<Optional> *qr_id;
 @property (nonatomic, assign) BOOL is_editable;
-@property (nonatomic, assign) BOOL is_public;
+@property (nonatomic, assign) BOOL is_banned;
 @property (nonatomic, assign) NSUInteger view_count;
 @property (nonatomic, assign) NSUInteger created_at;
 @property (nonatomic, assign) NSUInteger modified_at;
@@ -38,7 +38,6 @@
 @property (nonatomic, strong) CourtesyCardDataModel *local_template;
 @property (nonatomic, assign) BOOL isNewCard;
 @property (nonatomic, assign) BOOL hasPublished;
-@property (nonatomic, assign) BOOL hasBanned;
 
 @property (nonatomic, weak)   id<Ignore, CourtesyCardDelegate> delegate;
 

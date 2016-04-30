@@ -1913,7 +1913,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         [self.view makeToastActivity:CSToastPositionCenter];
         NSError *error = nil;
         CourtesyCardModel *card = self.card;
-        card.is_public = [sharedSettings switchAutoPublic];
         card.modified_at = (NSUInteger) [[NSDate date] timeIntervalSince1970];
         if (card.isNewCard) {
             card.edited_count = 0;

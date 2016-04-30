@@ -95,7 +95,7 @@
     CourtesyCardPublishTask *newTask = [[CourtesyCardPublishTask alloc] initWithCard:card];
     [self.cardQueue addObject:newTask];
     maxQueueSize++;
-    if (!self.currentTask) {
+    if (!_currentTask) {
         [self startQueue];
     }
 }
@@ -134,8 +134,8 @@
 
 - (void)removeCardPublishTask:(CourtesyCardModel *)card {
     NSAssert(card != nil, @"Remove Card Publish Task With Nil Value!");
-    if (card == self.currentTask.card) {
-        [self.currentTask stopTask];
+    if (card == _currentTask.card) {
+        [_currentTask stopTask];
     } else {
         CourtesyCardPublishTask *task = [self publishTaskInPublishQueueWithCard:card];
         if (task) {
@@ -150,8 +150,8 @@
     for (CourtesyCardPublishTask *t in self.cardQueue) {
         t.status = CourtesyCardPublishTaskStatusCanceled;
     }
-    if (self.currentTask != nil) {
-        [self.currentTask stopTask];
+    if (_currentTask != nil) {
+        [_currentTask stopTask];
     }
     maxQueueSize = 0;
     [self removeCompletedTasks];

@@ -7,6 +7,7 @@
 //
 
 #import "CourtesyAccountProfileModel.h"
+#import "CourtesyTencentAccountModel.h"
 
 @class CourtesyAccountModel;
 
@@ -27,9 +28,8 @@
 @property (nonatomic, assign) NSUInteger registered_at;
 @property (nonatomic, assign) NSUInteger last_login_at;
 @property (nonatomic, assign) NSUInteger card_count;
-@property (nonatomic, copy) NSString<Optional> *qq_openid;
 @property (nonatomic, copy) NSString<Optional> *weibo_openid;
-@property (nonatomic, copy) NSString<Optional> *tencent_openid;
+@property (nonatomic, copy) CourtesyTencentAccountModel<Optional> *tencentModel;
 @property (nonatomic, strong) CourtesyAccountProfileModel<Optional> *profile;
 @property (nonatomic, weak) id<Ignore, CourtesyFetchAccountInfoDelegate> delegate;
 
@@ -37,7 +37,6 @@
 - (void)sendRequestFetchAccountInfo;
 - (BOOL)isRequestingFetchAccountInfo;
 
-- (BOOL)hasQQAccount;
 - (BOOL)hasWeiboAccount;
 - (BOOL)hasTencentAccount;
 

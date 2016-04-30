@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CourtesyCommonCardView : UIView
+- (void)setup;
 
 @end

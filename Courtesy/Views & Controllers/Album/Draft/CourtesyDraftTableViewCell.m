@@ -12,13 +12,16 @@
 #import "CourtesyCardPublishTask.h"
 #import "CourtesyCardPublishQueue.h"
 #import "CourtesyPaddingLabel.h"
+#import "POP.h"
+#import "ColorProgressView.h"
+#import "ProgressColor+Colors.h"
 
 @interface CourtesyDraftTableViewCell ()
 @property (weak, nonatomic) IBOutlet CourtesyPaddingLabel *mainTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *briefTitleLabel;
 //@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imagePreview;
-@property (weak, nonatomic) IBOutlet UIProgressView *publishProgressView;
+@property (weak, nonatomic) ColorProgressView *publishProgressView;
 @property (strong, nonatomic) CourtesyCardPublishTask *targetTask;
 @property (weak, nonatomic) IBOutlet UIImageView *smallAvatarView;
 @property (weak, nonatomic) IBOutlet UILabel *smallNickLabel;
@@ -29,19 +32,46 @@
 
 @implementation CourtesyDraftTableViewCell
 
++ (BOOL)requiresConstraintBasedLayout {
+    return YES;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.mainTitleLabel.font = [UIFont fontWithName:@"Heiti SC" size:20.0f];
     self.mainTitleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    self.briefTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.smallNickLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     self.mainTitleLabel.numberOfLines = 1;
+    
+    self.briefTitleLabel.font = [UIFont fontWithName:@"Heiti SC" size:15.0f];
+    self.briefTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.briefTitleLabel.numberOfLines = 2;
+    
+    self.smallNickLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     self.smallNickLabel.numberOfLines = 1;
+    
     self.imagePreview.layer.masksToBounds = YES;
     self.imagePreview.layer.cornerRadius = 3.0;
+    
     self.smallAvatarView.layer.cornerRadius = self.smallAvatarView.frame.size.width / 2;
     self.targetTask = nil;
+    
+    /* Init of color progress view */
+    ColorProgressView *publishProgressView = [[ColorProgressView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 2)];
+    publishProgressView.color = [ProgressColor redGradientColor];
+    [publishProgressView startAnimation];
+    [self.contentView addSubview:publishProgressView];
+    self.publishProgressView = publishProgressView;
+}
+
+- (void)updateConstraints {
+    [super updateConstraints];
+    [_publishProgressView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(self.contentView.mas_width);
+        make.height.equalTo(@2);
+        make.top.equalTo(self.contentView.mas_top);
+        make.left.equalTo(self.contentView.mas_left);
+    }];
 }
 
 - (void)setCard:(CourtesyCardModel *)card {
@@ -92,7 +122,7 @@
 
 - (void)resetLabelColor {
     if (self.card) {
-        if (self.card.hasBanned) {
+        if (self.card.is_banned) {
             self.mainTitleLabel.textColor = [UIColor magicColor];
         } else {
             self.mainTitleLabel.textColor = [UIColor blackColor];
@@ -123,7 +153,7 @@
     } else if (status == CourtesyCardPublishTaskStatusAcknowledging) {
         self.smallTimeLabel.text = [NSString stringWithFormat:@"完成同步"];
     }
-    [self.publishProgressView setProgress:0.0 animated:NO];
+    [self.publishProgressView setProgress:0.0];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -159,6 +189,27 @@
                                        [FCFileManager sizeFormatted:[NSNumber numberWithFloat:(self.targetTask.totalBytes - self.targetTask.skippedBytes)]]];
             }
         });
+    }
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    
+    [super setHighlighted:highlighted animated:animated];
+    
+    if (self.highlighted) {
+        
+        POPBasicAnimation *scaleAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+        scaleAnimation.duration           = 0.1f;
+        scaleAnimation.toValue            = [NSValue valueWithCGPoint:CGPointMake(0.95, 0.95)];
+        [self.contentView pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
+        
+    } else {
+        
+        POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+        scaleAnimation.toValue             = [NSValue valueWithCGPoint:CGPointMake(1, 1)];
+        scaleAnimation.velocity            = [NSValue valueWithCGPoint:CGPointMake(2, 2)];
+        scaleAnimation.springBounciness    = 20.f;
+        [self.contentView pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
     }
 }
 

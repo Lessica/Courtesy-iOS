@@ -11,6 +11,10 @@
 		0F13F5371CC8F61900793FB9 /* CourtesyCardResourcesVerificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13F5361CC8F61900793FB9 /* CourtesyCardResourcesVerificationModel.m */; };
 		0F13F53B1CC9088F00793FB9 /* CourtesyCardResourceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13F53A1CC9088F00793FB9 /* CourtesyCardResourceModel.m */; };
 		0F13F53E1CC90BC000793FB9 /* NSString+Mime.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13F53D1CC90BC000793FB9 /* NSString+Mime.m */; };
+		0F1684081CD38BE100F4AFAB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1684071CD38BE100F4AFAB /* Foundation.framework */; };
+		0F1684101CD3A41D00F4AFAB /* ColorProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F16840B1CD3A41D00F4AFAB /* ColorProgressView.m */; };
+		0F1684111CD3A41D00F4AFAB /* ProgressColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F16840D1CD3A41D00F4AFAB /* ProgressColor.m */; };
+		0F1684121CD3A41D00F4AFAB /* ProgressColor+Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F16840F1CD3A41D00F4AFAB /* ProgressColor+Colors.m */; };
 		0F193D661C9787150015F2B1 /* CourtesyCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F193D651C9787150015F2B1 /* CourtesyCardManager.m */; };
 		0F1EF8D11CCB68EE00090830 /* CourtesyCardQueryRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1EF8D01CCB68EE00090830 /* CourtesyCardQueryRequestModel.m */; };
 		0F1EF8D41CCB9A5200090830 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F1EF8D21CCB9A5200090830 /* TencentOpenApi_IOS_Bundle.bundle */; };
@@ -34,7 +38,6 @@
 		0F2851701C97D8AD0066F5C5 /* UIImage+Jot.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2851681C97D8AD0066F5C5 /* UIImage+Jot.m */; };
 		0F2A36731C8D325200028E96 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2A36721C8D325200028E96 /* AVKit.framework */; };
 		0F2A36751C8D397D00028E96 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */; };
-		0F2BC5B11CCE01B000DDAF23 /* CourtesyPaddingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2BC5B01CCE01B000DDAF23 /* CourtesyPaddingLabel.m */; };
 		0F30298E1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F30298D1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m */; };
 		0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F305C981C93222D0052882A /* StoreKit.framework */; };
 		0F35C6A01CB9EBDF00C31ED3 /* CourtesyWatchSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F35C69F1CB9EBDF00C31ED3 /* CourtesyWatchSessionManager.m */; };
@@ -55,6 +58,8 @@
 		0F55FCC61CA3D5060084C4E2 /* AppStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCC51CA3D5060084C4E2 /* AppStorage.m */; };
 		0F55FCCF1CA40D8D0084C4E2 /* NSDate+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCCE1CA40D8D0084C4E2 /* NSDate+Compare.m */; };
 		0F5801061C98075600D18059 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5801051C98075600D18059 /* FCFileManager.m */; };
+		0F5940B91CD487E8002D916D /* CourtesyPaddingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5940B81CD487E8002D916D /* CourtesyPaddingLabel.m */; };
+		0F5940BC1CD48F77002D916D /* CourtesyDefaultCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5940BB1CD48F77002D916D /* CourtesyDefaultCoverView.m */; };
 		0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */; };
 		0F6D380E1CD100BA001155DF /* CGContextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D37FF1CD100BA001155DF /* CGContextObject.m */; };
 		0F6D380F1CD100BA001155DF /* CGContextObjectConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D38011CD100BA001155DF /* CGContextObjectConfig.m */; };
@@ -81,6 +86,7 @@
 		0FA7268A1CAAB80B00315E09 /* ZLSwipeableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA7267C1CAAB80B00315E09 /* ZLSwipeableView.m */; };
 		0FA7268B1CAAB80B00315E09 /* ZLSwipeableViewMovement.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA7267E1CAAB80B00315E09 /* ZLSwipeableViewMovement.m */; };
 		0FA7268C1CAAB80B00315E09 /* ZLSwipeableViewSwipeOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA726801CAAB80B00315E09 /* ZLSwipeableViewSwipeOptions.m */; };
+		0FAF2A751CD3363A006FF48A /* CourtesyTencentAccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FAF2A741CD3363A006FF48A /* CourtesyTencentAccountModel.m */; };
 		0FB0A5571C9ABDD0004B06F3 /* CourtesyAudioSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A5561C9ABDD0004B06F3 /* CourtesyAudioSheetView.m */; };
 		0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A5591C9AD9E6004B06F3 /* CourtesyImageSheetView.m */; };
 		0FB0A55D1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB0A55C1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m */; };
@@ -289,6 +295,13 @@
 		0F13F53A1CC9088F00793FB9 /* CourtesyCardResourceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardResourceModel.m; sourceTree = "<group>"; };
 		0F13F53C1CC90BC000793FB9 /* NSString+Mime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Mime.h"; sourceTree = "<group>"; };
 		0F13F53D1CC90BC000793FB9 /* NSString+Mime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Mime.m"; sourceTree = "<group>"; };
+		0F1684071CD38BE100F4AFAB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0F16840A1CD3A41D00F4AFAB /* ColorProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorProgressView.h; path = ../../../../../../../Test/Animations/Animations/ColorProgressView.h; sourceTree = "<group>"; };
+		0F16840B1CD3A41D00F4AFAB /* ColorProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorProgressView.m; path = ../../../../../../../Test/Animations/Animations/ColorProgressView.m; sourceTree = "<group>"; };
+		0F16840C1CD3A41D00F4AFAB /* ProgressColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressColor.h; path = ../../../../../../../Test/Animations/Animations/ProgressColor.h; sourceTree = "<group>"; };
+		0F16840D1CD3A41D00F4AFAB /* ProgressColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgressColor.m; path = ../../../../../../../Test/Animations/Animations/ProgressColor.m; sourceTree = "<group>"; };
+		0F16840E1CD3A41D00F4AFAB /* ProgressColor+Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ProgressColor+Colors.h"; path = "../../../../../../../Test/Animations/Animations/ProgressColor+Colors.h"; sourceTree = "<group>"; };
+		0F16840F1CD3A41D00F4AFAB /* ProgressColor+Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ProgressColor+Colors.m"; path = "../../../../../../../Test/Animations/Animations/ProgressColor+Colors.m"; sourceTree = "<group>"; };
 		0F193D641C9787150015F2B1 /* CourtesyCardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardManager.h; sourceTree = "<group>"; };
 		0F193D651C9787150015F2B1 /* CourtesyCardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardManager.m; sourceTree = "<group>"; };
 		0F1EF8CF1CCB68EE00090830 /* CourtesyCardQueryRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardQueryRequestModel.h; sourceTree = "<group>"; };
@@ -330,8 +343,6 @@
 		0F2851681C97D8AD0066F5C5 /* UIImage+Jot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Jot.m"; sourceTree = "<group>"; };
 		0F2A36721C8D325200028E96 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		0F2BC5AF1CCE01B000DDAF23 /* CourtesyPaddingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyPaddingLabel.h; sourceTree = "<group>"; };
-		0F2BC5B01CCE01B000DDAF23 /* CourtesyPaddingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyPaddingLabel.m; sourceTree = "<group>"; };
 		0F30298C1CCE46A700161BA7 /* CourtesyCardAuthorHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAuthorHeader.h; sourceTree = "<group>"; };
 		0F30298D1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAuthorHeader.m; sourceTree = "<group>"; };
 		0F305C981C93222D0052882A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -465,6 +476,10 @@
 		0F56686A1C95E1BE00AD4F04 /* CourtesyWatchQueryKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CourtesyWatchQueryKeys.h; sourceTree = "<group>"; };
 		0F5801041C98075600D18059 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
 		0F5801051C98075600D18059 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
+		0F5940B71CD487E8002D916D /* CourtesyPaddingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyPaddingLabel.h; sourceTree = "<group>"; };
+		0F5940B81CD487E8002D916D /* CourtesyPaddingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyPaddingLabel.m; sourceTree = "<group>"; };
+		0F5940BA1CD48F77002D916D /* CourtesyDefaultCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDefaultCoverView.h; sourceTree = "<group>"; };
+		0F5940BB1CD48F77002D916D /* CourtesyDefaultCoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyDefaultCoverView.m; sourceTree = "<group>"; };
 		0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0F6D37FE1CD100BA001155DF /* CGContextObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGContextObject.h; sourceTree = "<group>"; };
 		0F6D37FF1CD100BA001155DF /* CGContextObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGContextObject.m; sourceTree = "<group>"; };
@@ -512,6 +527,8 @@
 		0FA7267E1CAAB80B00315E09 /* ZLSwipeableViewMovement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLSwipeableViewMovement.m; sourceTree = "<group>"; };
 		0FA7267F1CAAB80B00315E09 /* ZLSwipeableViewSwipeOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLSwipeableViewSwipeOptions.h; sourceTree = "<group>"; };
 		0FA726801CAAB80B00315E09 /* ZLSwipeableViewSwipeOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLSwipeableViewSwipeOptions.m; sourceTree = "<group>"; };
+		0FAF2A731CD3363A006FF48A /* CourtesyTencentAccountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyTencentAccountModel.h; sourceTree = "<group>"; };
+		0FAF2A741CD3363A006FF48A /* CourtesyTencentAccountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyTencentAccountModel.m; sourceTree = "<group>"; };
 		0FB0A5551C9ABDD0004B06F3 /* CourtesyAudioSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAudioSheetView.h; sourceTree = "<group>"; };
 		0FB0A5561C9ABDD0004B06F3 /* CourtesyAudioSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAudioSheetView.m; sourceTree = "<group>"; };
 		0FB0A5581C9AD9E6004B06F3 /* CourtesyImageSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyImageSheetView.h; sourceTree = "<group>"; };
@@ -801,6 +818,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F1684081CD38BE100F4AFAB /* Foundation.framework in Frameworks */,
 				0F1EF8D91CCB9A8A00090830 /* libstdc++.tbd in Frameworks */,
 				0F1EF8D71CCB9A7400090830 /* CoreGraphics.framework in Frameworks */,
 				0FC365B51CCA5221007FFEF6 /* Security.framework in Frameworks */,
@@ -846,6 +864,19 @@
 				0F13F53A1CC9088F00793FB9 /* CourtesyCardResourceModel.m */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		0F1684091CD3A41300F4AFAB /* ProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				0F16840A1CD3A41D00F4AFAB /* ColorProgressView.h */,
+				0F16840B1CD3A41D00F4AFAB /* ColorProgressView.m */,
+				0F16840C1CD3A41D00F4AFAB /* ProgressColor.h */,
+				0F16840D1CD3A41D00F4AFAB /* ProgressColor.m */,
+				0F16840E1CD3A41D00F4AFAB /* ProgressColor+Colors.h */,
+				0F16840F1CD3A41D00F4AFAB /* ProgressColor+Colors.m */,
+			);
+			path = ProgressView;
 			sourceTree = "<group>";
 		};
 		0F2744BF1CB53B5E00BCF173 /* Gallery */ = {
@@ -1237,6 +1268,15 @@
 			path = Extensions/FCFileManager;
 			sourceTree = "<group>";
 		};
+		0F5940B61CD487E8002D916D /* PaddingLabel */ = {
+			isa = PBXGroup;
+			children = (
+				0F5940B71CD487E8002D916D /* CourtesyPaddingLabel.h */,
+				0F5940B81CD487E8002D916D /* CourtesyPaddingLabel.m */,
+			);
+			path = PaddingLabel;
+			sourceTree = "<group>";
+		};
 		0F6D37FC1CD100BA001155DF /* DrawView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1359,6 +1399,15 @@
 			path = ZLSwipeableView;
 			sourceTree = "<group>";
 		};
+		0FAF2A721CD33623006FF48A /* Third Party */ = {
+			isa = PBXGroup;
+			children = (
+				0FAF2A731CD3363A006FF48A /* CourtesyTencentAccountModel.h */,
+				0FAF2A741CD3363A006FF48A /* CourtesyTencentAccountModel.m */,
+			);
+			path = "Third Party";
+			sourceTree = "<group>";
+		};
 		0FBA716C1C7B245D00053696 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1388,6 +1437,8 @@
 			children = (
 				0FC0B1A51CCF154B00E4A73E /* CourtesyCommonCardView.h */,
 				0FC0B1A61CCF154B00E4A73E /* CourtesyCommonCardView.m */,
+				0F5940BA1CD48F77002D916D /* CourtesyDefaultCoverView.h */,
+				0F5940BB1CD48F77002D916D /* CourtesyDefaultCoverView.m */,
 			);
 			path = Cover;
 			sourceTree = "<group>";
@@ -1729,8 +1780,8 @@
 		0FFC2F1A1CCB14F000676097 /* Draft */ = {
 			isa = PBXGroup;
 			children = (
-				0F2BC5AF1CCE01B000DDAF23 /* CourtesyPaddingLabel.h */,
-				0F2BC5B01CCE01B000DDAF23 /* CourtesyPaddingLabel.m */,
+				0F5940B61CD487E8002D916D /* PaddingLabel */,
+				0F1684091CD3A41300F4AFAB /* ProgressView */,
 				0FFC2F1B1CCB14F000676097 /* CourtesyDraftTableViewCell.h */,
 				0FFC2F1C1CCB14F000676097 /* CourtesyDraftTableViewCell.m */,
 				0FB797001CCCBF3600DEBF2F /* CourtesyDraftTableViewHeaderView.h */,
@@ -2016,6 +2067,7 @@
 		0FFE048C1C93F47400E99DCC /* Account Info */ = {
 			isa = PBXGroup;
 			children = (
+				0FAF2A721CD33623006FF48A /* Third Party */,
 				0FFE048D1C93F47400E99DCC /* CourtesyAccountModel.h */,
 				0FFE048E1C93F47400E99DCC /* CourtesyAccountModel.m */,
 			);
@@ -2247,6 +2299,7 @@
 		45444505B80B6AF6A0D335BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F1684071CD38BE100F4AFAB /* Foundation.framework */,
 				0F1EF8D81CCB9A8A00090830 /* libstdc++.tbd */,
 				0F1EF8D61CCB9A7400090830 /* CoreGraphics.framework */,
 				0F1EF8D21CCB9A5200090830 /* TencentOpenApi_IOS_Bundle.bundle */,
@@ -2537,8 +2590,10 @@
 				0FDEFBE31C97D75B007BE8D2 /* UIImage+ProportionalFill.m in Sources */,
 				0FDEFBD71C97D70A007BE8D2 /* CNCityAreaModel.m in Sources */,
 				0F193D661C9787150015F2B1 /* CourtesyCardManager.m in Sources */,
+				0F5940BC1CD48F77002D916D /* CourtesyDefaultCoverView.m in Sources */,
 				0F2744F51CB55C6D00BCF173 /* CourtesyGalleryDailyCardModel.m in Sources */,
 				0FEFDBA41C97D0F800952522 /* PEResizeControl.m in Sources */,
+				0F1684111CD3A41D00F4AFAB /* ProgressColor.m in Sources */,
 				0FEFDBAD1C97D16300952522 /* FDWaveformView.m in Sources */,
 				0F0DC07D1CBC9E8500DDFE36 /* CourtesyCardPublishTask.m in Sources */,
 				0F13F53E1CC90BC000793FB9 /* NSString+Mime.m in Sources */,
@@ -2592,6 +2647,7 @@
 				0F28516C1C97D8AD0066F5C5 /* JotTextView.m in Sources */,
 				0FF2D2661C95D90F007C23DE /* JVFloatingDrawerSpringAnimator.m in Sources */,
 				0FFE04C51C93F47400E99DCC /* CourtesyCardStyleModel.m in Sources */,
+				0FAF2A751CD3363A006FF48A /* CourtesyTencentAccountModel.m in Sources */,
 				0FFE04CB1C93F47400E99DCC /* CourtesyAccountProfileModel.m in Sources */,
 				0F28516E1C97D8AD0066F5C5 /* JotTouchPoint.m in Sources */,
 				0FA7268A1CAAB80B00315E09 /* ZLSwipeableView.m in Sources */,
@@ -2619,13 +2675,13 @@
 				0FFC2F201CCB14F000676097 /* CourtesyDraftTableViewController.m in Sources */,
 				0F2744FA1CB55C6D00BCF173 /* CourtesyGalleryDailyCardVideoModel.m in Sources */,
 				0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */,
+				0F1684121CD3A41D00F4AFAB /* ProgressColor+Colors.m in Sources */,
 				0F28516F1C97D8AD0066F5C5 /* JotViewController.m in Sources */,
 				0FEFDBBB1C97D17500952522 /* AFSoundPlayback.m in Sources */,
 				0F28516B1C97D8AD0066F5C5 /* JotTextEditView.m in Sources */,
 				0FF2D2841C95DA80007C23DE /* LBXScanNative.m in Sources */,
 				0F30298E1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m in Sources */,
 				0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */,
-				0F2BC5B11CCE01B000DDAF23 /* CourtesyPaddingLabel.m in Sources */,
 				0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */,
 				0FFE04851C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m in Sources */,
 				0F1EF8D11CCB68EE00090830 /* CourtesyCardQueryRequestModel.m in Sources */,
@@ -2635,6 +2691,7 @@
 				0FF2D28C1C95DA80007C23DE /* ZXingWrapper.m in Sources */,
 				0FFE04631C93F45800E99DCC /* CourtesyCardComposeViewController.m in Sources */,
 				0FFE04671C93F45800E99DCC /* CourtesyImageFrameView.m in Sources */,
+				0F5940B91CD487E8002D916D /* CourtesyPaddingLabel.m in Sources */,
 				0F6D38151CD100BA001155DF /* DrawView.m in Sources */,
 				0FDEFBC81C97D696007BE8D2 /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				0FDDF1F21CABE4050067FB7F /* CourtesyCalendarViewController.m in Sources */,
@@ -2649,6 +2706,7 @@
 				0FFE04CC1C93F47400E99DCC /* CourtesyQRCodeModel.m in Sources */,
 				0F5801061C98075600D18059 /* FCFileManager.m in Sources */,
 				0FA726621CAAB32B00315E09 /* CourtesyQRScanViewController.m in Sources */,
+				0F1684101CD3A41D00F4AFAB /* ColorProgressView.m in Sources */,
 				0FDEFBD51C97D70A007BE8D2 /* CNCityAreaCitiesModel.m in Sources */,
 				0FFC2F231CCB1EFC00676097 /* CourtesyCardDeleteRequestModel.m in Sources */,
 				0F2744F71CB55C6D00BCF173 /* CourtesyGalleryDailyRequestModel.m in Sources */,
@@ -2806,8 +2864,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -2824,7 +2882,7 @@
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = "";
@@ -2851,8 +2909,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -2869,7 +2927,7 @@
 				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PREFIX_HEADER = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2897,6 +2955,7 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2907,6 +2966,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Prefix/PrefixHeader.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_UNUSED_LABEL = NO;
@@ -2951,6 +3011,7 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2961,6 +3022,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Prefix/PrefixHeader.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_UNUSED_LABEL = NO;

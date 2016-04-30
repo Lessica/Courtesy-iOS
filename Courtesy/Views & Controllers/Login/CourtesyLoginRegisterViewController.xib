@@ -115,34 +115,27 @@
                                         <action selector="loginFromWeibo:" destination="-1" eventType="touchUpInside" id="lP5-cP-q6Y"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VfX-Ci-fIc" customClass="CourtesyQuickLoginButton">
-                                    <rect key="frame" x="400" y="0.0" width="200" height="100"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <state key="normal" title="腾讯微博" image="login_tecent_icon">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <state key="highlighted" image="login_tecent_icon_click"/>
-                                    <connections>
-                                        <action selector="loginFromTencent:" destination="-1" eventType="touchUpInside" id="1x0-En-4S4"/>
-                                    </connections>
-                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="giZ-cQ-8q5" firstAttribute="leading" secondItem="Cjz-3Z-JZE" secondAttribute="leading" id="EDQ-xf-4hs"/>
-                                <constraint firstAttribute="trailing" secondItem="VfX-Ci-fIc" secondAttribute="trailing" id="Nff-Lz-06N"/>
                                 <constraint firstAttribute="height" constant="100" id="PXq-Xn-aNI"/>
-                                <constraint firstItem="VfX-Ci-fIc" firstAttribute="width" secondItem="giZ-cQ-8q5" secondAttribute="width" id="RkU-0V-pXO"/>
-                                <constraint firstItem="VfX-Ci-fIc" firstAttribute="leading" secondItem="HMj-Qe-sm2" secondAttribute="trailing" id="V8E-0D-1dE"/>
-                                <constraint firstItem="VfX-Ci-fIc" firstAttribute="top" secondItem="Cjz-3Z-JZE" secondAttribute="top" id="Xc2-gS-JVn"/>
                                 <constraint firstAttribute="bottom" secondItem="giZ-cQ-8q5" secondAttribute="bottom" id="aIL-8Y-F31"/>
-                                <constraint firstItem="VfX-Ci-fIc" firstAttribute="width" secondItem="HMj-Qe-sm2" secondAttribute="width" id="lhp-lb-TST"/>
-                                <constraint firstItem="HMj-Qe-sm2" firstAttribute="leading" secondItem="giZ-cQ-8q5" secondAttribute="trailing" id="o6f-5C-3EV"/>
+                                <constraint firstAttribute="trailing" secondItem="HMj-Qe-sm2" secondAttribute="trailing" id="kwA-gv-Iqj"/>
                                 <constraint firstItem="giZ-cQ-8q5" firstAttribute="top" secondItem="Cjz-3Z-JZE" secondAttribute="top" id="oBr-d9-VPy"/>
                                 <constraint firstAttribute="bottom" secondItem="HMj-Qe-sm2" secondAttribute="bottom" id="qM5-It-Xkf"/>
                                 <constraint firstItem="HMj-Qe-sm2" firstAttribute="top" secondItem="Cjz-3Z-JZE" secondAttribute="top" id="qfP-3T-XHT"/>
-                                <constraint firstAttribute="bottom" secondItem="VfX-Ci-fIc" secondAttribute="bottom" id="uvO-Nn-XMC"/>
                             </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="kwA-gv-Iqj"/>
+                                </mask>
+                            </variation>
+                            <variation key="heightClass=regular-widthClass=compact">
+                                <mask key="constraints">
+                                    <include reference="kwA-gv-Iqj"/>
+                                </mask>
+                            </variation>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -156,19 +149,19 @@
                         <constraint firstAttribute="trailing" secondItem="c1b-nu-TQN" secondAttribute="trailing" id="d2k-Va-asc"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dr3-XD-jK9" userLabel="注册界面">
+                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dr3-XD-jK9" userLabel="注册界面">
                     <rect key="frame" x="600" y="180" width="600" height="320"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="81j-Bc-Sjc" userLabel="文本输入框整体">
+                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="81j-Bc-Sjc" userLabel="文本输入框整体">
                             <rect key="frame" x="167" y="0.0" width="266" height="92"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_rgister_textfield_bg" translatesAutoresizingMaskIntoConstraints="NO" id="pFg-kb-xeN" userLabel="背景">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="login_rgister_textfield_bg" translatesAutoresizingMaskIntoConstraints="NO" id="pFg-kb-xeN" userLabel="背景">
                                     <rect key="frame" x="0.0" y="0.0" width="266" height="92"/>
                                     <variation key="heightClass=regular-widthClass=regular" ambiguous="YES">
                                         <rect key="frame" x="0.0" y="0.0" width="266" height="128"/>
                                     </variation>
                                 </imageView>
-                                <textField opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入手机号" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="3rL-mP-hQq" customClass="CourtesyLoginRegisterTextField">
+                                <textField opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入手机号" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="3rL-mP-hQq" customClass="CourtesyLoginRegisterTextField">
                                     <rect key="frame" x="10" y="0.0" width="246" height="46"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -186,14 +179,14 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="cbd-av-KPX"/>
                                             <exclude reference="7dv-Aa-xcb"/>
+                                            <exclude reference="cbd-av-KPX"/>
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular-widthClass=compact">
                                         <mask key="constraints">
-                                            <include reference="cbd-av-KPX"/>
                                             <include reference="7dv-Aa-xcb"/>
+                                            <include reference="cbd-av-KPX"/>
                                         </mask>
                                     </variation>
                                 </imageView>
@@ -206,18 +199,18 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="VoF-JG-pvL"/>
                                             <exclude reference="LYe-AA-h1U"/>
+                                            <exclude reference="VoF-JG-pvL"/>
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular-widthClass=compact">
                                         <mask key="constraints">
-                                            <include reference="VoF-JG-pvL"/>
                                             <include reference="LYe-AA-h1U"/>
+                                            <include reference="VoF-JG-pvL"/>
                                         </mask>
                                     </variation>
                                 </imageView>
-                                <textField opaque="NO" clipsSubviews="YES" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="设置新密码" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="r6F-7G-JzC" customClass="CourtesyLoginRegisterTextField">
+                                <textField opaque="NO" clipsSubviews="YES" tag="4" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="设置新密码" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="r6F-7G-JzC" customClass="CourtesyLoginRegisterTextField">
                                     <rect key="frame" x="10" y="46" width="246" height="46"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -255,9 +248,9 @@
                                 <mask key="constraints">
                                     <exclude reference="1RN-q4-ccX"/>
                                     <exclude reference="x3u-F0-VXB"/>
-                                    <exclude reference="00r-OD-0Ll"/>
                                     <exclude reference="FJ4-3K-e4p"/>
                                     <exclude reference="QIa-xQ-735"/>
+                                    <exclude reference="00r-OD-0Ll"/>
                                 </mask>
                             </variation>
                             <variation key="heightClass=regular-widthClass=compact">
@@ -268,16 +261,16 @@
                                 <mask key="constraints">
                                     <include reference="1RN-q4-ccX"/>
                                     <include reference="x3u-F0-VXB"/>
-                                    <include reference="00r-OD-0Ll"/>
                                     <include reference="FJ4-3K-e4p"/>
                                     <include reference="QIa-xQ-735"/>
+                                    <include reference="00r-OD-0Ll"/>
                                 </mask>
                             </variation>
                             <variation key="heightClass=regular-widthClass=regular" ambiguous="YES">
                                 <rect key="frame" x="267" y="0.0" width="266" height="128"/>
                             </variation>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="73J-h7-pzd" userLabel="注册">
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="73J-h7-pzd" userLabel="注册">
                             <rect key="frame" x="167" y="107" width="266" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="jKI-m2-owG"/>
@@ -328,19 +321,19 @@
                         <rect key="frame" x="800" y="240" width="800" height="320"/>
                     </variation>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w7D-7s-rmf" userLabel="登录界面">
+                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w7D-7s-rmf" userLabel="登录界面">
                     <rect key="frame" x="0.0" y="180" width="600" height="320"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="soF-YM-utR" userLabel="文本输入框整体">
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="soF-YM-utR" userLabel="文本输入框整体">
                             <rect key="frame" x="40" y="0.0" width="520" height="128"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_rgister_textfield_bg" translatesAutoresizingMaskIntoConstraints="NO" id="R1E-Cc-cWO" userLabel="背景">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="login_rgister_textfield_bg" translatesAutoresizingMaskIntoConstraints="NO" id="R1E-Cc-cWO" userLabel="背景">
                                     <rect key="frame" x="0.0" y="0.0" width="520" height="128"/>
                                     <variation key="heightClass=regular-widthClass=regular" ambiguous="YES">
                                         <rect key="frame" x="0.0" y="0.0" width="720" height="128"/>
                                     </variation>
                                 </imageView>
-                                <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入密码" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="26n-0d-gkH" customClass="CourtesyLoginRegisterTextField">
+                                <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入密码" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="26n-0d-gkH" customClass="CourtesyLoginRegisterTextField">
                                     <rect key="frame" x="10" y="64" width="500" height="64"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -369,7 +362,7 @@
                                         </mask>
                                     </variation>
                                 </imageView>
-                                <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入手机号/邮箱号" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="xH1-IQ-oJH" customClass="CourtesyLoginRegisterTextField">
+                                <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入手机号/邮箱号" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="xH1-IQ-oJH" customClass="CourtesyLoginRegisterTextField">
                                     <rect key="frame" x="10" y="0.0" width="500" height="64"/>
                                     <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -387,14 +380,14 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="eSh-4R-XNY"/>
                                             <exclude reference="bn5-En-V7i"/>
+                                            <exclude reference="eSh-4R-XNY"/>
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular-widthClass=compact">
                                         <mask key="constraints">
-                                            <include reference="eSh-4R-XNY"/>
                                             <include reference="bn5-En-V7i"/>
+                                            <include reference="eSh-4R-XNY"/>
                                         </mask>
                                     </variation>
                                 </imageView>
@@ -427,9 +420,9 @@
                                 <mask key="constraints">
                                     <exclude reference="NlR-vn-2H5"/>
                                     <exclude reference="csG-Kr-GDz"/>
-                                    <exclude reference="6DV-q9-cGM"/>
                                     <exclude reference="6fY-6j-Sc7"/>
                                     <exclude reference="YNa-tj-doK"/>
+                                    <exclude reference="6DV-q9-cGM"/>
                                 </mask>
                             </variation>
                             <variation key="heightClass=regular-widthClass=compact">
@@ -440,16 +433,16 @@
                                 <mask key="constraints">
                                     <include reference="NlR-vn-2H5"/>
                                     <include reference="csG-Kr-GDz"/>
-                                    <include reference="6DV-q9-cGM"/>
                                     <include reference="6fY-6j-Sc7"/>
                                     <include reference="YNa-tj-doK"/>
+                                    <include reference="6DV-q9-cGM"/>
                                 </mask>
                             </variation>
                             <variation key="heightClass=regular-widthClass=regular" ambiguous="YES">
                                 <rect key="frame" x="40" y="0.0" width="720" height="128"/>
                             </variation>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uFR-ry-whf">
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uFR-ry-whf">
                             <rect key="frame" x="40" y="143" width="520" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="DVf-zD-0A7"/>
@@ -472,7 +465,7 @@
                                 <action selector="loginCourtesyAccount:" destination="-1" eventType="touchUpInside" id="2yc-US-fRp"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eup-Hm-ePN">
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eup-Hm-ePN">
                             <rect key="frame" x="490" y="193" width="70" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <state key="normal" title="忘记密码？">
@@ -585,7 +578,5 @@
         <image name="login_rgister_textfield_bg" width="266" height="92"/>
         <image name="login_sina_icon" width="70" height="70"/>
         <image name="login_sina_icon_click" width="70" height="70"/>
-        <image name="login_tecent_icon" width="70" height="70"/>
-        <image name="login_tecent_icon_click" width="70" height="70"/>
     </resources>
 </document>

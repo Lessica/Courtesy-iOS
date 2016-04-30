@@ -474,6 +474,9 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="8LR-X5-aoO">
                                                     <rect key="frame" x="253" y="6" width="51" height="31"/>
                                                     <color key="onTintColor" red="0.85098039219999999" green="0.098039215690000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="tencentSwitchToggled:" destination="gfj-I0-bjv" eventType="valueChanged" id="Mxl-fd-o6a"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -509,6 +512,9 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="oCZ-My-R7f">
                                                     <rect key="frame" x="253" y="7" width="51" height="31"/>
                                                     <color key="onTintColor" red="0.85098039219999999" green="0.098039215690000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="weiboSwitchToggled:" destination="gfj-I0-bjv" eventType="valueChanged" id="W9Y-8D-10M"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -521,47 +527,12 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="eR7-xG-C4r">
-                                        <rect key="frame" x="0.0" y="332" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eR7-xG-C4r" id="xV1-kM-onl">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="绑定腾讯微博" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILf-ic-xen">
-                                                    <rect key="frame" x="44" y="14" width="84" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="24-tencent" translatesAutoresizingMaskIntoConstraints="NO" id="Lc7-N4-4KL">
-                                                    <rect key="frame" x="20" y="14" width="16" height="16"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="16" id="7Ps-1D-up3"/>
-                                                        <constraint firstAttribute="width" constant="16" id="mgB-0H-KGa"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="yq2-7l-g6t">
-                                                    <rect key="frame" x="253" y="7" width="51" height="31"/>
-                                                    <color key="onTintColor" red="0.85098039219999999" green="0.098039215690000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </switch>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Lc7-N4-4KL" firstAttribute="centerY" secondItem="xV1-kM-onl" secondAttribute="centerY" id="7na-C3-Pca"/>
-                                                <constraint firstItem="Lc7-N4-4KL" firstAttribute="leading" secondItem="xV1-kM-onl" secondAttribute="leadingMargin" constant="12" id="NDY-CN-hK2"/>
-                                                <constraint firstItem="yq2-7l-g6t" firstAttribute="centerY" secondItem="xV1-kM-onl" secondAttribute="centerY" id="VhQ-jP-Bxc"/>
-                                                <constraint firstItem="ILf-ic-xen" firstAttribute="centerY" secondItem="xV1-kM-onl" secondAttribute="centerY" id="jWK-xN-ttz"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="yq2-7l-g6t" secondAttribute="trailing" constant="10" id="keh-hv-Wjn"/>
-                                                <constraint firstItem="ILf-ic-xen" firstAttribute="leading" secondItem="Lc7-N4-4KL" secondAttribute="trailing" constant="8" id="uIX-zI-ghL"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection id="vqJ-ft-cQN">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="VCh-j1-Rvk">
-                                        <rect key="frame" x="0.0" y="412" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="368" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VCh-j1-Rvk" id="8Wd-A5-A5g">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -583,6 +554,9 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Kpw-lc-FmW">
                                                     <rect key="frame" x="253" y="7" width="51" height="31"/>
                                                     <color key="onTintColor" red="0.85098039219999999" green="0.098039215690000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="incognitoSwitchToggled:" destination="gfj-I0-bjv" eventType="valueChanged" id="QXe-eg-Oa8"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -611,7 +585,6 @@
                         <outlet property="label_2" destination="4fS-k1-dBX" id="gRL-eu-Fme"/>
                         <outlet property="label_3" destination="Ayk-qj-wyD" id="iQb-eD-RAF"/>
                         <outlet property="qqSwitch" destination="8LR-X5-aoO" id="RVz-MQ-9Uj"/>
-                        <outlet property="tencentSwitch" destination="yq2-7l-g6t" id="SM7-WS-J2q"/>
                         <outlet property="weiboSwitch" destination="oCZ-My-R7f" id="ChY-u6-Wqs"/>
                     </connections>
                 </tableViewController>
@@ -640,7 +613,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="pUx-y2-Mu3"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -660,11 +633,6 @@
                                                 <constraint firstAttribute="width" constant="64" id="VkL-g0-20c"/>
                                             </constraints>
                                         </imageView>
-                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B73-ei-icK">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="2"/>
-                                            <color key="progressTintColor" red="0.85098039219999999" green="0.098039215690000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </progressView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ycf-uq-zhc">
                                             <rect key="frame" x="20" y="96" width="20" height="20"/>
                                             <constraints>
@@ -698,7 +666,7 @@
                                             </variation>
                                         </label>
                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="qrc-small" translatesAutoresizingMaskIntoConstraints="NO" id="jDa-tV-TJh">
-                                            <rect key="frame" x="20" y="17" width="20" height="20"/>
+                                            <rect key="frame" x="20" y="16" width="20" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="YfR-6G-tbL"/>
                                                 <constraint firstAttribute="width" constant="20" id="u1h-TQ-K4z"/>
@@ -706,21 +674,18 @@
                                         </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="B73-ei-icK" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leading" id="2F0-0x-Rkp"/>
+                                        <constraint firstItem="jDa-tV-TJh" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="topMargin" constant="8" id="1sb-wa-qph"/>
                                         <constraint firstItem="o71-8w-e5H" firstAttribute="leading" secondItem="QMa-xQ-dtz" secondAttribute="trailing" constant="12" id="4Pb-mT-s0j"/>
                                         <constraint firstItem="6oy-xn-zkv" firstAttribute="leading" secondItem="l1T-Bw-TPw" secondAttribute="trailing" constant="8" id="5hZ-5d-qk0"/>
                                         <constraint firstItem="QMa-xQ-dtz" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="topMargin" constant="8" id="9g8-w7-io8"/>
                                         <constraint firstItem="bg7-b9-VxG" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="FK6-Mr-8h6"/>
                                         <constraint firstItem="QMa-xQ-dtz" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="GlN-g0-cLj"/>
-                                        <constraint firstItem="B73-ei-icK" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="top" id="HGb-mt-wnH"/>
-                                        <constraint firstAttribute="trailing" secondItem="B73-ei-icK" secondAttribute="trailing" id="LL6-TG-W06"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="o71-8w-e5H" secondAttribute="trailing" constant="12" id="N6X-5z-dWO"/>
                                         <constraint firstItem="Ycf-uq-zhc" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="UgA-no-7yt"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="l1T-Bw-TPw" secondAttribute="bottom" constant="4" id="WBm-ry-Djf"/>
                                         <constraint firstItem="o71-8w-e5H" firstAttribute="leading" secondItem="bg7-b9-VxG" secondAttribute="trailing" constant="12" id="bjG-MX-w1S"/>
                                         <constraint firstItem="bg7-b9-VxG" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="topMargin" constant="36" id="c5D-09-f1v"/>
                                         <constraint firstItem="jDa-tV-TJh" firstAttribute="leading" secondItem="Ybd-8x-II0" secondAttribute="leadingMargin" constant="12" id="cee-H5-C9m"/>
-                                        <constraint firstItem="jDa-tV-TJh" firstAttribute="top" secondItem="B73-ei-icK" secondAttribute="bottom" constant="15" id="flD-ui-Wpq"/>
                                         <constraint firstItem="o71-8w-e5H" firstAttribute="top" secondItem="Ybd-8x-II0" secondAttribute="topMargin" constant="8" id="hb4-Qb-vNb"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="6oy-xn-zkv" secondAttribute="bottom" constant="4" id="hmp-su-Jf8"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="6oy-xn-zkv" secondAttribute="trailing" constant="12" id="pgI-xv-h1j"/>
@@ -739,7 +704,6 @@
                                     <outlet property="briefTitleLabel" destination="bg7-b9-VxG" id="XgH-oe-3vW"/>
                                     <outlet property="imagePreview" destination="o71-8w-e5H" id="3gy-yO-zzv"/>
                                     <outlet property="mainTitleLabel" destination="QMa-xQ-dtz" id="0fa-UW-V0U"/>
-                                    <outlet property="publishProgressView" destination="B73-ei-icK" id="Gmq-V4-r22"/>
                                     <outlet property="qrcImageView" destination="jDa-tV-TJh" id="hJx-1T-Vsl"/>
                                     <outlet property="smallAvatarView" destination="Ycf-uq-zhc" id="YRv-YF-ebW"/>
                                     <outlet property="smallNickLabel" destination="l1T-Bw-TPw" id="qhg-dC-vWM"/>
@@ -1474,10 +1438,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrX-aL-Ouy">
-                                                    <rect key="frame" x="10" y="172" width="300" height="260"/>
+                                                    <rect key="frame" x="10" y="172" width="300" height="140"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="300" id="3OB-Uq-2tR"/>
-                                                        <constraint firstAttribute="height" constant="260" id="8aK-fw-9OS"/>
+                                                        <constraint firstAttribute="height" constant="140" id="8aK-fw-9OS"/>
                                                     </constraints>
                                                     <string key="text">官方网站：https://82flex.com
 
@@ -1486,9 +1450,7 @@ Django Engineer: @Anemone
 Designer: @teaz
 2016 © 82Flex. 保留所有权利
 
-Special thanks to:
-AFNetworking (MIT), Colours (MIT), FCFileManager (MIT), FDFullscreenPopGesture (MIT), FMDB (MIT), JDStatusBarNotification (MIT), JSONModel (MIT), JVFloatingDrawer (MIT), LBXScan (MIT), LGAlertView (MIT), NJKWebViewProcess (MIT), Toast (MIT), YYKit (MIT), ZXingObjC (Apache 2.0)
-</string>
+本应用基于 AGPLv3 协议开源</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -1911,7 +1873,6 @@ AFNetworking (MIT), Colours (MIT), FCFileManager (MIT), FDFullscreenPopGesture (
         <image name="200-markdown" width="16" height="16"/>
         <image name="22-qq" width="16" height="17"/>
         <image name="23-weibo" width="16" height="13"/>
-        <image name="24-tencent" width="16" height="15"/>
         <image name="25-invisible" width="16" height="16"/>
         <image name="26-male" width="16" height="16"/>
         <image name="27-female" width="16" height="16"/>

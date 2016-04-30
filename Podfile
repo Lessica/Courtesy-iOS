@@ -21,6 +21,7 @@ target 'Courtesy' do
     pod 'SwipeView'
     pod 'FLEX', '~> 2.0', :configurations => ['Debug']
     pod 'SSZipArchive'
+    pod 'pop'
     pod 'MJRefresh'
 end
 

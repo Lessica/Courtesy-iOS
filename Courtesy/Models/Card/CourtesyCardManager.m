@@ -102,7 +102,7 @@
     CourtesyCardModel *card = [CourtesyCardModel new];
     card.delegate = self;
     card.is_editable = YES;
-    card.is_public = [sharedSettings switchAutoPublic];
+    card.is_banned = ![sharedSettings switchAutoPublic];
     card.view_count = 0;
     card.created_at = [[NSDate date] timeIntervalSince1970];
     card.modified_at = [[NSDate date] timeIntervalSince1970];
@@ -126,7 +126,6 @@
     
     card.isNewCard = YES;
     card.hasPublished = NO;
-    card.hasBanned = NO;
     return card;
 }
 
@@ -206,7 +205,7 @@
 
 - (void)restoreCardInDraft:(CourtesyCardModel *)card {
     if (card.hasPublished) {
-        if (card.hasBanned) {
+        if (card.is_banned) {
             dispatch_async_on_main_queue(^{
                 [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"正在恢复卡片 %@……", card.local_template.mainTitle]
                                            dismissAfter:kStatusBarNotificationTime
@@ -229,7 +228,7 @@
 - (void)deleteCardInDraft:(CourtesyCardModel *)card {
     if (card.author.user_id == kAccount.user_id) {
         if (card.hasPublished) {
-            if (card.hasBanned == NO) {
+            if (card.is_banned == NO) {
                 dispatch_async_on_main_queue(^{
                     [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"正在禁用卡片 %@……", card.local_template.mainTitle]
                                                dismissAfter:kStatusBarNotificationTime
@@ -350,7 +349,7 @@
                                        dismissAfter:kStatusBarNotificationTime
                                           styleName:JDStatusBarStyleSuccess];
         });
-        card.hasBanned = YES;
+        card.is_banned = YES;
         [card saveToLocalDatabaseShouldPublish:NO andNotify:NO];
     } else {
         CourtesyCardModel *card = sender.card;
@@ -359,7 +358,7 @@
                                        dismissAfter:kStatusBarNotificationTime
                                           styleName:JDStatusBarStyleSuccess];
         });
-        card.hasBanned = NO;
+        card.is_banned = NO;
         [card saveToLocalDatabaseShouldPublish:NO andNotify:NO];
     }
 }

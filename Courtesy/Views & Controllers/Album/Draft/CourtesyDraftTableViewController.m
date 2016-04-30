@@ -172,7 +172,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
             return @[editAction];
         } else {
             if (card.author.user_id == kAccount.user_id && card.hasPublished) {
-                if (card.hasBanned == NO) {
+                if (card.is_banned == NO) {
                     __weak typeof(self) weakSelf = self;
                     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"禁用" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
                         [weakSelf.cardManager deleteCardInDraft:card];

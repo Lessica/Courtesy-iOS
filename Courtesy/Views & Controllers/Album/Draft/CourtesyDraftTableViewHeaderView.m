@@ -35,7 +35,7 @@
         
         /* Init of nick label */
         UILabel *nickLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 42)];
-        nickLabel.font = [UIFont systemFontOfSize:16.0 weight:UIFontWeightBold];
+        nickLabel.font = [UIFont systemFontOfSize:20.0];
         nickLabel.textColor = [UIColor blackColor];
         self.nickLabel = nickLabel;
         [self addSubview:nickLabel];
@@ -44,7 +44,7 @@
         UILabel *introLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 36)];
         introLabel.lineBreakMode = NSLineBreakByWordWrapping;
         introLabel.numberOfLines = 2;
-        introLabel.font = [UIFont systemFontOfSize:14.0];
+        introLabel.font = [UIFont systemFontOfSize:15.0];
         introLabel.textColor = [UIColor grayColor];
         self.introLabel = introLabel;
         [self addSubview:introLabel];

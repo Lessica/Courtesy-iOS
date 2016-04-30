@@ -103,6 +103,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$CONFIGURATION_BUILD_DIR/Toast/Toast.framework"
   install_framework "$CONFIGURATION_BUILD_DIR/YYKit/YYKit.framework"
   install_framework "$CONFIGURATION_BUILD_DIR/ZXingObjC/ZXingObjC.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/pop/pop.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$CONFIGURATION_BUILD_DIR/AFNetworking/AFNetworking.framework"
@@ -123,4 +124,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$CONFIGURATION_BUILD_DIR/Toast/Toast.framework"
   install_framework "$CONFIGURATION_BUILD_DIR/YYKit/YYKit.framework"
   install_framework "$CONFIGURATION_BUILD_DIR/ZXingObjC/ZXingObjC.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/pop/pop.framework"
 fi

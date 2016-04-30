@@ -331,17 +331,13 @@ static SystemSoundID shake_sound_male_id = 0;
     } else {
         // 处理卡片字典键值
         [card_dict setObject:@(0) forKey:@"isNewCard"];
-        [card_dict setObject:@(0) forKey:@"hasBanned"];
         [card_dict setObject:@(1) forKey:@"hasPublished"];
-        if (![[card_dict objectForKey:@"first_read_at"] isKindOfClass:[NSNumber class]]) {
-            [card_dict setObject:@(0) forKey:@"first_read_at"];
-        }
     }
     // 开始解析卡片信息
     NSError *error = nil;
     CourtesyCardModel *newCard = [[CourtesyCardModel alloc] initWithDictionary:card_dict error:&error];
     if (error) { // 卡片信息无法被反序列化
-        CYLog(@"%@", error);
+        [self cardQueryRequestFailed:nil withError:error];
         return;
     }
     newCard.read_by = kAccount;
