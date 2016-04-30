@@ -29,6 +29,10 @@
 
 @implementation CourtesyDraftTableViewCell
 
++ (BOOL)requiresConstraintBasedLayout {
+    return YES;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     
@@ -57,9 +61,8 @@
     self.publishProgressView = publishProgressView;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
+- (void)updateConstraints {
+    [super updateConstraints];
     [_publishProgressView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(self.contentView.mas_width);
         make.height.equalTo(@2);

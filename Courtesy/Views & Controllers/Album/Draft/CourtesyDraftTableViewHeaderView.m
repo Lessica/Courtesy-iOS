@@ -63,35 +63,35 @@
 }
 
 - (void)updateConstraints {
-    [_circleAvatarView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_circleAvatarView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).with.offset(16);
         make.top.equalTo(self.mas_top).with.offset(16);
         make.width.equalTo(@42);
         make.height.equalTo(@42);
     }];
     
-    [_nickLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_nickLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_circleAvatarView.mas_right).with.offset(16);
         make.top.equalTo(self.mas_top).with.offset(16);
         make.trailing.equalTo(self.mas_trailing);
         make.height.equalTo(@42);
     }];
     
-    [_introLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_introLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).with.offset(16);
         make.top.equalTo(_circleAvatarView.mas_bottom).with.offset(12);
         make.trailing.equalTo(self.mas_trailing);
         make.height.equalTo(@36);
     }];
     
-    [_countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_countLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).with.offset(16);
         make.bottom.equalTo(self.mas_bottom).with.offset(-8);
         make.trailing.equalTo(self.mas_trailing);
         make.height.equalTo(@32);
     }];
     
-    [_editButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_editButton mas_updateConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right).with.offset(-20);
         make.top.equalTo(self.mas_top).with.offset(20);
         make.width.equalTo(@32);

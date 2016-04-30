@@ -18,7 +18,14 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        UIView *upView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, self.frame.size.height)];
+        upView.layer.masksToBounds = YES;
+        [self addSubview:upView];
+        self.upView = upView;
         
+        UILabel *upLabel = [[UILabel alloc] init];
+        [upView addSubview:upLabel];
+        self.upLabel = upLabel;
     }
     return self;
 }
@@ -27,23 +34,18 @@
     _fontModel = fontModel;
 }
 
+- (void)didMoveToSuperview {
+    _upView.backgroundColor = self.tintColor;
+    _upLabel.text = self.textLabel.text;
+    _upLabel.font = self.textLabel.font;
+    _upLabel.textColor = [UIColor whiteColor];
+    _upLabel.textAlignment = self.textLabel.textAlignment;
+    [super didMoveToSuperview];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
-    UIView *upView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, self.frame.size.height)];
-    upView.layer.masksToBounds = YES;
-    upView.backgroundColor = self.tintColor;
-    
-    [self addSubview:upView];
-    self.upView = upView;
-    
-    UILabel *upLabel = [[UILabel alloc] initWithFrame:self.textLabel.frame];
-    upLabel.text = self.textLabel.text;
-    upLabel.font = self.textLabel.font;
-    upLabel.textColor = [UIColor whiteColor];
-    upLabel.textAlignment = self.textLabel.textAlignment;
-    [upView addSubview:upLabel];
-    self.upLabel = upLabel;
+    _upLabel.frame = self.textLabel.frame;
 }
 
 - (void)setProgress:(float)progress {

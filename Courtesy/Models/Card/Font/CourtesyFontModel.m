@@ -46,9 +46,11 @@
                                                            options:NSDataReadingMappedAlways
                                                              error:&error]];
     NSAssert(_font != nil && error == nil, @"Error occured when load font from local url!");
-    if (self.status == CourtesyFontDownloadingTaskStatusNone) {
-        self.status = CourtesyFontDownloadingTaskStatusDone;
-    }
+    dispatch_async_on_main_queue(^{
+        if (self.status == CourtesyFontDownloadingTaskStatusNone) {
+            self.status = CourtesyFontDownloadingTaskStatusDone;
+        }
+    });
 }
 
 #pragma mark - Send Message to CourtesyFontDownloadDelegate
@@ -96,13 +98,17 @@
 
 - (void)startDownloadTask {
     if (self.status == CourtesyFontDownloadingTaskStatusSuspend) {
-        self.status = CourtesyFontDownloadingTaskStatusReady;
+        dispatch_async_on_main_queue(^{
+            self.status = CourtesyFontDownloadingTaskStatusReady;
+        });
         if (downloadTask) {
             [downloadTask resume];
         }
         return;
     } else if (self.status == CourtesyFontDownloadingTaskStatusNone) {
-        self.status = CourtesyFontDownloadingTaskStatusReady;
+        dispatch_async_on_main_queue(^{
+            self.status = CourtesyFontDownloadingTaskStatusReady;
+        });
     } else {
         return;
     }

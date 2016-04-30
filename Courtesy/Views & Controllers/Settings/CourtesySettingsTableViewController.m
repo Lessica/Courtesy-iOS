@@ -12,6 +12,7 @@
 #import <MessageUI/MessageUI.h>
 
 #define kCourtesyImageCachePath ([[[UIApplication sharedApplication] cachesPath] stringByAppendingPathComponent:@"com.ibireme.yykit"])
+#define kCourtesyFontPath ([[[UIApplication sharedApplication] libraryPath] stringByAppendingPathComponent:@"Fonts"])
 
 // 表格分区及索引设置
 enum {
@@ -147,6 +148,9 @@ enum {
 - (void)cleanCacheClicked {
     NSError *error1 = nil;
     NSError *error2 = nil;
+#ifdef DEBUG
+    [FCFileManager removeItemsInDirectoryAtPath:kCourtesyFontPath error:nil];
+#endif
     [FCFileManager removeItemsInDirectoryAtPath:kCourtesyImageCachePath error:&error1];
     [FCFileManager removeItemsInDirectoryAtPath:NSTemporaryDirectory() error:&error2];
     if (error1 || error2) {
