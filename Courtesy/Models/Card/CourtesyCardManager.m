@@ -141,15 +141,13 @@
     CourtesyCardModel *newCard = [self newCard];
     CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:newCard];
     vc.delegate = self;
-    [controller presentViewController:vc animated:YES completion:^() {
-        [controller.view hideToastActivity];
-    }];
+    [controller presentViewController:vc animated:YES completion:nil];
     return newCard;
 }
 
 - (void)editCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller {
-    [controller.view setUserInteractionEnabled:NO];
-    [controller.view makeToastActivity:CSToastPositionCenter];
+    [controller.navigationController.view setUserInteractionEnabled:NO];
+    [controller.navigationController.view makeToastActivity:CSToastPositionCenter];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [self loadCardRemoteAttachments:card withViewController:controller];
     });
@@ -166,8 +164,8 @@
                                                          error:&err];
             if (err || remoteData == nil) {
                 dispatch_async_on_main_queue(^{
-                    [controller.view hideToastActivity];
-                    [controller.view setUserInteractionEnabled:YES];
+                    [controller.navigationController.view hideToastActivity];
+                    [controller.navigationController.view setUserInteractionEnabled:YES];
                 });
                 return;
             }
@@ -182,8 +180,8 @@
         CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:card];
         vc.delegate = self;
         [controller presentViewController:vc animated:YES completion:^() {
-            [controller.view hideToastActivity];
-            [controller.view setUserInteractionEnabled:YES];
+            [controller.navigationController.view hideToastActivity];
+            [controller.navigationController.view setUserInteractionEnabled:YES];
         }];
     });
 }

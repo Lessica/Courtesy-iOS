@@ -6,10 +6,7 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "ZLSwipeableView.h"
 
-@interface CourtesyGalleryViewController : UIViewController <ZLSwipeableViewDataSource, ZLSwipeableViewDelegate>
-@property (nonatomic, strong) ZLSwipeableView *swipeableView;
+@interface CourtesyGalleryViewController : UIViewController
 
-- (UIView *)nextViewForSwipeableView:(ZLSwipeableView *)swipeableView;
 @end

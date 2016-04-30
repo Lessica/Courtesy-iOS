@@ -17,7 +17,6 @@
 @interface CourtesyFontSheetView () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 @property (nonatomic, strong) UITableView *fontTableView;
 
-
 @end
 
 @implementation CourtesyFontSheetView {
@@ -64,11 +63,6 @@
         [sizeAdjustDownView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.delegate action:@selector(cutFontSize:)]];
         [sizeAdjustView addSubview:sizeAdjustDownView];
         
-//        UIView *styleAdjustView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height / 2 - 0.5, self.frame.size.width / 2, self.frame.size.height / 2)];
-//        styleAdjustView.layer.borderColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0].CGColor;
-//        styleAdjustView.layer.borderWidth = 0.5;
-//        [self addSubview:styleAdjustView];
-        
         // Font size
         fontSizeUpBtn = [UIButton new];
         fontSizeUpBtn.frame = CGRectMake(0, 0, 40, 31);
@@ -102,50 +96,21 @@
         [self addSubview:tableView];
         _fontTableView = tableView;
         
-        /*
-        // Style select
-        UIScrollView *styleScrollView = [UIScrollView new];
-        styleScrollView.frame = styleAdjustView.bounds;
-        styleScrollView.delegate = self;
-        styleScrollView.bounces = YES;
-        styleScrollView.pagingEnabled = YES;
-        styleScrollView.showsHorizontalScrollIndicator = NO;
-        styleScrollView.showsVerticalScrollIndicator = NO;
-        styleScrollView.indicatorStyle = UIScrollViewIndicatorStyleDefault;
-        styleScrollView.contentSize = CGSizeMake(styleScrollView.frame.size.width * 6, styleScrollView.frame.size.height);
-        [styleAdjustView addSubview:styleScrollView];
-        
-        UIImageView *leftArrow = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 14, 24)];
-        leftArrow.center = CGPointMake(15, styleAdjustView.frame.size.height / 2);
-        leftArrow.tintColor = self.style.toolbarTintColor;
-        leftArrow.image = [[UIImage imageNamed:@"59-arrow-left"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        [styleAdjustView addSubview:leftArrow];
-        
-        UIImageView *rightArrow = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 14, 24)];
-        rightArrow.center = CGPointMake(styleAdjustView.frame.size.width - 15, styleAdjustView.frame.size.height / 2);
-        rightArrow.tintColor = self.style.toolbarTintColor;
-        rightArrow.image = [[UIImage imageNamed:@"60-arrow-right"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        [styleAdjustView addSubview:rightArrow];
-        
-        pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 0, styleAdjustView.frame.size.width, 6)];
-        pageControl.center = CGPointMake(styleAdjustView.frame.size.width / 2, styleAdjustView.frame.size.height - 8);
-        pageControl.currentPageIndicatorTintColor = self.style.toolbarHighlightColor;
-        pageControl.pageIndicatorTintColor = self.style.toolbarTintColor;
-        pageControl.currentPage = 0;
-        pageControl.numberOfPages = 6;
-        [styleAdjustView addSubview:pageControl];
-         */
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveQueueUpdated:)
+                                                     name:kCourtesyFontQueueUpdated object:nil];
     }
     return self;
 }
 
-#pragma mark - UIScrollViewDelegate
-/*
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)sView {
-    NSInteger index = fabs(sView.contentOffset.x) / sView.frame.size.width;
-    [pageControl setCurrentPage:index];
+- (void)didReceiveQueueUpdated:(NSNotification *)notification {
+    for (CourtesyFontTableViewCell *cell in self.fontTableView.visibleCells) {
+        if (cell.fontModel == notification.object) {
+            [cell notifyFontUpdate];
+        }
+    }
 }
-*/
+
 #pragma mark - UITableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -251,6 +216,7 @@
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     CYLog(@"");
 }
 

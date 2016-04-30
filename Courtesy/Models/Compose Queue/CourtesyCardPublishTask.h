@@ -42,7 +42,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) int64_t physicalBytes;
 @property (nonatomic, assign) int64_t logicalBytes;
 @property (nonatomic, assign) int64_t skippedBytes;
-@property (nonatomic, assign, readonly) BOOL hasObserver;
 
 - (instancetype)initWithCard:(CourtesyCardModel *)card;
 - (void)startTaskWithQuery:(BOOL)query;

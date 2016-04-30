@@ -161,8 +161,7 @@
     NSMutableArray *tasksShouldRemoved = [NSMutableArray new];
     for (CourtesyCardPublishTask *t in self.cardQueue) {
         if ((t.status == CourtesyCardPublishTaskStatusDone ||
-            t.status == CourtesyCardPublishTaskStatusCanceled) &&
-            t.hasObserver == NO
+            t.status == CourtesyCardPublishTaskStatusCanceled)
             ) {
             [tasksShouldRemoved addObject:t];
         }

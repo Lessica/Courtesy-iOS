@@ -11,4 +11,5 @@
 @interface CourtesyFontTableViewCell : UITableViewCell
 @property (nonatomic, strong) CourtesyFontModel *fontModel;
 
+- (void)notifyFontUpdate;
 @end

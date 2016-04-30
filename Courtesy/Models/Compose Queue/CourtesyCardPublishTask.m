@@ -128,9 +128,8 @@
     CYLog(@"totalBytes = %lld, physicalBytes = %lld, logicalBytes = %lld, skippedBytes = %lld", helper.totalBytes, helper.physicalBytes, helper.logicalBytes, helper.skippedBytes);
     dispatch_async_on_main_queue(^{
         if (self.status == CourtesyCardPublishTaskStatusProcessing || self.status == CourtesyCardPublishTaskStatusReady) {
-            self.status = CourtesyCardPublishTaskStatusProcessing;
             if (helper.totalBytes == helper.skippedBytes) {
-                self.currentProgress = 1.0;
+                self.currentProgress = 0.0;
             } else {
                 self.currentProgress = (float)helper.logicalBytes / (helper.totalBytes - helper.skippedBytes);
             }
@@ -138,6 +137,7 @@
             self.physicalBytes = helper.physicalBytes;
             self.logicalBytes = helper.logicalBytes;
             self.skippedBytes = helper.skippedBytes;
+            self.status = CourtesyCardPublishTaskStatusProcessing;
         }
     });
 }
@@ -162,7 +162,6 @@
 - (instancetype)initWithCard:(CourtesyCardModel *)card {
     if (self = [super init]) {
         _card = card;
-        _hasObserver = NO;
         
         CourtesyRsyncHelper *currentHelper = [CourtesyRsyncHelper new];
         currentHelper.secure = NO;
@@ -187,24 +186,11 @@
     return self;
 }
 
-#pragma mark - Observer
+#pragma mark - Status Notification
 
-- (void)addObserver:(NSObject *)observer
-         forKeyPath:(NSString *)keyPath
-            options:(NSKeyValueObservingOptions)options
-            context:(void *)context {
-    if (!_hasObserver) {
-        [super addObserver:observer forKeyPath:keyPath options:options context:context];
-        _hasObserver = YES;
-    }
-}
-
-- (void)removeObserver:(NSObject *)observer
-            forKeyPath:(NSString *)keyPath {
-    if (_hasObserver) {
-        [super removeObserver:observer forKeyPath:keyPath];
-        _hasObserver = NO;
-    }
+- (void)setStatus:(CourtesyCardPublishTaskStatus)status {
+    _status = status;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyComposeQueueUpdated object:self];
 }
 
 #pragma mark - Memory

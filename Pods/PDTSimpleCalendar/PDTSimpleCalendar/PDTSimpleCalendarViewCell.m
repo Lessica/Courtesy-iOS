@@ -145,10 +145,6 @@ const CGFloat PDTSimpleCalendarCircleSize = 32.0f;
         self.dayLabel.layer.borderWidth = 1;
     }
     
-    if (today) {
-        [self.dayLabel setBackgroundColor:[circleColor colorWithAlphaComponent:0.25]];
-    }
-    
     [self.dayLabel setTextColor:labelColor];
 }
 

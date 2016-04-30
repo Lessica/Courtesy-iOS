@@ -11,6 +11,8 @@
 #import "CourtesySettingsTableViewController.h"
 #import <MessageUI/MessageUI.h>
 
+#define kCourtesyImageCachePath ([[[UIApplication sharedApplication] cachesPath] stringByAppendingPathComponent:@"com.ibireme.yykit"])
+
 // 表格分区及索引设置
 enum {
     kAccountRelatedSection    = 0,
@@ -143,9 +145,11 @@ enum {
 
 // 清理缓存
 - (void)cleanCacheClicked {
-    NSError *error = nil;
-    [FCFileManager removeFilesInDirectoryAtPath:[[UIApplication sharedApplication] cachesPath] error:&error];
-    if (error) {
+    NSError *error1 = nil;
+    NSError *error2 = nil;
+    [FCFileManager removeItemsInDirectoryAtPath:kCourtesyImageCachePath error:&error1];
+    [FCFileManager removeItemsInDirectoryAtPath:NSTemporaryDirectory() error:&error2];
+    if (error1 || error2) {
         [self.navigationController.view makeToast:@"缓存清除失败"
                                          duration:1.2
                                          position:CSToastPositionCenter];
@@ -162,9 +166,9 @@ enum {
         _cleanCacheTitleLabel.text = @"清除缓存";
         return;
     }
-    NSNumber *size = [FCFileManager sizeOfDirectoryAtPath:[[UIApplication sharedApplication] cachesPath]];
-    if ([size integerValue] > 10e5) {
-        _cleanCacheTitleLabel.text = [NSString stringWithFormat:@"清除缓存 %@", [FCFileManager sizeFormattedOfDirectoryAtPath:[[UIApplication sharedApplication] cachesPath]]];
+    float size = [[FCFileManager sizeOfDirectoryAtPath:kCourtesyImageCachePath] floatValue] + [[FCFileManager sizeOfDirectoryAtPath:NSTemporaryDirectory()] floatValue];
+    if (size > 10e5) {
+        _cleanCacheTitleLabel.text = [NSString stringWithFormat:@"清除缓存 %@", [FCFileManager sizeFormatted:[NSNumber numberWithFloat:size]]];
     }
 }
 

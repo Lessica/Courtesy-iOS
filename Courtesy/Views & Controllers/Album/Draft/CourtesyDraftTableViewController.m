@@ -47,6 +47,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     [headerContainerView addSubview:headerView];
     self.headerView = headerView;
     self.tableView.tableHeaderView = headerContainerView;
+    self.tableView.allowsSelectionDuringEditing = NO;
     
     /* Init of MJRefresh */
     MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadTableView)];
@@ -63,6 +64,9 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveLocalNotification:)
                                                  name:kCourtesyNotificationInfo object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveQueueUpdated:)
+                                                 name:kCourtesyComposeQueueUpdated object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -73,6 +77,15 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)didReceiveQueueUpdated:(NSNotification *)notification {
+    CourtesyCardPublishTask *task = notification.object;
+    for (CourtesyDraftTableViewCell *cell in self.tableView.visibleCells) {
+        if (cell.targetTask == task) {
+            [cell notifyUpdateProgress];
+        }
+    }
 }
 
 - (void)didReceiveLocalNotification:(NSNotification *)notification {
@@ -244,6 +257,9 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
               viewControllerForLocation:(CGPoint)location {
+    if (self.tableView.isEditing) {
+        return nil;
+    }
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
     if (!indexPath) {
         return nil;

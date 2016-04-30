@@ -9,8 +9,6 @@
 #import "CourtesyDraftTableViewCell.h"
 #import "NSDate+Compare.h"
 #import "FCFileManager.h"
-#import "CourtesyCardPublishTask.h"
-#import "CourtesyCardPublishQueue.h"
 #import "CourtesyPaddingLabel.h"
 #import "POP.h"
 #import "ColorProgressView.h"
@@ -22,7 +20,6 @@
 //@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imagePreview;
 @property (weak, nonatomic) ColorProgressView *publishProgressView;
-@property (strong, nonatomic) CourtesyCardPublishTask *targetTask;
 @property (weak, nonatomic) IBOutlet UIImageView *smallAvatarView;
 @property (weak, nonatomic) IBOutlet UILabel *smallNickLabel;
 @property (weak, nonatomic) IBOutlet UILabel *smallTimeLabel;
@@ -32,12 +29,9 @@
 
 @implementation CourtesyDraftTableViewCell
 
-+ (BOOL)requiresConstraintBasedLayout {
-    return YES;
-}
-
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
     // Initialization code
     self.mainTitleLabel.font = [UIFont fontWithName:@"Heiti SC" size:20.0f];
     self.mainTitleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -54,7 +48,6 @@
     self.imagePreview.layer.cornerRadius = 3.0;
     
     self.smallAvatarView.layer.cornerRadius = self.smallAvatarView.frame.size.width / 2;
-    self.targetTask = nil;
     
     /* Init of color progress view */
     ColorProgressView *publishProgressView = [[ColorProgressView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 2)];
@@ -64,9 +57,10 @@
     self.publishProgressView = publishProgressView;
 }
 
-- (void)updateConstraints {
-    [super updateConstraints];
-    [_publishProgressView mas_makeConstraints:^(MASConstraintMaker *make) {
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [_publishProgressView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(self.contentView.mas_width);
         make.height.equalTo(@2);
         make.top.equalTo(self.contentView.mas_top);
@@ -75,11 +69,20 @@
 }
 
 - (void)setCard:(CourtesyCardModel *)card {
+    // 刷新状态变量
     _card = card;
+    _targetTask = nil;
+    
+    // 刷新文字数据
     self.mainTitleLabel.text = card.local_template.mainTitle;
     self.briefTitleLabel.text = card.local_template.briefTitle;
     self.smallAvatarView.imageURL = card.author.profile.avatar_url_small;
     self.smallNickLabel.text = card.author.profile.nick;
+    
+    // 重置进度条
+    [self.publishProgressView setProgress:0.0 animated:NO];
+    
+    // 刷新缩略图及小标识
     NSURL *thumbnailURL = card.local_template.smallThumbnailURL;
     if (thumbnailURL) {
         [self.imagePreview setImageWithURL:thumbnailURL
@@ -95,17 +98,11 @@
         self.qrcImageView.hidden = YES;
     }
     
-    // Fetch Task
+    // 获取卡片任务
     CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
     CourtesyCardPublishTask *task = [queue publishTaskInPublishQueueWithCard:card];
     if (task) {
-        [self setPublishProgressWithStatus:task.status withError:nil];
-        if (!task.hasObserver) {
-            [task addObserver:self
-                   forKeyPath:@"status"
-                      options:NSKeyValueObservingOptionNew
-                      context:nil];
-        }
+        [self setPublishProgressWithStatus:task.status andProgress:0 andError:nil];
         self.targetTask = task;
     } else {
         [self resetsmallTimeLabelText];
@@ -130,10 +127,20 @@
     }
 }
 
-- (void)setPublishProgressWithStatus:(CourtesyCardPublishTaskStatus)status withError:(NSError *)err {
+- (void)notifyUpdateProgress {
+    [self setPublishProgressWithStatus:_targetTask.status andProgress:_targetTask.currentProgress andError:_targetTask.error];
+}
+
+- (void)setPublishProgressWithStatus:(CourtesyCardPublishTaskStatus)status andProgress:(float)progress andError:(NSError *)err {
     if (status == CourtesyCardPublishTaskStatusProcessing) {
+        if (_targetTask.totalBytes != 0) {
+            [self.publishProgressView setProgress:_targetTask.currentProgress animated:YES];
+            self.smallTimeLabel.text = [NSString stringWithFormat:@"正在同步 - %@ / %@",
+                                        [FCFileManager sizeFormatted:[NSNumber numberWithFloat:_targetTask.logicalBytes]],
+                                        [FCFileManager sizeFormatted:[NSNumber numberWithFloat:(_targetTask.totalBytes - self.targetTask.skippedBytes)]]];
+            return;
+        }
         self.smallTimeLabel.text = @"正在同步";
-        return;
     } else if (status == CourtesyCardPublishTaskStatusNone) {
         self.smallTimeLabel.text = @"等待同步";
     } else if (status == CourtesyCardPublishTaskStatusReady) {
@@ -162,36 +169,6 @@
     // Configure the view for the selected state
 }
 
-- (void)dealloc {
-    [self removeTaskObserver];
-}
-
-- (void)removeTaskObserver {
-    if (self.targetTask && self.targetTask.hasObserver) {
-        [self.targetTask removeObserver:self
-                             forKeyPath:@"status"];
-    }
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary<NSString *, id> *)change
-                       context:(void *)context {
-    if (object == self.targetTask &&
-        [keyPath isEqualToString:@"status"]) {
-        dispatch_async_on_main_queue(^{
-            [self setPublishProgressWithStatus:self.targetTask.status withError:self.targetTask.error];
-            if (self.targetTask.status == CourtesyCardPublishTaskStatusProcessing) {
-                if (self.targetTask.totalBytes < 1) return;
-                [self.publishProgressView setProgress:((float)self.targetTask.currentProgress) animated:YES];
-                self.smallTimeLabel.text = [NSString stringWithFormat:@"正在同步 - %@ / %@",
-                                       [FCFileManager sizeFormatted:[NSNumber numberWithFloat:self.targetTask.logicalBytes]],
-                                       [FCFileManager sizeFormatted:[NSNumber numberWithFloat:(self.targetTask.totalBytes - self.targetTask.skippedBytes)]]];
-            }
-        });
-    }
-}
-
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     
     [super setHighlighted:highlighted animated:animated];
@@ -201,7 +178,7 @@
         POPBasicAnimation *scaleAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewScaleXY];
         scaleAnimation.duration           = 0.1f;
         scaleAnimation.toValue            = [NSValue valueWithCGPoint:CGPointMake(0.95, 0.95)];
-        [self.contentView pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
+        [self pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
         
     } else {
         
@@ -209,7 +186,7 @@
         scaleAnimation.toValue             = [NSValue valueWithCGPoint:CGPointMake(1, 1)];
         scaleAnimation.velocity            = [NSValue valueWithCGPoint:CGPointMake(2, 2)];
         scaleAnimation.springBounciness    = 20.f;
-        [self.contentView pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
+        [self pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
     }
 }
 

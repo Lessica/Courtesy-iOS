@@ -19,6 +19,7 @@
     [[PDTSimpleCalendarViewCell appearance] setTextSelectedColor:[UIColor whiteColor]];
     [[PDTSimpleCalendarViewCell appearance] setTextTodayColor:[UIColor whiteColor]];
     [[PDTSimpleCalendarViewCell appearance] setTextDisabledColor:[UIColor grayColor]];
+    [[PDTSimpleCalendarViewCell appearance] setTextDefaultFont:[UIFont fontWithName:@"Avenir-Light" size:16.0]];
     
     [[PDTSimpleCalendarViewHeader appearance] setTextColor:[UIColor whiteColor]];
     [[PDTSimpleCalendarViewHeader appearance] setSeparatorColor:[UIColor clearColor]];

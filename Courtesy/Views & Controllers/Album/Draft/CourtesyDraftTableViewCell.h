@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "CourtesyCardModel.h"
+#import "CourtesyCardPublishQueue.h"
 
 @interface CourtesyDraftTableViewCell : UITableViewCell
 @property (nonatomic, strong) CourtesyCardModel *card;
+@property (strong, nonatomic) CourtesyCardPublishTask *targetTask;
 
+- (void)notifyUpdateProgress;
 @end

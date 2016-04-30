@@ -12,12 +12,10 @@
 
 @implementation CourtesyFontModel {
     NSURLSessionTask *downloadTask;
-    BOOL hasObserver;
 }
 
 - (instancetype)init {
     if (self = [super init]) {
-        hasObserver = NO;
         downloadTask = nil;
     }
     return self;
@@ -26,7 +24,6 @@
 - (instancetype)initWithLocalURL:(NSURL *)localURL {
     if (self = [super init]) {
         NSAssert(localURL != nil, @"Init new font with invalid local url!");
-        hasObserver = NO;
         downloadTask = nil;
         _localURL = localURL;
         NSString *urlPath = [_localURL path];
@@ -90,21 +87,9 @@
     });
 }
 
-- (void)addObserver:(NSObject *)observer
-         forKeyPath:(NSString *)keyPath
-            options:(NSKeyValueObservingOptions)options
-            context:(void *)context {
-    if (hasObserver == NO) {
-        [super addObserver:observer forKeyPath:keyPath options:options context:context];
-        hasObserver = YES;
-    }
-}
-
-- (void)removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath {
-    if (hasObserver == YES) {
-        [super removeObserver:observer forKeyPath:keyPath];
-        hasObserver = NO;
-    }
+- (void)setStatus:(CourtesyFontDownloadingTaskStatus)status {
+    _status = status;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyFontQueueUpdated object:self];
 }
 
 #pragma mark - 下载字体
