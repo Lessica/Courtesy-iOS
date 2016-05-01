@@ -26,6 +26,7 @@
     alertView.cancelButtonTitleColor = \
     alertView.buttonsBackgroundColorHighlighted = \
     alertView.activityIndicatorViewColor = \
+    alertView.progressViewProgressTintColor = \
     alertView.cancelButtonBackgroundColorHighlighted = [UIColor magicColor]; \
     alertView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.7]; \
     alertView.buttonsHeight = 44.f; \

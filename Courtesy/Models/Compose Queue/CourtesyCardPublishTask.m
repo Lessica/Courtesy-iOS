@@ -175,8 +175,8 @@
         currentHelper.localPath = [self.card.local_template savedAttachmentsPath];
         currentHelper.cachesPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:kCourtesyCardPublishQueueCacheIdentifier, self.card.token]];
 #ifdef DEBUG
-        currentHelper.uploadSpeedLimit = 24.0;
-        currentHelper.downloadSpeedLimit = 24.0;
+        currentHelper.uploadSpeedLimit = 64.0;
+        currentHelper.downloadSpeedLimit = 64.0;
 #endif
         currentHelper.delegate = self;
         

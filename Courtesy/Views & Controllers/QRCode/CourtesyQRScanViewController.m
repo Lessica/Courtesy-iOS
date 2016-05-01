@@ -281,6 +281,9 @@ static SystemSoundID shake_sound_male_id = 0;
             return;
         }
         dispatch_async_on_main_queue(^{
+            if (self.currentAlert && self.currentAlert.isShowing) {
+                [self.currentAlert dismissAnimated:YES completionHandler:nil];
+            }
             // 发布新卡片界面并设置二维码数据
             CourtesyCardModel *newCard = [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
             newCard.qr_id = qrcode.unique_id;
@@ -380,10 +383,11 @@ static SystemSoundID shake_sound_male_id = 0;
     CourtesyCardManager *manager = [CourtesyCardManager sharedManager];
     card.delegate = manager;
     // 卡片信息可被序列化，读出卡片作者
-    [card saveToLocalDatabaseShouldPublish:NO andNotify:YES];
     if (index == 0) {
+        [card saveToLocalDatabaseShouldPublish:NO andNotify:NO];
         [manager editCard:card withViewController:self];
     } else {
+        [card saveToLocalDatabaseShouldPublish:NO andNotify:YES];
         [self performSelector:@selector(restartCapture) withObject:nil afterDelay:kStatusBarNotificationTime];
     }
 }

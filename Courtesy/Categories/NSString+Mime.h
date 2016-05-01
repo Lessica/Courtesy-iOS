@@ -10,4 +10,5 @@
 
 @interface NSString (Mime)
 - (NSString *)mime;
+- (NSUInteger)filesize;
 @end

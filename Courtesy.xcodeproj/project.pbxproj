@@ -46,9 +46,6 @@
 		0F3CECBB1CC4808C0073848F /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3CECB71CC4808C0073848F /* libcrypto.a */; };
 		0F3CECBC1CC4808C0073848F /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3CECB81CC4808C0073848F /* libssh2.a */; };
 		0F3CECC01CC481570073848F /* CourtesyCardPublishPendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3CECBF1CC481570073848F /* CourtesyCardPublishPendRequest.m */; };
-		0F47D9011CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D8FC1CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.m */; };
-		0F47D9021CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D8FE1CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m */; };
-		0F47D9031CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9001CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m */; };
 		0F47D9091CA6D7EC001300FE /* CourtesyCardEditRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */; };
 		0F4B12E71CAE1D3900650996 /* CourtesyParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4B12E41CAE1D3900650996 /* CourtesyParallaxHeaderView.m */; };
 		0F4E0E0A1CA8051800C4D76C /* UIColor+FlatColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E091CA8051800C4D76C /* UIColor+FlatColors.m */; };
@@ -443,12 +440,6 @@
 		0F3CECB81CC4808C0073848F /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssh2.a; sourceTree = "<group>"; };
 		0F3CECBE1CC481570073848F /* CourtesyCardPublishPendRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublishPendRequest.h; sourceTree = "<group>"; };
 		0F3CECBF1CC481570073848F /* CourtesyCardPublishPendRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishPendRequest.m; sourceTree = "<group>"; };
-		0F47D8FB1CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentCacheRequestModel.h; sourceTree = "<group>"; };
-		0F47D8FC1CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentCacheRequestModel.m; sourceTree = "<group>"; };
-		0F47D8FD1CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentQueryRequestModel.h; sourceTree = "<group>"; };
-		0F47D8FE1CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentQueryRequestModel.m; sourceTree = "<group>"; };
-		0F47D8FF1CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAttachmentUploadRequestModel.h; sourceTree = "<group>"; };
-		0F47D9001CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAttachmentUploadRequestModel.m; sourceTree = "<group>"; };
 		0F47D9051CA6D7EC001300FE /* CourtesyCardEditRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardEditRequestModel.h; sourceTree = "<group>"; };
 		0F47D9061CA6D7EC001300FE /* CourtesyCardEditRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardEditRequestModel.m; sourceTree = "<group>"; };
 		0F4B12E31CAE1D3900650996 /* CourtesyParallaxHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyParallaxHeaderView.h; sourceTree = "<group>"; };
@@ -1177,19 +1168,6 @@
 				0F3CECBF1CC481570073848F /* CourtesyCardPublishPendRequest.m */,
 			);
 			path = ACK;
-			sourceTree = "<group>";
-		};
-		0F47D8FA1CA6D7A9001300FE /* Requests */ = {
-			isa = PBXGroup;
-			children = (
-				0F47D8FB1CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.h */,
-				0F47D8FC1CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.m */,
-				0F47D8FD1CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.h */,
-				0F47D8FE1CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m */,
-				0F47D8FF1CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.h */,
-				0F47D9001CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m */,
-			);
-			path = Requests;
 			sourceTree = "<group>";
 		};
 		0F47D9041CA6D7EC001300FE /* Requests */ = {
@@ -2046,7 +2024,6 @@
 			isa = PBXGroup;
 			children = (
 				0F13F5381CC9087D00793FB9 /* Resources */,
-				0F47D8FA1CA6D7A9001300FE /* Requests */,
 				0FFE04931C93F47400E99DCC /* CourtesyCardAttachmentModel.h */,
 				0FFE04941C93F47400E99DCC /* CourtesyCardAttachmentModel.m */,
 			);
@@ -2616,7 +2593,6 @@
 				0F5940C61CD4ABD2002D916D /* Math.m in Sources */,
 				0FDEFBB51C97D5C2007BE8D2 /* NSDate+Astro.m in Sources */,
 				0FFE04C41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m in Sources */,
-				0F47D9011CA6D7BE001300FE /* CourtesyCardAttachmentCacheRequestModel.m in Sources */,
 				0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */,
 				0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */,
 				0F13F53B1CC9088F00793FB9 /* CourtesyCardResourceModel.m in Sources */,
@@ -2634,8 +2610,6 @@
 				0FFE04851C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m in Sources */,
 				0F1EF8D11CCB68EE00090830 /* CourtesyCardQueryRequestModel.m in Sources */,
 				0FF2D2681C95D90F007C23DE /* JVFloatingDrawerViewController.m in Sources */,
-				0F47D9031CA6D7BE001300FE /* CourtesyCardAttachmentUploadRequestModel.m in Sources */,
-				0F47D9021CA6D7BE001300FE /* CourtesyCardAttachmentQueryRequestModel.m in Sources */,
 				0FF2D28C1C95DA80007C23DE /* ZXingWrapper.m in Sources */,
 				0FFE04631C93F45800E99DCC /* CourtesyCardComposeViewController.m in Sources */,
 				0FFE04671C93F45800E99DCC /* CourtesyImageFrameView.m in Sources */,

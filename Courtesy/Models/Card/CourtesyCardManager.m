@@ -15,10 +15,12 @@
 #import "CourtesyLoginRegisterViewController.h"
 #import "CourtesyCardPublishQueue.h"
 #import "CourtesyCardDeleteRequestModel.h"
+#import "CourtesyCardCacheRequestHelper.h"
 
 #define kCourtesyCardDraftListKey @"kCourtesyCardListKey"
 
-@interface CourtesyCardManager () <CourtesyCardComposeDelegate, CourtesyCardDeleteRequestDelegate>
+@interface CourtesyCardManager () <CourtesyCardComposeDelegate, CourtesyCardDeleteRequestDelegate, CourtesyCardCacheRequestHelperDelegate, LGAlertViewDelegate>
+@property (nonatomic, strong) LGAlertView *currentAlert;
 
 @end
 
@@ -152,8 +154,29 @@
         vc.delegate = self;
         [controller presentViewController:vc animated:YES completion:nil];
     } else {
+        dispatch_async_on_main_queue(^{
+            LGAlertView *alertView = [[LGAlertView alloc] initWithActivityIndicatorAndTitle:@"请求中"
+                                                                                    message:@"正在请求缓存卡片资源"
+                                                                                      style:LGAlertViewStyleActionSheet
+                                                                               buttonTitles:nil
+                                                                          cancelButtonTitle:nil
+                                                                     destructiveButtonTitle:nil
+                                                                              actionHandler:nil
+                                                                              cancelHandler:nil
+                                                                         destructiveHandler:nil];
+            SetCourtesyAleryViewStyle(alertView, controller.navigationController.view)
+            [alertView showAnimated:YES completionHandler:nil];
+            self.currentAlert = alertView;
+        });
         // 卡片未缓存或未全部缓存
-        // 发起缓存异步请求
+        // 发起缓存异步检查请求
+        CourtesyCardCacheRequestHelper *helper = [CourtesyCardCacheRequestHelper new];
+        helper.delegate = self;
+        helper.card = card;
+        helper.relatedViewController = controller;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [helper sendAsyncQueryRequest];
+        });
     }
 }
 
@@ -358,6 +381,97 @@
                                           styleName:JDStatusBarStyleError];
         });
     }
+}
+
+#pragma mark - CourtesyCardCacheRequestHelperDelegate
+
+- (void)cardCacheQuerySucceed:(CourtesyCardCacheRequestHelper *)helper {
+    dispatch_async_on_main_queue(^{
+        __weak typeof(self) weakSelf = self;
+        LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"准备缓存"
+                                                            message:[NSString stringWithFormat:@"缓存此卡片需要下载 %@ 的卡片资源",
+                                                                     [FCFileManager sizeFormatted:[NSNumber numberWithUnsignedInteger:helper.totalBytes]]]
+                                                              style:LGAlertViewStyleActionSheet
+                                                       buttonTitles:@[@"开始"]
+                                                  cancelButtonTitle:@"取消"
+                                             destructiveButtonTitle:nil
+                                                      actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                          [weakSelf startCacheWithHelper:helper];
+                                                      }
+                                                      cancelHandler:nil
+                                                 destructiveHandler:nil];
+        SetCourtesyAleryViewStyle(alertView, helper.relatedViewController.navigationController.view)
+        if (self.currentAlert && self.currentAlert.isShowing) {
+            [self.currentAlert transitionToAlertView:alertView completionHandler:nil];
+        } else {
+            [alertView showAnimated:YES completionHandler:nil];
+        }
+        self.currentAlert = alertView;
+    });
+}
+
+- (void)cardCacheQueryFailed:(CourtesyCardCacheRequestHelper *)helper withError:(NSError *)error {
+    dispatch_async_on_main_queue(^{
+        LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"请求失败"
+                                                            message:[NSString stringWithFormat:@"此时无法缓存卡片资源 - %@", [error localizedDescription]]
+                                                              style:LGAlertViewStyleActionSheet
+                                                       buttonTitles:nil
+                                                  cancelButtonTitle:@"好"
+                                             destructiveButtonTitle:nil
+                                                      actionHandler:nil
+                                                      cancelHandler:nil
+                                                 destructiveHandler:nil];
+        SetCourtesyAleryViewStyle(alertView, helper.relatedViewController.navigationController.view)
+        if (self.currentAlert && self.currentAlert.isShowing) {
+            [self.currentAlert transitionToAlertView:alertView completionHandler:nil];
+        } else {
+            [alertView showAnimated:YES completionHandler:nil];
+        }
+        self.currentAlert = alertView;
+    });
+}
+
+- (void)cardCachedSucceed:(CourtesyCardCacheRequestHelper *)helper {
+    dispatch_async_on_main_queue(^{
+        if (self.currentAlert && self.currentAlert.isShowing) {
+            [self.currentAlert dismissAnimated:YES completionHandler:nil];
+        }
+        CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:helper.card];
+        vc.delegate = self;
+        [helper.relatedViewController presentViewController:vc animated:YES completion:nil];
+    });
+}
+
+- (void)cardCachedFailed:(CourtesyCardCacheRequestHelper *)helper withError:(NSError *)error {
+    [self cardCacheQueryFailed:helper withError:error];
+}
+
+- (void)cardCaching:(CourtesyCardCacheRequestHelper *)helper withProgress:(float)progress {
+    if (progress > 1.f) progress = 1.f;
+    dispatch_async_on_main_queue(^{
+        [self.currentAlert setProgress:progress progressLabelText:[NSString stringWithFormat:@"%.0f %%", progress * 100]];
+    });
+}
+
+- (void)startCacheWithHelper:(CourtesyCardCacheRequestHelper *)helper {
+    LGAlertView *alertView = [[LGAlertView alloc] initWithProgressViewAndTitle:@"缓存中"
+                                                                       message:@"缓存卡片资源可能需要一些时间，请耐心等候。"
+                                                                         style:LGAlertViewStyleActionSheet
+                                                             progressLabelText:@"0 %"
+                                                                  buttonTitles:nil
+                                                             cancelButtonTitle:@"取消"
+                                                        destructiveButtonTitle:nil
+                                                                 actionHandler:nil
+                                                                 cancelHandler:^(LGAlertView *alertView) {
+                                                                     [helper stop];
+                                                                 }
+                                                            destructiveHandler:nil];
+    SetCourtesyAleryViewStyle(alertView, helper.relatedViewController.navigationController.view);
+    [alertView showAnimated:YES completionHandler:nil];
+    self.currentAlert = alertView;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [helper sendAsyncCacheRequest];
+    });
 }
 
 @end

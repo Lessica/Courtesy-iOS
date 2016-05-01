@@ -29,6 +29,7 @@
             newModel.sha256 = attachment.salt_hash;
             newModel.mime = [newAttachmentPath mime];
             newModel.type = attachment.type;
+            newModel.size = [newAttachmentPath filesize]; // Get file size by fetching file attributes
             [resourcesArr addObject:newModel];
 #ifdef API_USE_LOCAL_THUMBNAIL
             [attachment generateThumbnails];

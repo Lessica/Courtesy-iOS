@@ -10,4 +10,11 @@
 
 @implementation CourtesyCardResourceModel
 
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
+    if ([propertyName isEqualToString:@"size"]) {
+        return YES;
+    }
+    return NO;
+}
+
 @end

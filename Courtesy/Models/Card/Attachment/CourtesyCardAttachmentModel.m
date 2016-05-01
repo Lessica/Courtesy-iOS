@@ -225,6 +225,7 @@
                 newModel.sha256 = [[NSData dataWithContentsOfFile:newThumbnailPath] sha256String];
                 newModel.mime = [newThumbnailPath mime];
                 newModel.type = CourtesyAttachmentThumbnailImage;
+                newModel.size = [newThumbnailPath filesize];
                 [resourcesArr addObject:newModel];
             }
         }

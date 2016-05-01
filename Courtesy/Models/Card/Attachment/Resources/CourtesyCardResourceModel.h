@@ -11,5 +11,6 @@
 @property (nonatomic, copy) NSString *sha256;
 @property (nonatomic, copy) NSString *mime;
 @property (nonatomic, assign) NSUInteger type;
+@property (nonatomic, assign) NSUInteger size;
 
 @end

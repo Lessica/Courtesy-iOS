@@ -26,4 +26,12 @@
     return (__bridge NSString *)(MIMEType);
 }
 
+- (NSUInteger)filesize {
+    if (![FCFileManager isReadableItemAtPath:self]) {
+        return 0;
+    }
+    
+    return [[FCFileManager sizeOfFileAtPath:self] unsignedIntegerValue];
+}
+
 @end
