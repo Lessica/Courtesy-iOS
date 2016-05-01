@@ -65,6 +65,7 @@
                                                            buttonTitles:nil
                                                       cancelButtonTitle:@"好"
                                                  destructiveButtonTitle:nil];
+            SetCourtesyAleryViewStyle(alertView, self.view)
             [alertView showAnimated:YES completionHandler:nil];
         }
     }

@@ -1002,26 +1002,27 @@
     if (range.length > 0) {
         selectedText = [self.textView textInRange:[YYTextRange rangeWithRange:range]];
     }
-    LGAlertView *urlAlert = [[LGAlertView alloc] initWithTextFieldsAndTitle:@"添加链接或引用源"
-                                                                    message:nil
-                                                         numberOfTextFields:2
-                                                     textFieldsSetupHandler:^(UITextField *textField, NSUInteger index) {
-                                                         if (index == 0) {
-                                                             textField.placeholder = @"标题";
-                                                             if (selectedText && ![selectedText isUrl] && ![selectedText isEmail]) {
-                                                                 textField.text = selectedText;
-                                                             }
-                                                         } else if (index == 1) {
-                                                             textField.placeholder = @"网址、邮箱地址或引用源";
-                                                             if (selectedText && ([selectedText isUrl] || [selectedText isEmail])) {
-                                                                 textField.text = selectedText;
-                                                             }
-                                                         }
-                                                     } buttonTitles:@[@"确认"]
-                                                          cancelButtonTitle:@"取消"
-                                                     destructiveButtonTitle:nil
-                                                                   delegate:self];
-    [urlAlert showAnimated:YES completionHandler:nil];
+    LGAlertView *alertView = [[LGAlertView alloc] initWithTextFieldsAndTitle:@"添加链接或引用源"
+                                                                     message:nil
+                                                          numberOfTextFields:2
+                                                      textFieldsSetupHandler:^(UITextField *textField, NSUInteger index) {
+                                                          if (index == 0) {
+                                                              textField.placeholder = @"标题";
+                                                              if (selectedText && ![selectedText isUrl] && ![selectedText isEmail]) {
+                                                                  textField.text = selectedText;
+                                                              }
+                                                          } else if (index == 1) {
+                                                              textField.placeholder = @"网址、邮箱地址或引用源";
+                                                              if (selectedText && ([selectedText isUrl] || [selectedText isEmail])) {
+                                                                  textField.text = selectedText;
+                                                              }
+                                                          }
+                                                      } buttonTitles:@[@"确认"]
+                                                           cancelButtonTitle:@"取消"
+                                                      destructiveButtonTitle:nil
+                                                                    delegate:self];
+    SetCourtesyAleryViewStyle(alertView, self.view)
+    [alertView showAnimated:YES completionHandler:nil];
 }
 
 - (void)alignButtonTapped:(UIBarButtonItem *)sender {

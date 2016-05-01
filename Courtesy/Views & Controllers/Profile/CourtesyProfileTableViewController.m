@@ -199,7 +199,7 @@ UIScrollViewDelegate>
 }
 
 - (void)openMenu {
-    LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"上传头像"
+    LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"上传头像"
                                                     message:@"请选择一种方式"
                                                       style:LGAlertViewStyleActionSheet buttonTitles:@[@"相机", @"本地相册"]
                                           cancelButtonTitle:@"取消"
@@ -221,7 +221,8 @@ UIScrollViewDelegate>
             
         }
     } cancelHandler:nil destructiveHandler:nil];
-    [alert showAnimated:YES completionHandler:nil];
+    SetCourtesyAleryViewStyle(alertView, self.view)
+    [alertView showAnimated:YES completionHandler:nil];
 }
 
 - (void)showOriginalAvatarImage:(id)sender {

@@ -65,8 +65,11 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
                                              selector:@selector(didReceiveLocalNotification:)
                                                  name:kCourtesyNotificationInfo object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveQueueUpdated:)
-                                                 name:kCourtesyComposeQueueUpdated object:nil];
+                                             selector:@selector(didReceiveCardQueueUpdated:)
+                                                 name:kCourtesyCardComposeQueueUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveCardStatusUpdated:)
+                                                 name:kCourtesyCardStatusUpdated object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -79,11 +82,22 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     // Dispose of any resources that can be recreated.
 }
 
-- (void)didReceiveQueueUpdated:(NSNotification *)notification {
-    CourtesyCardPublishTask *task = notification.object;
+#pragma mark - Notification
+
+- (void)didReceiveCardQueueUpdated:(NSNotification *)notification {
+    CourtesyCardModel *taskCard = notification.object;
     for (CourtesyDraftTableViewCell *cell in self.tableView.visibleCells) {
-        if (cell.targetTask == task) {
+        if (cell.card == taskCard) {
             [cell notifyUpdateProgress];
+        }
+    }
+}
+
+- (void)didReceiveCardStatusUpdated:(NSNotification *)notification {
+    CourtesyCardModel *statusCard = notification.object;
+    for (CourtesyDraftTableViewCell *cell in self.tableView.visibleCells) {
+        if (cell.card == statusCard) {
+            [cell notifyUpdateStatus];
         }
     }
 }
@@ -136,7 +150,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     return NO;
 }
 
-#pragma mark - Card management
+#pragma mark - Card Management
 
 - (CourtesyCardManager *)cardManager {
     return [CourtesyCardManager sharedManager];
@@ -152,7 +166,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     return count;
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table View Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -187,14 +201,14 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
             if (card.author.user_id == kAccount.user_id && card.hasPublished) {
                 if (card.is_banned == NO) {
                     __weak typeof(self) weakSelf = self;
-                    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"禁用" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"设为隐藏" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
                         [weakSelf.cardManager deleteCardInDraft:card];
                         [tableView setEditing:NO animated:YES];
                     }];
                     return @[deleteAction];
                 } else {
                     __weak typeof(self) weakSelf = self;
-                    UITableViewRowAction *restoreAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"启用" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                    UITableViewRowAction *restoreAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"设为公开" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
                         [weakSelf.cardManager restoreCardInDraft:card];
                         [tableView setEditing:NO animated:YES];
                     }];
@@ -284,6 +298,8 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
      commitViewController:(UIViewController *)viewControllerToCommit {
     [self.cardManager commitCardComposeViewController:viewControllerToCommit withViewController:self];
 }
+
+#pragma mark - Memory
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

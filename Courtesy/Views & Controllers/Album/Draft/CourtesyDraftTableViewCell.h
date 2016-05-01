@@ -12,7 +12,7 @@
 
 @interface CourtesyDraftTableViewCell : UITableViewCell
 @property (nonatomic, strong) CourtesyCardModel *card;
-@property (strong, nonatomic) CourtesyCardPublishTask *targetTask;
 
 - (void)notifyUpdateProgress;
+- (void)notifyUpdateStatus;
 @end

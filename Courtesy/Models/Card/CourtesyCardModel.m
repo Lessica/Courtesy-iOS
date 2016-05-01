@@ -7,6 +7,7 @@
 //
 
 #import "CourtesyCardModel.h"
+#import "FCFileManager.h"
 #import "AppStorage.h"
 
 #define kCourtesyCardPrefix @"kCourtesyCardPrefix-%@"
@@ -84,6 +85,18 @@
         [a removeFromLocalDatabase];
     }
     [[self appStorage] removeObjectForKey:[NSString stringWithFormat:kCourtesyCardPrefix, self.token]];
+}
+
+#pragma mark - Card Cache
+
+- (BOOL)isCardCached {
+    for (CourtesyCardAttachmentModel *attr in self.local_template.attachments) {
+        NSString *localPath = [attr attachmentPath];
+        if (![FCFileManager isReadableItemAtPath:localPath]) {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 @end

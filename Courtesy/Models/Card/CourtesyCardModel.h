@@ -44,5 +44,6 @@
 - (instancetype)initWithCardToken:(NSString *)token;
 - (NSString *)saveToLocalDatabaseShouldPublish:(BOOL)willPublish andNotify:(BOOL)notify;
 - (void)deleteInLocalDatabase;
+- (BOOL)isCardCached;
 
 @end

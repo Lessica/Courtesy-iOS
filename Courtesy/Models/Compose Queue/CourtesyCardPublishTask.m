@@ -190,7 +190,10 @@
 
 - (void)setStatus:(CourtesyCardPublishTaskStatus)status {
     _status = status;
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyComposeQueueUpdated object:self];
+    if (!_card) {
+        return;
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyCardComposeQueueUpdated object:_card];
 }
 
 #pragma mark - Memory

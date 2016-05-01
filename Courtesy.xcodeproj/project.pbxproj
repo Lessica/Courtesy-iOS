@@ -102,6 +102,7 @@
 		0FD3EE4B1C95CDC100DE5347 /* CourtesyWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0FD3EE2A1C95CDC100DE5347 /* CourtesyWatch.app */; };
 		0FD43FCD1C846CA700D6C564 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD43FCC1C846CA700D6C564 /* AVFoundation.framework */; };
 		0FD43FCF1C846CAF00D6C564 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD43FCE1C846CAF00D6C564 /* MediaPlayer.framework */; };
+		0FDABE431CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDABE421CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.m */; };
 		0FDDF1F21CABE4050067FB7F /* CourtesyCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDDF1F11CABE4050067FB7F /* CourtesyCalendarViewController.m */; };
 		0FDDF1F41CABE5370067FB7F /* CourtesyCalendar.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FDDF1F31CABE5370067FB7F /* CourtesyCalendar.bundle */; };
 		0FDEFBB01C97D58F007BE8D2 /* PHPhotoLibrary+CustomPhotoCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBAF1C97D58F007BE8D2 /* PHPhotoLibrary+CustomPhotoCollection.m */; };
@@ -538,6 +539,8 @@
 		0FD3EE481C95CDC100DE5347 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0FD43FCC1C846CA700D6C564 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		0FD43FCE1C846CAF00D6C564 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		0FDABE411CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardCacheRequestHelper.h; sourceTree = "<group>"; };
+		0FDABE421CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardCacheRequestHelper.m; sourceTree = "<group>"; };
 		0FDDF1F01CABE4050067FB7F /* CourtesyCalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCalendarViewController.h; sourceTree = "<group>"; };
 		0FDDF1F11CABE4050067FB7F /* CourtesyCalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCalendarViewController.m; sourceTree = "<group>"; };
 		0FDDF1F31CABE5370067FB7F /* CourtesyCalendar.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CourtesyCalendar.bundle; sourceTree = "<group>"; };
@@ -1192,6 +1195,8 @@
 		0F47D9041CA6D7EC001300FE /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				0FDABE411CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.h */,
+				0FDABE421CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.m */,
 				0F1EF8CF1CCB68EE00090830 /* CourtesyCardQueryRequestModel.h */,
 				0F1EF8D01CCB68EE00090830 /* CourtesyCardQueryRequestModel.m */,
 				0FFC2F211CCB1EFC00676097 /* CourtesyCardDeleteRequestModel.h */,
@@ -2519,6 +2524,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FDABE431CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.m in Sources */,
 				0FF2D2871C95DA80007C23DE /* LBXScanView.m in Sources */,
 				0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */,
 				0FFE04881C93F45800E99DCC /* CourtesyMessageNotificationSettingsTableViewController.m in Sources */,

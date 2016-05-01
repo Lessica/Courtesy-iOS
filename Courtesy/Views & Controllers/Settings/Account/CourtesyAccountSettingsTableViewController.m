@@ -85,7 +85,7 @@
     }
     else
     { // 取消绑定
-        LGAlertView *alert = [[LGAlertView alloc] initWithTitle:@"解除绑定"
+        LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"解除绑定"
                                                         message:@"将无法分享卡片到QQ好友、QQ空间"
                                                           style:LGAlertViewStyleActionSheet
                                                    buttonTitles:@[@"解除"]
@@ -96,7 +96,8 @@
                                                           kAccount.tencentModel = nil;
                                                       }
                                                   } cancelHandler:nil destructiveHandler:nil];
-        [alert showAnimated:YES completionHandler:nil];
+        SetCourtesyAleryViewStyle(alertView, self.view)
+        [alertView showAnimated:YES completionHandler:nil];
     }
 }
 

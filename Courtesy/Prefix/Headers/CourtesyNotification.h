@@ -21,7 +21,9 @@
 #define kCourtesyActionFetchFailed @"kCourtesyActionFetchFailed"
 #define kCourtesyActionProfileEdited @"kCourtesyActionProfileEdited"
 
-#define kCourtesyComposeQueueUpdated @"kCourtesyComposeQueueUpdated"
+#define kCourtesyCardComposeQueueUpdated @"kCourtesyCardComposeQueueUpdated"
+#define kCourtesyCardStatusUpdated @"kCourtesyCardStatusUpdated"
+
 #define kCourtesyFontQueueUpdated @"kCourtesyFontQueueUpdated"
 
 #define kTencentLoginSuccessed @"kTencentLoginSuccessed"

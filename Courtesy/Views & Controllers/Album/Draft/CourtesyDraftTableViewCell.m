@@ -15,6 +15,8 @@
 #import "ProgressColor+Colors.h"
 
 @interface CourtesyDraftTableViewCell ()
+@property (strong, nonatomic) CourtesyCardPublishTask *targetTask;
+
 @property (weak, nonatomic) IBOutlet CourtesyPaddingLabel *mainTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *briefTitleLabel;
 //@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
@@ -28,6 +30,8 @@
 @end
 
 @implementation CourtesyDraftTableViewCell
+
+#pragma mark - UI Initialization
 
 + (BOOL)requiresConstraintBasedLayout {
     return YES;
@@ -71,30 +75,39 @@
     }];
 }
 
+#pragma mark - Data Updating
+
 - (void)setCard:(CourtesyCardModel *)card {
-    // 刷新状态变量
     _card = card;
     _targetTask = nil;
+    [self.publishProgressView setProgress:0.0 animated:NO];
+    [self setupStatus];
+}
+
+- (void)setupStatus {
+    if (!_card) return;
     
     // 刷新文字数据
-    self.mainTitleLabel.text = card.local_template.mainTitle;
-    self.briefTitleLabel.text = card.local_template.briefTitle;
-    self.smallAvatarView.imageURL = card.author.profile.avatar_url_small;
-    self.smallNickLabel.text = card.author.profile.nick;
-    
-    // 重置进度条
-    [self.publishProgressView setProgress:0.0 animated:NO];
+    self.mainTitleLabel.text = _card.local_template.mainTitle;
+    self.briefTitleLabel.text = _card.local_template.briefTitle;
+    self.smallAvatarView.imageURL = _card.author.profile.avatar_url_small;
+    self.smallNickLabel.text = _card.author.profile.nick;
     
     // 刷新缩略图及小标识
-    NSURL *thumbnailURL = card.local_template.smallThumbnailURL;
+    NSURL *thumbnailURL = _card.local_template.smallThumbnailURL;
     if (thumbnailURL) {
         [self.imagePreview setImageWithURL:thumbnailURL
                                    options:YYWebImageOptionSetImageWithFadeAnimation];
     } else {
         [self.imagePreview setImage:nil]; // 清除缩略图
     }
-    if (card.qr_id || card.local_template.qrcode) {
+    if (_card.is_banned) {
         self.mainTitleLabel.edgeInsets = UIEdgeInsetsMake(0, 28, 0, 0);
+        self.qrcImageView.image = [UIImage imageNamed:@"lock-small"];
+        self.qrcImageView.hidden = NO;
+    } else if (_card.qr_id || _card.local_template.qrcode) {
+        self.mainTitleLabel.edgeInsets = UIEdgeInsetsMake(0, 28, 0, 0);
+        self.qrcImageView.image = [UIImage imageNamed:@"qrc-small"];
         self.qrcImageView.hidden = NO;
     } else {
         self.mainTitleLabel.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -103,7 +116,7 @@
     
     // 获取卡片任务
     CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
-    CourtesyCardPublishTask *task = [queue publishTaskInPublishQueueWithCard:card];
+    CourtesyCardPublishTask *task = [queue publishTaskInPublishQueueWithCard:_card];
     if (task) {
         [self setPublishProgressWithStatus:task.status andProgress:0 andError:nil];
         self.targetTask = task;
@@ -128,6 +141,12 @@
             self.mainTitleLabel.textColor = [UIColor blackColor];
         }
     }
+}
+
+#pragma mark - Status Notification
+
+- (void)notifyUpdateStatus {
+    [self setupStatus];
 }
 
 - (void)notifyUpdateProgress {
@@ -165,6 +184,8 @@
     }
     [self.publishProgressView setProgress:0.0];
 }
+
+#pragma mark - Animation
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

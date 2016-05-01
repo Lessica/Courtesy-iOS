@@ -146,51 +146,29 @@
 }
 
 - (void)editCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller {
-    [controller.navigationController.view setUserInteractionEnabled:NO];
-    [controller.navigationController.view makeToastActivity:CSToastPositionCenter];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [self loadCardRemoteAttachments:card withViewController:controller];
-    });
-}
-
-#warning Wait for improvement
-- (void)loadCardRemoteAttachments:(CourtesyCardModel *)card withViewController:(UIViewController *)controller {
-    for (CourtesyCardAttachmentModel *attr in card.local_template.attachments) {
-        NSString *localPath = [attr attachmentPath];
-        if (![FCFileManager isReadableItemAtPath:localPath]) {
-            NSError *err = nil;
-            NSData *remoteData = [NSData dataWithContentsOfURL:[attr remoteAttachmentURL]
-                                                       options:NSDataReadingMappedAlways
-                                                         error:&err];
-            if (err || remoteData == nil) {
-                dispatch_async_on_main_queue(^{
-                    [controller.navigationController.view hideToastActivity];
-                    [controller.navigationController.view setUserInteractionEnabled:YES];
-                });
-                return;
-            }
-            [remoteData writeToFile:localPath atomically:YES];
-        }
-    }
-    [self displayCard:card withViewController:controller];
-}
-
-- (void)displayCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller {
-    dispatch_async_on_main_queue(^{
+    if ([card isCardCached]) {
+        // 卡片已缓存
         CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:card];
         vc.delegate = self;
-        [controller presentViewController:vc animated:YES completion:^() {
-            [controller.navigationController.view hideToastActivity];
-            [controller.navigationController.view setUserInteractionEnabled:YES];
-        }];
-    });
+        [controller presentViewController:vc animated:YES completion:nil];
+    } else {
+        // 卡片未缓存或未全部缓存
+        // 发起缓存异步请求
+    }
 }
 
+#pragma mark - 3D Touch
+
 - (UIViewController *)prepareCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller {
-    CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:card];
-    vc.previewContext = YES;
-    vc.delegate = self;
-    return vc;
+    if ([card isCardCached]) {
+        // 卡片已缓存，可以载入预览
+        CourtesyCardComposeViewController *vc = [[CourtesyCardComposeViewController alloc] initWithCard:card];
+        vc.previewContext = YES;
+        vc.delegate = self;
+        return vc;
+    }
+    // 卡片未缓存，无法预览
+    return nil;
 }
 
 - (void)commitCardComposeViewController:(UIViewController *)viewController withViewController:(UIViewController *)controller {
@@ -205,7 +183,7 @@
     if (card.hasPublished) {
         if (card.is_banned) {
             dispatch_async_on_main_queue(^{
-                [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"正在恢复卡片 %@……", card.local_template.mainTitle]
+                [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"正在公开卡片 %@……", card.local_template.mainTitle]
                                            dismissAfter:kStatusBarNotificationTime
                                               styleName:JDStatusBarStyleDefault];
                 [JDStatusBarNotification showActivityIndicator:YES
@@ -228,7 +206,7 @@
         if (card.hasPublished) {
             if (card.is_banned == NO) {
                 dispatch_async_on_main_queue(^{
-                    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"正在禁用卡片 %@……", card.local_template.mainTitle]
+                    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"正在隐藏卡片 %@……", card.local_template.mainTitle]
                                                dismissAfter:kStatusBarNotificationTime
                                                   styleName:JDStatusBarStyleDefault];
                     [JDStatusBarNotification showActivityIndicator:YES
@@ -343,21 +321,23 @@
     if (sender.toBan) {
         CourtesyCardModel *card = sender.card;
         dispatch_async_on_main_queue(^{
-            [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片 %@ 禁用成功", card.local_template.mainTitle]
+            [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片 %@ 已经隐藏", card.local_template.mainTitle]
                                        dismissAfter:kStatusBarNotificationTime
                                           styleName:JDStatusBarStyleSuccess];
         });
         card.is_banned = YES;
         [card saveToLocalDatabaseShouldPublish:NO andNotify:NO];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyCardStatusUpdated object:card];
     } else {
         CourtesyCardModel *card = sender.card;
         dispatch_async_on_main_queue(^{
-            [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片 %@ 恢复成功", card.local_template.mainTitle]
+            [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片 %@ 已经公开", card.local_template.mainTitle]
                                        dismissAfter:kStatusBarNotificationTime
                                           styleName:JDStatusBarStyleSuccess];
         });
         card.is_banned = NO;
         [card saveToLocalDatabaseShouldPublish:NO andNotify:NO];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyCardStatusUpdated object:card];
     }
 }
 
@@ -366,14 +346,14 @@
     if (sender.toBan) {
         CourtesyCardModel *card = sender.card;
         dispatch_async_on_main_queue(^{
-            [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片 %@ 禁用失败 - %@", card.local_template.mainTitle, [error localizedDescription]]
+            [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片 %@ 隐藏失败 - %@", card.local_template.mainTitle, [error localizedDescription]]
                                        dismissAfter:kStatusBarNotificationTime
                                           styleName:JDStatusBarStyleError];
         });
     } else {
         CourtesyCardModel *card = sender.card;
         dispatch_async_on_main_queue(^{
-            [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片 %@ 恢复失败 - %@", card.local_template.mainTitle, [error localizedDescription]]
+            [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片 %@ 公开失败 - %@", card.local_template.mainTitle, [error localizedDescription]]
                                        dismissAfter:kStatusBarNotificationTime
                                           styleName:JDStatusBarStyleError];
         });
