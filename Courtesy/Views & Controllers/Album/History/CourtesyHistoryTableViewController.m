@@ -34,6 +34,10 @@ static NSString * const kCourtesyHistoryTableViewCellReuseIdentifier = @"Courtes
         // 注册 3D Touch
         [self registerForPreviewingWithDelegate:self sourceView:self.view];
     }
+    self.tableView.allowsSelectionDuringEditing = NO;
+    
+    // 设置底部 Tabbar 边距
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
     
     /* Init of MJRefresh */
     MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadTableView)];

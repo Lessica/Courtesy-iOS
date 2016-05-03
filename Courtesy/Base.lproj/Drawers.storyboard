@@ -1374,6 +1374,11 @@
                                 <action selector="actionToggleLeftDrawer:" destination="JnH-Os-BJY" id="4qH-oo-Fig"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="编辑" id="VEe-Is-jHq">
+                            <connections>
+                                <action selector="actionEditButtonTapped:" destination="JnH-Os-BJY" id="EQr-5X-Olz"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="I65-en-Sch">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -1381,6 +1386,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <outlet property="editBarItem" destination="VEe-Is-jHq" id="I9Y-7G-g1C"/>
                         <segue destination="nI9-gL-eAg" kind="relationship" relationship="viewControllers" id="dOW-2E-Urn"/>
                         <segue destination="9s4-wt-om3" kind="relationship" relationship="viewControllers" id="fr1-kH-P2P"/>
                     </connections>

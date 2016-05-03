@@ -37,6 +37,10 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
         // 注册 3D Touch
         [self registerForPreviewingWithDelegate:self sourceView:self.view];
     }
+    self.tableView.allowsSelectionDuringEditing = NO;
+    
+    // 设置底部 Tabbar 边距
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
     
     /* Init of header view */
     UIView *headerContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 180)];
@@ -52,7 +56,6 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     [headerContainerView addSubview:headerView];
     self.headerView = headerView;
     self.tableView.tableHeaderView = headerContainerView;
-    self.tableView.allowsSelectionDuringEditing = NO;
     
     /* Init of MJRefresh */
     MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadTableView)];
