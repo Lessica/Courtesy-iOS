@@ -43,6 +43,10 @@
 		0F3CECBB1CC4808C0073848F /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3CECB71CC4808C0073848F /* libcrypto.a */; };
 		0F3CECBC1CC4808C0073848F /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3CECB81CC4808C0073848F /* libssh2.a */; };
 		0F3CECC01CC481570073848F /* CourtesyCardPublishPendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3CECBF1CC481570073848F /* CourtesyCardPublishPendRequest.m */; };
+		0F489E901CD8FAF50038D27D /* CourtesyLongImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F489E8F1CD8FAF50038D27D /* CourtesyLongImageTableViewCell.m */; };
+		0F489EA41CD8FD420038D27D /* CourtesyCardPreviewGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F489EA11CD8FD420038D27D /* CourtesyCardPreviewGenerator.m */; };
+		0F489EA51CD8FD420038D27D /* CourtesyCardPreviewStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F489EA31CD8FD420038D27D /* CourtesyCardPreviewStyleModel.m */; };
+		0F489EA81CD8FE030038D27D /* CourtesyCardPreviewStyleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F489EA71CD8FE030038D27D /* CourtesyCardPreviewStyleManager.m */; };
 		0F4B12E71CAE1D3900650996 /* CourtesyParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4B12E41CAE1D3900650996 /* CourtesyParallaxHeaderView.m */; };
 		0F4E0E0A1CA8051800C4D76C /* UIColor+FlatColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E091CA8051800C4D76C /* UIColor+FlatColors.m */; };
 		0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E21C9511D300F818AD /* CourtesyFontModel.m */; };
@@ -93,7 +97,6 @@
 		0FC365B31CCA521D007FFEF6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC365B21CCA521D007FFEF6 /* AudioToolbox.framework */; };
 		0FC365B51CCA5221007FFEF6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC365B41CCA5221007FFEF6 /* Security.framework */; };
 		0FD2BEC91C966D9400B5BBC9 /* CourtesyCardStyleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD2BEC81C966D9400B5BBC9 /* CourtesyCardStyleManager.m */; };
-		0FD2BECC1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD2BECB1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m */; };
 		0FD3EE261C95CD2200DE5347 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD3EE251C95CD2200DE5347 /* WatchConnectivity.framework */; };
 		0FD3EE2E1C95CDC100DE5347 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FD3EE2C1C95CDC100DE5347 /* Interface.storyboard */; };
 		0FD3EE301C95CDC100DE5347 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FD3EE2F1C95CDC100DE5347 /* Assets.xcassets */; };
@@ -205,7 +208,6 @@
 		0FFE04BD1C93F47400E99DCC /* CourtesyCardAttachmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04941C93F47400E99DCC /* CourtesyCardAttachmentModel.m */; };
 		0FFE04C11C93F47400E99DCC /* CourtesyCardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE049C1C93F47400E99DCC /* CourtesyCardModel.m */; };
 		0FFE04C31C93F47400E99DCC /* CourtesyCardDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04A11C93F47400E99DCC /* CourtesyCardDataModel.m */; };
-		0FFE04C41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04A41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m */; };
 		0FFE04C51C93F47400E99DCC /* CourtesyCardStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04A71C93F47400E99DCC /* CourtesyCardStyleModel.m */; };
 		0FFE04C61C93F47400E99DCC /* CourtesyCommonRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04AA1C93F47400E99DCC /* CourtesyCommonRequestModel.m */; };
 		0FFE04C91C93F47400E99DCC /* CourtesyCardPublishQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04B11C93F47400E99DCC /* CourtesyCardPublishQueue.m */; };
@@ -437,6 +439,14 @@
 		0F3CECB81CC4808C0073848F /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssh2.a; sourceTree = "<group>"; };
 		0F3CECBE1CC481570073848F /* CourtesyCardPublishPendRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublishPendRequest.h; sourceTree = "<group>"; };
 		0F3CECBF1CC481570073848F /* CourtesyCardPublishPendRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishPendRequest.m; sourceTree = "<group>"; };
+		0F489E8E1CD8FAF50038D27D /* CourtesyLongImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLongImageTableViewCell.h; sourceTree = "<group>"; };
+		0F489E8F1CD8FAF50038D27D /* CourtesyLongImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLongImageTableViewCell.m; sourceTree = "<group>"; };
+		0F489EA01CD8FD420038D27D /* CourtesyCardPreviewGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPreviewGenerator.h; sourceTree = "<group>"; };
+		0F489EA11CD8FD420038D27D /* CourtesyCardPreviewGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPreviewGenerator.m; sourceTree = "<group>"; };
+		0F489EA21CD8FD420038D27D /* CourtesyCardPreviewStyleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPreviewStyleModel.h; sourceTree = "<group>"; };
+		0F489EA31CD8FD420038D27D /* CourtesyCardPreviewStyleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPreviewStyleModel.m; sourceTree = "<group>"; };
+		0F489EA61CD8FE030038D27D /* CourtesyCardPreviewStyleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPreviewStyleManager.h; sourceTree = "<group>"; };
+		0F489EA71CD8FE030038D27D /* CourtesyCardPreviewStyleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPreviewStyleManager.m; sourceTree = "<group>"; };
 		0F4B12E31CAE1D3900650996 /* CourtesyParallaxHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyParallaxHeaderView.h; sourceTree = "<group>"; };
 		0F4B12E41CAE1D3900650996 /* CourtesyParallaxHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyParallaxHeaderView.m; sourceTree = "<group>"; };
 		0F4E0E081CA8051800C4D76C /* UIColor+FlatColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FlatColors.h"; sourceTree = "<group>"; };
@@ -526,8 +536,6 @@
 		0FD0205C1C81733E0069AB72 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0FD2BEC71C966D9400B5BBC9 /* CourtesyCardStyleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardStyleManager.h; sourceTree = "<group>"; };
 		0FD2BEC81C966D9400B5BBC9 /* CourtesyCardStyleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardStyleManager.m; sourceTree = "<group>"; };
-		0FD2BECA1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyPreviewStyleModel.h; sourceTree = "<group>"; };
-		0FD2BECB1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyPreviewStyleModel.m; sourceTree = "<group>"; };
 		0FD3EE251C95CD2200DE5347 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
 		0FD3EE2A1C95CDC100DE5347 /* CourtesyWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourtesyWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FD3EE2D1C95CDC100DE5347 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
@@ -737,8 +745,6 @@
 		0FFE049C1C93F47400E99DCC /* CourtesyCardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardModel.m; sourceTree = "<group>"; };
 		0FFE04A01C93F47400E99DCC /* CourtesyCardDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardDataModel.h; sourceTree = "<group>"; };
 		0FFE04A11C93F47400E99DCC /* CourtesyCardDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardDataModel.m; sourceTree = "<group>"; };
-		0FFE04A31C93F47400E99DCC /* CourtesyCardPreviewGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPreviewGenerator.h; sourceTree = "<group>"; };
-		0FFE04A41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPreviewGenerator.m; sourceTree = "<group>"; };
 		0FFE04A61C93F47400E99DCC /* CourtesyCardStyleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardStyleModel.h; sourceTree = "<group>"; };
 		0FFE04A71C93F47400E99DCC /* CourtesyCardStyleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardStyleModel.m; sourceTree = "<group>"; };
 		0FFE04A91C93F47400E99DCC /* CourtesyCommonRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCommonRequestModel.h; sourceTree = "<group>"; };
@@ -1183,6 +1189,19 @@
 			path = Requests;
 			sourceTree = "<group>";
 		};
+		0F489E9F1CD8FD420038D27D /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				0F489EA01CD8FD420038D27D /* CourtesyCardPreviewGenerator.h */,
+				0F489EA11CD8FD420038D27D /* CourtesyCardPreviewGenerator.m */,
+				0F489EA21CD8FD420038D27D /* CourtesyCardPreviewStyleModel.h */,
+				0F489EA31CD8FD420038D27D /* CourtesyCardPreviewStyleModel.m */,
+				0F489EA61CD8FE030038D27D /* CourtesyCardPreviewStyleManager.h */,
+				0F489EA71CD8FE030038D27D /* CourtesyCardPreviewStyleManager.m */,
+			);
+			path = Preview;
+			sourceTree = "<group>";
+		};
 		0F4B12E21CAE1D3900650996 /* Header */ = {
 			isa = PBXGroup;
 			children = (
@@ -1328,6 +1347,8 @@
 		0F760A311CD87D10002CBE60 /* LongImage */ = {
 			isa = PBXGroup;
 			children = (
+				0F489E8E1CD8FAF50038D27D /* CourtesyLongImageTableViewCell.h */,
+				0F489E8F1CD8FAF50038D27D /* CourtesyLongImageTableViewCell.m */,
 				0F760A331CD87DC8002CBE60 /* CourtesyLongImageTableViewController.h */,
 				0F760A341CD87DC8002CBE60 /* CourtesyLongImageTableViewController.m */,
 			);
@@ -2066,6 +2087,7 @@
 				0FFE049C1C93F47400E99DCC /* CourtesyCardModel.m */,
 				0F193D641C9787150015F2B1 /* CourtesyCardManager.h */,
 				0F193D651C9787150015F2B1 /* CourtesyCardManager.m */,
+				0F489E9F1CD8FD420038D27D /* Preview */,
 				0F47D9041CA6D7EC001300FE /* Requests */,
 				0F5064DD1C9511A500F818AD /* Font */,
 				0FFE04901C93F47400E99DCC /* Attachment */,
@@ -2094,22 +2116,9 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		0FFE04A21C93F47400E99DCC /* Preview */ = {
-			isa = PBXGroup;
-			children = (
-				0FD2BECA1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.h */,
-				0FD2BECB1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m */,
-				0FFE04A31C93F47400E99DCC /* CourtesyCardPreviewGenerator.h */,
-				0FFE04A41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m */,
-			);
-			name = Preview;
-			path = ../Preview;
-			sourceTree = "<group>";
-		};
 		0FFE04A51C93F47400E99DCC /* Style */ = {
 			isa = PBXGroup;
 			children = (
-				0FFE04A21C93F47400E99DCC /* Preview */,
 				0FFE04A61C93F47400E99DCC /* CourtesyCardStyleModel.h */,
 				0FFE04A71C93F47400E99DCC /* CourtesyCardStyleModel.m */,
 				0FD2BEC71C966D9400B5BBC9 /* CourtesyCardStyleManager.h */,
@@ -2562,6 +2571,7 @@
 				0FDABE431CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.m in Sources */,
 				0FF2D2871C95DA80007C23DE /* LBXScanView.m in Sources */,
 				0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */,
+				0F489EA51CD8FD420038D27D /* CourtesyCardPreviewStyleModel.m in Sources */,
 				0FFE04881C93F45800E99DCC /* CourtesyMessageNotificationSettingsTableViewController.m in Sources */,
 				0FF2D2671C95D90F007C23DE /* JVFloatingDrawerView.m in Sources */,
 				0FDEFBBC1C97D617007BE8D2 /* MSDPreventImagePickerCrashOn3DTouch.m in Sources */,
@@ -2630,6 +2640,7 @@
 				0FDEFBE11C97D75B007BE8D2 /* FYPhotoAsset.m in Sources */,
 				0F28516C1C97D8AD0066F5C5 /* JotTextView.m in Sources */,
 				0FF2D2661C95D90F007C23DE /* JVFloatingDrawerSpringAnimator.m in Sources */,
+				0F489E901CD8FAF50038D27D /* CourtesyLongImageTableViewCell.m in Sources */,
 				0FFE04C51C93F47400E99DCC /* CourtesyCardStyleModel.m in Sources */,
 				0FAF2A751CD3363A006FF48A /* CourtesyTencentAccountModel.m in Sources */,
 				0FFE04CB1C93F47400E99DCC /* CourtesyAccountProfileModel.m in Sources */,
@@ -2650,11 +2661,11 @@
 				0FFE047C1C93F45800E99DCC /* CourtesyProfileBirthdayTableViewController.m in Sources */,
 				0FFE04E11C93F4D800E99DCC /* AppDelegate.m in Sources */,
 				0FDEFBB51C97D5C2007BE8D2 /* NSDate+Astro.m in Sources */,
-				0FFE04C41C93F47400E99DCC /* CourtesyCardPreviewGenerator.m in Sources */,
 				0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */,
 				0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */,
 				0F760A291CD8481D002CBE60 /* CourtesyPaddingLabel.m in Sources */,
 				0F13F53B1CC9088F00793FB9 /* CourtesyCardResourceModel.m in Sources */,
+				0F489EA81CD8FE030038D27D /* CourtesyCardPreviewStyleManager.m in Sources */,
 				0FFC2F201CCB14F000676097 /* CourtesyDraftTableViewController.m in Sources */,
 				0F2744FA1CB55C6D00BCF173 /* CourtesyGalleryDailyCardVideoModel.m in Sources */,
 				0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */,
@@ -2678,6 +2689,7 @@
 				0FEFDBA51C97D0F800952522 /* UIImage+PECrop.m in Sources */,
 				0FA726811CAAB80B00315E09 /* CourtesyGalleryViewController.m in Sources */,
 				0FFE047E1C93F45800E99DCC /* CourtesyProfileTableViewController.m in Sources */,
+				0F489EA41CD8FD420038D27D /* CourtesyCardPreviewGenerator.m in Sources */,
 				0FEFDBA11C97D0F800952522 /* PECropView.m in Sources */,
 				0F28516A1C97D8AD0066F5C5 /* JotDrawView.m in Sources */,
 				0FB0A55D1C9ADE8D004B06F3 /* CourtesyVideoSheetView.m in Sources */,
@@ -2703,7 +2715,6 @@
 				0F2744CB1CB559FB00BCF173 /* CourtesyCommonResourceModel.m in Sources */,
 				0F2744F91CB55C6D00BCF173 /* CourtesyGalleryDailyCardImageModel.m in Sources */,
 				0F35C6A01CB9EBDF00C31ED3 /* CourtesyWatchSessionManager.m in Sources */,
-				0FD2BECC1C96A10D00B5BBC9 /* CourtesyPreviewStyleModel.m in Sources */,
 				0FFE04F31C93F51900E99DCC /* main.m in Sources */,
 				0FFE04BB1C93F47400E99DCC /* CourtesyAccountModel.m in Sources */,
 				0F6D38141CD100BA001155DF /* DrawValues.m in Sources */,

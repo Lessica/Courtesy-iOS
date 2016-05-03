@@ -20,6 +20,18 @@
 
 #pragma mark - Getter / Setter
 
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
+    if (
+        [propertyName isEqualToString:@"qrcode"] ||
+        [propertyName isEqualToString:@"attachments"] ||
+        [propertyName isEqualToString:@"styleID"] ||
+        [propertyName isEqualToString:@"previewType"]
+        ) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void)setContent:(NSString *)content {
     _content = content;
     // 清除缩略图
@@ -108,6 +120,13 @@
         _style = [[CourtesyCardStyleManager sharedManager] styleWithID:self.styleID];
     }
     return _style;
+}
+
+- (CourtesyCardPreviewStyleModel *)previewStyle { // Lazy Loading
+    if (!_previewStyle) {
+        _previewStyle = [[CourtesyCardPreviewStyleManager sharedManager] previewStyleWithType:self.previewType];
+    }
+    return _previewStyle;
 }
 
 - (NSString *)savedAttachmentsPath {

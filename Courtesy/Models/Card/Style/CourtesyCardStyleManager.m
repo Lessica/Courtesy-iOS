@@ -67,14 +67,6 @@
         newStyle.codeTextColor = newStyle.cardTextColor;
         newStyle.linkTextColor = [UIColor blueberryColor];
         
-        newStyle.previewStyle = [CourtesyPreviewStyleModel new];
-        newStyle.previewStyle.previewHeader = [UIImage imageNamed:@"preview-head"];
-        newStyle.previewStyle.previewBody = [UIImage imageNamed:@"preview-body"];
-        newStyle.previewStyle.previewFooter = [UIImage imageNamed:@"preview-footer"];
-        newStyle.previewStyle.previewFooterText = @"由礼记生成并发送";
-        newStyle.previewStyle.previewFooterOrigin = CGPointMake(0, 0);
-        newStyle.previewStyle.previewFooterAttributes = @{};
-        
         newStyle.jotColorArray = @[[UIColor blackColor], [UIColor blueberryColor], [UIColor emeraldColor], [UIColor mandarinColor], [UIColor watermelonColor]];
         return newStyle;
     }

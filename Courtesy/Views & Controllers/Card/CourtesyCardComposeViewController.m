@@ -841,7 +841,7 @@
 - (void)generateTextViewLayer:(id)delegate {
     CourtesyCardPreviewGenerator *generator = [CourtesyCardPreviewGenerator new];
     generator.delegate = delegate;
-    generator.previewStyle = self.style.previewStyle;
+    generator.previewStyle = self.cdata.previewStyle;
     generator.contentView = self.textView.yyContainerView;
     [generator generate];
 }
@@ -1827,6 +1827,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (BOOL)editable {
     return (_card.is_editable && isAuthor);
+}
+
+- (CourtesyCardDataModel *)cdata {
+    return _card.local_template;
 }
 
 - (CourtesyCardStyleModel *)style {

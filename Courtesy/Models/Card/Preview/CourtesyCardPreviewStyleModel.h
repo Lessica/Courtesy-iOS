@@ -1,18 +1,16 @@
 //
-//  CourtesyPreviewStyleModel.h
+//  CourtesyCardPreviewStyleModel.h
 //  Courtesy
 //
 //  Created by Zheng on 3/14/16.
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 typedef enum : NSUInteger {
-    kCourtesyPreviewStyleDefault = 0
-} CourtesyPreviewStyleType;
+    kCourtesyCardPreviewStyleDefault = 0
+} CourtesyCardPreviewStyleType;
 
-@interface CourtesyPreviewStyleModel : NSObject
+@interface CourtesyCardPreviewStyleModel : NSObject
 @property (nonatomic, strong) UIImage *previewHeader;
 @property (nonatomic, strong) UIImage *previewBody;
 @property (nonatomic, strong) UIImage *previewFooter;

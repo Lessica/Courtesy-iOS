@@ -12,5 +12,4 @@
 @interface CourtesyCardStyleManager : NSObject
 + (id)sharedManager;
 - (CourtesyCardStyleModel *)styleWithID:(CourtesyCardStyleID)styleID;
-
 @end

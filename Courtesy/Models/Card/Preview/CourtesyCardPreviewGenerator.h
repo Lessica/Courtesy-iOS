@@ -6,7 +6,7 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "CourtesyPreviewStyleModel.h"
+#import "CourtesyCardPreviewStyleModel.h"
 
 @class CourtesyCardPreviewGenerator;
 
@@ -18,7 +18,7 @@
 @end
 
 @interface CourtesyCardPreviewGenerator : NSObject
-@property (nonatomic, strong) CourtesyPreviewStyleModel *previewStyle;
+@property (nonatomic, strong) CourtesyCardPreviewStyleModel *previewStyle;
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, weak) id<CourtesyCardPreviewGeneratorDelegate> delegate;
 

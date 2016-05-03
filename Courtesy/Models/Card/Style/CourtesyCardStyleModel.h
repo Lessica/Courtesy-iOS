@@ -7,7 +7,6 @@
 //
 
 #import "CourtesyFontManager.h"
-#import "CourtesyPreviewStyleModel.h"
 
 typedef enum : NSUInteger {
     kCourtesyCardStyleDefault = 0
@@ -64,8 +63,5 @@ typedef enum : NSUInteger {
 
 // Jot Style
 @property (nonatomic, strong) NSArray <UIColor *> *jotColorArray;
-
-@property (nonatomic, strong) CourtesyPreviewStyleModel<Ignore> *previewStyle;
-@property (nonatomic, assign) NSUInteger previewType;
 
 @end
