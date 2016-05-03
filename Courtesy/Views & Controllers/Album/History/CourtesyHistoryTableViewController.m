@@ -1,35 +1,32 @@
 //
-//  CourtesyDraftTableViewController.m
+//  CourtesyHistoryTableViewController.m
 //  Courtesy
 //
-//  Created by Zheng on 3/24/16.
+//  Created by Zheng on 5/3/16.
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "CourtesyDraftTableViewController.h"
+#import "CourtesyHistoryTableViewController.h"
 #import "CourtesyAlbumTableViewCell.h"
 #import "CourtesyCardManager.h"
 #import "CourtesyCardPreviewGenerator.h"
-#import "CourtesyCardPublishQueue.h"
-#import "CourtesyDraftTableViewHeaderView.h"
 #import "CourtesyCardListRequestModel.h"
 #import <MJRefresh/MJRefresh.h>
 
-static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyDraftTableViewCellReuseIdentifier";
+static NSString * const kCourtesyHistoryTableViewCellReuseIdentifier = @"CourtesyHistoryTableViewCellReuseIdentifier";
 
-@interface CourtesyDraftTableViewController () <UIViewControllerPreviewingDelegate, CourtesyCardListRequestDelegate>
-@property (nonatomic, strong) CourtesyDraftTableViewHeaderView *headerView;
+@interface CourtesyHistoryTableViewController () <UIViewControllerPreviewingDelegate, CourtesyCardListRequestDelegate>
 @property (nonatomic, assign) BOOL isRefreshing;
 @property (nonatomic, assign) double lastUpdated;
-@property (weak, nonatomic) IBOutlet UINavigationItem *outboxTabItem;
+@property (weak, nonatomic) IBOutlet UITabBarItem *inboxTabItem;
 
 @end
 
-@implementation CourtesyDraftTableViewController
+@implementation CourtesyHistoryTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"发件箱";
+    self.title = @"收件箱";
     
     self.clearsSelectionOnViewWillAppear = NO;
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -37,22 +34,6 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
         // 注册 3D Touch
         [self registerForPreviewingWithDelegate:self sourceView:self.view];
     }
-    
-    /* Init of header view */
-    UIView *headerContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 180)];
-    CourtesyDraftTableViewHeaderView *headerView = [[CourtesyDraftTableViewHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 148)];
-    
-    /* Init of pencil edit */
-    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    [editButton setTarget:self action:@selector(composeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [editButton setImage:[[UIImage imageNamed:@"669-pencil-edit"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-    headerView.editButton = editButton;
-    [headerView addSubview:editButton];
-    
-    [headerContainerView addSubview:headerView];
-    self.headerView = headerView;
-    self.tableView.tableHeaderView = headerContainerView;
-    self.tableView.allowsSelectionDuringEditing = NO;
     
     /* Init of MJRefresh */
     MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadTableView)];
@@ -70,12 +51,6 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveLocalNotification:)
                                                  name:kCourtesyNotificationInfo object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveCardQueueUpdated:)
-                                                 name:kCourtesyCardComposeQueueUpdated object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveCardStatusUpdated:)
-                                                 name:kCourtesyCardStatusUpdated object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -90,46 +65,20 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 
 #pragma mark - Notification
 
-- (void)didReceiveCardQueueUpdated:(NSNotification *)notification {
-    CourtesyCardModel *taskCard = notification.object;
-    for (CourtesyAlbumTableViewCell *cell in self.tableView.visibleCells) {
-        if (cell.card == taskCard) {
-            [cell notifyUpdateProgress];
-        }
-    }
-}
-
-- (void)didReceiveCardStatusUpdated:(NSNotification *)notification {
-    CourtesyCardModel *statusCard = notification.object;
-    for (CourtesyAlbumTableViewCell *cell in self.tableView.visibleCells) {
-        if (cell.card == statusCard) {
-            [cell notifyUpdateStatus];
-        }
-    }
-}
-
 - (void)didReceiveLocalNotification:(NSNotification *)notification {
     if (!notification.userInfo || ![notification.userInfo hasKey:@"action"]) {
         return;
     }
     NSString *action = [notification.userInfo objectForKey:@"action"];
-    if ([action isEqualToString:kCourtesyActionLogin]) {
-        [_headerView updateAccountInfo];
-    }
-    else if ([action isEqualToString:kCourtesyActionProfileEdited]) {
-        [_headerView updateAccountInfo];
-    }
-    else if ([action isEqualToString:kCourtesyActionLogout])
+    if ([action isEqualToString:kCourtesyActionLogout])
     {
         [[CourtesyCardManager sharedManager] clearCards];
         [self.tableView reloadData];
-        [_headerView updateAccountInfo];
     }
     else if ([action isEqualToString:kCourtesyActionFetchSucceed])
     {
         [[CourtesyCardManager sharedManager] clearCards];
         [self.tableView reloadData];
-        [_headerView updateAccountInfo];
     }
 }
 
@@ -147,7 +96,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     listRequest.user_id = kAccount.user_id;
     listRequest.from = 0;
     listRequest.to = 100;
-    listRequest.history = NO;
+    listRequest.history = YES; // History Flag
     _isRefreshing = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [listRequest sendAsyncListRequest];
@@ -174,11 +123,6 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     [self.tableView.mj_header endRefreshing];
 }
 
-#pragma mark - 按钮事件
-
-- (void)composeButtonTapped:(id)sender {
-    [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
-}
 
 #pragma mark - Card Management
 
@@ -187,16 +131,23 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 }
 
 - (NSMutableArray <CourtesyCardModel *> *)cardArray {
-    return self.cardManager.cardDraftArray;
+    return self.cardManager.cardHistoryArray;
 }
 
-- (NSInteger)draftCount {
+- (NSInteger)historyCount {
     NSUInteger count = self.cardArray.count;
-    _headerView.cardCount = count;
     return count;
 }
 
+
 #pragma mark - Table View Data Source
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        return @"接收到的卡片将出现在这里\n最多保留 100 条记录";
+    }
+    return nil;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -204,7 +155,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return self.draftCount;
+        return self.historyCount;
     }
     return 0;
 }
@@ -219,51 +170,19 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         __block CourtesyCardModel *card = [self.cardArray objectAtIndex:indexPath.row];
-        __block CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
-        if ([queue publishTaskInPublishQueueWithCard:card]) {
-            UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"取消上传" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
-                [queue removeCardPublishTask:card];
-                [tableView setEditing:NO animated:YES];
-            }];
-            editAction.backgroundColor = [UIColor lightGrayColor];
-            return @[editAction];
-        } else {
-            if (card.hasPublished) {
-                if (card.is_banned == NO) {
-                    __weak typeof(self) weakSelf = self;
-                    UITableViewRowAction *publicAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"设为隐藏" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-                        [weakSelf.cardManager publicCardInDraft:card];
-                        [tableView setEditing:NO animated:YES];
-                    }];
-                    return @[publicAction];
-                } else {
-                    __weak typeof(self) weakSelf = self;
-                    UITableViewRowAction *restoreAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"设为公开" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-                        [weakSelf.cardManager restoreCardInDraft:card];
-                        [tableView setEditing:NO animated:YES];
-                    }];
-                    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-                        [weakSelf.cardManager deleteCardInDraft:card];
-                        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                    }];
-                    return @[deleteAction, restoreAction];
-                }
-            } else {
-                __weak typeof(self) weakSelf = self;
-                UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-                    [weakSelf.cardManager deleteCardInDraft:card];
-                    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                }];
-                return @[deleteAction];
-            }
-        }
+        __weak typeof(self) weakSelf = self;
+        UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            [weakSelf.cardManager deleteCardInDraft:card];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }];
+        return @[deleteAction];
     }
     return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        CourtesyAlbumTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourtesyDraftTableViewCellReuseIdentifier forIndexPath:indexPath];
+        CourtesyAlbumTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourtesyHistoryTableViewCellReuseIdentifier forIndexPath:indexPath];
         cell.card = [self.cardArray objectAtIndex:indexPath.row];
         return cell;
     }
@@ -274,26 +193,22 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         CourtesyCardModel *card = [self.cardArray objectAtIndex:indexPath.row];
-        CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
-        if ([queue publishTaskInPublishQueueWithCard:card]) {
-            return;
-        }
-        card.is_editable = YES;
+        card.is_editable = NO;
         [self.cardManager editCard:card withViewController:self];
     }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES; // Always allow in draft box
+    return YES;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES; // Always allow in draft box
+    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
     if (sourceIndexPath.section == destinationIndexPath.section && sourceIndexPath.section == 0) {
-        [self.cardManager exchangeCardAtIndex:sourceIndexPath.row withCardAtIndex:destinationIndexPath.row];
+        [self.cardManager exchangeHistoryCardAtIndex:sourceIndexPath.row withCardAtIndex:destinationIndexPath.row];
     }
 }
 
@@ -313,12 +228,8 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
         return nil;
     }
     CourtesyCardModel *card = cell.card;
-    CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
-    if ([queue publishTaskInPublishQueueWithCard:card]) {
-        return nil;
-    }
-    cell.card.is_editable = YES;
-    UIViewController *previewViewController = [self.cardManager prepareCard:cell.card withViewController:self];
+    card.is_editable = NO;
+    UIViewController *previewViewController = [self.cardManager prepareCard:card withViewController:self];
     previewViewController.preferredContentSize = CGSizeMake(0.0, 0.0);
     previewingContext.sourceRect = cell.frame;
     return previewViewController;

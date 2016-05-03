@@ -30,7 +30,8 @@ enum {
     kCourtesyScanIndex        = 0,
     kCourtesyGalleryIndex     = 1,
     kCourtesyAlbumIndex       = 2,
-    kCourtesySettingsIndex    = 3
+    kCourtesyThemeIndex       = 3,
+    kCourtesySettingsIndex    = 4
 };
 
 static const CGFloat kJVTableViewTopInset = 80.0;
@@ -38,7 +39,6 @@ static NSString * const kCourtesyDrawerAvatarViewCellReuseIdentifier = @"Courtes
 static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdentifier";
 
 @interface CourtesyLeftDrawerTableViewController ()
-
 @property (nonatomic, strong) CourtesyLeftDrawerAvatarTableViewCell *avatarCell;
 
 @end
@@ -70,6 +70,8 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         indexPath = [NSIndexPath indexPathForItem:kCourtesyAlbumIndex inSection:kMenuSection];
     } else if (centerViewController == globalDelegate.settingsViewController) {
         indexPath = [NSIndexPath indexPathForItem:kCourtesySettingsIndex inSection:kMenuSection];
+    } else if (centerViewController == globalDelegate.themeViewController) {
+        indexPath = [NSIndexPath indexPathForItem:kCourtesyThemeIndex inSection:kMenuSection];
     }
     [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     [self showActivityMessage:@"登录中"];
@@ -159,7 +161,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     if (section == kAvatarSection) {
         return 1;
     }
-    return 4;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -177,6 +179,9 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         } else if (indexPath.row == kCourtesyScanIndex) {
             cell.titleText = @"扫一扫";
             cell.iconImage = [UIImage imageNamed:@"38-scan"];
+        } else if (indexPath.row == kCourtesyThemeIndex) {
+            cell.titleText = @"个性化";
+            cell.iconImage = [UIImage imageNamed:@"2-magic"];
         }
         
         return cell;
@@ -203,6 +208,8 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
             destinationViewController = [[AppDelegate globalDelegate] albumViewController];
         } else if (indexPath.row == kCourtesyScanIndex) {
             destinationViewController = [self scanPortraitView];
+        } else if (indexPath.row == kCourtesyThemeIndex) {
+            destinationViewController = [[AppDelegate globalDelegate] themeViewController];
         }
         
         if (!destinationViewController) {

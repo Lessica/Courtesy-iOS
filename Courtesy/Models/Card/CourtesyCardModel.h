@@ -12,10 +12,9 @@
 @class CourtesyCardModel;
 
 @protocol CourtesyCardDelegate <NSObject>
-
-- (void)cardDidFinishLoading:(CourtesyCardModel *)card;
-- (void)cardDidFailedLoading:(CourtesyCardModel *)card withError:(NSError *)error;
-- (void)cardDidFinishSaving:(CourtesyCardModel *)card isNewRecord:(BOOL)newRecord willPublish:(BOOL)willPublish andNotify:(BOOL)notify;
+@optional
+- (void)cardDidFinishSaving:(CourtesyCardModel *)card;
+@optional
 - (void)cardDidFailedSaving:(CourtesyCardModel *)card withError:(NSError *)error;
 
 @end
@@ -36,14 +35,21 @@
 @property (nonatomic, strong) CourtesyAccountModel *author;
 @property (nonatomic, strong) CourtesyAccountModel<Optional> *read_by;
 @property (nonatomic, strong) CourtesyCardDataModel *local_template;
+
 @property (nonatomic, assign) BOOL isNewCard;
+@property (nonatomic, assign) BOOL isNewRecord;
 @property (nonatomic, assign) BOOL hasPublished;
+@property (nonatomic, assign) BOOL willPublish;
+@property (nonatomic, assign) BOOL shouldNotify;
 
 @property (nonatomic, weak)   id<Ignore, CourtesyCardDelegate> delegate;
 
 - (instancetype)initWithCardToken:(NSString *)token;
-- (NSString *)saveToLocalDatabaseShouldPublish:(BOOL)willPublish andNotify:(BOOL)notify;
+- (NSString *)saveToLocalDatabase;
 - (void)deleteInLocalDatabase;
 - (BOOL)isCardCached;
+
+- (BOOL)isMyCard;
+- (BOOL)isReadByMe;
 
 @end

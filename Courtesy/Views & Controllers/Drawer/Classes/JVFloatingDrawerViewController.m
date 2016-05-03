@@ -181,7 +181,7 @@ static BOOL canMove = NO;
     BOOL toLeft = (transX >= 0.0);
     
     if (gesture.state == UIGestureRecognizerStateBegan) {
-        canMove = (transY == 0.0);
+        canMove = (transY < 16.0);
         [self.drawerView willOpenFloatingDrawerViewController:self];
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         if (!canMove) {

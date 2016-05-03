@@ -18,6 +18,7 @@ static NSString * const kCourtesyProfileTableViewControllerStoryboardID = @"Cour
 static NSString * const kCourtesyAlbumTableViewControllerStoryboardID = @"CourtesyAlbumTableViewControllerStoryboardID";
 static NSString * const kCourtesyGalleryViewControllerStoryboardID = @"CourtesyGalleryViewControllerStoryboardID";
 static NSString * const kCourtesySettingsViewControllerStoryboardID = @"CourtesySettingsViewControllerStoryboardID";
+static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThemeViewControllerStoryboardID";
 
 @interface AppDelegate ()
 @property (nonatomic, strong, readonly) UIStoryboard *drawersStoryboard;
@@ -209,6 +210,13 @@ static NSString * const kCourtesySettingsViewControllerStoryboardID = @"Courtesy
         _profileViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyProfileTableViewControllerStoryboardID];
     }
     return _profileViewController;
+}
+
+- (UIViewController *)themeViewController {
+    if (!_themeViewController) {
+        _themeViewController = [self.drawersStoryboard instantiateViewControllerWithIdentifier:kCourtesyThemeViewControllerStoryboardID];
+    }
+    return _themeViewController;
 }
 
 @end

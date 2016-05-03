@@ -1,23 +1,18 @@
 //
-//  CourtesyDraftTableViewCell.m
+//  CourtesyAlbumTableViewCell.m
 //  Courtesy
 //
 //  Created by Zheng on 3/24/16.
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "CourtesyDraftTableViewCell.h"
+#import "CourtesyAlbumTableViewCell.h"
 #import "NSDate+Compare.h"
 #import "FCFileManager.h"
 #import "CourtesyPaddingLabel.h"
 #import "POP.h"
 
-/* 这玩意会造成离屏渲染 = =! */
-//#import "ColorProgressView.h"
-//#import "ProgressColor+Colors.h"
-
-@interface CourtesyDraftTableViewCell ()
-//@property (weak, nonatomic) ColorProgressView *publishProgressView;
+@interface CourtesyAlbumTableViewCell ()
 
 @property (strong, nonatomic) CourtesyCardPublishTask *targetTask;
 @property (weak, nonatomic) IBOutlet CourtesyPaddingLabel *mainTitleLabel;
@@ -31,7 +26,7 @@
 
 @end
 
-@implementation CourtesyDraftTableViewCell
+@implementation CourtesyAlbumTableViewCell
 
 #pragma mark - UI Initialization
 
@@ -54,19 +49,6 @@
     self.imagePreview.layer.cornerRadius = 3.0;
     
     self.smallAvatarView.layer.cornerRadius = self.smallAvatarView.frame.size.width / 2;
-
-//    ColorProgressView *publishProgressView = [[ColorProgressView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 2)];
-//    publishProgressView.color = [ProgressColor redGradientColor];
-//    [publishProgressView startAnimation];
-//    [self.contentView addSubview:publishProgressView];
-//    self.publishProgressView = publishProgressView;
-//    
-//    [_publishProgressView mas_updateConstraints:^(MASConstraintMaker *make) {
-//        make.width.equalTo(self.contentView.mas_width);
-//        make.height.equalTo(@2);
-//        make.top.equalTo(self.contentView.mas_top);
-//        make.left.equalTo(self.contentView.mas_left);
-//    }];
 }
 
 #pragma mark - Data Updating
@@ -111,14 +93,16 @@
     // 刷新文字颜色
     [self resetLabelColor];
     
-    // 获取卡片任务
-    CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
-    CourtesyCardPublishTask *task = [queue publishTaskInPublishQueueWithCard:_card];
-    if (task) {
-        [self setPublishProgressWithStatus:task.status andProgress:0 andError:nil];
-        _targetTask = task;
-    } else {
-        _smallTimeLabel.text = [[NSDate dateWithTimeIntervalSince1970:self.card.modified_at] compareCurrentTime];
+    if ([_card isMyCard]) {
+        // 获取卡片任务
+        CourtesyCardPublishQueue *queue = [CourtesyCardPublishQueue sharedQueue];
+        CourtesyCardPublishTask *task = [queue publishTaskInPublishQueueWithCard:_card];
+        if (task) {
+            [self setPublishProgressWithStatus:task.status andProgress:0 andError:nil];
+            _targetTask = task;
+        } else {
+            _smallTimeLabel.text = [[NSDate dateWithTimeIntervalSince1970:self.card.modified_at] compareCurrentTime];
+        }
     }
 }
 

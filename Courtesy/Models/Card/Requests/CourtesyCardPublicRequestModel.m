@@ -1,15 +1,15 @@
 //
-//  CourtesyCardDeleteRequestModel.m
+//  CourtesyCardPublicRequestModel.m
 //  Courtesy
 //
 //  Created by Zheng on 4/23/16.
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "CourtesyCardDeleteRequestModel.h"
+#import "CourtesyCardPublicRequestModel.h"
 #import "JSONHTTPClient.h"
 
-@implementation CourtesyCardDeleteRequestModel {
+@implementation CourtesyCardPublicRequestModel {
     BOOL isRequestingDelete;
 }
 
@@ -51,7 +51,7 @@
             if (errorCode == 403) {
                 @throw NSCustomException(kCourtesyForbidden, @"请重新登录");
             } else if (errorCode == 0) {
-                [self callbackDeleteDelegateSucceed];
+                [self callbackPublicDelegateSucceed];
                 return;
             }
             @throw NSCustomException(kCourtesyUnexceptedStatus, ([NSString stringWithFormat:@"未知错误 (%ld)", (long)errorCode]));
@@ -60,7 +60,7 @@
                 [sharedSettings setHasLogin:NO];
             }
             if (isRequestingDelete) {
-                [self callbackDeleteDelegateWithErrorMessage:exception.reason andReason:exception.name];
+                [self callbackPublicDelegateWithErrorMessage:exception.reason andReason:exception.name];
             }
             return;
         } @finally {
@@ -76,26 +76,26 @@
 
 #pragma mark - 获取请求状态
 
-- (BOOL)isRequestingDelete {
+- (BOOL)isRequestingPublic {
     return isRequestingDelete;
 }
 
 #pragma mark - Send message to CourtesyCardDeleteRequestDelegate
 
-- (void)callbackDeleteDelegateSucceed {
-    if (!_delegate || ![_delegate respondsToSelector:@selector(cardDeleteRequestSucceed:)]) {
+- (void)callbackPublicDelegateSucceed {
+    if (!_delegate || ![_delegate respondsToSelector:@selector(cardPublicRequestSucceed:)]) {
         return;
     }
-    [_delegate cardDeleteRequestSucceed:self];
+    [_delegate cardPublicRequestSucceed:self];
 }
 
-- (void)callbackDeleteDelegateWithErrorMessage:(NSString *)message andReason:(NSString *)reason {
-    if (!_delegate || ![_delegate respondsToSelector:@selector(cardDeleteRequestFailed:withError:)]) {
+- (void)callbackPublicDelegateWithErrorMessage:(NSString *)message andReason:(NSString *)reason {
+    if (!_delegate || ![_delegate respondsToSelector:@selector(cardPublicRequestFailed:withError:)]) {
         return;
     }
     NSDictionary *userInfo = @{NSLocalizedDescriptionKey : message, NSLocalizedFailureReasonErrorKey: reason};
     NSError *newError = [NSError errorWithDomain:kCourtesyCommonErrorDomain code:CourtesyCardDeleteRequestStandardError userInfo:userInfo];
-    [_delegate cardDeleteRequestFailed:self withError:newError];
+    [_delegate cardPublicRequestFailed:self withError:newError];
 }
 
 #pragma mark - Memory

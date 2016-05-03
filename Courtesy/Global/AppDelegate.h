@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UIViewController *galleryViewController;
 @property (nonatomic, strong) UIViewController *settingsViewController;
 @property (nonatomic, strong) UIViewController *profileViewController;
+@property (nonatomic, strong) UIViewController *themeViewController;
 
 + (AppDelegate *)globalDelegate;
 

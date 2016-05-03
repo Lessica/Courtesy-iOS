@@ -1,5 +1,5 @@
 //
-//  CourtesyCardDeleteRequestModel.h
+//  CourtesyCardPublicRequestModel.h
 //  Courtesy
 //
 //  Created by Zheng on 4/23/16.
@@ -13,26 +13,26 @@ typedef enum : NSUInteger {
     CourtesyCardDeleteRequestStandardError = 0,
 } CourtesyCardDeleteRequestErrorCode;
 
-@class CourtesyCardDeleteRequestModel;
+@class CourtesyCardPublicRequestModel;
 
-@protocol CourtesyCardDeleteRequestDelegate <NSObject>
+@protocol CourtesyCardPublicRequestDelegate <NSObject>
 
 @optional
-- (void)cardDeleteRequestSucceed:(CourtesyCardDeleteRequestModel *)sender;
+- (void)cardPublicRequestSucceed:(CourtesyCardPublicRequestModel *)sender;
 @optional
-- (void)cardDeleteRequestFailed:(CourtesyCardDeleteRequestModel *)sender
+- (void)cardPublicRequestFailed:(CourtesyCardPublicRequestModel *)sender
                       withError:(NSError *)error;
 
 @end
 
-@interface CourtesyCardDeleteRequestModel : CourtesyCommonRequestModel
+@interface CourtesyCardPublicRequestModel : CourtesyCommonRequestModel
 @property (nonatomic, strong) CourtesyCardModel<Ignore> *card;
 @property (nonatomic, copy) NSString *token;
-@property (nonatomic, weak) id<Ignore, CourtesyCardDeleteRequestDelegate> delegate;
+@property (nonatomic, weak) id<Ignore, CourtesyCardPublicRequestDelegate> delegate;
 @property (nonatomic, assign) BOOL toBan;
 
 - (instancetype)initWithDelegate:(id)delegate;
-- (BOOL)isRequestingDelete;
+- (BOOL)isRequestingPublic;
 - (void)sendRequest;
 
 @end

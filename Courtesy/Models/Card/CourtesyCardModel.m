@@ -14,6 +14,29 @@
 
 @implementation CourtesyCardModel
 
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
+    if (
+        [propertyName isEqualToString:@"first_read_at"] ||
+        [propertyName isEqualToString:@"read_by"] ||
+        [propertyName isEqualToString:@"isNewCard"] ||
+        [propertyName isEqualToString:@"hasPublished"]
+        ) {
+        return YES;
+    }
+    return NO;
+}
+
++ (BOOL)propertyIsIgnored:(NSString *)propertyName {
+    if (
+        [propertyName isEqualToString:@"isNewRecord"] ||
+        [propertyName isEqualToString:@"willPublish"] ||
+        [propertyName isEqualToString:@"shouldNotify"]
+        ) {
+        return YES;
+    }
+    return NO;
+}
+
 - (instancetype)initWithCardToken:(NSString *)token {
     id obj = [[self appStorage] objectForKey:[NSString stringWithFormat:kCourtesyCardPrefix, token]];
     if (!obj) {
@@ -60,7 +83,7 @@
     return YES;
 }
 
-- (NSString *)saveToLocalDatabaseShouldPublish:(BOOL)willPublish andNotify:(BOOL)notify {
+- (NSString *)saveToLocalDatabase {
     BOOL hasLocal = [self hasLocalRecord];
     NSDictionary *cardDict = [self toDictionary];
     [[self appStorage] setObject:cardDict forKey:[NSString stringWithFormat:kCourtesyCardPrefix, self.token]]; // Save Card Model
@@ -68,14 +91,13 @@
     for (CourtesyCardAttachmentModel *a in self.local_template.attachments) {
         [a saveToLocalDatabase];
     }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(cardDidFinishSaving:isNewRecord:willPublish:andNotify:)]) {
-        BOOL newRecord = NO;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cardDidFinishSaving:)]) {
         if (hasLocal) {
-            newRecord = NO;
+            _isNewRecord = NO;
         } else {
-            newRecord = YES;
+            _isNewRecord = YES;
         }
-        [self.delegate cardDidFinishSaving:self isNewRecord:newRecord willPublish:willPublish andNotify:notify];
+        [self.delegate cardDidFinishSaving:self];
     }
     return self.token;
 }
@@ -97,6 +119,28 @@
         }
     }
     return YES;
+}
+
+#pragma mark - card owner
+
+- (BOOL)isMyCard {
+    if (
+        (self.author) &&
+        (self.author.user_id == kAccount.user_id)
+        ) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)isReadByMe {
+    if (
+        (self.read_by) &&
+        (self.read_by.user_id == kAccount.user_id)
+        ) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

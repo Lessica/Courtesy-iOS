@@ -302,16 +302,15 @@ static SystemSoundID shake_sound_male_id = 0;
 - (void)handleRemoteCardToken:(NSString *)token {
     CourtesyCardManager *manager = [CourtesyCardManager sharedManager];
     // 先判断卡在不在本地，如果在，直接打开卡片
-    for (CourtesyCardModel *arr_card in manager.cardDraftArray) {
-        if ([arr_card.token isEqualToString:token]) { // 这张是本地卡片，直接打开以供编辑
-            if (self.currentAlert && self.currentAlert.isShowing) {
-                dispatch_async_on_main_queue(^{
-                    [self.currentAlert dismissAnimated:YES completionHandler:nil];
-                });
-            }
-            [manager editCard:arr_card withViewController:self];
-            return;
+    CourtesyCardModel *local_card = [manager cardWithToken:token];
+    if (local_card) {
+        if (self.currentAlert && self.currentAlert.isShowing) {
+            dispatch_async_on_main_queue(^{
+                [self.currentAlert dismissAnimated:YES completionHandler:nil];
+            });
         }
+        [manager editCard:local_card withViewController:self];
+        return;
     }
     // 否则发送卡片状态查询请求查询卡片状态
     __block CourtesyCardQueryRequestModel *queryRequest = [[CourtesyCardQueryRequestModel alloc] initWithDelegate:self];
@@ -329,7 +328,6 @@ static SystemSoundID shake_sound_male_id = 0;
         // 卡片信息为空
     } else {
         // 处理卡片字典键值
-        if (![card_dict objectForKey:@"is_banned"]) [card_dict setObject:@(0) forKey:@"is_banned"];
         [card_dict setObject:@(0) forKey:@"isNewCard"];
         [card_dict setObject:@(1) forKey:@"hasPublished"];
     }
@@ -384,10 +382,14 @@ static SystemSoundID shake_sound_male_id = 0;
     card.delegate = manager;
     // 卡片信息可被序列化，读出卡片作者
     if (index == 0) {
-        [card saveToLocalDatabaseShouldPublish:NO andNotify:NO];
+        card.willPublish = NO;
+        card.shouldNotify = NO;
+        [card saveToLocalDatabase];
         [manager editCard:card withViewController:self];
     } else {
-        [card saveToLocalDatabaseShouldPublish:NO andNotify:YES];
+        card.willPublish = NO;
+        card.shouldNotify = YES;
+        [card saveToLocalDatabase];
         [self performSelector:@selector(restartCapture) withObject:nil afterDelay:kStatusBarNotificationTime];
     }
 }

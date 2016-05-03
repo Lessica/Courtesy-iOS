@@ -128,20 +128,19 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
 #pragma mark Transforms
 
 - (void)applyTransformsWithSide:(JVFloatingDrawerSide)drawerSide sideView:(UIView *)sideView centerView:(UIView *)centerView {
-    CGFloat direction = drawerSide == JVFloatingDrawerSideLeft ? 1.0 : -1.0;
-    CGFloat sideWidth = sideView.bounds.size.width;
-    CGFloat centerWidth = centerView.bounds.size.width;
-    CGFloat centerViewHorizontalOffset = direction * sideWidth;
+    CGFloat sideWidth   = sideView.bounds.size.width;
+    CGFloat direction = (drawerSide == JVFloatingDrawerSideLeft) ? 1.0 : -1.0;
     
+    CGFloat sideViewHorizontalOffset = direction * sideWidth;
+    CGFloat centerScaleValue = kJVCenterViewDestinationScale;
     
-    CGAffineTransform sideTranslate = CGAffineTransformMakeTranslation(centerViewHorizontalOffset, 0.0);
+    CGFloat scaledCenterViewHorizontalOffset = sideViewHorizontalOffset - direction * (sideWidth * (1 - centerScaleValue));
+    
+    CGAffineTransform sideTranslate = CGAffineTransformMakeTranslation(sideViewHorizontalOffset, 0.0);
     sideView.transform = sideTranslate;
     
-    CGAffineTransform centerScale = CGAffineTransformMakeScale(kJVCenterViewDestinationScale, kJVCenterViewDestinationScale);
-    
-    CGFloat scaledCenterViewHorizontalOffset = direction * (sideWidth - (centerWidth - kJVCenterViewDestinationScale * centerWidth) / 2.0);
+    CGAffineTransform centerScale = CGAffineTransformMakeScale(centerScaleValue, centerScaleValue);
     CGAffineTransform centerTranslate = CGAffineTransformMakeTranslation(scaledCenterViewHorizontalOffset, 0.0);
-    
     centerView.transform = CGAffineTransformConcat(centerScale, centerTranslate);
 }
 
@@ -156,17 +155,16 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
     BOOL toLeft = (transX >= 0.0);
     
     CGFloat sideWidth   = sideView.bounds.size.width;
-    CGFloat centerWidth = centerView.bounds.size.width;
     
     CGFloat direction = toLeft ? 1.0 : -1.0;
-    CGFloat ratio = (transWidth / (centerWidth * kJVCenterViewDestinationScale));
+    CGFloat ratio = (transWidth / sideWidth);
+    
+    if (ratio > 1.0) return;
     
     CGFloat sideViewHorizontalOffset = direction * sideWidth * ratio;
     CGFloat centerScaleValue = 1.0 - (1.0 - kJVCenterViewDestinationScale) * ratio;
     
     CGFloat scaledCenterViewHorizontalOffset = sideViewHorizontalOffset - direction * (transWidth * (1 - centerScaleValue));
-    
-    if (ratio > 1.0 && centerScaleValue < kJVCenterViewDestinationScale) return;
     
     CGAffineTransform sideTranslate = CGAffineTransformMakeTranslation(sideViewHorizontalOffset, 0.0);
     sideView.transform = sideTranslate;

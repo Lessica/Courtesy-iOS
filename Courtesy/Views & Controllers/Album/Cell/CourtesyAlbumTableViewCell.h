@@ -1,5 +1,5 @@
 //
-//  CourtesyDraftTableViewCell.h
+//  CourtesyAlbumTableViewCell.h
 //  Courtesy
 //
 //  Created by Zheng on 3/24/16.
@@ -10,7 +10,7 @@
 #import "CourtesyCardModel.h"
 #import "CourtesyCardPublishQueue.h"
 
-@interface CourtesyDraftTableViewCell : UITableViewCell
+@interface CourtesyAlbumTableViewCell : UITableViewCell
 @property (nonatomic, strong) CourtesyCardModel *card;
 
 - (void)notifyUpdateProgress;

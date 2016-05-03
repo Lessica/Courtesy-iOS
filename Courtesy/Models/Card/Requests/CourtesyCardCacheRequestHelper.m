@@ -136,7 +136,7 @@
 - (void)downloadNextResource {
     // 检查取消标记
     if (_cancelFlag) {
-        [self callbackDelegateWithErrorMessage:@"用户取消缓存操作"];
+        [self callbackDelegateWithErrorMessage:@"用户取消下载操作"];
         return;
     }
     
@@ -194,8 +194,8 @@
                                                     }
                                                     NSData *responseData = (NSData *)responseObject;
                                                     if ([responseData length] != thisRes.size) {
-//                                                        [strongSelf callbackDelegateWithErrorMessage:@"资源长度校验失败"];
-//                                                        return;
+                                                        [strongSelf callbackDelegateWithErrorMessage:@"资源长度校验失败"];
+                                                        return;
                                                     }
                                                     NSString *newHash = [responseData sha256String];
                                                     if (![newHash isEqualToString:thisRes.sha256]) {

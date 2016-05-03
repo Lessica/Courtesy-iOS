@@ -13,16 +13,30 @@
 @property (nonatomic, strong) NSMutableArray <NSString *> *cardDraftTokenArray;
 @property (nonatomic, strong) NSMutableArray <CourtesyCardModel *> *cardDraftArray;
 
+@property (nonatomic, strong) NSMutableArray <NSString *> *cardHistoryTokenArray;
+@property (nonatomic, strong) NSMutableArray <CourtesyCardModel *> *cardHistoryArray;
+
 + (id)sharedManager;
 - (void)clearCards;
-- (void)reloadCards;
+- (void)clearHistory;
+
 - (CourtesyCardModel *)newCard;
 - (CourtesyCardModel *)composeNewCardWithViewController:(UIViewController *)controller;
 - (void)editCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller;
-- (void)deleteCardInDraft:(CourtesyCardModel *)card;
+
+- (void)publicCardInDraft:(CourtesyCardModel *)card;
 - (void)restoreCardInDraft:(CourtesyCardModel *)card;
+
+- (void)deleteCardInDraft:(CourtesyCardModel *)card;
 - (void)exchangeCardAtIndex:(NSInteger)sourceRow withCardAtIndex:(NSInteger)destinationRow;
+
+- (void)deleteCardInHistory:(CourtesyCardModel *)card;
+- (void)exchangeHistoryCardAtIndex:(NSInteger)sourceRow withCardAtIndex:(NSInteger)destinationRow;
+
 - (UIViewController *)prepareCard:(CourtesyCardModel *)card withViewController:(UIViewController *)controller;
 - (void)commitCardComposeViewController:(UIViewController *)viewController withViewController:(UIViewController *)controller;
+
+- (BOOL)hasLocalToken:(NSString *)token;
+- (CourtesyCardModel *)cardWithToken:(NSString *)token;
 
 @end
