@@ -58,12 +58,12 @@ static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"Court
     return self.previewImages.count;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section < self.previewNames.count) {
-        return [self.previewNames objectAtIndex:section];
-    }
-    return nil;
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//    if (section < self.previewNames.count) {
+//        return [self.previewNames objectAtIndex:section];
+//    }
+//    return nil;
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section < self.previewImages.count) {
@@ -76,9 +76,7 @@ static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"Court
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section < self.previewImages.count) {
-        UIImage *previewImage = [self.previewImages objectAtIndex:indexPath.section];
-        CGFloat height = previewImage.size.height;
-        return height + 16;
+        return tableView.frame.size.width * 0.5625;
     }
     return 0;
 }

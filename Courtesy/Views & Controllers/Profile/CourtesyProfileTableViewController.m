@@ -93,7 +93,7 @@ UIScrollViewDelegate>
     [self.tableView addGestureRecognizer:longPress];
     
     // Header View
-    CourtesyParallaxHeaderView *headerView = [CourtesyParallaxHeaderView parallaxHeaderViewWithImage:[UIImage imageNamed:@"street"] forSize:CGSizeMake(self.tableView.frame.size.width, 220)];
+    CourtesyParallaxHeaderView *headerView = [CourtesyParallaxHeaderView parallaxHeaderViewWithImage:[UIImage imageNamed:@"street"] forSize:CGSizeMake(self.tableView.frame.size.width, self.tableView.frame.size.width * 0.5625)];
     self.headerView = headerView;
     [self.tableView setTableHeaderView:headerView];
 }

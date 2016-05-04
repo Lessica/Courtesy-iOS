@@ -631,10 +631,10 @@
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CourtesyLongImageTableViewCellReuseIdentifier" rowHeight="200" id="8ss-Ak-Kv6" customClass="CourtesyLongImageTableViewCell">
-                                <rect key="frame" x="0.0" y="113.5" width="320" height="200"/>
+                                <rect key="frame" x="0.0" y="114" width="320" height="200"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8ss-Ak-Kv6" id="UDj-9j-bfw">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="199.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-preview" translatesAutoresizingMaskIntoConstraints="NO" id="zek-us-upV">

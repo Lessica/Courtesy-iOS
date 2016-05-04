@@ -80,10 +80,12 @@
                     card.isNewCard = NO;
                     card.hasPublished = YES;
                     
-                    if ([manager hasLocalToken:card.token]) {
-                        if ([card isMyCard]) {
+                    if ([card isMyCard]) {
+                        if ([manager hasLocalToken:card.token]) {
                             continue;
                         }
+                    } else {
+                        card.read_by = kAccount;
                     }
                     
                     card.delegate = manager;
