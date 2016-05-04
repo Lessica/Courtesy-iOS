@@ -11,4 +11,6 @@
 @interface CourtesyLongImageTableViewCell : UITableViewCell
 @property (nonatomic, strong) UIImage *previewImage;
 
+- (void)setPreviewStyleSelected:(BOOL)selected;
+
 @end

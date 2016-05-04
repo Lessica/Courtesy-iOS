@@ -140,7 +140,9 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 
 - (void)reloadTableView {
     if (_isRefreshing ||
-        _lastUpdated + 5 > [[NSDate date] timeIntervalSince1970])
+        _lastUpdated + 5 > [[NSDate date] timeIntervalSince1970] ||
+        ![sharedSettings hasLogin]
+        )
     {
         [self.tableView.mj_header endRefreshing];
         return;

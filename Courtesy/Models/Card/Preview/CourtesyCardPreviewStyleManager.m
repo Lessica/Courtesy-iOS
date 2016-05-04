@@ -20,6 +20,28 @@
     return sharedManager;
 }
 
+- (NSArray <NSString *> *)previewNames {
+    if (!_previewNames) {
+        _previewNames = @[
+                          @"锤子便签风格",
+                          // More Long Image Names
+                          
+                          ];
+    }
+    return _previewNames;
+}
+
+- (NSArray <UIImage *> *)previewImages {
+    if (!_previewImages) {
+        _previewImages = @[
+                           [UIImage imageNamed:@"default-preview"],
+                           // More Long Image
+                           
+                           ];
+    }
+    return _previewImages;
+}
+
 - (CourtesyCardPreviewStyleModel *)previewStyleWithType:(CourtesyCardPreviewStyleType)type {
     if (type == kCourtesyCardPreviewStyleDefault) {
         CourtesyCardPreviewStyleModel *previewStyle = [CourtesyCardPreviewStyleModel new];

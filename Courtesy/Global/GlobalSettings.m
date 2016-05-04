@@ -18,6 +18,7 @@
 #define kPreferredVideoQuality @"preferredVideoQuality"
 #define kPreferredFontType @"preferredFontType"
 #define kPreferredStyleID @"preferredStyleID"
+#define kPreferredPreviewStyleID @"preferredPreviewStyleID"
 #define kPreferredFontSize @"preferredFontSize"
 
 #ifdef WATCH_SUPPORT
@@ -276,31 +277,42 @@
     [self.appStorage setObject:[NSNumber numberWithInteger:preferredVideoQuality] forKey:kPreferredVideoQuality];
 }
 
-- (CourtesyFontType)preferredFontType {
+- (NSUInteger)preferredFontType {
     if (![self.appStorage objectForKey:kPreferredFontType]) {
-        return kCourtesyFontDefault;
+        return 0;
     }
     return [(NSNumber *)[self.appStorage objectForKey:kPreferredFontType] unsignedIntegerValue];
 }
 
-- (void)setPreferredFontType:(CourtesyFontType)preferredFontType {
+- (void)setPreferredFontType:(NSUInteger)preferredFontType {
     [self.appStorage setObject:[NSNumber numberWithUnsignedInteger:preferredFontType] forKey:kPreferredFontType];
 }
 
-- (CourtesyCardStyleID)preferredStyleID {
+- (NSUInteger)preferredStyleID {
     if (![self.appStorage objectForKey:kPreferredStyleID]) {
-        return kCourtesyCardStyleDefault;
+        return 0;
     }
     return [(NSNumber *)[self.appStorage objectForKey:kPreferredStyleID] unsignedIntegerValue];
 }
 
-- (void)setPreferredStyleID:(CourtesyCardStyleID)preferredStyleID {
+- (void)setPreferredStyleID:(NSUInteger)preferredStyleID {
     [self.appStorage setObject:[NSNumber numberWithUnsignedInteger:preferredStyleID] forKey:kPreferredStyleID];
+}
+
+- (NSUInteger)preferredPreviewStyleType {
+    if (![self.appStorage objectForKey:kPreferredPreviewStyleID]) {
+        return 0;
+    }
+    return [(NSNumber *)[self.appStorage objectForKey:kPreferredPreviewStyleID] unsignedIntegerValue];
+}
+
+- (void)setPreferredPreviewStyleType:(NSUInteger)preferredPreviewStyleType {
+    [self.appStorage setObject:[NSNumber numberWithUnsignedInteger:preferredPreviewStyleType] forKey:kPreferredPreviewStyleID];
 }
 
 - (CGFloat)preferredFontSize {
     if (![self.appStorage objectForKey:kPreferredFontSize]) {
-        return [[CourtesyFontManager sharedManager] fontModelWithID:self.preferredFontType].defaultSize;
+        return 16.0;
     }
     return [(NSNumber *)[self.appStorage objectForKey:kPreferredFontSize] floatValue];
 }

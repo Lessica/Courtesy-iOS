@@ -127,11 +127,6 @@
                 card.delegate = self;
                 [_cardDraftArray addObject:card];
             }
-            else
-            {
-                shouldSync = YES;
-                [tokensShouldBeRemoved addObject:token];
-            }
         }
         if (shouldSync) {
             for (NSString *invalid_token in tokensShouldBeRemoved) {
@@ -165,7 +160,8 @@
     // 初始化卡片内容
     card.local_template.content = @"说点什么吧……";
     card.local_template.attachments = nil;
-    card.local_template.styleID = kCourtesyCardStyleDefault;
+    card.local_template.styleID = [sharedSettings preferredStyleID];
+    card.local_template.previewType = [sharedSettings preferredPreviewStyleType];
     card.local_template.fontType = [sharedSettings preferredFontType];
     card.local_template.fontSize = [sharedSettings preferredFontSize];
     card.local_template.shouldAutoPlayAudio = NO;

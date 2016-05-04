@@ -7,8 +7,9 @@
 //  It is a singleton.
 
 #import "CourtesyAccountModel.h"
-#import "CourtesyFontModel.h"
-#import "CourtesyCardStyleModel.h"
+//#import "CourtesyFontModel.h"
+//#import "CourtesyCardStyleModel.h"
+//#import "CourtesyCardPreviewStyleModel.h"
 #import <YYKit/YYReachability.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <TencentOpenAPI/TencentApiInterface.h>
@@ -35,9 +36,10 @@
 
 @property (nonatomic, assign) BOOL switchAutoPublic;
 @property (nonatomic, assign) BOOL switchMarkdown;
-@property (nonatomic, assign) CourtesyFontType preferredFontType;
+@property (nonatomic, assign) NSUInteger preferredFontType;
 @property (nonatomic, assign) CGFloat preferredFontSize;
-@property (nonatomic, assign) CourtesyCardStyleID preferredStyleID;
+@property (nonatomic, assign) NSUInteger preferredStyleID;
+@property (nonatomic, assign) NSUInteger preferredPreviewStyleType;
 @property (nonatomic, assign) float preferredImageQuality;
 @property (nonatomic, assign) UIImagePickerControllerQualityType preferredVideoQuality;
 

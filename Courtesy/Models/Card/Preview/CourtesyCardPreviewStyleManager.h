@@ -10,6 +10,9 @@
 #import "CourtesyCardPreviewStyleModel.h"
 
 @interface CourtesyCardPreviewStyleManager : NSObject
+@property (nonatomic, strong) NSArray <NSString *> *previewNames;
+@property (nonatomic, strong) NSArray <UIImage *> *previewImages;
+
 + (id)sharedManager;
 - (CourtesyCardPreviewStyleModel *)previewStyleWithType:(CourtesyCardPreviewStyleType)type;
 @end

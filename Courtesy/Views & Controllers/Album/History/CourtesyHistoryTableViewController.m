@@ -76,12 +76,12 @@ static NSString * const kCourtesyHistoryTableViewCellReuseIdentifier = @"Courtes
     NSString *action = [notification.userInfo objectForKey:@"action"];
     if ([action isEqualToString:kCourtesyActionLogout])
     {
-        [[CourtesyCardManager sharedManager] clearCards];
+        [[CourtesyCardManager sharedManager] clearHistory];
         [self.tableView reloadData];
     }
     else if ([action isEqualToString:kCourtesyActionFetchSucceed])
     {
-        [[CourtesyCardManager sharedManager] clearCards];
+        [[CourtesyCardManager sharedManager] clearHistory];
         [self.tableView reloadData];
     }
 }
@@ -90,7 +90,9 @@ static NSString * const kCourtesyHistoryTableViewCellReuseIdentifier = @"Courtes
 
 - (void)reloadTableView {
     if (_isRefreshing ||
-        _lastUpdated + 5 > [[NSDate date] timeIntervalSince1970])
+        _lastUpdated + 5 > [[NSDate date] timeIntervalSince1970] ||
+        ![sharedSettings hasLogin]
+        )
     {
         [self.tableView.mj_header endRefreshing];
         return;

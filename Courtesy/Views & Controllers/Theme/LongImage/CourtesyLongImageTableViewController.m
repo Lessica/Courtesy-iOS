@@ -8,35 +8,46 @@
 
 #import "CourtesyLongImageTableViewController.h"
 #import "CourtesyLongImageTableViewCell.h"
+#import "CourtesyCardPreviewStyleManager.h"
 
 static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"CourtesyLongImageTableViewCellReuseIdentifier";
 
 @interface CourtesyLongImageTableViewController ()
-@property (nonatomic, strong) NSArray<NSString *> *previewNames;
-@property (nonatomic, strong) NSArray<UIImage *> *previewImages;
 
 @end
 
 @implementation CourtesyLongImageTableViewController
 
+- (NSArray <NSString *> *)previewNames {
+    return [[CourtesyCardPreviewStyleManager sharedManager] previewNames];
+}
+
+- (NSArray<UIImage *> *)previewImages {
+    return [[CourtesyCardPreviewStyleManager sharedManager] previewImages];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _previewNames = @[
-                      @"锤子便签风格",
-                      // More Long Image Names
-                      
-                      ];
-    _previewImages = @[
-                       [UIImage imageNamed:@"default-preview"],
-                       // More Long Image
-                       ];
-    
     self.title = @"长图";
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    CourtesyLongImageTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:[sharedSettings preferredPreviewStyleType]]];
+    [cell setPreviewStyleSelected:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    // 设置
+    if (indexPath.section < self.previewNames.count) {
+        for (int index = 0; index < self.previewNames.count; index++) {
+            CourtesyLongImageTableViewCell *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index]];
+            [cell setPreviewStyleSelected:NO];
+        }
+        CourtesyLongImageTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        [cell setPreviewStyleSelected:YES];
+        [sharedSettings setPreferredPreviewStyleType:indexPath.section];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -44,28 +55,28 @@ static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"Court
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return _previewImages.count;
+    return self.previewImages.count;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section < _previewNames.count) {
-        return [_previewNames objectAtIndex:section];
+    if (section < self.previewNames.count) {
+        return [self.previewNames objectAtIndex:section];
     }
     return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section < _previewImages.count) {
+    if (indexPath.section < self.previewImages.count) {
         CourtesyLongImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourtesyLongImageTableViewCellReuseIdentifier forIndexPath:indexPath];
-        [cell setPreviewImage:[_previewImages objectAtIndex:indexPath.section]];
+        [cell setPreviewImage:[self.previewImages objectAtIndex:indexPath.section]];
         return cell;
     }
     return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section < _previewImages.count) {
-        UIImage *previewImage = [_previewImages objectAtIndex:indexPath.section];
+    if (indexPath.section < self.previewImages.count) {
+        UIImage *previewImage = [self.previewImages objectAtIndex:indexPath.section];
         CGFloat height = previewImage.size.height;
         return height + 16;
     }

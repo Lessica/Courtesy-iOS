@@ -55,9 +55,9 @@
         
         newStyle.defaultAnimationDuration = 0.5;
         newStyle.cardCreateTimeFormat = @"yy年LLLd日 EEEE ah:mm";
-        newStyle.maxAudioNum = 1;
-        newStyle.maxVideoNum = 1;
-        newStyle.maxImageNum = 10;
+        newStyle.maxAudioNum = 3;
+        newStyle.maxVideoNum = 3;
+        newStyle.maxImageNum = 20;
         newStyle.maxContentLength = 4096;
         
         newStyle.headerFontSize = [NSNumber numberWithFloat:20.0];
@@ -67,7 +67,7 @@
         newStyle.codeTextColor = newStyle.cardTextColor;
         newStyle.linkTextColor = [UIColor blueberryColor];
         
-        newStyle.jotColorArray = @[[UIColor blackColor], [UIColor blueberryColor], [UIColor emeraldColor], [UIColor mandarinColor], [UIColor watermelonColor]];
+        newStyle.jotColorArray = @[];
         return newStyle;
     }
     return nil;
