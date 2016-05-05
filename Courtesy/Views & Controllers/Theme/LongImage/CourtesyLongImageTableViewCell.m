@@ -11,7 +11,7 @@
 
 @interface CourtesyLongImageTableViewCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *previewImageView;
-@property (strong, nonatomic) UIImageView *maskImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *maskImageView;
 
 @end
 
@@ -19,7 +19,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [_previewImageView addSubview:self.maskImageView];
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
@@ -42,15 +41,6 @@
     }
 }
 
-- (UIImageView *)maskImageView {
-    if (!_maskImageView) {
-        _maskImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 64, 64)];
-        _maskImageView.alpha = 0.95;
-        _maskImageView.hidden = YES;
-    }
-    return _maskImageView;
-}
-
 - (void)setPreviewImage:(UIImage *)previewImage {
     _previewImage = previewImage;
     self.previewImageView.image = previewImage;
@@ -63,10 +53,9 @@
 
 - (void)setPreviewStyleSelected:(BOOL)selected {
     if (selected) {
-        _maskImageView.hidden = NO;
-        _maskImageView.center = CGPointMake(_previewImageView.frame.size.width / 2, _previewImageView.frame.size.height / 2);
+        _maskImageView.alpha = 0.95;
     } else {
-        _maskImageView.hidden = YES;
+        _maskImageView.alpha = 0.0;
     }
 }
 

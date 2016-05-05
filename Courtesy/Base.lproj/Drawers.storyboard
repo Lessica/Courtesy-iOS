@@ -601,33 +601,43 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CourtesyStyleTableViewCellReuseIdentifier" rowHeight="125" id="PzN-jI-wD0" customClass="CourtesyStyleTableViewCell">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CourtesyStyleTableViewCellReuseIdentifier" rowHeight="125" id="PzN-jI-wD0" customClass="CourtesyStyleTableViewCell">
                                 <rect key="frame" x="0.0" y="114" width="320" height="125"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PzN-jI-wD0" id="rcn-75-jSa">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="125"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="124.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-style" translatesAutoresizingMaskIntoConstraints="NO" id="sgb-Ax-T57">
                                             <rect key="frame" x="8" y="8" width="304" height="109"/>
                                         </imageView>
+                                        <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5ha-vd-EKq">
+                                            <rect key="frame" x="40" y="39" width="48" height="48"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="48" id="Dtr-jf-SWU"/>
+                                                <constraint firstAttribute="height" constant="48" id="jE0-dl-Ae8"/>
+                                            </constraints>
+                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="礼记之谊，记礼之情。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wN1-AI-0WQ" customClass="CourtesyPaddingLabel">
-                                            <rect key="frame" x="75" y="52" width="170" height="21"/>
+                                            <rect key="frame" x="104" y="52" width="170" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="wN1-AI-0WQ" firstAttribute="centerX" secondItem="rcn-75-jSa" secondAttribute="centerX" id="33s-Jz-rFE"/>
+                                        <constraint firstItem="5ha-vd-EKq" firstAttribute="centerY" secondItem="rcn-75-jSa" secondAttribute="centerY" id="49h-jY-553"/>
                                         <constraint firstItem="sgb-Ax-T57" firstAttribute="leading" secondItem="rcn-75-jSa" secondAttribute="leadingMargin" id="8Pf-hq-1ah"/>
                                         <constraint firstItem="sgb-Ax-T57" firstAttribute="top" secondItem="rcn-75-jSa" secondAttribute="topMargin" id="GBk-oQ-sDw"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="sgb-Ax-T57" secondAttribute="bottom" id="JNZ-T0-RpZ"/>
                                         <constraint firstItem="wN1-AI-0WQ" firstAttribute="centerY" secondItem="rcn-75-jSa" secondAttribute="centerY" id="KVo-FN-QTF"/>
+                                        <constraint firstItem="5ha-vd-EKq" firstAttribute="leading" secondItem="rcn-75-jSa" secondAttribute="leadingMargin" constant="32" id="SLp-pN-Jg7"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="sgb-Ax-T57" secondAttribute="trailing" id="Vmy-FY-SVV"/>
+                                        <constraint firstItem="wN1-AI-0WQ" firstAttribute="leading" secondItem="5ha-vd-EKq" secondAttribute="trailing" constant="16" id="rn2-3u-fYa"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="maskImageView" destination="5ha-vd-EKq" id="QWn-fH-GVc"/>
                                     <outlet property="styleImageView" destination="sgb-Ax-T57" id="BgR-ff-8rY"/>
                                     <outlet property="styleTitleLabel" destination="wN1-AI-0WQ" id="1yY-so-Dh1"/>
                                 </connections>
@@ -663,8 +673,17 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-preview" translatesAutoresizingMaskIntoConstraints="NO" id="zek-us-upV">
                                             <rect key="frame" x="8" y="8" width="304" height="184"/>
                                         </imageView>
+                                        <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IPe-Vp-1RF">
+                                            <rect key="frame" x="128" y="68" width="64" height="64"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="64" id="HJ3-J1-N02"/>
+                                                <constraint firstAttribute="width" constant="64" id="xwd-bE-gQu"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="IPe-Vp-1RF" firstAttribute="centerY" secondItem="UDj-9j-bfw" secondAttribute="centerY" id="0tk-BZ-2wY"/>
+                                        <constraint firstItem="IPe-Vp-1RF" firstAttribute="centerX" secondItem="UDj-9j-bfw" secondAttribute="centerX" id="6hB-bN-CdJ"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="zek-us-upV" secondAttribute="trailing" id="9gs-8j-Kez"/>
                                         <constraint firstItem="zek-us-upV" firstAttribute="leading" secondItem="UDj-9j-bfw" secondAttribute="leadingMargin" id="l38-UN-VU9"/>
                                         <constraint firstItem="zek-us-upV" firstAttribute="top" secondItem="UDj-9j-bfw" secondAttribute="topMargin" id="ujS-Cu-rnA"/>
@@ -673,6 +692,7 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
+                                    <outlet property="maskImageView" destination="IPe-Vp-1RF" id="khu-gR-zce"/>
                                     <outlet property="previewImageView" destination="zek-us-upV" id="QbQ-e2-hqe"/>
                                 </connections>
                             </tableViewCell>

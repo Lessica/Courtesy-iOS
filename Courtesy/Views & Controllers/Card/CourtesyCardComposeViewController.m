@@ -137,7 +137,12 @@
 
     /* Init of background view */
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-    backgroundImageView.image = [[UIImage imageNamed:@"street"] imageByBlurLight];
+    if (self.style.darkStyle) {
+        backgroundImageView.image = [[UIImage imageNamed:@"street"] imageByBlurDark];
+    } else {
+        backgroundImageView.image = [[UIImage imageNamed:@"street"] imageByBlurLight];
+    }
+    
     backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
     self.backgroundImageView = backgroundImageView;
     [self.view addSubview:backgroundImageView];
@@ -314,6 +319,7 @@
     authorHeader.avatarImageView.imageURL = self.card.author.profile.avatar_url_medium;
     authorHeader.nickLabelView.text = self.card.author.profile.nick;
     authorHeader.nickLabelView.font = [text.font fontWithSize:12.0];
+    authorHeader.nickLabelView.textColor = self.style.dateLabelTextColor;
     textView.mj_header = authorHeader;
     self.authorHeader = authorHeader;
     
@@ -480,6 +486,7 @@
             imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
                        forState:UIControlStateNormal];
     [circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
+    [circleLocationBtn setTitleColor:self.style.buttonTintColor forState:UIControlStateNormal];
     circleLocationBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
     circleLocationBtn.layer.masksToBounds = YES;
     circleLocationBtn.layer.cornerRadius = circleLocationBtn.frame.size.height / 2;
@@ -1501,7 +1508,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                           at:(NSRange)range
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
-    CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, self.textView.frame.size.width - 48, 0) andDelegate:self andUserinfo:info];
+    CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, (CGFloat) (self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect), 0) andDelegate:self andUserinfo:info];
     [frameView setVideoURL:url];
     return [self insertFrameToTextView:frameView at:range animated:animated];
 }

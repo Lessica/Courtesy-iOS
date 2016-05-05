@@ -13,6 +13,7 @@
 static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"CourtesyLongImageTableViewCellReuseIdentifier";
 
 @interface CourtesyLongImageTableViewController ()
+@property (nonatomic, assign) NSUInteger preferredPreviewStyleType;
 
 @end
 
@@ -38,12 +39,8 @@ static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"Court
     
     // 设置底部 Tabbar 边距
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    CourtesyLongImageTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:[sharedSettings preferredPreviewStyleType]]];
-    [cell setPreviewStyleSelected:YES];
+    
+    self.preferredPreviewStyleType = [sharedSettings preferredPreviewStyleType];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -55,6 +52,7 @@ static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"Court
         }
         CourtesyLongImageTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [cell setPreviewStyleSelected:YES];
+        self.preferredPreviewStyleType = indexPath.section;
         [sharedSettings setPreferredPreviewStyleType:indexPath.section];
     }
 }
@@ -79,6 +77,11 @@ static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"Court
         CourtesyLongImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourtesyLongImageTableViewCellReuseIdentifier forIndexPath:indexPath];
         [cell setPreviewImage:[self.previewImages objectAtIndex:indexPath.section]];
         [cell setPreviewCheckmark:[self.previewCheckmarks objectAtIndex:indexPath.section]];
+        if (indexPath.section == self.preferredPreviewStyleType) {
+            [cell setPreviewStyleSelected:YES];
+        } else {
+            [cell setPreviewStyleSelected:NO];
+        }
         return cell;
     }
     return nil;

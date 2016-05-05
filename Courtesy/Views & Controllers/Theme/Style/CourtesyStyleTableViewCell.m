@@ -13,7 +13,7 @@
 @interface CourtesyStyleTableViewCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *styleImageView;
 @property (weak, nonatomic) IBOutlet CourtesyPaddingLabel *styleTitleLabel;
-@property (strong, nonatomic) UIImageView *maskImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *maskImageView;
 
 @end
 
@@ -21,7 +21,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [_styleImageView addSubview:self.maskImageView];
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
@@ -43,15 +42,6 @@
     }
 }
 
-- (UIImageView *)maskImageView {
-    if (!_maskImageView) {
-        _maskImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
-        _maskImageView.alpha = 0.95;
-        _maskImageView.hidden = YES;
-    }
-    return _maskImageView;
-}
-
 - (void)setStyleImage:(UIImage *)styleImage {
     _styleImage = styleImage;
     self.styleImageView.image = styleImage;
@@ -62,19 +52,16 @@
     self.maskImageView.image = styleCheckmark;
 }
 
-- (void)setStyleFont:(UIFont *)styleFont {
-    _styleFont = styleFont;
-    self.styleTitleLabel.font = styleFont;
+- (void)setStyleTintColor:(UIColor *)styleTintColor {
+    _styleTintColor = styleTintColor;
+    self.styleTitleLabel.textColor = styleTintColor;
 }
 
 - (void)setStyleSelected:(BOOL)selected {
     if (selected) {
-        _styleTitleLabel.edgeInsets = UIEdgeInsetsMake(0, _styleCheckmark.size.width * 2, 0, 0);
-        _maskImageView.hidden = NO;
-        _maskImageView.center = CGPointMake(32 + _maskImageView.frame.size.width / 2, _styleImageView.frame.size.height / 2);
+        _maskImageView.alpha = 0.95;
     } else {
-        _styleTitleLabel.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-        _maskImageView.hidden = YES;
+        _maskImageView.alpha = 0.0;
     }
 }
 

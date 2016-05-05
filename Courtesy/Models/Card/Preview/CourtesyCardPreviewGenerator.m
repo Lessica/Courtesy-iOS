@@ -29,12 +29,18 @@
         
         CGSize headerSize = self.headerView.bounds.size;
         UIGraphicsBeginImageContextWithOptions(headerSize, NO, 0.0);
+        if (self.previewStyle.needsShadow) {
+            [self.headerView.layer setLayerShadow:[UIColor colorWithWhite:0.25 alpha:0.66] offset:CGSizeMake(-0.5, 0.5) radius:2.0];
+        }
         [self.headerView.layer renderInContext:UIGraphicsGetCurrentContext()];
         UIImage *header = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
         CGSize contentSize = self.contentView.bounds.size;
         UIGraphicsBeginImageContextWithOptions(contentSize, NO, 0.0);
+        if (self.previewStyle.needsShadow) {
+            [self.contentView.layer setLayerShadow:[UIColor colorWithWhite:0.25 alpha:0.66] offset:CGSizeMake(-0.5, 0.5) radius:2.0];
+        }
         [self.contentView.layer renderInContext:UIGraphicsGetCurrentContext()];
         UIImage *content = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();

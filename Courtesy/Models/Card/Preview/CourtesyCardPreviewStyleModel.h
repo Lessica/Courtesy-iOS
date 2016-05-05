@@ -26,5 +26,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *previewFooterText;
 @property (nonatomic, assign) CourtesyCardPreviewBodyMethod bodyMethod;
 @property (nonatomic, assign) CGPoint originPoint;
+@property (nonatomic, assign) BOOL needsShadow;
 
 @end

@@ -11,7 +11,7 @@
 @interface CourtesyStyleTableViewCell : UITableViewCell
 @property (nonatomic, strong) UIImage *styleImage;
 @property (nonatomic, strong) UIImage *styleCheckmark;
-@property (nonatomic, strong) UIFont *styleFont;
+@property (nonatomic, strong) UIColor *styleTintColor;
 
 - (void)setStyleSelected:(BOOL)selected;
 

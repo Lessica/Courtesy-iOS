@@ -72,6 +72,7 @@
         previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
         previewStyle.bodyMethod = kCourtesyCardPreviewBodyStretch;
         previewStyle.originPoint = CGPointMake(0, 0);
+        previewStyle.needsShadow = NO;
         return previewStyle;
     }
     else if (type == kCourtesyCardPreviewStyleLeaf)
@@ -84,6 +85,7 @@
         previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
         previewStyle.bodyMethod = kCourtesyCardPreviewBodyRepeat;
         previewStyle.originPoint = CGPointMake(0, 0);
+        previewStyle.needsShadow = NO;
         return previewStyle;
     }
     else if (type == kCourtesyCardPreviewStylePoker)
@@ -96,6 +98,7 @@
         previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
         previewStyle.bodyMethod = kCourtesyCardPreviewBodyRepeat;
         previewStyle.originPoint = CGPointMake(0, 0);
+        previewStyle.needsShadow = NO;
         return previewStyle;
     }
     else if (type == kCourtesyCardPreviewStyleMelody)
@@ -107,7 +110,8 @@
         previewStyle.previewFooter = [UIImage imageNamed:@"melody-preview-footer"];
         previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
         previewStyle.bodyMethod = kCourtesyCardPreviewBodyRepeat;
-        previewStyle.originPoint = CGPointMake(10, 0);
+        previewStyle.originPoint = CGPointMake(8, 0);
+        previewStyle.needsShadow = YES;
         return previewStyle;
     }
     return nil;

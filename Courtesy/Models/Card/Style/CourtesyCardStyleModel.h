@@ -65,4 +65,7 @@ typedef enum : NSUInteger {
 // Jot Style
 @property (nonatomic, strong) NSArray <UIColor *> *jotColorArray;
 
+// Dark Model
+@property (nonatomic, assign) BOOL darkStyle;
+
 @end

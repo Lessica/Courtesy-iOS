@@ -13,6 +13,7 @@
 static NSString * const kCourtesyStyleTableViewCellReuseIdentifier = @"CourtesyStyleTableViewCellReuseIdentifier";
 
 @interface CourtesyStyleTableViewController ()
+@property (nonatomic, assign) NSUInteger preferredStyleID;
 
 @end
 
@@ -38,12 +39,7 @@ static NSString * const kCourtesyStyleTableViewCellReuseIdentifier = @"CourtesyS
     
     // 设置底部 Tabbar 边距
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    CourtesyStyleTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:[sharedSettings preferredStyleID]]];
-    [cell setStyleSelected:YES];
+    self.preferredStyleID = [sharedSettings preferredStyleID];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -55,6 +51,7 @@ static NSString * const kCourtesyStyleTableViewCellReuseIdentifier = @"CourtesyS
         }
         CourtesyStyleTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [cell setStyleSelected:YES];
+        self.preferredStyleID = indexPath.section;
         [sharedSettings setPreferredStyleID:indexPath.section];
     }
 }
@@ -77,8 +74,15 @@ static NSString * const kCourtesyStyleTableViewCellReuseIdentifier = @"CourtesyS
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section < self.styleImages.count) {
         CourtesyStyleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourtesyStyleTableViewCellReuseIdentifier forIndexPath:indexPath];
+        UIColor *tintColor = [[CourtesyCardStyleManager sharedManager] styleWithID:indexPath.section].cardTextColor;
+        [cell setStyleTintColor:tintColor];
         [cell setStyleImage:[self.styleImages objectAtIndex:indexPath.section]];
         [cell setStyleCheckmark:[self.styleCheckmarks objectAtIndex:indexPath.section]];
+        if (indexPath.section == self.preferredStyleID) {
+            [cell setStyleSelected:YES];
+        } else {
+            [cell setStyleSelected:NO];
+        }
         return cell;
     }
     return nil;
