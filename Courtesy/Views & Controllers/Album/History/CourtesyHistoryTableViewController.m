@@ -178,7 +178,7 @@ static NSString * const kCourtesyHistoryTableViewCellReuseIdentifier = @"Courtes
         __block CourtesyCardModel *card = [self.cardArray objectAtIndex:indexPath.row];
         __weak typeof(self) weakSelf = self;
         UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-            [weakSelf.cardManager deleteCardInDraft:card];
+            [weakSelf.cardManager deleteCardInHistory:card];
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }];
         return @[deleteAction];

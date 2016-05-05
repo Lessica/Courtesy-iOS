@@ -9,7 +9,8 @@
 #import "CourtesyFontManager.h"
 
 typedef enum : NSUInteger {
-    kCourtesyCardStyleDefault = 0
+    kCourtesyCardStyleDefault = 0,
+    kCourtesyCardStyleDark = 1,
 } CourtesyCardStyleID;
 
 @interface CourtesyCardStyleModel : JSONModel

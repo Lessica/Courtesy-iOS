@@ -10,6 +10,10 @@
 #import <Foundation/Foundation.h>
 
 @interface CourtesyCardStyleManager : NSObject
+@property (nonatomic, strong) NSArray <NSString *> *styleNames;
+@property (nonatomic, strong) NSArray <UIImage *> *styleImages;
+@property (nonatomic, strong) NSArray <UIImage *> *styleCheckmarks;
+
 + (id)sharedManager;
 - (CourtesyCardStyleModel *)styleWithID:(CourtesyCardStyleID)styleID;
 @end

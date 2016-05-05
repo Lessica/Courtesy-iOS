@@ -7,15 +7,24 @@
 //
 
 typedef enum : NSUInteger {
-    kCourtesyCardPreviewStyleDefault = 0
+    kCourtesyCardPreviewStyleDefault = 0,
+    kCourtesyCardPreviewStyleLeaf = 1,
+    kCourtesyCardPreviewStylePoker = 2,
+    kCourtesyCardPreviewStyleMelody = 3,
 } CourtesyCardPreviewStyleType;
 
+typedef enum : NSUInteger {
+    kCourtesyCardPreviewBodyStretch = 0,
+    kCourtesyCardPreviewBodyRepeat  = 1,
+} CourtesyCardPreviewBodyMethod;
+
 @interface CourtesyCardPreviewStyleModel : NSObject
+@property (nonatomic, strong) UIImage *previewCheckmark;
 @property (nonatomic, strong) UIImage *previewHeader;
 @property (nonatomic, strong) UIImage *previewBody;
 @property (nonatomic, strong) UIImage *previewFooter;
 @property (nonatomic, strong) NSString *previewFooterText;
-@property (nonatomic, assign) CGPoint previewFooterOrigin;
-@property (nonatomic, strong) NSDictionary *previewFooterAttributes;
+@property (nonatomic, assign) CourtesyCardPreviewBodyMethod bodyMethod;
+@property (nonatomic, assign) CGPoint originPoint;
 
 @end

@@ -8,7 +8,7 @@
 
 #import "CourtesyCardAttachmentModel.h"
 #import "CourtesyCardStyleManager.h"
-#import "CourtesyCardPreviewStyleManager.h"
+//#import "CourtesyCardPreviewStyleManager.h"
 
 @protocol CourtesyCardAttachmentModel
 @end
@@ -22,12 +22,12 @@
 @property (nonatomic, strong) NSArray<CourtesyCardAttachmentModel, Optional> *attachments;
 @property (nonatomic, strong) NSArray<NSString *> *attachments_hashes;
 @property (nonatomic, assign) CourtesyCardStyleID styleID;
-@property (nonatomic, assign) CourtesyCardPreviewStyleType previewType;
+//@property (nonatomic, assign) CourtesyCardPreviewStyleType previewType;
 @property (nonatomic, assign) CGFloat fontSize;
 @property (nonatomic, assign) CourtesyFontType fontType;
 @property (nonatomic, assign) NSTextAlignment alignmentType;
 @property (nonatomic, strong) CourtesyCardStyleModel<Ignore> *style;
-@property (nonatomic, strong) CourtesyCardPreviewStyleModel<Ignore> *previewStyle;
+//@property (nonatomic, strong) CourtesyCardPreviewStyleModel<Ignore> *previewStyle;
 @property (nonatomic, assign) BOOL shouldAutoPlayAudio;
 @property (nonatomic, copy) NSString *card_token;
 

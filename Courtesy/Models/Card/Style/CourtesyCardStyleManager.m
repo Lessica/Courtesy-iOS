@@ -20,6 +20,43 @@
     return sharedManager;
 }
 
+
+- (NSArray <NSString *> *)previewNames {
+    if (!_styleNames) {
+        _styleNames = @[
+                          @"经典白",
+//                          @"酷炫灰",
+                          // More Long Image Names
+                          
+                          ];
+    }
+    return _styleNames;
+}
+
+- (NSArray <UIImage *> *)styleImages {
+    if (!_styleImages) {
+        _styleImages = @[
+                           [UIImage imageNamed:@"default-style"],
+//                           [UIImage imageNamed:@"dark-style"],
+                           // More Long Image
+                           
+                           ];
+    }
+    return _styleImages;
+}
+
+- (NSArray <UIImage *> *)styleCheckmarks {
+    if (!_styleCheckmarks) {
+        _styleCheckmarks = @[
+                               [UIImage imageNamed:@"default-checkmark-2"],
+//                               [UIImage imageNamed:@"dark-checkmark"],
+                               // More Checkmark
+                               
+                               ];
+    }
+    return _styleCheckmarks;
+}
+
 - (CourtesyCardStyleModel *)styleWithID:(CourtesyCardStyleID)styleID {
     if (styleID == kCourtesyCardStyleDefault) {
         CourtesyCardStyleModel *newStyle = [CourtesyCardStyleModel new];
@@ -37,7 +74,7 @@
         
         newStyle.cardTextColor = [UIColor darkGrayColor];
         newStyle.cardLineSpacing = 8.0;
-        newStyle.cardBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture"]];
+        newStyle.cardBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"default-texture"]];
         newStyle.cardLineHeight = 32.0;
         newStyle.placeholderText = @"说点什么吧……";
         newStyle.placeholderColor = [UIColor lightGrayColor];

@@ -66,12 +66,13 @@
 		0F6D38141CD100BA001155DF /* DrawValues.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D380B1CD100BA001155DF /* DrawValues.m */; };
 		0F6D38151CD100BA001155DF /* DrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D380D1CD100BA001155DF /* DrawView.m */; };
 		0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */; };
+		0F6E65D01CDB813500D3BB84 /* CourtesyStyleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6E65CF1CDB813500D3BB84 /* CourtesyStyleTableViewCell.m */; };
+		0F6E65D41CDB883300D3BB84 /* CourtesyPaddingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6E65D31CDB883300D3BB84 /* CourtesyPaddingLabel.m */; };
 		0F7136611CBBB37900341AC9 /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7136601CBBB37900341AC9 /* libiconv.2.4.0.tbd */; };
 		0F7136641CBBB3CD00341AC9 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F7136621CBBB3B700341AC9 /* libz.1.2.5.tbd */; };
 		0F760A171CD83BE0002CBE60 /* CourtesyAlbumTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F760A161CD83BE0002CBE60 /* CourtesyAlbumTabbarViewController.m */; };
 		0F760A211CD847B7002CBE60 /* CourtesyHistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F760A201CD847B7002CBE60 /* CourtesyHistoryTableViewController.m */; };
 		0F760A281CD8481D002CBE60 /* CourtesyAlbumTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F760A241CD8481D002CBE60 /* CourtesyAlbumTableViewCell.m */; };
-		0F760A291CD8481D002CBE60 /* CourtesyPaddingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F760A271CD8481D002CBE60 /* CourtesyPaddingLabel.m */; };
 		0F760A2C1CD86749002CBE60 /* CourtesyCardRemoveRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F760A2B1CD86749002CBE60 /* CourtesyCardRemoveRequestModel.m */; };
 		0F760A301CD87C59002CBE60 /* CourtesyThemeTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F760A2F1CD87C59002CBE60 /* CourtesyThemeTabbarViewController.m */; };
 		0F760A351CD87DC8002CBE60 /* CourtesyLongImageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F760A341CD87DC8002CBE60 /* CourtesyLongImageTableViewController.m */; };
@@ -485,6 +486,10 @@
 		0F6D380D1CD100BA001155DF /* DrawView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawView.m; sourceTree = "<group>"; };
 		0F6DD57D1C98369200CA4389 /* CourtesyMarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyMarkdownParser.h; path = Markdown/CourtesyMarkdownParser.h; sourceTree = "<group>"; };
 		0F6DD57E1C98369200CA4389 /* CourtesyMarkdownParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourtesyMarkdownParser.m; path = Markdown/CourtesyMarkdownParser.m; sourceTree = "<group>"; };
+		0F6E65CE1CDB813500D3BB84 /* CourtesyStyleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyStyleTableViewCell.h; sourceTree = "<group>"; };
+		0F6E65CF1CDB813500D3BB84 /* CourtesyStyleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyStyleTableViewCell.m; sourceTree = "<group>"; };
+		0F6E65D21CDB883300D3BB84 /* CourtesyPaddingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyPaddingLabel.h; sourceTree = "<group>"; };
+		0F6E65D31CDB883300D3BB84 /* CourtesyPaddingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyPaddingLabel.m; sourceTree = "<group>"; };
 		0F71365E1CBBB36900341AC9 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		0F7136601CBBB37900341AC9 /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = usr/lib/libiconv.2.4.0.tbd; sourceTree = SDKROOT; };
 		0F7136621CBBB3B700341AC9 /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
@@ -494,8 +499,6 @@
 		0F760A201CD847B7002CBE60 /* CourtesyHistoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyHistoryTableViewController.m; sourceTree = "<group>"; };
 		0F760A231CD8481D002CBE60 /* CourtesyAlbumTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAlbumTableViewCell.h; sourceTree = "<group>"; };
 		0F760A241CD8481D002CBE60 /* CourtesyAlbumTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAlbumTableViewCell.m; sourceTree = "<group>"; };
-		0F760A261CD8481D002CBE60 /* CourtesyPaddingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyPaddingLabel.h; sourceTree = "<group>"; };
-		0F760A271CD8481D002CBE60 /* CourtesyPaddingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyPaddingLabel.m; sourceTree = "<group>"; };
 		0F760A2A1CD86749002CBE60 /* CourtesyCardRemoveRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardRemoveRequestModel.h; sourceTree = "<group>"; };
 		0F760A2B1CD86749002CBE60 /* CourtesyCardRemoveRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardRemoveRequestModel.m; sourceTree = "<group>"; };
 		0F760A2E1CD87C59002CBE60 /* CourtesyThemeTabbarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyThemeTabbarViewController.h; sourceTree = "<group>"; };
@@ -1281,6 +1284,15 @@
 			name = Markdown;
 			sourceTree = "<group>";
 		};
+		0F6E65D11CDB883300D3BB84 /* PaddingLabel */ = {
+			isa = PBXGroup;
+			children = (
+				0F6E65D21CDB883300D3BB84 /* CourtesyPaddingLabel.h */,
+				0F6E65D31CDB883300D3BB84 /* CourtesyPaddingLabel.m */,
+			);
+			path = PaddingLabel;
+			sourceTree = "<group>";
+		};
 		0F72856D1CC0BF800029C66A /* Location */ = {
 			isa = PBXGroup;
 			children = (
@@ -1319,18 +1331,8 @@
 			children = (
 				0F760A231CD8481D002CBE60 /* CourtesyAlbumTableViewCell.h */,
 				0F760A241CD8481D002CBE60 /* CourtesyAlbumTableViewCell.m */,
-				0F760A251CD8481D002CBE60 /* PaddingLabel */,
 			);
 			path = Cell;
-			sourceTree = "<group>";
-		};
-		0F760A251CD8481D002CBE60 /* PaddingLabel */ = {
-			isa = PBXGroup;
-			children = (
-				0F760A261CD8481D002CBE60 /* CourtesyPaddingLabel.h */,
-				0F760A271CD8481D002CBE60 /* CourtesyPaddingLabel.m */,
-			);
-			path = PaddingLabel;
 			sourceTree = "<group>";
 		};
 		0F760A2D1CD87C42002CBE60 /* Theme */ = {
@@ -1358,6 +1360,8 @@
 		0F760A321CD87D10002CBE60 /* Style */ = {
 			isa = PBXGroup;
 			children = (
+				0F6E65CE1CDB813500D3BB84 /* CourtesyStyleTableViewCell.h */,
+				0F6E65CF1CDB813500D3BB84 /* CourtesyStyleTableViewCell.m */,
 				0F760A361CD87DDB002CBE60 /* CourtesyStyleTableViewController.h */,
 				0F760A371CD87DDB002CBE60 /* CourtesyStyleTableViewController.m */,
 			);
@@ -1897,6 +1901,7 @@
 		0FFE040C1C93F45800E99DCC /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				0F6E65D11CDB883300D3BB84 /* PaddingLabel */,
 				0FFE040D1C93F45800E99DCC /* CourtesyPortraitViewController.h */,
 				0FFE040E1C93F45800E99DCC /* CourtesyPortraitViewController.m */,
 			);
@@ -2581,6 +2586,7 @@
 				0FEFDBBE1C97D17500952522 /* NSTimer+AFSoundManager.m in Sources */,
 				0FF2D2881C95DA80007C23DE /* LBXScanViewController.m in Sources */,
 				0FFE04651C93F45800E99DCC /* CourtesyFontSheetView.m in Sources */,
+				0F6E65D41CDB883300D3BB84 /* CourtesyPaddingLabel.m in Sources */,
 				0FFE04C31C93F47400E99DCC /* CourtesyCardDataModel.m in Sources */,
 				0FFE04811C93F45800E99DCC /* CourtesyProfileMobileTableViewController.m in Sources */,
 				0FDEFBC71C97D696007BE8D2 /* NSString+CJStringValidator.m in Sources */,
@@ -2663,7 +2669,6 @@
 				0FDEFBB51C97D5C2007BE8D2 /* NSDate+Astro.m in Sources */,
 				0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */,
 				0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */,
-				0F760A291CD8481D002CBE60 /* CourtesyPaddingLabel.m in Sources */,
 				0F13F53B1CC9088F00793FB9 /* CourtesyCardResourceModel.m in Sources */,
 				0F489EA81CD8FE030038D27D /* CourtesyCardPreviewStyleManager.m in Sources */,
 				0FFC2F201CCB14F000676097 /* CourtesyDraftTableViewController.m in Sources */,
@@ -2700,6 +2705,7 @@
 				0FDEFBD51C97D70A007BE8D2 /* CNCityAreaCitiesModel.m in Sources */,
 				0FFC2F231CCB1EFC00676097 /* CourtesyCardPublicRequestModel.m in Sources */,
 				0F760A3F1CD87E5A002CBE60 /* MoreInfoView.m in Sources */,
+				0F6E65D01CDB813500D3BB84 /* CourtesyStyleTableViewCell.m in Sources */,
 				0F2744F71CB55C6D00BCF173 /* CourtesyGalleryDailyRequestModel.m in Sources */,
 				0FDEFBD61C97D70A007BE8D2 /* CNCityAreaFactory.m in Sources */,
 				0FFE04721C93F45800E99DCC /* CourtesyLoginRegisterViewController.m in Sources */,

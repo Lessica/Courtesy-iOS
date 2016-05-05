@@ -601,13 +601,36 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="PzN-jI-wD0">
-                                <rect key="frame" x="0.0" y="114" width="320" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CourtesyStyleTableViewCellReuseIdentifier" rowHeight="125" id="PzN-jI-wD0" customClass="CourtesyStyleTableViewCell">
+                                <rect key="frame" x="0.0" y="114" width="320" height="125"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PzN-jI-wD0" id="rcn-75-jSa">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="125"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-style" translatesAutoresizingMaskIntoConstraints="NO" id="sgb-Ax-T57">
+                                            <rect key="frame" x="8" y="8" width="304" height="109"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="礼记之谊，记礼之情。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wN1-AI-0WQ" customClass="CourtesyPaddingLabel">
+                                            <rect key="frame" x="75" y="52" width="170" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="wN1-AI-0WQ" firstAttribute="centerX" secondItem="rcn-75-jSa" secondAttribute="centerX" id="33s-Jz-rFE"/>
+                                        <constraint firstItem="sgb-Ax-T57" firstAttribute="leading" secondItem="rcn-75-jSa" secondAttribute="leadingMargin" id="8Pf-hq-1ah"/>
+                                        <constraint firstItem="sgb-Ax-T57" firstAttribute="top" secondItem="rcn-75-jSa" secondAttribute="topMargin" id="GBk-oQ-sDw"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="sgb-Ax-T57" secondAttribute="bottom" id="JNZ-T0-RpZ"/>
+                                        <constraint firstItem="wN1-AI-0WQ" firstAttribute="centerY" secondItem="rcn-75-jSa" secondAttribute="centerY" id="KVo-FN-QTF"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="sgb-Ax-T57" secondAttribute="trailing" id="Vmy-FY-SVV"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="styleImageView" destination="sgb-Ax-T57" id="BgR-ff-8rY"/>
+                                    <outlet property="styleTitleLabel" destination="wN1-AI-0WQ" id="1yY-so-Dh1"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -615,7 +638,7 @@
                             <outlet property="delegate" destination="rjG-lE-Nbb" id="Tlp-E6-er5"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="主题" image="1-gift" id="sKW-Xq-bi5"/>
+                    <tabBarItem key="tabBarItem" title="主题" image="2-magic" id="sKW-Xq-bi5"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zmf-hT-Ggu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -625,7 +648,7 @@
         <scene sceneID="g0T-pw-9vc">
             <objects>
                 <tableViewController id="Xn5-cr-8UP" customClass="CourtesyLongImageTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="K94-dy-zIj">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="K94-dy-zIj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -648,7 +671,7 @@
                                         <constraint firstItem="zek-us-upV" firstAttribute="bottom" secondItem="UDj-9j-bfw" secondAttribute="bottomMargin" id="vIR-p1-5bg"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="previewImageView" destination="zek-us-upV" id="QbQ-e2-hqe"/>
                                 </connections>
@@ -660,7 +683,7 @@
                             <outlet property="delegate" destination="Xn5-cr-8UP" id="U1s-TC-fS5"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="长图" image="12-share" id="IMJ-Dn-8Vd"/>
+                    <tabBarItem key="tabBarItem" title="长图" image="39-long-image" id="IMJ-Dn-8Vd"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZmN-As-mYv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1970,7 +1993,7 @@ Designer: @teaz
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <datePicker key="tableFooterView" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" id="TVi-kA-ZgL">
-                            <rect key="frame" x="0.0" y="169.5" width="320" height="220"/>
+                            <rect key="frame" x="0.0" y="170" width="320" height="220"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <date key="date" timeIntervalSinceReferenceDate="478159181.32658398">
@@ -2182,11 +2205,11 @@ Designer: @teaz
         </scene>
     </scenes>
     <resources>
-        <image name="1-gift" width="26" height="26"/>
         <image name="10-gear2" width="16" height="16"/>
         <image name="11-appicon" width="80" height="80"/>
         <image name="12-share" width="19" height="19"/>
         <image name="18-outbox" width="30" height="29"/>
+        <image name="2-magic" width="26" height="26"/>
         <image name="200-markdown" width="16" height="16"/>
         <image name="22-qq" width="16" height="17"/>
         <image name="23-weibo" width="16" height="13"/>
@@ -2196,6 +2219,7 @@ Designer: @teaz
         <image name="28-secret" width="16" height="23"/>
         <image name="29-locate" width="16" height="16"/>
         <image name="3-avatar" width="53" height="53"/>
+        <image name="39-long-image" width="24" height="26"/>
         <image name="399-list1" width="19" height="15"/>
         <image name="6-messages" width="16" height="11"/>
         <image name="666-square-add" width="64" height="64"/>
@@ -2203,6 +2227,7 @@ Designer: @teaz
         <image name="668-square-refresh" width="64" height="64"/>
         <image name="8-public" width="16" height="10"/>
         <image name="default-preview" width="511" height="240"/>
+        <image name="default-style" width="511" height="164"/>
         <image name="qrc-small" width="32" height="32"/>
     </resources>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

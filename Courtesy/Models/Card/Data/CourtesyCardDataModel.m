@@ -24,8 +24,8 @@
     if (
         [propertyName isEqualToString:@"qrcode"] ||
         [propertyName isEqualToString:@"attachments"] ||
-        [propertyName isEqualToString:@"styleID"] ||
-        [propertyName isEqualToString:@"previewType"]
+        [propertyName isEqualToString:@"styleID"]
+//        [propertyName isEqualToString:@"previewType"]
         ) {
         return YES;
     }
@@ -122,12 +122,12 @@
     return _style;
 }
 
-- (CourtesyCardPreviewStyleModel *)previewStyle { // Lazy Loading
-    if (!_previewStyle) {
-        _previewStyle = [[CourtesyCardPreviewStyleManager sharedManager] previewStyleWithType:self.previewType];
-    }
-    return _previewStyle;
-}
+//- (CourtesyCardPreviewStyleModel *)previewStyle { // Lazy Loading
+//    if (!_previewStyle) {
+//        _previewStyle = [[CourtesyCardPreviewStyleManager sharedManager] previewStyleWithType:self.previewType];
+//    }
+//    return _previewStyle;
+//}
 
 - (NSString *)savedAttachmentsPath {
     return [CourtesyCardAttachmentModel savedAttachmentsPathWithCardToken:_card_token];

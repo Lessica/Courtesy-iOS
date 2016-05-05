@@ -12,6 +12,7 @@
 @interface CourtesyCardPreviewStyleManager : NSObject
 @property (nonatomic, strong) NSArray <NSString *> *previewNames;
 @property (nonatomic, strong) NSArray <UIImage *> *previewImages;
+@property (nonatomic, strong) NSArray <UIImage *> *previewCheckmarks;
 
 + (id)sharedManager;
 - (CourtesyCardPreviewStyleModel *)previewStyleWithType:(CourtesyCardPreviewStyleType)type;

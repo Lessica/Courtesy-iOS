@@ -841,7 +841,7 @@
 - (void)generateTextViewLayer:(id)delegate {
     CourtesyCardPreviewGenerator *generator = [CourtesyCardPreviewGenerator new];
     generator.delegate = delegate;
-    generator.previewStyle = self.cdata.previewStyle;
+    generator.headerView = self.authorHeader;
     generator.contentView = self.textView.yyContainerView;
     [generator generate];
 }

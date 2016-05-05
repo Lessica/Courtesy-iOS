@@ -47,7 +47,7 @@
 {
     [super placeSubviews];
     
-    self.avatarContainerView.center = CGPointMake(self.mj_w * 0.5, self.mj_h * 0.5 - 32);
+    self.avatarContainerView.center = CGPointMake(self.mj_w * 0.5, 35);
     self.avatarImageView.center = CGPointMake(self.avatarContainerView.frame.size.width / 2, self.avatarContainerView.frame.size.height / 2);
     self.nickLabelView.bounds = CGRectMake(0, 0, self.mj_w, 24);
     self.nickLabelView.center = CGPointMake(self.avatarContainerView.center.x, self.avatarContainerView.center.y + 48);

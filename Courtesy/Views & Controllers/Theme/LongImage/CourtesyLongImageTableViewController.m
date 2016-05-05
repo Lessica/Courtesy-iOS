@@ -26,9 +26,18 @@ static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"Court
     return [[CourtesyCardPreviewStyleManager sharedManager] previewImages];
 }
 
+- (NSArray<UIImage *> *)previewCheckmarks {
+    return [[CourtesyCardPreviewStyleManager sharedManager] previewCheckmarks];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"长图";
+    
+    self.clearsSelectionOnViewWillAppear = NO;
+    
+    // 设置底部 Tabbar 边距
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -69,6 +78,7 @@ static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"Court
     if (indexPath.section < self.previewImages.count) {
         CourtesyLongImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourtesyLongImageTableViewCellReuseIdentifier forIndexPath:indexPath];
         [cell setPreviewImage:[self.previewImages objectAtIndex:indexPath.section]];
+        [cell setPreviewCheckmark:[self.previewCheckmarks objectAtIndex:indexPath.section]];
         return cell;
     }
     return nil;
@@ -76,7 +86,9 @@ static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"Court
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section < self.previewImages.count) {
-        return tableView.frame.size.width * 0.5625;
+        CGSize size = self.previewImages[indexPath.section].size;
+        CGFloat ratio = size.height / size.width;
+        return tableView.frame.size.width * ratio;
     }
     return 0;
 }

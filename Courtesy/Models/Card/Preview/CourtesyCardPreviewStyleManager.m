@@ -23,7 +23,10 @@
 - (NSArray <NSString *> *)previewNames {
     if (!_previewNames) {
         _previewNames = @[
-                          @"锤子便签风格",
+                          @"经典锤子",
+                          @"绿意盎然",
+                          @"扑克牌",
+                          @"悦动音符",
                           // More Long Image Names
                           
                           ];
@@ -35,6 +38,9 @@
     if (!_previewImages) {
         _previewImages = @[
                            [UIImage imageNamed:@"default-preview"],
+                           [UIImage imageNamed:@"leaf-preview"],
+                           [UIImage imageNamed:@"poker-preview"],
+                           [UIImage imageNamed:@"melody-preview"],
                            // More Long Image
                            
                            ];
@@ -42,15 +48,66 @@
     return _previewImages;
 }
 
+- (NSArray <UIImage *> *)previewCheckmarks {
+    if (!_previewCheckmarks) {
+        _previewCheckmarks = @[
+                               [UIImage imageNamed:@"default-checkmark"],
+                               [UIImage imageNamed:@"leaf-checkmark"],
+                               [UIImage imageNamed:@"poker-checkmark"],
+                               [UIImage imageNamed:@"melody-checkmark"],
+                               // More Checkmark
+                               
+                               ];
+    }
+    return _previewCheckmarks;
+}
+
 - (CourtesyCardPreviewStyleModel *)previewStyleWithType:(CourtesyCardPreviewStyleType)type {
     if (type == kCourtesyCardPreviewStyleDefault) {
         CourtesyCardPreviewStyleModel *previewStyle = [CourtesyCardPreviewStyleModel new];
-        previewStyle.previewHeader = [UIImage imageNamed:@"default-preview-head"];
+        previewStyle.previewCheckmark = [UIImage imageNamed:@"default-checkmark"];
+        previewStyle.previewHeader = [UIImage imageNamed:@"default-preview-header"];
         previewStyle.previewBody = [UIImage imageNamed:@"default-preview-body"];
         previewStyle.previewFooter = [UIImage imageNamed:@"default-preview-footer"];
         previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
-        previewStyle.previewFooterOrigin = CGPointMake(0, 0);
-        previewStyle.previewFooterAttributes = @{};
+        previewStyle.bodyMethod = kCourtesyCardPreviewBodyStretch;
+        previewStyle.originPoint = CGPointMake(0, 0);
+        return previewStyle;
+    }
+    else if (type == kCourtesyCardPreviewStyleLeaf)
+    {
+        CourtesyCardPreviewStyleModel *previewStyle = [CourtesyCardPreviewStyleModel new];
+        previewStyle.previewCheckmark = [UIImage imageNamed:@"leaf-checkmark"];
+        previewStyle.previewHeader = [UIImage imageNamed:@"leaf-preview-header"];
+        previewStyle.previewBody = [UIImage imageNamed:@"leaf-preview-body"];
+        previewStyle.previewFooter = [UIImage imageNamed:@"leaf-preview-footer"];
+        previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
+        previewStyle.bodyMethod = kCourtesyCardPreviewBodyRepeat;
+        previewStyle.originPoint = CGPointMake(0, 0);
+        return previewStyle;
+    }
+    else if (type == kCourtesyCardPreviewStylePoker)
+    {
+        CourtesyCardPreviewStyleModel *previewStyle = [CourtesyCardPreviewStyleModel new];
+        previewStyle.previewCheckmark = [UIImage imageNamed:@"poker-checkmark"];
+        previewStyle.previewHeader = [UIImage imageNamed:@"poker-preview-header"];
+        previewStyle.previewBody = [UIImage imageNamed:@"poker-preview-body"];
+        previewStyle.previewFooter = [UIImage imageNamed:@"poker-preview-footer"];
+        previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
+        previewStyle.bodyMethod = kCourtesyCardPreviewBodyRepeat;
+        previewStyle.originPoint = CGPointMake(0, 0);
+        return previewStyle;
+    }
+    else if (type == kCourtesyCardPreviewStyleMelody)
+    {
+        CourtesyCardPreviewStyleModel *previewStyle = [CourtesyCardPreviewStyleModel new];
+        previewStyle.previewCheckmark = [UIImage imageNamed:@"melody-checkmark"];
+        previewStyle.previewHeader = [UIImage imageNamed:@"melody-preview-header"];
+        previewStyle.previewBody = [UIImage imageNamed:@"melody-preview-body"];
+        previewStyle.previewFooter = [UIImage imageNamed:@"melody-preview-footer"];
+        previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
+        previewStyle.bodyMethod = kCourtesyCardPreviewBodyRepeat;
+        previewStyle.originPoint = CGPointMake(10, 0);
         return previewStyle;
     }
     return nil;
