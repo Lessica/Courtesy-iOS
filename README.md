@@ -12,3 +12,13 @@
 ## 关于长文本卡片编辑方案
 Demo 版目前采用的是 YYText，暂时不支持局部渲染。
 正式版上架会尝试采用锤子便签、WeicoNote 所采用的 TableView 长文本编辑方案。
+
+## 环境部署
+1、从 Mac App Store 安装 OS X with Xcode 7.3 (iOS SDK 9.0+)
+2、安装 Cocoapods (https://cocoapods.org/)
+```shell
+$ sudo gem install cocoapods --pre
+$ cd Courtesy-iOS
+$ pod install --verbose
+```
+3、打开 Courtesy.xcworkspace 进行编译。
