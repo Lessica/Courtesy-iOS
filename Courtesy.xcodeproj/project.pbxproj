@@ -2782,7 +2782,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "14d8fae4-2161-486b-bb88-d7d3d5a79e03";
+				PROVISIONING_PROFILE = "f6a6be44-152f-48ad-a5dd-e82c7c4504c2";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -2802,7 +2802,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "14d8fae4-2161-486b-bb88-d7d3d5a79e03";
+				PROVISIONING_PROFILE = "f6a6be44-152f-48ad-a5dd-e82c7c4504c2";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -2823,7 +2823,7 @@
 				INFOPLIST_FILE = CourtesyWatch/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "00437ff3-bc46-41a1-ace0-8bb48cbe2867";
+				PROVISIONING_PROFILE = "edd0c407-f07d-48e8-92b9-44da530ff6b8";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -2845,7 +2845,7 @@
 				INFOPLIST_FILE = CourtesyWatch/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "00437ff3-bc46-41a1-ace0-8bb48cbe2867";
+				PROVISIONING_PROFILE = "edd0c407-f07d-48e8-92b9-44da530ff6b8";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -2870,7 +2870,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2915,7 +2916,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -2984,7 +2986,7 @@
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = Courtesy;
-				PROVISIONING_PROFILE = "55b896e6-b6a3-49f9-9ee8-0e9d7c5272fc";
+				PROVISIONING_PROFILE = "dd0547eb-ea4c-4fa4-acf1-681b931e67ba";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -3040,7 +3042,7 @@
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = Courtesy;
-				PROVISIONING_PROFILE = "55b896e6-b6a3-49f9-9ee8-0e9d7c5272fc";
+				PROVISIONING_PROFILE = "dd0547eb-ea4c-4fa4-acf1-681b931e67ba";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 1;

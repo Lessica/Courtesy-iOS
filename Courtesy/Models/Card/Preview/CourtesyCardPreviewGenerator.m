@@ -60,22 +60,29 @@
         CGFloat footerScale = (CGFloat)preview_footer.size.width / screenWidth;
         CGFloat footerHeight = (CGFloat)(preview_footer.size.height) / footerScale;
         
-        CGFloat totalHeight = (CGFloat)(headerHeight + contentHeight + headHeight + footerHeight);
-        
-        CGFloat bodyScale = (CGFloat)preview_body.size.width / screenWidth;
-        CGFloat bodyHeight = (CGFloat)(preview_body.size.height) / bodyScale;
-        
-        NSUInteger bodyRepeatTimes = (NSUInteger)((headerHeight + contentHeight) / bodyHeight);
-        
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(screenWidth, totalHeight), NO, 0.0);
-        [preview_head drawInRect:CGRectMake(0, 0, screenWidth, headHeight)];
-        if (self.previewStyle.bodyMethod == kCourtesyCardPreviewBodyStretch) {
-            [preview_body drawInRect:CGRectMake(0, headHeight, screenWidth, contentHeight)];
-            [preview_footer drawInRect:CGRectMake(0, headHeight + contentHeight, screenWidth, footerHeight)];
-        } else if (self.previewStyle.bodyMethod == kCourtesyCardPreviewBodyRepeat) {
+        if (self.previewStyle.bodyMethod == kCourtesyCardPreviewBodyStretch)
+        {
+            CGFloat totalHeight = (CGFloat)(headerHeight + contentHeight + headHeight + footerHeight);
+            UIGraphicsBeginImageContextWithOptions(CGSizeMake(screenWidth, totalHeight), NO, 0.0);
+            [preview_head drawInRect:CGRectMake(0, 0, screenWidth, headHeight)];
+            [preview_body drawInRect:CGRectMake(0, headHeight, screenWidth, headerHeight + contentHeight)];
+            [preview_footer drawInRect:CGRectMake(0, headHeight + headerHeight + contentHeight, screenWidth, footerHeight)];
+        }
+        else if (self.previewStyle.bodyMethod == kCourtesyCardPreviewBodyRepeat)
+        {
+            
+            CGFloat bodyScale = (CGFloat)preview_body.size.width / screenWidth;
+            CGFloat bodyHeight = (CGFloat)(preview_body.size.height) / bodyScale;
+            
+            NSUInteger bodyRepeatTimes = (NSUInteger)((headerHeight + contentHeight) / bodyHeight);
+            
+            CGFloat totalHeight = (CGFloat)(bodyHeight * bodyRepeatTimes + headHeight + footerHeight);
+            UIGraphicsBeginImageContextWithOptions(CGSizeMake(screenWidth, totalHeight), NO, 0.0);
+            [preview_head drawInRect:CGRectMake(0, 0, screenWidth, headHeight)];
+            
             CGFloat startY = headHeight;
             for (int i = 0; i < bodyRepeatTimes; i++) {
-                [preview_body drawInRect:CGRectMake(0, startY + i * bodyHeight, screenWidth, bodyHeight + 0.20f)];
+                [preview_body drawInRect:CGRectMake(0, startY + i * bodyHeight, screenWidth, bodyHeight + 0.25f)];
             }
             CGFloat finalY = startY + bodyRepeatTimes * bodyHeight;
             [preview_footer drawInRect:CGRectMake(0, finalY, screenWidth, footerHeight)];
