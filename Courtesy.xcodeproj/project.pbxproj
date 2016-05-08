@@ -226,6 +226,8 @@
 		0FFE052C1C93F52C00E99DCC /* NSDictionary+Subscript.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE05151C93F52C00E99DCC /* NSDictionary+Subscript.m */; };
 		0FFE052D1C93F52C00E99DCC /* NSNotificationCenter+Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE05171C93F52C00E99DCC /* NSNotificationCenter+Action.m */; };
 		0FFE052F1C93F52C00E99DCC /* UIView+FrameMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE051B1C93F52C00E99DCC /* UIView+FrameMethods.m */; };
+		0FFE6A3D1CDC80F700C825C7 /* CourtesyCardHistoryRemoveRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE6A3C1CDC80F700C825C7 /* CourtesyCardHistoryRemoveRequestModel.m */; };
+		0FFE6A411CDC851B00C825C7 /* CourtesyThemeSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE6A401CDC851B00C825C7 /* CourtesyThemeSettingsTableViewController.m */; };
 		D697AA70586A6B18581066A0 /* Pods_Courtesy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A3F796DD38F36724C59991C /* Pods_Courtesy.framework */; };
 /* End PBXBuildFile section */
 
@@ -785,6 +787,10 @@
 		0FFE05171C93F52C00E99DCC /* NSNotificationCenter+Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNotificationCenter+Action.m"; sourceTree = "<group>"; };
 		0FFE051A1C93F52C00E99DCC /* UIView+FrameMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FrameMethods.h"; sourceTree = "<group>"; };
 		0FFE051B1C93F52C00E99DCC /* UIView+FrameMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FrameMethods.m"; sourceTree = "<group>"; };
+		0FFE6A3B1CDC80F700C825C7 /* CourtesyCardHistoryRemoveRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardHistoryRemoveRequestModel.h; sourceTree = "<group>"; };
+		0FFE6A3C1CDC80F700C825C7 /* CourtesyCardHistoryRemoveRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardHistoryRemoveRequestModel.m; sourceTree = "<group>"; };
+		0FFE6A3F1CDC851B00C825C7 /* CourtesyThemeSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyThemeSettingsTableViewController.h; sourceTree = "<group>"; };
+		0FFE6A401CDC851B00C825C7 /* CourtesyThemeSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyThemeSettingsTableViewController.m; sourceTree = "<group>"; };
 		2CE7E65D1A62D8470072121A /* Courtesy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Courtesy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A3F796DD38F36724C59991C /* Pods_Courtesy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Courtesy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		993EA91F94F1ED81DAB9EF52 /* Pods-Courtesy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Courtesy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Courtesy/Pods-Courtesy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1188,6 +1194,8 @@
 				0FFC2F221CCB1EFC00676097 /* CourtesyCardPublicRequestModel.m */,
 				0F760A2A1CD86749002CBE60 /* CourtesyCardRemoveRequestModel.h */,
 				0F760A2B1CD86749002CBE60 /* CourtesyCardRemoveRequestModel.m */,
+				0FFE6A3B1CDC80F700C825C7 /* CourtesyCardHistoryRemoveRequestModel.h */,
+				0FFE6A3C1CDC80F700C825C7 /* CourtesyCardHistoryRemoveRequestModel.m */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -1340,6 +1348,7 @@
 			children = (
 				0F760A311CD87D10002CBE60 /* LongImage */,
 				0F760A321CD87D10002CBE60 /* Style */,
+				0FFE6A3E1CDC84FC00C825C7 /* Settings */,
 				0F760A2E1CD87C59002CBE60 /* CourtesyThemeTabbarViewController.h */,
 				0F760A2F1CD87C59002CBE60 /* CourtesyThemeTabbarViewController.m */,
 			);
@@ -2272,6 +2281,15 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		0FFE6A3E1CDC84FC00C825C7 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				0FFE6A3F1CDC851B00C825C7 /* CourtesyThemeSettingsTableViewController.h */,
+				0FFE6A401CDC851B00C825C7 /* CourtesyThemeSettingsTableViewController.m */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		2CE7E6541A62D8470072121A = {
 			isa = PBXGroup;
 			children = (
@@ -2642,6 +2660,7 @@
 				0F3CECB91CC4808C0073848F /* CourtesyRsyncHelper.mm in Sources */,
 				0FFE046C1C93F45800E99DCC /* CourtesyLeftDrawerMenuTableViewCell.m in Sources */,
 				0FDEFBF81C97D7B8007BE8D2 /* CGGeometry+RSKImageCropper.m in Sources */,
+				0FFE6A3D1CDC80F700C825C7 /* CourtesyCardHistoryRemoveRequestModel.m in Sources */,
 				0FF2D2861C95DA80007C23DE /* LBXScanResult.m in Sources */,
 				0FDEFBE11C97D75B007BE8D2 /* FYPhotoAsset.m in Sources */,
 				0F28516C1C97D8AD0066F5C5 /* JotTextView.m in Sources */,
@@ -2679,6 +2698,7 @@
 				0F28516B1C97D8AD0066F5C5 /* JotTextEditView.m in Sources */,
 				0FF2D2841C95DA80007C23DE /* LBXScanNative.m in Sources */,
 				0F30298E1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m in Sources */,
+				0FFE6A411CDC851B00C825C7 /* CourtesyThemeSettingsTableViewController.m in Sources */,
 				0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */,
 				0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */,
 				0FFE04851C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m in Sources */,

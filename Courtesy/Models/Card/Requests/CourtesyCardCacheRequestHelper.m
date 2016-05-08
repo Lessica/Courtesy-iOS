@@ -134,18 +134,19 @@
 }
 
 - (void)downloadNextResource {
-    // 检查取消标记
-    if (_cancelFlag) {
-        [self callbackDelegateWithErrorMessage:@"用户取消下载操作"];
-        return;
-    }
-    
     // 按顺序取出资源地址
     __block CourtesyCardResourceModel *thisRes = [_resourcesArray lastObject];
     if (!thisRes) { // 所有资源下载完成
         [self callbackDelegateWithSuccess];
         return;
     }
+    
+    // 检查取消标记
+    if (_cancelFlag) {
+        [self callbackDelegateWithErrorMessage:@"用户取消下载操作"];
+        return;
+    }
+    
     _currentSize = thisRes.size;
     
     __block NSURL *thisUrl = [_resourceUrl URLByAppendingPathComponent:thisRes.filename];

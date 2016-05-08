@@ -850,6 +850,7 @@
     generator.delegate = delegate;
     generator.headerView = self.authorHeader;
     generator.contentView = self.textView.yyContainerView;
+    generator.tintColor = [self.style.cardTextColor colorWithAlphaComponent:self.style.standardAlpha];
     [generator generate];
 }
 

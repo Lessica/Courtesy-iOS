@@ -11,6 +11,7 @@ typedef enum : NSUInteger {
     kCourtesyCardPreviewStyleLeaf = 1,
     kCourtesyCardPreviewStylePoker = 2,
     kCourtesyCardPreviewStyleMelody = 3,
+    kCourtesyCardPreviewStyleBlood = 4
 } CourtesyCardPreviewStyleType;
 
 typedef enum : NSUInteger {
@@ -26,6 +27,5 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *previewFooterText;
 @property (nonatomic, assign) CourtesyCardPreviewBodyMethod bodyMethod;
 @property (nonatomic, assign) CGPoint originPoint;
-@property (nonatomic, assign) BOOL needsShadow;
 
 @end

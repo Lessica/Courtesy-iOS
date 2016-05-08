@@ -55,6 +55,9 @@ static NSString * const kCourtesyHistoryTableViewCellReuseIdentifier = @"Courtes
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveLocalNotification:)
                                                  name:kCourtesyNotificationInfo object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveCardStatusUpdated:)
+                                                 name:kCourtesyCardStatusUpdated object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -68,6 +71,22 @@ static NSString * const kCourtesyHistoryTableViewCellReuseIdentifier = @"Courtes
 }
 
 #pragma mark - Notification
+
+- (void)didReceiveCardStatusUpdated:(NSNotification *)notification {
+    CourtesyCardModel *statusCard = notification.object;
+    for (CourtesyAlbumTableViewCell *cell in self.tableView.visibleCells) {
+        if (cell.card == statusCard) {
+            if (cell.card.shouldRemove) {
+                [self.tableView deleteRowAtIndexPath:[self.tableView indexPathForCell:cell] withRowAnimation:UITableViewRowAnimationFade];
+            } else {
+                [cell notifyUpdateStatus];
+            }
+        }
+    }
+    if (statusCard.shouldRemove) {
+        [self.tableView reloadData];
+    }
+}
 
 - (void)didReceiveLocalNotification:(NSNotification *)notification {
     if (!notification.userInfo || ![notification.userInfo hasKey:@"action"]) {
@@ -178,8 +197,11 @@ static NSString * const kCourtesyHistoryTableViewCellReuseIdentifier = @"Courtes
         __block CourtesyCardModel *card = [self.cardArray objectAtIndex:indexPath.row];
         __weak typeof(self) weakSelf = self;
         UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            card.shouldRemove = YES; // 设置删除标记
+            CourtesyAlbumTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            [cell notifyUpdateStatus];
             [weakSelf.cardManager deleteCardInHistory:card];
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView setEditing:NO animated:YES];
         }];
         return @[deleteAction];
     }

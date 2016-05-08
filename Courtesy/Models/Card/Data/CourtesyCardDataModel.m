@@ -45,7 +45,11 @@
         if (sub.length > 0) {
             if (!mainTitled) {
                 mainTitled = YES;
-                _mainTitle = sub;
+                if (sub.length > 30) {
+                    _mainTitle = [sub substringToIndex:NSMaxRange([sub rangeOfComposedCharacterSequenceAtIndex:30])];
+                } else {
+                    _mainTitle = sub;
+                }
             } else {
                 briefTitled = YES;
                 _briefTitle = sub;

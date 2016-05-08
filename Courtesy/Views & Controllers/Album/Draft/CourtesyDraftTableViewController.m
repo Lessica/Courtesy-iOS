@@ -106,8 +106,15 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
     CourtesyCardModel *statusCard = notification.object;
     for (CourtesyAlbumTableViewCell *cell in self.tableView.visibleCells) {
         if (cell.card == statusCard) {
-            [cell notifyUpdateStatus];
+            if (cell.card.shouldRemove) {
+                [self.tableView deleteRowAtIndexPath:[self.tableView indexPathForCell:cell] withRowAnimation:UITableViewRowAnimationFade];
+            } else {
+                [cell notifyUpdateStatus];
+            }
         }
+    }
+    if (statusCard.shouldRemove) {
+        [self.tableView reloadData];
     }
 }
 
@@ -248,8 +255,11 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
                         [tableView setEditing:NO animated:YES];
                     }];
                     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                        card.shouldRemove = YES; // 设置删除标记
+                        CourtesyAlbumTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+                        [cell notifyUpdateStatus];
                         [weakSelf.cardManager deleteCardInDraft:card];
-                        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                        [tableView setEditing:NO animated:YES];
                     }];
                     return @[deleteAction, restoreAction];
                 }

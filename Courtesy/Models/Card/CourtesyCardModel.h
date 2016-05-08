@@ -41,6 +41,7 @@
 @property (nonatomic, assign) BOOL hasPublished;
 @property (nonatomic, assign) BOOL willPublish;
 @property (nonatomic, assign) BOOL shouldNotify;
+@property (nonatomic, assign) BOOL shouldRemove;
 
 @property (nonatomic, weak)   id<Ignore, CourtesyCardDelegate> delegate;
 

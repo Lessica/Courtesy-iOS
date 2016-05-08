@@ -27,6 +27,7 @@
                           @"绿意盎然",
                           @"扑克牌",
                           @"悦动音符",
+                          @"BLOOD",
                           // More Long Image Names
                           
                           ];
@@ -41,6 +42,7 @@
                            [UIImage imageNamed:@"leaf-preview"],
                            [UIImage imageNamed:@"poker-preview"],
                            [UIImage imageNamed:@"melody-preview"],
+                           [UIImage imageNamed:@"blood-preview"]
                            // More Long Image
                            
                            ];
@@ -55,6 +57,7 @@
                                [UIImage imageNamed:@"leaf-checkmark"],
                                [UIImage imageNamed:@"poker-checkmark"],
                                [UIImage imageNamed:@"melody-checkmark"],
+                               [UIImage imageNamed:@"blood-checkmark"]
                                // More Checkmark
                                
                                ];
@@ -72,7 +75,6 @@
         previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
         previewStyle.bodyMethod = kCourtesyCardPreviewBodyStretch;
         previewStyle.originPoint = CGPointMake(0, 0);
-        previewStyle.needsShadow = NO;
         return previewStyle;
     }
     else if (type == kCourtesyCardPreviewStyleLeaf)
@@ -85,7 +87,6 @@
         previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
         previewStyle.bodyMethod = kCourtesyCardPreviewBodyRepeat;
         previewStyle.originPoint = CGPointMake(0, 0);
-        previewStyle.needsShadow = NO;
         return previewStyle;
     }
     else if (type == kCourtesyCardPreviewStylePoker)
@@ -98,7 +99,6 @@
         previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
         previewStyle.bodyMethod = kCourtesyCardPreviewBodyRepeat;
         previewStyle.originPoint = CGPointMake(0, 0);
-        previewStyle.needsShadow = NO;
         return previewStyle;
     }
     else if (type == kCourtesyCardPreviewStyleMelody)
@@ -111,7 +111,18 @@
         previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
         previewStyle.bodyMethod = kCourtesyCardPreviewBodyRepeat;
         previewStyle.originPoint = CGPointMake(8, 0);
-        previewStyle.needsShadow = YES;
+        return previewStyle;
+    }
+    else if (type == kCourtesyCardPreviewStyleBlood)
+    {
+        CourtesyCardPreviewStyleModel *previewStyle = [CourtesyCardPreviewStyleModel new];
+        previewStyle.previewCheckmark = [UIImage imageNamed:@"blood-checkmark"];
+        previewStyle.previewHeader = [UIImage imageNamed:@"blood-preview-header"];
+        previewStyle.previewBody = [UIImage imageNamed:@"blood-preview-body"];
+        previewStyle.previewFooter = [UIImage imageNamed:@"blood-preview-footer"];
+        previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
+        previewStyle.bodyMethod = kCourtesyCardPreviewBodyRepeat;
+        previewStyle.originPoint = CGPointMake(0, 0);
         return previewStyle;
     }
     return nil;

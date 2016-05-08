@@ -15,12 +15,20 @@
 #import "CourtesyLoginRegisterViewController.h"
 #import "CourtesyCardPublishQueue.h"
 #import "CourtesyCardPublicRequestModel.h"
+#import "CourtesyCardRemoveRequestModel.h"
 #import "CourtesyCardCacheRequestHelper.h"
 
 #define kCourtesyCardDraftListKey @"kCourtesyCardListKey"
 #define kCourtesyCardHistoryListKey @"kCourtesyCardHistoryKey"
 
-@interface CourtesyCardManager () <CourtesyCardComposeDelegate, CourtesyCardPublicRequestDelegate, CourtesyCardCacheRequestHelperDelegate, LGAlertViewDelegate>
+@interface CourtesyCardManager ()
+<
+CourtesyCardComposeDelegate,
+CourtesyCardPublicRequestDelegate,
+CourtesyCardRemoveRequestDelegate,
+CourtesyCardCacheRequestHelperDelegate,
+LGAlertViewDelegate
+>
 @property (nonatomic, strong) LGAlertView *currentAlert;
 
 @end
@@ -331,19 +339,56 @@
             if (card.is_banned == NO) {
                 return;
             }
+            else
+            {
+                if (card.shouldRemove)
+                {
+                    dispatch_async_on_main_queue(^{
+                        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"正在删除卡片 %@……", card.local_template.mainTitle]
+                                                   dismissAfter:kStatusBarNotificationTime
+                                                      styleName:JDStatusBarStyleDefault];
+                        [JDStatusBarNotification showActivityIndicator:YES
+                                                        indicatorStyle:UIActivityIndicatorViewStyleGray];
+                    });
+                    
+                    __block CourtesyCardRemoveRequestModel *removeRequest = [[CourtesyCardRemoveRequestModel alloc] initWithDelegate:self];
+                    removeRequest.token = card.token;
+                    removeRequest.card = card;
+                    removeRequest.isHistory = NO;
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                        [removeRequest sendRequest];
+                    });
+                }
+                return;
+            }
         }
         [self.cardDraftTokenArray removeObject:card.token];
         [self.cardDraftArray removeObject:card];
         [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
+        [card deleteInLocalDatabase];
     }
 }
 
 - (void)deleteCardInHistory:(CourtesyCardModel *)card {
     if ([card isReadByMe]) {
-        [self.cardHistoryTokenArray removeObject:card.token];
-        [self.cardHistoryArray removeObject:card];
-        [self.appStorage setObject:self.cardHistoryTokenArray forKey:kCourtesyCardHistoryListKey];
-        [card deleteInLocalDatabase];
+        if (card.shouldRemove)
+        {
+            dispatch_async_on_main_queue(^{
+                [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"正在删除卡片 %@……", card.local_template.mainTitle]
+                                           dismissAfter:kStatusBarNotificationTime
+                                              styleName:JDStatusBarStyleDefault];
+                [JDStatusBarNotification showActivityIndicator:YES
+                                                indicatorStyle:UIActivityIndicatorViewStyleGray];
+            });
+            
+            __block CourtesyCardRemoveRequestModel *removeRequest = [[CourtesyCardRemoveRequestModel alloc] initWithDelegate:self];
+            removeRequest.token = card.token;
+            removeRequest.card = card;
+            removeRequest.isHistory = YES;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                [removeRequest sendRequest];
+            });
+        }
     }
 }
 
@@ -403,23 +448,31 @@
 
 - (void)cardDidFinishSaving:(nonnull CourtesyCardModel *)card {
     if ([card isMyCard]) {
-        if (![self hasLocalToken:card.token]) {
+        if (![self hasLocalToken:card.token])
+        {
             [self.cardDraftTokenArray insertObject:card.token atIndex:0];
             [self.cardDraftArray insertObject:card atIndex:0];
         }
         [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
-    } else if ([card isReadByMe]) {
-        if (![self hasLocalToken:card.token]) {
+    }
+    else if ([card isReadByMe])
+    {
+        if (![self hasLocalToken:card.token])
+        {
             [self.cardHistoryTokenArray insertObject:card.token atIndex:0];
             [self.cardHistoryArray insertObject:card atIndex:0];
         }
         [self.appStorage setObject:self.cardHistoryTokenArray forKey:kCourtesyCardHistoryListKey];
-    } else {
+    }
+    else
+    {
         return;
     }
     
-    if (card.willPublish == NO) {
-        if (card.shouldNotify) {
+    if (card.willPublish == NO)
+    {
+        if (card.shouldNotify)
+        {
             dispatch_async_on_main_queue(^{
                 [JDStatusBarNotification showWithStatus:@"卡片已保存"
                                            dismissAfter:kStatusBarNotificationTime
@@ -427,7 +480,9 @@
             });
         }
         card.shouldNotify = NO;
-    } else {
+    }
+    else
+    {
         [[CourtesyCardPublishQueue sharedQueue] addCardPublishTask:card];
         card.willPublish = NO;
     }
@@ -488,6 +543,40 @@
                                           styleName:JDStatusBarStyleError];
         });
     }
+}
+
+#pragma mark - CourtesyCardRemoveRequestDelegate
+
+- (void)cardRemoveRequestSucceed:(CourtesyCardRemoveRequestModel *)sender {
+    CourtesyCardModel *card = sender.card;
+    dispatch_async_on_main_queue(^{
+        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片 %@ 删除成功", card.local_template.mainTitle]
+                                   dismissAfter:kStatusBarNotificationTime
+                                      styleName:JDStatusBarStyleSuccess];
+    });
+    if (sender.isHistory) {
+        [self.cardHistoryTokenArray removeObject:card.token];
+        [self.cardHistoryArray removeObject:card];
+        [self.appStorage setObject:self.cardHistoryTokenArray forKey:kCourtesyCardHistoryListKey];
+        [card deleteInLocalDatabase];
+    } else {
+        [self.cardDraftTokenArray removeObject:card.token];
+        [self.cardDraftArray removeObject:card];
+        [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
+        [card deleteInLocalDatabase];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyCardStatusUpdated object:card];
+}
+
+- (void)cardRemoveRequestFailed:(CourtesyCardRemoveRequestModel *)sender withError:(NSError *)error {
+    CourtesyCardModel *card = sender.card;
+    card.shouldRemove = NO; // 删除失败，恢复标识
+    dispatch_async_on_main_queue(^{
+        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"卡片 %@ 删除失败 - %@", card.local_template.mainTitle, [error localizedDescription]]
+                                   dismissAfter:kStatusBarNotificationTime
+                                      styleName:JDStatusBarStyleError];
+    });
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyCardStatusUpdated object:card];
 }
 
 #pragma mark - CourtesyCardCacheRequestHelperDelegate

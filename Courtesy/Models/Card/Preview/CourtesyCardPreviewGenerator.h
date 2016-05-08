@@ -21,6 +21,7 @@
 @property (nonatomic, strong) CourtesyCardPreviewStyleModel *previewStyle;
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) UIColor *tintColor;
 @property (nonatomic, weak) id<CourtesyCardPreviewGeneratorDelegate> delegate;
 
 - (void)generate;

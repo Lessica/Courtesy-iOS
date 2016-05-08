@@ -12,14 +12,16 @@
 #import "CourtesyLoginRegisterModel.h"
 
 #define kCourtesyDBCurrentLoginAccount @"kCourtesyDBCurrentLoginAccount"
-#define kSwitchAutoPublic @"switchAutoPublic"
-#define kSwitchMarkdown @"switchMarkdown"
-#define kPreferredImageQuality @"preferredImageQuality"
-#define kPreferredVideoQuality @"preferredVideoQuality"
-#define kPreferredFontType @"preferredFontType"
-#define kPreferredStyleID @"preferredStyleID"
-#define kPreferredPreviewStyleID @"preferredPreviewStyleID"
-#define kPreferredFontSize @"preferredFontSize"
+#define kCourtesyConfigSwitchAutoPublic @"kCourtesyConfigSwitchAutoPublic"
+#define kCourtesyConfigSwitchMarkdown @"kCourtesyConfigSwitchMarkdown"
+#define kCourtesyConfigSwitchPreviewNeedsShadows @"kCourtesyConfigSwitchPreviewNeedsShadows"
+#define kCourtesyConfigSwitchPreviewAvatar @"kCourtesyConfigSwitchPreviewAvatar"
+#define kCourtesyConfigPreferredImageQuality @"kCourtesyConfigPreferredImageQuality"
+#define kCourtesyConfigPreferredVideoQuality @"kCourtesyConfigPreferredVideoQuality"
+#define kCourtesyConfigPreferredFontType @"kCourtesyConfigPreferredFontType"
+#define kCourtesyConfigPreferredStyleID @"kCourtesyConfigPreferredStyleID"
+#define kCourtesyConfigPreferredPreviewStyleID @"kCourtesyConfigPreferredPreviewStyleID"
+#define kCourtesyConfigPreferredFontSize @"kCourtesyConfigPreferredFontSize"
 
 #ifdef WATCH_SUPPORT
 @interface GlobalSettings () <CourtesyFetchAccountInfoDelegate, WCSessionDelegate, TencentSessionDelegate, TencentApiInterfaceDelegate, TCAPIRequestDelegate>
@@ -234,91 +236,113 @@
 #pragma mark - 个性化设置相关
 
 - (BOOL)switchAutoPublic {
-    if (![self.appStorage objectForKey:kSwitchAutoPublic]) {
+    if (![self.appStorage objectForKey:kCourtesyConfigSwitchAutoPublic]) {
         return YES;
     }
-    return [(NSNumber *)[self.appStorage objectForKey:kSwitchAutoPublic] isEqualToNumber:@0] ? NO : YES;
+    return [(NSNumber *)[self.appStorage objectForKey:kCourtesyConfigSwitchAutoPublic] isEqualToNumber:@0] ? NO : YES;
 }
 
 - (void)setSwitchAutoPublic:(BOOL)switchAutoPublic {
-    [self.appStorage setObject:(switchAutoPublic ? @1 : @0) forKey:kSwitchAutoPublic];
+    [self.appStorage setObject:(switchAutoPublic ? @1 : @0) forKey:kCourtesyConfigSwitchAutoPublic];
 }
 
 - (BOOL)switchMarkdown {
-    if (![self.appStorage objectForKey:kSwitchMarkdown]) {
+    if (![self.appStorage objectForKey:kCourtesyConfigSwitchMarkdown]) {
         return YES;
     }
-    return [(NSNumber *)[self.appStorage objectForKey:kSwitchMarkdown] isEqualToNumber:@0] ? NO : YES;
+    return [(NSNumber *)[self.appStorage objectForKey:kCourtesyConfigSwitchMarkdown] isEqualToNumber:@0] ? NO : YES;
 }
 
 - (void)setSwitchMarkdown:(BOOL)switchMarkdown {
-    [self.appStorage setObject:(switchMarkdown ? @1 : @0) forKey:kSwitchMarkdown];
+    [self.appStorage setObject:(switchMarkdown ? @1 : @0) forKey:kCourtesyConfigSwitchMarkdown];
+}
+
+- (BOOL)switchPreviewAvatar {
+    if (![self.appStorage objectForKey:kCourtesyConfigSwitchPreviewAvatar]) {
+        return YES;
+    }
+    return [(NSNumber *)[self.appStorage objectForKey:kCourtesyConfigSwitchPreviewAvatar] isEqualToNumber:@0] ? NO : YES;
+}
+
+- (void)setSwitchPreviewAvatar:(BOOL)switchPreviewAvatar {
+    [self.appStorage setObject:(switchPreviewAvatar ? @1 : @0) forKey:kCourtesyConfigSwitchPreviewAvatar];
+}
+
+- (BOOL)switchPreviewNeedsShadows {
+    if (![self.appStorage objectForKey:kCourtesyConfigSwitchPreviewNeedsShadows]) {
+        return NO;
+    }
+    return [(NSNumber *)[self.appStorage objectForKey:kCourtesyConfigSwitchPreviewNeedsShadows] isEqualToNumber:@0] ? NO : YES;
+}
+
+- (void)setSwitchPreviewNeedsShadows:(BOOL)switchPreviewNeedsShadows {
+    [self.appStorage setObject:(switchPreviewNeedsShadows ? @1 : @0) forKey:kCourtesyConfigSwitchPreviewNeedsShadows];
 }
 
 - (float)preferredImageQuality {
-    if (![self.appStorage objectForKey:kPreferredImageQuality]) {
+    if (![self.appStorage objectForKey:kCourtesyConfigPreferredImageQuality]) {
         return kCourtesyQualityMedium;
     }
-    return [(NSNumber *)[self.appStorage objectForKey:kPreferredImageQuality] floatValue];
+    return [(NSNumber *)[self.appStorage objectForKey:kCourtesyConfigPreferredImageQuality] floatValue];
 }
 
 - (void)setPreferredImageQuality:(float)preferredImageQuality {
-    [self.appStorage setObject:[NSNumber numberWithFloat:preferredImageQuality] forKey:kPreferredImageQuality];
+    [self.appStorage setObject:[NSNumber numberWithFloat:preferredImageQuality] forKey:kCourtesyConfigPreferredImageQuality];
 }
 
 - (UIImagePickerControllerQualityType)preferredVideoQuality {
-    if (![self.appStorage objectForKey:kPreferredVideoQuality]) {
+    if (![self.appStorage objectForKey:kCourtesyConfigPreferredVideoQuality]) {
         return UIImagePickerControllerQualityTypeMedium;
     }
-    return [(NSNumber *)[self.appStorage objectForKey:kPreferredVideoQuality] integerValue];
+    return [(NSNumber *)[self.appStorage objectForKey:kCourtesyConfigPreferredVideoQuality] integerValue];
 }
 
 - (void)setPreferredVideoQuality:(UIImagePickerControllerQualityType)preferredVideoQuality {
-    [self.appStorage setObject:[NSNumber numberWithInteger:preferredVideoQuality] forKey:kPreferredVideoQuality];
+    [self.appStorage setObject:[NSNumber numberWithInteger:preferredVideoQuality] forKey:kCourtesyConfigPreferredVideoQuality];
 }
 
 - (NSUInteger)preferredFontType {
-    if (![self.appStorage objectForKey:kPreferredFontType]) {
+    if (![self.appStorage objectForKey:kCourtesyConfigPreferredFontType]) {
         return 0;
     }
-    return [(NSNumber *)[self.appStorage objectForKey:kPreferredFontType] unsignedIntegerValue];
+    return [(NSNumber *)[self.appStorage objectForKey:kCourtesyConfigPreferredFontType] unsignedIntegerValue];
 }
 
 - (void)setPreferredFontType:(NSUInteger)preferredFontType {
-    [self.appStorage setObject:[NSNumber numberWithUnsignedInteger:preferredFontType] forKey:kPreferredFontType];
+    [self.appStorage setObject:[NSNumber numberWithUnsignedInteger:preferredFontType] forKey:kCourtesyConfigPreferredFontType];
 }
 
 - (NSUInteger)preferredStyleID {
-    if (![self.appStorage objectForKey:kPreferredStyleID]) {
+    if (![self.appStorage objectForKey:kCourtesyConfigPreferredStyleID]) {
         return 0;
     }
-    return [(NSNumber *)[self.appStorage objectForKey:kPreferredStyleID] unsignedIntegerValue];
+    return [(NSNumber *)[self.appStorage objectForKey:kCourtesyConfigPreferredStyleID] unsignedIntegerValue];
 }
 
 - (void)setPreferredStyleID:(NSUInteger)preferredStyleID {
-    [self.appStorage setObject:[NSNumber numberWithUnsignedInteger:preferredStyleID] forKey:kPreferredStyleID];
+    [self.appStorage setObject:[NSNumber numberWithUnsignedInteger:preferredStyleID] forKey:kCourtesyConfigPreferredStyleID];
 }
 
 - (NSUInteger)preferredPreviewStyleType {
-    if (![self.appStorage objectForKey:kPreferredPreviewStyleID]) {
+    if (![self.appStorage objectForKey:kCourtesyConfigPreferredPreviewStyleID]) {
         return 0;
     }
-    return [(NSNumber *)[self.appStorage objectForKey:kPreferredPreviewStyleID] unsignedIntegerValue];
+    return [(NSNumber *)[self.appStorage objectForKey:kCourtesyConfigPreferredPreviewStyleID] unsignedIntegerValue];
 }
 
 - (void)setPreferredPreviewStyleType:(NSUInteger)preferredPreviewStyleType {
-    [self.appStorage setObject:[NSNumber numberWithUnsignedInteger:preferredPreviewStyleType] forKey:kPreferredPreviewStyleID];
+    [self.appStorage setObject:[NSNumber numberWithUnsignedInteger:preferredPreviewStyleType] forKey:kCourtesyConfigPreferredPreviewStyleID];
 }
 
 - (CGFloat)preferredFontSize {
-    if (![self.appStorage objectForKey:kPreferredFontSize]) {
+    if (![self.appStorage objectForKey:kCourtesyConfigPreferredFontSize]) {
         return 16.0;
     }
-    return [(NSNumber *)[self.appStorage objectForKey:kPreferredFontSize] floatValue];
+    return [(NSNumber *)[self.appStorage objectForKey:kCourtesyConfigPreferredFontSize] floatValue];
 }
 
 - (void)setPreferredFontSize:(CGFloat)preferredFontSize {
-    [self.appStorage setObject:[NSNumber numberWithFloat:preferredFontSize] forKey:kPreferredFontSize];
+    [self.appStorage setObject:[NSNumber numberWithFloat:preferredFontSize] forKey:kCourtesyConfigPreferredFontSize];
 }
 
 #pragma mark - 腾讯互联接口

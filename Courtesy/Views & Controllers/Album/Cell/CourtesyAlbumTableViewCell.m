@@ -90,6 +90,13 @@
         _qrcImageView.hidden = YES;
     }
     
+    // 刷新可用性状态
+    if (_card.shouldRemove) {
+        self.userInteractionEnabled = NO;
+    } else {
+        self.userInteractionEnabled = YES;
+    }
+    
     // 刷新文字颜色
     [self resetLabelColor];
     
@@ -161,6 +168,15 @@
 }
 
 #pragma mark - Animation
+
+- (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled {
+    [super setUserInteractionEnabled:userInteractionEnabled];
+    if (userInteractionEnabled == NO) {
+        self.alpha = 0.75f;
+    } else {
+        self.alpha = 1.0f;
+    }
+}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

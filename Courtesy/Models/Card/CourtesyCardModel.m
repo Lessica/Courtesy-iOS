@@ -30,7 +30,8 @@
     if (
         [propertyName isEqualToString:@"isNewRecord"] ||
         [propertyName isEqualToString:@"willPublish"] ||
-        [propertyName isEqualToString:@"shouldNotify"]
+        [propertyName isEqualToString:@"shouldNotify"] ||
+        [propertyName isEqualToString:@"shouldRemove"]
         ) {
         return YES;
     }
