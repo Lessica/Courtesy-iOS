@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *markdownSupportSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *previewAvatarSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *previewShadowSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *previewSaveSwitch;
 
 @end
 
@@ -21,6 +22,7 @@
     _markdownSupportSwitch.on = [sharedSettings switchMarkdown];
     _previewAvatarSwitch.on = [sharedSettings switchPreviewAvatar];
     _previewShadowSwitch.on = [sharedSettings switchPreviewNeedsShadows];
+    _previewSaveSwitch.on = [sharedSettings switchPreviewAutoSave];
 }
 
 - (IBAction)switchTriggered:(id)sender {
@@ -30,6 +32,8 @@
         [sharedSettings setSwitchPreviewAvatar:_previewAvatarSwitch.on];
     } else if (sender == _previewShadowSwitch) {
         [sharedSettings setSwitchPreviewNeedsShadows:_previewShadowSwitch.on];
+    } else if (sender == _previewSaveSwitch) {
+        [sharedSettings setSwitchPreviewAutoSave:_previewSaveSwitch.on];
     }
 }
 

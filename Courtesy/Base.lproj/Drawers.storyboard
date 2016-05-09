@@ -818,12 +818,6 @@
                                                         <constraint firstAttribute="width" constant="16" id="jfO-b8-OjL"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="向内容添加阴影" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLD-rT-a8l">
-                                                    <rect key="frame" x="46" y="13" width="98" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cUS-Nw-c7j">
                                                     <rect key="frame" x="253" y="6" width="51" height="31"/>
                                                     <color key="onTintColor" red="0.85098039219999999" green="0.098039215690000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -831,6 +825,12 @@
                                                         <action selector="switchTriggered:" destination="XlM-jx-d3F" eventType="valueChanged" id="H1y-vk-cuF"/>
                                                     </connections>
                                                 </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="向内容添加阴影" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLD-rT-a8l">
+                                                    <rect key="frame" x="46" y="13" width="98" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="TOm-oy-8dV" firstAttribute="leading" secondItem="SAT-Rg-sNr" secondAttribute="leadingMargin" constant="8" id="7OC-Vt-3lq"/>
@@ -839,6 +839,44 @@
                                                 <constraint firstItem="TOm-oy-8dV" firstAttribute="centerY" secondItem="SAT-Rg-sNr" secondAttribute="centerY" id="Nkt-8J-BPk"/>
                                                 <constraint firstItem="cUS-Nw-c7j" firstAttribute="centerY" secondItem="SAT-Rg-sNr" secondAttribute="centerY" id="sgm-MH-3Ca"/>
                                                 <constraint firstItem="fLD-rT-a8l" firstAttribute="centerY" secondItem="SAT-Rg-sNr" secondAttribute="centerY" id="wyi-dz-Zea"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="qM1-lt-m0x">
+                                        <rect key="frame" x="0.0" y="312" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qM1-lt-m0x" id="IOw-NF-nMq">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="203-auto-save" translatesAutoresizingMaskIntoConstraints="NO" id="5z0-Lh-Ndq">
+                                                    <rect key="frame" x="16" y="14" width="16" height="16"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="16" id="LBT-5g-ZWZ"/>
+                                                        <constraint firstAttribute="width" constant="16" id="o2f-cP-F7O"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kiv-38-t0o">
+                                                    <rect key="frame" x="253" y="6" width="51" height="31"/>
+                                                    <color key="onTintColor" red="0.85098039219999999" green="0.098039215690000001" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="switchTriggered:" destination="XlM-jx-d3F" eventType="valueChanged" id="DZK-mB-n34"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="自动保存到相册" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vj4-tu-SKU">
+                                                    <rect key="frame" x="46" y="13" width="98" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Vj4-tu-SKU" firstAttribute="leading" secondItem="IOw-NF-nMq" secondAttribute="leadingMargin" constant="38" id="CNn-iF-bN5"/>
+                                                <constraint firstItem="Kiv-38-t0o" firstAttribute="centerY" secondItem="IOw-NF-nMq" secondAttribute="centerY" id="iM8-1y-Thg"/>
+                                                <constraint firstItem="5z0-Lh-Ndq" firstAttribute="leading" secondItem="IOw-NF-nMq" secondAttribute="leadingMargin" constant="8" id="jCm-sY-6Qw"/>
+                                                <constraint firstItem="5z0-Lh-Ndq" firstAttribute="centerY" secondItem="IOw-NF-nMq" secondAttribute="centerY" id="qbz-iM-Han"/>
+                                                <constraint firstItem="Vj4-tu-SKU" firstAttribute="centerY" secondItem="IOw-NF-nMq" secondAttribute="centerY" id="qfq-OG-gfE"/>
+                                                <constraint firstItem="Kiv-38-t0o" firstAttribute="trailing" secondItem="IOw-NF-nMq" secondAttribute="trailingMargin" constant="-10" id="sxD-o1-sXr"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -854,6 +892,7 @@
                     <connections>
                         <outlet property="markdownSupportSwitch" destination="4u5-Wj-R2Q" id="X9v-7O-k2o"/>
                         <outlet property="previewAvatarSwitch" destination="zMA-fS-FJM" id="nto-Mm-4zE"/>
+                        <outlet property="previewSaveSwitch" destination="Kiv-38-t0o" id="BZc-Wj-2nf"/>
                         <outlet property="previewShadowSwitch" destination="cUS-Nw-c7j" id="6eN-YZ-kBu"/>
                     </connections>
                 </tableViewController>
@@ -2140,7 +2179,7 @@ Designer: @teaz
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <datePicker key="tableFooterView" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" id="TVi-kA-ZgL">
-                            <rect key="frame" x="0.0" y="170" width="320" height="220"/>
+                            <rect key="frame" x="0.0" y="169.5" width="320" height="220"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <date key="date" timeIntervalSinceReferenceDate="478159181.32658398">
@@ -2360,6 +2399,7 @@ Designer: @teaz
         <image name="200-markdown" width="16" height="16"/>
         <image name="201-user-avatar" width="15" height="16"/>
         <image name="202-screen-shadow" width="13" height="16"/>
+        <image name="203-auto-save" width="16" height="16"/>
         <image name="22-qq" width="16" height="17"/>
         <image name="23-weibo" width="16" height="13"/>
         <image name="25-invisible" width="16" height="16"/>

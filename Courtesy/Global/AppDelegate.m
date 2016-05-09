@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 #import "UMessage.h"
+#import "UMSocial.h"
+#import "UMSocialQQHandler.h"
+#import "UMSocialSinaSSOHandler.h"
 #import <PreTools/PreTools.h>
 #import "CourtesyLeftDrawerTableViewController.h"
 
@@ -52,6 +55,12 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
     // 友盟推送
     [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
     [UMessage registerRemoteNotificationAndUserNotificationSettings:[sharedSettings requestedNotifications]];
+    // 友盟分享
+    [UMSocialData setAppKey:UMENG_APP_KEY];
+    [UMSocialQQHandler setQQWithAppId:TENCENT_APP_ID appKey:TENCENT_APP_KEY url:SERVICE_INDEX];
+    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:WEIBO_APP_ID secret:WEIBO_APP_KEY RedirectURL:SERVICE_INDEX];
+    [UMSocialConfig setFinishToastIsHidden:NO position:UMSocialiToastPositionCenter];
+    
     [self globalInit];
     if ([launchOptions hasKey:UIApplicationLaunchOptionsShortcutItemKey]) {
         // Some thing that should not respond to immediately...
@@ -97,7 +106,11 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
             openURL:(NSURL *)url
             options:(NSDictionary<NSString *,id> *)options {
     NSLog(@"URL scheme: %@", [url path]);
-    return [TencentOAuth HandleOpenURL:url];
+    BOOL result = [TencentOAuth HandleOpenURL:url];
+    if (result == NO) {
+        result = [UMSocialSnsService handleOpenURL:url];
+    }
+    return result;
 }
 
 // Bug: http://stackoverflow.com/questions/32344082/error-handlenonlaunchspecificactions-in-ios9

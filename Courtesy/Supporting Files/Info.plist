@@ -23,6 +23,18 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string></string>
+			<key>CFBundleURLName</key>
+			<string>com.darwin.courtesy-qq</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>QQ41DEC3DB</string>
+			</array>
+		</dict>
+		<dict>
 			<key>CFBundleURLName</key>
 			<string>com.darwin.courtesy</string>
 			<key>CFBundleURLSchemes</key>
@@ -38,6 +50,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>tencent1105118171</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.darwin.courtesy-weibo</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wb400586587</string>
 			</array>
 		</dict>
 	</array>

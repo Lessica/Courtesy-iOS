@@ -6,7 +6,12 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "AppDelegate.h"
+//#import "AppDelegate.h"
+#import "UMSocial.h"
+#import <TencentOpenAPI/TencentOAuth.h>
+#import <TencentOpenAPI/TencentApiInterface.h>
+#import <TencentOpenAPI/TencentOAuthObject.h>
+#import "WeiboUser.h"
 #import "CourtesyAccountModel.h"
 #import "CourtesyLoginRegisterViewController.h"
 #import "CourtesyLoginRegisterTextField.h"
@@ -19,11 +24,18 @@
 @property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *loginPasswordTextField;
 @property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *registerEmailTextField;
 @property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *registerPasswordTextField;
-@property (assign, nonatomic) BOOL usingOpenApi;
+
 @property (strong, nonatomic) NSDictionary *tencentInfo;
 @property (strong, nonatomic) NSString *tencentOpenId;
 @property (strong, nonatomic) NSString *tencentFakeEmail;
 @property (strong, nonatomic) NSURL *tencentAvatarURL;
+
+@property (strong, nonatomic) WeiboUser *weiboInfo;
+@property (strong, nonatomic) NSString *weiboOpenId;
+@property (strong, nonatomic) NSString *weiboFakeEmail;
+@property (strong, nonatomic) NSURL *weiboAvatarURL;
+
+@property (nonatomic, assign) BOOL isRedirected;
 
 @end
 
@@ -33,9 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveLocalNotification:)
-                                                 name:kCourtesyNotificationInfo object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(applicationDidBecomeActive:)
                                                  name:UIApplicationDidBecomeActiveNotification
@@ -93,26 +103,92 @@
     [self.view endEditing:YES];
     [self.view setUserInteractionEnabled:NO];
     [self.view makeToastActivity:CSToastPositionCenter];
-    self.usingOpenApi = YES;
-    [[[GlobalSettings sharedInstance] tencentAuth] authorize:@[
-                                                               kOPEN_PERMISSION_GET_USER_INFO,
-                                                               kOPEN_PERMISSION_GET_SIMPLE_USER_INFO,
-                                                               kOPEN_PERMISSION_ADD_SHARE
-                                                               ]];
+    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToQQ];
+    self.isRedirected = YES;
+    snsPlatform.loginClickHandler(self, [UMSocialControllerService defaultControllerService], YES, ^(UMSocialResponseEntity *response) {
+        if (response.responseCode == UMSResponseCodeSuccess) {
+            self.isRedirected = NO;
+            
+            UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary] valueForKey:UMShareToQQ];
+            CYLog(@"\nusername = %@,\n usid = %@,\n token = %@ iconUrl = %@,\n unionId = %@,\n thirdPlatformUserProfile = %@,\n thirdPlatformResponse = %@ \n, message = %@", snsAccount.userName, snsAccount.usid, snsAccount.accessToken, snsAccount.iconURL, snsAccount.unionId, response.thirdPlatformUserProfile, response.thirdPlatformResponse, response.message);
+            
+            // 腾讯互联登录成功
+            if (
+                !response.thirdPlatformResponse ||
+                !response.thirdPlatformUserProfile ||
+                ![response.thirdPlatformUserProfile isKindOfClass:[NSDictionary class]] ||
+                ![response.thirdPlatformResponse isKindOfClass:[TencentOAuth class]] ||
+                snsAccount.usid.length < 6
+                ) {
+                [self openApiFailed:@"腾讯登录接口通用失败"];
+            }
+            
+            NSString *uniqueStr = [[snsAccount.usid substringToIndex:6] lowercaseString];
+            self.tencentOpenId = [@"qq" stringByAppendingString:uniqueStr];
+            self.tencentFakeEmail = [self.tencentOpenId stringByAppendingString:@"@82flex.com"];
+            
+            TencentOAuth *tencentAuth = response.thirdPlatformResponse;
+            
+            kAccount.tencentModel.openId = tencentAuth.openId;
+            kAccount.tencentModel.accessToken = tencentAuth.accessToken;
+            kAccount.tencentModel.expirationTime = [tencentAuth.expirationDate timeIntervalSince1970];
+            
+            // 尝试登录
+            CourtesyLoginRegisterModel *loginModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.tencentFakeEmail password:self.tencentOpenId delegate:self];
+            loginModel.openAPI = CourtesyOpenApiTypeQQ;
+            [loginModel sendRequestLogin];
+            
+            // 设置基本信息
+            self.tencentInfo = response.thirdPlatformUserProfile;
+        } else {
+            [self openApiFailed:response.message];
+        }
+    });
 }
 
 - (IBAction)loginFromWeibo:(id)sender {
     [self.view endEditing:YES];
-    [self.view makeToast:@"暂时无法提供此服务"
-                duration:1.2
-                position:CSToastPositionCenter];
-}
-
-- (IBAction)loginFromTencent:(id)sender {
-    [self.view endEditing:YES];
-    [self.view makeToast:@"暂时无法提供此服务"
-                duration:1.2
-                position:CSToastPositionCenter];
+    [self.view setUserInteractionEnabled:NO];
+    [self.view makeToastActivity:CSToastPositionCenter];
+    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina];
+    self.isRedirected = YES;
+    snsPlatform.loginClickHandler(self, [UMSocialControllerService defaultControllerService], YES, ^(UMSocialResponseEntity *response)
+    {
+        if (response.responseCode == UMSResponseCodeSuccess) {
+            self.isRedirected = NO;
+            
+            UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary] valueForKey:UMShareToSina];
+            CYLog(@"\nusername = %@,\n usid = %@,\n token = %@ iconUrl = %@,\n unionId = %@,\n thirdPlatformUserProfile = %@,\n thirdPlatformResponse = %@ \n, message = %@", snsAccount.userName, snsAccount.usid, snsAccount.accessToken, snsAccount.iconURL, snsAccount.unionId, response.thirdPlatformUserProfile, response.thirdPlatformResponse, response.message);
+            
+            // 微博互联登录成功
+            if (
+                !response.thirdPlatformResponse ||
+                !response.thirdPlatformUserProfile ||
+                ![response.thirdPlatformUserProfile isKindOfClass:[WeiboUser class]] ||
+                snsAccount.usid.length <= 0
+                ) {
+                [self openApiFailed:@"微博登录接口通用失败"];
+            }
+            
+            NSString *uniqueStr = [snsAccount.usid lowercaseString];
+            self.weiboOpenId = [@"wb" stringByAppendingString:uniqueStr];
+            self.weiboFakeEmail = [self.weiboOpenId stringByAppendingString:@"@82flex.com"];
+            
+            kAccount.weiboModel.openId = snsAccount.usid;
+            kAccount.weiboModel.accessToken = snsAccount.accessToken;
+            kAccount.weiboModel.expirationTime = [snsAccount.expirationDate timeIntervalSince1970];
+            
+            // 尝试登录
+            CourtesyLoginRegisterModel *loginModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.weiboFakeEmail password:self.weiboOpenId delegate:self];
+            loginModel.openAPI = CourtesyOpenApiTypeWeibo;
+            [loginModel sendRequestLogin];
+            
+            // 设置基本信息
+            self.weiboInfo = (WeiboUser *)response.thirdPlatformUserProfile;
+        } else {
+            [self openApiFailed:response.message];
+        }
+    });
 }
 
 - (IBAction)loginCourtesyAccount:(id)sender {
@@ -138,40 +214,10 @@
 #pragma mark - 第三方登录事件通知
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
-    if (self.usingOpenApi) {
+    if (self.isRedirected) {
+        self.isRedirected = NO;
         [self.view setUserInteractionEnabled:YES];
         [self.view hideToastActivity];
-        [self.view makeToast:@"用户取消登录"
-                    duration:kStatusBarNotificationTime
-                    position:CSToastPositionCenter];
-    }
-}
-
-- (void)didReceiveLocalNotification:(NSNotification *)notification {
-    if (!notification.object || ![notification.object hasKey:@"action"]) {
-        return;
-    }
-    NSString *action = [notification.object objectForKey:@"action"];
-    if
-        ([action isEqualToString:kTencentLoginSuccessed])
-    {
-        self.usingOpenApi = NO;
-        // 腾讯互联登录成功
-        // 用户 OpenId
-        GlobalSettings *globalSettings = [GlobalSettings sharedInstance];
-        CYLog(@"Tencent login success, openId: %@", globalSettings.tencentAuth.openId);
-        NSString *uniqueStr = [[globalSettings.tencentAuth.openId substringToIndex:6] lowercaseString];
-        _tencentOpenId = [@"qq" stringByAppendingString:uniqueStr];
-        _tencentFakeEmail = [_tencentOpenId stringByAppendingString:@"@82flex.com"];
-        // 尝试登录
-        CourtesyLoginRegisterModel *loginModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:_tencentFakeEmail password:_tencentOpenId delegate:self];
-        loginModel.openAPI = CourtesyOpenApiTypeQQ;
-        [loginModel sendRequestLogin];
-    }
-    else if ([action isEqualToString:kTencentGetUserInfoSucceed])
-    {
-        // 腾讯互联用户信息获取成功
-        [self handleTencentUserInfo:notification.object[@"response"]];
     }
 }
 
@@ -181,11 +227,25 @@
                errorMessage:(NSString *)message
                     isLogin:(BOOL)login {
     if (sender.openAPI == CourtesyOpenApiTypeQQ) {
-        if (login) { // 腾讯互联账户登录请求
-            // 尝试注册腾讯互联账户，先获取用户信息
-            GlobalSettings *globalSettings = [GlobalSettings sharedInstance];
-            [globalSettings.tencentAuth getUserInfo];
-        } else { // 腾讯互联账户注册请求
+        if (login)
+        { // 腾讯互联账户登录请求
+            CourtesyLoginRegisterModel *registerModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.tencentFakeEmail password:self.tencentOpenId delegate:self];
+            registerModel.openAPI = sender.openAPI;
+            [registerModel sendRequestRegister];
+        }
+        else
+        {
+            [self openApiFailed:message];
+        }
+    } else if (sender.openAPI == CourtesyOpenApiTypeWeibo) {
+        if (login)
+        { // 微博互联账户登录请求
+            CourtesyLoginRegisterModel *registerModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.weiboFakeEmail password:self.weiboOpenId delegate:self];
+            registerModel.openAPI = sender.openAPI;
+            [registerModel sendRequestRegister];
+        }
+        else
+        {
             [self openApiFailed:message];
         }
     } else if (sender.openAPI == CourtesyOpenApiTypeNone) {
@@ -231,7 +291,7 @@
             (sender.openAPI == CourtesyOpenApiTypeQQ)
         {
             // 来自腾讯互联的首次注册请求视为第三方登录请求
-            _tencentAvatarURL = [NSURL URLWithString:self.tencentInfo[@"figureurl_2"]];
+            self.tencentAvatarURL = [NSURL URLWithString:self.tencentInfo[@"figureurl_qq_2"]];
             kProfile.nick = self.tencentInfo[@"nickname"];
             if
                 ([self.tencentInfo[@"gender"] isEqualToString:@"男"])
@@ -251,6 +311,40 @@
             kProfile.mobile = @"13800138000";
             kProfile.area = @"";
             kProfile.introduction = @"Tell me why you did it,\nevery dream falling apart.";
+            kProfile.birthday = @"1996-01-01";
+            kProfile.avatar = @"";
+            [kProfile setDelegate:self]; // 设置请求代理
+            [kProfile sendRequestEditProfile]; // 发送修改个人资料请求
+        }
+        else if
+            (sender.openAPI == CourtesyOpenApiTypeWeibo)
+        {
+            // 来自微博互联的首次注册请求视为第三方登录请求
+            self.weiboAvatarURL = [NSURL URLWithString:self.weiboInfo.avatarHDUrl]; // 微博高清头像
+            kProfile.nick = self.weiboInfo.name;
+            
+            if
+                ([self.weiboInfo.gender isEqualToString:@"m"])
+            {
+                kProfile.gender = 0;
+            }
+            else if ([self.weiboInfo.gender isEqualToString:@"w"])
+            {
+                kProfile.gender = 1;
+            }
+            else
+            {
+                kProfile.gender = 2;
+            }
+            NSArray <NSString *> *locationArr = [self.weiboInfo.location componentsSeparatedByString:@" "];
+            if (locationArr.count == 2) {
+                kProfile.province = locationArr[0];
+                kProfile.city = locationArr[1];
+            }
+            
+            kProfile.mobile = @"13800138000";
+            kProfile.area = @"";
+            kProfile.introduction = self.weiboInfo.userDescription;
             kProfile.birthday = @"1996-01-01";
             kProfile.avatar = @"";
             [kProfile setDelegate:self]; // 设置请求代理
@@ -296,11 +390,12 @@
 
 - (void)editProfileSucceed:(CourtesyAccountProfileModel *)sender
 {
-    UIImage *avatarImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:_tencentAvatarURL]];
+    NSURL *avatarURL = self.tencentAvatarURL;
+    if (!avatarURL) avatarURL = self.weiboAvatarURL;
+    UIImage *avatarImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:avatarURL]];
     if (avatarImage) {
         [kProfile sendRequestUploadAvatar:avatarImage];
     } else {
-        CYLog(@"No tencent avatar image fetched.");
         [self openApiSucceed];
     }
 }
@@ -308,7 +403,6 @@
 - (void)editProfileFailed:(CourtesyAccountProfileModel *)sender
              errorMessage:(NSString *)message
 {
-    CYLog(@"Tencent account info copy failed.");
     [self openApiSucceed];
 }
 
@@ -322,27 +416,7 @@
 - (void)uploadAvatarFailed:(CourtesyAccountProfileModel *)sender
               errorMessage:(NSString *)message
 {
-    CYLog(@"Tencent avatar image upload failed.");
     [self openApiSucceed];
-}
-
-#pragma mark - 处理腾讯互联用户信息
-
-- (void)handleTencentUserInfo:(APIResponse *)response
-{
-    if (!response) return;
-    if (URLREQUEST_SUCCEED == response.retCode
-        && kOpenSDKErrorSuccess == response.detailRetCode)
-    {
-        self.tencentInfo = response.jsonResponse;
-        CourtesyLoginRegisterModel *registerModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:_tencentFakeEmail password:_tencentOpenId delegate:self];
-        registerModel.openAPI = YES;
-        [registerModel sendRequestRegister];
-    }
-    else
-    {
-        [self openApiFailed:response.errorMsg];
-    }
 }
 
 #pragma mark - Memory Management

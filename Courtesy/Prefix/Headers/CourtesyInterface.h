@@ -24,6 +24,9 @@
 
 #define API_STATIC_RESOURCES @"http://115.28.214.126:8000/static/card"
 
+#define API_CARD_SHARE @"http://115.28.214.126:8000/share/card/%@"
+#define API_DAILY_SHARE @"http://115.28.214.126:8000/share/daily/%@"
+
 #define API_RSYNC_HOST @"115.28.214.126"
 #define API_RSYNC_PROTOCOL 30
 #define API_RSYNC_PORT 873
@@ -45,6 +48,9 @@
 #define API_QRCODE_PATH @"/qrcode"
 
 #define API_STATIC_RESOURCES @"http://10.0.1.222/static/card"
+
+#define API_CARD_SHARE @"http://10.0.1.222/share/card/%@"
+#define API_DAILY_SHARE @"http://10.0.1.222/share/daily/%@"
 
 #define API_RSYNC_HOST @"10.0.1.2"
 #define API_RSYNC_PROTOCOL 29

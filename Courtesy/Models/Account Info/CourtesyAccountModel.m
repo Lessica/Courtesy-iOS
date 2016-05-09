@@ -42,8 +42,15 @@
     [_profile setNick:_email];
 }
 
+- (CourtesyWeiboUserModel *)weiboModel {
+    if (!_weiboModel) {
+        _weiboModel = [CourtesyWeiboUserModel new];
+    }
+    return _weiboModel;
+}
+
 - (BOOL)hasWeiboAccount {
-    if (!_weibo_openid || [_weibo_openid isEmpty]) {
+    if (!_weiboModel || !_weiboModel.accessToken) {
         return NO;
     }
     return YES;

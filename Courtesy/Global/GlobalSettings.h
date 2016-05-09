@@ -11,9 +11,6 @@
 //#import "CourtesyCardStyleModel.h"
 //#import "CourtesyCardPreviewStyleModel.h"
 #import <YYKit/YYReachability.h>
-#import <TencentOpenAPI/TencentOAuth.h>
-#import <TencentOpenAPI/TencentApiInterface.h>
-#import <TencentOpenAPI/TencentOAuthObject.h>
 
 #ifdef WATCH_SUPPORT
 #import "CourtesyWatchSessionManager.h"
@@ -38,6 +35,7 @@
 @property (nonatomic, assign) BOOL switchMarkdown;
 @property (nonatomic, assign) BOOL switchPreviewAvatar;
 @property (nonatomic, assign) BOOL switchPreviewNeedsShadows;
+@property (nonatomic, assign) BOOL switchPreviewAutoSave;
 @property (nonatomic, assign) NSUInteger preferredFontType;
 @property (nonatomic, assign) CGFloat preferredFontSize;
 @property (nonatomic, assign) NSUInteger preferredStyleID;
@@ -45,7 +43,6 @@
 @property (nonatomic, assign) float preferredImageQuality;
 @property (nonatomic, assign) UIImagePickerControllerQualityType preferredVideoQuality;
 
-@property (strong, nonatomic) TencentOAuth *tencentAuth;
 
 #ifdef WATCH_SUPPORT
 @property (nonatomic, strong) CourtesyWatchSessionManager *watchSessionManager;

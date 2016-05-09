@@ -27,9 +27,9 @@
         UIImage *preview_head   = self.previewStyle.previewHeader,
                 *preview_body   = self.previewStyle.previewBody,
                 *preview_footer = self.previewStyle.previewFooter,
-                *header         = nil,
-                *content        = nil,
                 *finalImage     = nil;
+        __block UIImage *header         = nil,
+                        *content        = nil;
         
         CGSize contentSize      = self.contentView.bounds.size,                                        // 内容尺寸
                headerSize       = self.headerView.bounds.size;                                         // 作者信息头部尺寸
@@ -55,21 +55,33 @@
         
         CGFloat finalY = startY + bodyRepeatTimes * bodyHeight;                                        // 终止渲染点
         
-        UIGraphicsBeginImageContextWithOptions(contentSize, NO, 0.0);
-        if (needShadows) [self.contentView.layer setLayerShadow:self.tintColor offset:CGSizeMake(-0.5, 0.5) radius:2.0];
-        [self.contentView.layer renderInContext:UIGraphicsGetCurrentContext()];
-        content = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        if (needShadows) [self.contentView.layer setLayerShadow:[UIColor clearColor] offset:CGSizeMake(0, 0) radius:0];
+        dispatch_sync_on_main_queue(^{
+            UIGraphicsBeginImageContextWithOptions(contentSize, NO, 0.0);
+            if (needShadows) {
+                [self.contentView.layer setLayerShadow:self.tintColor offset:CGSizeMake(-0.5, 0.5) radius:2.0];
+            }
+            [self.contentView.layer renderInContext:UIGraphicsGetCurrentContext()];
+            content = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            if (needShadows) {
+                [self.contentView.layer setLayerShadow:[UIColor clearColor] offset:CGSizeMake(0, 0) radius:0];
+            }
+        });
         
         if ([sharedSettings switchPreviewAvatar])
         {
-            UIGraphicsBeginImageContextWithOptions(headerSize, NO, 0.0);
-            if (needShadows) [self.headerView.layer setLayerShadow:self.tintColor offset:CGSizeMake(-0.5, 0.5) radius:2.0];
-            [self.headerView.layer renderInContext:UIGraphicsGetCurrentContext()];
-            header = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            if (needShadows) [self.headerView.layer setLayerShadow:[UIColor clearColor] offset:CGSizeMake(0, 0) radius:0];
+            dispatch_sync_on_main_queue(^{
+                UIGraphicsBeginImageContextWithOptions(headerSize, NO, 0.0);
+                if (needShadows) {
+                    [self.headerView.layer setLayerShadow:self.tintColor offset:CGSizeMake(-0.5, 0.5) radius:2.0];
+                }
+                [self.headerView.layer renderInContext:UIGraphicsGetCurrentContext()];
+                header = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                if (needShadows) {
+                    [self.headerView.layer setLayerShadow:[UIColor clearColor] offset:CGSizeMake(0, 0) radius:0];
+                }
+            });
         }
         else
         {
@@ -112,7 +124,6 @@
                                               result:finalImage];
         }
     }
-    
 }
 
 @end

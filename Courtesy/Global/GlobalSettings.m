@@ -16,6 +16,7 @@
 #define kCourtesyConfigSwitchMarkdown @"kCourtesyConfigSwitchMarkdown"
 #define kCourtesyConfigSwitchPreviewNeedsShadows @"kCourtesyConfigSwitchPreviewNeedsShadows"
 #define kCourtesyConfigSwitchPreviewAvatar @"kCourtesyConfigSwitchPreviewAvatar"
+#define kCourtesyConfigSwitchPreviewAutoSave @"kCourtesyConfigSwitchPreviewAutoSave"
 #define kCourtesyConfigPreferredImageQuality @"kCourtesyConfigPreferredImageQuality"
 #define kCourtesyConfigPreferredVideoQuality @"kCourtesyConfigPreferredVideoQuality"
 #define kCourtesyConfigPreferredFontType @"kCourtesyConfigPreferredFontType"
@@ -24,9 +25,9 @@
 #define kCourtesyConfigPreferredFontSize @"kCourtesyConfigPreferredFontSize"
 
 #ifdef WATCH_SUPPORT
-@interface GlobalSettings () <CourtesyFetchAccountInfoDelegate, WCSessionDelegate, TencentSessionDelegate, TencentApiInterfaceDelegate, TCAPIRequestDelegate>
+@interface GlobalSettings () <CourtesyFetchAccountInfoDelegate, WCSessionDelegate>
 #else
-@interface GlobalSettings () <CourtesyFetchAccountInfoDelegate, TencentSessionDelegate, TencentApiInterfaceDelegate, TCAPIRequestDelegate>
+@interface GlobalSettings () <CourtesyFetchAccountInfoDelegate>
 #endif
 
 @end
@@ -279,6 +280,17 @@
     [self.appStorage setObject:(switchPreviewNeedsShadows ? @1 : @0) forKey:kCourtesyConfigSwitchPreviewNeedsShadows];
 }
 
+- (BOOL)switchPreviewAutoSave {
+    if (![self.appStorage objectForKey:kCourtesyConfigSwitchPreviewAutoSave]) {
+        return YES;
+    }
+    return [(NSNumber *)[self.appStorage objectForKey:kCourtesyConfigSwitchPreviewAutoSave] isEqualToNumber:@0] ? NO : YES;
+}
+
+- (void)setSwitchPreviewAutoSave:(BOOL)switchPreviewAutoSave {
+    [self.appStorage setObject:(switchPreviewAutoSave ? @1 : @0) forKey:kCourtesyConfigSwitchPreviewAutoSave];
+}
+
 - (float)preferredImageQuality {
     if (![self.appStorage objectForKey:kCourtesyConfigPreferredImageQuality]) {
         return kCourtesyQualityMedium;
@@ -343,42 +355,6 @@
 
 - (void)setPreferredFontSize:(CGFloat)preferredFontSize {
     [self.appStorage setObject:[NSNumber numberWithFloat:preferredFontSize] forKey:kCourtesyConfigPreferredFontSize];
-}
-
-#pragma mark - 腾讯互联接口
-
-- (TencentOAuth *)tencentAuth {
-    if (!_tencentAuth) {
-        _tencentAuth = [[TencentOAuth alloc] initWithAppId:TENCENT_APP_ID andDelegate:self];
-    }
-    return _tencentAuth;
-}
-
-- (void)tencentDidNotLogin:(BOOL)cancelled {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo
-                                                        object:@{@"action": kTencentLoginCancelled,
-                                                                 @"message": @"用户取消登录"}];
-}
-
-- (void)tencentDidNotNetWork {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo
-                                                        object:@{@"action": kTencentLoginFailed,
-                                                                 @"message": @"请检查网络连接"}];
-}
-
-- (void)tencentDidLogin {
-    kAccount.tencentModel.openId = _tencentAuth.openId;
-    kAccount.tencentModel.accessToken = _tencentAuth.accessToken;
-    kAccount.tencentModel.expirationTime = [_tencentAuth.expirationDate timeIntervalSince1970];
-    [self reloadAccount];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo
-                                                        object:@{@"action": kTencentLoginSuccessed}];
-}
-
-- (void)getUserInfoResponse:(APIResponse *)response {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCourtesyNotificationInfo
-                                                        object:@{@"action": kTencentGetUserInfoSucceed,
-                                                                 @"response": response}];
 }
 
 @end

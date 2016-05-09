@@ -7,8 +7,9 @@
 //
 
 #import "CourtesyAboutViewController.h"
+#import "UMSocial.h"
 
-@interface CourtesyAboutViewController () <UIGestureRecognizerDelegate>
+@interface CourtesyAboutViewController () <UIGestureRecognizerDelegate, UMSocialUIDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *appLabel;
@@ -34,16 +35,29 @@
 - (void)detailLabelClicked:(UITapGestureRecognizer *)sender {
 #if DEBUG
     // This could also live in a handler for a keyboard shortcut, debug menu item, etc.
-    [self.navigationController.view makeToast:@"Debug Enabled"
+    [self.navigationController.view makeToast:@"启动调试模式"
                                      duration:kStatusBarNotificationTime position:CSToastPositionCenter];
     [[FLEXManager sharedManager] showExplorer];
 #else
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://82flex.com"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:SERVICE_INDEX]];
 #endif
 }
 
 - (IBAction)shareButtonClicked:(id)sender {
     if (sender == _shareButton) {
+        [UMSocialSnsService presentSnsIconSheetView:self
+                                             appKey:UMENG_APP_KEY
+                                          shareText:[NSString stringWithFormat:@"礼记之谊，记礼之情。\n邀您使用「礼记」，一款优雅的卡片社交应用：%@", SERVICE_INDEX]
+                                         shareImage:[UIImage imageNamed:@"11-appicon"]
+                                    shareToSnsNames:@[UMShareToEmail, UMShareToQQ, UMShareToQzone, UMShareToSina]
+                                           delegate:self];
+    }
+}
+
+#pragma mark - UMSocialUIDelegate
+
+- (void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response {
+    if (response.responseCode == UMSResponseCodeSuccess) {
         
     }
 }

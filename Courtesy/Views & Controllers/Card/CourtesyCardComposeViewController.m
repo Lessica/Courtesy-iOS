@@ -30,6 +30,7 @@
 #import "CourtesyMarkdownParser.h"
 #import "FCFileManager.h"
 #import "CourtesyCardAuthorHeader.h"
+#import "UMSocial.h"
 
 #define kComposeTopInsect 24.0
 #define kComposeBottomInsect 24.0
@@ -63,6 +64,7 @@
     CourtesyImageSheetViewDelegate,
     CourtesyVideoSheetViewDelegate,
     LGAlertViewDelegate,
+    UMSocialUIDelegate,
     UIPreviewActionItem
 >
 
@@ -459,7 +461,7 @@
     
     /* Tap gesture of save button */
     UITapGestureRecognizer *tapSaveBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                 action:@selector(savePreview:)];
+                                                                                 action:@selector(actionShare:)];
     tapSaveBtn.numberOfTouchesRequired = 1;
     tapSaveBtn.numberOfTapsRequired = 1;
     [circleSaveBtn addGestureRecognizer:tapSaveBtn];
@@ -840,7 +842,7 @@
     }
 }
 
-- (void)savePreview:(id)sender {
+- (void)actionShare:(id)sender {
     [self.view makeToastActivity:CSToastPositionCenter];
     [self performSelectorInBackground:@selector(generateTextViewLayer:) withObject:self];
 }
@@ -1691,40 +1693,66 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
 }
 
+#pragma mark - UMSocialUIDelegate
+
+- (void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response {
+    if (response.responseCode == UMSResponseCodeSuccess) {
+        
+    }
+    
+}
+
 #pragma mark - CourtesyCardPreviewGeneratorDelegate
 
 - (void)generatorDidFinishWorking:(CourtesyCardPreviewGenerator *)generator result:(UIImage *)result {
-    [[PHPhotoLibrary sharedPhotoLibrary] saveImage:result
-                                           toAlbum:@"礼记"
-                                        completion:^(BOOL success) {
-                                            if (success) {
+    if ([sharedSettings switchPreviewAutoSave]) {
+        [[PHPhotoLibrary sharedPhotoLibrary] saveImage:result
+                                               toAlbum:@"礼记"
+                                            completion:^(BOOL success) {
+                                                if (success) {
+                                                    dispatch_async_on_main_queue(^{
+                                                        if (_previewContext) {
+                                                            [JDStatusBarNotification showWithStatus:@"预览图已保存到「礼记」相簿"
+                                                                                       dismissAfter:kStatusBarNotificationTime
+                                                                                          styleName:JDStatusBarStyleSuccess];
+                                                        } else {
+                                                            [self.view hideToastActivity];
+                                                            [self.view makeToast:@"预览图已保存到「礼记」相簿"
+                                                                        duration:kStatusBarNotificationTime
+                                                                        position:CSToastPositionCenter];
+                                                        }
+                                                    });
+                                                }
+                                            } failure:^(NSError * _Nullable error) {
                                                 dispatch_async_on_main_queue(^{
                                                     if (_previewContext) {
-                                                        [JDStatusBarNotification showWithStatus:@"预览图已保存到「礼记」相簿"
+                                                        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
                                                                                    dismissAfter:kStatusBarNotificationTime
-                                                                                      styleName:JDStatusBarStyleSuccess];
+                                                                                      styleName:JDStatusBarStyleError];
                                                     } else {
                                                         [self.view hideToastActivity];
-                                                        [self.view makeToast:@"预览图已保存到「礼记」相簿"
+                                                        [self.view makeToast:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
                                                                     duration:kStatusBarNotificationTime
                                                                     position:CSToastPositionCenter];
                                                     }
                                                 });
-                                            }
-                                        } failure:^(NSError * _Nullable error) {
-                                            dispatch_async_on_main_queue(^{
-                                                if (_previewContext) {
-                                                    [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
-                                                                               dismissAfter:kStatusBarNotificationTime
-                                                                                  styleName:JDStatusBarStyleError];
-                                                } else {
-                                                    [self.view hideToastActivity];
-                                                    [self.view makeToast:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
-                                                                duration:kStatusBarNotificationTime
-                                                                position:CSToastPositionCenter];
-                                                }
-                                            });
-                                        }];
+                                            }];
+    }
+    if (!_previewContext && result) {
+        dispatch_async_on_main_queue(^{
+            [self.view hideToastActivity];
+            NSString *shareUrl = [NSString stringWithFormat:API_CARD_SHARE, self.card.token];
+            [UMSocialData defaultData].extConfig.qqData.url = shareUrl;
+            [UMSocialData defaultData].extConfig.qzoneData.url = shareUrl;
+            [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
+            [UMSocialSnsService presentSnsIconSheetView:self
+                                                 appKey:UMENG_APP_KEY
+                                              shareText:[NSString stringWithFormat:@"「礼记」卡片分享：%@", shareUrl]
+                                             shareImage:result
+                                        shareToSnsNames:@[UMShareToEmail, UMShareToQQ, UMShareToQzone, UMShareToSina]
+                                               delegate:self];
+        });
+    }
 }
 
 #pragma mark - Elements Control
