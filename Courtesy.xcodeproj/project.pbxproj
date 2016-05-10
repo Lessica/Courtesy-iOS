@@ -80,6 +80,8 @@
 		0F760A381CD87DDB002CBE60 /* CourtesyStyleTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F760A371CD87DDB002CBE60 /* CourtesyStyleTableViewController.m */; };
 		0F760A3E1CD87E5A002CBE60 /* Math.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F760A3B1CD87E5A002CBE60 /* Math.m */; };
 		0F760A3F1CD87E5A002CBE60 /* MoreInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F760A3D1CD87E5A002CBE60 /* MoreInfoView.m */; };
+		0F7792C61CE1DB5D009B36A0 /* CourtesyOpenSourceProjectWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7792C51CE1DB5D009B36A0 /* CourtesyOpenSourceProjectWebViewController.m */; };
+		0F7792C81CE1DC8B009B36A0 /* open.html in Resources */ = {isa = PBXBuildFile; fileRef = 0F7792C71CE1DC8B009B36A0 /* open.html */; };
 		0F90DC431C844C4E00607277 /* Drawers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */; };
 		0F9A74231CE03DCC007F3CA5 /* UMSocialLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F9A73ED1CE03DCC007F3CA5 /* UMSocialLocalizable.strings */; };
 		0F9A74241CE03DCC007F3CA5 /* libUMSocial_Sdk_5.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F9A73FB1CE03DCC007F3CA5 /* libUMSocial_Sdk_5.1.a */; };
@@ -537,6 +539,9 @@
 		0F760A3B1CD87E5A002CBE60 /* Math.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Math.m; sourceTree = "<group>"; };
 		0F760A3C1CD87E5A002CBE60 /* MoreInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreInfoView.h; sourceTree = "<group>"; };
 		0F760A3D1CD87E5A002CBE60 /* MoreInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreInfoView.m; sourceTree = "<group>"; };
+		0F7792C41CE1DB5D009B36A0 /* CourtesyOpenSourceProjectWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyOpenSourceProjectWebViewController.h; sourceTree = "<group>"; };
+		0F7792C51CE1DB5D009B36A0 /* CourtesyOpenSourceProjectWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyOpenSourceProjectWebViewController.m; sourceTree = "<group>"; };
+		0F7792C71CE1DC8B009B36A0 /* open.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = open.html; sourceTree = "<group>"; };
 		0F9A73EE1CE03DCC007F3CA5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UMSocialLocalizable.strings; sourceTree = "<group>"; };
 		0F9A73F01CE03DCC007F3CA5 /* UMSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocial.h; sourceTree = "<group>"; };
 		0F9A73F11CE03DCC007F3CA5 /* UMSocialAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialAccountManager.h; sourceTree = "<group>"; };
@@ -1484,6 +1489,16 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
+		0F7792C31CE1DB39009B36A0 /* Open */ = {
+			isa = PBXGroup;
+			children = (
+				0F7792C41CE1DB5D009B36A0 /* CourtesyOpenSourceProjectWebViewController.h */,
+				0F7792C51CE1DB5D009B36A0 /* CourtesyOpenSourceProjectWebViewController.m */,
+				0F7792C71CE1DC8B009B36A0 /* open.html */,
+			);
+			path = Open;
+			sourceTree = "<group>";
+		};
 		0F9A73EC1CE03DCC007F3CA5 /* UMSocial_Sdk_5.1 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2219,6 +2234,7 @@
 		0FFE044C1C93F45800E99DCC /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				0F7792C31CE1DB39009B36A0 /* Open */,
 				0FFE044D1C93F45800E99DCC /* About */,
 				0FFE04501C93F45800E99DCC /* Account */,
 				0FFE04531C93F45800E99DCC /* Agreement */,
@@ -2723,6 +2739,7 @@
 				0FA726611CAAB32B00315E09 /* CodeScan.bundle in Resources */,
 				0FF2D2A31C95DAC7007C23DE /* WechatShortVideo_close@2x.png in Resources */,
 				0FDEFBF91C97D7B8007BE8D2 /* RSKImageCropperStrings.bundle in Resources */,
+				0F7792C81CE1DC8B009B36A0 /* open.html in Resources */,
 				0F9A742B1CE03DCC007F3CA5 /* UMSnsAccountViewController.xib in Resources */,
 				0FF2D2A71C95DAC7007C23DE /* WechatShortVideo_scan_focus@3x.png in Resources */,
 				0F9A74261CE03DCC007F3CA5 /* UMSCommentInputController.xib in Resources */,
@@ -2937,6 +2954,7 @@
 				0FFC2F231CCB1EFC00676097 /* CourtesyCardPublicRequestModel.m in Sources */,
 				0F760A3F1CD87E5A002CBE60 /* MoreInfoView.m in Sources */,
 				0F6E65D01CDB813500D3BB84 /* CourtesyStyleTableViewCell.m in Sources */,
+				0F7792C61CE1DB5D009B36A0 /* CourtesyOpenSourceProjectWebViewController.m in Sources */,
 				0F2744F71CB55C6D00BCF173 /* CourtesyGalleryDailyRequestModel.m in Sources */,
 				0FDEFBD61C97D70A007BE8D2 /* CNCityAreaFactory.m in Sources */,
 				0FFE04721C93F45800E99DCC /* CourtesyLoginRegisterViewController.m in Sources */,

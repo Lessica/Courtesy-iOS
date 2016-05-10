@@ -393,14 +393,10 @@
     self.progressHUD.delegate = self;
     self.progressHUD.mode = MBProgressHUDModeDeterminate;
     
-    CFTimeInterval time = CACurrentMediaTime();
+//    CFTimeInterval time = CACurrentMediaTime();
     [exportSession exportAsynchronouslyWithCompletionHandler:^() {
         [_player play];
-        
-        NSLog(@"Completed compression in %fs", CACurrentMediaTime() - time);
-        
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
-        
         completionHandler(exportSession.outputUrl, exportSession.error);
     }];
 }
