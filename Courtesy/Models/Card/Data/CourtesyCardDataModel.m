@@ -24,7 +24,8 @@
     if (
         [propertyName isEqualToString:@"qrcode"] ||
         [propertyName isEqualToString:@"attachments"] ||
-        [propertyName isEqualToString:@"styleID"]
+        [propertyName isEqualToString:@"styleID"] ||
+        [propertyName isEqualToString:@"geoLocation"]
 //        [propertyName isEqualToString:@"previewType"]
         ) {
         return YES;
@@ -124,6 +125,13 @@
         _style = [[CourtesyCardStyleManager sharedManager] styleWithID:self.styleID];
     }
     return _style;
+}
+
+- (CourtesyCardLocationModel *)geoLocation {
+    if (!_geoLocation) {
+        _geoLocation = [CourtesyCardLocationModel new];
+    }
+    return _geoLocation;
 }
 
 //- (CourtesyCardPreviewStyleModel *)previewStyle { // Lazy Loading

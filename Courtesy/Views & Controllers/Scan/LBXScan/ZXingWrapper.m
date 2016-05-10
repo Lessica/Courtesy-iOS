@@ -11,85 +11,64 @@
 #import "LBXZXCaptureDelegate.h"
 #import "LBXZXCapture.h"
 
-
-typedef void(^blockScan)(ZXBarcodeFormat barcodeFormat,NSString *str,UIImage *scanImg);
+typedef void(^blockScan)(ZXBarcodeFormat barcodeFormat, NSString *str, UIImage *scanImg);
 
 @interface ZXingWrapper() <LBXZXCaptureDelegate>
 @property (nonatomic, strong) LBXZXCapture *capture;
-
-@property (nonatomic,copy)blockScan block;
-
+@property (nonatomic, copy) blockScan block;
 @property (nonatomic, assign) BOOL bNeedScanResult;
 
 @end
 
 @implementation ZXingWrapper
 
-
-- (id)init
-{
-    if ( self = [super init] )
-    {
+- (id)init {
+    if (self = [super init]) {
         self.capture = [[LBXZXCapture alloc] init];
         self.capture.camera = self.capture.back;
         self.capture.focusMode = AVCaptureFocusModeContinuousAutoFocus;
         self.capture.rotation = 90.0f;
-        
         self.capture.delegate = self;
     }
     return self;
 }
 
-- (id)initWithPreView:(UIView*)preView block:(void(^)(ZXBarcodeFormat barcodeFormat,NSString *str,UIImage *scanImg))block
-{
+- (id)initWithPreView:(UIView*)preView
+                block:(void(^)(ZXBarcodeFormat barcodeFormat, NSString *str, UIImage *scanImg))block {
     if (self = [super init]) {
-        
         self.capture = [[LBXZXCapture alloc] init];
         self.capture.camera = self.capture.back;
         self.capture.focusMode = AVCaptureFocusModeContinuousAutoFocus;
         self.capture.rotation = 90.0f;
-        
         self.capture.delegate = self;
-        
         self.block = block;
-        
         CGRect rect = preView.frame;
         rect.origin = CGPointZero;
-        
         self.capture.layer.frame = rect;
-        //[preView.layer addSublayer:self.capture.layer];
-        
         [preView.layer insertSublayer:self.capture.layer atIndex:0];
-        
-        
     }
     return self;
 }
 
-- (void)setScanRect:(CGRect)scanRect
-{
+- (void)setScanRect:(CGRect)scanRect {
     self.capture.scanRect = scanRect;
 }
 
-- (void)start
-{
+- (void)start {
     [self.capture start];
     self.bNeedScanResult = YES;
 }
 
-- (void)stop
-{
+- (void)stop {
     self.bNeedScanResult = NO;
     [self.capture stop];
-    
 }
 
-- (void)openTorch:(BOOL)on_off
-{
+- (void)openTorch:(BOOL)on_off {
     [self.capture setTorch:on_off];
 }
-- (void)openOrCloseTorch
-{
+
+- (void)openOrCloseTorch {
     [self.capture changeTorch];
 }
 
@@ -98,23 +77,17 @@ typedef void(^blockScan)(ZXBarcodeFormat barcodeFormat,NSString *str,UIImage *sc
 
 - (void)captureResult:(ZXCapture *)capture result:(ZXResult *)result scanImage:(UIImage *)img {
     if (!result) return;
-    
     if (!_bNeedScanResult) {
-        
         return;
     }
-    
-    if ( _block )
-    {
+    if (_block) {
         [self stop];
-        
         _block(result.barcodeFormat,result.text,img);
     }    
 }
 
 
-+ (UIImage*)createCodeWithString:(NSString*)str size:(CGSize)size CodeFomart:(ZXBarcodeFormat)format
-{
++ (UIImage*)createCodeWithString:(NSString*)str size:(CGSize)size CodeFomart:(ZXBarcodeFormat)format {
     ZXMultiFormatWriter *writer = [[ZXMultiFormatWriter alloc] init];
     ZXBitMatrix *result = [writer encode:str
                                   format:format
@@ -131,16 +104,11 @@ typedef void(^blockScan)(ZXBarcodeFormat barcodeFormat,NSString *str,UIImage *sc
 }
 
 
-+ (void)recognizeImage:(UIImage*)image block:(void(^)(ZXBarcodeFormat barcodeFormat,NSString *str))block;
-{
++ (void)recognizeImage:(UIImage*)image block:(void(^)(ZXBarcodeFormat barcodeFormat, NSString *str))block {
     ZXCGImageLuminanceSource *source = [[ZXCGImageLuminanceSource alloc] initWithCGImage:image.CGImage];
-    
     ZXHybridBinarizer *binarizer = [[ZXHybridBinarizer alloc] initWithSource: source];
-    
     ZXBinaryBitmap *bitmap = [[ZXBinaryBitmap alloc] initWithBinarizer:binarizer];
-    
     NSError *error;
-    
     id<ZXReader> reader;
     
     if (NSClassFromString(@"ZXMultiFormatReader")) {
@@ -151,15 +119,11 @@ typedef void(^blockScan)(ZXBarcodeFormat barcodeFormat,NSString *str,UIImage *sc
     ZXResult *result = [reader decode:bitmap hints:_hints error:&error];
     
     if (result == nil) {
-        
-        block(kBarcodeFormatQRCode,nil);
+        block(kBarcodeFormatQRCode, nil);
         return;
     }
     
-    block(result.barcodeFormat,result.text);
+    block(result.barcodeFormat, result.text);
 }
-
-
-
 
 @end

@@ -18,7 +18,6 @@
  */
 @interface LBXScanNative : NSObject
 
-
 /**
  @brief  初始化采集相机
  @param preView 视频显示区域
@@ -30,14 +29,12 @@
 - (instancetype)initWithPreView:(UIView*)preView ObjectType:(NSArray*)objType cropRect:(CGRect)cropRect
               success:(void(^)(NSArray<LBXScanResult*> *array))block;
 
-
 /*!
  *  设置扫码成功后是否拍照
  *
  *  @param isNeedCaputureImg YES:拍照， NO:不拍照
  */
 - (void)setNeedCaptureImage:(BOOL)isNeedCaputureImg;
-
 
 /*!
  *  开始扫码

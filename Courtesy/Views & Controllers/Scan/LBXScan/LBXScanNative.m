@@ -1,42 +1,20 @@
-
-
-
 #import "LBXScanNative.h"
 
-
-@interface LBXScanNative()<AVCaptureMetadataOutputObjectsDelegate>
-{
+@interface LBXScanNative() <AVCaptureMetadataOutputObjectsDelegate> {
     BOOL bNeedScanResult;
 }
 
-@property (assign,nonatomic)AVCaptureDevice * device;
-@property (strong,nonatomic)AVCaptureDeviceInput * input;
-@property (strong,nonatomic)AVCaptureMetadataOutput * output;
-@property (strong,nonatomic)AVCaptureSession * session;
-@property (strong,nonatomic)AVCaptureVideoPreviewLayer * preview;
-
-@property(nonatomic,strong)  AVCaptureStillImageOutput *stillImageOutput;//拍照
-
-@property(nonatomic,assign)BOOL isNeedCaputureImage;
-
-//扫码结果
+@property (assign, nonatomic) AVCaptureDevice *device;
+@property (strong, nonatomic) AVCaptureDeviceInput *input;
+@property (strong, nonatomic) AVCaptureMetadataOutput *output;
+@property (strong, nonatomic) AVCaptureSession *session;
+@property (strong, nonatomic) AVCaptureVideoPreviewLayer *preview;
+@property (nonatomic, strong) AVCaptureStillImageOutput *stillImageOutput; // 拍照
+@property (nonatomic, assign) BOOL isNeedCaputureImage;
 @property (nonatomic, strong) NSMutableArray<LBXScanResult*> *arrayResult;
-
-//扫码类型
 @property (nonatomic, strong) NSArray* arrayBarCodeType;
-
-/**
- @brief  视频预览显示视图
- */
-@property (nonatomic,weak)UIView *videoPreView;
-
-
-/*!
- *  扫码结果返回
- */
-@property(nonatomic,copy)void (^blockScanResult)(NSArray<LBXScanResult*> *array);
-
-
+@property (nonatomic, weak) UIView *videoPreView;
+@property (nonatomic, copy) void (^blockScanResult)(NSArray<LBXScanResult*> *array);
 
 @end
 
@@ -212,8 +190,6 @@
     {
         bNeedScanResult = NO;
         [_session stopRunning];
-        
-        //[self.preview removeFromSuperlayer];
     }
 }
 
@@ -224,8 +200,7 @@
     }
 }
 
-- (void)setTorch:(BOOL)torch {   
-    
+- (void)setTorch:(BOOL)torch {
     [self.input.device lockForConfiguration:nil];
     self.input.device.torchMode = torch ? AVCaptureTorchModeOn : AVCaptureTorchModeOff;
     [self.input.device unlockForConfiguration];

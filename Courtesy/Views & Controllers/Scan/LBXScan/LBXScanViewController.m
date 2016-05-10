@@ -47,12 +47,10 @@
         if (_isOpenInterestRect) {
             cropRect = [LBXScanView getScanRectWithPreView:self.view style:_style];
         }
-        self.scanObj = [[LBXScanWrapper alloc]initWithPreView:self.view
-                                              ArrayObjectType:nil
-                                                     cropRect:cropRect
-                                                      success:^(NSArray<LBXScanResult *> *array){
-                                                          [weakSelf scanResultWithArray:array];
-                                                      }];
+        self.scanObj = [[LBXScanWrapper alloc] initZXingWithPreView:self.view
+                                                            success:^(NSArray<LBXScanResult *> *array) {
+                                                                [weakSelf scanResultWithArray:array];
+                                                            }];
         [_scanObj setNeedCaptureImage:_isNeedScanImage];
     }
     [_scanObj startScan];

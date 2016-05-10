@@ -8,6 +8,7 @@
 
 #import "CourtesyCardAttachmentModel.h"
 #import "CourtesyCardStyleManager.h"
+#import "CourtesyCardLocationModel.h"
 //#import "CourtesyCardPreviewStyleManager.h"
 
 @protocol CourtesyCardAttachmentModel
@@ -30,6 +31,7 @@
 //@property (nonatomic, strong) CourtesyCardPreviewStyleModel<Ignore> *previewStyle;
 @property (nonatomic, assign) BOOL shouldAutoPlayAudio;
 @property (nonatomic, copy) NSString *card_token;
+@property (nonatomic, copy) CourtesyCardLocationModel *geoLocation;
 
 - (NSString *)savedAttachmentsPath;
 

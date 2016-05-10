@@ -52,6 +52,9 @@
 		0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */; };
 		0F55FCC61CA3D5060084C4E2 /* AppStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCC51CA3D5060084C4E2 /* AppStorage.m */; };
 		0F55FCCF1CA40D8D0084C4E2 /* NSDate+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F55FCCE1CA40D8D0084C4E2 /* NSDate+Compare.m */; };
+		0F56AAA21CE195B100934625 /* AMapLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F56AAA01CE195B100934625 /* AMapLocationKit.framework */; };
+		0F56AAA31CE195B100934625 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F56AAA11CE195B100934625 /* MAMapKit.framework */; };
+		0F56AAA71CE19EAC00934625 /* CourtesyCardLocationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F56AAA61CE19EAC00934625 /* CourtesyCardLocationModel.m */; };
 		0F5801061C98075600D18059 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5801051C98075600D18059 /* FCFileManager.m */; };
 		0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */; };
 		0F6A4DF71CD74F4C008724EA /* CourtesyCardListRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6A4DF61CD74F4C008724EA /* CourtesyCardListRequestModel.m */; };
@@ -482,6 +485,10 @@
 		0F55FCCD1CA40D8D0084C4E2 /* NSDate+Compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Compare.h"; sourceTree = "<group>"; };
 		0F55FCCE1CA40D8D0084C4E2 /* NSDate+Compare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Compare.m"; sourceTree = "<group>"; };
 		0F56686A1C95E1BE00AD4F04 /* CourtesyWatchQueryKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CourtesyWatchQueryKeys.h; sourceTree = "<group>"; };
+		0F56AAA01CE195B100934625 /* AMapLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapLocationKit.framework; sourceTree = "<group>"; };
+		0F56AAA11CE195B100934625 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
+		0F56AAA51CE19EAC00934625 /* CourtesyCardLocationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardLocationModel.h; sourceTree = "<group>"; };
+		0F56AAA61CE19EAC00934625 /* CourtesyCardLocationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardLocationModel.m; sourceTree = "<group>"; };
 		0F5801041C98075600D18059 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
 		0F5801051C98075600D18059 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
 		0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -885,6 +892,7 @@
 				0F1EF8D71CCB9A7400090830 /* CoreGraphics.framework in Frameworks */,
 				0F9A74351CE03DCC007F3CA5 /* libWeChatSDK.a in Frameworks */,
 				0F9A74321CE03DCC007F3CA5 /* TencentOpenAPI.framework in Frameworks */,
+				0F56AAA31CE195B100934625 /* MAMapKit.framework in Frameworks */,
 				0FC365B31CCA521D007FFEF6 /* AudioToolbox.framework in Frameworks */,
 				0FC365B11CCA5219007FFEF6 /* QuartzCore.framework in Frameworks */,
 				0FC365AF1CCA5214007FFEF6 /* ImageIO.framework in Frameworks */,
@@ -895,6 +903,7 @@
 				0F9A74341CE03DCC007F3CA5 /* libSocialWechat.a in Frameworks */,
 				0F7136611CBBB37900341AC9 /* libiconv.2.4.0.tbd in Frameworks */,
 				0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */,
+				0F56AAA21CE195B100934625 /* AMapLocationKit.framework in Frameworks */,
 				0FD3EE261C95CD2200DE5347 /* WatchConnectivity.framework in Frameworks */,
 				0F3CECBA1CC4808C0073848F /* libacrosync.a in Frameworks */,
 				0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */,
@@ -1316,6 +1325,15 @@
 			name = Font;
 			sourceTree = "<group>";
 		};
+		0F56AAA41CE19EA000934625 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				0F56AAA51CE19EAC00934625 /* CourtesyCardLocationModel.h */,
+				0F56AAA61CE19EAC00934625 /* CourtesyCardLocationModel.m */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
 		0F5801031C98075600D18059 /* FCFileManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1394,6 +1412,8 @@
 		0F7424451C8FCD98002C6241 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				0F56AAA01CE195B100934625 /* AMapLocationKit.framework */,
+				0F56AAA11CE195B100934625 /* MAMapKit.framework */,
 				0F9A73EC1CE03DCC007F3CA5 /* UMSocial_Sdk_5.1 */,
 				0F9A74071CE03DCC007F3CA5 /* UMSocial_Sdk_Extra_Frameworks */,
 				0FF2D2AD1C95DB9E007C23DE /* UMessage */,
@@ -2279,6 +2299,7 @@
 				0FFE049C1C93F47400E99DCC /* CourtesyCardModel.m */,
 				0F193D641C9787150015F2B1 /* CourtesyCardManager.h */,
 				0F193D651C9787150015F2B1 /* CourtesyCardManager.m */,
+				0F56AAA41CE19EA000934625 /* Location */,
 				0F489E9F1CD8FD420038D27D /* Preview */,
 				0F47D9041CA6D7EC001300FE /* Requests */,
 				0F5064DD1C9511A500F818AD /* Font */,
@@ -2808,6 +2829,7 @@
 				0FFE046D1C93F45800E99DCC /* CourtesyLeftDrawerTableViewController.m in Sources */,
 				0FF2D2851C95DA80007C23DE /* LBXScanNetAnimation.m in Sources */,
 				0FF2D2A81C95DAC7007C23DE /* SCRecordSessionManager.m in Sources */,
+				0F56AAA71CE19EAC00934625 /* CourtesyCardLocationModel.m in Sources */,
 				0FDEFBFD1C97D7B8007BE8D2 /* RSKTouchView.m in Sources */,
 				0FEFDBA01C97D0F800952522 /* PECropRectView.m in Sources */,
 				0FEFDBA21C97D0F800952522 /* PECropViewController.m in Sources */,
@@ -2996,6 +3018,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "CourtesyWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy.watchkitapp.watchkitextension;
@@ -3016,6 +3039,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "CourtesyWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy.watchkitapp.watchkitextension;
@@ -3037,6 +3061,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				IBSC_MODULE = CourtesyWatch_Extension;
 				INFOPLIST_FILE = CourtesyWatch/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy.watchkitapp;
@@ -3059,6 +3084,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				IBSC_MODULE = CourtesyWatch_Extension;
 				INFOPLIST_FILE = CourtesyWatch/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy.watchkitapp;
@@ -3103,6 +3129,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -3142,6 +3169,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PREFIX_HEADER = "";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -3171,18 +3199,19 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+					"$(PROJECT_DIR)/External",
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Prefix/PrefixHeader.pch";
-				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_UNUSED_LABEL = NO;
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
@@ -3232,18 +3261,19 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+					"$(PROJECT_DIR)/External",
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Courtesy/Prefix/PrefixHeader.pch";
-				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_UNUSED_LABEL = NO;
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = (
@@ -3255,6 +3285,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Courtesy/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				"LD_MAP_FILE_PATH[arch=*]" = "$(TARGET_TEMP_DIR)/$(PRODUCT_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

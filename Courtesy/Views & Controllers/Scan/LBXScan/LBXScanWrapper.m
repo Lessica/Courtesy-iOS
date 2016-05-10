@@ -79,25 +79,18 @@
        
         if ( [LBXScanWrapper isSysIos7Later] )
         {
-            _scanNativeObj = [[LBXScanNative alloc]initWithPreView:preView ObjectType:arrayBarCodeType cropRect:cropRect success:^(NSArray<LBXScanResult*> *array) {
-                
-                if (blockScanResult)
-                {
+            _scanNativeObj = [[LBXScanNative alloc] initWithPreView:preView ObjectType:arrayBarCodeType cropRect:cropRect success:^(NSArray<LBXScanResult*> *array) {
+                if (blockScanResult) {
                     blockScanResult(array);
                 }
             }];
         }
         else
         {
-            _scanZXingObj = [[ZXingWrapper alloc]initWithPreView:preView block:^(ZXBarcodeFormat barcodeFormat, NSString *str, UIImage *scanImg) {
-                
-                //TODO:ZXing统一识别所有的码
-                if ( blockScanResult )
-                {
+            _scanZXingObj = [[ZXingWrapper alloc] initWithPreView:preView block:^(ZXBarcodeFormat barcodeFormat, NSString *str, UIImage *scanImg) {
+                if (blockScanResult) {
                     NSString *barCodeType = [LBXScanWrapper convertZXBarcodeFormat:barcodeFormat];
-                    
-                    LBXScanResult *result = [[LBXScanResult alloc]initWithScanString:str imgScan:scanImg barCodeType:barCodeType];
-                    
+                    LBXScanResult *result = [[LBXScanResult alloc] initWithScanString:str imgScan:scanImg barCodeType:barCodeType];
                     blockScanResult(@[result]);
                 }
             }];
@@ -105,7 +98,6 @@
         }
 
     }
-    
     return self;
 }
 
@@ -117,22 +109,18 @@
  @param blockScanResult 返回结果
  @return LBXScanVendor
  */
-- (instancetype)initZXingWithPreView:(UIView *)preView success:(void(^)(NSArray<LBXScanResult*> *array))blockScanResult
+- (instancetype)initZXingWithPreView:(UIView *)preView success:(void(^)(NSArray<LBXScanResult *> *array))blockScanResult
 {
-    if (self = [super init])
-    {
+    if (self = [super init]) {
         self.isUseZXingLib = YES;
-        
-        _scanZXingObj = [[ZXingWrapper alloc]initWithPreView:preView block:^(ZXBarcodeFormat barcodeFormat, NSString *str, UIImage *scanImg) {
-            
-            NSString *barCodeType = [LBXScanWrapper convertZXBarcodeFormat:barcodeFormat];
-            
+        _scanZXingObj = [[ZXingWrapper alloc] initWithPreView:preView block:^(ZXBarcodeFormat barcodeFormat, NSString *str, UIImage *scanImg) {
             if (blockScanResult) {
-                blockScanResult(@[str,scanImg,barCodeType]);
+                NSString *barCodeType = [LBXScanWrapper convertZXBarcodeFormat:barcodeFormat];
+                LBXScanResult *result = [[LBXScanResult alloc] initWithScanString:str imgScan:scanImg barCodeType:barCodeType];
+                blockScanResult(@[result]);
             }            
         }];
     }
-    
     return self;
 }
 

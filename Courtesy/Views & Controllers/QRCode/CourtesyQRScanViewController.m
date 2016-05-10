@@ -40,6 +40,7 @@ static SystemSoundID shake_sound_male_id = 0;
         style.colorAngle = [UIColor magicColor];
         style.animationStyle = LBXScanViewAnimationStyle_LineMove;
         style.animationImage = [UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_magic_red"];
+        self.isOpenInterestRect = YES;
         self.style = style;
         self.isQQSimulator = YES;
     }

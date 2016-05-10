@@ -10,8 +10,6 @@
 
 @interface LBXScanLineAnimation : UIImageView
 
-
-
 /**
  *  开始扫码线动画
  *

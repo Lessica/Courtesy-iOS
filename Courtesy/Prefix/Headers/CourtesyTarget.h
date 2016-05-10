@@ -23,5 +23,6 @@
 #define TENCENT_APP_KEY @"ohCJO8RCZqLJ273K"
 #define WEIBO_APP_ID @"400586587"
 #define WEIBO_APP_KEY @"686ce0bb875d2d4695305e31553e3a07"
+#define AUTONAVI_APP_KEY @"8ecd95e906368ca61ae01db5b970f617"
 
 #endif /* CourtesyTarget_h */

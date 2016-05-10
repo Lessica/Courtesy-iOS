@@ -24,6 +24,7 @@
     if (!_previewNames) {
         _previewNames = @[
                           @"经典锤子",
+                          @"经典日历",
                           @"绿意盎然",
                           @"扑克牌",
                           @"悦动音符",
@@ -39,6 +40,7 @@
     if (!_previewImages) {
         _previewImages = @[
                            [UIImage imageNamed:@"default-preview"],
+                           [UIImage imageNamed:@"calender-preview"],
                            [UIImage imageNamed:@"leaf-preview"],
                            [UIImage imageNamed:@"poker-preview"],
                            [UIImage imageNamed:@"melody-preview"],
@@ -54,6 +56,7 @@
     if (!_previewCheckmarks) {
         _previewCheckmarks = @[
                                [UIImage imageNamed:@"default-checkmark"],
+                               [UIImage imageNamed:@"calender-checkmark"],
                                [UIImage imageNamed:@"leaf-checkmark"],
                                [UIImage imageNamed:@"poker-checkmark"],
                                [UIImage imageNamed:@"melody-checkmark"],
@@ -85,7 +88,7 @@
         previewStyle.previewBody = [UIImage imageNamed:@"leaf-preview-body"];
         previewStyle.previewFooter = [UIImage imageNamed:@"leaf-preview-footer"];
         previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
-        previewStyle.bodyMethod = kCourtesyCardPreviewBodyRepeat;
+        previewStyle.bodyMethod = kCourtesyCardPreviewBodyStretch;
         previewStyle.originPoint = CGPointMake(0, 0);
         return previewStyle;
     }
@@ -121,7 +124,19 @@
         previewStyle.previewBody = [UIImage imageNamed:@"blood-preview-body"];
         previewStyle.previewFooter = [UIImage imageNamed:@"blood-preview-footer"];
         previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
-        previewStyle.bodyMethod = kCourtesyCardPreviewBodyRepeat;
+        previewStyle.bodyMethod = kCourtesyCardPreviewBodyStretch;
+        previewStyle.originPoint = CGPointMake(0, 0);
+        return previewStyle;
+    }
+    else if (type == kCourtesyCardPreviewStyleCalender)
+    {
+        CourtesyCardPreviewStyleModel *previewStyle = [CourtesyCardPreviewStyleModel new];
+        previewStyle.previewCheckmark = [UIImage imageNamed:@"calender-checkmark"];
+        previewStyle.previewHeader = [UIImage imageNamed:@"calender-preview-header"];
+        previewStyle.previewBody = [UIImage imageNamed:@"calender-preview-body"];
+        previewStyle.previewFooter = [UIImage imageNamed:@"calender-preview-footer"];
+        previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
+        previewStyle.bodyMethod = kCourtesyCardPreviewBodyStretch;
         previewStyle.originPoint = CGPointMake(0, 0);
         return previewStyle;
     }

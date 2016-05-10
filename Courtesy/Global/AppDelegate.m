@@ -11,6 +11,8 @@
 #import "UMSocial.h"
 #import "UMSocialQQHandler.h"
 #import "UMSocialSinaSSOHandler.h"
+#import <MAMapKit/MAMapKit.h>
+#import <AMapLocationKit/AMapLocationKit.h>
 #import <PreTools/PreTools.h>
 #import "CourtesyLeftDrawerTableViewController.h"
 
@@ -60,6 +62,9 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
     [UMSocialQQHandler setQQWithAppId:TENCENT_APP_ID appKey:TENCENT_APP_KEY url:SERVICE_INDEX];
     [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:WEIBO_APP_ID secret:WEIBO_APP_KEY RedirectURL:SERVICE_INDEX];
     [UMSocialConfig setFinishToastIsHidden:NO position:UMSocialiToastPositionCenter];
+    // 高德地图
+    [MAMapServices sharedServices].apiKey = AUTONAVI_APP_KEY;
+    [AMapLocationServices sharedServices].apiKey = AUTONAVI_APP_KEY;
     
     [self globalInit];
     if ([launchOptions hasKey:UIApplicationLaunchOptionsShortcutItemKey]) {

@@ -31,6 +31,8 @@
 #import "FCFileManager.h"
 #import "CourtesyCardAuthorHeader.h"
 #import "UMSocial.h"
+#import <MAMapKit/MAMapKit.h>
+#import <AMapLocationKit/AMapLocationKit.h>
 
 #define kComposeTopInsect 24.0
 #define kComposeBottomInsect 24.0
@@ -44,6 +46,9 @@
 #define kComposeCardViewShadowRadius 4.0
 #define kComposeCardViewCornerRadius 10.0
 #define kComposeCardViewEditInset UIEdgeInsetsMake(-kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2)
+
+#define LocationTimeout 3
+#define ReGeocodeTimeout 3
 
 @interface CourtesyCardComposeViewController ()
 <
@@ -65,6 +70,7 @@
     CourtesyVideoSheetViewDelegate,
     LGAlertViewDelegate,
     UMSocialUIDelegate,
+    AMapLocationManagerDelegate,
     UIPreviewActionItem
 >
 
@@ -101,6 +107,9 @@
 
 @property (nonatomic, assign) CGRect keyboardFrame;
 @property (nonatomic, assign) CourtesyInputViewType inputViewType;
+
+@property (nonatomic, strong) AMapLocationManager *locationManager;
+@property (nonatomic, copy) AMapLocatingCompletionBlock geoCompletionBlock;
 
 @end
 
@@ -481,13 +490,19 @@
     }];
     
     UIButton *circleLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 96, 32)];
+    circleLocationBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 8);
+    circleLocationBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
     circleLocationBtn.backgroundColor = self.style.buttonBackgroundColor;
     circleLocationBtn.tintColor = self.style.buttonTintColor;
     circleLocationBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
     [circleLocationBtn setImage:[[UIImage imageNamed:@"104-location"]
             imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
                        forState:UIControlStateNormal];
-    [circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
+    if ([self.cdata.geoLocation hasLocation]) {
+        [circleLocationBtn setTitle:self.cdata.geoLocation.address forState:UIControlStateNormal];
+    } else {
+        [circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
+    }
     [circleLocationBtn setTitleColor:self.style.buttonTintColor forState:UIControlStateNormal];
     circleLocationBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
     circleLocationBtn.layer.masksToBounds = YES;
@@ -498,8 +513,10 @@
     circleLocationBtn.alpha = 0.0;
     circleLocationBtn.hidden = YES;
 
-    /* Touch Event of Location Button */
-    [circleLocationBtn setTarget:self action:@selector(locationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    if ([self.card isMyCard]) {
+        /* Touch Event of Location Button */
+        [circleLocationBtn setTarget:self action:@selector(locationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    }
 
     /* Auto layouts of location button */
     self.circleLocationBtn = circleLocationBtn;
@@ -508,7 +525,7 @@
     [circleLocationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).with.offset((CGFloat) (kComposeCardViewMargin * 2));
         make.bottom.equalTo(self.view.mas_bottom).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
-        make.width.equalTo(@96);
+        make.width.greaterThanOrEqualTo(@96); // 宽度可变
         make.height.equalTo(@32);
     }];
 
@@ -620,6 +637,10 @@
     firstAppear = YES;
     [[YYTextKeyboardManager defaultManager] addObserver:self];
     self.inputViewType = kCourtesyInputViewDefault;
+    
+    // 设置地理位置模块
+    [self initGeoCompleteBlock];
+    [self configLocationManager];
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishLoading:)]) {
         [self.delegate cardComposeViewDidFinishLoading:self];
@@ -711,7 +732,7 @@
 #pragma mark - Floating Actions & Navigation Bar Items
 
 - (void)locationButtonTapped {
-    CYLog(@"");
+    [self reGeocodeAction];
 }
 
 - (void)closeComposeView:(UIButton *)sender {
@@ -2146,6 +2167,63 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         if (event.subtype == UIEventSubtypeRemoteControlPause) {
             [self pauseAttachmentAudio];
         }
+    }
+}
+
+#pragma mark - 地理位置
+
+- (void)initGeoCompleteBlock
+{
+    __weak typeof(self) weakSelf = self;
+    self.geoCompletionBlock = ^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error)
+    {
+        __strong typeof(self) strongSelf = weakSelf;
+        strongSelf.circleLocationBtn.userInteractionEnabled = YES;
+        if (error)
+        {
+            [strongSelf.circleLocationBtn setTitle:@"定位失败" forState:UIControlStateNormal];
+            if (error.code == AMapLocationErrorLocateFailed)
+            {
+                return;
+            }
+        }
+        
+        if (location)
+        {
+            if (regeocode)
+            {
+                NSString *briefAddress = [NSString stringWithFormat:@"%@%@", regeocode.city, regeocode.POIName];
+                [strongSelf.circleLocationBtn setTitle:briefAddress forState:UIControlStateNormal];
+                strongSelf.cdata.geoLocation.address = briefAddress;
+                strongSelf.cdata.geoLocation.latitude = location.coordinate.latitude;
+                strongSelf.cdata.geoLocation.longitude = location.coordinate.longitude;
+                strongSelf.cardEdited = YES;
+            }
+        }
+    };
+}
+
+- (void)configLocationManager
+{
+    self.locationManager = [[AMapLocationManager alloc] init];
+    [self.locationManager setDelegate:self];
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+    [self.locationManager setPausesLocationUpdatesAutomatically:YES];
+    [self.locationManager setAllowsBackgroundLocationUpdates:YES];
+    [self.locationManager setLocationTimeout:LocationTimeout];
+    [self.locationManager setReGeocodeTimeout:ReGeocodeTimeout];
+}
+
+- (void)reGeocodeAction
+{
+    if ([self.cdata.geoLocation hasLocation]) {
+        [self.circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
+        [self.cdata.geoLocation clearLocation];
+        self.cardEdited = YES;
+    } else {
+        self.circleLocationBtn.userInteractionEnabled = NO;
+        [self.circleLocationBtn setTitle:@"定位中……" forState:UIControlStateNormal];
+        [self.locationManager requestLocationWithReGeocode:YES completionBlock:self.geoCompletionBlock];
     }
 }
 

@@ -18,7 +18,7 @@
 {
     [super prepare];
     
-    self.mj_h = 100;
+    self.mj_h = 128;
     
     UIView *avatarContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 65, 65)];
     avatarContainerView.backgroundColor = [UIColor black50PercentColor];
