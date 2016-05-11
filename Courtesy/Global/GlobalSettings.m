@@ -10,6 +10,7 @@
 #import "GlobalSettings.h"
 #import "JSONHTTPClient.h"
 #import "CourtesyLoginRegisterModel.h"
+#import <UMMobClick/MobClick.h>
 
 #define kCourtesyDBCurrentLoginAccount @"kCourtesyDBCurrentLoginAccount"
 #define kCourtesyConfigSwitchAutoPublic @"kCourtesyConfigSwitchAutoPublic"
@@ -144,7 +145,7 @@
 
 - (void)setHasLogin:(BOOL)hasLogin {
     if (hasLogin) {
-        if (!self.currentAccount || ![self.currentAccount email]) return;
+        if (!self.currentAccount || !self.currentAccount.email) return;
         [self reloadAccount];
         // 已登录，启动信息获取线程
         [self fetchCurrentAccountInfo];
@@ -175,6 +176,8 @@
 #pragma mark - CourtesyFetchAccountInfoDelegate
 
 - (void)fetchAccountInfoSucceed:(CourtesyAccountModel *)sender {
+    // 友盟登录统计
+    [MobClick profileSignInWithPUID:self.currentAccount.email];
     [NSNotificationCenter sendCTAction:kCourtesyActionFetchSucceed message:nil];
 }
 

@@ -410,7 +410,7 @@
                             </constraints>
                         </view>
                         <sections>
-                            <tableViewSection id="kFA-2X-yeb">
+                            <tableViewSection footerTitle="此功能尚未完善" id="kFA-2X-yeb">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="RA8-51-0VJ">
                                         <rect key="frame" x="0.0" y="244" width="320" height="44"/>
@@ -490,10 +490,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="vqJ-ft-cQN">
+                            <tableViewSection footerTitle="此功能尚未开放" id="vqJ-ft-cQN">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="VCh-j1-Rvk">
-                                        <rect key="frame" x="0.0" y="368" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="377" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VCh-j1-Rvk" id="8Wd-A5-A5g">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1642,8 +1642,11 @@
                                     <constraint firstAttribute="width" constant="24" id="msg-IZ-YbX"/>
                                 </constraints>
                             </view>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="NkX-AP-WWm">
+                                <rect key="frame" x="140" y="427" width="39" height="37"/>
+                            </pageControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jau-tm-wmT">
-                                <rect key="frame" x="28" y="468" width="36" height="36"/>
+                                <rect key="frame" x="28" y="488" width="36" height="36"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="R1a-ng-oeg"/>
@@ -1655,7 +1658,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CG5-cJ-VXy" customClass="MiniDateView">
-                                <rect key="frame" x="128" y="468" width="64" height="64"/>
+                                <rect key="frame" x="128" y="488" width="64" height="64"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1664,7 +1667,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeM-z7-bal">
-                                <rect key="frame" x="256" y="468" width="36" height="36"/>
+                                <rect key="frame" x="256" y="488" width="36" height="36"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="8Ul-zc-jq9"/>
@@ -1676,10 +1679,11 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="K2M-NZ-gpW" secondAttribute="trailing" id="4AJ-Ih-FlP"/>
-                            <constraint firstItem="jI8-fD-Ins" firstAttribute="top" secondItem="CG5-cJ-VXy" secondAttribute="bottom" constant="36" id="818-wG-yJb"/>
+                            <constraint firstItem="jI8-fD-Ins" firstAttribute="top" secondItem="CG5-cJ-VXy" secondAttribute="bottom" constant="16" id="818-wG-yJb"/>
                             <constraint firstItem="K2M-NZ-gpW" firstAttribute="top" secondItem="HpK-oj-JQq" secondAttribute="bottom" id="BbX-uz-2Q2"/>
                             <constraint firstItem="7RT-7W-B9A" firstAttribute="leading" secondItem="jHg-fy-E6p" secondAttribute="leading" id="KFu-uc-Zho"/>
                             <constraint firstItem="SeM-z7-bal" firstAttribute="leading" secondItem="CG5-cJ-VXy" secondAttribute="trailing" constant="64" id="KmX-sS-rGK"/>
+                            <constraint firstItem="NkX-AP-WWm" firstAttribute="centerX" secondItem="jHg-fy-E6p" secondAttribute="centerX" id="P8L-zO-Jvq"/>
                             <constraint firstItem="SeM-z7-bal" firstAttribute="top" secondItem="CG5-cJ-VXy" secondAttribute="top" id="Xh3-12-uuL"/>
                             <constraint firstItem="CG5-cJ-VXy" firstAttribute="centerX" secondItem="jHg-fy-E6p" secondAttribute="centerX" id="Xum-QZ-u4R"/>
                             <constraint firstItem="K2M-NZ-gpW" firstAttribute="leading" secondItem="jHg-fy-E6p" secondAttribute="leading" id="bqk-r6-sPd"/>
@@ -1687,6 +1691,7 @@
                             <constraint firstItem="CG5-cJ-VXy" firstAttribute="leading" secondItem="jau-tm-wmT" secondAttribute="trailing" constant="64" id="fH6-R5-AcY"/>
                             <constraint firstAttribute="bottom" secondItem="7RT-7W-B9A" secondAttribute="bottom" id="iKA-w0-LGj"/>
                             <constraint firstItem="7RT-7W-B9A" firstAttribute="top" secondItem="HpK-oj-JQq" secondAttribute="bottom" id="quS-lP-Vck"/>
+                            <constraint firstItem="CG5-cJ-VXy" firstAttribute="top" secondItem="NkX-AP-WWm" secondAttribute="bottom" constant="24" id="qv3-yB-MmL"/>
                             <constraint firstItem="CG5-cJ-VXy" firstAttribute="top" secondItem="jau-tm-wmT" secondAttribute="top" id="xva-0N-uG7"/>
                         </constraints>
                     </view>
@@ -1705,6 +1710,7 @@
                     <connections>
                         <outlet property="dateView" destination="CG5-cJ-VXy" id="tn0-ld-kU0"/>
                         <outlet property="mainScrollView" destination="K2M-NZ-gpW" id="MI8-NO-WoV"/>
+                        <outlet property="pageControl" destination="NkX-AP-WWm" id="c2a-Pv-SbT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QR6-82-DhT" userLabel="First Responder" sceneMemberID="firstResponder"/>

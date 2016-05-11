@@ -6,6 +6,10 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
+#import "CourtesyGalleryDailyCardModel.h"
+
 @interface CourtesyGalleryDailyCardView : UIView
+@property (nonatomic, strong) NSDate *targetDate;
+@property (nonatomic, strong) CourtesyGalleryDailyCardModel *dailyCard;
 
 @end

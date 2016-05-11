@@ -95,6 +95,7 @@ static CGFloat kLabelPaddingDist = 8.0f;
 - (void)initialSetupForDefaultHeader
 {
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+    scrollView.scrollsToTop = NO;
     self.imageScrollView = scrollView;
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:scrollView.bounds];
     imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -130,6 +131,7 @@ static CGFloat kLabelPaddingDist = 8.0f;
 - (void)initialSetupForCustomSubView:(UIView *)subView
 {
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+    scrollView.scrollsToTop = NO;
     self.imageScrollView = scrollView;
     self.subView = subView;
     subView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;

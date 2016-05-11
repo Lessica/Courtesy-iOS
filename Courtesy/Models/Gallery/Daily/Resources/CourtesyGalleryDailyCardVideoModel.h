@@ -9,7 +9,5 @@
 #import "CourtesyCommonResourceModel.h"
 
 @interface CourtesyGalleryDailyCardVideoModel : CourtesyCommonResourceModel
-@property (nonatomic, assign) float duration; // 视频长度
-@property (nonatomic, copy) NSString *title; // 视频标题
-
+@property (nonatomic, strong) NSURL<Ignore> *remoteUrl;
 @end

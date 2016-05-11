@@ -17,6 +17,18 @@
     BOOL fetched;
 }
 
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
+    if (
+        [propertyName isEqualToString:@"incognitoMode"] ||
+        [propertyName isEqualToString:@"tencentModel"] ||
+        [propertyName isEqualToString:@"weiboModel"] ||
+        [propertyName isEqualToString:@"profile"]
+        ) {
+        return YES;
+    }
+    return NO;
+}
+
 - (instancetype)init {
     if (self = [super init]) {
         _profile = [CourtesyAccountProfileModel new];

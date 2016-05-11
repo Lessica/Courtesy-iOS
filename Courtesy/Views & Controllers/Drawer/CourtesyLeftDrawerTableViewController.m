@@ -52,6 +52,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.contentInset = UIEdgeInsetsMake(kJVTableViewTopInset, 0.0, 0.0, 0.0);
+    self.tableView.scrollsToTop = NO;
     self.clearsSelectionOnViewWillAppear = NO;
     // 注册接收通知
     [[NSNotificationCenter defaultCenter] addObserver:self

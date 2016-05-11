@@ -29,6 +29,7 @@
 @property (nonatomic, assign) NSUInteger registered_at;
 @property (nonatomic, assign) NSUInteger last_login_at;
 @property (nonatomic, assign) NSUInteger card_count;
+@property (nonatomic, assign) BOOL incognitoMode;
 @property (nonatomic, strong) CourtesyTencentAccountModel<Optional> *tencentModel;
 @property (nonatomic, strong) CourtesyWeiboUserModel<Optional> *weiboModel;
 @property (nonatomic, strong) CourtesyAccountProfileModel<Optional> *profile;

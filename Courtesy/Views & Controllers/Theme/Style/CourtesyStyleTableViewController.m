@@ -39,6 +39,7 @@ static NSString * const kCourtesyStyleTableViewCellReuseIdentifier = @"CourtesyS
     
     // 设置底部 Tabbar 边距
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
+    
     self.preferredStyleID = [sharedSettings preferredStyleID];
 }
 

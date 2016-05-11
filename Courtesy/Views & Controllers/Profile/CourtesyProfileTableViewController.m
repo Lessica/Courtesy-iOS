@@ -14,6 +14,7 @@
 #import "JTSImageViewController.h"
 #import "CourtesyParallaxHeaderView.h"
 #import "CourtesyProfileCityTableViewController.h"
+#import "UMSocial.h"
 
 #define kCourtesyAvatarCachePrefix @"kCourtesyAvatarCache-%@"
 
@@ -51,7 +52,8 @@ RSKImageCropViewControllerDelegate,
 JVFloatingDrawerCenterViewController,
 JTSImageViewControllerInteractionsDelegate,
 JTSImageViewControllerDismissalDelegate,
-UIScrollViewDelegate>
+UIScrollViewDelegate,
+UMSocialUIDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
@@ -160,7 +162,16 @@ UIScrollViewDelegate>
 }
 
 - (IBAction)actionShareMyProfile:(id)sender {
-    CYLog(@"Action share my profile!");
+    NSString *shareUrl = APP_DOWNLOAD_URL;
+    [UMSocialData defaultData].extConfig.qqData.url = shareUrl;
+    [UMSocialData defaultData].extConfig.qzoneData.url = shareUrl;
+    [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeDefault;
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:UMENG_APP_KEY
+                                      shareText:[NSString stringWithFormat:WEIBO_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", APP_DOWNLOAD_URL]
+                                     shareImage:_avatarImageView.image ? _avatarImageView.image : [UIImage imageNamed:@"courtesy-share-qrcode"]
+                                shareToSnsNames:@[UMShareToEmail, UMShareToQQ, UMShareToQzone, UMShareToSina]
+                                       delegate:self];
 }
 
 #pragma mark - 自定义选择器

@@ -1768,7 +1768,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
             [UMSocialSnsService presentSnsIconSheetView:self
                                                  appKey:UMENG_APP_KEY
-                                              shareText:[NSString stringWithFormat:@"「礼记」卡片分享：%@", shareUrl]
+                                              shareText:[NSString stringWithFormat:WEIBO_CARD_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", shareUrl]
                                              shareImage:result
                                         shareToSnsNames:@[UMShareToEmail, UMShareToQQ, UMShareToQzone, UMShareToSina]
                                                delegate:self];

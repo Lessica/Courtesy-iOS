@@ -9,5 +9,11 @@
 #import "CourtesyGalleryDailyCardVideoModel.h"
 
 @implementation CourtesyGalleryDailyCardVideoModel
+- (NSURL *)remoteUrl {
+    if (!_remoteUrl) {
+        _remoteUrl = [NSURL URLWithString:[NSString stringWithFormat:API_STATIC_NEWS_RESOURCES, @"video", self.rid, @"mov"]];
+    }
+    return _remoteUrl;
+}
 
 @end

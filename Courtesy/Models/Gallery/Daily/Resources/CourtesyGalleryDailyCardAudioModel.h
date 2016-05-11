@@ -9,7 +9,5 @@
 #import "CourtesyCommonResourceModel.h"
 
 @interface CourtesyGalleryDailyCardAudioModel : CourtesyCommonResourceModel
-@property (nonatomic, assign) float duration; // 音频长度
-@property (nonatomic, copy) NSString *title; // 音频标题
-
+@property (nonatomic, strong) NSURL<Ignore> *remoteUrl;
 @end

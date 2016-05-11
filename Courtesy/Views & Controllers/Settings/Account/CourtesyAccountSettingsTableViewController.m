@@ -94,19 +94,78 @@
                                                   actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
                                                       if (index == 0) {
                                                           kAccount.tencentModel = nil;
+                                                          [sharedSettings reloadAccount];
                                                       }
-                                                  } cancelHandler:nil destructiveHandler:nil];
+                                                  } cancelHandler:^(LGAlertView *alertView) {
+                                                      [sender setOn:YES animated:YES];
+                                                  } destructiveHandler:nil];
         SetCourtesyAleryViewStyle(alertView, self.view)
         [alertView showAnimated:YES completionHandler:nil];
     }
 }
 
 - (IBAction)weiboSwitchToggled:(UISwitch *)sender {
-    
+    if (sender.on)
+    {
+        
+    }
+    else
+    { // 取消绑定
+        LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"解除绑定"
+                                                            message:@"将无法分享卡片到新浪微博"
+                                                              style:LGAlertViewStyleActionSheet
+                                                       buttonTitles:@[@"解除"]
+                                                  cancelButtonTitle:@"取消"
+                                             destructiveButtonTitle:nil
+                                                      actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                          if (index == 0) {
+                                                              kAccount.weiboModel = nil;
+                                                              [sharedSettings reloadAccount];
+                                                          }
+                                                      } cancelHandler:^(LGAlertView *alertView) {
+                                                          [sender setOn:YES animated:YES];
+                                                      } destructiveHandler:nil];
+        SetCourtesyAleryViewStyle(alertView, self.view)
+        [alertView showAnimated:YES completionHandler:nil];
+    }
 }
 
 - (IBAction)incognitoSwitchToggled:(UISwitch *)sender {
-    
+    if (sender.on) {
+        LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"开启隐身模式"
+                                                            message:@"你发布的所有卡片都会显示为匿名。"
+                                                              style:LGAlertViewStyleActionSheet
+                                                       buttonTitles:@[@"开启"]
+                                                  cancelButtonTitle:@"取消"
+                                             destructiveButtonTitle:nil
+                                                      actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                          if (index == 0) {
+                                                              // 发起开启隐身模式请求
+                                                          }
+                                                      } cancelHandler:^(LGAlertView *alertView) {
+                                                          [sender setOn:NO animated:YES];
+                                                      } destructiveHandler:nil];
+        SetCourtesyAleryViewStyle(alertView, self.view)
+        [alertView showAnimated:YES completionHandler:nil];
+    }
+    else
+    {
+        LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"关闭隐身模式"
+                                                            message:@"你发布的所有公开卡片将会恢复显示你的信息。"
+                                                              style:LGAlertViewStyleActionSheet
+                                                       buttonTitles:@[@"关闭"]
+                                                  cancelButtonTitle:@"取消"
+                                             destructiveButtonTitle:nil
+                                                      actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                          if (index == 0) {
+                                                              // 发起关闭隐身模式请求
+                                                          }
+                                                      } cancelHandler:^(LGAlertView *alertView) {
+                                                          [sender setOn:YES animated:YES];
+                                                      } destructiveHandler:nil];
+        SetCourtesyAleryViewStyle(alertView, self.view)
+        [alertView showAnimated:YES completionHandler:nil];
+    }
 }
 
 @end

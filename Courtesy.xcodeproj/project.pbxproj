@@ -56,6 +56,7 @@
 		0F56AAA31CE195B100934625 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F56AAA11CE195B100934625 /* MAMapKit.framework */; };
 		0F56AAA71CE19EAC00934625 /* CourtesyCardLocationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F56AAA61CE19EAC00934625 /* CourtesyCardLocationModel.m */; };
 		0F5801061C98075600D18059 /* FCFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5801051C98075600D18059 /* FCFileManager.m */; };
+		0F5CA28C1CE352EB002C163D /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5CA28B1CE352EB002C163D /* UMMobClick.framework */; };
 		0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */; };
 		0F6A4DF71CD74F4C008724EA /* CourtesyCardListRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6A4DF61CD74F4C008724EA /* CourtesyCardListRequestModel.m */; };
 		0F6D380E1CD100BA001155DF /* CGContextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D37FF1CD100BA001155DF /* CGContextObject.m */; };
@@ -490,6 +491,7 @@
 		0F56AAA61CE19EAC00934625 /* CourtesyCardLocationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardLocationModel.m; sourceTree = "<group>"; };
 		0F5801041C98075600D18059 /* FCFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCFileManager.h; sourceTree = "<group>"; };
 		0F5801051C98075600D18059 /* FCFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCFileManager.m; sourceTree = "<group>"; };
+		0F5CA28B1CE352EB002C163D /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMMobClick.framework; sourceTree = "<group>"; };
 		0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		0F6A4DF51CD74F4C008724EA /* CourtesyCardListRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardListRequestModel.h; sourceTree = "<group>"; };
 		0F6A4DF61CD74F4C008724EA /* CourtesyCardListRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardListRequestModel.m; sourceTree = "<group>"; };
@@ -897,6 +899,7 @@
 				0F9A74241CE03DCC007F3CA5 /* libUMSocial_Sdk_5.1.a in Frameworks */,
 				0F7136641CBBB3CD00341AC9 /* libz.1.2.5.tbd in Frameworks */,
 				0F9A74341CE03DCC007F3CA5 /* libSocialWechat.a in Frameworks */,
+				0F5CA28C1CE352EB002C163D /* UMMobClick.framework in Frameworks */,
 				0F7136611CBBB37900341AC9 /* libiconv.2.4.0.tbd in Frameworks */,
 				0F603CF81C96D68B0067AB00 /* AssetsLibrary.framework in Frameworks */,
 				0F56AAA21CE195B100934625 /* AMapLocationKit.framework in Frameworks */,
@@ -1408,6 +1411,7 @@
 		0F7424451C8FCD98002C6241 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				0F5CA28B1CE352EB002C163D /* UMMobClick.framework */,
 				0F56AAA01CE195B100934625 /* AMapLocationKit.framework */,
 				0F56AAA11CE195B100934625 /* MAMapKit.framework */,
 				0F9A73EC1CE03DCC007F3CA5 /* UMSocial_Sdk_5.1 */,

@@ -13,6 +13,7 @@
 #import "UMSocialSinaSSOHandler.h"
 #import <MAMapKit/MAMapKit.h>
 #import <AMapLocationKit/AMapLocationKit.h>
+#import <UMMobClick/MobClick.h>
 #import <PreTools/PreTools.h>
 #import "CourtesyLeftDrawerTableViewController.h"
 
@@ -54,6 +55,9 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
 #ifndef DEBUG
     [PreTools init:PREIM_APP_KEY channel:@"channel" config:[PreToolsConfig defaultConfig]];
 #endif
+    // 友盟统计
+    UMConfigInstance.appKey = UMENG_APP_KEY;
+    UMConfigInstance.channelId = @"Pgyer";
     // 友盟推送
     [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
     [UMessage registerRemoteNotificationAndUserNotificationSettings:[sharedSettings requestedNotifications]];

@@ -364,10 +364,16 @@ static SystemSoundID shake_sound_male_id = 0;
                          newCard.author.profile.nick];
     dispatch_async_on_main_queue(^{
         __weak typeof(self) weakSelf = self;
+        NSArray <NSString *> *buttons = nil;
+        if ([sharedSettings hasLogin]) {
+            buttons = @[@"立即查看", @"保存到「我的卡片」"];
+        } else {
+            buttons = @[@"立即查看"]; // 未登录不能保存
+        }
         LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"接收卡片"
                                                             message:message
                                                               style:LGAlertViewStyleAlert
-                                                       buttonTitles:@[@"立即查看", @"保存到「我的卡片」"]
+                                                       buttonTitles:buttons
                                                   cancelButtonTitle:@"取消"
                                              destructiveButtonTitle:nil
                                                       actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {

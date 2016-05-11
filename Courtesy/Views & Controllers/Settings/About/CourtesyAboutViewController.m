@@ -45,10 +45,14 @@
 
 - (IBAction)shareButtonClicked:(id)sender {
     if (sender == _shareButton) {
+        NSString *shareUrl = APP_DOWNLOAD_URL;
+        [UMSocialData defaultData].extConfig.qqData.url = shareUrl;
+        [UMSocialData defaultData].extConfig.qzoneData.url = shareUrl;
+        [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeDefault;
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:UMENG_APP_KEY
-                                          shareText:[NSString stringWithFormat:@"礼记之谊，记礼之情。\n邀您使用「礼记」，一款优雅的卡片社交应用：%@", SERVICE_INDEX]
-                                         shareImage:[UIImage imageNamed:@"11-appicon"]
+                                          shareText:[NSString stringWithFormat:WEIBO_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", APP_DOWNLOAD_URL]
+                                         shareImage:[UIImage imageNamed:@"courtesy-share-qrcode"]
                                     shareToSnsNames:@[UMShareToEmail, UMShareToQQ, UMShareToQzone, UMShareToSina]
                                            delegate:self];
     }
