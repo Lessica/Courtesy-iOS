@@ -40,7 +40,7 @@
     if (!_previewImages) {
         _previewImages = @[
                            [UIImage imageNamed:@"default-preview"],
-                           [UIImage imageNamed:@"calender-preview"],
+                           [UIImage imageNamed:@"calendar-preview"],
                            [UIImage imageNamed:@"leaf-preview"],
                            [UIImage imageNamed:@"poker-preview"],
                            [UIImage imageNamed:@"melody-preview"],
@@ -56,7 +56,7 @@
     if (!_previewCheckmarks) {
         _previewCheckmarks = @[
                                [UIImage imageNamed:@"default-checkmark"],
-                               [UIImage imageNamed:@"calender-checkmark"],
+                               [UIImage imageNamed:@"calendar-checkmark"],
                                [UIImage imageNamed:@"leaf-checkmark"],
                                [UIImage imageNamed:@"poker-checkmark"],
                                [UIImage imageNamed:@"melody-checkmark"],
@@ -128,13 +128,13 @@
         previewStyle.originPoint = CGPointMake(0, 0);
         return previewStyle;
     }
-    else if (type == kCourtesyCardPreviewStyleCalender)
+    else if (type == kCourtesyCardPreviewStyleCalendar)
     {
         CourtesyCardPreviewStyleModel *previewStyle = [CourtesyCardPreviewStyleModel new];
-        previewStyle.previewCheckmark = [UIImage imageNamed:@"calender-checkmark"];
-        previewStyle.previewHeader = [UIImage imageNamed:@"calender-preview-header"];
-        previewStyle.previewBody = [UIImage imageNamed:@"calender-preview-body"];
-        previewStyle.previewFooter = [UIImage imageNamed:@"calender-preview-footer"];
+        previewStyle.previewCheckmark = [UIImage imageNamed:@"calendar-checkmark"];
+        previewStyle.previewHeader = [UIImage imageNamed:@"calendar-preview-header"];
+        previewStyle.previewBody = [UIImage imageNamed:@"calendar-preview-body"];
+        previewStyle.previewFooter = [UIImage imageNamed:@"calendar-preview-footer"];
         previewStyle.previewFooterText = @"由礼记生成并发送 via Courtesy";
         previewStyle.bodyMethod = kCourtesyCardPreviewBodyStretch;
         previewStyle.originPoint = CGPointMake(0, 0);

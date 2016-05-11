@@ -177,11 +177,8 @@
 		0FF2D2681C95D90F007C23DE /* JVFloatingDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D2641C95D90F007C23DE /* JVFloatingDrawerViewController.m */; };
 		0FF2D26B1C95D93B007C23DE /* UIColor+MagicColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D26A1C95D93B007C23DE /* UIColor+MagicColor.m */; };
 		0FF2D2831C95DA80007C23DE /* LBXScanLineAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D26F1C95DA80007C23DE /* LBXScanLineAnimation.m */; };
-		0FF2D2841C95DA80007C23DE /* LBXScanNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D2711C95DA80007C23DE /* LBXScanNative.m */; };
-		0FF2D2851C95DA80007C23DE /* LBXScanNetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D2731C95DA80007C23DE /* LBXScanNetAnimation.m */; };
 		0FF2D2861C95DA80007C23DE /* LBXScanResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D2751C95DA80007C23DE /* LBXScanResult.m */; };
 		0FF2D2871C95DA80007C23DE /* LBXScanView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D2771C95DA80007C23DE /* LBXScanView.m */; };
-		0FF2D2881C95DA80007C23DE /* LBXScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D2791C95DA80007C23DE /* LBXScanViewController.m */; };
 		0FF2D2891C95DA80007C23DE /* LBXScanViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D27B1C95DA80007C23DE /* LBXScanViewStyle.m */; };
 		0FF2D28A1C95DA80007C23DE /* LBXScanWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D27D1C95DA80007C23DE /* LBXScanWrapper.m */; };
 		0FF2D28B1C95DA80007C23DE /* LBXZXCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D27F1C95DA80007C23DE /* LBXZXCapture.m */; };
@@ -726,16 +723,10 @@
 		0FF2D26A1C95D93B007C23DE /* UIColor+MagicColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MagicColor.m"; sourceTree = "<group>"; };
 		0FF2D26E1C95DA80007C23DE /* LBXScanLineAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXScanLineAnimation.h; sourceTree = "<group>"; };
 		0FF2D26F1C95DA80007C23DE /* LBXScanLineAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXScanLineAnimation.m; sourceTree = "<group>"; };
-		0FF2D2701C95DA80007C23DE /* LBXScanNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXScanNative.h; sourceTree = "<group>"; };
-		0FF2D2711C95DA80007C23DE /* LBXScanNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXScanNative.m; sourceTree = "<group>"; };
-		0FF2D2721C95DA80007C23DE /* LBXScanNetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXScanNetAnimation.h; sourceTree = "<group>"; };
-		0FF2D2731C95DA80007C23DE /* LBXScanNetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXScanNetAnimation.m; sourceTree = "<group>"; };
 		0FF2D2741C95DA80007C23DE /* LBXScanResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXScanResult.h; sourceTree = "<group>"; };
 		0FF2D2751C95DA80007C23DE /* LBXScanResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXScanResult.m; sourceTree = "<group>"; };
 		0FF2D2761C95DA80007C23DE /* LBXScanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXScanView.h; sourceTree = "<group>"; };
 		0FF2D2771C95DA80007C23DE /* LBXScanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXScanView.m; sourceTree = "<group>"; };
-		0FF2D2781C95DA80007C23DE /* LBXScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXScanViewController.h; sourceTree = "<group>"; };
-		0FF2D2791C95DA80007C23DE /* LBXScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXScanViewController.m; sourceTree = "<group>"; };
 		0FF2D27A1C95DA80007C23DE /* LBXScanViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXScanViewStyle.h; sourceTree = "<group>"; };
 		0FF2D27B1C95DA80007C23DE /* LBXScanViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBXScanViewStyle.m; sourceTree = "<group>"; };
 		0FF2D27C1C95DA80007C23DE /* LBXScanWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBXScanWrapper.h; sourceTree = "<group>"; };
@@ -1949,16 +1940,10 @@
 			children = (
 				0FF2D26E1C95DA80007C23DE /* LBXScanLineAnimation.h */,
 				0FF2D26F1C95DA80007C23DE /* LBXScanLineAnimation.m */,
-				0FF2D2701C95DA80007C23DE /* LBXScanNative.h */,
-				0FF2D2711C95DA80007C23DE /* LBXScanNative.m */,
-				0FF2D2721C95DA80007C23DE /* LBXScanNetAnimation.h */,
-				0FF2D2731C95DA80007C23DE /* LBXScanNetAnimation.m */,
 				0FF2D2741C95DA80007C23DE /* LBXScanResult.h */,
 				0FF2D2751C95DA80007C23DE /* LBXScanResult.m */,
 				0FF2D2761C95DA80007C23DE /* LBXScanView.h */,
 				0FF2D2771C95DA80007C23DE /* LBXScanView.m */,
-				0FF2D2781C95DA80007C23DE /* LBXScanViewController.h */,
-				0FF2D2791C95DA80007C23DE /* LBXScanViewController.m */,
 				0FF2D27A1C95DA80007C23DE /* LBXScanViewStyle.h */,
 				0FF2D27B1C95DA80007C23DE /* LBXScanViewStyle.m */,
 				0FF2D27C1C95DA80007C23DE /* LBXScanWrapper.h */,
@@ -2828,7 +2813,6 @@
 				0F6D38111CD100BA001155DF /* GradientColor.m in Sources */,
 				0FFE04741C93F45800E99DCC /* CourtesyQuickLoginButton.m in Sources */,
 				0FEFDBBE1C97D17500952522 /* NSTimer+AFSoundManager.m in Sources */,
-				0FF2D2881C95DA80007C23DE /* LBXScanViewController.m in Sources */,
 				0FFE04651C93F45800E99DCC /* CourtesyFontSheetView.m in Sources */,
 				0F6E65D41CDB883300D3BB84 /* CourtesyPaddingLabel.m in Sources */,
 				0FFE04C31C93F47400E99DCC /* CourtesyCardDataModel.m in Sources */,
@@ -2844,7 +2828,6 @@
 				0F0DC07D1CBC9E8500DDFE36 /* CourtesyCardPublishTask.m in Sources */,
 				0F13F53E1CC90BC000793FB9 /* NSString+Mime.m in Sources */,
 				0FFE046D1C93F45800E99DCC /* CourtesyLeftDrawerTableViewController.m in Sources */,
-				0FF2D2851C95DA80007C23DE /* LBXScanNetAnimation.m in Sources */,
 				0FF2D2A81C95DAC7007C23DE /* SCRecordSessionManager.m in Sources */,
 				0F56AAA71CE19EAC00934625 /* CourtesyCardLocationModel.m in Sources */,
 				0FDEFBFD1C97D7B8007BE8D2 /* RSKTouchView.m in Sources */,
@@ -2923,7 +2906,6 @@
 				0F28516F1C97D8AD0066F5C5 /* JotViewController.m in Sources */,
 				0FEFDBBB1C97D17500952522 /* AFSoundPlayback.m in Sources */,
 				0F28516B1C97D8AD0066F5C5 /* JotTextEditView.m in Sources */,
-				0FF2D2841C95DA80007C23DE /* LBXScanNative.m in Sources */,
 				0F30298E1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m in Sources */,
 				0FFE6A411CDC851B00C825C7 /* CourtesyThemeSettingsTableViewController.m in Sources */,
 				0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */,

@@ -18,7 +18,7 @@
 // 振动系统声音
 static SystemSoundID shake_sound_male_id = 0;
 
-@interface CourtesyQRScanViewController () <LGAlertViewDelegate, CourtesyQRCodeQueryDelegate, JVFloatingDrawerCenterViewController, CourtesyCardQueryRequestDelegate>
+@interface CourtesyQRScanViewController () <LGAlertViewDelegate, CourtesyQRCodeQueryDelegate, JVFloatingDrawerCenterViewController, CourtesyCardQueryRequestDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong) LGAlertView *currentAlert;
 
 @end
@@ -82,18 +82,25 @@ static SystemSoundID shake_sound_male_id = 0;
     [self performSelector:@selector(startScan) withObject:nil afterDelay:0.2];
 }
 
-#pragma mark - JVFloatingDrawerCenterViewController
-
-- (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {
-    if (drawerSide == JVFloatingDrawerSideLeft) return YES;
-    return NO;
-}
-
-- (void)autobackToDrawer {
-    [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    self.isOpenFlash = NO;
+    [_scanObj stopScan];
+    [_qRScanView stopScanAnimation];
 }
 
 #pragma mark - 画界面元素
+
+- (void)drawScanView {
+    if (!_qRScanView) {
+        CGRect rect = self.view.frame;
+        rect.origin = CGPointMake(0, 0);
+        self.qRScanView = [[LBXScanView alloc] initWithFrame:rect style:_style];
+        [self.view addSubview:_qRScanView];
+    }
+    [_qRScanView startDeviceReadyingWithText:@"相机启动中"];
+}
 
 - (void)drawBottomItems {
     if (_bottomItemsView) {
@@ -114,7 +121,8 @@ static SystemSoundID shake_sound_male_id = 0;
     btnFlash.bounds = CGRectMake(0, 0, size.width, size.height);
     btnFlash.center = CGPointMake(CGRectGetWidth(bottomItemsView.frame) / 3 * 2, CGRectGetHeight(bottomItemsView.frame) / 2);
     [btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_nor"] forState:UIControlStateNormal];
-    [btnFlash addTarget:self action:@selector(openOrCloseFlash) forControlEvents:UIControlEventTouchUpInside];
+    [btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_down"] forState:UIControlStateSelected];
+    [btnFlash addTarget:self action:@selector(openOrCloseFlash:) forControlEvents:UIControlEventTouchUpInside];
     _btnFlash = btnFlash;
     
     UIButton *btnPhoto = [[UIButton alloc] init];
@@ -130,10 +138,22 @@ static SystemSoundID shake_sound_male_id = 0;
     [bottomItemsView addSubview:btnPhoto];
 }
 
+#pragma mark - JVFloatingDrawerCenterViewController
+
+- (BOOL)shouldOpenDrawerWithSide:(JVFloatingDrawerSide)drawerSide {
+    if (drawerSide == JVFloatingDrawerSideLeft) return YES;
+    return NO;
+}
+
+- (void)autobackToDrawer {
+    [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
+}
+
 #pragma mark - 二维码扫描结果解析
 
 // 处理扫描结果回调
-- (void)scanResultWithArray:(NSArray <LBXScanResult*>*)array {
+- (void)scanResultWithArray:(NSArray <LBXScanResult *> *)array {
+    self.isOpenFlash = NO;
     if (array.count < 1) {
         // Pop-error
         [self showError:@"二维码识别失败"];
@@ -411,19 +431,29 @@ static SystemSoundID shake_sound_male_id = 0;
 }
 
 // 打开或关闭闪光灯
-- (void)openOrCloseFlash {
-    [super openOrCloseFlash];
-    if (self.isOpenFlash) {
-        [_btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_down"] forState:UIControlStateNormal];
+- (void)openOrCloseFlash:(UIButton *)sender {
+    if (sender.selected) {
+        [_scanObj openFlash:NO];
+        sender.selected = NO;
     } else {
-        [_btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_nor"] forState:UIControlStateNormal];
+        [_scanObj openFlash:YES];
+        sender.selected = YES;
     }
+}
+
+- (void)setIsOpenFlash:(BOOL)isOpenFlash {
+    _isOpenFlash = isOpenFlash;
+    _btnFlash.selected = isOpenFlash;
 }
 
 // 检查权限并打开相册
 - (void)openPhoto {
     if ([LBXScanWrapper isGetPhotoPermission]) {
-        [self openLocalPhoto];
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        [self presentViewController:picker animated:YES completion:nil];
     } else {
         [self showError:@"请到「设置 - 隐私」中，找到应用程序「礼记」开启应用相册访问权限。"];
     }
@@ -435,4 +465,54 @@ static SystemSoundID shake_sound_male_id = 0;
     CYLog(@"");
 }
 
+- (void)stopCapture {
+    [_scanObj stopScan];
+}
+
+- (void)restartCapture {
+    [_scanObj startScan];
+}
+
+- (void)startScan {
+    if ( ![LBXScanWrapper isGetCameraPermission] ) {
+        [_qRScanView stopDeviceReadying];
+        [self showError:@"请到「设置 - 隐私」中开启本程序相机权限"];
+        return;
+    }
+    if (!_scanObj) {
+        __weak __typeof(self) weakSelf = self;
+        CGRect cropRect = CGRectZero;
+        if (_isOpenInterestRect) {
+            cropRect = [LBXScanView getScanRectWithPreView:self.view style:_style];
+        }
+        self.scanObj = [[LBXScanWrapper alloc] initZXingWithPreView:self.view
+                                                            success:^(NSArray<LBXScanResult *> *array) {
+                                                                [weakSelf scanResultWithArray:array];
+                                                            }];
+    }
+    [_scanObj startScan];
+    [_qRScanView stopDeviceReadying];
+    [_qRScanView startScanAnimation];
+    self.view.backgroundColor = [UIColor clearColor];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    __block UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
+    if (!image){
+        image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
+    __weak __typeof(self) weakSelf = self;
+    [LBXScanWrapper recognizeImage:image success:^(NSArray<LBXScanResult *> *array) {
+        [weakSelf scanResultWithArray:array];
+    }];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end
+

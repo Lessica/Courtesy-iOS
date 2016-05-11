@@ -1,5 +1,5 @@
 //
-//  CourtesyCalenderViewController.m
+//  CourtesyCalendarViewController.m
 //  Courtesy
 //
 //  Created by Zheng on 3/29/16.

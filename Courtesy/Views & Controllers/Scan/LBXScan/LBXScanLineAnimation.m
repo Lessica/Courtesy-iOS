@@ -1,11 +1,3 @@
-//
-//  LBXScanLineAnimation.m
-//
-//
-//  Created by lbxia on 15/11/3.
-//  Copyright © 2015年 lbxia. All rights reserved.
-//
-
 #import "LBXScanLineAnimation.h"
 
 @interface LBXScanLineAnimation () {

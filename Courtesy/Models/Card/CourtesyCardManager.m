@@ -450,8 +450,8 @@ LGAlertViewDelegate
     if ([card isMyCard]) {
         if (![self hasLocalToken:card.token])
         {
-            [self.cardDraftTokenArray insertObject:card.token atIndex:0];
             [self.cardDraftArray insertObject:card atIndex:0];
+            [self.cardDraftTokenArray insertObject:card.token atIndex:0]; // 这里顺序不能调换
         }
         [self.appStorage setObject:self.cardDraftTokenArray forKey:kCourtesyCardDraftListKey];
     }
@@ -459,8 +459,8 @@ LGAlertViewDelegate
     {
         if (![self hasLocalToken:card.token])
         {
-            [self.cardHistoryTokenArray insertObject:card.token atIndex:0];
             [self.cardHistoryArray insertObject:card atIndex:0];
+            [self.cardHistoryTokenArray insertObject:card.token atIndex:0]; // 这里顺序不能调换
         }
         [self.appStorage setObject:self.cardHistoryTokenArray forKey:kCourtesyCardHistoryListKey];
     }

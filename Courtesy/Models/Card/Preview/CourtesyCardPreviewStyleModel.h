@@ -8,7 +8,7 @@
 
 typedef enum : NSUInteger {
     kCourtesyCardPreviewStyleDefault = 0,
-    kCourtesyCardPreviewStyleCalender = 1,
+    kCourtesyCardPreviewStyleCalendar = 1,
     kCourtesyCardPreviewStyleLeaf = 2,
     kCourtesyCardPreviewStylePoker = 3,
     kCourtesyCardPreviewStyleMelody = 4,

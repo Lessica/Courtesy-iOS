@@ -1,11 +1,3 @@
-//
-//  ZXingWrapper.m
-//
-//
-//  Created by lbxia on 15/1/6.
-//  Copyright (c) 2015年 lbxia. All rights reserved.
-//
-
 #import "ZXingWrapper.h"
 #import "ZXingObjC.h"
 #import "LBXZXCaptureDelegate.h"
@@ -67,11 +59,6 @@ typedef void(^blockScan)(ZXBarcodeFormat barcodeFormat, NSString *str, UIImage *
 - (void)openTorch:(BOOL)on_off {
     [self.capture setTorch:on_off];
 }
-
-- (void)openOrCloseTorch {
-    [self.capture changeTorch];
-}
-
 
 #pragma mark - ZXCaptureDelegate Methods
 

@@ -15,7 +15,6 @@
  */
 
 #import <AVFoundation/AVFoundation.h>
-//#import "ZXResult.h"
 #import "LBXZXCaptureDelegate.h"
 
 @protocol LBXZXCaptureDelegate, ZXReader;
@@ -62,9 +61,5 @@
 - (void)order_skip;
 - (void)start;
 - (void)stop;
-
-
-//+ (ZXResult *)regocnizeImage:(UIImage*)image;
-
 
 @end
