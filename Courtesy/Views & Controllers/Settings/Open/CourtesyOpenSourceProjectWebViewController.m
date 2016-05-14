@@ -39,8 +39,8 @@
     [_openWebView loadRequest:request];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self.navigationController.navigationBar addSubview:_progressView];
 }
 

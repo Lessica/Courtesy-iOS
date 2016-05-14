@@ -6,17 +6,25 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-#import "AppDelegate.h"
 #import "Math.h"
+#import "UMSocial.h"
+#import "AppDelegate.h"
+#import "AppStorage.h"
 #import "MoreInfoView.h"
+#import "MiniDateView.h"
+#import "FCFileManager.h"
+#import "NSDate+Compare.h"
 #import "CourtesyCardManager.h"
+#import "JTSImageViewController.h"
+#import "CourtesyGalleryDailyCardView.h"
+#import "CourtesyGalleryLinkCardView.h"
+#import "CourtesyGalleryDailyRequestModel.h"
 #import "CourtesyPortraitViewController.h"
 #import "CourtesyGalleryViewController.h"
 #import "CourtesyCalendarViewController.h"
-#import "MiniDateView.h"
-#import "CourtesyGalleryDailyCardView.h"
-#import "CourtesyGalleryDailyRequestModel.h"
-#import "JTSImageViewController.h"
+#import "CourtesyGalleryLinkWebViewController.h"
+
+#define kCourtesyCardPreviewCachePrefix @"kCourtesyCardPreviewCachePrefix-%@-%@"
 
 static int viewTag = 0x11;
 
@@ -29,10 +37,9 @@ typedef enum : NSUInteger {
 
 typedef enum : NSUInteger {
     kCourtesyGalleryDailyCard = 0,
-    kCourtesyGalleryGroupCard = 1,
-    kCourtesyGalleryLinkCard  = 2,
-    kCourtesyGalleryShareCard = 3,
-    kCourtesyGalleryMaxIndex  = 4
+//    kCourtesyGalleryGroupCard = 1,
+    kCourtesyGalleryLinkCard  = 1,
+    kCourtesyGalleryMaxIndex  = 2
 } CourtesyGalleryMainIndex;
 
 @interface CourtesyGalleryViewController ()
@@ -41,7 +48,9 @@ JVFloatingDrawerCenterViewController,
 PDTSimpleCalendarViewDelegate,
 UIScrollViewDelegate,
 CourtesyGalleryDailyRequestDelegate,
-JTSImageViewControllerInteractionsDelegate
+JTSImageViewControllerInteractionsDelegate,
+JTSImageViewControllerDismissalDelegate,
+UMSocialUIDelegate
 >
 
 @property (nonatomic, assign) CourtesyStarViewControllerStatus currentStatus;
@@ -54,6 +63,7 @@ JTSImageViewControllerInteractionsDelegate
 @property (nonatomic, strong) NSArray *picturesArray;
 @property (nonatomic, strong) Math *onceLinearEquation;
 @property (nonatomic, strong) CourtesyGalleryDailyCardView *dailyCardView;
+@property (nonatomic, strong) CourtesyGalleryLinkCardView *linkCardView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @end
@@ -109,16 +119,11 @@ JTSImageViewControllerInteractionsDelegate
                                              tintMode:kCGBlendModeNormal
                                            saturation:1.2
                                             maskImage:nil],
-    [[UIImage imageNamed:@"street"] imageByBlurRadius:18.0
-                                            tintColor:[UIColor colorWithWhite:0.11 alpha:0.48]
-                                             tintMode:kCGBlendModeNormal
-                                           saturation:1.2
-                                            maskImage:nil],
-    [[UIImage imageNamed:@"street"] imageByBlurRadius:18.0
-                                            tintColor:[UIColor colorWithWhite:0.11 alpha:0.64]
-                                             tintMode:kCGBlendModeNormal
-                                           saturation:1.2
-                                            maskImage:nil],
+//    [[UIImage imageNamed:@"street"] imageByBlurRadius:18.0
+//                                            tintColor:[UIColor colorWithWhite:0.11 alpha:0.48]
+//                                             tintMode:kCGBlendModeNormal
+//                                           saturation:1.2
+//                                            maskImage:nil],
     ];
     
     /* Init of date view */
@@ -172,17 +177,18 @@ JTSImageViewControllerInteractionsDelegate
             [cardContainerView addSubview:dailyCardView];
             self.dailyCardView = dailyCardView;
         }
-        else if (i == kCourtesyGalleryGroupCard)
-        {
-            
-        }
+//        else if (i == kCourtesyGalleryGroupCard)
+//        {
+//            
+//        }
         else if (i == kCourtesyGalleryLinkCard)
         {
-            
-        }
-        else if (i == kCourtesyGalleryShareCard)
-        {
-            
+            CourtesyGalleryLinkCardView *linkCardView = [[CourtesyGalleryLinkCardView alloc] initWithFrame:cardContainerView.bounds];
+            UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(linkCardPreview:)];
+            linkCardView.userInteractionEnabled = YES;
+            [linkCardView addGestureRecognizer:tapGesture];
+            [cardContainerView addSubview:linkCardView];
+            self.linkCardView = linkCardView;
         }
         
         [self.mainScrollView addSubview:show];
@@ -197,14 +203,18 @@ JTSImageViewControllerInteractionsDelegate
     [super updateViewConstraints];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self reloadData];
+}
+
+- (void)reloadData {
     // 发起加载请求
     if (self.currentStatus == kCourtesyGalleryViewControllerStatusNone) {
+        self.currentStatus = kCourtesyGalleryViewControllerStatusPending;
         CourtesyGalleryDailyRequestModel *dailyRequest = [[CourtesyGalleryDailyRequestModel alloc] initWithDelegate:self];
         dailyRequest.s_date = [self.dateFormatter stringFromDate:self.selectedDate];
         [self.navigationController.view makeToastActivity:CSToastPositionCenter];
-        self.currentStatus = kCourtesyGalleryViewControllerStatusPending;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [dailyRequest sendRequest];
         });
@@ -219,22 +229,22 @@ JTSImageViewControllerInteractionsDelegate
         [self.navigationController.view hideToastActivity];
     });
     NSArray <CourtesyGalleryDailyCardModel *> *cardArray = sender.cards;
+    [self setCardsWithErrorMessage:nil];
     for (CourtesyGalleryDailyCardModel *card in cardArray) {
-        if ([card.type isEqualToString:@"GroupCard"])
+//        if ([card.type isEqualToString:@"GroupCard"])
+//        {
+//            
+//        }
+//        else
+        if ([card.type isEqualToString:@"LinkCard"])
         {
-            
-        }
-        else if ([card.type isEqualToString:@"LinkCard"])
-        {
-            
-        }
-        else if ([card.type isEqualToString:@"ShareCard"])
-        {
-            
+            if (self.linkCardView) {
+                [self.linkCardView setDailyCard:card];
+            }
         }
         else if ([card.type isEqualToString:@"DailyCard"])
         {
-            if (self.dailyCardView && self.dailyCardView.dailyCard == nil)
+            if (self.dailyCardView)
             {
                 [self.dailyCardView setTargetDate:self.selectedDate];
                 [self.dailyCardView setDailyCard:card];
@@ -249,7 +259,20 @@ JTSImageViewControllerInteractionsDelegate
         self.currentStatus = kCourtesyGalleryViewControllerStatusNone;
         [self.navigationController.view hideToastActivity];
     });
-    
+    [self setCardsWithErrorMessage:[error localizedDescription]];
+}
+
+- (void)setCardsWithErrorMessage:(NSString *)msg {
+    if (self.dailyCardView)
+    {
+        [self.dailyCardView setTargetDate:self.selectedDate];
+        [self.dailyCardView setDailyCard:nil];
+        [self.dailyCardView setErrorMessage:msg];
+    }
+    if (self.linkCardView) {
+        [self.linkCardView setDailyCard:nil];
+        [self.linkCardView setErrorMessage:msg];
+    }
 }
 
 #pragma mark - Getter / Setter
@@ -283,6 +306,39 @@ JTSImageViewControllerInteractionsDelegate
     
 }
 
+- (IBAction)actionShareTapped:(id)sender {
+    NSString *shareContent = nil;
+    UIImage *shareImage = nil;
+    NSString *shareUrl = nil;
+    if (_currentIndex == kCourtesyGalleryDailyCard) {
+        shareContent = [self dailyCardPreviewContent];
+        shareImage = [self dailyCardPreviewImage];
+        shareUrl = nil;
+    }
+    else if (_currentIndex == kCourtesyGalleryLinkCard) {
+        shareContent = [self linkCardPreviewContent];
+        shareImage = [self linkCardPreviewImage];
+        shareUrl = [self linkCardPreviewUrl];
+    }
+    if (shareContent != nil) {
+        if (shareUrl) {
+            [UMSocialData defaultData].extConfig.qqData.url = shareUrl;
+            [UMSocialData defaultData].extConfig.qzoneData.url = shareUrl;
+            [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeDefault;
+        } else {
+            [UMSocialData defaultData].extConfig.qqData.url = APP_DOWNLOAD_URL;
+            [UMSocialData defaultData].extConfig.qzoneData.url = APP_DOWNLOAD_URL;
+            [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
+        }
+        [UMSocialSnsService presentSnsIconSheetView:self
+                                             appKey:UMENG_APP_KEY
+                                          shareText:[NSString stringWithFormat:WEIBO_DAILY_SHARE_CONTENT, shareContent]
+                                         shareImage:shareImage
+                                    shareToSnsNames:@[UMShareToEmail, UMShareToQQ, UMShareToQzone, UMShareToSina]
+                                           delegate:self];
+    }
+}
+
 - (void)actionDateViewTapped:(UITapGestureRecognizer *)sender {
     CourtesyCalendarViewController *calendarViewController = [[CourtesyCalendarViewController alloc] init];
     calendarViewController.lastDate = [NSDate date];
@@ -304,10 +360,13 @@ JTSImageViewControllerInteractionsDelegate
 
 - (void)simpleCalendarViewController:(CourtesyCalendarViewController *)controller
                        didSelectDate:(NSDate *)date {
+    if (![self.selectedDate isTheSameDayWith:date]) {
+        self.currentStatus = kCourtesyGalleryViewControllerStatusNone;
+        self.selectedDate = date;
+        self.dateView.date = date;
+        [self.dateView setNeedsDisplay];
+    }
     [controller close:self];
-    self.selectedDate = date;
-    self.dateView.date = date;
-    [self.dateView setNeedsDisplay];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -321,31 +380,91 @@ JTSImageViewControllerInteractionsDelegate
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [_pageControl setCurrentPage:(NSUInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width)];
+    NSUInteger index = (NSUInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width);
+    _currentIndex = index;
+    [_pageControl setCurrentPage:index];
 }
 
 - (void)pageControlValueChanged:(UIPageControl *)sender {
+    NSUInteger index = sender.currentPage;
+    _currentIndex = index;
     CGSize viewSize = _mainScrollView.frame.size;
-    CGRect rect = CGRectMake(sender.currentPage * viewSize.width, 0, viewSize.width, viewSize.height);
+    CGRect rect = CGRectMake(index * viewSize.width, 0, viewSize.width, viewSize.height);
     [_mainScrollView scrollRectToVisible:rect animated:YES];
+}
+
+#pragma mark - Link Card Preview
+
+- (NSString *)linkCardPreviewContent {
+    return [self.linkCardView.dailyCard.string stringByAppendingString:self.linkCardView.dailyCard.url];
+}
+
+- (NSString *)linkCardPreviewUrl {
+    return self.linkCardView.dailyCard.url;
+}
+
+- (UIImage *)linkCardPreviewImage {
+    return self.linkCardView.middleImageView.image;
 }
 
 #pragma mark - Daily Card Preview
 
+- (NSString *)dailyCardPreviewContent {
+    return self.dailyCardView.dailyCard.string;
+}
+
+- (UIImage *)dailyCardPreviewImage {
+    if (self.dailyCardView.rightImageView.image == nil) {
+        return nil;
+    }
+    UIImage *previewImage = nil;
+    NSString *preview_cache_key = [NSString stringWithFormat:kCourtesyCardPreviewCachePrefix, @"DailyCard", self.dailyCardView.dailyCard.date];
+    NSData *data = [[AppStorage sharedInstance] objectForKey:preview_cache_key];
+    if (!data) {
+        CGSize cardSize = self.dailyCardView.bounds.size;
+        UIColor *color = [UIColor colorWithPatternImage:[UIImage imageNamed:@"daily-theme"]];
+        UIGraphicsBeginImageContextWithOptions(cardSize, NO, 0.0);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSetFillColorWithColor(context, [color CGColor]);
+        CGContextFillRect(context, CGRectMake(0, 0, cardSize.width, cardSize.height));
+        [self.dailyCardView.layer renderInContext:context];
+        previewImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        [[AppStorage sharedInstance] setObject:[previewImage imageDataRepresentation] forKey:preview_cache_key];
+    } else {
+        previewImage = [[UIImage alloc] initWithData:data];
+    }
+    return previewImage;
+}
+
 - (void)dailyCardPreview:(id)sender {
-    UIGraphicsBeginImageContextWithOptions(self.dailyCardView.bounds.size, YES, 0.0);
-    [self.dailyCardView.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *previewImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+    if (self.dailyCardView.dailyCard == nil) {
+        [self reloadData];
+        return;
+    }
     
-    JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
-    imageInfo.image = previewImage;
-    JTSImageViewController *imageViewer = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
-                                                                                       mode:JTSImageViewControllerMode_Image
-                                                                            backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
-    imageViewer.interactionsDelegate = self;
-    [imageViewer showFromViewController:self
-                             transition:JTSImageViewControllerTransition_FromOffscreen];
+    UIImage *previewImage = [self dailyCardPreviewImage];
+    
+    if (previewImage) {
+        JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
+        imageInfo.image = previewImage;
+        JTSImageViewController *imageViewer = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
+                                                                                           mode:JTSImageViewControllerMode_Image
+                                                                                backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+        imageViewer.interactionsDelegate = self;
+        [imageViewer showFromViewController:self
+                                 transition:JTSImageViewControllerTransition_FromOffscreen];
+    }
+}
+
+- (void)linkCardPreview:(id)sender {
+    if (self.linkCardView.dailyCard == nil) {
+        [self reloadData];
+        return;
+    }
+    CourtesyGalleryLinkWebViewController *linkWebViewController = [CourtesyGalleryLinkWebViewController new];
+    linkWebViewController.cardUrl = self.linkCardView.dailyCard.url;
+    [self.navigationController pushViewController:linkWebViewController animated:YES];
 }
 
 #pragma mark - JTSImageViewControllerInteractionsDelegate
@@ -372,6 +491,12 @@ JTSImageViewControllerInteractionsDelegate
                                                                    position:CSToastPositionCenter];
                                             });
                                         }];
+}
+
+#pragma mark - JTSImageViewControllerDismissalDelegate
+
+- (void)imageViewerDidDismiss:(JTSImageViewController *)imageViewer {
+    
 }
 
 @end

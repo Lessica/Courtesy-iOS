@@ -7,14 +7,15 @@
 //
 
 #import "CourtesyGalleryDailyCardView.h"
+#import "LazyFadeInView.h"
 
 @interface CourtesyGalleryDailyCardView ()
 @property (nonatomic, strong) UIView *vLabelContainerView;
 @property (nonatomic, strong) YYLabel *vLabel;
 @property (nonatomic, strong) UILabel *hSmallLabel;
-@property (nonatomic, strong) UIImageView *rightImageView;
 @property (nonatomic, strong) UIView *hLabelContainerView;
-@property (nonatomic, strong) YYLabel *hLabel;
+@property (nonatomic, strong) LazyFadeInView *hLabel;
+@property (nonatomic, strong) NSDictionary *hLabelAttributes;
 
 @end
 
@@ -53,7 +54,7 @@
     vLabel.textAlignment = NSTextAlignmentCenter;
     vLabel.text = @"礼记之谊，记礼之情。";
     vLabel.textColor = vLabelColor;
-    vLabel.font = [UIFont systemFontOfSize:16.0 weight:UIFontWeightLight];
+    vLabel.font = [UIFont systemFontOfSize:16.0 weight:UIFontWeightUltraLight];
     self.vLabel = vLabel;
     [vLabelContainerView addSubview:self.vLabel];
     
@@ -61,7 +62,7 @@
     hSmallLabel.textAlignment = NSTextAlignmentCenter;
     hSmallLabel.text = @"礼记";
     hSmallLabel.textColor = vLabelColor;
-    hSmallLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightLight];
+    hSmallLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightUltraLight];
     self.hSmallLabel = hSmallLabel;
     [vLabelContainerView addSubview:hSmallLabel];
     
@@ -73,18 +74,29 @@
     self.rightImageView = rightImageView;
     [self addSubview:rightImageView];
     
-    YYLabel *hLabel = [[YYLabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - 16, self.frame.size.height - upHeight)];
-    hLabel.textVerticalAlignment = YYTextVerticalAlignmentCenter;
-    hLabel.textAlignment = NSTextAlignmentCenter;
+    UIView *hLabelContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - 16, self.frame.size.height - upHeight)];
+    self.hLabelContainerView = hLabelContainerView;
+    [self addSubview:hLabelContainerView];
+    
+    NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+    paragraph.alignment = NSTextAlignmentCenter;
+    paragraph.minimumLineHeight = 20;
+    paragraph.maximumLineHeight = 24;
+    paragraph.lineSpacing = 8;
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    NSDictionary *hLabelAttributes = @{
+                                       NSFontAttributeName: [UIFont systemFontOfSize:16.0 weight:UIFontWeightUltraLight],
+                                       NSParagraphStyleAttributeName: paragraph,
+                                       NSForegroundColorAttributeName: [UIColor whiteColor]
+                                       };
+    self.hLabelAttributes = hLabelAttributes;
+    
+    LazyFadeInView *hLabel = [[LazyFadeInView alloc] initWithFrame:hLabelContainerView.bounds];
     hLabel.textColor = vLabelColor;
-    hLabel.font = [UIFont systemFontOfSize:16.0 weight:UIFontWeightLight];
-    hLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    hLabel.numberOfLines = 0;
-    YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
-    modifier.fixedLineHeight = 22.0f;
-    hLabel.linePositionModifier = modifier;
+    hLabel.textFont = [UIFont systemFontOfSize:16.0 weight:UIFontWeightUltraLight];
+    hLabel.attributes = hLabelAttributes;
     self.hLabel = hLabel;
-    [self addSubview:hLabel];
+    [hLabelContainerView addSubview:hLabel];
 }
 
 - (void)updateConstraints {
@@ -118,7 +130,7 @@
         make.right.equalTo(self.mas_right).with.offset(-standardMargin);
     }];
     
-    [_hLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+    [_hLabelContainerView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).with.offset(standardMargin);
         make.right.equalTo(self.mas_right).with.offset(-standardMargin);
         make.bottom.equalTo(self.mas_bottom).with.offset(-standardMargin);
@@ -127,14 +139,18 @@
 }
 
 - (NSString *)digitUppercaseWithDigit:(NSInteger)digit needsScale:(BOOL)scale {
-    NSMutableString *digitStr = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"%ld", digit]];
+    NSMutableString *digitStr = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)digit]];
     NSArray *MyBase = @[@"〇", @"一", @"二", @"三", @"四", @"五", @"六", @"七", @"八", @"九"];
     
     NSMutableString *M = [[NSMutableString alloc] init];
     for (NSUInteger i = digitStr.length; i > 0; i--) {
         NSInteger MyData = [[digitStr substringWithRange:NSMakeRange(digitStr.length - i, 1)] integerValue];
-        if (scale && MyData == 1 && i == 2) {
-            [M appendString:@"十"];
+        if (scale) {
+            if (MyData == 1 && i == 2) {
+                [M appendString:@"十"];
+            } else if (MyData != 0) {
+                [M appendString:MyBase[MyData]];
+            }
         } else {
             [M appendString:MyBase[MyData]];
         }
@@ -166,13 +182,46 @@
 
 - (void)setDailyCard:(CourtesyGalleryDailyCardModel *)dailyCard {
     _dailyCard = dailyCard;
+    if (dailyCard == nil) {
+        _rightImageView.imageURL = nil;
+        return;
+    }
     if (dailyCard.image)
     {
-        _rightImageView.imageURL = dailyCard.image.remoteUrl;
+        [_rightImageView setImageWithURL:dailyCard.image.remoteUrl
+                             placeholder:nil
+                                 options:YYWebImageOptionShowNetworkActivity | YYWebImageOptionProgressive | YYWebImageOptionAllowBackgroundTask | YYWebImageOptionSetImageWithFadeAnimation
+                              completion:nil];
     }
     if (dailyCard.string) {
-        _hLabel.text = dailyCard.string;
+        [self setLabelText:dailyCard.string];
     }
+}
+
+- (void)setLabelText:(NSString *)text {
+    if (text.length == 0) {
+        _hLabel.hidden = YES;
+    } else {
+        _hLabel.hidden = NO;
+        CGSize textSize = [text boundingRectWithSize:CGSizeMake(_hLabelContainerView.bounds.size.width, CGFLOAT_MAX)
+                                             options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                          attributes:_hLabelAttributes
+                                             context:nil].size;
+        textSize = CGSizeMake(textSize.width + 16.f, textSize.height);
+        _hLabel.frame = CGRectMake((_hLabelContainerView.size.width - textSize.width) / 2, (_hLabelContainerView.size.height - textSize.height) / 2, textSize.width, textSize.height);
+        _hLabel.text = text;
+    }
+}
+
+- (void)setErrorMessage:(NSString *)errorMessage {
+    if (errorMessage == nil) {
+        errorMessage = @"无可用卡片数据";
+    }
+    [self setLabelText:[errorMessage stringByAppendingString:@"\n轻按以重新拉取"]];
+}
+
+- (void)dealloc {
+    CYLog(@"");
 }
 
 @end

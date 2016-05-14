@@ -26,7 +26,8 @@
 #define AUTONAVI_APP_KEY @"8ecd95e906368ca61ae01db5b970f617"
 
 #define APP_DOWNLOAD_URL @"https://courtesy.82flex.com/download"
-#define WEIBO_SHARE_CONTENT @"#礼记APP# 礼记之谊，记礼之情。\n%@ 邀您使用「礼记」，一款优雅的卡片社交应用：%@ （来自 @礼记APP）"
-#define WEIBO_CARD_SHARE_CONTENT @"#礼记APP# 礼记之谊，记礼之情。\n%@ 分享给你一张卡片：%@ （来自 @礼记APP）"
+#define WEIBO_SHARE_CONTENT @"#礼记# 礼记之谊，记礼之情。\n%@ 邀您使用「礼记」，一款优雅的卡片社交应用：%@ （来自 @礼记APP）"
+#define WEIBO_CARD_SHARE_CONTENT @"#礼记# 礼记之谊，记礼之情。\n%@ 分享给你一张卡片：%@ （来自 @礼记APP）"
+#define WEIBO_DAILY_SHARE_CONTENT @"#礼记# %@ （来自 @礼记APP）"
 
 #endif /* CourtesyTarget_h */

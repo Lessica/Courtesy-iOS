@@ -1674,6 +1674,9 @@
                                     <constraint firstAttribute="height" constant="36" id="e0M-3K-rJr"/>
                                 </constraints>
                                 <state key="normal" image="668-square-refresh"/>
+                                <connections>
+                                    <action selector="actionShareTapped:" destination="Jqa-RS-eCU" eventType="touchUpInside" id="yyZ-a3-kmh"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

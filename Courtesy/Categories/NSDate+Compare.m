@@ -31,4 +31,16 @@
     return  result;
 }
 
+- (BOOL)isTheSameDayWith:(NSDate *)date {
+    double timezoneFix = [NSTimeZone localTimeZone].secondsFromGMT;
+    if (
+        (int)(([date timeIntervalSince1970] + timezoneFix) / (24 * 3600)) -
+        (int)(([self timeIntervalSince1970] + timezoneFix) / (24 * 3600))
+        == 0)
+    {
+        return YES;
+    }
+    return NO;
+}
+
 @end

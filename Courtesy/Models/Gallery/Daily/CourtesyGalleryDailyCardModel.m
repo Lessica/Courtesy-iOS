@@ -9,5 +9,15 @@
 #import "CourtesyGalleryDailyCardModel.h"
 
 @implementation CourtesyGalleryDailyCardModel
+- (NSString *)url {
+    if (!_url) {
+        _url = @"https://82flex.com";
+    }
+    return _url;
+}
+
+- (void)dealloc {
+    CYLog(@"");
+}
 
 @end

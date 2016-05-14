@@ -9,5 +9,8 @@
 #import "CourtesyGalleryDailyCardStyleModel.h"
 
 @implementation CourtesyGalleryDailyCardStyleModel
+- (void)dealloc {
+    CYLog(@"");
+}
 
 @end

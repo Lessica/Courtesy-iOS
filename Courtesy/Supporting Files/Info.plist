@@ -64,7 +64,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>26</string>
+	<string>27</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wechat</string>
@@ -107,7 +107,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>为实现定位当前城市功能，「礼记」需要获取您的地理位置。</string>
+	<string>为了给卡片添加位置信息，「礼记」需要获取您的地理位置。</string>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>

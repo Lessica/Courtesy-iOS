@@ -1,44 +1,51 @@
 //
-//  CourtesyUserAgreementWebViewController.m
+//  CourtesyGalleryLinkWebViewController.m
 //  Courtesy
 //
-//  Created by Zheng on 2/22/16.
+//  Created by Zheng on 5/13/16.
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
-#import "CourtesyUserAgreementWebViewController.h"
+#import "CourtesyGalleryLinkWebViewController.h"
 
-@interface CourtesyUserAgreementWebViewController () <UIWebViewDelegate, NJKWebViewProgressDelegate>
-
-@property (weak, nonatomic) IBOutlet UIWebView *agreementWebView;
+@interface CourtesyGalleryLinkWebViewController () <UIWebViewDelegate, NJKWebViewProgressDelegate>
+@property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) NJKWebViewProgressView *progressView;
 @property (nonatomic, strong) NJKWebViewProgress *progressProxy;
 
 @end
 
-
-@implementation CourtesyUserAgreementWebViewController
+@implementation CourtesyGalleryLinkWebViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _progressProxy = [[NJKWebViewProgress alloc] init]; // instance variable
-    _agreementWebView.delegate = _progressProxy;
-    _progressProxy.webViewProxyDelegate = self;
-    _progressProxy.progressDelegate = self;
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    NJKWebViewProgress *progressProxy = [[NJKWebViewProgress alloc] init]; // instance variable
+    progressProxy.webViewProxyDelegate = self;
+    progressProxy.progressDelegate = self;
+    self.progressProxy = progressProxy;
+    
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    webView.delegate = progressProxy;
+    self.webView = webView;
+    [self.view addSubview:webView];
     
     CGFloat progressBarHeight = 2.f;
     CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;
     CGRect barFrame = CGRectMake(0, navigationBarBounds.size.height - progressBarHeight, navigationBarBounds.size.width, progressBarHeight);
-    _progressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
-    _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     
-    NSString *urlString = [[NSBundle mainBundle] pathForResource:@"tos" ofType:@"html"];
-    NSURL *url = [NSURL fileURLWithPath:urlString];
+    NJKWebViewProgressView *progressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
+    progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    self.progressView = progressView;
+    
+    NSString *urlString = self.cardUrl;
+    NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [_agreementWebView loadRequest:request];
+    [_webView loadRequest:request];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -54,9 +61,11 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (webView == _agreementWebView && _progressView) {
+    if (webView == _webView && _progressView) {
         [_progressView setProgress:0.0 animated:YES];
     }
+    NSString *currentTitle = [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    self.title = currentTitle;
 }
 
 #pragma mark - NJKWebViewProgressDelegate

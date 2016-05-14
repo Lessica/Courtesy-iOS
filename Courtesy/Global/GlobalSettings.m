@@ -10,7 +10,7 @@
 #import "GlobalSettings.h"
 #import "JSONHTTPClient.h"
 #import "CourtesyLoginRegisterModel.h"
-#import <UMMobClick/MobClick.h>
+//#import <UMMobClick/MobClick.h>
 
 #define kCourtesyDBCurrentLoginAccount @"kCourtesyDBCurrentLoginAccount"
 #define kCourtesyConfigSwitchAutoPublic @"kCourtesyConfigSwitchAutoPublic"
@@ -177,7 +177,7 @@
 
 - (void)fetchAccountInfoSucceed:(CourtesyAccountModel *)sender {
     // 友盟登录统计
-    [MobClick profileSignInWithPUID:self.currentAccount.email];
+//    [MobClick profileSignInWithPUID:self.currentAccount.email];
     [NSNotificationCenter sendCTAction:kCourtesyActionFetchSucceed message:nil];
 }
 

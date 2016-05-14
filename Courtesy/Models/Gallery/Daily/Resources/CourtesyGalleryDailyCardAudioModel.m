@@ -16,4 +16,7 @@
     return _remoteUrl;
 }
 
+- (void)dealloc {
+    CYLog(@"");
+}
 @end

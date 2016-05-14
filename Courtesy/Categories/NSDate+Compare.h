@@ -10,5 +10,6 @@
 
 @interface NSDate (Compare)
 - (NSString *)compareCurrentTime;
+- (BOOL)isTheSameDayWith:(NSDate *)date;
 
 @end

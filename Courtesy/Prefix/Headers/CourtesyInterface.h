@@ -54,7 +54,7 @@
 #define API_CARD_SHARE @"http://115.28.214.126:8000/share/card/%@"
 #define API_DAILY_SHARE @"http://115.28.214.126:8000/share/daily/%@"
 
-#define API_RSYNC_HOST @"115.28.214.12"
+#define API_RSYNC_HOST @"115.28.214.126"
 #define API_RSYNC_PROTOCOL 30
 #define API_RSYNC_PORT 873
 #define API_RSYNC_USERNAME @"ursync"

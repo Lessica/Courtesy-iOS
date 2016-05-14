@@ -1,18 +1,16 @@
 //
-//  CourtesyGalleryDailyCardView.h
+//  CourtesyGalleryLinkCardView.h
 //  Courtesy
 //
-//  Created by Zheng on 4/30/16.
+//  Created by Zheng on 5/13/16.
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
 #import "CourtesyGalleryDailyCardModel.h"
 
-@interface CourtesyGalleryDailyCardView : UIView
-@property (nonatomic, strong) NSDate *targetDate;
-@property (nonatomic, strong) UIImageView *rightImageView;
+@interface CourtesyGalleryLinkCardView : UIView
+@property (nonatomic, strong) UIImageView *middleImageView;
 @property (nonatomic, strong) CourtesyGalleryDailyCardModel *dailyCard;
 
 - (void)setErrorMessage:(NSString *)errorMessage;
-
 @end
