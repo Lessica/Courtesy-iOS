@@ -99,6 +99,7 @@
     [self addSubview:self.waveform];
     [self sendSubviewToBack:self.waveform];
     [self addSubview:self.titleLabel];
+    
     // Init of Audio Player
     AFSoundItem *audioItem = [[AFSoundItem alloc] initWithStreamingURL:audioURL];
     if (!audioItem) return;
@@ -119,7 +120,6 @@
     } andFinishedBlock:^() {
         __strong typeof(self) strongSelf = weakSelf;
         strongSelf.isPlaying = NO;
-        [strongSelf.audioQueue pause];
         [strongSelf.audioQueue restart];
         [strongSelf.playBtn setSelected:strongSelf.isPlaying];
         [UIView animateWithDuration:0.2 animations:^{

@@ -23,6 +23,11 @@
     [self.tableView reloadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [_introductionField becomeFirstResponder];
+}
+
 - (IBAction)saveButtonClicked:(id)sender {
     [self.view endEditing:YES];
     if (![_introductionField.text isMaxLength:(72)]) {

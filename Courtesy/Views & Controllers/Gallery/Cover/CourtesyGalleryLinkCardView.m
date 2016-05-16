@@ -216,11 +216,7 @@
 }
 
 - (void)setTopText:(NSString *)topString {
-    if (topString.length == 0) {
-        
-    } else {
-        _topLabel.text = topString;
-    }
+    _topLabel.text = topString;
 }
 
 - (void)setBottomText:(NSString *)bottomString {

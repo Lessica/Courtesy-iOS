@@ -170,7 +170,7 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
         CourtesyLeftDrawerMenuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kJVDrawerCellReuseIdentifier forIndexPath:indexPath];
         if (indexPath.row == kCourtesyGalleryIndex) {
             cell.titleText = @"探索";
-            cell.iconImage = [UIImage imageNamed:@"5-gallery"];
+            cell.iconImage = [UIImage imageNamed:@"1-gift"];
         } else if (indexPath.row == kCourtesySettingsIndex) {
             cell.titleText = @"设置";
             cell.iconImage = [UIImage imageNamed:@"665-gear"];

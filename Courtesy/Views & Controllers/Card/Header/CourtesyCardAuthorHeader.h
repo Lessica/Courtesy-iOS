@@ -10,6 +10,7 @@
 
 @interface CourtesyCardAuthorHeader : MJRefreshHeader
 @property (strong, nonatomic) UIImageView *avatarImageView;
-@property (strong, nonatomic) UILabel *nickLabelView;
+@property (strong, nonatomic) UILabel *nickLabel;
+@property (strong, nonatomic) UILabel *viewCountLabel;
 
 @end

@@ -15,7 +15,6 @@
 #import "CourtesyImageFrameView.h"
 #import "CourtesyVideoFrameView.h"
 #import "CourtesyCardComposeViewController.h"
-//#import "CourtesyJotViewController.h"
 #import "WechatShortVideoController.h"
 #import "PECropViewController.h"
 #import "CourtesyAudioNoteRecorderView.h"
@@ -42,13 +41,19 @@
 #define kComposeTopBarInsectUpdated 64.0
 #define kComposeCardViewMargin 12.0
 #define kComposeCardViewBorderWidth 4.0
-#define kComposeCardViewShadowOpacity 0.33
-#define kComposeCardViewShadowRadius 4.0
+#define kComposeCardViewShadowOpacity 0.4
+#define kComposeCardViewShadowRadius 20.0
 #define kComposeCardViewCornerRadius 10.0
 #define kComposeCardViewEditInset UIEdgeInsetsMake(-kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2)
 
 #define LocationTimeout 3
 #define ReGeocodeTimeout 3
+
+typedef enum : NSUInteger {
+    kCourtesyCardComposeViewLeftPage = 0,
+    kCourtesyCardComposeViewMiddlePage = 1,
+    kCourtesyCardComposeViewRightPage = 2,
+} CourtesyCardComposeViewPageIndex;
 
 @interface CourtesyCardComposeViewController ()
 <
@@ -61,7 +66,6 @@
     CourtesyAudioNoteRecorderDelegate,
     CourtesyImageFrameDelegate,
     WechatShortVideoDelegate,
-//    JotViewControllerDelegate,
     JTSImageViewControllerInteractionsDelegate,
     CourtesyCardPreviewGeneratorDelegate,
     CourtesyFontSheetViewDelegate,
@@ -71,10 +75,13 @@
     LGAlertViewDelegate,
     UMSocialUIDelegate,
     AMapLocationManagerDelegate,
-    UIPreviewActionItem
+    UIPreviewActionItem,
+    UIScrollViewDelegate
 >
 
 @property (nonatomic, strong) UIImageView *backgroundImageView;
+@property (nonatomic, strong) UIPageControl *pageControl;
+@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *cardView;
 
 @property (nonatomic, strong) CourtesyTextView *textView;
@@ -86,19 +93,14 @@
 
 @property (nonatomic, strong) UIButton *circleCloseBtn;
 @property (nonatomic, strong) UIButton *circleApproveBtn;
-@property (nonatomic, strong) UIImageView *circleSaveBtn;
-//@property (nonatomic, strong) UIImageView *circleBackBtn;
+@property (nonatomic, strong) UIImageView *circleShareBtn;
 @property (nonatomic, strong) UIButton *circleLocationBtn;
-
-//@property (nonatomic, strong) UIView *jotView;
-//@property (nonatomic, strong) CourtesyJotViewController *jotViewController;
 
 @property (nonatomic, strong) UIToolbar *toolbar;
 @property (nonatomic, strong) UIBarButtonItem *audioButton;
 @property (nonatomic, strong) UIBarButtonItem *imageButton;
 @property (nonatomic, strong) UIBarButtonItem *videoButton;
 @property (nonatomic, strong) UIBarButtonItem *urlButton;
-//@property (nonatomic, strong) UIBarButtonItem *drawButton;
 @property (nonatomic, strong) UIBarButtonItem *fontButton;
 @property (nonatomic, strong) UIBarButtonItem *alignmentButton;
 
@@ -111,13 +113,14 @@
 @property (nonatomic, strong) AMapLocationManager *locationManager;
 @property (nonatomic, copy) AMapLocatingCompletionBlock geoCompletionBlock;
 
+@property (nonatomic, assign) BOOL canScroll;
+@property (nonatomic, assign) BOOL firstAnimation;
+@property (nonatomic, assign) BOOL firstAppear;
+@property (nonatomic, assign) BOOL isAuthor;
+
 @end
 
-@implementation CourtesyCardComposeViewController {
-    BOOL firstAnimation;
-    BOOL firstAppear;
-    BOOL isAuthor;
-}
+@implementation CourtesyCardComposeViewController
 
 - (instancetype)initWithCard:(nullable CourtesyCardModel *)card {
     if (self = [super init]) {
@@ -125,9 +128,9 @@
         _card = card;
         _previewContext = NO;
         if (card.author.user_id == kAccount.user_id) {
-            isAuthor = YES;
+            _isAuthor = YES;
         } else {
-            isAuthor = NO;
+            _isAuthor = NO;
         }
     }
     return self;
@@ -172,24 +175,67 @@
     self.fakeBar = fakeBar;
     [self.view addSubview:fakeBar];
     
+    /* Init of scroll structure */
+    CGFloat pageWidth = self.view.bounds.size.width;
+    self.canScroll = NO;
+    
+    /* Init of page control */
+    UIPageControl *pageControl = [[UIPageControl alloc] init];
+    pageControl.numberOfPages = 3;
+    pageControl.currentPage = kCourtesyCardComposeViewMiddlePage;
+    [pageControl addTarget:self action:@selector(pageControlValueChanged:) forControlEvents:UIControlEventValueChanged];
+    self.pageControl = pageControl;
+    [self.view addSubview:pageControl];
+    
+    /* Layouts of page control */
+    [pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).with.offset((CGFloat) (fakeBar.frame.size.height + kComposeCardViewMargin * 2));
+        make.centerX.equalTo(fakeBar.mas_centerX);
+    }];
+    
+    /* Init of main scroll view */
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    scrollView.delegate = self;
+    scrollView.pagingEnabled = YES;
+    scrollView.scrollEnabled = self.canScroll;
+    scrollView.bounces = YES;
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.contentSize = CGSizeMake(pageWidth * 3, self.view.bounds.size.height);
+    scrollView.contentOffset = CGPointMake(pageWidth, 0); // 默认第二页
+    [self.view addSubview:scrollView];
+    self.scrollView = scrollView;
+    
+    /* Layouts of scroll view */
+    [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    CGFloat mainPageX = pageWidth;
+    CGFloat mainPageY = (CGFloat) (fakeBar.frame.size.height + kComposeCardViewMargin);
+    
     /* Init of Card View */
-    UIView *cardView = [[UIView alloc] initWithFrame:CGRectMake(kComposeCardViewMargin, (CGFloat) (fakeBar.frame.size.height + kComposeCardViewMargin), (CGFloat) (self.view.frame.size.width - kComposeCardViewMargin * 2), (CGFloat) (self.view.frame.size.height - kComposeCardViewMargin * 2))];
+    UIView *cardView = [[UIView alloc] initWithFrame:CGRectMake(mainPageX, mainPageY, scrollView.frame.size.width, scrollView.frame.size.height)];
     cardView.backgroundColor = self.style.cardBackgroundColor;
-    cardView.layer.masksToBounds = YES;
-    cardView.layer.shadowOffset = CGSizeMake(0, 1.5);
+    cardView.layer.masksToBounds = NO;
+    cardView.layer.shadowOffset = CGSizeMake(0, 0);
     cardView.layer.shadowColor = [UIColor blackColor].CGColor;
-    cardView.layer.shadowOpacity = kComposeCardViewShadowOpacity;
-    cardView.layer.shadowRadius = kComposeCardViewShadowRadius;
-    cardView.layer.cornerRadius = kComposeCardViewCornerRadius;
     cardView.layer.shouldRasterize = YES;
     cardView.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     /* Layouts of Card View */
     self.cardView = cardView;
-    [self.view insertSubview:cardView belowSubview:fakeBar];
+    [self applyShadowToCardView:YES];
+    
+    [scrollView addSubview:cardView];
     [cardView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view).with.insets(kComposeCardViewEditInset);
+        make.left.equalTo(@(mainPageX));
+        make.top.equalTo(@0);
+        make.width.equalTo(scrollView.mas_width);
+        make.height.equalTo(scrollView.mas_height);
     }];
+    
+    /* Configure for preview */
     if (!_previewContext) {
         cardView.transform = CGAffineTransformMakeScale(0.75, 0.75);
     }
@@ -205,8 +251,6 @@
     [myToolBarItems addObject:self.videoButton]; [myToolBarItems addObject:flexibleSpace];
     self.urlButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrlButtonTapped:)];
     [myToolBarItems addObject:self.urlButton]; [myToolBarItems addObject:flexibleSpace];
-//    self.drawButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"50-freehand"] style:UIBarButtonItemStylePlain target:self action:@selector(openFreehandButtonTapped:)];
-//    [myToolBarItems addObject:self.drawButton]; [myToolBarItems addObject:flexibleSpace];
     self.fontButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(fontButtonTapped:)];
     [myToolBarItems addObject:self.fontButton]; [myToolBarItems addObject:flexibleSpace];
     NSString *alignmentImageName = nil;
@@ -328,9 +372,12 @@
     /* Init of header view */
     CourtesyCardAuthorHeader *authorHeader = [CourtesyCardAuthorHeader headerWithRefreshingBlock:^{}];
     authorHeader.avatarImageView.imageURL = self.card.author.profile.avatar_url_medium;
-    authorHeader.nickLabelView.text = self.card.author.profile.nick;
-    authorHeader.nickLabelView.font = [text.font fontWithSize:12.0];
-    authorHeader.nickLabelView.textColor = self.style.dateLabelTextColor;
+    authorHeader.viewCountLabel.text = [NSString stringWithFormat:@"%lu 次阅读", self.card.view_count];
+    authorHeader.nickLabel.text = self.card.author.profile.nick;
+    authorHeader.viewCountLabel.font =
+    authorHeader.nickLabel.font = [text.font fontWithSize:12.0];
+    authorHeader.viewCountLabel.textColor =
+    authorHeader.nickLabel.textColor = self.style.dateLabelTextColor;
     textView.mj_header = authorHeader;
     self.authorHeader = authorHeader;
     
@@ -341,26 +388,6 @@
     [fakeBar addGestureRecognizer:tapFakeBar];
     [fakeBar setUserInteractionEnabled:YES];
     
-    /* Init of Jot Scroll View
-    UIView *jotView = [[UIView alloc] initWithFrame:self.textView.frame];
-    jotView.backgroundColor = [UIColor clearColor];
-    jotView.translatesAutoresizingMaskIntoConstraints = NO;
-    */
-    /* Layout of Jot Scroll View
-    self.jotView = jotView;
-    [cardView insertSubview:jotView belowSubview:textView];
-    [jotView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(cardView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
-    }];
-    */
-    /* Init of Jot View Controller
-    CourtesyJotViewController *jotViewController = [[CourtesyJotViewController alloc] initWithMasterController:self];
-    [self addChildViewController:jotViewController];
-    jotViewController.view.frame = jotView.frame;
-    [jotView addSubview:jotViewController.view];
-    [jotViewController didMoveToParentViewController:self];
-    self.jotViewController = jotViewController;
-    */
     /* Init of close circle button */
     UIButton *circleCloseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
     circleCloseBtn.backgroundColor = self.style.buttonBackgroundColor;
@@ -419,70 +446,35 @@
         make.height.equalTo(@32);
     }];
     
-    /* Init of back button
-    UIImageView *circleBackBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    circleBackBtn.backgroundColor = self.style.buttonBackgroundColor;
-    circleBackBtn.tintColor = self.style.buttonTintColor;
-    circleBackBtn.alpha = self.style.standardAlpha - 0.2;
-    circleBackBtn.image = [[UIImage imageNamed:@"56-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    circleBackBtn.layer.masksToBounds = YES;
-    circleBackBtn.layer.cornerRadius = circleBackBtn.frame.size.height / 2;
-    circleBackBtn.translatesAutoresizingMaskIntoConstraints = NO;
-     */
-    /* Back button is not visible
-    circleBackBtn.alpha = 0.0;
-    circleBackBtn.hidden = YES;
-     */
-    /* Tap gesture of back button
-    UITapGestureRecognizer *tapBackBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                 action:@selector(closeFreehandButtonTapped:)];
-    tapBackBtn.numberOfTouchesRequired = 1;
-    tapBackBtn.numberOfTapsRequired = 1;
-    [circleBackBtn addGestureRecognizer:tapBackBtn];
-     */
-    /* Enable interaction for back button
-    [circleBackBtn setUserInteractionEnabled:YES];
-    */
-    /* Auto layouts of back button
-    self.circleBackBtn = circleBackBtn;
-    [self.view addSubview:circleBackBtn];
-    [self.view bringSubviewToFront:circleBackBtn];
-    [circleBackBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom).with.offset(-kComposeCardViewMargin * 2);
-        make.left.equalTo(self.view.mas_left).with.offset(kComposeCardViewMargin * 2);
-        make.width.equalTo(@32);
-        make.height.equalTo(@32);
-    }];
-    */
     /* Init of save button */
-    UIImageView *circleSaveBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    circleSaveBtn.backgroundColor = self.style.buttonBackgroundColor;
-    circleSaveBtn.tintColor = self.style.buttonTintColor;
-    circleSaveBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
-    circleSaveBtn.image = [[UIImage imageNamed:@"103-down"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    circleSaveBtn.layer.masksToBounds = YES;
-    circleSaveBtn.layer.cornerRadius = circleSaveBtn.frame.size.height / 2;
-    circleSaveBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    UIImageView *circleShareBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+    circleShareBtn.backgroundColor = self.style.buttonBackgroundColor;
+    circleShareBtn.tintColor = self.style.buttonTintColor;
+    circleShareBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
+    circleShareBtn.image = [[UIImage imageNamed:@"103-down"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    circleShareBtn.layer.masksToBounds = YES;
+    circleShareBtn.layer.cornerRadius = circleShareBtn.frame.size.height / 2;
+    circleShareBtn.translatesAutoresizingMaskIntoConstraints = NO;
     
     /* Save button is not visible */
-    circleSaveBtn.alpha = 0.0;
-    circleSaveBtn.hidden = YES;
+    circleShareBtn.alpha = 0.0;
+    circleShareBtn.hidden = YES;
     
     /* Tap gesture of save button */
-    UITapGestureRecognizer *tapSaveBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
+    UITapGestureRecognizer *tapShareBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(actionShare:)];
-    tapSaveBtn.numberOfTouchesRequired = 1;
-    tapSaveBtn.numberOfTapsRequired = 1;
-    [circleSaveBtn addGestureRecognizer:tapSaveBtn];
+    tapShareBtn.numberOfTouchesRequired = 1;
+    tapShareBtn.numberOfTapsRequired = 1;
+    [circleShareBtn addGestureRecognizer:tapShareBtn];
     
     /* Enable interaction for save button */
-    [circleSaveBtn setUserInteractionEnabled:YES];
+    [circleShareBtn setUserInteractionEnabled:YES];
     
     /* Auto layouts of save button */
-    self.circleSaveBtn = circleSaveBtn;
-    [self.view addSubview:circleSaveBtn];
-    [self.view bringSubviewToFront:circleSaveBtn];
-    [circleSaveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.circleShareBtn = circleShareBtn;
+    [self.view addSubview:circleShareBtn];
+    [self.view bringSubviewToFront:circleShareBtn];
+    [circleShareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view.mas_right).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
         make.bottom.equalTo(self.view.mas_bottom).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
         make.width.equalTo(@32);
@@ -498,11 +490,6 @@
     [circleLocationBtn setImage:[[UIImage imageNamed:@"104-location"]
             imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
                        forState:UIControlStateNormal];
-    if ([self.cdata.geoLocation hasLocation]) {
-        [circleLocationBtn setTitle:self.cdata.geoLocation.address forState:UIControlStateNormal];
-    } else {
-        [circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
-    }
     [circleLocationBtn setTitleColor:self.style.buttonTintColor forState:UIControlStateNormal];
     circleLocationBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
     circleLocationBtn.layer.masksToBounds = YES;
@@ -512,10 +499,18 @@
     /* Location button is not visible */
     circleLocationBtn.alpha = 0.0;
     circleLocationBtn.hidden = YES;
-
-    if ([self.card isMyCard]) {
-        /* Touch Event of Location Button */
-        [circleLocationBtn setTarget:self action:@selector(locationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    
+    /* Touch Event of Location Button */
+    [circleLocationBtn setTarget:self action:@selector(locationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    
+    if ([self.cdata.geoLocation hasLocation]) {
+        [circleLocationBtn setTitle:self.cdata.geoLocation.address forState:UIControlStateNormal];
+    } else {
+        if (_isAuthor) {
+            [circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
+        } else {
+            [circleLocationBtn setTitle:@"无位置" forState:UIControlStateNormal];
+        }
     }
 
     /* Auto layouts of location button */
@@ -633,10 +628,13 @@
     
     // 设置输入区域属性
     _cardEdited = NO;
-    firstAnimation = YES;
-    firstAppear = YES;
+    _firstAnimation = YES;
+    _firstAppear = YES;
     [[YYTextKeyboardManager defaultManager] addObserver:self];
     self.inputViewType = kCourtesyInputViewDefault;
+    
+    // 将状态栏提到最前
+    [self.view bringSubviewToFront:fakeBar];
     
     // 设置地理位置模块
     [self initGeoCompleteBlock];
@@ -651,37 +649,43 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-//    [self.textView addObserver:self forKeyPath:@"typingAttributes" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (firstAppear && !_previewContext) {
+    if (_firstAppear && !_previewContext) {
         [self doCardViewAnimation:YES];
-        firstAppear = NO;
+        _firstAppear = NO;
     }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-//    [self.textView removeObserver:self forKeyPath:@"typingAttributes"];
 }
 
 #pragma mark - animation
 
+- (void)setCanScroll:(BOOL)canScroll {
+    _canScroll = canScroll;
+    if (self.scrollView) {
+        [self.scrollView setScrollEnabled:canScroll];
+    }
+}
+
 - (void)doCardViewAnimation:(BOOL)animated {
     if (animated) {
+        self.canScroll = NO;
         self.textView.minContentSize = CGSizeMake(0, self.cardView.frame.size.height);
         [UIView beginAnimations:@"startEditing" context:nil];
         [UIView setAnimationDelegate:self];
-        [UIView setAnimationWillStartSelector:@selector(animationDidStart:)];
-        [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:)];
+        [UIView setAnimationWillStartSelector:@selector(openAnimationWillStart:)];
+        [UIView setAnimationDidStopSelector:@selector(openAnimationDidStop:finished:)];
         [UIView setAnimationDelay:0.0f];
         [UIView setAnimationDuration:0.3f];
         self.textView.showsVerticalScrollIndicator = YES;
         self.cardView.transform = CGAffineTransformMakeScale(1.0, 1.0);
         self.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectUpdated, 0, 0, 0);
-        if (firstAnimation) {
+        if (_firstAnimation) {
             self.fakeBar.alpha = self.style.standardAlpha;
             self.circleApproveBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
             self.circleCloseBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
@@ -689,11 +693,12 @@
         }
         [UIView commitAnimations];
     } else {
+        self.canScroll = YES;
         self.textView.minContentSize = CGSizeMake(0, 0);
         [UIView beginAnimations:@"endEditing" context:nil];
         [UIView setAnimationDelegate:self];
-        [UIView setAnimationWillStartSelector:@selector(animationDidStart:)];
-        [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:)];
+        [UIView setAnimationWillStartSelector:@selector(closeAnimationWillStart:)];
+        [UIView setAnimationDidStopSelector:@selector(closeAnimationDidStop:finished:)];
         [UIView setAnimationDelay:0.0f];
         [UIView setAnimationDuration:0.3f];
         self.textView.showsVerticalScrollIndicator = NO;
@@ -703,40 +708,53 @@
     }
 }
 
-- (void)animationDidStart:(CAAnimation *)anim {
+- (void)openAnimationWillStart:(CAAnimation *)anim {
     
 }
 
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+- (void)openAnimationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
     if (self.editable) {
-        if (firstAnimation) {
-            firstAnimation = NO;
+        if (_firstAnimation) {
+            _firstAnimation = NO;
         }
     }
+    [self applyShadowToCardView:NO];
 }
 
-#pragma mark - Text Attributes Holder
+- (void)closeAnimationWillStart:(CAAnimation *)anim {
+    [self applyShadowToCardView:YES];
+}
 
-//- (void)observeValueForKeyPath:(NSString *)keyPath
-//                      ofObject:(id)object
-//                        change:(NSDictionary<NSString *,id> *)change
-//                       context:(void *)context
-//{
-//    if ([keyPath isEqualToString:@"typingAttributes"]) {
-//        self.textView.typingAttributes = self.originalAttributes;
-//    } else {
-//        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-//    }
-//}
+- (void)closeAnimationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+    
+}
+
+- (void)applyShadowToCardView:(BOOL)flag {
+    if (flag) {
+        _cardView.layer.shadowOpacity = kComposeCardViewShadowOpacity;
+        _cardView.layer.shadowRadius = kComposeCardViewShadowRadius;
+        _cardView.layer.cornerRadius = kComposeCardViewCornerRadius;
+    } else {
+        _cardView.layer.shadowRadius  = 0.0;
+        _cardView.layer.shadowOpacity = 0.0;
+        _cardView.layer.cornerRadius = 0.0;
+    }
+}
 
 #pragma mark - Floating Actions & Navigation Bar Items
 
 - (void)locationButtonTapped {
-    [self reGeocodeAction];
+    if (self.scrollView) {
+        [self.scrollView scrollToLeftAnimated:YES];
+    }
 }
 
 - (void)closeComposeView:(UIButton *)sender {
-    if (isAuthor) {
+    if (_pageControl.currentPage != kCourtesyCardComposeViewMiddlePage) {
+        [self scrollToPage:kCourtesyCardComposeViewMiddlePage];
+        return;
+    }
+    if (_isAuthor) {
         if (sender.selected) {
             self.circleApproveBtn.selected = NO;
             self.circleCloseBtn.selected = NO;
@@ -746,11 +764,11 @@
             __weak typeof(self) weakSelf = self;
             [UIView animateWithDuration:0.5 animations:^{
                 __strong typeof(self) strongSelf = weakSelf;
-                strongSelf.circleSaveBtn.alpha = 0.0;
+                strongSelf.circleShareBtn.alpha = 0.0;
                 strongSelf.circleLocationBtn.alpha = 0.0;
             } completion:^(BOOL finished) {
                 __strong typeof(self) strongSelf = weakSelf;
-                strongSelf.circleSaveBtn.hidden = YES;
+                strongSelf.circleShareBtn.hidden = YES;
                 strongSelf.circleLocationBtn.hidden = YES;
             }];
             [self.view makeToast:@"退出预览模式"
@@ -781,12 +799,12 @@
             __weak typeof(self) weakSelf = self;
             [UIView animateWithDuration:0.5 animations:^{
                 __strong typeof(self) strongSelf = weakSelf;
-                strongSelf.circleSaveBtn.alpha = 0.0;
+                strongSelf.circleShareBtn.alpha = 0.0;
                 strongSelf.circleLocationBtn.alpha = 0.0;
                 strongSelf.circleApproveBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
             } completion:^(BOOL finished) {
                 __strong typeof(self) strongSelf = weakSelf;
-                strongSelf.circleSaveBtn.hidden = YES;
+                strongSelf.circleShareBtn.hidden = YES;
                 strongSelf.circleLocationBtn.hidden = YES;
             }];
         } else {
@@ -805,7 +823,11 @@
 }
 
 - (void)doneComposeView:(UIButton *)sender {
-    if (isAuthor) {
+    if (_pageControl.currentPage != kCourtesyCardComposeViewMiddlePage) {
+        [self scrollToPage:kCourtesyCardComposeViewMiddlePage];
+        return;
+    }
+    if (_isAuthor) {
         if (sender.selected) {
             [self publishCard];
         } else {
@@ -823,14 +845,14 @@
             if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
             self.circleApproveBtn.selected = YES;
             self.circleCloseBtn.selected = YES;
-            self.circleSaveBtn.hidden = NO;
+            self.circleShareBtn.hidden = NO;
             self.circleLocationBtn.hidden = NO;
             self.editable = NO;
             [self doCardViewAnimation:NO];
             __weak typeof(self) weakSelf = self;
             [UIView animateWithDuration:0.5 animations:^{
                 __strong typeof(self) strongSelf = weakSelf;
-                strongSelf.circleSaveBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
+                strongSelf.circleShareBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
                 strongSelf.circleLocationBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
             } completion:nil];
             NSString *type = @"发布";
@@ -846,13 +868,13 @@
             
         } else {
             self.circleCloseBtn.selected = YES;
-            self.circleSaveBtn.hidden = NO;
+            self.circleShareBtn.hidden = NO;
             self.circleLocationBtn.hidden = NO;
             [self doCardViewAnimation:NO];
             __weak typeof(self) weakSelf = self;
             [UIView animateWithDuration:0.5 animations:^{
                 __strong typeof(self) strongSelf = weakSelf;
-                strongSelf.circleSaveBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
+                strongSelf.circleShareBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
                 strongSelf.circleLocationBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
                 strongSelf.circleApproveBtn.alpha = 0;
             } completion:^(BOOL finished) {
@@ -864,6 +886,10 @@
 }
 
 - (void)actionShare:(id)sender {
+    if (_pageControl.currentPage != kCourtesyCardComposeViewMiddlePage) {
+        [self scrollToPage:kCourtesyCardComposeViewMiddlePage];
+        return;
+    }
     [self.view makeToastActivity:CSToastPositionCenter];
     [self performSelectorInBackground:@selector(generateTextViewLayer:) withObject:self];
 }
@@ -887,7 +913,6 @@
         self.audioButton.tintColor =
         self.videoButton.tintColor =
         self.urlButton.tintColor =
-//        self.drawButton.tintColor =
         self.alignmentButton.tintColor = self.style.toolbarTintColor;
         CourtesyImageSheetView *imageView = [[CourtesyImageSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
         self.textView.inputView = imageView;
@@ -908,7 +933,6 @@
         self.imageButton.tintColor =
         self.videoButton.tintColor =
         self.urlButton.tintColor =
-//        self.drawButton.tintColor =
         self.alignmentButton.tintColor = self.style.toolbarTintColor;
         CourtesyAudioSheetView *audioView = [[CourtesyAudioSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
         self.textView.inputView = audioView;
@@ -929,7 +953,6 @@
         self.imageButton.tintColor =
         self.audioButton.tintColor =
         self.urlButton.tintColor =
-//        self.drawButton.tintColor =
         self.alignmentButton.tintColor = self.style.toolbarTintColor;
         CourtesyVideoSheetView *videoView = [[CourtesyVideoSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
         self.textView.inputView = videoView;
@@ -942,61 +965,6 @@
     if (![self.textView isFirstResponder]) [self.textView becomeFirstResponder];
 }
 
-#pragma mark - Freehand
-/*
-- (void)closeFreehandButtonTapped:(UIGestureRecognizer *)sender {
-    [self.jotViewController setState:JotViewStateDefault];
-    [self.jotViewController setControlEnabled:NO];
-    [self.cardView sendSubviewToBack:self.jotView];
-    self.circleApproveBtn.hidden = NO;
-    self.circleCloseBtn.hidden = NO;
-    __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.5
-                     animations:^{
-                         __strong typeof(self) strongSelf = weakSelf;
-                         strongSelf.circleBackBtn.alpha = 0.0;
-                         strongSelf.circleApproveBtn.alpha = strongSelf.style.standardAlpha - 0.2;
-                         strongSelf.circleCloseBtn.alpha = strongSelf.style.standardAlpha - 0.2;
-                     } completion:^(BOOL finished) {
-                         __strong typeof(self) strongSelf = weakSelf;
-                         if (finished) {
-                             strongSelf.circleBackBtn.hidden = YES;
-                             strongSelf.circleApproveBtn.userInteractionEnabled = YES;
-                             strongSelf.circleCloseBtn.userInteractionEnabled = YES;
-                             if (!strongSelf.textView.isFirstResponder) {
-                                 [strongSelf.textView becomeFirstResponder];
-                             }
-                         }
-                     }];
-}
-
-- (void)openFreehandButtonTapped:(UIBarButtonItem *)sender {
-    if (!self.editable) return;
-    if (self.textView.isFirstResponder) {
-        [self.textView resignFirstResponder];
-    }
-    [self.jotViewController setState:JotViewStateDrawing];
-    [self.jotViewController setControlEnabled:YES];
-    [self.cardView sendSubviewToBack:self.textView];
-    self.circleBackBtn.hidden = NO;
-    self.circleApproveBtn.userInteractionEnabled = NO;
-    self.circleCloseBtn.userInteractionEnabled = NO;
-    __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.5
-                     animations:^{
-                         __strong typeof(self) strongSelf = weakSelf;
-                         strongSelf.circleBackBtn.alpha = strongSelf.style.standardAlpha - 0.2;
-                         strongSelf.circleApproveBtn.alpha = 0;
-                         strongSelf.circleCloseBtn.alpha = 0;
-                     } completion:^(BOOL finished) {
-                         __strong typeof(self) strongSelf = weakSelf;
-                         if (finished) {
-                             strongSelf.circleApproveBtn.hidden = YES;
-                             strongSelf.circleCloseBtn.hidden = YES;
-                         }
-                     }];
-}
-*/
 #pragma mark - Font & Alignment
 
 - (void)fontButtonTapped:(UIBarButtonItem *)sender {
@@ -1007,7 +975,6 @@
         self.imageButton.tintColor =
         self.videoButton.tintColor =
         self.urlButton.tintColor =
-//        self.drawButton.tintColor =
         self.alignmentButton.tintColor = self.style.toolbarTintColor;
         CourtesyFontSheetView *fontView = [[CourtesyFontSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
         self.textView.inputView = fontView;
@@ -1132,7 +1099,6 @@
     self.imageButton.tintColor =
     self.videoButton.tintColor =
     self.urlButton.tintColor =
-//    self.drawButton.tintColor =
     self.alignmentButton.tintColor = self.style.toolbarTintColor;
     CourtesyAudioSheetView *audioView = [[CourtesyAudioSheetView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
     self.textView.inputView = audioView;
@@ -1146,7 +1112,6 @@
     self.imageButton.tintColor =
     self.videoButton.tintColor =
     self.urlButton.tintColor =
-//    self.drawButton.tintColor =
     self.alignmentButton.tintColor =
     self.audioButton.tintColor = self.style.toolbarTintColor;
     self.textView.inputView = nil;
@@ -1188,7 +1153,6 @@
     self.imageButton.tintColor =
     self.videoButton.tintColor =
     self.urlButton.tintColor =
-//    self.drawButton.tintColor =
     self.alignmentButton.tintColor = self.style.toolbarTintColor;
     self.audioButton.tintColor = self.style.toolbarHighlightColor;
     CourtesyAudioNoteRecorderView *audioNoteView = [[CourtesyAudioNoteRecorderView alloc] initWithFrame:CGRectMake(self.keyboardFrame.origin.x, self.keyboardFrame.origin.y + self.toolbar.frame.size.height, self.keyboardFrame.size.width, self.keyboardFrame.size.height - self.toolbar.size.height) andDelegate:self];
@@ -1204,7 +1168,6 @@
                     position:CSToastPositionCenter];
         return;
     }
-//    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     MPMediaPickerController * mediaPicker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
     mediaPicker.delegate = self;
     mediaPicker.allowsPickingMultipleItems = NO;
@@ -1226,7 +1189,6 @@
                     position:CSToastPositionCenter];
         return;
     }
-//    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.mediaTypes = @[(NSString *)kUTTypeImage];
@@ -1248,7 +1210,6 @@
                     position:CSToastPositionCenter];
         return;
     }
-//    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.mediaTypes = @[(NSString *)kUTTypeImage];
@@ -1272,7 +1233,6 @@
                     position:CSToastPositionCenter];
         return;
     }
-//    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
@@ -1296,7 +1256,6 @@
                     position:CSToastPositionCenter];
         return;
     }
-//    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     WechatShortVideoController *shortVideoController = [WechatShortVideoController new];
     shortVideoController.delegate = self;
     [self presentViewController:shortVideoController animated:YES completion:nil];
@@ -1309,7 +1268,6 @@
                     position:CSToastPositionCenter];
         return;
     }
-//    if (self.textView.isFirstResponder) [self.textView resignFirstResponder];
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeVideo];
@@ -1844,8 +1802,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             }
         }
     }
-    self.authorHeader.nickLabelView.font = [_originalFont fontWithSize:12.0];
-//    [self.jotViewController reloadStyle];
+    self.authorHeader.viewCountLabel.font =
+    self.authorHeader.nickLabel.font = [_originalFont fontWithSize:12.0];
 }
 
 - (void)pauseAttachmentAudio {
@@ -1858,7 +1816,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             }
         }
     }
-//    [self.jotViewController reloadStyle];
 }
 
 - (NSUInteger)countOfAudioFrame { return [self countOfClass:[CourtesyAudioFrameView class]]; }
@@ -1883,7 +1840,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - Style Modifier
 
 - (BOOL)editable {
-    return (_card.is_editable && isAuthor);
+    return (_card.is_editable && _isAuthor);
 }
 
 - (CourtesyCardDataModel *)cdata {
@@ -1916,7 +1873,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)setEditable:(BOOL)editable {
-    if (isAuthor) {
+    if (_isAuthor) {
         if (editable == NO) {
             self.textView.inputAccessoryView = nil;
         } else {
@@ -1957,7 +1914,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)dealloc {
     CYLog(@"");
-    if (!isAuthor) return;
+    if (!_isAuthor) return;
     [[YYTextKeyboardManager defaultManager] removeObserver:self];
 }
 
@@ -1968,7 +1925,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - Serialize
 
 - (void)serialize {
-    if (!isAuthor) return;
+    if (!_isAuthor) return;
     @try {
         [self syncAttachmentsStyle];
         [self.view setUserInteractionEnabled:NO];
@@ -2133,7 +2090,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 #pragma mark - UIPreviewActionItem
 
 - (NSArray <id <UIPreviewActionItem>> *)previewActionItems {
-    if (isAuthor) {
+    if (_isAuthor) {
         NSString *type = @"发布";
         if (self.card.hasPublished) {
             type = @"修改";
@@ -2141,7 +2098,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         
         UIPreviewAction *tap1 = [UIPreviewAction actionWithTitle:type style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
             [self publishCard];
-            // TODO: Publish card selected.
         }];
         
         UIPreviewAction *tap2 = [UIPreviewAction actionWithTitle:@"保存到相册" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
@@ -2168,6 +2124,26 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             [self pauseAttachmentAudio];
         }
     }
+}
+
+#pragma mark - Page Control 
+
+- (void)pageControlValueChanged:(UIPageControl *)sender {
+    // Nothing happened
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (scrollView == _scrollView) {
+        NSUInteger index = (NSUInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width);
+        [_pageControl setCurrentPage:index];
+    }
+}
+
+- (void)scrollToPage:(CourtesyCardComposeViewPageIndex)index {
+    [_pageControl setCurrentPage:index];
+    CGSize viewSize = _scrollView.frame.size;
+    CGRect rect = CGRectMake(index * viewSize.width, 0, viewSize.width, viewSize.height);
+    [_scrollView scrollRectToVisible:rect animated:YES];
 }
 
 #pragma mark - 地理位置

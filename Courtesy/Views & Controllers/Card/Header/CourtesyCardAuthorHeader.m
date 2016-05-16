@@ -34,13 +34,21 @@
     [avatarContainerView addSubview:avatarImageView];
     self.avatarImageView = avatarImageView;
     
-    UILabel *nickLabelView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 24)];
-    nickLabelView.textAlignment = NSTextAlignmentCenter;
-    nickLabelView.numberOfLines = 1;
-    nickLabelView.lineBreakMode = NSLineBreakByTruncatingTail;
-    nickLabelView.font = [UIFont systemFontOfSize:14.0];
-    [self addSubview:nickLabelView];
-    self.nickLabelView = nickLabelView;
+    UILabel *nickLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 24)];
+    nickLabel.textAlignment = NSTextAlignmentCenter;
+    nickLabel.numberOfLines = 1;
+    nickLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    nickLabel.font = [UIFont systemFontOfSize:12.0];
+    [self addSubview:nickLabel];
+    self.nickLabel = nickLabel;
+    
+    UILabel *viewCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 24)];
+    viewCountLabel.textAlignment = NSTextAlignmentCenter;
+    viewCountLabel.numberOfLines = 1;
+    viewCountLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    viewCountLabel.font = [UIFont systemFontOfSize:12.0];
+    [self addSubview:viewCountLabel];
+    self.viewCountLabel = viewCountLabel;
 }
 
 - (void)placeSubviews
@@ -49,8 +57,10 @@
     
     self.avatarContainerView.center = CGPointMake(self.mj_w * 0.5, 35);
     self.avatarImageView.center = CGPointMake(self.avatarContainerView.frame.size.width / 2, self.avatarContainerView.frame.size.height / 2);
-    self.nickLabelView.bounds = CGRectMake(0, 0, self.mj_w, 24);
-    self.nickLabelView.center = CGPointMake(self.avatarContainerView.center.x, self.avatarContainerView.center.y + 48);
+    self.nickLabel.bounds = CGRectMake(0, 0, self.mj_w, 24);
+    self.nickLabel.center = CGPointMake(self.avatarContainerView.center.x, self.avatarContainerView.center.y + 48);
+    self.viewCountLabel.bounds = CGRectMake(0, 0, self.mj_w, 24);
+    self.viewCountLabel.center = CGPointMake(self.nickLabel.center.x, self.nickLabel.center.y + 24);
 }
 
 - (void)scrollViewContentOffsetDidChange:(NSDictionary *)change

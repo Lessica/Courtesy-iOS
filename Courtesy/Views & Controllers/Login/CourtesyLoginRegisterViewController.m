@@ -211,6 +211,15 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:API_FORGET_PASSWORD]];
 }
 
+- (IBAction)userAgreementClicked:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:API_TOS]];
+}
+
+- (IBAction)getAuthCodeClicked:(UIButton *)sender {
+    sender.enabled = NO;
+}
+
+
 #pragma mark - 第三方登录事件通知
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {

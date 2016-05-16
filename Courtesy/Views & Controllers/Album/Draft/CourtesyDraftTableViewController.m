@@ -247,6 +247,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
                         [weakSelf.cardManager publicCardInDraft:card];
                         [tableView setEditing:NO animated:YES];
                     }];
+                    publicAction.backgroundColor = [UIColor blueberryColor];
                     return @[publicAction];
                 } else {
                     __weak typeof(self) weakSelf = self;
@@ -254,6 +255,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
                         [weakSelf.cardManager restoreCardInDraft:card];
                         [tableView setEditing:NO animated:YES];
                     }];
+                    restoreAction.backgroundColor = [UIColor blueberryColor];
                     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
                         card.shouldRemove = YES; // 设置删除标记
                         CourtesyAlbumTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -261,6 +263,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
                         [weakSelf.cardManager deleteCardInDraft:card];
                         [tableView setEditing:NO animated:YES];
                     }];
+                    deleteAction.backgroundColor = [UIColor magicColor];
                     return @[deleteAction, restoreAction];
                 }
             } else {
@@ -269,6 +272,7 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
                     [weakSelf.cardManager deleteCardInDraft:card];
                     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
                 }];
+                deleteAction.backgroundColor = [UIColor magicColor];
                 return @[deleteAction];
             }
         }

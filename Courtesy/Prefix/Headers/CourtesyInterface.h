@@ -19,6 +19,7 @@
 #define API_UPLOAD_AVATAR @"https://courtesy.82flex.com/upload/avatar"
 #define API_DOWNLOAD_AVATAR @"https://courtesy.82flex.com/static/avatar"
 #define API_FORGET_PASSWORD @"https://courtesy.82flex.com/courtesy/reset"
+#define API_TOS @"https://courtesy.82flex.com/tos.html"
 #define API_DOWNLOAD_FONT @"https://courtesy.82flex.com/static/fonts"
 #define API_QRCODE_PATH @"/qrcode"
 
@@ -45,6 +46,7 @@
 #define API_UPLOAD_AVATAR @"http://115.28.214.126:8000/upload/avatar"
 #define API_DOWNLOAD_AVATAR @"http://115.28.214.126:8000/static/avatar"
 #define API_FORGET_PASSWORD @"http://115.28.214.126:8000/courtesy/reset"
+#define API_TOS @"https://82flex.com/html/courtesy/tos.html"
 #define API_DOWNLOAD_FONT @"http://115.28.214.126:8000/static/fonts"
 #define API_QRCODE_PATH @"/qrcode"
 

@@ -81,9 +81,15 @@
                     card.hasPublished = YES;
                     
                     if ([card isMyCard]) {
-                        if ([manager hasLocalToken:card.token]) {
+                        CourtesyCardModel *originalCard = [manager cardWithToken:card.token];
+                        if (originalCard != nil) {
+                            if (originalCard.view_count != card.view_count) {
+                                originalCard.view_count = card.view_count;
+                                [originalCard saveToLocalDatabase];
+                            }
                             continue;
                         }
+                        card.author = kAccount;
                     } else {
                         card.read_by = kAccount;
                     }

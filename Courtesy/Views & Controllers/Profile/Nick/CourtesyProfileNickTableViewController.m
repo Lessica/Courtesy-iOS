@@ -23,6 +23,11 @@
     [self.tableView reloadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [_nickField becomeFirstResponder];
+}
+
 - (IBAction)saveButtonClicked:(id)sender {
     [self.view endEditing:YES];
     if (![_nickField.text isMinLength:2 andMaxLength:21]) {

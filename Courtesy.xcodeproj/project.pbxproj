@@ -137,6 +137,7 @@
 		0FD43FCD1C846CA700D6C564 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD43FCC1C846CA700D6C564 /* AVFoundation.framework */; };
 		0FD43FCF1C846CAF00D6C564 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD43FCE1C846CAF00D6C564 /* MediaPlayer.framework */; };
 		0FDABE431CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDABE421CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.m */; };
+		0FDCC7CF1CE9F45C006DCB4D /* CourtesyCardLocationPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDCC7CE1CE9F45C006DCB4D /* CourtesyCardLocationPicker.m */; };
 		0FDDF1F21CABE4050067FB7F /* CourtesyCalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDDF1F11CABE4050067FB7F /* CourtesyCalendarViewController.m */; };
 		0FDDF1F41CABE5370067FB7F /* CourtesyCalendar.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FDDF1F31CABE5370067FB7F /* CourtesyCalendar.bundle */; };
 		0FDEFBB01C97D58F007BE8D2 /* PHPhotoLibrary+CustomPhotoCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FDEFBAF1C97D58F007BE8D2 /* PHPhotoLibrary+CustomPhotoCollection.m */; };
@@ -648,6 +649,8 @@
 		0FD43FCE1C846CAF00D6C564 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		0FDABE411CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardCacheRequestHelper.h; sourceTree = "<group>"; };
 		0FDABE421CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardCacheRequestHelper.m; sourceTree = "<group>"; };
+		0FDCC7CD1CE9F45C006DCB4D /* CourtesyCardLocationPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardLocationPicker.h; sourceTree = "<group>"; };
+		0FDCC7CE1CE9F45C006DCB4D /* CourtesyCardLocationPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardLocationPicker.m; sourceTree = "<group>"; };
 		0FDDF1F01CABE4050067FB7F /* CourtesyCalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCalendarViewController.h; sourceTree = "<group>"; };
 		0FDDF1F11CABE4050067FB7F /* CourtesyCalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCalendarViewController.m; sourceTree = "<group>"; };
 		0FDDF1F31CABE5370067FB7F /* CourtesyCalendar.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CourtesyCalendar.bundle; sourceTree = "<group>"; };
@@ -1408,6 +1411,8 @@
 		0F72856D1CC0BF800029C66A /* Location */ = {
 			isa = PBXGroup;
 			children = (
+				0FDCC7CD1CE9F45C006DCB4D /* CourtesyCardLocationPicker.h */,
+				0FDCC7CE1CE9F45C006DCB4D /* CourtesyCardLocationPicker.m */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -2880,6 +2885,7 @@
 				0FEFDBA21C97D0F800952522 /* PECropViewController.m in Sources */,
 				0FFE04871C93F45800E99DCC /* CourtesySettingsTableViewController.m in Sources */,
 				0FDEFBB91C97D5F7007BE8D2 /* UIImagePickerController+LandScapeImagePicker.m in Sources */,
+				0FDCC7CF1CE9F45C006DCB4D /* CourtesyCardLocationPicker.m in Sources */,
 				0F6D38121CD100BA001155DF /* RGBColor.m in Sources */,
 				0FFE047D1C93F45800E99DCC /* CourtesyProfileCityTableViewController.m in Sources */,
 				0FFE04C11C93F47400E99DCC /* CourtesyCardModel.m in Sources */,

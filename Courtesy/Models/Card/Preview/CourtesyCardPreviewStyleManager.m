@@ -69,7 +69,8 @@
 }
 
 - (CourtesyCardPreviewStyleModel *)previewStyleWithType:(CourtesyCardPreviewStyleType)type {
-    if (type == kCourtesyCardPreviewStyleDefault) {
+    if (type == kCourtesyCardPreviewStyleDefault)
+    {
         CourtesyCardPreviewStyleModel *previewStyle = [CourtesyCardPreviewStyleModel new];
         previewStyle.previewCheckmark = [UIImage imageNamed:@"default-checkmark"];
         previewStyle.previewHeader = [UIImage imageNamed:@"default-preview-header"];

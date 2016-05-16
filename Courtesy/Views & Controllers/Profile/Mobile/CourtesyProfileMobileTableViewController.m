@@ -22,6 +22,11 @@
     [self.tableView reloadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [_mobileField becomeFirstResponder];
+}
+
 - (IBAction)saveButtonClicked:(id)sender {
     [self.view endEditing:YES];
     if (![_mobileField.text isMaxLength:128]) {

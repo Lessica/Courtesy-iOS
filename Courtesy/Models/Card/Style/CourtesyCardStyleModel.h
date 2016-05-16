@@ -10,7 +10,10 @@
 
 typedef enum : NSUInteger {
     kCourtesyCardStyleDefault = 0,
-    kCourtesyCardStyleDark = 1,
+    kCourtesyCardStyleGrunge  = 1,
+    kCourtesyCardStyleDotted  = 2,
+    kCourtesyCardStyleDark    = 3,
+    kCourtesyCardStyleShards  = 4,
 } CourtesyCardStyleID;
 
 @interface CourtesyCardStyleModel : JSONModel

@@ -25,7 +25,11 @@
     if (!_styleNames) {
         _styleNames = @[
                           @"经典白",
-                          @"酷炫灰",
+                          @"亚麻纸",
+                          @"小圆点",
+                          @"酷炫黑",
+                          @"尖锐棱角",
+                          
                           // More Long Image Names
                           
                           ];
@@ -37,7 +41,11 @@
     if (!_styleImages) {
         _styleImages = @[
                            [UIImage imageNamed:@"default-style"],
+                           [UIImage imageNamed:@"grunge-style"],
+                           [UIImage imageNamed:@"dotted-style"],
                            [UIImage imageNamed:@"dark-style"],
+                           [UIImage imageNamed:@"shards-style"],
+                           
                            // More Long Image
                            
                            ];
@@ -49,7 +57,11 @@
     if (!_styleCheckmarks) {
         _styleCheckmarks = @[
                                [UIImage imageNamed:@"default-checkmark-2"],
+                               [UIImage imageNamed:@"grunge-checkmark"],
+                               [UIImage imageNamed:@"dotted-checkmark"],
                                [UIImage imageNamed:@"dark-checkmark"],
+                               [UIImage imageNamed:@"shards-checkmark"],
+                               
                                // More Checkmark
                                
                                ];
@@ -58,7 +70,8 @@
 }
 
 - (CourtesyCardStyleModel *)styleWithID:(CourtesyCardStyleID)styleID {
-    if (styleID == kCourtesyCardStyleDefault) {
+    if (styleID == kCourtesyCardStyleDefault)
+    {
         CourtesyCardStyleModel *newStyle = [CourtesyCardStyleModel new];
         
         newStyle.cardBorderColor = [UIColor coolGrayColor];
@@ -108,7 +121,113 @@
         
         newStyle.darkStyle = NO;
         return newStyle;
-    } else if (styleID == kCourtesyCardStyleDark) {
+    }
+    else if (styleID == kCourtesyCardStyleGrunge)
+    {
+        CourtesyCardStyleModel *newStyle = [CourtesyCardStyleModel new];
+        
+        newStyle.cardBorderColor = [UIColor coolGrayColor];
+        
+        newStyle.statusBarColor = [UIColor blackColor];
+        newStyle.buttonTintColor = [UIColor whiteColor];
+        newStyle.buttonBackgroundColor = [UIColor blackColor];
+        
+        newStyle.toolbarColor = [UIColor whiteColor];
+        newStyle.toolbarBarTintColor = [UIColor whiteColor];
+        newStyle.toolbarTintColor = [UIColor grayColor];
+        newStyle.toolbarHighlightColor = [UIColor blueberryColor];
+        
+        newStyle.cardTextColor = [UIColor darkGrayColor];
+        newStyle.cardLineSpacing = 8.0;
+        newStyle.cardBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"grunge-texture"]];
+        newStyle.cardLineHeight = 32.0;
+        newStyle.placeholderText = @"说点什么吧……";
+        newStyle.placeholderColor = [UIColor lightGrayColor];
+        newStyle.indicatorColor = [UIColor darkGrayColor];
+        
+        newStyle.cardTitleFontSize = 12.0;
+        newStyle.dateLabelTextColor = [UIColor darkGrayColor];
+        newStyle.standardAlpha = 0.618;
+        
+        newStyle.cardElementBackgroundColor = [UIColor whiteColor];
+        newStyle.cardElementTintColor = [UIColor darkGrayColor];
+        newStyle.cardElementTintFocusColor = [UIColor grayColor];
+        newStyle.cardElementTextColor = [UIColor darkGrayColor];
+        newStyle.cardElementShadowColor = [UIColor blackColor];
+        
+        newStyle.defaultAnimationDuration = 0.5;
+        newStyle.cardCreateTimeFormat = @"yy年LLLd日 EEEE ah:mm";
+        newStyle.maxAudioNum = 3;
+        newStyle.maxVideoNum = 3;
+        newStyle.maxImageNum = 20;
+        newStyle.maxContentLength = 4096;
+        
+        newStyle.headerFontSize = [NSNumber numberWithFloat:20.0];
+        newStyle.controlTextColor = [UIColor magicColor];
+        newStyle.headerTextColor = [UIColor blackColor];
+        newStyle.inlineTextColor = newStyle.cardTextColor;
+        newStyle.codeTextColor = newStyle.cardTextColor;
+        newStyle.linkTextColor = [UIColor blueberryColor];
+        
+        newStyle.jotColorArray = @[];
+        
+        newStyle.darkStyle = NO;
+        return newStyle;
+    }
+    else if (styleID == kCourtesyCardStyleDotted)
+    {
+        CourtesyCardStyleModel *newStyle = [CourtesyCardStyleModel new];
+        
+        newStyle.cardBorderColor = [UIColor coolGrayColor];
+        
+        newStyle.statusBarColor = [UIColor blackColor];
+        newStyle.buttonTintColor = [UIColor whiteColor];
+        newStyle.buttonBackgroundColor = [UIColor blackColor];
+        
+        newStyle.toolbarColor = [UIColor whiteColor];
+        newStyle.toolbarBarTintColor = [UIColor whiteColor];
+        newStyle.toolbarTintColor = [UIColor grayColor];
+        newStyle.toolbarHighlightColor = [UIColor blueberryColor];
+        
+        newStyle.cardTextColor = [UIColor darkGrayColor];
+        newStyle.cardLineSpacing = 8.0;
+        newStyle.cardBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"dotted-texture"]];
+        newStyle.cardLineHeight = 32.0;
+        newStyle.placeholderText = @"说点什么吧……";
+        newStyle.placeholderColor = [UIColor lightGrayColor];
+        newStyle.indicatorColor = [UIColor darkGrayColor];
+        
+        newStyle.cardTitleFontSize = 12.0;
+        newStyle.dateLabelTextColor = [UIColor darkGrayColor];
+        newStyle.standardAlpha = 0.618;
+        
+        newStyle.cardElementBackgroundColor = [UIColor whiteColor];
+        newStyle.cardElementTintColor = [UIColor darkGrayColor];
+        newStyle.cardElementTintFocusColor = [UIColor grayColor];
+        newStyle.cardElementTextColor = [UIColor darkGrayColor];
+        newStyle.cardElementShadowColor = [UIColor blackColor];
+        
+        newStyle.defaultAnimationDuration = 0.5;
+        newStyle.cardCreateTimeFormat = @"yy年LLLd日 EEEE ah:mm";
+        newStyle.maxAudioNum = 3;
+        newStyle.maxVideoNum = 3;
+        newStyle.maxImageNum = 20;
+        newStyle.maxContentLength = 4096;
+        
+        newStyle.headerFontSize = [NSNumber numberWithFloat:20.0];
+        newStyle.controlTextColor = [UIColor magicColor];
+        newStyle.headerTextColor = [UIColor blackColor];
+        newStyle.inlineTextColor = newStyle.cardTextColor;
+        newStyle.codeTextColor = newStyle.cardTextColor;
+        newStyle.linkTextColor = [UIColor blueberryColor];
+        
+        newStyle.jotColorArray = @[];
+        
+        newStyle.darkStyle = NO;
+        return newStyle;
+    }
+    else if (styleID == kCourtesyCardStyleDark)
+    {
         CourtesyCardStyleModel *newStyle = [CourtesyCardStyleModel new];
         
         newStyle.cardBorderColor = [UIColor coolGrayColor];
@@ -156,6 +275,58 @@
         
         newStyle.jotColorArray = @[];
         newStyle.darkStyle = YES;
+        return newStyle;
+    }
+    else if (styleID == kCourtesyCardStyleShards)
+    {
+        CourtesyCardStyleModel *newStyle = [CourtesyCardStyleModel new];
+        
+        newStyle.cardBorderColor = [UIColor coolGrayColor];
+        
+        newStyle.statusBarColor = [UIColor blackColor];
+        newStyle.buttonTintColor = [UIColor whiteColor];
+        newStyle.buttonBackgroundColor = [UIColor blackColor];
+        
+        newStyle.toolbarColor = [UIColor whiteColor];
+        newStyle.toolbarBarTintColor = [UIColor whiteColor];
+        newStyle.toolbarTintColor = [UIColor grayColor];
+        newStyle.toolbarHighlightColor = [UIColor blueberryColor];
+        
+        newStyle.cardTextColor = [UIColor blackColor];
+        newStyle.cardLineSpacing = 8.0;
+        newStyle.cardBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"shards-texture"]];
+        newStyle.cardLineHeight = 32.0;
+        newStyle.placeholderText = @"说点什么吧……";
+        newStyle.placeholderColor = [UIColor lightGrayColor];
+        newStyle.indicatorColor = [UIColor darkGrayColor];
+        
+        newStyle.cardTitleFontSize = 12.0;
+        newStyle.dateLabelTextColor = [UIColor blackColor];
+        newStyle.standardAlpha = 0.618;
+        
+        newStyle.cardElementBackgroundColor = [UIColor whiteColor];
+        newStyle.cardElementTintColor = [UIColor blackColor];
+        newStyle.cardElementTintFocusColor = [UIColor darkGrayColor];
+        newStyle.cardElementTextColor = [UIColor blackColor];
+        newStyle.cardElementShadowColor = [UIColor blackColor];
+        
+        newStyle.defaultAnimationDuration = 0.5;
+        newStyle.cardCreateTimeFormat = @"yy年LLLd日 EEEE ah:mm";
+        newStyle.maxAudioNum = 3;
+        newStyle.maxVideoNum = 3;
+        newStyle.maxImageNum = 20;
+        newStyle.maxContentLength = 4096;
+        
+        newStyle.headerFontSize = [NSNumber numberWithFloat:20.0];
+        newStyle.controlTextColor = [UIColor magicColor];
+        newStyle.headerTextColor = [UIColor blackColor];
+        newStyle.inlineTextColor = newStyle.cardTextColor;
+        newStyle.codeTextColor = newStyle.cardTextColor;
+        newStyle.linkTextColor = [UIColor blueberryColor];
+        
+        newStyle.jotColorArray = @[];
+        
+        newStyle.darkStyle = NO;
         return newStyle;
     }
     return nil;
