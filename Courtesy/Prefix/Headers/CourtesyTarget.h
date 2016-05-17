@@ -24,10 +24,14 @@
 #define WEIBO_APP_ID @"400586587"
 #define WEIBO_APP_KEY @"686ce0bb875d2d4695305e31553e3a07"
 #define AUTONAVI_APP_KEY @"8ecd95e906368ca61ae01db5b970f617"
+#define WEIXIN_APP_ID @"wxd930ea5d5a258f4f"
+#define WEIXIN_APP_SECRET @"db426a9829e4b49a0dcac7b4162da6b6"
 
 #define APP_DOWNLOAD_URL @"https://courtesy.82flex.com/download"
 #define WEIBO_SHARE_CONTENT @"#礼记# 礼记之谊，记礼之情。\n%@ 邀您使用「礼记」，一款优雅的卡片社交应用：%@ （来自 @礼记APP）"
 #define WEIBO_CARD_SHARE_CONTENT @"#礼记# 礼记之谊，记礼之情。\n%@ 分享给你一张卡片：%@ （来自 @礼记APP）"
 #define WEIBO_DAILY_SHARE_CONTENT @"#礼记# %@ （来自 @礼记APP）"
+
+#define UMENG_SHARE_PLATFORMS @[UMShareToQQ, UMShareToQzone, UMShareToWechatSession, UMShareToWechatFavorite, UMShareToWechatTimeline, UMShareToSina, UMShareToEmail]
 
 #endif /* CourtesyTarget_h */

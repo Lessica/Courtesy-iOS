@@ -82,6 +82,20 @@
     return YES;
 }
 
+- (CourtesyWeixinAccountModel *)weixinModel {
+    if (!_weixinModel) {
+        _weixinModel = [[CourtesyWeixinAccountModel alloc] init];
+    }
+    return _weixinModel;
+}
+
+- (BOOL)hasWeixinAccount {
+    if (!_weixinModel || !_weixinModel.accessToken) {
+        return NO;
+    }
+    return YES;
+}
+
 #pragma mark - 获取请求状态
 
 - (BOOL)isRequestingFetchAccountInfo {

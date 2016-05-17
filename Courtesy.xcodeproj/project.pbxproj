@@ -41,6 +41,7 @@
 		0F3CECBB1CC4808C0073848F /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3CECB71CC4808C0073848F /* libcrypto.a */; };
 		0F3CECBC1CC4808C0073848F /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3CECB81CC4808C0073848F /* libssh2.a */; };
 		0F3CECC01CC481570073848F /* CourtesyCardPublishPendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3CECBF1CC481570073848F /* CourtesyCardPublishPendRequest.m */; };
+		0F46059D1CEAE26F0045A24C /* CourtesyWeixinAccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F46059C1CEAE26F0045A24C /* CourtesyWeixinAccountModel.m */; };
 		0F489E901CD8FAF50038D27D /* CourtesyLongImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F489E8F1CD8FAF50038D27D /* CourtesyLongImageTableViewCell.m */; };
 		0F489EA41CD8FD420038D27D /* CourtesyCardPreviewGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F489EA11CD8FD420038D27D /* CourtesyCardPreviewGenerator.m */; };
 		0F489EA51CD8FD420038D27D /* CourtesyCardPreviewStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F489EA31CD8FD420038D27D /* CourtesyCardPreviewStyleModel.m */; };
@@ -467,6 +468,8 @@
 		0F3CECB81CC4808C0073848F /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssh2.a; sourceTree = "<group>"; };
 		0F3CECBE1CC481570073848F /* CourtesyCardPublishPendRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublishPendRequest.h; sourceTree = "<group>"; };
 		0F3CECBF1CC481570073848F /* CourtesyCardPublishPendRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishPendRequest.m; sourceTree = "<group>"; };
+		0F46059B1CEAE26F0045A24C /* CourtesyWeixinAccountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyWeixinAccountModel.h; sourceTree = "<group>"; };
+		0F46059C1CEAE26F0045A24C /* CourtesyWeixinAccountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyWeixinAccountModel.m; sourceTree = "<group>"; };
 		0F489E8E1CD8FAF50038D27D /* CourtesyLongImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyLongImageTableViewCell.h; sourceTree = "<group>"; };
 		0F489E8F1CD8FAF50038D27D /* CourtesyLongImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyLongImageTableViewCell.m; sourceTree = "<group>"; };
 		0F489EA01CD8FD420038D27D /* CourtesyCardPreviewGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPreviewGenerator.h; sourceTree = "<group>"; };
@@ -1679,6 +1682,8 @@
 				0FAF2A741CD3363A006FF48A /* CourtesyTencentAccountModel.m */,
 				0F9A74381CE05A0E007F3CA5 /* CourtesyWeiboUserModel.h */,
 				0F9A74391CE05A0E007F3CA5 /* CourtesyWeiboUserModel.m */,
+				0F46059B1CEAE26F0045A24C /* CourtesyWeixinAccountModel.h */,
+				0F46059C1CEAE26F0045A24C /* CourtesyWeixinAccountModel.m */,
 			);
 			path = "Third Party";
 			sourceTree = "<group>";
@@ -2851,6 +2856,7 @@
 				0F760A301CD87C59002CBE60 /* CourtesyThemeTabbarViewController.m in Sources */,
 				0F760A3E1CD87E5A002CBE60 /* Math.m in Sources */,
 				0F760A351CD87DC8002CBE60 /* CourtesyLongImageTableViewController.m in Sources */,
+				0F46059D1CEAE26F0045A24C /* CourtesyWeixinAccountModel.m in Sources */,
 				0FDABE431CD5F5FE001CF1A2 /* CourtesyCardCacheRequestHelper.m in Sources */,
 				0FF2D2871C95DA80007C23DE /* LBXScanView.m in Sources */,
 				0F6DD57F1C98369200CA4389 /* CourtesyMarkdownParser.m in Sources */,

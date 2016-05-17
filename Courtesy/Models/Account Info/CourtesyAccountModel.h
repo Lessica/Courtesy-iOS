@@ -9,6 +9,7 @@
 #import "CourtesyAccountProfileModel.h"
 #import "CourtesyTencentAccountModel.h"
 #import "CourtesyWeiboUserModel.h"
+#import "CourtesyWeixinAccountModel.h"
 
 @class CourtesyAccountModel;
 
@@ -31,6 +32,7 @@
 @property (nonatomic, assign) NSUInteger card_count;
 @property (nonatomic, assign) BOOL incognitoMode;
 @property (nonatomic, strong) CourtesyTencentAccountModel<Optional> *tencentModel;
+@property (nonatomic, strong) CourtesyWeixinAccountModel<Optional> *weixinModel;
 @property (nonatomic, strong) CourtesyWeiboUserModel<Optional> *weiboModel;
 @property (nonatomic, strong) CourtesyAccountProfileModel<Optional> *profile;
 @property (nonatomic, weak) id<Ignore, CourtesyFetchAccountInfoDelegate> delegate;
@@ -41,5 +43,6 @@
 
 - (BOOL)hasWeiboAccount;
 - (BOOL)hasTencentAccount;
+- (BOOL)hasWeixinAccount;
 
 @end

@@ -53,7 +53,7 @@
                                              appKey:UMENG_APP_KEY
                                           shareText:[NSString stringWithFormat:WEIBO_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", APP_DOWNLOAD_URL]
                                          shareImage:[UIImage imageNamed:@"courtesy-share-qrcode"]
-                                    shareToSnsNames:@[UMShareToEmail, UMShareToQQ, UMShareToQzone, UMShareToSina]
+                                    shareToSnsNames:UMENG_SHARE_PLATFORMS
                                            delegate:self];
     }
 }

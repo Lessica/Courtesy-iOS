@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CourtesyLoginRegisterViewController">
             <connections>
+                <outlet property="authButton" destination="CAZ-Zm-TN0" id="2Dw-jg-gyN"/>
                 <outlet property="leadingSpace" destination="jJI-RE-XDD" id="fmc-y0-65W"/>
                 <outlet property="loginEmailTextField" destination="xH1-IQ-oJH" id="yg0-e8-ub5"/>
                 <outlet property="loginPasswordTextField" destination="26n-0d-gkH" id="OHO-C3-U0x"/>
@@ -104,6 +105,17 @@
                                         <action selector="loginFromQQ:" destination="-1" eventType="touchUpInside" id="Ki6-JF-zIR"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oiv-4y-5dp" customClass="CourtesyQuickLoginButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="200" height="100"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <state key="normal" title="微信登录" image="login_wechat_icon">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted" image="login_wechat_icon_click"/>
+                                    <connections>
+                                        <action selector="loginFromWechat:" destination="-1" eventType="touchUpInside" id="aLU-9d-0hJ"/>
+                                    </connections>
+                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HMj-Qe-sm2" customClass="CourtesyQuickLoginButton">
                                     <rect key="frame" x="200" y="0.0" width="200" height="100"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -120,19 +132,34 @@
                             <constraints>
                                 <constraint firstItem="giZ-cQ-8q5" firstAttribute="leading" secondItem="Cjz-3Z-JZE" secondAttribute="leading" id="EDQ-xf-4hs"/>
                                 <constraint firstAttribute="height" constant="100" id="PXq-Xn-aNI"/>
+                                <constraint firstItem="Oiv-4y-5dp" firstAttribute="top" secondItem="Cjz-3Z-JZE" secondAttribute="top" id="V5u-8L-Sj4"/>
                                 <constraint firstAttribute="bottom" secondItem="giZ-cQ-8q5" secondAttribute="bottom" id="aIL-8Y-F31"/>
+                                <constraint firstAttribute="bottom" secondItem="Oiv-4y-5dp" secondAttribute="bottom" id="cvp-0a-ygL"/>
                                 <constraint firstAttribute="trailing" secondItem="HMj-Qe-sm2" secondAttribute="trailing" id="kwA-gv-Iqj"/>
+                                <constraint firstItem="Oiv-4y-5dp" firstAttribute="centerX" secondItem="Cjz-3Z-JZE" secondAttribute="centerX" id="l7G-f8-BFk"/>
                                 <constraint firstItem="giZ-cQ-8q5" firstAttribute="top" secondItem="Cjz-3Z-JZE" secondAttribute="top" id="oBr-d9-VPy"/>
                                 <constraint firstAttribute="bottom" secondItem="HMj-Qe-sm2" secondAttribute="bottom" id="qM5-It-Xkf"/>
                                 <constraint firstItem="HMj-Qe-sm2" firstAttribute="top" secondItem="Cjz-3Z-JZE" secondAttribute="top" id="qfP-3T-XHT"/>
                             </constraints>
                             <variation key="default">
+                                <mask key="subviews">
+                                    <exclude reference="Oiv-4y-5dp"/>
+                                </mask>
                                 <mask key="constraints">
+                                    <exclude reference="V5u-8L-Sj4"/>
+                                    <exclude reference="cvp-0a-ygL"/>
+                                    <exclude reference="l7G-f8-BFk"/>
                                     <exclude reference="kwA-gv-Iqj"/>
                                 </mask>
                             </variation>
                             <variation key="heightClass=regular-widthClass=compact">
+                                <mask key="subviews">
+                                    <include reference="Oiv-4y-5dp"/>
+                                </mask>
                                 <mask key="constraints">
+                                    <include reference="V5u-8L-Sj4"/>
+                                    <include reference="cvp-0a-ygL"/>
+                                    <include reference="l7G-f8-BFk"/>
                                     <include reference="kwA-gv-Iqj"/>
                                 </mask>
                             </variation>
@@ -286,15 +313,15 @@
                                     <exclude reference="CAZ-Zm-TN0"/>
                                 </mask>
                                 <mask key="constraints">
-                                    <exclude reference="1RN-q4-ccX"/>
-                                    <exclude reference="x3u-F0-VXB"/>
-                                    <exclude reference="00r-OD-0Ll"/>
-                                    <exclude reference="1Vq-fD-gQg"/>
-                                    <exclude reference="FJ4-3K-e4p"/>
-                                    <exclude reference="QIa-xQ-735"/>
                                     <exclude reference="NpF-hJ-Hxd"/>
                                     <exclude reference="cGm-XJ-GjS"/>
                                     <exclude reference="wi8-Pk-Ff1"/>
+                                    <exclude reference="1RN-q4-ccX"/>
+                                    <exclude reference="x3u-F0-VXB"/>
+                                    <exclude reference="FJ4-3K-e4p"/>
+                                    <exclude reference="QIa-xQ-735"/>
+                                    <exclude reference="00r-OD-0Ll"/>
+                                    <exclude reference="1Vq-fD-gQg"/>
                                 </mask>
                             </variation>
                             <variation key="heightClass=regular-widthClass=compact">
@@ -304,17 +331,17 @@
                                     <include reference="CAZ-Zm-TN0"/>
                                 </mask>
                                 <mask key="constraints">
+                                    <include reference="NpF-hJ-Hxd"/>
+                                    <include reference="cGm-XJ-GjS"/>
+                                    <include reference="wi8-Pk-Ff1"/>
                                     <include reference="1RN-q4-ccX"/>
                                     <include reference="x3u-F0-VXB"/>
+                                    <include reference="FJ4-3K-e4p"/>
+                                    <include reference="QIa-xQ-735"/>
                                     <include reference="00r-OD-0Ll"/>
                                     <exclude reference="WGo-L3-0o0"/>
                                     <exclude reference="kwb-SP-yNX"/>
                                     <include reference="1Vq-fD-gQg"/>
-                                    <include reference="FJ4-3K-e4p"/>
-                                    <include reference="QIa-xQ-735"/>
-                                    <include reference="NpF-hJ-Hxd"/>
-                                    <include reference="cGm-XJ-GjS"/>
-                                    <include reference="wi8-Pk-Ff1"/>
                                 </mask>
                             </variation>
                             <variation key="heightClass=regular-widthClass=regular" ambiguous="YES">
@@ -344,10 +371,10 @@
                                 <action selector="registerCourtesyAccount:" destination="-1" eventType="touchUpInside" id="xgk-cl-sX9"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NJ3-p8-SRS">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NJ3-p8-SRS">
                             <rect key="frame" x="490" y="193" width="70" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <state key="normal" title="登录后代表您同意并遵守「礼记」用户协议。">
+                            <state key="normal" title="登录即代表您同意并遵守「礼记」用户协议">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -362,8 +389,8 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="NJ3-p8-SRS" firstAttribute="top" secondItem="73J-h7-pzd" secondAttribute="bottom" constant="15" id="1GW-ec-ytf"/>
-                        <constraint firstItem="NJ3-p8-SRS" firstAttribute="centerX" secondItem="dr3-XD-jK9" secondAttribute="centerX" id="7F5-j6-7fV"/>
                         <constraint firstItem="81j-Bc-Sjc" firstAttribute="top" secondItem="dr3-XD-jK9" secondAttribute="top" id="GiA-LV-sgV"/>
+                        <constraint firstItem="NJ3-p8-SRS" firstAttribute="trailing" secondItem="73J-h7-pzd" secondAttribute="trailing" id="KWY-q5-eoa"/>
                         <constraint firstAttribute="height" constant="240" id="Kq1-tm-gNX"/>
                         <constraint firstAttribute="centerX" secondItem="81j-Bc-Sjc" secondAttribute="centerX" id="Lcj-Wg-PoK"/>
                         <constraint firstItem="81j-Bc-Sjc" firstAttribute="trailing" secondItem="73J-h7-pzd" secondAttribute="trailing" id="MT1-X2-Msj"/>
@@ -380,7 +407,7 @@
                             <exclude reference="aK4-ve-Ug1"/>
                             <exclude reference="dFP-Ga-UEl"/>
                             <exclude reference="1GW-ec-ytf"/>
-                            <exclude reference="7F5-j6-7fV"/>
+                            <exclude reference="KWY-q5-eoa"/>
                         </mask>
                     </variation>
                     <variation key="heightClass=regular-widthClass=compact">
@@ -391,7 +418,7 @@
                             <include reference="aK4-ve-Ug1"/>
                             <include reference="dFP-Ga-UEl"/>
                             <include reference="1GW-ec-ytf"/>
-                            <include reference="7F5-j6-7fV"/>
+                            <include reference="KWY-q5-eoa"/>
                         </mask>
                     </variation>
                     <variation key="heightClass=regular-widthClass=regular" ambiguous="YES" misplaced="YES">
@@ -542,7 +569,7 @@
                                 <action selector="loginCourtesyAccount:" destination="-1" eventType="touchUpInside" id="2yc-US-fRp"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eup-Hm-ePN">
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eup-Hm-ePN">
                             <rect key="frame" x="490" y="193" width="70" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <state key="normal" title="注册 / 找回密码">
@@ -637,7 +664,7 @@
                     <include reference="rRv-kH-VQc"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="569.5" y="193"/>
+            <point key="canvasLocation" x="832.5" y="193"/>
         </view>
     </objects>
     <resources>
@@ -656,5 +683,7 @@
         <image name="login_rgister_textfield_bg" width="266" height="92"/>
         <image name="login_sina_icon" width="70" height="70"/>
         <image name="login_sina_icon_click" width="70" height="70"/>
+        <image name="login_wechat_icon" width="70" height="70"/>
+        <image name="login_wechat_icon_click" width="70" height="70"/>
     </resources>
 </document>

@@ -334,7 +334,7 @@ UMSocialUIDelegate
                                              appKey:UMENG_APP_KEY
                                           shareText:[NSString stringWithFormat:WEIBO_DAILY_SHARE_CONTENT, shareContent]
                                          shareImage:shareImage
-                                    shareToSnsNames:@[UMShareToEmail, UMShareToQQ, UMShareToQzone, UMShareToSina]
+                                    shareToSnsNames:UMENG_SHARE_PLATFORMS
                                            delegate:self];
     }
 }

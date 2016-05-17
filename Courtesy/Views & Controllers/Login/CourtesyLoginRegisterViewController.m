@@ -24,18 +24,19 @@
 @property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *loginPasswordTextField;
 @property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *registerEmailTextField;
 @property (weak, nonatomic) IBOutlet CourtesyLoginRegisterTextField *registerPasswordTextField;
+@property (weak, nonatomic) IBOutlet UIButton *authButton;
+
+@property (strong, nonatomic) NSURL *avatarURL;
+@property (strong, nonatomic) NSString *openId;
+@property (strong, nonatomic) NSString *fakeEmail;
 
 @property (strong, nonatomic) NSDictionary *tencentInfo;
-@property (strong, nonatomic) NSString *tencentOpenId;
-@property (strong, nonatomic) NSString *tencentFakeEmail;
-@property (strong, nonatomic) NSURL *tencentAvatarURL;
-
 @property (strong, nonatomic) WeiboUser *weiboInfo;
-@property (strong, nonatomic) NSString *weiboOpenId;
-@property (strong, nonatomic) NSString *weiboFakeEmail;
-@property (strong, nonatomic) NSURL *weiboAvatarURL;
+@property (strong, nonatomic) NSDictionary *weixinInfo;
 
 @property (nonatomic, assign) BOOL isRedirected;
+@property (nonatomic, weak) NSTimer *countTimer;
+@property (nonatomic, assign) NSUInteger seconds;
 
 @end
 
@@ -73,6 +74,7 @@
 
 // 关闭按钮
 - (IBAction)close {
+    [self releaseTimer];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -124,8 +126,8 @@
             }
             
             NSString *uniqueStr = [[snsAccount.usid substringToIndex:6] lowercaseString];
-            self.tencentOpenId = [@"qq" stringByAppendingString:uniqueStr];
-            self.tencentFakeEmail = [self.tencentOpenId stringByAppendingString:@"@82flex.com"];
+            self.openId = [@"qq" stringByAppendingString:uniqueStr];
+            self.fakeEmail = [self.openId stringByAppendingString:@"@82flex.com"];
             
             TencentOAuth *tencentAuth = response.thirdPlatformResponse;
             
@@ -134,7 +136,7 @@
             kAccount.tencentModel.expirationTime = [tencentAuth.expirationDate timeIntervalSince1970];
             
             // 尝试登录
-            CourtesyLoginRegisterModel *loginModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.tencentFakeEmail password:self.tencentOpenId delegate:self];
+            CourtesyLoginRegisterModel *loginModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.fakeEmail password:self.openId delegate:self];
             loginModel.openAPI = CourtesyOpenApiTypeQQ;
             [loginModel sendRequestLogin];
             
@@ -171,20 +173,65 @@
             }
             
             NSString *uniqueStr = [snsAccount.usid lowercaseString];
-            self.weiboOpenId = [@"wb" stringByAppendingString:uniqueStr];
-            self.weiboFakeEmail = [self.weiboOpenId stringByAppendingString:@"@82flex.com"];
+            self.openId = [@"wb" stringByAppendingString:uniqueStr];
+            self.fakeEmail = [self.openId stringByAppendingString:@"@82flex.com"];
             
             kAccount.weiboModel.openId = snsAccount.usid;
             kAccount.weiboModel.accessToken = snsAccount.accessToken;
             kAccount.weiboModel.expirationTime = [snsAccount.expirationDate timeIntervalSince1970];
             
             // 尝试登录
-            CourtesyLoginRegisterModel *loginModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.weiboFakeEmail password:self.weiboOpenId delegate:self];
+            CourtesyLoginRegisterModel *loginModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.fakeEmail password:self.openId delegate:self];
             loginModel.openAPI = CourtesyOpenApiTypeWeibo;
             [loginModel sendRequestLogin];
             
             // 设置基本信息
             self.weiboInfo = (WeiboUser *)response.thirdPlatformUserProfile;
+        } else {
+            [self openApiFailed:response.message];
+        }
+    });
+}
+
+- (IBAction)loginFromWechat:(id)sender {
+    [self.view endEditing:YES];
+    [self.view setUserInteractionEnabled:NO];
+    [self.view makeToastActivity:CSToastPositionCenter];
+    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
+    self.isRedirected = YES;
+    snsPlatform.loginClickHandler(self, [UMSocialControllerService defaultControllerService], YES, ^(UMSocialResponseEntity *response)
+    {
+        if (response.responseCode == UMSResponseCodeSuccess) {
+            self.isRedirected = NO;
+            
+            UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary] valueForKey:UMShareToWechatSession];
+              CYLog(@"\nusername = %@,\n usid = %@,\n token = %@ iconUrl = %@,\n unionId = %@,\n thirdPlatformUserProfile = %@,\n thirdPlatformResponse = %@ \n, message = %@", snsAccount.userName, snsAccount.usid, snsAccount.accessToken, snsAccount.iconURL, snsAccount.unionId, response.thirdPlatformUserProfile, response.thirdPlatformResponse, response.message);
+              
+            // 微信开放平台登录成功
+            if (
+                !response.thirdPlatformResponse ||
+                !response.thirdPlatformUserProfile ||
+                ![response.thirdPlatformUserProfile isKindOfClass:[NSDictionary class]] ||
+                snsAccount.usid.length < 6
+                ) {
+                [self openApiFailed:@"微信开放平台接口通用失败"];
+            }
+              
+            NSString *uniqueStr = [[[snsAccount.usid sha1String] substringToIndex:6] lowercaseString];
+            self.openId = [@"wx" stringByAppendingString:uniqueStr];
+            self.fakeEmail = [self.openId stringByAppendingString:@"@82flex.com"];
+            
+            kAccount.weixinModel.openId = snsAccount.usid;
+            kAccount.weixinModel.accessToken = snsAccount.accessToken;
+            kAccount.weixinModel.expirationTime = [snsAccount.expirationDate timeIntervalSince1970];
+            
+            // 尝试登录
+            CourtesyLoginRegisterModel *loginModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.fakeEmail password:self.openId delegate:self];
+            loginModel.openAPI = CourtesyOpenApiTypeWeixin;
+            [loginModel sendRequestLogin];
+            
+            // 设置基本信息
+            self.weixinInfo = (NSDictionary *)response.thirdPlatformUserProfile;
         } else {
             [self openApiFailed:response.message];
         }
@@ -217,8 +264,41 @@
 
 - (IBAction)getAuthCodeClicked:(UIButton *)sender {
     sender.enabled = NO;
+    _seconds = 60;
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                      target:self
+                                                    selector:@selector(timerFireMethod:)
+                                                    userInfo:nil
+                                                     repeats:YES];
+    self.countTimer = timer;
 }
 
+- (void)timerFireMethod:(NSTimer *)theTimer {
+    if (_seconds == 1) {
+        [theTimer invalidate];
+        _seconds = 60;
+        [_authButton setTitle:@"获取验证码"
+                         forState:UIControlStateDisabled];
+        [_authButton setEnabled:YES];
+    } else {
+        _seconds--;
+        NSString *title = [NSString stringWithFormat:@"%lus", _seconds];
+        [_authButton setEnabled:NO];
+        [_authButton setTitle:title
+                         forState:UIControlStateDisabled];
+    }
+}
+
+- (void)releaseTimer {
+    if (_countTimer) {
+        if ([_countTimer respondsToSelector:@selector(isValid)]) {
+            if ([_countTimer isValid]) {
+                [_countTimer invalidate];
+                _seconds = 60;
+            }
+        }
+    }
+}
 
 #pragma mark - 第三方登录事件通知
 
@@ -235,10 +315,11 @@
 - (void)loginRegisterFailed:(CourtesyLoginRegisterModel *)sender
                errorMessage:(NSString *)message
                     isLogin:(BOOL)login {
-    if (sender.openAPI == CourtesyOpenApiTypeQQ) {
+    if (sender.openAPI == CourtesyOpenApiTypeQQ)
+    {
         if (login)
         { // 腾讯互联账户登录请求
-            CourtesyLoginRegisterModel *registerModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.tencentFakeEmail password:self.tencentOpenId delegate:self];
+            CourtesyLoginRegisterModel *registerModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.fakeEmail password:self.openId delegate:self];
             registerModel.openAPI = sender.openAPI;
             [registerModel sendRequestRegister];
         }
@@ -246,10 +327,12 @@
         {
             [self openApiFailed:message];
         }
-    } else if (sender.openAPI == CourtesyOpenApiTypeWeibo) {
+    }
+    else if (sender.openAPI == CourtesyOpenApiTypeWeibo)
+    {
         if (login)
         { // 微博互联账户登录请求
-            CourtesyLoginRegisterModel *registerModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.weiboFakeEmail password:self.weiboOpenId delegate:self];
+            CourtesyLoginRegisterModel *registerModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.fakeEmail password:self.openId delegate:self];
             registerModel.openAPI = sender.openAPI;
             [registerModel sendRequestRegister];
         }
@@ -257,7 +340,22 @@
         {
             [self openApiFailed:message];
         }
-    } else if (sender.openAPI == CourtesyOpenApiTypeNone) {
+    }
+    else if (sender.openAPI == CourtesyOpenApiTypeWeixin)
+    {
+        if (login)
+        { // 微信开放平台账户登录请求
+            CourtesyLoginRegisterModel *registerModel = [[CourtesyLoginRegisterModel alloc] initWithAccount:self.fakeEmail password:self.openId delegate:self];
+            registerModel.openAPI = sender.openAPI;
+            [registerModel sendRequestRegister];
+        }
+        else
+        {
+            [self openApiFailed:message];
+        }
+    }
+    else if (sender.openAPI == CourtesyOpenApiTypeNone)
+    {
         [self openApiFailed:message];
     }
 }
@@ -300,7 +398,10 @@
             (sender.openAPI == CourtesyOpenApiTypeQQ)
         {
             // 来自腾讯互联的首次注册请求视为第三方登录请求
-            self.tencentAvatarURL = [NSURL URLWithString:self.tencentInfo[@"figureurl_qq_2"]];
+            if (self.tencentInfo[@"figureurl_qq_2"]) {
+                self.avatarURL = [NSURL URLWithString:self.tencentInfo[@"figureurl_qq_2"]];
+            }
+            
             kProfile.nick = self.tencentInfo[@"nickname"];
             if
                 ([self.tencentInfo[@"gender"] isEqualToString:@"男"])
@@ -326,10 +427,43 @@
             [kProfile sendRequestEditProfile]; // 发送修改个人资料请求
         }
         else if
+            (sender.openAPI == CourtesyOpenApiTypeWeixin)
+        {
+            if (self.weixinInfo[@"headimgurl"]) {
+                self.avatarURL = [NSURL URLWithString:self.weixinInfo[@"headimgurl"]];
+            }
+            
+            kProfile.nick = self.weixinInfo[@"nickname"];
+            if
+                ([self.weixinInfo[@"sex"] isEqualToNumber:@(1)])
+            {
+                kProfile.gender = 0;
+            }
+            else if ([self.weixinInfo[@"sex"] isEqualToNumber:@(2)])
+            {
+                kProfile.gender = 1;
+            }
+            else
+            {
+                kProfile.gender = 2;
+            }
+            kProfile.province = self.weixinInfo[@"province"];
+            kProfile.city = self.weixinInfo[@"city"];
+            kProfile.mobile = @"13800138000";
+            kProfile.area = @"";
+            kProfile.introduction = @"Tell me why you did it,\nevery dream falling apart.";
+            kProfile.birthday = @"1996-01-01";
+            kProfile.avatar = @"";
+            [kProfile setDelegate:self]; // 设置请求代理
+            [kProfile sendRequestEditProfile]; // 发送修改个人资料请求
+        }
+        else if
             (sender.openAPI == CourtesyOpenApiTypeWeibo)
         {
             // 来自微博互联的首次注册请求视为第三方登录请求
-            self.weiboAvatarURL = [NSURL URLWithString:self.weiboInfo.avatarHDUrl]; // 微博高清头像
+            if (self.weiboInfo.avatarHDUrl) {
+                self.avatarURL = [NSURL URLWithString:self.weiboInfo.avatarHDUrl]; // 微博高清头像
+            }
             kProfile.nick = self.weiboInfo.name;
             
             if
@@ -399,8 +533,8 @@
 
 - (void)editProfileSucceed:(CourtesyAccountProfileModel *)sender
 {
-    NSURL *avatarURL = self.tencentAvatarURL;
-    if (!avatarURL) avatarURL = self.weiboAvatarURL;
+    NSURL *avatarURL = self.avatarURL;
+    
     UIImage *avatarImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:avatarURL]];
     if (avatarImage) {
         [kProfile sendRequestUploadAvatar:avatarImage];

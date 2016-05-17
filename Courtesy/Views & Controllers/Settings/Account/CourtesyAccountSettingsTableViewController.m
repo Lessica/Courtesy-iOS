@@ -13,6 +13,7 @@
 @interface CourtesyAccountSettingsTableViewController ()
 @property (weak, nonatomic) IBOutlet UISwitch *qqSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *weiboSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *weixinSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *incognitoSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *label_1;
 @property (weak, nonatomic) IBOutlet UILabel *label_2;
@@ -26,28 +27,40 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if ([sharedSettings hasLogin]) {
-        _qqSwitch.enabled = YES;
+        _qqSwitch.enabled =
+        _weixinSwitch.enabled =
         _weiboSwitch.enabled = YES;
-        _weiboSwitch.on = [kAccount hasWeiboAccount];
+        
         _qqSwitch.on = [kAccount hasTencentAccount];
+        _weixinSwitch.on = [kAccount hasWeixinAccount];
+        _weiboSwitch.on = [kAccount hasWeiboAccount];
+        
         NSString *email = kAccount.email;
         NSRange atRange = [email rangeOfString:@"@"];
         if (atRange.length != 0) {
             NSString *domainName = [email substringFromIndex:atRange.location];
             if ([domainName isEqualToString:@"@82flex.com"]) {
                 NSString *prefix = [email substringToIndex:2];
-                if ([prefix isEqualToString:@"qq"]) {
+                if ([prefix isEqualToString:@"qq"])
+                {
                     _qqSwitch.enabled = NO;
                     _qqSwitch.on = YES;
-                } else if ([prefix isEqualToString:@"wb"]) {
+                }
+                else if ([prefix isEqualToString:@"wb"])
+                {
                     _weiboSwitch.enabled = NO;
                     _weiboSwitch.on = YES;
+                }
+                else if ([prefix isEqualToString:@"wx"])
+                {
+                    _weixinSwitch.enabled = NO;
+                    _weixinSwitch.on = YES;
                 }
             }
         }
         _incognitoSwitch.enabled = YES;
         _label_1.alpha = _label_3.alpha = 1.0;
-        if (_weiboSwitch || _qqSwitch) {
+        if (_weiboSwitch.on || _qqSwitch.on || _weixinSwitch.on) {
             _label_3.text = @"已经激活";
         }
         _label_2.text = kProfile.nick;
@@ -65,7 +78,7 @@
         CourtesyLoginRegisterViewController *vc = [CourtesyLoginRegisterViewController new];
         CourtesyPortraitViewController *navc = [[CourtesyPortraitViewController alloc] initWithRootViewController:vc];
         [self presentViewController:navc animated:YES completion:nil];
-        _qqSwitch.enabled = _weiboSwitch.enabled = _incognitoSwitch.enabled = NO;
+        _qqSwitch.enabled = _weiboSwitch.enabled = _weixinSwitch.enabled = _incognitoSwitch.enabled = NO;
         _label_1.alpha = _label_3.alpha = 0.0;
         _label_2.text = @"你尚未登录";
     }
@@ -99,6 +112,32 @@
                                                   } cancelHandler:^(LGAlertView *alertView) {
                                                       [sender setOn:YES animated:YES];
                                                   } destructiveHandler:nil];
+        SetCourtesyAleryViewStyle(alertView, self.view)
+        [alertView showAnimated:YES completionHandler:nil];
+    }
+}
+
+- (IBAction)weixinSwitchToggled:(UISwitch *)sender {
+    if (sender.on)
+    {
+        
+    }
+    else
+    { // 取消绑定
+        LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"解除绑定"
+                                                            message:@"将无法分享卡片到微信好友、微信收藏、微信朋友圈"
+                                                              style:LGAlertViewStyleActionSheet
+                                                       buttonTitles:@[@"解除"]
+                                                  cancelButtonTitle:@"取消"
+                                             destructiveButtonTitle:nil
+                                                      actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                          if (index == 0) {
+                                                              kAccount.weixinModel = nil;
+                                                              [sharedSettings reloadAccount];
+                                                          }
+                                                      } cancelHandler:^(LGAlertView *alertView) {
+                                                          [sender setOn:YES animated:YES];
+                                                      } destructiveHandler:nil];
         SetCourtesyAleryViewStyle(alertView, self.view)
         [alertView showAnimated:YES completionHandler:nil];
     }
