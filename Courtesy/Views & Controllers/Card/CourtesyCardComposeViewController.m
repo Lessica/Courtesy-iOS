@@ -1720,10 +1720,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (!_previewContext && result) {
         dispatch_async_on_main_queue(^{
             [self.view hideToastActivity];
-            NSString *shareUrl = [NSString stringWithFormat:API_CARD_SHARE, self.card.token];
-            [UMSocialData defaultData].extConfig.qqData.url = shareUrl;
-            [UMSocialData defaultData].extConfig.qzoneData.url = shareUrl;
-            [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
+//            NSString *shareUrl = [NSString stringWithFormat:API_CARD_SHARE, self.card.token];
+            NSString *shareUrl = nil;
+            UmengSetShareType(shareUrl)
             [UMSocialSnsService presentSnsIconSheetView:self
                                                  appKey:UMENG_APP_KEY
                                               shareText:[NSString stringWithFormat:WEIBO_CARD_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", shareUrl]

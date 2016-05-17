@@ -46,9 +46,7 @@
 - (IBAction)shareButtonClicked:(id)sender {
     if (sender == _shareButton) {
         NSString *shareUrl = APP_DOWNLOAD_URL;
-        [UMSocialData defaultData].extConfig.qqData.url = shareUrl;
-        [UMSocialData defaultData].extConfig.qzoneData.url = shareUrl;
-        [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeDefault;
+        UmengSetShareType(shareUrl)
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:UMENG_APP_KEY
                                           shareText:[NSString stringWithFormat:WEIBO_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", APP_DOWNLOAD_URL]

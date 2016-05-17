@@ -34,4 +34,21 @@
 
 #define UMENG_SHARE_PLATFORMS @[UMShareToQQ, UMShareToQzone, UMShareToWechatSession, UMShareToWechatFavorite, UMShareToWechatTimeline, UMShareToSina, UMShareToEmail]
 
+#define UmengSetShareType(shareUrl) \
+if (shareUrl) { \
+    [UMSocialData defaultData].extConfig.qqData.url = shareUrl; \
+    [UMSocialData defaultData].extConfig.qzoneData.url = shareUrl; \
+    [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeDefault; \
+    [UMSocialData defaultData].extConfig.wechatSessionData.wxMessageType = UMSocialWXMessageTypeNone; \
+    [UMSocialData defaultData].extConfig.wechatFavoriteData.wxMessageType = UMSocialWXMessageTypeNone; \
+    [UMSocialData defaultData].extConfig.wechatTimelineData.wxMessageType = UMSocialWXMessageTypeNone; \
+} else { \
+    [UMSocialData defaultData].extConfig.qqData.url = APP_DOWNLOAD_URL; \
+    [UMSocialData defaultData].extConfig.qzoneData.url = APP_DOWNLOAD_URL; \
+    [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage; \
+    [UMSocialData defaultData].extConfig.wechatSessionData.wxMessageType = UMSocialWXMessageTypeImage; \
+    [UMSocialData defaultData].extConfig.wechatFavoriteData.wxMessageType = UMSocialWXMessageTypeImage; \
+    [UMSocialData defaultData].extConfig.wechatTimelineData.wxMessageType = UMSocialWXMessageTypeImage; \
+}
+
 #endif /* CourtesyTarget_h */

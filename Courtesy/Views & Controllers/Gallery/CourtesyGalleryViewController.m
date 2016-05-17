@@ -321,15 +321,7 @@ UMSocialUIDelegate
         shareUrl = [self linkCardPreviewUrl];
     }
     if (shareContent != nil) {
-        if (shareUrl) {
-            [UMSocialData defaultData].extConfig.qqData.url = shareUrl;
-            [UMSocialData defaultData].extConfig.qzoneData.url = shareUrl;
-            [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeDefault;
-        } else {
-            [UMSocialData defaultData].extConfig.qqData.url = APP_DOWNLOAD_URL;
-            [UMSocialData defaultData].extConfig.qzoneData.url = APP_DOWNLOAD_URL;
-            [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
-        }
+        UmengSetShareType(shareUrl)
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:UMENG_APP_KEY
                                           shareText:[NSString stringWithFormat:WEIBO_DAILY_SHARE_CONTENT, shareContent]
