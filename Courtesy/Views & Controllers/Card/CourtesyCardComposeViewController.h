@@ -10,6 +10,19 @@
 #import "CourtesyCardStyleModel.h"
 #import "CourtesyQRCodeModel.h"
 
+#define kComposeTopInsect 24.0
+#define kComposeBottomInsect 24.0
+#define kComposeLeftInsect 24.0
+#define kComposeRightInsect 24.0
+#define kComposeTopBarInsectPortrait 24.0
+#define kComposeTopBarInsectUpdated 64.0
+#define kComposeCardViewMargin 12.0
+#define kComposeCardViewBorderWidth 4.0
+#define kComposeCardViewShadowOpacity 0.4
+#define kComposeCardViewShadowRadius 20.0
+#define kComposeCardViewCornerRadius 10.0
+#define kComposeCardViewEditInset UIEdgeInsetsMake(-kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2)
+
 typedef enum : NSUInteger {
     kCourtesyInputViewDefault    = 0,
     kCourtesyInputViewFontSheet  = 1,
