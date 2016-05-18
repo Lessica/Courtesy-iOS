@@ -81,12 +81,7 @@
                     card.hasPublished = YES;
                     
                     if ([card isMyCard]) {
-                        CourtesyCardModel *originalCard = [manager cardWithToken:card.token];
-                        if (originalCard != nil) {
-                            if (originalCard.view_count != card.view_count) {
-                                originalCard.view_count = card.view_count;
-                                [originalCard saveToLocalDatabase];
-                            }
+                        if ([manager hasLocalToken:card.token]) {
                             continue;
                         }
                         card.author = kAccount;
