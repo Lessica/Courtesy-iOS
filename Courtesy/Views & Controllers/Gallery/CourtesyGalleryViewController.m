@@ -37,7 +37,6 @@ typedef enum : NSUInteger {
 
 typedef enum : NSUInteger {
     kCourtesyGalleryDailyCard = 0,
-//    kCourtesyGalleryGroupCard = 1,
     kCourtesyGalleryLinkCard  = 1,
     kCourtesyGalleryMaxIndex  = 2
 } CourtesyGalleryMainIndex;
@@ -119,11 +118,6 @@ UMSocialUIDelegate
                                              tintMode:kCGBlendModeNormal
                                            saturation:1.2
                                             maskImage:nil],
-//    [[UIImage imageNamed:@"street"] imageByBlurRadius:18.0
-//                                            tintColor:[UIColor colorWithWhite:0.11 alpha:0.48]
-//                                             tintMode:kCGBlendModeNormal
-//                                           saturation:1.2
-//                                            maskImage:nil],
     ];
     
     /* Init of date view */
@@ -177,10 +171,6 @@ UMSocialUIDelegate
             [cardContainerView addSubview:dailyCardView];
             self.dailyCardView = dailyCardView;
         }
-//        else if (i == kCourtesyGalleryGroupCard)
-//        {
-//            
-//        }
         else if (i == kCourtesyGalleryLinkCard)
         {
             CourtesyGalleryLinkCardView *linkCardView = [[CourtesyGalleryLinkCardView alloc] initWithFrame:cardContainerView.bounds];
@@ -231,18 +221,13 @@ UMSocialUIDelegate
     NSArray <CourtesyGalleryDailyCardModel *> *cardArray = sender.cards;
     [self setCardsWithErrorMessage:nil];
     for (CourtesyGalleryDailyCardModel *card in cardArray) {
-//        if ([card.type isEqualToString:@"GroupCard"])
-//        {
-//            
-//        }
-//        else
-        if ([card.type isEqualToString:@"LinkCard"])
+        if (card.style.style_id == kCourtesyGalleryDailyCardStyleLink)
         {
             if (self.linkCardView) {
                 [self.linkCardView setDailyCard:card];
             }
         }
-        else if ([card.type isEqualToString:@"DailyCard"])
+        else if (card.style.style_id == kCourtesyGalleryDailyCardStyleDaily)
         {
             if (self.dailyCardView)
             {

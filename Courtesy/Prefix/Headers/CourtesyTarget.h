@@ -32,7 +32,18 @@
 #define WEIBO_CARD_SHARE_CONTENT @"#礼记# 礼记之谊，记礼之情。\n%@ 分享给你一张卡片：%@ （来自 @礼记APP）"
 #define WEIBO_DAILY_SHARE_CONTENT @"#礼记# %@ （来自 @礼记APP）"
 
-#define UMENG_SHARE_PLATFORMS @[UMShareToQQ, UMShareToQzone, UMShareToWechatSession, UMShareToWechatFavorite, UMShareToWechatTimeline, UMShareToSina, UMShareToEmail]
+#define UMENG_SHARE_PLATFORMS \
+  @[UMShareToQQ, \
+    UMShareToQzone, \
+    UMShareToWechatSession, \
+    UMShareToWechatFavorite, \
+    UMShareToWechatTimeline, \
+    UMShareToSina, \
+    UMShareToTencent, \
+    UMShareToTwitter, \
+    UMShareToDouban, \
+    UMShareToRenren, \
+    UMShareToEmail]
 
 #define UmengSetShareType(shareUrl) \
 if (shareUrl) { \

@@ -7,11 +7,9 @@
 //
 
 typedef enum : NSUInteger {
-    kCourtesyGalleryDailyCardStyleDefault = 0,
-    kCourtesyGalleryDailyCardStyleZero    = 1, // 首张卡片
-    kCourtesyGalleryDailyCardStyleGroup   = 2, // 卡片套组
-    kCourtesyGalleryDailyCardStyleArticle = 3, // 长文
-    kCourtesyGalleryDailyCardStyleLink    = 4, // 外链
+    kCourtesyGalleryDailyCardStyleDefault  = 0,
+    kCourtesyGalleryDailyCardStyleDaily    = 1, // 首张卡片
+    kCourtesyGalleryDailyCardStyleLink     = 2, // 外链
 } CourtesyGalleryDailyCardStyleType;
 
 @interface CourtesyGalleryDailyCardStyleModel : JSONModel

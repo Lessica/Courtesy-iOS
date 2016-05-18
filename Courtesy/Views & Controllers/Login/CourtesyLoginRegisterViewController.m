@@ -112,7 +112,15 @@
             self.isRedirected = NO;
             
             UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary] valueForKey:UMShareToQQ];
-            CYLog(@"\nusername = %@,\n usid = %@,\n token = %@ iconUrl = %@,\n unionId = %@,\n thirdPlatformUserProfile = %@,\n thirdPlatformResponse = %@ \n, message = %@", snsAccount.userName, snsAccount.usid, snsAccount.accessToken, snsAccount.iconURL, snsAccount.unionId, response.thirdPlatformUserProfile, response.thirdPlatformResponse, response.message);
+            CYLog(@"\nusername = %@,\n usid = %@,\n token = %@ iconUrl = %@,\n unionId = %@,\n thirdPlatformUserProfile = %@,\n thirdPlatformResponse = %@ \n, message = %@",
+                  snsAccount.userName,
+                  snsAccount.usid,
+                  snsAccount.accessToken,
+                  snsAccount.iconURL,
+                  snsAccount.unionId,
+                  response.thirdPlatformUserProfile,
+                  response.thirdPlatformResponse,
+                  response.message);
             
             // 腾讯互联登录成功
             if (
@@ -120,12 +128,12 @@
                 !response.thirdPlatformUserProfile ||
                 ![response.thirdPlatformUserProfile isKindOfClass:[NSDictionary class]] ||
                 ![response.thirdPlatformResponse isKindOfClass:[TencentOAuth class]] ||
-                snsAccount.usid.length < 6
+                snsAccount.usid.length <= 0
                 ) {
                 [self openApiFailed:@"腾讯登录接口通用失败"];
             }
             
-            NSString *uniqueStr = [[snsAccount.usid substringToIndex:6] lowercaseString];
+            NSString *uniqueStr = [[[snsAccount.usid sha1String] substringToIndex:6] lowercaseString];
             self.openId = [@"qq" stringByAppendingString:uniqueStr];
             self.fakeEmail = [self.openId stringByAppendingString:@"@82flex.com"];
             
@@ -160,7 +168,15 @@
             self.isRedirected = NO;
             
             UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary] valueForKey:UMShareToSina];
-            CYLog(@"\nusername = %@,\n usid = %@,\n token = %@ iconUrl = %@,\n unionId = %@,\n thirdPlatformUserProfile = %@,\n thirdPlatformResponse = %@ \n, message = %@", snsAccount.userName, snsAccount.usid, snsAccount.accessToken, snsAccount.iconURL, snsAccount.unionId, response.thirdPlatformUserProfile, response.thirdPlatformResponse, response.message);
+            CYLog(@"\nusername = %@,\n usid = %@,\n token = %@ iconUrl = %@,\n unionId = %@,\n thirdPlatformUserProfile = %@,\n thirdPlatformResponse = %@ \n, message = %@",
+                  snsAccount.userName,
+                  snsAccount.usid,
+                  snsAccount.accessToken,
+                  snsAccount.iconURL,
+                  snsAccount.unionId,
+                  response.thirdPlatformUserProfile,
+                  response.thirdPlatformResponse,
+                  response.message);
             
             // 微博互联登录成功
             if (
@@ -172,7 +188,7 @@
                 [self openApiFailed:@"微博登录接口通用失败"];
             }
             
-            NSString *uniqueStr = [snsAccount.usid lowercaseString];
+            NSString *uniqueStr = [[[snsAccount.usid sha1String] substringToIndex:6] lowercaseString];
             self.openId = [@"wb" stringByAppendingString:uniqueStr];
             self.fakeEmail = [self.openId stringByAppendingString:@"@82flex.com"];
             
@@ -205,14 +221,22 @@
             self.isRedirected = NO;
             
             UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary] valueForKey:UMShareToWechatSession];
-              CYLog(@"\nusername = %@,\n usid = %@,\n token = %@ iconUrl = %@,\n unionId = %@,\n thirdPlatformUserProfile = %@,\n thirdPlatformResponse = %@ \n, message = %@", snsAccount.userName, snsAccount.usid, snsAccount.accessToken, snsAccount.iconURL, snsAccount.unionId, response.thirdPlatformUserProfile, response.thirdPlatformResponse, response.message);
+              CYLog(@"\nusername = %@,\n usid = %@,\n token = %@ iconUrl = %@,\n unionId = %@,\n thirdPlatformUserProfile = %@,\n thirdPlatformResponse = %@ \n, message = %@",
+                    snsAccount.userName,
+                    snsAccount.usid,
+                    snsAccount.accessToken,
+                    snsAccount.iconURL,
+                    snsAccount.unionId,
+                    response.thirdPlatformUserProfile,
+                    response.thirdPlatformResponse,
+                    response.message);
               
             // 微信开放平台登录成功
             if (
                 !response.thirdPlatformResponse ||
                 !response.thirdPlatformUserProfile ||
                 ![response.thirdPlatformUserProfile isKindOfClass:[NSDictionary class]] ||
-                snsAccount.usid.length < 6
+                snsAccount.usid.length <= 0
                 ) {
                 [self openApiFailed:@"微信开放平台接口通用失败"];
             }

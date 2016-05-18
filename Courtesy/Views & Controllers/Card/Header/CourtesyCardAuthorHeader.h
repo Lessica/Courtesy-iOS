@@ -13,4 +13,5 @@
 @property (strong, nonatomic) UILabel *nickLabel;
 @property (strong, nonatomic) UILabel *viewCountLabel;
 
+- (void)setViewCount:(NSUInteger)count;
 @end

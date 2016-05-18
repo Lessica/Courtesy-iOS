@@ -88,4 +88,12 @@
     [super setPullingPercent:pullingPercent];
 }
 
+- (void)setViewCount:(NSUInteger)count {
+    if (count != 0) {
+        [_viewCountLabel setText:[NSString stringWithFormat:@"%lu 次阅读", count]];
+    } else {
+        [_viewCountLabel setText:@"新卡片"];
+    }
+}
+
 @end

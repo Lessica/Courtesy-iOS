@@ -27,11 +27,9 @@
 #import "CourtesyImageSheetView.h"
 #import "CourtesyVideoSheetView.h"
 #import "CourtesyMarkdownParser.h"
-#import "FCFileManager.h"
 #import "CourtesyCardAuthorHeader.h"
 #import "UMSocial.h"
-#import <MAMapKit/MAMapKit.h>
-#import <AMapLocationKit/AMapLocationKit.h>
+#import "FCFileManager.h"
 
 #define kComposeTopInsect 24.0
 #define kComposeBottomInsect 24.0
@@ -45,9 +43,6 @@
 #define kComposeCardViewShadowRadius 20.0
 #define kComposeCardViewCornerRadius 10.0
 #define kComposeCardViewEditInset UIEdgeInsetsMake(-kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2, -kComposeCardViewMargin / 2)
-
-#define LocationTimeout 3
-#define ReGeocodeTimeout 3
 
 typedef enum : NSUInteger {
     kCourtesyCardComposeViewLeftPage = 0,
@@ -74,7 +69,6 @@ typedef enum : NSUInteger {
     CourtesyVideoSheetViewDelegate,
     LGAlertViewDelegate,
     UMSocialUIDelegate,
-    AMapLocationManagerDelegate,
     UIPreviewActionItem,
     UIScrollViewDelegate
 >
@@ -86,14 +80,16 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) CourtesyTextView *textView;
 @property (nonatomic, strong) CourtesyMarkdownParser *markdownParser;
+@property (nonatomic, strong) NSAttributedString *text;
 
 @property (nonatomic, strong) UIView *fakeBar;
+@property (nonatomic, strong) UITapGestureRecognizer *tapFakebar;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) UILabel *titleLabel;
 
 @property (nonatomic, strong) UIButton *circleCloseBtn;
 @property (nonatomic, strong) UIButton *circleApproveBtn;
-@property (nonatomic, strong) UIImageView *circleShareBtn;
+@property (nonatomic, strong) UIButton *circleShareBtn;
 @property (nonatomic, strong) UIButton *circleLocationBtn;
 
 @property (nonatomic, strong) UIToolbar *toolbar;
@@ -110,9 +106,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) CGRect keyboardFrame;
 @property (nonatomic, assign) CourtesyInputViewType inputViewType;
 
-@property (nonatomic, strong) AMapLocationManager *locationManager;
-@property (nonatomic, copy) AMapLocatingCompletionBlock geoCompletionBlock;
-
 @property (nonatomic, assign) BOOL canScroll;
 @property (nonatomic, assign) BOOL firstAnimation;
 @property (nonatomic, assign) BOOL firstAppear;
@@ -127,6 +120,10 @@ typedef enum : NSUInteger {
         self.fd_interactivePopDisabled = YES; // 禁用全屏手势
         _card = card;
         _previewContext = NO;
+        _cardEdited = NO;
+        _firstAnimation = YES;
+        _firstAppear = YES;
+        _inputViewType = kCourtesyInputViewDefault;
         if (card.author.user_id == kAccount.user_id) {
             _isAuthor = YES;
         } else {
@@ -136,228 +133,275 @@ typedef enum : NSUInteger {
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+#pragma mark - Getter / Setter
 
-    if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewWillBeginLoading:)]) {
-        [self.delegate cardComposeViewWillBeginLoading:self];
-    }
+- (void)updateViewConstraints {
+    [super updateViewConstraints];
     
-    /* Init of main view */
-    self.view.backgroundColor = [UIColor blackColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.extendedLayoutIncludesOpaqueBars = NO;
-
-    /* Init of background view */
-    UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-    if (self.style.darkStyle) {
-        backgroundImageView.image = [[UIImage imageNamed:@"street"] imageByBlurDark];
-    } else {
-        backgroundImageView.image = [[UIImage imageNamed:@"street"] imageByBlurLight];
-    }
-    
-    backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.backgroundImageView = backgroundImageView;
-    [self.view addSubview:backgroundImageView];
-
-    [backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.backgroundImageView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
     
-    /* Init of Fake Status Bar */
-    CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
-    UIView *fakeBar = [[UIView alloc] initWithFrame:frame];
-    fakeBar.alpha = 0.0;
-    fakeBar.backgroundColor = self.style.statusBarColor;
-    
-    /* Layouts of Fake Status Bar */
-    self.fakeBar = fakeBar;
-    [self.view addSubview:fakeBar];
-    
-    /* Init of scroll structure */
-    CGFloat pageWidth = self.view.bounds.size.width;
-    self.canScroll = NO;
-    
-    /* Init of page control */
-    UIPageControl *pageControl = [[UIPageControl alloc] init];
-    pageControl.numberOfPages = 3;
-    pageControl.currentPage = kCourtesyCardComposeViewMiddlePage;
-    [pageControl addTarget:self action:@selector(pageControlValueChanged:) forControlEvents:UIControlEventValueChanged];
-    self.pageControl = pageControl;
-    [self.view addSubview:pageControl];
-    
-    /* Layouts of page control */
-    [pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).with.offset((CGFloat) (fakeBar.frame.size.height + kComposeCardViewMargin * 2));
-        make.centerX.equalTo(fakeBar.mas_centerX);
+    [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).with.offset((CGFloat) (self.fakeBar.frame.size.height + kComposeCardViewMargin * 2));
+        make.centerX.equalTo(self.fakeBar.mas_centerX);
     }];
     
-    /* Init of main scroll view */
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    scrollView.delegate = self;
-    scrollView.pagingEnabled = YES;
-    scrollView.scrollEnabled = self.canScroll;
-    scrollView.bounces = YES;
-    scrollView.showsVerticalScrollIndicator = NO;
-    scrollView.showsHorizontalScrollIndicator = NO;
-    scrollView.contentSize = CGSizeMake(pageWidth * 3, self.view.bounds.size.height);
-    scrollView.contentOffset = CGPointMake(pageWidth, 0); // 默认第二页
-    [self.view addSubview:scrollView];
-    self.scrollView = scrollView;
-    
-    /* Layouts of scroll view */
-    [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
     
-    CGFloat mainPageX = pageWidth;
-    CGFloat mainPageY = (CGFloat) (fakeBar.frame.size.height + kComposeCardViewMargin);
-    
-    /* Init of Card View */
-    UIView *cardView = [[UIView alloc] initWithFrame:CGRectMake(mainPageX, mainPageY, scrollView.frame.size.width, scrollView.frame.size.height)];
-    cardView.backgroundColor = self.style.cardBackgroundColor;
-    cardView.layer.masksToBounds = NO;
-    cardView.layer.shadowOffset = CGSizeMake(0, 0);
-    cardView.layer.shadowColor = [UIColor blackColor].CGColor;
-    cardView.layer.shouldRasterize = YES;
-    cardView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    
-    /* Layouts of Card View */
-    self.cardView = cardView;
-    [self applyShadowToCardView:YES];
-    
-    [scrollView addSubview:cardView];
-    [cardView mas_makeConstraints:^(MASConstraintMaker *make) {
+    CGFloat pageWidth = self.view.bounds.size.width;
+    CGFloat mainPageX = pageWidth * 1;
+    [self.cardView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(@(mainPageX));
         make.top.equalTo(@0);
-        make.width.equalTo(scrollView.mas_width);
-        make.height.equalTo(scrollView.mas_height);
+        make.width.equalTo(self.scrollView.mas_width);
+        make.height.equalTo(self.scrollView.mas_height);
     }];
     
-    /* Configure for preview */
-    if (!_previewContext) {
-        cardView.transform = CGAffineTransformMakeScale(0.75, 0.75);
-    }
-    
-    /* Elements of tool bar items */
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    NSMutableArray *myToolBarItems = [NSMutableArray array];
-    self.audioButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewAudioButtonTapped:)];
-    [myToolBarItems addObject:self.audioButton]; [myToolBarItems addObject:flexibleSpace];
-    self.imageButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewImageButtonTapped:)];
-    [myToolBarItems addObject:self.imageButton]; [myToolBarItems addObject:flexibleSpace];
-    self.videoButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideoButtonTapped:)];
-    [myToolBarItems addObject:self.videoButton]; [myToolBarItems addObject:flexibleSpace];
-    self.urlButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrlButtonTapped:)];
-    [myToolBarItems addObject:self.urlButton]; [myToolBarItems addObject:flexibleSpace];
-    self.fontButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(fontButtonTapped:)];
-    [myToolBarItems addObject:self.fontButton]; [myToolBarItems addObject:flexibleSpace];
-    NSString *alignmentImageName = nil;
-    if (self.card.local_template.alignmentType == NSTextAlignmentLeft) alignmentImageName = @"46-align-left";
-    else if (self.card.local_template.alignmentType == NSTextAlignmentCenter) alignmentImageName = @"48-align-center";
-    else alignmentImageName = @"47-align-right";
-    self.alignmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:alignmentImageName] style:UIBarButtonItemStylePlain target:self action:@selector(alignButtonTapped:)];
-    [myToolBarItems addObject:self.alignmentButton];
-    
-    /* Init of toolbar */
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width , 40)]; // 根据按钮数量调整，暂时定为两倍
-    toolbar.barStyle = UIBarStyleBlackTranslucent;
-    toolbar.barTintColor = self.style.toolbarBarTintColor;
-    toolbar.backgroundColor = [UIColor clearColor]; // 工具栏颜色在 toolbarContainerView 中定义
-    [toolbar setTintColor:self.style.toolbarTintColor];
-    [toolbar setItems:myToolBarItems animated:YES];
-    self.toolbar = toolbar;
-    
-    /* Init of toolbar container view */
-    UIScrollView *toolbarContainerView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 40)];
-    toolbarContainerView.scrollEnabled = YES;
-    toolbarContainerView.alwaysBounceHorizontal = YES;
-    toolbarContainerView.showsHorizontalScrollIndicator = NO;
-    toolbarContainerView.showsVerticalScrollIndicator = NO;
-    toolbarContainerView.backgroundColor = self.style.toolbarColor;
-    [toolbarContainerView setContentSize:toolbar.frame.size];
-    [toolbarContainerView addSubview:toolbar];
-    self.toolbarContainerView = toolbarContainerView;
-    
-    /* Initial text */
-    if (self.card.local_template.content.length == 0) {
-        self.card.local_template.content = @"说点什么吧……";
-    }
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:self.card.local_template.content];
-    text.font = [[CourtesyFontManager sharedManager] fontWithID:self.card.local_template.fontType];
-    if (!text.font) text.font = [UIFont systemFontOfSize:self.card.local_template.fontSize];
-    else text.font = [text.font fontWithSize:self.card.local_template.fontSize];
-    text.color = self.style.cardTextColor;
-    text.lineSpacing = self.style.cardLineSpacing;
-    text.paragraphSpacing = self.style.paragraphSpacing;
-    text.lineBreakMode = NSLineBreakByWordWrapping;
-    text.alignment = self.card.local_template.alignmentType;
-    _originalFont = text.font;
-    _originalAttributes = text.attributes;
-    
-    /* Init of text view */
-    CourtesyTextView *textView = [[CourtesyTextView alloc] initWithFrame:self.view.frame];
-    textView.delegate = self;
-    textView.typingAttributes = self.originalAttributes;
-    textView.backgroundColor = [UIColor clearColor];
-    textView.alwaysBounceVertical = YES;
-    textView.showsHorizontalScrollIndicator = NO;
-    textView.showsVerticalScrollIndicator = YES;
-    textView.translatesAutoresizingMaskIntoConstraints = NO;
-    textView.attributedText = text;
-    
-    /* Margin */
-    textView.minContentSize = CGSizeMake(0, self.view.frame.size.height);
-    textView.textContainerInset = UIEdgeInsetsMake(kComposeTopInsect, kComposeLeftInsect, kComposeBottomInsect, kComposeRightInsect);
-    textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectPortrait, 0, 0, 0);
-    textView.scrollIndicatorInsets = UIEdgeInsetsMake(textView.contentInset.top, 0, 0, kComposeCardViewBorderWidth);
-    
-    /* Auto correction */
-    textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    textView.autocorrectionType = UITextAutocorrectionTypeNo;
-    
-    /* Paste */
-    textView.allowsPasteImage = NO; // 不允许粘贴图片
-    textView.allowsPasteAttributedString = NO; // 不允许粘贴富文本
-    
-    /* Undo & Redo */
-    textView.allowsUndoAndRedo = YES;
-    textView.maximumUndoLevel = 20;
-    
-    /* Line height */
-    YYTextLinePositionSimpleModifier *mod = [YYTextLinePositionSimpleModifier new];
-    mod.fixedLineHeight = self.style.cardLineHeight;
-    textView.linePositionModifier = mod;
-    
-    /* Toolbar */
-    textView.inputAccessoryView = self.editable ? toolbarContainerView : nil;
-    textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
-    
-    /* Place holder */
-    textView.placeholderText = self.style.placeholderText;
-    textView.placeholderTextColor = self.style.placeholderColor;
-    textView.placeholderFont = text.font;
-    
-    /* Indicator (Tint Color) */
-    textView.tintColor = self.style.indicatorColor;
-    
-    /* Edit ability */
-    textView.editable = self.editable;
-    
-    /* Layout of Text View */
-    self.textView = textView;
-    [cardView addSubview:textView];
-    [textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(cardView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
+    [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.cardView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
-    [textView scrollToTop];
     
-    if ([sharedSettings switchMarkdown]) {
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.textView.mas_top).with.offset(0);
+        make.centerX.equalTo(self.textView.mas_centerX).with.offset(0);
+        make.width.equalTo(@240);
+        make.height.equalTo(@24);
+    }];
+    
+    [self.circleCloseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).with.offset((CGFloat) (self.fakeBar.frame.size.height + kComposeCardViewMargin * 2));
+        make.left.equalTo(self.view.mas_left).with.offset((CGFloat) (kComposeCardViewMargin * 2));
+        make.width.equalTo(@32);
+        make.height.equalTo(@32);
+    }];
+    
+    [self.circleApproveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).with.offset((CGFloat) (self.fakeBar.frame.size.height + kComposeCardViewMargin * 2));
+        make.right.equalTo(self.view.mas_right).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
+        make.width.equalTo(@32);
+        make.height.equalTo(@32);
+    }];
+    
+    [self.circleShareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view.mas_right).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
+        make.bottom.equalTo(self.view.mas_bottom).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
+        make.width.equalTo(@32);
+        make.height.equalTo(@32);
+    }];
+    
+    [self.circleLocationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).with.offset((CGFloat) (kComposeCardViewMargin * 2));
+        make.bottom.equalTo(self.view.mas_bottom).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
+        make.width.greaterThanOrEqualTo(@96); // 宽度可变
+        make.height.equalTo(@32);
+    }];
+}
+
+- (BOOL)editable {
+    return (_card.is_editable && _isAuthor);
+}
+
+- (void)setEditable:(BOOL)editable {
+    if (_isAuthor) {
+        if (editable == NO) {
+            self.textView.inputAccessoryView = nil;
+        } else {
+            self.textView.inputAccessoryView = self.toolbarContainerView;
+        }
+        _card.is_editable = editable;
+        self.textView.editable = editable;
+        [self syncAttachmentsStyle];
+    }
+}
+
+- (CourtesyCardDataModel *)cdata {
+    return _card.local_template;
+}
+
+- (CourtesyCardStyleModel *)style {
+    return _card.local_template.style;
+}
+
+- (void)setCanScroll:(BOOL)canScroll {
+    _canScroll = canScroll;
+    [self.scrollView setScrollEnabled:canScroll];
+}
+
+- (UIImageView *)backgroundImageView {
+    if (!_backgroundImageView) {
+        /* Init of background view */
+        UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+        if (self.style.darkStyle) {
+            backgroundImageView.image = [[UIImage imageNamed:@"street"] imageByBlurDark];
+        } else {
+            backgroundImageView.image = [[UIImage imageNamed:@"street"] imageByBlurLight];
+        }
+        
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        _backgroundImageView = backgroundImageView;
+    }
+    return _backgroundImageView;
+}
+
+- (UITapGestureRecognizer *)tapFakebar {
+    if (!_tapFakebar) {
+        /* Tap Gesture of Fake Status Bar */
+        UITapGestureRecognizer *tapFakebar = [[UITapGestureRecognizer alloc] initWithTarget:self.textView action:@selector(scrollToTop)];
+        tapFakebar.numberOfTouchesRequired = 1;
+        tapFakebar.numberOfTapsRequired = 1;
+        _tapFakebar = tapFakebar;
+    }
+    return _tapFakebar;
+}
+
+- (UIView *)fakeBar {
+    if (!_fakeBar) {
+        /* Init of Fake Status Bar */
+        CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
+        UIView *fakeBar = [[UIView alloc] initWithFrame:frame];
+        fakeBar.alpha = 0.0;
+        fakeBar.backgroundColor = self.style.statusBarColor;
+        fakeBar.userInteractionEnabled = YES;
+        
+        /* Layouts of Fake Status Bar */
+        _fakeBar = fakeBar;
+        
+        [fakeBar addGestureRecognizer:self.tapFakebar];
+    }
+    return _fakeBar;
+}
+
+- (UIPageControl *)pageControl {
+    if (!_pageControl) {
+        /* Init of page control */
+        UIPageControl *pageControl = [[UIPageControl alloc] init];
+        pageControl.numberOfPages = 3;
+        pageControl.currentPage = kCourtesyCardComposeViewMiddlePage;
+        [pageControl addTarget:self action:@selector(pageControlValueChanged:) forControlEvents:UIControlEventValueChanged];
+        _pageControl = pageControl;
+    }
+    return _pageControl;
+}
+
+- (UIScrollView *)scrollView {
+    if (!_scrollView) {
+        /* Init of main scroll view */
+        CGFloat pageWidth = self.view.bounds.size.width;
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+        scrollView.delegate = self;
+        scrollView.pagingEnabled = YES;
+        scrollView.scrollEnabled = self.canScroll;
+        scrollView.bounces = YES;
+        scrollView.showsVerticalScrollIndicator = NO;
+        scrollView.showsHorizontalScrollIndicator = NO;
+        scrollView.contentSize = CGSizeMake(pageWidth * 3, self.view.bounds.size.height);
+        scrollView.contentOffset = CGPointMake(pageWidth, 0); // 默认第二页
+        _scrollView = scrollView;
+    }
+    return _scrollView;
+}
+
+- (UIView *)cardView {
+    if (!_cardView) {
+        CGFloat pageWidth = self.view.bounds.size.width;
+        CGFloat mainPageX = pageWidth * 1;
+        CGFloat mainPageY = (CGFloat) (_fakeBar.frame.size.height + kComposeCardViewMargin);
+        
+        /* Init of Card View */
+        UIView *cardView = [[UIView alloc] initWithFrame:CGRectMake(mainPageX, mainPageY, _scrollView.frame.size.width, _scrollView.frame.size.height)];
+        cardView.backgroundColor = self.style.cardBackgroundColor;
+        cardView.layer.masksToBounds = NO;
+        cardView.layer.shadowOffset = CGSizeMake(0, 0);
+        cardView.layer.shadowColor = [UIColor blackColor].CGColor;
+        cardView.layer.shouldRasterize = YES;
+        cardView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+        if (!_previewContext) {
+            cardView.transform = CGAffineTransformMakeScale(0.75, 0.75);
+        }
+        
+        _cardView = cardView;
+    }
+    return _cardView;
+}
+
+- (CourtesyTextView *)textView {
+    if (!_textView) {
+        /* Init of text view */
+        CourtesyTextView *textView = [[CourtesyTextView alloc] initWithFrame:self.view.frame];
+        textView.delegate = self;
+        textView.backgroundColor = [UIColor clearColor];
+        textView.alwaysBounceVertical = YES;
+        textView.showsHorizontalScrollIndicator = NO;
+        textView.showsVerticalScrollIndicator = YES;
+        textView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        /* Margin */
+        textView.minContentSize = CGSizeMake(0, self.view.frame.size.height);
+        textView.textContainerInset = UIEdgeInsetsMake(kComposeTopInsect, kComposeLeftInsect, kComposeBottomInsect, kComposeRightInsect);
+        textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectPortrait, 0, 0, 0);
+        textView.scrollIndicatorInsets = UIEdgeInsetsMake(textView.contentInset.top, 0, 0, kComposeCardViewBorderWidth);
+        
+        /* Auto correction */
+        textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        textView.autocorrectionType = UITextAutocorrectionTypeNo;
+        
+        /* Paste */
+        textView.allowsPasteImage = NO; // 不允许粘贴图片
+        textView.allowsPasteAttributedString = NO; // 不允许粘贴富文本
+        
+        /* Undo & Redo */
+        textView.allowsUndoAndRedo = YES;
+        textView.maximumUndoLevel = 20;
+        
+        /* Line height */
+        YYTextLinePositionSimpleModifier *mod = [YYTextLinePositionSimpleModifier new];
+        mod.fixedLineHeight = self.style.cardLineHeight;
+        textView.linePositionModifier = mod;
+        
+        /* Toolbar */
+        textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
+        
+        /* Place holder */
+        textView.placeholderText = self.style.placeholderText;
+        textView.placeholderTextColor = self.style.placeholderColor;
+        
+        /* Indicator (Tint Color) */
+        textView.tintColor = self.style.indicatorColor;
+        
+        /* Edit ability */
+        textView.editable = self.editable;
+        
+        _textView = textView;
+    }
+    return _textView;
+}
+
+- (NSAttributedString *)text {
+    if (!_text) {
+        /* Init of text */
+        NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:self.cdata.content];
+        text.font = [[CourtesyFontManager sharedManager] fontWithID:self.cdata.fontType];
+        if (!text.font) text.font = [UIFont systemFontOfSize:self.cdata.fontSize];
+        else text.font = [text.font fontWithSize:self.cdata.fontSize];
+        text.color = self.style.cardTextColor;
+        text.lineSpacing = self.style.cardLineSpacing;
+        text.paragraphSpacing = self.style.paragraphSpacing;
+        text.lineBreakMode = NSLineBreakByWordWrapping;
+        text.alignment = self.cdata.alignmentType;
+        _text = text;
+    }
+    return _text;
+}
+
+- (CourtesyMarkdownParser *)markdownParser {
+    if (!_markdownParser) {
         /* Markdown Support */
         CourtesyMarkdownParser *parser = [CourtesyMarkdownParser new];
-        parser.currentFont = text.font;
-        parser.fontSize = self.card.local_template.fontSize;
+        parser.currentFont = _originalFont;
+        parser.fontSize = self.cdata.fontSize;
         parser.headerFontSize = [self.style.headerFontSize floatValue];
         parser.textColor = self.style.cardTextColor;
         parser.controlTextColor = self.style.controlTextColor;
@@ -365,206 +409,262 @@ typedef enum : NSUInteger {
         parser.inlineTextColor = self.style.inlineTextColor;
         parser.codeTextColor = self.style.codeTextColor;
         parser.linkTextColor = self.style.linkTextColor;
-        textView.textParser = parser;
-        self.markdownParser = parser;
+        _markdownParser = parser;
     }
-    
-    /* Init of header view */
-    CourtesyCardAuthorHeader *authorHeader = [CourtesyCardAuthorHeader headerWithRefreshingBlock:^{}];
-    authorHeader.avatarImageView.imageURL = self.card.author.profile.avatar_url_medium;
-    authorHeader.viewCountLabel.text = [NSString stringWithFormat:@"%lu 次阅读", self.card.view_count];
-    authorHeader.nickLabel.text = self.card.author.profile.nick;
-    authorHeader.viewCountLabel.font =
-    authorHeader.nickLabel.font = [text.font fontWithSize:12.0];
-    authorHeader.viewCountLabel.textColor =
-    authorHeader.nickLabel.textColor = self.style.dateLabelTextColor;
-    textView.mj_header = authorHeader;
-    self.authorHeader = authorHeader;
-    
-    /* Tap Gesture of Fake Status Bar */
-    UITapGestureRecognizer *tapFakeBar = [[UITapGestureRecognizer alloc] initWithTarget:textView action:@selector(scrollToTop)];
-    tapFakeBar.numberOfTouchesRequired = 1;
-    tapFakeBar.numberOfTapsRequired = 1;
-    [fakeBar addGestureRecognizer:tapFakeBar];
-    [fakeBar setUserInteractionEnabled:YES];
-    
-    /* Init of close circle button */
-    UIButton *circleCloseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    circleCloseBtn.backgroundColor = self.style.buttonBackgroundColor;
-    circleCloseBtn.tintColor = self.style.buttonTintColor;
-    circleCloseBtn.alpha = 0.0;
-    [circleCloseBtn setImage:[[UIImage imageNamed:@"101-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-    [circleCloseBtn setImage:[[UIImage imageNamed:@"39-close-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
-    circleCloseBtn.selected = NO;
-    circleCloseBtn.layer.masksToBounds = YES;
-    circleCloseBtn.layer.cornerRadius = circleCloseBtn.frame.size.height / 2;
-    circleCloseBtn.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    /* Tap gesture of close button */
-    [circleCloseBtn addTarget:self action:@selector(closeComposeView:) forControlEvents:UIControlEventTouchUpInside];
-    
-    /* Enable interaction for close button */
-    [circleCloseBtn setUserInteractionEnabled:YES];
-    
-    /* Auto layouts of close button */
-    self.circleCloseBtn = circleCloseBtn;
-    [self.view addSubview:circleCloseBtn];
-    [self.view bringSubviewToFront:circleCloseBtn];
-    [circleCloseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).with.offset((CGFloat) (fakeBar.frame.size.height + kComposeCardViewMargin * 2));
-        make.left.equalTo(self.view.mas_left).with.offset((CGFloat) (kComposeCardViewMargin * 2));
-        make.width.equalTo(@32);
-        make.height.equalTo(@32);
-    }];
-    
-    /* Init of approve circle button */
-    UIButton *circleApproveBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    circleApproveBtn.backgroundColor = self.style.buttonBackgroundColor;
-    circleApproveBtn.tintColor = self.style.buttonTintColor;
-    circleApproveBtn.alpha = 0.0;
-    [circleApproveBtn setImage:[[UIImage imageNamed:@"40-approve-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-    [circleApproveBtn setImage:[[UIImage imageNamed:@"102-paper-plane"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
-    circleApproveBtn.selected = NO;
-    circleApproveBtn.layer.masksToBounds = YES;
-    circleApproveBtn.layer.cornerRadius = circleApproveBtn.frame.size.height / 2;
-    circleApproveBtn.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    /* Tap gesture of approve button */
-    [circleApproveBtn addTarget:self action:@selector(doneComposeView:) forControlEvents:UIControlEventTouchUpInside];
-    
-    /* Enable interaction for approve button */
-    [circleApproveBtn setUserInteractionEnabled:YES];
-    
-    /* Auto layouts of approve button */
-    self.circleApproveBtn = circleApproveBtn;
-    [self.view addSubview:circleApproveBtn];
-    [self.view bringSubviewToFront:circleApproveBtn];
-    [circleApproveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).with.offset((CGFloat) (fakeBar.frame.size.height + kComposeCardViewMargin * 2));
-        make.right.equalTo(self.view.mas_right).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
-        make.width.equalTo(@32);
-        make.height.equalTo(@32);
-    }];
-    
-    /* Init of save button */
-    UIImageView *circleShareBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
-    circleShareBtn.backgroundColor = self.style.buttonBackgroundColor;
-    circleShareBtn.tintColor = self.style.buttonTintColor;
-    circleShareBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
-    circleShareBtn.image = [[UIImage imageNamed:@"103-down"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    circleShareBtn.layer.masksToBounds = YES;
-    circleShareBtn.layer.cornerRadius = circleShareBtn.frame.size.height / 2;
-    circleShareBtn.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    /* Save button is not visible */
-    circleShareBtn.alpha = 0.0;
-    circleShareBtn.hidden = YES;
-    
-    /* Tap gesture of save button */
-    UITapGestureRecognizer *tapShareBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                 action:@selector(actionShare:)];
-    tapShareBtn.numberOfTouchesRequired = 1;
-    tapShareBtn.numberOfTapsRequired = 1;
-    [circleShareBtn addGestureRecognizer:tapShareBtn];
-    
-    /* Enable interaction for save button */
-    [circleShareBtn setUserInteractionEnabled:YES];
-    
-    /* Auto layouts of save button */
-    self.circleShareBtn = circleShareBtn;
-    [self.view addSubview:circleShareBtn];
-    [self.view bringSubviewToFront:circleShareBtn];
-    [circleShareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.view.mas_right).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
-        make.bottom.equalTo(self.view.mas_bottom).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
-        make.width.equalTo(@32);
-        make.height.equalTo(@32);
-    }];
-    
-    UIButton *circleLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 96, 32)];
-    circleLocationBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 8);
-    circleLocationBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    circleLocationBtn.backgroundColor = self.style.buttonBackgroundColor;
-    circleLocationBtn.tintColor = self.style.buttonTintColor;
-    circleLocationBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
-    [circleLocationBtn setImage:[[UIImage imageNamed:@"104-location"]
-            imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
-                       forState:UIControlStateNormal];
-    [circleLocationBtn setTitleColor:self.style.buttonTintColor forState:UIControlStateNormal];
-    circleLocationBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
-    circleLocationBtn.layer.masksToBounds = YES;
-    circleLocationBtn.layer.cornerRadius = circleLocationBtn.frame.size.height / 2;
-    circleLocationBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    return _markdownParser;
+}
 
-    /* Location button is not visible */
-    circleLocationBtn.alpha = 0.0;
-    circleLocationBtn.hidden = YES;
-    
-    /* Touch Event of Location Button */
-    [circleLocationBtn setTarget:self action:@selector(locationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    
-    if ([self.cdata.geoLocation hasLocation]) {
-        [circleLocationBtn setTitle:self.cdata.geoLocation.address forState:UIControlStateNormal];
-    } else {
-        if (_isAuthor) {
-            [circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
+- (CourtesyCardAuthorHeader *)authorHeader {
+    if (!_authorHeader) {
+        /* Init of header view */
+        CourtesyCardAuthorHeader *authorHeader = [CourtesyCardAuthorHeader headerWithRefreshingBlock:^{}];
+        authorHeader.avatarImageView.imageURL = self.card.author.profile.avatar_url_medium;
+        authorHeader.nickLabel.text = self.card.author.profile.nick;
+        authorHeader.viewCountLabel.font =
+        authorHeader.nickLabel.font = [_originalFont fontWithSize:12.0];
+        authorHeader.viewCountLabel.textColor =
+        authorHeader.nickLabel.textColor = self.style.dateLabelTextColor;
+        [authorHeader setViewCount:self.card.view_count];
+        _authorHeader = authorHeader;
+    }
+    return _authorHeader;
+}
+
+- (NSDateFormatter *)dateFormatter {
+    if (!_dateFormatter) {
+        /* Init of Current Date */
+        NSDateFormatter *dateFormatter = [NSDateFormatter new];
+        [dateFormatter setDateFormat:self.style.cardCreateTimeFormat];
+        [dateFormatter setLocale:[NSLocale currentLocale]];
+        _dateFormatter = dateFormatter;
+    }
+    return _dateFormatter;
+}
+
+- (UILabel *)titleLabel {
+    if (!_titleLabel) {
+        /* Init of Title Label */
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, 24)];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.textColor = self.style.dateLabelTextColor;
+        titleLabel.font = [_originalFont fontWithSize:self.style.cardTitleFontSize];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        titleLabel.text = [self.dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:self.card.created_at]];
+        _titleLabel = titleLabel;
+    }
+    return _titleLabel;
+}
+
+- (UIBarButtonItem *)audioButton {
+    if (!_audioButton) {
+        _audioButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"45-voice"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewAudioButtonTapped:)];
+    }
+    return _audioButton;
+}
+
+- (UIBarButtonItem *)imageButton {
+    if (!_imageButton) {
+        _imageButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"36-frame"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewImageButtonTapped:)];
+    }
+    return _imageButton;
+}
+
+- (UIBarButtonItem *)videoButton {
+    if (!_videoButton) {
+        _videoButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"31-camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addNewVideoButtonTapped:)];
+    }
+    return _videoButton;
+}
+
+- (UIBarButtonItem *)urlButton {
+    if (!_urlButton) {
+        _urlButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"37-url"] style:UIBarButtonItemStylePlain target:self action:@selector(addUrlButtonTapped:)];
+    }
+    return _urlButton;
+}
+
+- (UIBarButtonItem *)fontButton {
+    if (!_fontButton) {
+        _fontButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"51-font"] style:UIBarButtonItemStylePlain target:self action:@selector(fontButtonTapped:)];
+    }
+    return _fontButton;
+}
+
+- (UIBarButtonItem *)alignmentButton {
+    if (!_alignmentButton) {
+        NSString *alignmentImageName = nil;
+        if (self.cdata.alignmentType == NSTextAlignmentLeft) alignmentImageName = @"46-align-left";
+        else if (self.cdata.alignmentType == NSTextAlignmentCenter) alignmentImageName = @"48-align-center";
+        else alignmentImageName = @"47-align-right";
+        _alignmentButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:alignmentImageName] style:UIBarButtonItemStylePlain target:self action:@selector(alignButtonTapped:)];
+    }
+    return _alignmentButton;
+}
+
+- (UIToolbar *)toolbar {
+    if (!_toolbar) {
+        /* Elements of tool bar items */
+        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        NSMutableArray *myToolBarItems = [NSMutableArray array];
+        [myToolBarItems addObject:self.audioButton]; [myToolBarItems addObject:flexibleSpace];
+        [myToolBarItems addObject:self.imageButton]; [myToolBarItems addObject:flexibleSpace];
+        [myToolBarItems addObject:self.videoButton]; [myToolBarItems addObject:flexibleSpace];
+        [myToolBarItems addObject:self.urlButton]; [myToolBarItems addObject:flexibleSpace];
+        [myToolBarItems addObject:self.fontButton]; [myToolBarItems addObject:flexibleSpace];
+        [myToolBarItems addObject:self.alignmentButton];
+        
+        /* Init of toolbar */
+        UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.width , 40)]; // 根据按钮数量调整，暂时定为两倍
+        toolbar.barStyle = UIBarStyleBlackTranslucent;
+        toolbar.barTintColor = self.style.toolbarBarTintColor;
+        toolbar.backgroundColor = [UIColor clearColor]; // 工具栏颜色在 toolbarContainerView 中定义
+        [toolbar setTintColor:self.style.toolbarTintColor];
+        [toolbar setItems:myToolBarItems animated:YES];
+        _toolbar = toolbar;
+    }
+    return _toolbar;
+}
+
+- (UIScrollView *)toolbarContainerView {
+    if (!_toolbarContainerView) {
+        /* Init of toolbar container view */
+        UIScrollView *toolbarContainerView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 40)];
+        toolbarContainerView.scrollEnabled = YES;
+        toolbarContainerView.alwaysBounceHorizontal = YES;
+        toolbarContainerView.showsHorizontalScrollIndicator = NO;
+        toolbarContainerView.showsVerticalScrollIndicator = NO;
+        toolbarContainerView.backgroundColor = self.style.toolbarColor;
+        [toolbarContainerView setContentSize:self.toolbar.frame.size];
+        [toolbarContainerView addSubview:self.toolbar];
+        _toolbarContainerView = toolbarContainerView;
+    }
+    return _toolbarContainerView;
+}
+
+- (UIButton *)circleCloseBtn {
+    if (!_circleCloseBtn) {
+        /* Init of close circle button */
+        UIButton *circleCloseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+        circleCloseBtn.backgroundColor = self.style.buttonBackgroundColor;
+        circleCloseBtn.tintColor = self.style.buttonTintColor;
+        circleCloseBtn.alpha = 0.0;
+        [circleCloseBtn setImage:[[UIImage imageNamed:@"101-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [circleCloseBtn setImage:[[UIImage imageNamed:@"39-close-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+        circleCloseBtn.selected = NO;
+        circleCloseBtn.layer.masksToBounds = YES;
+        circleCloseBtn.layer.cornerRadius = circleCloseBtn.frame.size.height / 2;
+        circleCloseBtn.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        /* Tap gesture of close button */
+        [circleCloseBtn addTarget:self action:@selector(circleCloseBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
+        
+        /* Enable interaction for close button */
+        [circleCloseBtn setUserInteractionEnabled:YES];
+        
+        _circleCloseBtn = circleCloseBtn;
+    }
+    return _circleCloseBtn;
+}
+
+- (UIButton *)circleApproveBtn {
+    if (!_circleApproveBtn) {
+        /* Init of approve circle button */
+        UIButton *circleApproveBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+        circleApproveBtn.backgroundColor = self.style.buttonBackgroundColor;
+        circleApproveBtn.tintColor = self.style.buttonTintColor;
+        circleApproveBtn.alpha = 0.0;
+        [circleApproveBtn setImage:[[UIImage imageNamed:@"40-approve-circle"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [circleApproveBtn setImage:[[UIImage imageNamed:@"102-paper-plane"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateSelected];
+        circleApproveBtn.selected = NO;
+        circleApproveBtn.layer.masksToBounds = YES;
+        circleApproveBtn.layer.cornerRadius = circleApproveBtn.frame.size.height / 2;
+        circleApproveBtn.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        /* Tap gesture of approve button */
+        [circleApproveBtn addTarget:self action:@selector(circleApproveBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
+        
+        /* Enable interaction for approve button */
+        [circleApproveBtn setUserInteractionEnabled:YES];
+        
+        _circleApproveBtn = circleApproveBtn;
+    }
+    return _circleApproveBtn;
+}
+
+- (UIButton *)circleShareBtn {
+    if (!_circleShareBtn) {
+        /* Init of save button */
+        UIButton *circleShareBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+        circleShareBtn.backgroundColor = self.style.buttonBackgroundColor;
+        circleShareBtn.tintColor = self.style.buttonTintColor;
+        circleShareBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
+        [circleShareBtn setImage:[[UIImage imageNamed:@"103-down"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        circleShareBtn.layer.masksToBounds = YES;
+        circleShareBtn.layer.cornerRadius = circleShareBtn.frame.size.height / 2;
+        circleShareBtn.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        /* Save button is not visible */
+        circleShareBtn.alpha = 0.0;
+        circleShareBtn.hidden = YES;
+        
+        /* Tap gesture of save button */
+        UITapGestureRecognizer *tapShareBtn = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                      action:@selector(circleShareBtnTapped:)];
+        tapShareBtn.numberOfTouchesRequired = 1;
+        tapShareBtn.numberOfTapsRequired = 1;
+        [circleShareBtn addGestureRecognizer:tapShareBtn];
+        
+        /* Enable interaction for save button */
+        [circleShareBtn setUserInteractionEnabled:YES];
+        
+        _circleShareBtn = circleShareBtn;
+    }
+    return _circleShareBtn;
+}
+
+- (UIButton *)circleLocationBtn {
+    if (!_circleLocationBtn) {
+        UIButton *circleLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 96, 32)];
+        circleLocationBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 8);
+        circleLocationBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        circleLocationBtn.backgroundColor = self.style.buttonBackgroundColor;
+        circleLocationBtn.tintColor = self.style.buttonTintColor;
+        circleLocationBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
+        [circleLocationBtn setImage:[[UIImage imageNamed:@"104-location"]
+                                     imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
+                           forState:UIControlStateNormal];
+        [circleLocationBtn setTitleColor:self.style.buttonTintColor forState:UIControlStateNormal];
+        circleLocationBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
+        circleLocationBtn.layer.masksToBounds = YES;
+        circleLocationBtn.layer.cornerRadius = circleLocationBtn.frame.size.height / 2;
+        circleLocationBtn.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        /* Location button is not visible */
+        circleLocationBtn.alpha = 0.0;
+        circleLocationBtn.hidden = YES;
+        
+        /* Touch Event of Location Button */
+        [circleLocationBtn setTarget:self action:@selector(circleLocationBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
+        
+        if ([self.cdata.geoLocation hasLocation]) {
+            [circleLocationBtn setTitle:self.cdata.geoLocation.address forState:UIControlStateNormal];
         } else {
-            [circleLocationBtn setTitle:@"无位置" forState:UIControlStateNormal];
-        }
-    }
-
-    /* Auto layouts of location button */
-    self.circleLocationBtn = circleLocationBtn;
-    [self.view addSubview:circleLocationBtn];
-    [self.view bringSubviewToFront:circleLocationBtn];
-    [circleLocationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.mas_left).with.offset((CGFloat) (kComposeCardViewMargin * 2));
-        make.bottom.equalTo(self.view.mas_bottom).with.offset((CGFloat) (-kComposeCardViewMargin * 2));
-        make.width.greaterThanOrEqualTo(@96); // 宽度可变
-        make.height.equalTo(@32);
-    }];
-
-    /* Init of Title Label */
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, 24)];
-    titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.textColor = self.style.dateLabelTextColor;
-    titleLabel.font = [text.font fontWithSize:self.style.cardTitleFontSize];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    /* Init of Current Date */
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateFormat:self.style.cardCreateTimeFormat];
-    [dateFormatter setLocale:[NSLocale currentLocale]];
-    titleLabel.text = [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:self.card.created_at]];
-    
-    /* Auto layouts of Title Label */
-    self.dateFormatter = dateFormatter;
-    self.titleLabel = titleLabel;
-    [textView addSubview:titleLabel];
-    [textView bringSubviewToFront:titleLabel];
-    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(textView.mas_top).with.offset(0);
-        make.centerX.equalTo(textView.mas_centerX).with.offset(0);
-        make.width.equalTo(@240);
-        make.height.equalTo(@24);
-    }];
-
-    /* Load Card Attachments */
-    for (CourtesyCardAttachmentModel *attachment in self.card.local_template.attachments) {
-        if (attachment.type == CourtesyAttachmentAudio) {
-            NSError *err = nil;
-            NSString *localPath = [attachment attachmentPath];
-            if ([FCFileManager isReadableItemAtPath:localPath]) {
-                
-            } else { // 下载卡片音频资源
-                NSData *audioData = nil;
-                audioData = [NSData dataWithContentsOfURL:[attachment remoteAttachmentURL]
-                                                options:NSDataReadingMappedAlways
-                                                  error:&err];
-                [audioData writeToFile:localPath atomically:YES];
-                NSAssert(audioData != nil && err == nil, @"Cannot load audioData!");
+            if (_isAuthor) {
+                [circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
+            } else {
+                [circleLocationBtn setTitle:@"无位置" forState:UIControlStateNormal];
             }
+        }
+        
+        _circleLocationBtn = circleLocationBtn;
+    }
+    return _circleLocationBtn;
+}
+
+- (void)loadCardAttachments {
+    for (CourtesyCardAttachmentModel *attachment in self.cdata.attachments) {
+        if (attachment.type == CourtesyAttachmentAudio) {
             [self addNewAudioFrame:[attachment attachmentURL]
                                 at:NSMakeRange(attachment.location, attachment.length)
                           animated:NO
@@ -574,20 +674,8 @@ typedef enum : NSUInteger {
                                      @"url": [attachment attachmentURL],
                                      }];
         } else if (attachment.type == CourtesyAttachmentImage || attachment.type == CourtesyAttachmentAnimatedImage) {
-            NSError *err = nil;
             NSData *imgData = nil;
-            NSString *localPath = [attachment attachmentPath];
-            if ([FCFileManager isReadableItemAtPath:localPath]) {
-                imgData = [NSData dataWithContentsOfFile:localPath
-                                                 options:NSDataReadingMappedAlways
-                                                   error:&err];
-            } else { // 下载卡片图像资源
-                imgData = [NSData dataWithContentsOfURL:[attachment remoteAttachmentURL]
-                                                options:NSDataReadingMappedAlways
-                                                  error:&err];
-                [imgData writeToFile:localPath atomically:YES];
-            }
-            NSAssert(imgData != nil && err == nil, @"Cannot load imgData!");
+            NSAssert(imgData != nil, @"Cannot load imgData!");
             YYImage *img = [YYImage imageWithData:imgData];
             [self addNewImageFrame:img
                                 at:NSMakeRange(attachment.location, attachment.length)
@@ -599,18 +687,6 @@ typedef enum : NSUInteger {
                                      @"data": imgData
                                      }];
         } else if (attachment.type == CourtesyAttachmentVideo) {
-            NSError *err = nil;
-            NSString *localPath = [attachment attachmentPath];
-            if ([FCFileManager isReadableItemAtPath:localPath]) {
-                
-            } else { // 下载卡片视频资源
-                NSData *videoData = nil;
-                videoData = [NSData dataWithContentsOfURL:[attachment remoteAttachmentURL]
-                                                  options:NSDataReadingMappedAlways
-                                                    error:&err];
-                [videoData writeToFile:localPath atomically:YES];
-                NSAssert(videoData != nil && err == nil, @"Cannot load videoData!");
-            }
             [self addNewVideoFrame:[attachment attachmentURL]
                                 at:NSMakeRange(attachment.location, attachment.length)
                           animated:NO
@@ -619,33 +695,96 @@ typedef enum : NSUInteger {
                                      @"type": @(attachment.type),
                                      @"url": [attachment attachmentURL],
                                      }];
-        }/* else if (attachment.type == CourtesyAttachmentDraw) {
-
-        } */else {
+        } else {
             continue;
         }
     }
-    
-    // 设置输入区域属性
-    _cardEdited = NO;
-    _firstAnimation = YES;
-    _firstAppear = YES;
-    [[YYTextKeyboardManager defaultManager] addObserver:self];
-    self.inputViewType = kCourtesyInputViewDefault;
-    
-    // 将状态栏提到最前
-    [self.view bringSubviewToFront:fakeBar];
-    
-    // 设置地理位置模块
-    [self initGeoCompleteBlock];
-    [self configLocationManager];
+}
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewWillBeginLoading:)]) {
+        [self.delegate cardComposeViewWillBeginLoading:self];
+    }
+    
+    {
+        /* Init of main view */
+        self.view.backgroundColor = [UIColor blackColor];
+        self.automaticallyAdjustsScrollViewInsets = NO;
+        self.extendedLayoutIncludesOpaqueBars = NO;
+        
+        self.canScroll = NO;
+    }
+    
+    {
+        [self.view addSubview:self.backgroundImageView];
+        [self.view addSubview:self.fakeBar];
+        [self.view addSubview:self.pageControl];
+        [self.view addSubview:self.scrollView];
+    }
+    
+    {
+        [self.scrollView addSubview:self.cardView];
+        [self.cardView addSubview:self.textView];
+        [self applyShadowToCardView:YES];
+    }
+    
+    {
+        /* Initial text */
+        if (self.cdata.content.length == 0) {
+            self.cdata.content = @"说点什么吧……";
+        }
+        
+        _originalFont = self.text.font;
+        _originalAttributes = self.text.attributes;
+        
+        self.textView.attributedText = self.text;
+        self.textView.placeholderFont = _originalFont;
+        self.textView.typingAttributes = _originalAttributes;
+        if ([sharedSettings switchMarkdown]) {
+            self.textView.textParser = self.markdownParser;
+        }
+        self.textView.mj_header = self.authorHeader;
+        self.textView.inputAccessoryView = self.editable ? self.toolbarContainerView : nil;
+        [self.textView addSubview:self.titleLabel];
+        [self.textView bringSubviewToFront:self.titleLabel];
+        
+        [self.textView scrollToTop];
+    }
+    
+    {
+        [self.view addSubview:self.circleCloseBtn];
+        [self.view bringSubviewToFront:self.circleCloseBtn];
+        
+        [self.view addSubview:self.circleApproveBtn];
+        [self.view bringSubviewToFront:self.circleApproveBtn];
+        
+        [self.view addSubview:self.circleShareBtn];
+        [self.view bringSubviewToFront:self.circleShareBtn];
+        
+        [self.view addSubview:self.circleLocationBtn];
+        [self.view bringSubviewToFront:self.circleLocationBtn];
+        
+        [self.view bringSubviewToFront:self.fakeBar];
+    }
+    
+    {
+        [self loadCardAttachments];
+    }
+    
+    {
+        // 设置输入区域属性
+        [[YYTextKeyboardManager defaultManager] addObserver:self];
+    }
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishLoading:)]) {
         [self.delegate cardComposeViewDidFinishLoading:self];
     }
 }
 
-#pragma mark - view events
+#pragma mark - View events
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -663,14 +802,7 @@ typedef enum : NSUInteger {
     [super viewDidDisappear:animated];
 }
 
-#pragma mark - animation
-
-- (void)setCanScroll:(BOOL)canScroll {
-    _canScroll = canScroll;
-    if (self.scrollView) {
-        [self.scrollView setScrollEnabled:canScroll];
-    }
-}
+#pragma mark - Card Animation
 
 - (void)doCardViewAnimation:(BOOL)animated {
     if (animated) {
@@ -708,6 +840,18 @@ typedef enum : NSUInteger {
     }
 }
 
+- (void)applyShadowToCardView:(BOOL)flag {
+    if (flag) {
+        _cardView.layer.shadowOpacity = kComposeCardViewShadowOpacity;
+        _cardView.layer.shadowRadius = kComposeCardViewShadowRadius;
+        _cardView.layer.cornerRadius = kComposeCardViewCornerRadius;
+    } else {
+        _cardView.layer.shadowRadius  = 0.0;
+        _cardView.layer.shadowOpacity = 0.0;
+        _cardView.layer.cornerRadius = 0.0;
+    }
+}
+
 - (void)openAnimationWillStart:(CAAnimation *)anim {
     
 }
@@ -729,27 +873,9 @@ typedef enum : NSUInteger {
     
 }
 
-- (void)applyShadowToCardView:(BOOL)flag {
-    if (flag) {
-        _cardView.layer.shadowOpacity = kComposeCardViewShadowOpacity;
-        _cardView.layer.shadowRadius = kComposeCardViewShadowRadius;
-        _cardView.layer.cornerRadius = kComposeCardViewCornerRadius;
-    } else {
-        _cardView.layer.shadowRadius  = 0.0;
-        _cardView.layer.shadowOpacity = 0.0;
-        _cardView.layer.cornerRadius = 0.0;
-    }
-}
+#pragma mark - Button Actions
 
-#pragma mark - Floating Actions & Navigation Bar Items
-
-- (void)locationButtonTapped {
-    if (self.scrollView) {
-        [self.scrollView scrollToLeftAnimated:YES];
-    }
-}
-
-- (void)closeComposeView:(UIButton *)sender {
+- (void)circleCloseBtnTapped:(UIButton *)sender {
     if (_pageControl.currentPage != kCourtesyCardComposeViewMiddlePage) {
         [self scrollToPage:kCourtesyCardComposeViewMiddlePage];
         return;
@@ -815,14 +941,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)publishCard {
-    [self serialize];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishEditing:)]) {
-        [self.delegate cardComposeViewDidFinishEditing:self];
-    }
-}
-
-- (void)doneComposeView:(UIButton *)sender {
+- (void)circleApproveBtnTapped:(UIButton *)sender {
     if (_pageControl.currentPage != kCourtesyCardComposeViewMiddlePage) {
         [self scrollToPage:kCourtesyCardComposeViewMiddlePage];
         return;
@@ -885,13 +1004,28 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)actionShare:(id)sender {
-    if (_pageControl.currentPage != kCourtesyCardComposeViewMiddlePage) {
+- (void)circleLocationBtnTapped:(UIButton *)sender {
+    if (self.scrollView) {
+        [self.scrollView scrollToLeftAnimated:YES];
+    }
+}
+
+- (void)circleShareBtnTapped:(UIButton *)sender {
+    if (self.pageControl.currentPage != kCourtesyCardComposeViewMiddlePage) {
         [self scrollToPage:kCourtesyCardComposeViewMiddlePage];
         return;
     }
     [self.view makeToastActivity:CSToastPositionCenter];
     [self performSelectorInBackground:@selector(generateTextViewLayer:) withObject:self];
+}
+
+#pragma mark - Publish / Share Progress
+
+- (void)publishCard {
+    [self serialize];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishEditing:)]) {
+        [self.delegate cardComposeViewDidFinishEditing:self];
+    }
 }
 
 - (void)generateTextViewLayer:(id)delegate {
@@ -1025,23 +1159,23 @@ typedef enum : NSUInteger {
 
 - (void)alignButtonTapped:(UIBarButtonItem *)sender {
     _cardEdited = YES;
-    if (self.card.local_template.alignmentType == NSTextAlignmentLeft) {
-        self.card.local_template.alignmentType = NSTextAlignmentCenter;
-    } else if (self.card.local_template.alignmentType == NSTextAlignmentCenter) {
-        self.card.local_template.alignmentType = NSTextAlignmentRight;
+    if (self.cdata.alignmentType == NSTextAlignmentLeft) {
+        self.cdata.alignmentType = NSTextAlignmentCenter;
+    } else if (self.cdata.alignmentType == NSTextAlignmentCenter) {
+        self.cdata.alignmentType = NSTextAlignmentRight;
     } else {
-        self.card.local_template.alignmentType = NSTextAlignmentLeft;
+        self.cdata.alignmentType = NSTextAlignmentLeft;
     }
     NSString *alignmentImageName = nil;
-    if (self.card.local_template.alignmentType == NSTextAlignmentLeft) {
+    if (self.cdata.alignmentType == NSTextAlignmentLeft) {
         alignmentImageName = @"46-align-left";
-    } else if (self.card.local_template.alignmentType == NSTextAlignmentCenter) {
+    } else if (self.cdata.alignmentType == NSTextAlignmentCenter) {
         alignmentImageName = @"48-align-center";
     } else {
         alignmentImageName = @"47-align-right";
     }
     [sender setImage:[UIImage imageNamed:alignmentImageName]];
-    [self setTextViewAlignment:self.card.local_template.alignmentType];
+    [self setTextViewAlignment:self.cdata.alignmentType];
 }
 
 - (void)setTextViewAlignment:(NSTextAlignment)alignment {
@@ -1134,8 +1268,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)fontSheetView:(CourtesyFontSheetView *)fontView changeFontSize:(CGFloat)size {
-    CYLog(@"%.1f", size);
-    self.card.local_template.fontSize = size;
+    self.cdata.fontSize = size;
     [self setNewCardFont:[_originalFont fontWithSize:size]];
 }
 
@@ -1463,7 +1596,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                           at:(NSRange)range
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
-    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, (CGFloat) (self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect), self.style.cardLineHeight * 2) andDelegate:self andUserinfo:info];
+    CourtesyAudioFrameView *frameView = [[CourtesyAudioFrameView alloc] initWithFrame:CGRectMake(0, 0, (CGFloat) (self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect), self.style.cardLineHeight * 2)
+                                                                          andDelegate:self
+                                                                          andUserinfo:info];
     [frameView setAudioURL:url];
     return [self insertFrameToTextView:frameView
                                     at:range
@@ -1476,7 +1611,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                           at:(NSRange)range
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
-    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, (CGFloat) (self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect), 0) andDelegate:self andUserinfo:info];
+    CourtesyImageFrameView *frameView = [[CourtesyImageFrameView alloc] initWithFrame:CGRectMake(0, 0, (CGFloat) (self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect), 0)
+                                                                          andDelegate:self
+                                                                          andUserinfo:info];
     [frameView setCenterImage:image];
     if (frameView.frame.size.height < self.style.cardLineHeight) return nil;
     return [self insertFrameToTextView:frameView
@@ -1490,7 +1627,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                           at:(NSRange)range
                                     animated:(BOOL)animated
                                     userinfo:(NSDictionary *)info {
-    CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, (CGFloat) (self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect), 0) andDelegate:self andUserinfo:info];
+    CourtesyVideoFrameView *frameView = [[CourtesyVideoFrameView alloc] initWithFrame:CGRectMake(0, 0, (CGFloat) (self.textView.frame.size.width - kComposeLeftInsect - kComposeRightInsect), 0)
+                                                                          andDelegate:self
+                                                                          andUserinfo:info];
     [frameView setVideoURL:url];
     return [self insertFrameToTextView:frameView at:range animated:animated];
 }
@@ -1735,20 +1874,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 #pragma mark - Elements Control
 
-#ifdef DEBUG
-- (void)listAttachments {
-    for (id object in self.textView.textLayout.attachments) {
-        if (![object isKindOfClass:[YYTextAttachment class]]) continue;
-        YYTextAttachment *attachment = (YYTextAttachment *)object;
-        if (attachment.content) {
-            if ([attachment.content respondsToSelector:@selector(userinfo)]) {
-                CYLog(@"%@\n%@", [attachment.content description], objc_msgSend(attachment.content, @selector(userinfo)));
-            }
-        }
-    }
-}
-#endif
-
 - (NSRange)getAttachmentRange:(id)atta {
     NSUInteger index = 0;
     for (id object in self.textView.textLayout.attachments) {
@@ -1824,9 +1949,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 - (NSUInteger)countOfVideoFrame { return [self countOfClass:[CourtesyVideoFrameView class]]; }
 
 - (NSUInteger)countOfClass:(Class)class {
-#ifdef DEBUG
-    [self listAttachments];
-#endif
     NSUInteger num = 0;
     for (id object in self.textView.textLayout.attachments) {
         if (![object isKindOfClass:[YYTextAttachment class]]) continue;
@@ -1838,22 +1960,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 #pragma mark - Style Modifier
 
-- (BOOL)editable {
-    return (_card.is_editable && _isAuthor);
-}
-
-- (CourtesyCardDataModel *)cdata {
-    return _card.local_template;
-}
-
-- (CourtesyCardStyleModel *)style {
-    return _card.local_template.style;
-}
-
 - (void)setNewCardFont:(UIFont *)cardFont {
     if (!cardFont) return;
     _cardEdited = YES;
-    CGFloat fontSize = self.card.local_template.fontSize;
+    CGFloat fontSize = self.cdata.fontSize;
     cardFont = [cardFont fontWithSize:fontSize];
     if (self.markdownParser) {
         self.markdownParser.currentFont = cardFont;
@@ -1871,23 +1981,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [self syncAttachmentsStyle];
 }
 
-- (void)setEditable:(BOOL)editable {
-    if (_isAuthor) {
-        if (editable == NO) {
-            self.textView.inputAccessoryView = nil;
-        } else {
-            self.textView.inputAccessoryView = self.toolbarContainerView;
-        }
-        _card.is_editable = editable;
-        self.textView.editable = editable;
-        [self syncAttachmentsStyle];
-    }
-}
-
 #pragma mark - YYTextViewDelegate
 
 - (BOOL)textView:(YYTextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    if ((textView.text.length + text.length - range.length) > self.style.maxContentLength) {
+    if ((textView.text.length + text.length - range.length) > self.style.maxContentLength)
+    {
         [self.view makeToast:[NSString stringWithFormat:@"超出最大长度限制 (%lu)", (unsigned long)self.style.maxContentLength]
                     duration:kStatusBarNotificationTime
                     position:CSToastPositionCenter];
@@ -1919,6 +2017,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)didReceiveMemoryWarning {
     CYLog(@"Memory warning!");
+}
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)event {
+    if (event.type == UIEventTypeRemoteControl) {
+        if (event.subtype == UIEventSubtypeRemoteControlPause) {
+            [self pauseAttachmentAudio];
+        }
+    }
 }
 
 #pragma mark - Serialize
@@ -2117,14 +2223,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     }
 }
 
-- (void)remoteControlReceivedWithEvent:(UIEvent *)event {
-    if (event.type == UIEventTypeRemoteControl) {
-        if (event.subtype == UIEventSubtypeRemoteControlPause) {
-            [self pauseAttachmentAudio];
-        }
-    }
-}
-
 #pragma mark - Page Control 
 
 - (void)pageControlValueChanged:(UIPageControl *)sender {
@@ -2132,74 +2230,17 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (scrollView == _scrollView) {
+    if (scrollView == self.scrollView) {
         NSUInteger index = (NSUInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width);
-        [_pageControl setCurrentPage:index];
+        [self.pageControl setCurrentPage:index];
     }
 }
 
 - (void)scrollToPage:(CourtesyCardComposeViewPageIndex)index {
-    [_pageControl setCurrentPage:index];
-    CGSize viewSize = _scrollView.frame.size;
+    [self.pageControl setCurrentPage:index];
+    CGSize viewSize = self.scrollView.frame.size;
     CGRect rect = CGRectMake(index * viewSize.width, 0, viewSize.width, viewSize.height);
-    [_scrollView scrollRectToVisible:rect animated:YES];
-}
-
-#pragma mark - 地理位置
-
-- (void)initGeoCompleteBlock
-{
-    __weak typeof(self) weakSelf = self;
-    self.geoCompletionBlock = ^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error)
-    {
-        __strong typeof(self) strongSelf = weakSelf;
-        strongSelf.circleLocationBtn.userInteractionEnabled = YES;
-        if (error)
-        {
-            [strongSelf.circleLocationBtn setTitle:@"定位失败" forState:UIControlStateNormal];
-            if (error.code == AMapLocationErrorLocateFailed)
-            {
-                return;
-            }
-        }
-        
-        if (location)
-        {
-            if (regeocode)
-            {
-                NSString *briefAddress = [NSString stringWithFormat:@"%@%@", regeocode.city, regeocode.POIName];
-                [strongSelf.circleLocationBtn setTitle:briefAddress forState:UIControlStateNormal];
-                strongSelf.cdata.geoLocation.address = briefAddress;
-                strongSelf.cdata.geoLocation.latitude = location.coordinate.latitude;
-                strongSelf.cdata.geoLocation.longitude = location.coordinate.longitude;
-                strongSelf.cardEdited = YES;
-            }
-        }
-    };
-}
-
-- (void)configLocationManager
-{
-    self.locationManager = [[AMapLocationManager alloc] init];
-    [self.locationManager setDelegate:self];
-    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
-    [self.locationManager setPausesLocationUpdatesAutomatically:YES];
-    [self.locationManager setAllowsBackgroundLocationUpdates:YES];
-    [self.locationManager setLocationTimeout:LocationTimeout];
-    [self.locationManager setReGeocodeTimeout:ReGeocodeTimeout];
-}
-
-- (void)reGeocodeAction
-{
-    if ([self.cdata.geoLocation hasLocation]) {
-        [self.circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
-        [self.cdata.geoLocation clearLocation];
-        self.cardEdited = YES;
-    } else {
-        self.circleLocationBtn.userInteractionEnabled = NO;
-        [self.circleLocationBtn setTitle:@"定位中……" forState:UIControlStateNormal];
-        [self.locationManager requestLocationWithReGeocode:YES completionBlock:self.geoCompletionBlock];
-    }
+    [self.scrollView scrollRectToVisible:rect animated:YES];
 }
 
 @end

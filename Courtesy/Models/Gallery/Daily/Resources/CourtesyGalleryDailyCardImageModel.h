@@ -9,5 +9,5 @@
 #import "CourtesyCommonResourceModel.h"
 
 @interface CourtesyGalleryDailyCardImageModel : CourtesyCommonResourceModel
-@property (nonatomic, strong) NSURL<Ignore> *remoteUrl;
+
 @end

@@ -202,7 +202,7 @@ static SystemSoundID shake_sound_male_id = 0;
 - (void)showSucceed:(NSString *)str {
     NSURL *url = [NSURL URLWithString:str];
     if (!url
-       /* || ![[url host] isEqualToString:API_DOMAIN] */
+        || ![[url host] isEqualToString:API_DOMAIN] 
         || ![[url path] isEqualToString:API_QRCODE_PATH]) {
         if ([[UIApplication sharedApplication] canOpenURL:url]) {
             dispatch_async_on_main_queue(^{

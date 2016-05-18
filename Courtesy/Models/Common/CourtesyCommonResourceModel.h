@@ -9,5 +9,8 @@
 @interface CourtesyCommonResourceModel : JSONModel
 @property (nonatomic, copy) NSString *rid;
 @property (nonatomic, copy) NSString *sha256;
+@property (nonatomic, copy) NSString *kind;
+@property (nonatomic, strong) NSURL<Ignore> *remoteUrl;
 
+- (NSString *)type;
 @end
