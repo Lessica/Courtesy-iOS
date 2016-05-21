@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'BB270E257F9AA88D0F1C1FB07A331F86'
-               BlueprintName = 'SCRecorder'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SCRecorder.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BB270E257F9AA88D0F1C1FB07A331F86"
+               BlueprintName = "SCRecorder"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "SCRecorder.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

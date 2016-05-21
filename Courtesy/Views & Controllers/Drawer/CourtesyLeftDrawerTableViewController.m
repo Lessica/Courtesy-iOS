@@ -280,6 +280,26 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     return YES;
 }
 
+- (BOOL)shortcutComposeWithQr:(NSString *)qr {
+    if (![sharedSettings fetchedCurrentAccount]) {
+        return NO;
+    } else if (![sharedSettings hasLogin]) {
+        [self.view makeToast:@"登录后才能发布新卡片"
+                    duration:2.0
+                    position:CSToastPositionCenter];
+        return NO;
+    }
+    if (!qr || [qr isEmpty] || [qr length] != 32) {
+        [self.view makeToast:@"「礼记」二维码标识符不正确"
+                    duration:2.0
+                    position:CSToastPositionCenter];
+        return NO;
+    }
+    CourtesyCardModel *newCard = [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
+    newCard.qr_id = qr;
+    return YES;
+}
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

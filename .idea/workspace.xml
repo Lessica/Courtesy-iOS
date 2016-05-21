@@ -5,6 +5,44 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy.xcworkspace/xcuserdata/Zheng.xcuserdatad/UserInterfaceState.xcuserstate" afterPath="$PROJECT_DIR$/Courtesy.xcworkspace/xcuserdata/Zheng.xcuserdatad/UserInterfaceState.xcuserstate" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Courtesy.iml" afterPath="$PROJECT_DIR$/.idea/Courtesy.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/Courtesy.xcodeproj/project.pbxproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy.xcworkspace/xcuserdata/Zheng.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterPath="$PROJECT_DIR$/Courtesy.xcworkspace/xcuserdata/Zheng.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Base.lproj/Drawers.storyboard" afterPath="$PROJECT_DIR$/Courtesy/Base.lproj/Drawers.storyboard" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Global/AppDelegate.m" afterPath="$PROJECT_DIR$/Courtesy/Global/AppDelegate.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Models/Card/Attachment/CourtesyCardAttachmentModel.m" afterPath="$PROJECT_DIR$/Courtesy/Models/Card/Attachment/CourtesyCardAttachmentModel.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Models/Card/Requests/CourtesyCardCacheRequestHelper.m" afterPath="$PROJECT_DIR$/Courtesy/Models/Card/Requests/CourtesyCardCacheRequestHelper.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Models/Compose Queue/CourtesyCardPublishTask.m" afterPath="$PROJECT_DIR$/Courtesy/Models/Compose Queue/CourtesyCardPublishTask.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Supporting Files/Info.plist" afterPath="$PROJECT_DIR$/Courtesy/Supporting Files/Info.plist" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Audio/CourtesyAudioFrameView.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Audio/CourtesyAudioFrameView.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Font/CourtesyFontSheetView.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Font/CourtesyFontSheetView.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Header/CourtesyCardAuthorHeader.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Header/CourtesyCardAuthorHeader.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Drawer/CourtesyLeftDrawerTableViewController.h" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Drawer/CourtesyLeftDrawerTableViewController.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Drawer/CourtesyLeftDrawerTableViewController.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Drawer/CourtesyLeftDrawerTableViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Gallery/Cover/CourtesyGalleryLinkCardView.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Gallery/Cover/CourtesyGalleryLinkCardView.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Login/CourtesyLoginRegisterViewController.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Login/CourtesyLoginRegisterViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CourtesyWatch Extension/Info.plist" afterPath="$PROJECT_DIR$/CourtesyWatch Extension/Info.plist" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CourtesyWatch/Info.plist" afterPath="$PROJECT_DIR$/CourtesyWatch/Info.plist" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/AFNetworking.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/AFNetworking.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/Colours.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/Colours.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/FLEX.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/FLEX.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/JDStatusBarNotification.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/JDStatusBarNotification.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/JSONModel.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/JSONModel.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/JTSImageViewController.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/JTSImageViewController.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/LGAlertView.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/LGAlertView.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/MBProgressHUD.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/MBProgressHUD.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/MJRefresh.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/MJRefresh.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/Masonry.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/Masonry.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/MiniDateView.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/MiniDateView.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/NJKWebViewProgress.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/NJKWebViewProgress.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/PDTSimpleCalendar.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/PDTSimpleCalendar.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/SCRecorder.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/SCRecorder.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/SSZipArchive.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/SSZipArchive.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/SwipeView.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/SwipeView.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/Toast.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/Toast.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/YYKit.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/YYKit.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/ZXingObjC.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/ZXingObjC.xcscheme" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/pop.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/pop.xcscheme" />
     </list>
     <ignored path="Courtesy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -19,7 +57,7 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos_bf57595bd74de065cfd6f831f55be0488ad781f1" />
   <component name="FavoritesManager">
     <favorites_list name="Courtesy" />
   </component>
@@ -28,11 +66,10 @@
       <file leaf-file-name="CourtesyCardComposeViewController.m" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="1983" column="60" selection-start-line="1983" selection-start-column="60" selection-end-line="1983" selection-end-column="60" />
+            <state relative-caret-position="-636">
+              <caret line="367" column="20" selection-start-line="367" selection-start-column="20" selection-end-line="367" selection-end-column="20" />
               <folding>
                 <element signature="e#145#169#0" expanded="true" />
-                <element signature="e#498#536#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -110,6 +147,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Cidr.FilesView" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -161,6 +199,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Views &amp; Controllers" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Courtesy" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Courtesy" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Views &amp; Controllers" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Gallery" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -382,7 +442,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Cidr.FilesView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -587,7 +646,14 @@
       </EXTENSION>
       <method />
     </configuration>
-    <list size="23">
+    <configuration default="false" name="pop" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="pop" CONFIG_NAME="Debug" SCHEME_NAME="pop" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
+        <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
+      </EXTENSION>
+      <method />
+    </configuration>
+    <list size="24">
       <item index="0" class="java.lang.String" itemvalue="Application.Courtesy App" />
       <item index="1" class="java.lang.String" itemvalue="Application.CourtesyNotificationWatch" />
       <item index="2" class="java.lang.String" itemvalue="Application.CourtesyWatch" />
@@ -611,6 +677,7 @@
       <item index="20" class="java.lang.String" itemvalue="Application.Toast" />
       <item index="21" class="java.lang.String" itemvalue="Application.YYKit" />
       <item index="22" class="java.lang.String" itemvalue="Application.ZXingObjC" />
+      <item index="23" class="java.lang.String" itemvalue="Application.pop" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -654,12 +721,12 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13359149" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26143023" sideWeight="0.49722221" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26143023" sideWeight="0.50277776" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24853459" sideWeight="0.2888889" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24878994" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24853459" sideWeight="0.7111111" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.175" sideWeight="0.4914361" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2736111" sideWeight="0.4914361" order="0" side_tool="false" content_ui="combo" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.49538866" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19726562" sideWeight="0.5085639" order="2" side_tool="true" content_ui="tabs" />
@@ -702,7 +769,16 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#145#169#0" expanded="true" />
-            <element signature="e#498#536#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#145#169#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -713,43 +789,28 @@
           <caret line="1946" column="7" selection-start-line="1946" selection-start-column="7" selection-end-line="1946" selection-end-column="7" />
           <folding>
             <element signature="e#145#169#0" expanded="true" />
-            <element signature="e#498#536#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Courtesy/Models/Card/Rsync/CourtesyRsyncHelper.mm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Courtesy/Models/Card/Rsync/CourtesyRsyncHelper.mm" />
     <entry file="file://$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44758">
           <caret line="1946" column="7" selection-start-line="1946" selection-start-column="7" selection-end-line="1946" selection-end-column="7" />
           <folding>
             <element signature="e#145#169#0" expanded="true" />
-            <element signature="e#498#536#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Courtesy/Models/Card/Rsync/CourtesyRsyncHelper.mm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Courtesy/Models/Card/Rsync/CourtesyRsyncHelper.mm" />
     <entry file="file://$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#145#169#0" expanded="true" />
-            <element signature="e#498#536#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -760,7 +821,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#145#169#0" expanded="true" />
-            <element signature="e#498#536#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -898,20 +958,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Courtesy/Models/Card/Rsync/CourtesyRsyncHelper.mm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="164" column="38" selection-start-line="164" selection-start-column="38" selection-end-line="164" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Courtesy/Models/Card/Rsync/CourtesyRsyncHelper.mm" />
     <entry file="file://$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="1983" column="60" selection-start-line="1983" selection-start-column="60" selection-end-line="1983" selection-end-column="60" />
+        <state relative-caret-position="-636">
+          <caret line="367" column="20" selection-start-line="367" selection-start-column="20" selection-end-line="367" selection-end-column="20" />
           <folding>
             <element signature="e#145#169#0" expanded="true" />
-            <element signature="e#498#536#0" expanded="true" />
           </folding>
         </state>
       </provider>

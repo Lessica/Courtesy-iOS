@@ -115,10 +115,23 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
 - (BOOL)application:(UIApplication *)app
             openURL:(NSURL *)url
             options:(NSDictionary<NSString *,id> *)options {
-    NSLog(@"URL scheme: %@", [url path]);
     BOOL result = [TencentOAuth HandleOpenURL:url];
     if (result == NO) {
         result = [UMSocialSnsService handleOpenURL:url];
+    }
+    if (result == NO) {
+        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url
+                                                    resolvingAgainstBaseURL:NO];
+        NSArray *queryItems = urlComponents.queryItems;
+        NSString *action = [queryItems valueForQueryKey:@"action"];
+        if ([action isEqualToString:@"qrcode"]) {
+            NSString *qrcode_id = [queryItems valueForQueryKey:@"id"];
+            if (qrcode_id) {
+                [(CourtesyLeftDrawerTableViewController *)_leftDrawerViewController performSelector:@selector(shortcutComposeWithQr:) withObject:qrcode_id afterDelay:1.0];
+            }
+        } else if ([action isEqualToString:@"card"]) {
+            
+        }
     }
     return result;
 }

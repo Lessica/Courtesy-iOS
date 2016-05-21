@@ -10,4 +10,5 @@
 - (BOOL)shortcutScan;
 - (BOOL)shortcutCompose;
 - (BOOL)shortcutShare;
+- (BOOL)shortcutComposeWithQr:(NSString *)qr;
 @end

@@ -306,7 +306,7 @@
         [_authButton setEnabled:YES];
     } else {
         _seconds--;
-        NSString *title = [NSString stringWithFormat:@"%lus", _seconds];
+        NSString *title = [NSString stringWithFormat:@"%lus", (unsigned long)_seconds];
         [_authButton setEnabled:NO];
         [_authButton setTitle:title
                          forState:UIControlStateDisabled];

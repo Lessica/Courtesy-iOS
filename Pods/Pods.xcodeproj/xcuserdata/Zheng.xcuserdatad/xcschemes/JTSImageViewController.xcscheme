@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'FAE26C46CFBAF39E4C96ABF16B93D9FC'
-               BlueprintName = 'JTSImageViewController'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'JTSImageViewController.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FAE26C46CFBAF39E4C96ABF16B93D9FC"
+               BlueprintName = "JTSImageViewController"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "JTSImageViewController.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -120,7 +120,6 @@
     } andFinishedBlock:^() {
         __strong typeof(self) strongSelf = weakSelf;
         strongSelf.isPlaying = NO;
-        [strongSelf.audioQueue restart];
         [strongSelf.playBtn setSelected:strongSelf.isPlaying];
         [UIView animateWithDuration:0.2 animations:^{
             strongSelf.waveform.progressSamples = 0;
@@ -177,6 +176,7 @@
     if (!self.isPlaying) {
         self.isPlaying = YES;
         [self.playBtn setSelected:self.isPlaying];
+        [self.audioQueue restart];
         [self.audioQueue play];
         if (self.delegate && [self.delegate respondsToSelector:@selector(audioFrameDidBeginPlaying:)]) {
             [self.delegate audioFrameDidBeginPlaying:self];

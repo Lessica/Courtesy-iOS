@@ -27,6 +27,7 @@
 #import "CourtesyAudioFrameView.h"
 #import "CourtesyImageFrameView.h"
 #import "CourtesyVideoFrameView.h"
+#import "CourtesyCardQRCodeView.h"
 #import "CourtesyMarkdownParser.h"
 #import "CourtesyCardAuthorHeader.h"
 #import "CourtesyCardPreviewGenerator.h"
@@ -67,6 +68,7 @@ CourtesyCardPreviewGeneratorDelegate
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *cardView;
+@property (nonatomic, strong) CourtesyCardQRCodeView *qrcodeView;
 
 @property (nonatomic, strong) CourtesyTextView *textView;
 @property (nonatomic, strong) CourtesyMarkdownParser *markdownParser;
@@ -113,11 +115,7 @@ CourtesyCardPreviewGeneratorDelegate
         _firstAnimation = YES;
         _firstAppear = YES;
         _inputViewType = kCourtesyInputViewDefault;
-        if (card.author.user_id == kAccount.user_id) {
-            _isAuthor = YES;
-        } else {
-            _isAuthor = NO;
-        }
+        _isAuthor = card.author.user_id == kAccount.user_id;
     }
     return self;
 }
@@ -151,6 +149,7 @@ CourtesyCardPreviewGeneratorDelegate
     
     {
         [self.scrollView addSubview:self.cardView];
+        [self.scrollView addSubview:self.qrcodeView];
         [self.cardView addSubview:self.textView];
         [self applyShadowToCardView:YES];
     }
@@ -201,6 +200,7 @@ CourtesyCardPreviewGeneratorDelegate
     {
         // 设置输入区域属性
         [[YYTextKeyboardManager defaultManager] addObserver:self];
+        self.cardEdited = NO;
     }
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(cardComposeViewDidFinishLoading:)]) {
@@ -239,6 +239,14 @@ CourtesyCardPreviewGeneratorDelegate
     CGFloat pageWidth = self.view.bounds.size.width;
     CGFloat mainPageX = pageWidth * 1;
     [self.cardView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(@(mainPageX));
+        make.top.equalTo(@0);
+        make.width.equalTo(self.scrollView.mas_width);
+        make.height.equalTo(self.scrollView.mas_height);
+    }];
+    
+    mainPageX = pageWidth * 2;
+    [self.qrcodeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(@(mainPageX));
         make.top.equalTo(@0);
         make.width.equalTo(self.scrollView.mas_width);
@@ -324,13 +332,13 @@ CourtesyCardPreviewGeneratorDelegate
 }
 - (void)applyShadowToCardView:(BOOL)flag {
     if (flag) {
-        _cardView.layer.shadowOpacity = kComposeCardViewShadowOpacity;
-        _cardView.layer.shadowRadius = kComposeCardViewShadowRadius;
-        _cardView.layer.cornerRadius = kComposeCardViewCornerRadius;
+        self.cardView.layer.shadowOpacity = kComposeCardViewShadowOpacity;
+        self.cardView.layer.shadowRadius = kComposeCardViewShadowRadius;
+        self.cardView.layer.cornerRadius = kComposeCardViewCornerRadius;
     } else {
-        _cardView.layer.shadowRadius  = 0.0;
-        _cardView.layer.shadowOpacity = 0.0;
-        _cardView.layer.cornerRadius = 0.0;
+        self.cardView.layer.shadowRadius  = 0.0;
+        self.cardView.layer.shadowOpacity = 0.0;
+        self.cardView.layer.cornerRadius = 0.0;
     }
 }
 - (void)openAnimationWillStart:(CAAnimation *)anim {
@@ -358,7 +366,7 @@ CourtesyCardPreviewGeneratorDelegate
 }
 - (void)setEditable:(BOOL)editable {
     if (_isAuthor) {
-        if (editable == NO) {
+        if (!editable) {
             self.textView.inputAccessoryView = nil;
         } else {
             self.textView.inputAccessoryView = self.toolbarContainerView;
@@ -412,7 +420,20 @@ CourtesyCardPreviewGeneratorDelegate
 - (CourtesyCardStyleModel *)style {
     return _card.local_template.style;
 }
-
+- (CourtesyCardQRCodeView *)qrcodeView {
+    if (!_qrcodeView) {
+        CGFloat pageWidth = self.view.bounds.size.width;
+        CGFloat mainPageX = pageWidth * 2;
+        CGFloat mainPageY = (CGFloat) (self.fakeBar.frame.size.height + kComposeCardViewMargin);
+        
+        /* Init of QRCode View */
+        CourtesyCardQRCodeView *qrcodeView = [[CourtesyCardQRCodeView alloc] initWithFrame:CGRectMake(mainPageX, mainPageY, self.scrollView.frame.size.width, self.scrollView.frame.size.height)];
+        qrcodeView.card_token = self.card.token;
+        
+        _qrcodeView = qrcodeView;
+    }
+    return _qrcodeView;
+}
 - (UIImageView *)backgroundImageView {
     if (!_backgroundImageView) {
         /* Init of background view */
@@ -486,10 +507,10 @@ CourtesyCardPreviewGeneratorDelegate
     if (!_cardView) {
         CGFloat pageWidth = self.view.bounds.size.width;
         CGFloat mainPageX = pageWidth * 1;
-        CGFloat mainPageY = (CGFloat) (_fakeBar.frame.size.height + kComposeCardViewMargin);
+        CGFloat mainPageY = (CGFloat) (self.fakeBar.frame.size.height + kComposeCardViewMargin);
         
         /* Init of Card View */
-        UIView *cardView = [[UIView alloc] initWithFrame:CGRectMake(mainPageX, mainPageY, _scrollView.frame.size.width, _scrollView.frame.size.height)];
+        UIView *cardView = [[UIView alloc] initWithFrame:CGRectMake(mainPageX, mainPageY, self.scrollView.frame.size.width, self.scrollView.frame.size.height)];
         cardView.backgroundColor = self.style.cardBackgroundColor;
         cardView.layer.masksToBounds = NO;
         cardView.layer.shadowOffset = CGSizeMake(0, 0);
@@ -868,15 +889,14 @@ CourtesyCardPreviewGeneratorDelegate
         }
     } else {
         if (sender.selected) {
+            self.circleApproveBtn.selected = NO;
             self.circleCloseBtn.selected = NO;
-            self.circleApproveBtn.hidden = NO;
             [self doCardViewAnimation:YES];
             __weak typeof(self) weakSelf = self;
             [UIView animateWithDuration:0.5 animations:^{
                 __strong typeof(self) strongSelf = weakSelf;
                 strongSelf.circleShareBtn.alpha = 0.0;
                 strongSelf.circleLocationBtn.alpha = 0.0;
-                strongSelf.circleApproveBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
             } completion:^(BOOL finished) {
                 __strong typeof(self) strongSelf = weakSelf;
                 strongSelf.circleShareBtn.hidden = YES;
@@ -890,10 +910,6 @@ CourtesyCardPreviewGeneratorDelegate
     }
 }
 - (void)circleApproveBtnTapped:(UIButton *)sender {
-    if (_pageControl.currentPage != kCourtesyCardComposeViewMiddlePage) {
-        [self scrollToPage:kCourtesyCardComposeViewMiddlePage];
-        return;
-    }
     if (_isAuthor) {
         if (sender.selected) {
             [self publishCard];
@@ -932,8 +948,12 @@ CourtesyCardPreviewGeneratorDelegate
         }
     } else {
         if (sender.selected) {
-            
+            if (_pageControl.currentPage != kCourtesyCardComposeViewRightPage) {
+                [self scrollToPage:kCourtesyCardComposeViewRightPage];
+                return;
+            }
         } else {
+            self.circleApproveBtn.selected = YES;
             self.circleCloseBtn.selected = YES;
             self.circleShareBtn.hidden = NO;
             self.circleLocationBtn.hidden = NO;
@@ -943,24 +963,21 @@ CourtesyCardPreviewGeneratorDelegate
                 __strong typeof(self) strongSelf = weakSelf;
                 strongSelf.circleShareBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
                 strongSelf.circleLocationBtn.alpha = (CGFloat) (strongSelf.style.standardAlpha - 0.2);
-                strongSelf.circleApproveBtn.alpha = 0;
             } completion:^(BOOL finished) {
-                __strong typeof(self) strongSelf = weakSelf;
-                strongSelf.circleApproveBtn.hidden = YES;
+                
             }];
         }
     }
 }
 - (void)circleLocationBtnTapped:(UIButton *)sender {
     if (self.scrollView) {
-        [self.scrollView scrollToLeftAnimated:YES];
+        if (_pageControl.currentPage != kCourtesyCardComposeViewLeftPage) {
+            [self scrollToPage:kCourtesyCardComposeViewLeftPage];
+            return;
+        }
     }
 }
 - (void)circleShareBtnTapped:(UIButton *)sender {
-    if (self.pageControl.currentPage != kCourtesyCardComposeViewMiddlePage) {
-        [self scrollToPage:kCourtesyCardComposeViewMiddlePage];
-        return;
-    }
     [self.view makeToastActivity:CSToastPositionCenter];
     [self performSelectorInBackground:@selector(generateTextViewLayer:) withObject:self];
 }
@@ -1127,8 +1144,12 @@ CourtesyCardPreviewGeneratorDelegate
                                      @"url": [attachment attachmentURL],
                                      }];
         } else if (attachment.type == CourtesyAttachmentImage || attachment.type == CourtesyAttachmentAnimatedImage) {
-            NSData *imgData = nil;
-            NSAssert(imgData != nil, @"Cannot load imgData!");
+            NSError *err = nil;
+            NSString *localPath = [attachment attachmentPath];
+            NSData *imgData = [NSData dataWithContentsOfFile:localPath
+                                                 options:NSDataReadingMappedAlways
+                                                   error:&err];
+            NSAssert(imgData != nil && err == nil, @"Cannot load imgData!");
             YYImage *img = [YYImage imageWithData:imgData];
             [self addNewImageFrame:img
                                 at:NSMakeRange(attachment.location, attachment.length)

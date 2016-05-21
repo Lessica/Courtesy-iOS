@@ -39,6 +39,7 @@
     _resourceUrl = queryUrl;
     _localUrl = [NSURL fileURLWithPath:[CourtesyCardAttachmentModel savedAttachmentsPathWithCardToken:_card.token]];
     NSURL *jsonUrl = [queryUrl URLByAppendingPathComponent:@"Contents.json"];
+    CYLog(@"%@", jsonUrl);
     _resourcesArray = [[NSMutableArray alloc] init];
     __weak NSMutableArray *weakResArr = _resourcesArray;
     JSONObjectBlock handler = ^(id json, JSONModelError *err) {

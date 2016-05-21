@@ -206,12 +206,11 @@
                                   options:YYWebImageOptionShowNetworkActivity | YYWebImageOptionProgressive | YYWebImageOptionAllowBackgroundTask | YYWebImageOptionSetImageWithFadeAnimation
                                completion:nil];
     }
+    if (dailyCard.type) {
+        [self setTopText:dailyCard.type];
+    }
     if (dailyCard.string) {
-        NSArray <NSString *> *stringArr = [dailyCard.string componentsSeparatedByString:@"\n"];
-        if (stringArr.count == 2) {
-            [self setTopText:stringArr[0]];
-            [self setBottomText:stringArr[1]];
-        }
+        [self setBottomText:dailyCard.string];
     }
 }
 

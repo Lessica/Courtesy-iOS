@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '6847254D016329D4A531D34ED2B6DF81'
-               BlueprintName = 'MJRefresh'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'MJRefresh.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6847254D016329D4A531D34ED2B6DF81"
+               BlueprintName = "MJRefresh"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "MJRefresh.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

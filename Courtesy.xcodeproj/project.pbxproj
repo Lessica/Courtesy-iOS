@@ -47,6 +47,7 @@
 		0F489EA51CD8FD420038D27D /* CourtesyCardPreviewStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F489EA31CD8FD420038D27D /* CourtesyCardPreviewStyleModel.m */; };
 		0F489EA81CD8FE030038D27D /* CourtesyCardPreviewStyleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F489EA71CD8FE030038D27D /* CourtesyCardPreviewStyleManager.m */; };
 		0F4B12E71CAE1D3900650996 /* CourtesyParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4B12E41CAE1D3900650996 /* CourtesyParallaxHeaderView.m */; };
+		0F4C57811CEEC3FC00666A26 /* CourtesyCardQRCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4C57801CEEC3FC00666A26 /* CourtesyCardQRCodeView.m */; };
 		0F4E0E0A1CA8051800C4D76C /* UIColor+FlatColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4E0E091CA8051800C4D76C /* UIColor+FlatColors.m */; };
 		0F5064E31C9511D300F818AD /* CourtesyFontModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E21C9511D300F818AD /* CourtesyFontModel.m */; };
 		0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5064E51C951DDD00F818AD /* CourtesyFontManager.m */; };
@@ -480,6 +481,8 @@
 		0F489EA71CD8FE030038D27D /* CourtesyCardPreviewStyleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPreviewStyleManager.m; sourceTree = "<group>"; };
 		0F4B12E31CAE1D3900650996 /* CourtesyParallaxHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyParallaxHeaderView.h; sourceTree = "<group>"; };
 		0F4B12E41CAE1D3900650996 /* CourtesyParallaxHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyParallaxHeaderView.m; sourceTree = "<group>"; };
+		0F4C577F1CEEC3FC00666A26 /* CourtesyCardQRCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardQRCodeView.h; sourceTree = "<group>"; };
+		0F4C57801CEEC3FC00666A26 /* CourtesyCardQRCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardQRCodeView.m; sourceTree = "<group>"; };
 		0F4E0E081CA8051800C4D76C /* UIColor+FlatColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FlatColors.h"; sourceTree = "<group>"; };
 		0F4E0E091CA8051800C4D76C /* UIColor+FlatColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FlatColors.m"; sourceTree = "<group>"; };
 		0F5064E11C9511D300F818AD /* CourtesyFontModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourtesyFontModel.h; path = Font/CourtesyFontModel.h; sourceTree = "<group>"; };
@@ -1323,6 +1326,15 @@
 			path = Header;
 			sourceTree = "<group>";
 		};
+		0F4C577E1CEEC3E900666A26 /* QRCode */ = {
+			isa = PBXGroup;
+			children = (
+				0F4C577F1CEEC3FC00666A26 /* CourtesyCardQRCodeView.h */,
+				0F4C57801CEEC3FC00666A26 /* CourtesyCardQRCodeView.m */,
+			);
+			path = QRCode;
+			sourceTree = "<group>";
+		};
 		0F4E0E071CA8051800C4D76C /* UIColor+FlatColors */ = {
 			isa = PBXGroup;
 			children = (
@@ -2086,6 +2098,7 @@
 				0FFE03FC1C93F45800E99DCC /* CourtesyTextView.m */,
 				0FFE03F91C93F45800E99DCC /* CourtesyCardComposeViewController.h */,
 				0FFE03FA1C93F45800E99DCC /* CourtesyCardComposeViewController.m */,
+				0F4C577E1CEEC3E900666A26 /* QRCode */,
 				0F30298B1CCE468300161BA7 /* Header */,
 				0F72856D1CC0BF800029C66A /* Location */,
 				0F6DD55F1C9820D000CA4389 /* Markdown */,
@@ -2889,6 +2902,7 @@
 				0F56AAA71CE19EAC00934625 /* CourtesyCardLocationModel.m in Sources */,
 				0FDEFBFD1C97D7B8007BE8D2 /* RSKTouchView.m in Sources */,
 				0FEFDBA01C97D0F800952522 /* PECropRectView.m in Sources */,
+				0F4C57811CEEC3FC00666A26 /* CourtesyCardQRCodeView.m in Sources */,
 				0FEFDBA21C97D0F800952522 /* PECropViewController.m in Sources */,
 				0FFE04871C93F45800E99DCC /* CourtesySettingsTableViewController.m in Sources */,
 				0FDEFBB91C97D5F7007BE8D2 /* UIImagePickerController+LandScapeImagePicker.m in Sources */,

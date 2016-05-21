@@ -90,7 +90,7 @@
 
 - (void)setViewCount:(NSUInteger)count {
     if (count != 0) {
-        [_viewCountLabel setText:[NSString stringWithFormat:@"%lu 次阅读", count]];
+        [_viewCountLabel setText:[NSString stringWithFormat:@"%lu 次阅读", (unsigned long)count]];
     } else {
         [_viewCountLabel setText:@"新卡片"];
     }
