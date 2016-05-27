@@ -176,7 +176,7 @@
 #ifdef kCourtesyCacheVerification
     // 校验文件类型及哈希值
     AFHTTPResponseSerializer *serializer = [AFHTTPResponseSerializer serializer];
-    serializer.acceptableContentTypes = [NSSet setWithObjects:@"image/jpeg", @"image/png", @"video/quicktime", @"audio/x-caf", @"application/octet-stream", nil];
+    serializer.acceptableContentTypes = [NSSet setWithObjects:@"image/jpeg", @"image/png", @"video/quicktime", @"audio/x-caf", @"application/octet-stream", @"image/gif", nil];
     manager.responseSerializer = serializer;
     
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request

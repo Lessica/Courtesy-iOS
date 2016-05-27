@@ -14,6 +14,7 @@
 #import "UMSocialWechatHandler.h"
 #import <MAMapKit/MAMapKit.h>
 #import <AMapLocationKit/AMapLocationKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
 #import <PreTools/PreTools.h>
 #import "CourtesyLeftDrawerTableViewController.h"
 
@@ -70,7 +71,7 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
     // 高德地图
     [MAMapServices sharedServices].apiKey = AUTONAVI_APP_KEY;
     [AMapLocationServices sharedServices].apiKey = AUTONAVI_APP_KEY;
-    
+    [AMapSearchServices sharedServices].apiKey = AUTONAVI_APP_KEY;
     [self globalInit];
     if ([launchOptions hasKey:UIApplicationLaunchOptionsShortcutItemKey]) {
         // Some thing that should not respond to immediately...

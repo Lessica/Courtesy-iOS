@@ -1,49 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aacbf76c-f05a-45ec-bf36-f43631af2cb6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy.xcworkspace/xcuserdata/Zheng.xcuserdatad/UserInterfaceState.xcuserstate" afterPath="$PROJECT_DIR$/Courtesy.xcworkspace/xcuserdata/Zheng.xcuserdatad/UserInterfaceState.xcuserstate" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Courtesy.iml" afterPath="$PROJECT_DIR$/.idea/Courtesy.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/Courtesy.xcodeproj/project.pbxproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy.xcworkspace/xcuserdata/Zheng.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterPath="$PROJECT_DIR$/Courtesy.xcworkspace/xcuserdata/Zheng.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Base.lproj/Drawers.storyboard" afterPath="$PROJECT_DIR$/Courtesy/Base.lproj/Drawers.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Global/AppDelegate.m" afterPath="$PROJECT_DIR$/Courtesy/Global/AppDelegate.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Models/Card/Attachment/CourtesyCardAttachmentModel.m" afterPath="$PROJECT_DIR$/Courtesy/Models/Card/Attachment/CourtesyCardAttachmentModel.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Models/Card/Requests/CourtesyCardCacheRequestHelper.m" afterPath="$PROJECT_DIR$/Courtesy/Models/Card/Requests/CourtesyCardCacheRequestHelper.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Models/Compose Queue/CourtesyCardPublishTask.m" afterPath="$PROJECT_DIR$/Courtesy/Models/Compose Queue/CourtesyCardPublishTask.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Supporting Files/Info.plist" afterPath="$PROJECT_DIR$/Courtesy/Supporting Files/Info.plist" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Audio/CourtesyAudioFrameView.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Audio/CourtesyAudioFrameView.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/CourtesyCardComposeViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Font/CourtesyFontSheetView.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Font/CourtesyFontSheetView.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Header/CourtesyCardAuthorHeader.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Card/Header/CourtesyCardAuthorHeader.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Drawer/CourtesyLeftDrawerTableViewController.h" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Drawer/CourtesyLeftDrawerTableViewController.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Drawer/CourtesyLeftDrawerTableViewController.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Drawer/CourtesyLeftDrawerTableViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Gallery/Cover/CourtesyGalleryLinkCardView.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Gallery/Cover/CourtesyGalleryLinkCardView.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Login/CourtesyLoginRegisterViewController.m" afterPath="$PROJECT_DIR$/Courtesy/Views &amp; Controllers/Login/CourtesyLoginRegisterViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CourtesyWatch Extension/Info.plist" afterPath="$PROJECT_DIR$/CourtesyWatch Extension/Info.plist" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CourtesyWatch/Info.plist" afterPath="$PROJECT_DIR$/CourtesyWatch/Info.plist" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/AFNetworking.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/AFNetworking.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/Colours.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/Colours.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/FLEX.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/FLEX.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/JDStatusBarNotification.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/JDStatusBarNotification.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/JSONModel.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/JSONModel.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/JTSImageViewController.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/JTSImageViewController.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/LGAlertView.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/LGAlertView.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/MBProgressHUD.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/MBProgressHUD.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/MJRefresh.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/MJRefresh.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/Masonry.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/Masonry.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/MiniDateView.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/MiniDateView.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/NJKWebViewProgress.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/NJKWebViewProgress.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/PDTSimpleCalendar.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/PDTSimpleCalendar.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/SCRecorder.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/SCRecorder.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/SSZipArchive.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/SSZipArchive.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/SwipeView.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/SwipeView.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/Toast.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/Toast.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/YYKit.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/YYKit.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/ZXingObjC.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/ZXingObjC.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/pop.xcscheme" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/Zheng.xcuserdatad/xcschemes/pop.xcscheme" />
-    </list>
+    <list default="true" id="aacbf76c-f05a-45ec-bf36-f43631af2cb6" name="Default" comment="" />
     <ignored path="Courtesy.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -723,7 +681,7 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24853459" sideWeight="0.2888889" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24853459" sideWeight="0.7111111" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24853459" sideWeight="0.7111111" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2736111" sideWeight="0.4914361" order="0" side_tool="false" content_ui="combo" />

@@ -105,7 +105,7 @@
                                         <action selector="loginFromQQ:" destination="-1" eventType="touchUpInside" id="Ki6-JF-zIR"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oiv-4y-5dp" customClass="CourtesyQuickLoginButton">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oiv-4y-5dp" customClass="CourtesyQuickLoginButton">
                                     <rect key="frame" x="0.0" y="0.0" width="200" height="100"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <state key="normal" title="微信登录" image="login_wechat_icon">
@@ -404,10 +404,10 @@
                             <exclude reference="NJ3-p8-SRS"/>
                         </mask>
                         <mask key="constraints">
-                            <exclude reference="aK4-ve-Ug1"/>
-                            <exclude reference="dFP-Ga-UEl"/>
                             <exclude reference="1GW-ec-ytf"/>
                             <exclude reference="KWY-q5-eoa"/>
+                            <exclude reference="aK4-ve-Ug1"/>
+                            <exclude reference="dFP-Ga-UEl"/>
                         </mask>
                     </variation>
                     <variation key="heightClass=regular-widthClass=compact">
@@ -415,10 +415,10 @@
                             <include reference="NJ3-p8-SRS"/>
                         </mask>
                         <mask key="constraints">
-                            <include reference="aK4-ve-Ug1"/>
-                            <include reference="dFP-Ga-UEl"/>
                             <include reference="1GW-ec-ytf"/>
                             <include reference="KWY-q5-eoa"/>
+                            <include reference="aK4-ve-Ug1"/>
+                            <include reference="dFP-Ga-UEl"/>
                         </mask>
                     </variation>
                     <variation key="heightClass=regular-widthClass=regular" ambiguous="YES" misplaced="YES">

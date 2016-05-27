@@ -28,6 +28,9 @@
 #import "CourtesyImageFrameView.h"
 #import "CourtesyVideoFrameView.h"
 #import "CourtesyCardQRCodeView.h"
+#import "CourtesyCardProfileView.h"
+#import "CourtesyPortraitViewController.h"
+#import "CourtesyCardLocationTableViewController.h"
 #import "CourtesyMarkdownParser.h"
 #import "CourtesyCardAuthorHeader.h"
 #import "CourtesyCardPreviewGenerator.h"
@@ -68,8 +71,10 @@ CourtesyCardPreviewGeneratorDelegate
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *cardView;
+@property (nonatomic, strong) CourtesyCardProfileView *profileView;
 @property (nonatomic, strong) CourtesyCardQRCodeView *qrcodeView;
 
+@property (nonatomic, strong) YYTextDebugOption *debugOption;
 @property (nonatomic, strong) CourtesyTextView *textView;
 @property (nonatomic, strong) CourtesyMarkdownParser *markdownParser;
 @property (nonatomic, strong) NSAttributedString *text;
@@ -148,6 +153,7 @@ CourtesyCardPreviewGeneratorDelegate
     }
     
     {
+        [self.scrollView addSubview:self.profileView];
         [self.scrollView addSubview:self.cardView];
         [self.scrollView addSubview:self.qrcodeView];
         [self.cardView addSubview:self.textView];
@@ -237,17 +243,22 @@ CourtesyCardPreviewGeneratorDelegate
     }];
     
     CGFloat pageWidth = self.view.bounds.size.width;
-    CGFloat mainPageX = pageWidth * 1;
-    [self.cardView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(@(mainPageX));
+    [self.profileView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(@0);
         make.top.equalTo(@0);
         make.width.equalTo(self.scrollView.mas_width);
         make.height.equalTo(self.scrollView.mas_height);
     }];
     
-    mainPageX = pageWidth * 2;
+    [self.cardView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(@(pageWidth));
+        make.top.equalTo(@0);
+        make.width.equalTo(self.scrollView.mas_width);
+        make.height.equalTo(self.scrollView.mas_height);
+    }];
+    
     [self.qrcodeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(@(mainPageX));
+        make.left.equalTo(@(pageWidth * 2));
         make.top.equalTo(@0);
         make.width.equalTo(self.scrollView.mas_width);
         make.height.equalTo(self.scrollView.mas_height);
@@ -420,14 +431,27 @@ CourtesyCardPreviewGeneratorDelegate
 - (CourtesyCardStyleModel *)style {
     return _card.local_template.style;
 }
+- (CourtesyCardProfileView *)profileView {
+    if (!_profileView) {
+        CGSize pageSize = self.scrollView.frame.size;
+        CGFloat mainPageX = 0.0f;
+        CGFloat mainPageY = (CGFloat) (self.fakeBar.frame.size.height + kComposeCardViewMargin);
+        
+        CourtesyCardProfileView *profileView = [[CourtesyCardProfileView alloc] initWithFrame:CGRectMake(mainPageX, mainPageY, pageSize.width, pageSize.height)];
+        profileView.cardModel = self.card;
+        
+        _profileView = profileView;
+    }
+    return _profileView;
+}
 - (CourtesyCardQRCodeView *)qrcodeView {
     if (!_qrcodeView) {
-        CGFloat pageWidth = self.view.bounds.size.width;
-        CGFloat mainPageX = pageWidth * 2;
+        CGSize pageSize = self.scrollView.frame.size;
+        CGFloat mainPageX = pageSize.width * 2;
         CGFloat mainPageY = (CGFloat) (self.fakeBar.frame.size.height + kComposeCardViewMargin);
         
         /* Init of QRCode View */
-        CourtesyCardQRCodeView *qrcodeView = [[CourtesyCardQRCodeView alloc] initWithFrame:CGRectMake(mainPageX, mainPageY, self.scrollView.frame.size.width, self.scrollView.frame.size.height)];
+        CourtesyCardQRCodeView *qrcodeView = [[CourtesyCardQRCodeView alloc] initWithFrame:CGRectMake(mainPageX, mainPageY, pageSize.width, pageSize.height)];
         qrcodeView.card_token = self.card.token;
         
         _qrcodeView = qrcodeView;
@@ -525,10 +549,22 @@ CourtesyCardPreviewGeneratorDelegate
     }
     return _cardView;
 }
+- (YYTextDebugOption *)debugOption {
+    if (!_debugOption) {
+        YYTextDebugOption *debugOption = [YYTextDebugOption new];
+        debugOption.baselineColor = [UIColor redColor];
+        debugOption.CTFrameBorderColor = [UIColor redColor];
+        debugOption.CTLineFillColor = [UIColor colorWithRed:0.000 green:0.463 blue:1.000 alpha:0.180];
+        debugOption.CGGlyphBorderColor = [UIColor colorWithRed:1.000 green:0.524 blue:0.000 alpha:0.200];
+        _debugOption = debugOption;
+    }
+    return _debugOption;
+}
 - (CourtesyTextView *)textView {
     if (!_textView) {
         /* Init of text view */
         CourtesyTextView *textView = [[CourtesyTextView alloc] initWithFrame:self.view.frame];
+        textView.debugOption = self.debugOption;
         textView.delegate = self;
         textView.backgroundColor = [UIColor clearColor];
         textView.alwaysBounceVertical = YES;
@@ -970,12 +1006,10 @@ CourtesyCardPreviewGeneratorDelegate
     }
 }
 - (void)circleLocationBtnTapped:(UIButton *)sender {
-    if (self.scrollView) {
-        if (_pageControl.currentPage != kCourtesyCardComposeViewLeftPage) {
-            [self scrollToPage:kCourtesyCardComposeViewLeftPage];
-            return;
-        }
-    }
+    CourtesyCardLocationTableViewController *picker = [[CourtesyCardLocationTableViewController alloc] init];
+    picker.location = self.card.local_template.geoLocation;
+    CourtesyPortraitViewController *portraitController = [[CourtesyPortraitViewController alloc] initWithRootViewController:picker];
+    [self presentViewController:portraitController animated:YES completion:nil];
 }
 - (void)circleShareBtnTapped:(UIButton *)sender {
     [self.view makeToastActivity:CSToastPositionCenter];
