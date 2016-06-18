@@ -82,8 +82,6 @@
         _label_1.alpha = _label_3.alpha = 0.0;
         _label_2.text = @"你尚未登录";
     }
-    _avatarView.layer.masksToBounds = YES;
-    _avatarView.layer.cornerRadius = _avatarView.frame.size.width / 2;
 }
 
 - (IBAction)tencentSwitchToggled:(UISwitch *)sender {
@@ -112,7 +110,7 @@
                                                   } cancelHandler:^(LGAlertView *alertView) {
                                                       [sender setOn:YES animated:YES];
                                                   } destructiveHandler:nil];
-        SetCourtesyAleryViewStyle(alertView, self.view)
+        SetCourtesyAleryViewStyle(alertView)
         [alertView showAnimated:YES completionHandler:nil];
     }
 }
@@ -138,7 +136,7 @@
                                                       } cancelHandler:^(LGAlertView *alertView) {
                                                           [sender setOn:YES animated:YES];
                                                       } destructiveHandler:nil];
-        SetCourtesyAleryViewStyle(alertView, self.view)
+        SetCourtesyAleryViewStyle(alertView)
         [alertView showAnimated:YES completionHandler:nil];
     }
 }
@@ -164,7 +162,7 @@
                                                       } cancelHandler:^(LGAlertView *alertView) {
                                                           [sender setOn:YES animated:YES];
                                                       } destructiveHandler:nil];
-        SetCourtesyAleryViewStyle(alertView, self.view)
+        SetCourtesyAleryViewStyle(alertView)
         [alertView showAnimated:YES completionHandler:nil];
     }
 }
@@ -184,7 +182,7 @@
                                                       } cancelHandler:^(LGAlertView *alertView) {
                                                           [sender setOn:NO animated:YES];
                                                       } destructiveHandler:nil];
-        SetCourtesyAleryViewStyle(alertView, self.view)
+        SetCourtesyAleryViewStyle(alertView)
         [alertView showAnimated:YES completionHandler:nil];
     }
     else
@@ -202,7 +200,7 @@
                                                       } cancelHandler:^(LGAlertView *alertView) {
                                                           [sender setOn:YES animated:YES];
                                                       } destructiveHandler:nil];
-        SetCourtesyAleryViewStyle(alertView, self.view)
+        SetCourtesyAleryViewStyle(alertView)
         [alertView showAnimated:YES completionHandler:nil];
     }
 }

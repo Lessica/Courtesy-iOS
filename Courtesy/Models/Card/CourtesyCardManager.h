@@ -39,4 +39,6 @@
 - (BOOL)hasLocalToken:(NSString *)token;
 - (CourtesyCardModel *)cardWithToken:(NSString *)token;
 
+- (void)handleRemoteCardToken:(NSString *)token withController:(UIViewController *)controller;
+
 @end

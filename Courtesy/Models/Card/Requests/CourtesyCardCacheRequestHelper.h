@@ -35,7 +35,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) NSUInteger totalBytes;
 @property (nonatomic, assign) NSUInteger logicalBytes;
 
-@property (nonatomic, strong) UIViewController *relatedViewController;
 @property (nonatomic, weak) id<CourtesyCardCacheRequestHelperDelegate> delegate;
 
 - (void)sendAsyncCacheRequest;

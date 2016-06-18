@@ -19,6 +19,7 @@
 #define CYPlaceholderFocusColor [UIColor whiteColor]
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.tintColor = CYPlaceholderFocusColor;
     self.textColor = CYPlaceholderFocusColor;
     [self setValue:CYPlaceholderDefaultColor forKeyPath:CYPlaceholderColorKey];

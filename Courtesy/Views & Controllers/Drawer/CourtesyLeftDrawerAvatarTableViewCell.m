@@ -18,11 +18,9 @@
 @implementation CourtesyLeftDrawerAvatarTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.backgroundColor = [UIColor clearColor];
-    // 绘制圆形头像
-    self.avatarImageView.layer.masksToBounds = YES;
-    self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.size.height / 2;
 }
 
 #pragma mark - Accessors
@@ -44,7 +42,9 @@
 }
 
 - (void)setAvatarImage:(UIImage *)avatar {
-    self.avatarImageView.image = [avatar imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.avatarImageView.image = [[avatar imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] imageByRoundCornerRadius:avatar.size.height / 2
+                                                                                                                  borderWidth:0
+                                                                                                                  borderColor:nil];
 }
 
 #pragma mark - Remote

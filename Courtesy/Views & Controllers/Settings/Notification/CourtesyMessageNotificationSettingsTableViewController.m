@@ -33,11 +33,11 @@
     if (indexPath.section == 0 && indexPath.row == 0) {
         LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"提示"
                                                             message:@"如果你要关闭或开启礼记的新消息通知，请在「设置 - 通知」中，找到应用程序「礼记」更改。"
-                                                              style:LGAlertViewStyleAlert
+                                                              style:LGAlertViewStyleActionSheet
                                                        buttonTitles:nil
                                                   cancelButtonTitle:@"好"
                                              destructiveButtonTitle:nil];
-        SetCourtesyAleryViewStyle(alertView, self.view)
+        SetCourtesyAleryViewStyle(alertView)
         [alertView showAnimated:YES completionHandler:^() {
             [self changeStatusLabel];
         }];

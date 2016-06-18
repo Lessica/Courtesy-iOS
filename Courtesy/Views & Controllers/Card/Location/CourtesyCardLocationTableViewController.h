@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CourtesyCardLocationModel.h"
+#import <MAMapKit/MAMapKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
+#import <AMapLocationKit/AMapLocationKit.h>
 
-@interface CourtesyCardLocationTableViewController : UITableViewController
-@property (nonatomic, strong) CourtesyCardLocationModel *location;
+typedef void(^SelectLocationSuccessBlock)(AMapPOI *poi);
+
+@interface CourtesyCardLocationTableViewController : UIViewController
+
+@property (nonatomic, strong)   AMapPOI                      *oldPoi;
+@property (nonatomic, copy)     SelectLocationSuccessBlock   successBlock;
 
 @end

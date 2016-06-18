@@ -251,6 +251,16 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
 
 #pragma mark - ShortCuts
 
+- (void)shortcutMethod:(NSString *)method {
+    if ([method isEqualToString:@"Scan"]) {
+        [self shortcutScan];
+    } else if ([method isEqualToString:@"Compose"]) {
+        [self shortcutCompose];
+    } else if ([method isEqualToString:@"Share"]) {
+        [self shortcutShare];
+    }
+}
+
 - (BOOL)shortcutScan {
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:NO];
     [[[AppDelegate globalDelegate] drawerViewController] setCenterViewController:[self scanPortraitView]];
@@ -297,6 +307,17 @@ static NSString * const kJVDrawerCellReuseIdentifier = @"JVDrawerCellReuseIdenti
     }
     CourtesyCardModel *newCard = [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
     newCard.qr_id = qr;
+    return YES;
+}
+
+- (BOOL)shortcutViewWithToken:(NSString *)token {
+    if (!token) {
+        [self.view makeToast:@"卡片信息获取失败"
+                    duration:2.0
+                    position:CSToastPositionCenter];
+        return NO;
+    }
+    [[CourtesyCardManager sharedManager] handleRemoteCardToken:token withController:self];
     return YES;
 }
 

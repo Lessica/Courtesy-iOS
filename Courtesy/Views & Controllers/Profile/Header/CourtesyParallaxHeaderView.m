@@ -50,6 +50,7 @@ static CGFloat kLabelPaddingDist = 8.0f;
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     if (self.subView)
         [self initialSetupForCustomSubView:self.subView];
     else

@@ -39,6 +39,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     [self p_init];
     
     _pickerView.translatesAutoresizingMaskIntoConstraints = NO;

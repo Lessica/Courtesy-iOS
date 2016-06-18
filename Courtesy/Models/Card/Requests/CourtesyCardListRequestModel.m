@@ -14,6 +14,13 @@
 
 @implementation CourtesyCardListRequestModel
 
++ (BOOL)propertyIsIgnored:(NSString *)propertyName {
+    if ([propertyName isEqualToString:@"cards"]) {
+        return YES;
+    }
+    return NO;
+}
+
 - (NSString *)action {
     if (self.user_id == kAccount.user_id) {
         if (_history) {

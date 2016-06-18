@@ -10,6 +10,7 @@
 #import <Photos/Photos.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <AMapSearchKit/AMapSearchKit.h>
 
 #import "UMSocial.h"
 #import "FYPhotoAsset.h"
@@ -564,7 +565,7 @@ CourtesyCardPreviewGeneratorDelegate
     if (!_textView) {
         /* Init of text view */
         CourtesyTextView *textView = [[CourtesyTextView alloc] initWithFrame:self.view.frame];
-        textView.debugOption = self.debugOption;
+//        textView.debugOption = self.debugOption;
         textView.delegate = self;
         textView.backgroundColor = [UIColor clearColor];
         textView.alwaysBounceVertical = YES;
@@ -864,8 +865,8 @@ CourtesyCardPreviewGeneratorDelegate
         /* Touch Event of Location Button */
         [circleLocationBtn setTarget:self action:@selector(circleLocationBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
         
-        if ([self.cdata.geoLocation hasLocation]) {
-            [circleLocationBtn setTitle:self.cdata.geoLocation.address forState:UIControlStateNormal];
+        if (self.cdata.geoLocation.name) {
+            [circleLocationBtn setTitle:self.cdata.geoLocation.name forState:UIControlStateNormal];
         } else {
             if (_isAuthor) {
                 [circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
@@ -1007,7 +1008,20 @@ CourtesyCardPreviewGeneratorDelegate
 }
 - (void)circleLocationBtnTapped:(UIButton *)sender {
     CourtesyCardLocationTableViewController *picker = [[CourtesyCardLocationTableViewController alloc] init];
-    picker.location = self.card.local_template.geoLocation;
+    if (self.cdata.geoLocation.name) {
+        AMapPOI *oldPoi = [[AMapPOI alloc] init];
+        oldPoi.name = self.cdata.geoLocation.name;
+        oldPoi.location.longitude = self.cdata.geoLocation.longitude;
+        oldPoi.location.latitude = self.cdata.geoLocation.latitude;
+        picker.oldPoi = oldPoi;
+    }
+    picker.successBlock = ^(AMapPOI *poi) {
+        self.cdata.geoLocation.name = poi.name;
+        self.cdata.geoLocation.longitude = poi.location.longitude;
+        self.cdata.geoLocation.latitude = poi.location.latitude;
+        self.cardEdited = YES;
+        [self.circleLocationBtn setTitle:poi.name forState:UIControlStateNormal];
+    };
     CourtesyPortraitViewController *portraitController = [[CourtesyPortraitViewController alloc] initWithRootViewController:picker];
     [self presentViewController:portraitController animated:YES completion:nil];
 }
@@ -1126,7 +1140,7 @@ CourtesyCardPreviewGeneratorDelegate
                                                            cancelButtonTitle:@"取消"
                                                       destructiveButtonTitle:nil
                                                                     delegate:self];
-    SetCourtesyAleryViewStyle(alertView, self.view)
+    SetCourtesyAleryViewStyle(alertView)
     [alertView showAnimated:YES completionHandler:nil];
 }
 - (void)alignButtonTapped:(UIBarButtonItem *)sender {

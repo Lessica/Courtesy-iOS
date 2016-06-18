@@ -47,8 +47,6 @@
     
     self.imagePreview.layer.masksToBounds = YES;
     self.imagePreview.layer.cornerRadius = 3.0;
-    
-    self.smallAvatarView.layer.cornerRadius = self.smallAvatarView.frame.size.width / 2;
 }
 
 #pragma mark - Data Updating

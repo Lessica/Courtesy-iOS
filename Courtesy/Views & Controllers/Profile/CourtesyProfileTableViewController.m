@@ -85,8 +85,6 @@ UMSocialUIDelegate>
     self.extendedLayoutIncludesOpaqueBars = NO;
     self.edgesForExtendedLayout =  UIRectEdgeBottom | UIRectEdgeLeft | UIRectEdgeRight;
     
-    self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.size.height / 2;
-    self.avatarImageView.layer.masksToBounds = YES;
     self.avatarImageView.userInteractionEnabled = YES;
     [self.avatarImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showOriginalAvatarImage:)]];
     
@@ -230,7 +228,7 @@ UMSocialUIDelegate>
             
         }
     } cancelHandler:nil destructiveHandler:nil];
-    SetCourtesyAleryViewStyle(alertView, self.view)
+    SetCourtesyAleryViewStyle(alertView)
     [alertView showAnimated:YES completionHandler:nil];
 }
 

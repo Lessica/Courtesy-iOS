@@ -10,7 +10,6 @@
 #import "GlobalSettings.h"
 #import "JSONHTTPClient.h"
 #import "CourtesyLoginRegisterModel.h"
-//#import <UMMobClick/MobClick.h>
 
 #define kCourtesyDBCurrentLoginAccount @"kCourtesyDBCurrentLoginAccount"
 #define kCourtesyConfigSwitchAutoPublic @"kCourtesyConfigSwitchAutoPublic"

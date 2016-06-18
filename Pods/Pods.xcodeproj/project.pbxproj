@@ -5711,6 +5711,92 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0700;
+				TargetAttributes = {
+					0A7F1480034D9468CFB1D33372912EF3 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					0BF8569A1D17D47E1A86EB020383E8D1 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					1C3436CEA5C3D39764C5F54374794ECB = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					2252F46682431106F93645DF49EFC503 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					33B42E21671AAC905130853EDCADA43B = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					35FAFEC4CC2C2EBECEE1C9DCC300D424 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					5FD7B69AB5DFC650A7551EB83736A02C = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					6847254D016329D4A531D34ED2B6DF81 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					70F94F8B3DDBC49B38CB6781EE104B05 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					77AB16E71967928775ACD2706514E867 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					83DD2F2883B66A50CEA2F2BC326A2A8E = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					99F9DBDCBC0566BEF09534F11C71C172 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					9EF9CD1E0427E0EAC28D17C3B265FDF5 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					A9A83F63385AA43314397B8DD375464B = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					B5E30A72BB6DF4504A0E7DE895D6E5E3 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					BB270E257F9AA88D0F1C1FB07A331F86 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					E2BD922C256BB63BD7493110024A911F = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					E55CFDE4A9214C0D11E44ADE10C6B202 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					E61CE3B6DFA1FE6B3E296965C76C0E10 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					FA2B8CC5E3BE6DEBA1AF23948641CB69 = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+					FAE26C46CFBAF39E4C96ABF16B93D9FC = {
+						DevelopmentTeam = GXZ23M5TP2;
+						DevelopmentTeamName = "Zheng Wu";
+					};
+				};
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";

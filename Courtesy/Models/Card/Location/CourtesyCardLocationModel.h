@@ -6,12 +6,11 @@
 //  Copyright © 2016 82Flex. All rights reserved.
 //
 
-@interface CourtesyCardLocationModel : JSONModel
-@property (nonatomic, copy) NSString *address;
-@property (nonatomic, assign) float latitude;
-@property (nonatomic, assign) float longitude;
+#import <AMapSearchKit/AMapSearchKit.h>
 
-- (BOOL)hasLocation;
-- (void)clearLocation;
+@interface CourtesyCardLocationModel : JSONModel
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, assign) float longitude;
+@property (nonatomic, assign) float latitude;
 
 @end

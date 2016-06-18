@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0720"
+   LastUpgradeVersion = "0800"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -83,7 +83,7 @@
       <RemoteRunnable
          runnableDebuggingMode = "2"
          BundleIdentifier = "com.apple.carousel"
-         RemotePath = "/&#31036;&#35760;">
+         RemotePath = "/&#x793c;&#x8bb0;">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0FD3EE291C95CDC100DE5347"
@@ -113,7 +113,7 @@
       <RemoteRunnable
          runnableDebuggingMode = "2"
          BundleIdentifier = "com.apple.carousel"
-         RemotePath = "/&#31036;&#35760;">
+         RemotePath = "/&#x793c;&#x8bb0;">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0FD3EE291C95CDC100DE5347"

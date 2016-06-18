@@ -28,7 +28,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) NSUInteger from;
 @property (nonatomic, assign) NSUInteger to;
 @property (nonatomic, assign) BOOL history;
-@property (nonatomic, strong) NSMutableArray <Ignore, CourtesyCardModel *> *cards; // Callback Data Source
+@property (nonatomic, strong) NSMutableArray <CourtesyCardModel *> *cards; // Callback Data Source
 @property (nonatomic, weak) id<Ignore, CourtesyCardListRequestDelegate> delegate;
 
 - (void)sendAsyncListRequest;

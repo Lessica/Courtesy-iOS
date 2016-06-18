@@ -61,11 +61,11 @@
         } else {
             LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"提示"
                                                                 message:@"请在「设置 - 隐私 - 定位服务」中，找到应用程序「礼记」，并允许其访问您的位置信息。"
-                                                                  style:LGAlertViewStyleAlert
+                                                                  style:LGAlertViewStyleActionSheet
                                                            buttonTitles:nil
                                                       cancelButtonTitle:@"好"
                                                  destructiveButtonTitle:nil];
-            SetCourtesyAleryViewStyle(alertView, self.view)
+            SetCourtesyAleryViewStyle(alertView)
             [alertView showAnimated:YES completionHandler:nil];
         }
     }

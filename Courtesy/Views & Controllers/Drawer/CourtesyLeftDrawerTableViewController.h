@@ -11,4 +11,6 @@
 - (BOOL)shortcutCompose;
 - (BOOL)shortcutShare;
 - (BOOL)shortcutComposeWithQr:(NSString *)qr;
+- (BOOL)shortcutViewWithToken:(NSString *)token;
+- (void)shortcutMethod:(NSString *)method;
 @end

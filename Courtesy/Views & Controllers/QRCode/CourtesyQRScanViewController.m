@@ -13,12 +13,11 @@
 #import "LBXScanResult.h"
 #import "LBXScanWrapper.h"
 #import "CourtesyCardManager.h"
-#import "CourtesyCardQueryRequestModel.h"
 
 // 振动系统声音
 static SystemSoundID shake_sound_male_id = 0;
 
-@interface CourtesyQRScanViewController () <LGAlertViewDelegate, CourtesyQRCodeQueryDelegate, JVFloatingDrawerCenterViewController, CourtesyCardQueryRequestDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface CourtesyQRScanViewController () <LGAlertViewDelegate, CourtesyQRCodeQueryDelegate, JVFloatingDrawerCenterViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong) LGAlertView *currentAlert;
 
 @end
@@ -64,6 +63,20 @@ static SystemSoundID shake_sound_male_id = 0;
     self.edgesForExtendedLayout = UIRectEdgeAll;
     self.extendedLayoutIncludesOpaqueBars = YES;
     self.title = @"扫一扫";
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveLocalNotification:)
+                                                 name:kCourtesyNotificationInfo object:nil];
+}
+
+- (void)didReceiveLocalNotification:(NSNotification *)notification {
+    if (!notification.userInfo || ![notification.userInfo hasKey:@"action"]) {
+        return;
+    }
+    NSString *action = [notification.userInfo objectForKey:@"action"];
+    if ([action isEqualToString:kCourtesyActionScanRestartCapture]) {
+        [self performSelector:@selector(restartCapture) withObject:nil afterDelay:1.0f];
+    }
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -178,7 +191,7 @@ static SystemSoundID shake_sound_male_id = 0;
         __weak typeof(self) weakSelf = self;
         LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"错误"
                                                             message:str
-                                                              style:LGAlertViewStyleAlert
+                                                              style:LGAlertViewStyleActionSheet
                                                        buttonTitles:nil
                                                   cancelButtonTitle:@"好"
                                              destructiveButtonTitle:nil
@@ -187,7 +200,7 @@ static SystemSoundID shake_sound_male_id = 0;
                                                           [weakSelf performSelector:@selector(restartCapture) withObject:nil afterDelay:kStatusBarNotificationTime];
                                                       }
                                                  destructiveHandler:nil];
-        SetCourtesyAleryViewStyle(alertView, self.view)
+        SetCourtesyAleryViewStyle(alertView)
     
         if (self.currentAlert && self.currentAlert.isShowing) {
             [self.currentAlert transitionToAlertView:alertView completionHandler:nil];
@@ -209,7 +222,7 @@ static SystemSoundID shake_sound_male_id = 0;
             __weak typeof(self) weakSelf = self;
                 LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"跳转提示"
                                                                     message:str
-                                                                      style:LGAlertViewStyleAlert
+                                                                      style:LGAlertViewStyleActionSheet
                                                                buttonTitles:@[@"前往"]
                                                           cancelButtonTitle:@"取消"
                                                      destructiveButtonTitle:nil
@@ -224,7 +237,7 @@ static SystemSoundID shake_sound_male_id = 0;
                                                               }
                                                          destructiveHandler:nil];
                 alertView.delegate = self;
-                SetCourtesyAleryViewStyle(alertView, self.view)
+                SetCourtesyAleryViewStyle(alertView)
                 
                 if (self.currentAlert && self.currentAlert.isShowing) {
                     [self.currentAlert transitionToAlertView:alertView completionHandler:nil];
@@ -252,14 +265,14 @@ static SystemSoundID shake_sound_male_id = 0;
     dispatch_async_on_main_queue(^{
         LGAlertView *scanActivityAlert = [[LGAlertView alloc] initWithActivityIndicatorAndTitle:@"读取中"
                                                                                         message:@"正在请求二维码信息"
-                                                                                          style:LGAlertViewStyleAlert
+                                                                                          style:LGAlertViewStyleActionSheet
                                                                                    buttonTitles:nil
                                                                               cancelButtonTitle:nil
                                                                          destructiveButtonTitle:nil
                                                                                   actionHandler:nil
                                                                                   cancelHandler:nil
                                                                              destructiveHandler:nil];
-        SetCourtesyAleryViewStyle(scanActivityAlert, self.view)
+        SetCourtesyAleryViewStyle(scanActivityAlert)
     
         if (self.currentAlert && self.currentAlert.isShowing) {
             [self.currentAlert transitionToAlertView:scanActivityAlert completionHandler:nil];
@@ -314,110 +327,12 @@ static SystemSoundID shake_sound_male_id = 0;
             [self showError:@"卡片信息获取失败"];
             return;
         }
-        [self handleRemoteCardToken:qrcode.card_token];
-    }
-}
-
-#pragma mark - 处理卡片标识
-
-- (void)handleRemoteCardToken:(NSString *)token {
-    CourtesyCardManager *manager = [CourtesyCardManager sharedManager];
-    // 先判断卡在不在本地，如果在，直接打开卡片
-    CourtesyCardModel *local_card = [manager cardWithToken:token];
-    if (local_card) {
         if (self.currentAlert && self.currentAlert.isShowing) {
             dispatch_async_on_main_queue(^{
                 [self.currentAlert dismissAnimated:YES completionHandler:nil];
             });
         }
-        [manager editCard:local_card withViewController:self];
-        return;
-    }
-    // 否则发送卡片状态查询请求查询卡片状态
-    __block CourtesyCardQueryRequestModel *queryRequest = [[CourtesyCardQueryRequestModel alloc] initWithDelegate:self];
-    queryRequest.token = token;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [queryRequest sendRequest];
-    });
-}
-
-#pragma mark - CourtesyCardQueryRequestDelegate
-
-- (void)cardQueryRequestSucceed:(CourtesyCardQueryRequestModel *)sender {
-    NSMutableDictionary *card_dict = [[NSMutableDictionary alloc] initWithDictionary:sender.card_dict];
-    if (!card_dict) {
-        // 卡片信息为空
-    } else {
-        // 处理卡片字典键值
-        [card_dict setObject:@(0) forKey:@"isNewCard"];
-        [card_dict setObject:@(1) forKey:@"hasPublished"];
-    }
-    // 开始解析卡片信息
-    NSError *error = nil;
-    __block CourtesyCardModel *newCard = [[CourtesyCardModel alloc] initWithDictionary:card_dict error:&error];
-    if (error) { // 卡片信息无法被反序列化
-        [self cardQueryRequestFailed:nil withError:error];
-        return;
-    }
-    
-    NSString *message = [NSString stringWithFormat:@"你收到了一张来自 %@ 的卡片",
-                         newCard.author.profile.nick];
-    dispatch_async_on_main_queue(^{
-        __weak typeof(self) weakSelf = self;
-        NSArray <NSString *> *buttons = nil;
-        if ([sharedSettings hasLogin]) {
-            buttons = @[@"立即查看", @"保存到「我的卡片」"];
-        } else {
-            buttons = @[@"立即查看"]; // 未登录不能保存
-        }
-        LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"接收卡片"
-                                                            message:message
-                                                              style:LGAlertViewStyleAlert
-                                                       buttonTitles:buttons
-                                                  cancelButtonTitle:@"取消"
-                                             destructiveButtonTitle:nil
-                                                      actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
-                                                          if (index == 0 || index == 1) {
-                                                              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                                  [weakSelf handleCardOperation:newCard withIndex:index];
-                                                              });
-                                                          }
-                                                      } cancelHandler:^(LGAlertView *alertView) {
-                                                          [weakSelf performSelector:@selector(restartCapture) withObject:nil afterDelay:kStatusBarNotificationTime];
-                                                      } destructiveHandler:nil];
-        alertView.delegate = self;
-        SetCourtesyAleryViewStyle(alertView, self.view)
-        
-        if (self.currentAlert && self.currentAlert.isShowing) {
-            [self.currentAlert transitionToAlertView:alertView completionHandler:nil];
-        } else {
-            [alertView showAnimated:YES completionHandler:nil];
-        }
-        
-        self.currentAlert = alertView;
-    });
-}
-
-- (void)cardQueryRequestFailed:(CourtesyCardQueryRequestModel *)sender
-                     withError:(NSError *)error {
-    [self showError:[NSString stringWithFormat:@"卡片信息查询失败 - %@", [error localizedDescription]]];
-}
-
-- (void)handleCardOperation:(CourtesyCardModel *)card withIndex:(NSUInteger)index {
-    card.read_by = kAccount;
-    CourtesyCardManager *manager = [CourtesyCardManager sharedManager];
-    card.delegate = manager;
-    // 卡片信息可被序列化，读出卡片作者
-    if (index == 0) {
-        card.willPublish = NO;
-        card.shouldNotify = NO;
-        [card saveToLocalDatabase];
-        [manager editCard:card withViewController:self];
-    } else {
-        card.willPublish = NO;
-        card.shouldNotify = YES;
-        [card saveToLocalDatabase];
-        [self performSelector:@selector(restartCapture) withObject:nil afterDelay:kStatusBarNotificationTime];
+        [[CourtesyCardManager sharedManager] handleRemoteCardToken:qrcode.card_token withController:self];
     }
 }
 

@@ -68,10 +68,6 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
     [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:WEIBO_APP_ID secret:WEIBO_APP_KEY RedirectURL:SERVICE_INDEX];
     [UMSocialWechatHandler setWXAppId:WEIXIN_APP_ID appSecret:WEIXIN_APP_SECRET url:SERVICE_INDEX];
     [UMSocialConfig setFinishToastIsHidden:NO position:UMSocialiToastPositionCenter];
-    // 高德地图
-    [MAMapServices sharedServices].apiKey = AUTONAVI_APP_KEY;
-    [AMapLocationServices sharedServices].apiKey = AUTONAVI_APP_KEY;
-    [AMapSearchServices sharedServices].apiKey = AUTONAVI_APP_KEY;
     [self globalInit];
     if ([launchOptions hasKey:UIApplicationLaunchOptionsShortcutItemKey]) {
         // Some thing that should not respond to immediately...
@@ -87,15 +83,7 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
 // Thanks: http://www.jianshu.com/p/74fe6cbc542b
 - (void)application:(UIApplication *)application performActionForShortcutItem:(nonnull UIApplicationShortcutItem *)shortcutItem completionHandler:(nonnull void (^)(BOOL))completionHandler {
     if (shortcutItem) {
-        SEL selector = nil;
-        if ([shortcutItem.type isEqualToString:@"Scan"]) {
-            selector = @selector(shortcutScan);
-        } else if ([shortcutItem.type isEqualToString:@"Compose"]) {
-            selector = @selector(shortcutCompose);
-        } else if ([shortcutItem.type isEqualToString:@"Share"]) {
-            selector = @selector(shortcutShare);
-        }
-        [(CourtesyLeftDrawerTableViewController *)_leftDrawerViewController performSelector:selector withObject:nil afterDelay:1.0];
+        [(CourtesyLeftDrawerTableViewController *)_leftDrawerViewController performSelector:@selector(shortcutMethod:) withObject:shortcutItem.type afterDelay:1.0];
         if (completionHandler) {
             completionHandler(YES);
         }
@@ -131,7 +119,10 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
                 [(CourtesyLeftDrawerTableViewController *)_leftDrawerViewController performSelector:@selector(shortcutComposeWithQr:) withObject:qrcode_id afterDelay:1.0];
             }
         } else if ([action isEqualToString:@"card"]) {
-            
+            NSString *token = [queryItems valueForQueryKey:@"token"];
+            if (token) {
+                [(CourtesyLeftDrawerTableViewController *)_leftDrawerViewController performSelector:@selector(shortcutViewWithToken:) withObject:token afterDelay:1.0];
+            }
         }
     }
     return result;
