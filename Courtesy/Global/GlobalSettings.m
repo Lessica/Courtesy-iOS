@@ -359,4 +359,13 @@
     [self.appStorage setObject:[NSNumber numberWithFloat:preferredFontSize] forKey:kCourtesyConfigPreferredFontSize];
 }
 
+- (NSMutableArray *)addressArray {
+    if (!_addressArray) {
+        _addressArray = ({
+            [[NSMutableArray alloc] init];
+        });
+    }
+    return _addressArray;
+}
+
 @end

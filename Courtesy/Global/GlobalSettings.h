@@ -42,7 +42,7 @@
 @property (nonatomic, assign) NSUInteger preferredPreviewStyleType;
 @property (nonatomic, assign) float preferredImageQuality;
 @property (nonatomic, assign) UIImagePickerControllerQualityType preferredVideoQuality;
-
+@property (nonatomic, strong) NSMutableArray *addressArray;
 
 #ifdef WATCH_SUPPORT
 @property (nonatomic, strong) CourtesyWatchSessionManager *watchSessionManager;

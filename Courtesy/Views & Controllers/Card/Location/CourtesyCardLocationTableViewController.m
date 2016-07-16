@@ -11,19 +11,19 @@
 #import "CourtesyCardLocationTableViewCell.h"
 
 #define kCourtesyLocationNotShow @"不显示位置"
+#define kCourtesyLocationTimeout 3.0
+#define kCourtesyReGeocodeTimeout 3.0
 
 #define kCourtesyCardLocationPickerCellReuseIdentifier @"kCourtesyCardLocationPickerCellReuseIdentifier"
 
 @interface CourtesyCardLocationTableViewController ()
 <
-CLLocationManagerDelegate,
 AMapSearchDelegate,
 UITableViewDelegate,
 UITableViewDataSource,
 AMapLocationManagerDelegate
 >
 
-@property (nonatomic, strong) NSMutableArray *addressArray;
 @property (nonatomic, strong) UITableView    *mTableView;
 @property (nonatomic, assign) BOOL           needClear;
 @property (nonatomic, assign) NSInteger      pageIndex;
@@ -40,22 +40,25 @@ AMapLocationManagerDelegate
 
 @implementation CourtesyCardLocationTableViewController
 
+- (NSMutableArray *)addressArray {
+    return [sharedSettings addressArray];
+}
+
 - (void)close {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"定位中……";
     
     UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(close)];
     self.navigationItem.rightBarButtonItem = closeItem;
     
-    [self resetAddressArray];
+    [self setupAddressArray];
     [self initGeoCompleteBlock];
     
     if (self.oldPoi) {
-        AMapPOI *poi                = self.oldPoi;
+        AMapPOI *poi = self.oldPoi;
         self.latitude = poi.location.latitude;
         self.longitude = poi.location.longitude;
     }
@@ -69,12 +72,18 @@ AMapLocationManagerDelegate
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setupAddressArray {
+    if (self.addressArray.count == 0) {
+        self.needClear  = NO;
+        AMapPOI *first  = [[AMapPOI alloc] init];
+        first.name      = kCourtesyLocationNotShow;
+        [self.addressArray addObject:first];
+    }
+}
+
 - (void)resetAddressArray {
     [self.addressArray removeAllObjects];
-    self.needClear = NO;
-    AMapPOI *first  = [[AMapPOI alloc] init];
-    first.name      = kCourtesyLocationNotShow;
-    [self.addressArray addObject:first];
+    [self setupAddressArray];
 }
 
 #pragma mark - getData
@@ -111,7 +120,8 @@ AMapLocationManagerDelegate
 
 #pragma mark - AMapSearchDelegate
 /* POI 搜索回调. */
-- (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response {
+- (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request
+               response:(AMapPOISearchResponse *)response {
     if (response.pois.count == 0){
         return;
     }
@@ -126,15 +136,12 @@ AMapLocationManagerDelegate
     }
     
     [self.addressArray addObjectsFromArray:response.pois];
-    
     [self.mTableView reloadData];
     
     self.mTableView.mj_footer.hidden = response.pois.count != self.pageCount;
     
     [self.mTableView.mj_header endRefreshing];
     [self.mTableView.mj_footer endRefreshing];
-    
-    self.title = @"添加位置";
 }
 
 #pragma mark TableView delegate
@@ -151,8 +158,14 @@ AMapLocationManagerDelegate
     
     if (!self.oldPoi && indexPath.row == 0) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    } else if (self.oldPoi && [self.oldPoi.name isEqualToString:info.name]){
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else if (self.oldPoi) {
+        if ([self.oldPoi.name isEqualToString:info.name]) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        } else if (info.name.length == 0 &&
+                   self.oldPoi.name.length == 0 &&
+                   [self.oldPoi.city isEqualToString:info.city]) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
     }
     return cell;
 }
@@ -207,15 +220,6 @@ AMapLocationManagerDelegate
     return _mTableView;
 }
 
-- (NSMutableArray *)addressArray {
-    if (!_addressArray) {
-        _addressArray = ({
-            [[NSMutableArray alloc] init];
-        });
-    }
-    return _addressArray;
-}
-
 - (AMapSearchAPI *)search {
     if (!_search) {
         _search = ({
@@ -265,8 +269,8 @@ AMapLocationManagerDelegate
         [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
         [locationManager setPausesLocationUpdatesAutomatically:YES];
         [locationManager setAllowsBackgroundLocationUpdates:YES];
-        [locationManager setLocationTimeout:3.0];
-        [locationManager setReGeocodeTimeout:3.0];
+        [locationManager setLocationTimeout:kCourtesyLocationTimeout];
+        [locationManager setReGeocodeTimeout:kCourtesyReGeocodeTimeout];
         _locationManager = locationManager;
     }
     return _locationManager;

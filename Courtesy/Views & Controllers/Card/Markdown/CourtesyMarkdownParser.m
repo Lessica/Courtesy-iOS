@@ -218,7 +218,7 @@
                               if ([[UIApplication sharedApplication] canOpenURL:realURL]) {
                                   [[UIApplication sharedApplication] openURL:realURL];
                               }
-                          }]; // 我继承你妈血逼
+                          }];
     }];
     
     [_regexLinkRefer enumerateMatchesInString:str options:0 range:NSMakeRange(0, str.length) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {

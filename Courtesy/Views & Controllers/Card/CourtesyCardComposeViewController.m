@@ -429,6 +429,9 @@ CourtesyCardPreviewGeneratorDelegate
 - (CourtesyCardDataModel *)cdata {
     return _card.local_template;
 }
+- (CourtesyCardLocationModel *)gdata {
+    return self.cdata.geoLocation;
+}
 - (CourtesyCardStyleModel *)style {
     return _card.local_template.style;
 }
@@ -865,8 +868,8 @@ CourtesyCardPreviewGeneratorDelegate
         /* Touch Event of Location Button */
         [circleLocationBtn setTarget:self action:@selector(circleLocationBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
         
-        if (self.cdata.geoLocation.name) {
-            [circleLocationBtn setTitle:self.cdata.geoLocation.name forState:UIControlStateNormal];
+        if (self.gdata.hasLocation) {
+            [circleLocationBtn setTitle:[self.gdata displayName] forState:UIControlStateNormal];
         } else {
             if (_isAuthor) {
                 [circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
@@ -1008,19 +1011,29 @@ CourtesyCardPreviewGeneratorDelegate
 }
 - (void)circleLocationBtnTapped:(UIButton *)sender {
     CourtesyCardLocationTableViewController *picker = [[CourtesyCardLocationTableViewController alloc] init];
-    if (self.cdata.geoLocation.name) {
+    if (self.gdata.hasLocation) {
         AMapPOI *oldPoi = [[AMapPOI alloc] init];
-        oldPoi.name = self.cdata.geoLocation.name;
-        oldPoi.location.longitude = self.cdata.geoLocation.longitude;
-        oldPoi.location.latitude = self.cdata.geoLocation.latitude;
+        oldPoi.name = self.gdata.name;
+        oldPoi.city = self.gdata.city;
+        oldPoi.address = self.gdata.address;
+        oldPoi.location.longitude = self.gdata.longitude;
+        oldPoi.location.latitude = self.gdata.latitude;
         picker.oldPoi = oldPoi;
     }
     picker.successBlock = ^(AMapPOI *poi) {
-        self.cdata.geoLocation.name = poi.name;
-        self.cdata.geoLocation.longitude = poi.location.longitude;
-        self.cdata.geoLocation.latitude = poi.location.latitude;
-        self.cardEdited = YES;
-        [self.circleLocationBtn setTitle:poi.name forState:UIControlStateNormal];
+        if (poi == nil) {
+            self.gdata.hasLocation = NO;
+            [self.circleLocationBtn setTitle:@"添加位置" forState:UIControlStateNormal];
+        } else {
+            self.gdata.name = poi.name;
+            self.gdata.address = poi.address;
+            self.gdata.city = poi.city;
+            self.gdata.longitude = poi.location.longitude;
+            self.gdata.latitude = poi.location.latitude;
+            self.gdata.hasLocation = YES;
+            self.cardEdited = YES;
+            [self.circleLocationBtn setTitle:[self.gdata displayName] forState:UIControlStateNormal];
+        }
     };
     CourtesyPortraitViewController *portraitController = [[CourtesyPortraitViewController alloc] initWithRootViewController:picker];
     [self presentViewController:portraitController animated:YES completion:nil];
