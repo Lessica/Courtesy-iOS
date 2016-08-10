@@ -104,7 +104,7 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
     };
     // 添加自定义平台
     [UMSocialConfig addSocialSnsPlatform:@[snsPlatform_1, snsPlatform_2]];
-    [UMSocialConfig setSnsPlatformNames:UMENG_SHARE_PLATFORMS];
+    [UMSocialConfig setSnsPlatformNames:UMENG_SHARE_CARD_PLATFORMS];
     [UMSocialData setAppKey:UMENG_APP_KEY];
     [UMSocialQQHandler setQQWithAppId:TENCENT_APP_ID appKey:TENCENT_APP_KEY url:SERVICE_INDEX];
     [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:WEIBO_APP_ID secret:WEIBO_APP_KEY RedirectURL:SERVICE_INDEX];

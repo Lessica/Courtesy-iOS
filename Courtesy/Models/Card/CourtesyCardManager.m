@@ -699,6 +699,11 @@ LGAlertViewDelegate
 
 - (void)handleRemoteCardToken:(NSString *)token withController:(UIViewController *)controller {
     _currentController = controller;
+    // 验证卡片 token
+    NSString *regex = @"^[0-9A-Za-z|-]+$";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isValid = [predicate evaluateWithObject:token];
+    if (!isValid) { return; }
     // 先判断卡在不在本地，如果在，直接打开卡片
     CourtesyCardModel *local_card = [self cardWithToken:token];
     if (local_card) {

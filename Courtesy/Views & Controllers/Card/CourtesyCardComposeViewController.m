@@ -1417,7 +1417,7 @@ CourtesyCardPreviewGeneratorDelegate
                                                  appKey:UMENG_APP_KEY
                                               shareText:[NSString stringWithFormat:WEIBO_CARD_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", shareUrl]
                                              shareImage:result
-                                        shareToSnsNames:UMENG_SHARE_PLATFORMS
+                                        shareToSnsNames:UMENG_SHARE_CARD_PLATFORMS
                                                delegate:self];
         });
     }
@@ -2122,23 +2122,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         UIPreviewAction *tap1 = [UIPreviewAction actionWithTitle:type style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
             [self publishCard];
         }];
-        
+        /*
         UIPreviewAction *tap2 = [UIPreviewAction actionWithTitle:@"保存到相册" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
             [self performSelectorInBackground:@selector(generateTextViewLayer:) withObject:previewViewController];
         }];
-        
-        NSArray *taps = @[tap1, tap2];
-        
-        return taps;
-    } else {
-        UIPreviewAction *tap2 = [UIPreviewAction actionWithTitle:@"保存到相册" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
-            [self performSelectorInBackground:@selector(generateTextViewLayer:) withObject:previewViewController];
-        }];
-        
-        NSArray *taps = @[tap2];
+        */
+        NSArray *taps = @[tap1,/* tap2 */];
         
         return taps;
     }
+    return nil;
 }
 
 #pragma mark - Page Control 

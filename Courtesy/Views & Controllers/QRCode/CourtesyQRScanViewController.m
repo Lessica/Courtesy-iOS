@@ -260,37 +260,48 @@ static SystemSoundID shake_sound_male_id = 0;
                                                 resolvingAgainstBaseURL:NO];
     NSArray *queryItems = urlComponents.queryItems;
     NSString *qrcode_id = [queryItems valueForQueryKey:@"id"];
-    if (!qrcode_id || [qrcode_id isEmpty] || [qrcode_id length] != 32) {
-        [self showError:@"「礼记」二维码标识符不正确"];
+    
+    NSString *regex = @"^[0-9A-Fa-f]{32}$";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isValid = [predicate evaluateWithObject:qrcode_id];
+    
+    if (qrcode_id && ![qrcode_id isEmpty] && isValid) {
+        // 扫描成功，进行查询
+        dispatch_async_on_main_queue(^{
+            LGAlertView *scanActivityAlert = [[LGAlertView alloc] initWithActivityIndicatorAndTitle:@"读取中"
+                                                                                            message:@"正在请求二维码信息"
+                                                                                              style:LGAlertViewStyleActionSheet
+                                                                                       buttonTitles:nil
+                                                                                  cancelButtonTitle:nil
+                                                                             destructiveButtonTitle:nil
+                                                                                      actionHandler:nil
+                                                                                      cancelHandler:nil
+                                                                                 destructiveHandler:nil];
+            SetCourtesyAleryViewStyle(scanActivityAlert)
+            
+            if (self.currentAlert && self.currentAlert.isShowing) {
+                [self.currentAlert transitionToAlertView:scanActivityAlert completionHandler:nil];
+            } else {
+                [scanActivityAlert showAnimated:YES completionHandler:nil];
+            }
+            self.currentAlert = scanActivityAlert;
+        });
+        
+        CourtesyQRCodeModel *newQRCode = [[CourtesyQRCodeModel alloc] initWithDelegate:self
+                                                                                   uid:qrcode_id];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
+            [newQRCode sendRequestQuery];
+        });
         return;
     }
     
-    // 扫描成功，进行查询
-    dispatch_async_on_main_queue(^{
-        LGAlertView *scanActivityAlert = [[LGAlertView alloc] initWithActivityIndicatorAndTitle:@"读取中"
-                                                                                        message:@"正在请求二维码信息"
-                                                                                          style:LGAlertViewStyleActionSheet
-                                                                                   buttonTitles:nil
-                                                                              cancelButtonTitle:nil
-                                                                         destructiveButtonTitle:nil
-                                                                                  actionHandler:nil
-                                                                                  cancelHandler:nil
-                                                                             destructiveHandler:nil];
-        SetCourtesyAleryViewStyle(scanActivityAlert)
+    NSString *card_token = [queryItems valueForQueryKey:@"token"];
+    if (card_token && ![card_token isEmpty]) {
+        [[CourtesyCardManager sharedManager] handleRemoteCardToken:card_token withController:self];
+        return;
+    }
     
-        if (self.currentAlert && self.currentAlert.isShowing) {
-            [self.currentAlert transitionToAlertView:scanActivityAlert completionHandler:nil];
-        } else {
-            [scanActivityAlert showAnimated:YES completionHandler:nil];
-        }
-        self.currentAlert = scanActivityAlert;
-    });
-    
-    CourtesyQRCodeModel *newQRCode = [[CourtesyQRCodeModel alloc] initWithDelegate:self
-                                                                               uid:qrcode_id];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^() {
-        [newQRCode sendRequestQuery];
-    });
+    [self showError:@"「礼记」二维码标识符不正确"];
 }
 
 #pragma mark - CourtesyQRCodeQueryDelegate

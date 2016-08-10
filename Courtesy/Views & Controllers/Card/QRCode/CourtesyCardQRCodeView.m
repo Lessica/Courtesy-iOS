@@ -102,7 +102,7 @@
     CGFloat scale = [UIScreen mainScreen].scale;
     CGSize containerSize = self.qrcodeImageView.bounds.size;
     CGSize imageSize = CGSizeMake(containerSize.width * scale, containerSize.height * scale);
-    [self.qrcodeImageView setImage:[ZXingWrapper createCodeWithString:[NSString stringWithFormat:@"courtesy://?action=card&token=%@", card_token] size:imageSize CodeFomart:kBarcodeFormatQRCode]];
+    [self.qrcodeImageView setImage:[ZXingWrapper createCodeWithString:[NSString stringWithFormat:API_CARD_SHARE, card_token] size:imageSize CodeFomart:kBarcodeFormatQRCode]];
 }
 
 - (instancetype)init {
