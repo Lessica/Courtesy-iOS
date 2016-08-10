@@ -20,6 +20,10 @@
 
 @implementation CourtesyAboutViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -45,12 +49,13 @@
 
 - (IBAction)shareButtonClicked:(id)sender {
     if (sender == _shareButton) {
+        UIImage *shareImage = [UIImage imageNamed:@"courtesy-share-qrcode"];
         NSString *shareUrl = APP_DOWNLOAD_URL;
-        UmengSetShareType(shareUrl)
+        UmengSetShareType(shareUrl, shareImage)
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:UMENG_APP_KEY
                                           shareText:[NSString stringWithFormat:WEIBO_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", APP_DOWNLOAD_URL]
-                                         shareImage:[UIImage imageNamed:@"courtesy-share-qrcode"]
+                                         shareImage:shareImage
                                     shareToSnsNames:UMENG_SHARE_PLATFORMS
                                            delegate:self];
     }

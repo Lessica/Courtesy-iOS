@@ -24,6 +24,10 @@ static NSString * const kCourtesyHistoryTableViewCellReuseIdentifier = @"Courtes
 
 @implementation CourtesyHistoryTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"收件箱";

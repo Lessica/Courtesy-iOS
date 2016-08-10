@@ -109,6 +109,7 @@
 		0F7792C61CE1DB5D009B36A0 /* CourtesyOpenSourceProjectWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7792C51CE1DB5D009B36A0 /* CourtesyOpenSourceProjectWebViewController.m */; };
 		0F7792C81CE1DC8B009B36A0 /* open.html in Resources */ = {isa = PBXBuildFile; fileRef = 0F7792C71CE1DC8B009B36A0 /* open.html */; };
 		0F90DC431C844C4E00607277 /* Drawers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FBBF7141C78BD4700A0A2D1 /* Drawers.storyboard */; };
+		0F947D241D5B2A29008E7392 /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F947D231D5B2A29008E7392 /* UINavigationController+StatusBar.m */; };
 		0F9A74371CE03EE2007F3CA5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F9A74361CE03EE2007F3CA5 /* libsqlite3.tbd */; };
 		0F9A743A1CE05A0E007F3CA5 /* CourtesyWeiboUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9A74391CE05A0E007F3CA5 /* CourtesyWeiboUserModel.m */; };
 		0F9BF8411CE5967E00C91F00 /* LazyFadeInLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9BF83C1CE5967E00C91F00 /* LazyFadeInLayer.m */; };
@@ -619,6 +620,8 @@
 		0F7792C41CE1DB5D009B36A0 /* CourtesyOpenSourceProjectWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyOpenSourceProjectWebViewController.h; sourceTree = "<group>"; };
 		0F7792C51CE1DB5D009B36A0 /* CourtesyOpenSourceProjectWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyOpenSourceProjectWebViewController.m; sourceTree = "<group>"; };
 		0F7792C71CE1DC8B009B36A0 /* open.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = open.html; sourceTree = "<group>"; };
+		0F947D221D5B2A29008E7392 /* UINavigationController+StatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+StatusBar.h"; sourceTree = "<group>"; };
+		0F947D231D5B2A29008E7392 /* UINavigationController+StatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+StatusBar.m"; sourceTree = "<group>"; };
 		0F9A74361CE03EE2007F3CA5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0F9A74381CE05A0E007F3CA5 /* CourtesyWeiboUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyWeiboUserModel.h; sourceTree = "<group>"; };
 		0F9A74391CE05A0E007F3CA5 /* CourtesyWeiboUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyWeiboUserModel.m; sourceTree = "<group>"; };
@@ -2574,6 +2577,8 @@
 				0F55FCCE1CA40D8D0084C4E2 /* NSDate+Compare.m */,
 				0F13F53C1CC90BC000793FB9 /* NSString+Mime.h */,
 				0F13F53D1CC90BC000793FB9 /* NSString+Mime.m */,
+				0F947D221D5B2A29008E7392 /* UINavigationController+StatusBar.h */,
+				0F947D231D5B2A29008E7392 /* UINavigationController+StatusBar.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -2947,6 +2952,7 @@
 				0F6D38131CD100BA001155DF /* DrawLineView.m in Sources */,
 				0FFE04661C93F45800E99DCC /* CourtesyJotViewController.m in Sources */,
 				0F28516D1C97D8AD0066F5C5 /* JotTouchBezier.m in Sources */,
+				0F947D241D5B2A29008E7392 /* UINavigationController+StatusBar.m in Sources */,
 				0F2851701C97D8AD0066F5C5 /* UIImage+Jot.m in Sources */,
 				0F9BF8431CE5967E00C91F00 /* NSString+LFEmoji.m in Sources */,
 				0FB0A5571C9ABDD0004B06F3 /* CourtesyAudioSheetView.m in Sources */,

@@ -16,6 +16,10 @@
 
 @implementation CourtesyAlbumTabbarViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.title = @"发件箱";

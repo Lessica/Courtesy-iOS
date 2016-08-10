@@ -17,15 +17,9 @@
 
 // 表格分区及索引设置
 enum {
-    kAccountRelatedSection    = 0,
-    kCustomizeSection         = 1,
-    kServiceSection           = 2,
-    kLogoutSection            = 3
-};
-
-enum {
-    kAccountSettingsIndex     = 0,
-    kDraftboxIndex            = 1,
+    kCustomizeSection         = 0,
+    kServiceSection           = 1,
+    kLogoutSection            = 2
 };
 
 enum {
@@ -52,6 +46,10 @@ enum {
 @end
 
 @implementation CourtesySettingsTableViewController
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -91,7 +89,7 @@ enum {
 #pragma mark - 全局设置表格数据源
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 3;
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
@@ -108,13 +106,6 @@ enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     switch (indexPath.section) {
-        case kAccountRelatedSection:
-            if (indexPath.row == kAccountSettingsIndex) {
-                
-            } else if (indexPath.row == kDraftboxIndex) {
-                
-            }
-            break;
         case kCustomizeSection:
             if (indexPath.row == kMessageNotificationIndex) {
                 

@@ -27,6 +27,10 @@ static NSString * const kCourtesyDraftTableViewCellReuseIdentifier = @"CourtesyD
 
 @implementation CourtesyDraftTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"发件箱";

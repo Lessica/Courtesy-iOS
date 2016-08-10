@@ -15,6 +15,10 @@
 
 @implementation CourtesyThemeTabbarViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.title = @"主题";

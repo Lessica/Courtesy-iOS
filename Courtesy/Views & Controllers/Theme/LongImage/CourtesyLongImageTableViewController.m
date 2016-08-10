@@ -19,6 +19,10 @@ static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"Court
 
 @implementation CourtesyLongImageTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (NSArray <NSString *> *)previewNames {
     return [[CourtesyCardPreviewStyleManager sharedManager] previewNames];
 }

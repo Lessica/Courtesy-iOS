@@ -69,6 +69,10 @@ UMSocialUIDelegate
 
 @implementation CourtesyGalleryViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (CGFloat)getTopMargin {
     // 状态栏(statusbar)
     CGRect rectStatus = [[UIApplication sharedApplication] statusBarFrame];
@@ -306,7 +310,7 @@ UMSocialUIDelegate
         shareUrl = [self linkCardPreviewUrl];
     }
     if (shareContent != nil) {
-        UmengSetShareType(shareUrl)
+        UmengSetShareType(shareUrl, shareImage)
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:UMENG_APP_KEY
                                           shareText:[NSString stringWithFormat:WEIBO_DAILY_SHARE_CONTENT, shareContent]

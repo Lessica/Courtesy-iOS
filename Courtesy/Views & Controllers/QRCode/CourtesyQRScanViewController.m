@@ -22,7 +22,11 @@ static SystemSoundID shake_sound_male_id = 0;
 
 @end
 
-@implementation CourtesyQRScanViewController 
+@implementation CourtesyQRScanViewController
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 
 #pragma mark - 初始化扫描界面
 

@@ -113,6 +113,10 @@ CourtesyCardPreviewGeneratorDelegate
 
 @implementation CourtesyCardComposeViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (instancetype)initWithCard:(nullable CourtesyCardModel *)card {
     if (self = [super init]) {
         _card = card;
@@ -865,8 +869,10 @@ CourtesyCardPreviewGeneratorDelegate
         circleLocationBtn.alpha = 0.0;
         circleLocationBtn.hidden = YES;
         
-        /* Touch Event of Location Button */
-        [circleLocationBtn setTarget:self action:@selector(circleLocationBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
+        if (_isAuthor) {
+            /* Touch Event of Location Button */
+            [circleLocationBtn setTarget:self action:@selector(circleLocationBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
+        }
         
         if (self.gdata.hasLocation) {
             [circleLocationBtn setTitle:[self.gdata displayName] forState:UIControlStateNormal];
@@ -1401,45 +1407,12 @@ CourtesyCardPreviewGeneratorDelegate
 #pragma mark - CourtesyCardPreviewGeneratorDelegate
 
 - (void)generatorDidFinishWorking:(CourtesyCardPreviewGenerator *)generator result:(UIImage *)result {
-    if ([sharedSettings switchPreviewAutoSave]) {
-        [[PHPhotoLibrary sharedPhotoLibrary] saveImage:result
-                                               toAlbum:@"礼记"
-                                            completion:^(BOOL success) {
-                                                if (success) {
-                                                    dispatch_async_on_main_queue(^{
-                                                        if (_previewContext) {
-                                                            [JDStatusBarNotification showWithStatus:@"预览图已保存到「礼记」相簿"
-                                                                                       dismissAfter:kStatusBarNotificationTime
-                                                                                          styleName:JDStatusBarStyleSuccess];
-                                                        } else {
-                                                            [self.view hideToastActivity];
-                                                            [self.view makeToast:@"预览图已保存到「礼记」相簿"
-                                                                        duration:kStatusBarNotificationTime
-                                                                        position:CSToastPositionCenter];
-                                                        }
-                                                    });
-                                                }
-                                            } failure:^(NSError * _Nullable error) {
-                                                dispatch_async_on_main_queue(^{
-                                                    if (_previewContext) {
-                                                        [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
-                                                                                   dismissAfter:kStatusBarNotificationTime
-                                                                                      styleName:JDStatusBarStyleError];
-                                                    } else {
-                                                        [self.view hideToastActivity];
-                                                        [self.view makeToast:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
-                                                                    duration:kStatusBarNotificationTime
-                                                                    position:CSToastPositionCenter];
-                                                    }
-                                                });
-                                            }];
-    }
     if (!_previewContext && result) {
         dispatch_async_on_main_queue(^{
             [self.view hideToastActivity];
-            //            NSString *shareUrl = [NSString stringWithFormat:API_CARD_SHARE, self.card.token];
-            NSString *shareUrl = nil;
-            UmengSetShareType(shareUrl)
+            NSString *shareUrl = [NSString stringWithFormat:API_CARD_SHARE, self.card.token];
+            UIImage *shareImage = result;
+            UmengSetShareType(shareUrl, shareImage)
             [UMSocialSnsService presentSnsIconSheetView:self
                                                  appKey:UMENG_APP_KEY
                                               shareText:[NSString stringWithFormat:WEIBO_CARD_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", shareUrl]

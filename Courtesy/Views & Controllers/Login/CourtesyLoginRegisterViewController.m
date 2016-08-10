@@ -42,6 +42,10 @@
 
 @implementation CourtesyLoginRegisterViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma mark - 初始化样式
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -66,10 +70,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
 }
 
 // 关闭按钮

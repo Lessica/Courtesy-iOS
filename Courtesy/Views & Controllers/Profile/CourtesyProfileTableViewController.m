@@ -78,6 +78,10 @@ UMSocialUIDelegate>
     id last_hash;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     last_hash = [[kProfile toDictionary] mutableCopy]; // 初始化备份
@@ -160,12 +164,13 @@ UMSocialUIDelegate>
 }
 
 - (IBAction)actionShareMyProfile:(id)sender {
+    UIImage *shareImage = _avatarImageView.image ? _avatarImageView.image : [UIImage imageNamed:@"courtesy-share-qrcode"];
     NSString *shareUrl = APP_DOWNLOAD_URL;
-    UmengSetShareType(shareUrl)
+    UmengSetShareType(shareUrl, shareImage)
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:UMENG_APP_KEY
                                       shareText:[NSString stringWithFormat:WEIBO_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", APP_DOWNLOAD_URL]
-                                     shareImage:_avatarImageView.image ? _avatarImageView.image : [UIImage imageNamed:@"courtesy-share-qrcode"]
+                                     shareImage:shareImage
                                 shareToSnsNames:UMENG_SHARE_PLATFORMS
                                        delegate:self];
 }

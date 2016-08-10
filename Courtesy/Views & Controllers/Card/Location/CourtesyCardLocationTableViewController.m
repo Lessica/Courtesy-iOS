@@ -40,6 +40,10 @@ AMapLocationManagerDelegate
 
 @implementation CourtesyCardLocationTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
+}
+
 - (NSMutableArray *)addressArray {
     return [sharedSettings addressArray];
 }
@@ -50,6 +54,7 @@ AMapLocationManagerDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"添加位置";
     
     UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(close)];
     self.navigationItem.rightBarButtonItem = closeItem;

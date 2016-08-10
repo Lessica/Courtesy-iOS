@@ -10,7 +10,9 @@
 #import "NSDate+Compare.h"
 #import "FCFileManager.h"
 #import "CourtesyPaddingLabel.h"
+#ifndef APP_STORE
 #import "POP.h"
+#endif
 
 @interface CourtesyAlbumTableViewCell ()
 
@@ -182,6 +184,7 @@
     // Configure the view for the selected state
 }
 
+#ifndef APP_STORE
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     
     [super setHighlighted:highlighted animated:animated];
@@ -202,5 +205,6 @@
         [self pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
     }
 }
+#endif
 
 @end

@@ -35,7 +35,6 @@
 @property (nonatomic, assign) BOOL switchMarkdown;
 @property (nonatomic, assign) BOOL switchPreviewAvatar;
 @property (nonatomic, assign) BOOL switchPreviewNeedsShadows;
-@property (nonatomic, assign) BOOL switchPreviewAutoSave;
 @property (nonatomic, assign) NSUInteger preferredFontType;
 @property (nonatomic, assign) CGFloat preferredFontSize;
 @property (nonatomic, assign) NSUInteger preferredStyleID;

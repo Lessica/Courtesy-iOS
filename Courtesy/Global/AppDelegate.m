@@ -56,23 +56,60 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
 #ifndef DEBUG
     [PreTools init:PREIM_APP_KEY channel:@"channel" config:[PreToolsConfig defaultConfig]];
 #endif
-    // 友盟统计
-//    UMConfigInstance.appKey = UMENG_APP_KEY;
-//    UMConfigInstance.channelId = @"Pgyer";
     // 友盟推送
     [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
     [UMessage registerRemoteNotificationAndUserNotificationSettings:[sharedSettings requestedNotifications]];
     // 友盟分享
-    [UMSocialData setAppKey:UMENG_APP_KEY];
-    [UMSocialQQHandler setQQWithAppId:TENCENT_APP_ID appKey:TENCENT_APP_KEY url:SERVICE_INDEX];
-    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:WEIBO_APP_ID secret:WEIBO_APP_KEY RedirectURL:SERVICE_INDEX];
-    [UMSocialWechatHandler setWXAppId:WEIXIN_APP_ID appSecret:WEIXIN_APP_SECRET url:SERVICE_INDEX];
-    [UMSocialConfig setFinishToastIsHidden:NO position:UMSocialiToastPositionCenter];
+    [self configureSns];
     [self globalInit];
     if ([launchOptions hasKey:UIApplicationLaunchOptionsShortcutItemKey]) {
         // Some thing that should not respond to immediately...
     }
     return YES;
+}
+
+- (void)configureSns {
+    UMSocialSnsPlatform *snsPlatform_1 = [[UMSocialSnsPlatform alloc] initWithPlatformName:UMShareToSystemPasteBoard];
+    snsPlatform_1.displayName = @"复制链接";
+    snsPlatform_1.bigImageName = @"share-copy";
+    snsPlatform_1.snsClickHandler = ^(UIViewController *presentingController, UMSocialControllerService * socialControllerService, BOOL isPresentInController) {
+        UIPasteboard *pastboard = [UIPasteboard generalPasteboard];
+        pastboard.string = [UMSocialData defaultData].extConfig.qqData.url;
+        [presentingController.view makeToast:@"分享链接已复制"
+                    duration:kStatusBarNotificationTime
+                    position:CSToastPositionCenter];
+    };
+    UMSocialSnsPlatform *snsPlatform_2 = [[UMSocialSnsPlatform alloc] initWithPlatformName:UMShareToSystemAlbum];
+    snsPlatform_2.displayName = @"保存到相册";
+    snsPlatform_2.bigImageName = @"share-save";
+    snsPlatform_2.snsClickHandler = ^(UIViewController *presentingController, UMSocialControllerService * socialControllerService, BOOL isPresentInController) {
+            [[PHPhotoLibrary sharedPhotoLibrary] saveImage:[UMSocialData defaultData].extConfig.qqData.shareImage
+                                                   toAlbum:@"礼记"
+                                                completion:^(BOOL success) {
+                                                    if (!success) { return; }
+                                                    dispatch_async_on_main_queue(^{
+                                                            [presentingController.view hideToastActivity];
+                                                            [presentingController.view makeToast:@"预览图已保存到「礼记」相簿"
+                                                                        duration:kStatusBarNotificationTime
+                                                                        position:CSToastPositionCenter];
+                                                    });
+                                                } failure:^(NSError * _Nullable error) {
+                                                    dispatch_async_on_main_queue(^{
+                                                        [presentingController.view hideToastActivity];
+                                                        [presentingController.view makeToast:[NSString stringWithFormat:@"预览图保存失败 - %@", [error localizedDescription]]
+                                                                    duration:kStatusBarNotificationTime
+                                                                    position:CSToastPositionCenter];
+                                                    });
+                                                }];
+    };
+    // 添加自定义平台
+    [UMSocialConfig addSocialSnsPlatform:@[snsPlatform_1, snsPlatform_2]];
+    [UMSocialConfig setSnsPlatformNames:UMENG_SHARE_PLATFORMS];
+    [UMSocialData setAppKey:UMENG_APP_KEY];
+    [UMSocialQQHandler setQQWithAppId:TENCENT_APP_ID appKey:TENCENT_APP_KEY url:SERVICE_INDEX];
+    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:WEIBO_APP_ID secret:WEIBO_APP_KEY RedirectURL:SERVICE_INDEX];
+    [UMSocialWechatHandler setWXAppId:WEIXIN_APP_ID appSecret:WEIXIN_APP_SECRET url:SERVICE_INDEX];
+    [UMSocialConfig setFinishToastIsHidden:NO position:UMSocialiToastPositionCenter];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

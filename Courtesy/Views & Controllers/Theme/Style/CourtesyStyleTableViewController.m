@@ -19,6 +19,10 @@ static NSString * const kCourtesyStyleTableViewCellReuseIdentifier = @"CourtesyS
 
 @implementation CourtesyStyleTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (NSArray <NSString *> *)styleNames {
     return [[CourtesyCardStyleManager sharedManager] styleNames];
 }

@@ -16,7 +16,6 @@
 #define kCourtesyConfigSwitchMarkdown @"kCourtesyConfigSwitchMarkdown"
 #define kCourtesyConfigSwitchPreviewNeedsShadows @"kCourtesyConfigSwitchPreviewNeedsShadows"
 #define kCourtesyConfigSwitchPreviewAvatar @"kCourtesyConfigSwitchPreviewAvatar"
-#define kCourtesyConfigSwitchPreviewAutoSave @"kCourtesyConfigSwitchPreviewAutoSave"
 #define kCourtesyConfigPreferredImageQuality @"kCourtesyConfigPreferredImageQuality"
 #define kCourtesyConfigPreferredVideoQuality @"kCourtesyConfigPreferredVideoQuality"
 #define kCourtesyConfigPreferredFontType @"kCourtesyConfigPreferredFontType"
@@ -280,17 +279,6 @@
 
 - (void)setSwitchPreviewNeedsShadows:(BOOL)switchPreviewNeedsShadows {
     [self.appStorage setObject:(switchPreviewNeedsShadows ? @1 : @0) forKey:kCourtesyConfigSwitchPreviewNeedsShadows];
-}
-
-- (BOOL)switchPreviewAutoSave {
-    if (![self.appStorage objectForKey:kCourtesyConfigSwitchPreviewAutoSave]) {
-        return YES;
-    }
-    return [(NSNumber *)[self.appStorage objectForKey:kCourtesyConfigSwitchPreviewAutoSave] isEqualToNumber:@0] ? NO : YES;
-}
-
-- (void)setSwitchPreviewAutoSave:(BOOL)switchPreviewAutoSave {
-    [self.appStorage setObject:(switchPreviewAutoSave ? @1 : @0) forKey:kCourtesyConfigSwitchPreviewAutoSave];
 }
 
 - (float)preferredImageQuality {

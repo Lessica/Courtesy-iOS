@@ -18,11 +18,14 @@
 
 @implementation CourtesyThemeSettingsTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     _markdownSupportSwitch.on = [sharedSettings switchMarkdown];
     _previewAvatarSwitch.on = [sharedSettings switchPreviewAvatar];
     _previewShadowSwitch.on = [sharedSettings switchPreviewNeedsShadows];
-    _previewSaveSwitch.on = [sharedSettings switchPreviewAutoSave];
 }
 
 - (IBAction)switchTriggered:(id)sender {
@@ -32,8 +35,6 @@
         [sharedSettings setSwitchPreviewAvatar:_previewAvatarSwitch.on];
     } else if (sender == _previewShadowSwitch) {
         [sharedSettings setSwitchPreviewNeedsShadows:_previewShadowSwitch.on];
-    } else if (sender == _previewSaveSwitch) {
-        [sharedSettings setSwitchPreviewAutoSave:_previewSaveSwitch.on];
     }
 }
 
