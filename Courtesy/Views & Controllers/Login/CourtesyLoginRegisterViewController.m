@@ -46,6 +46,10 @@
     return UIStatusBarStyleLightContent;
 }
 
+- (UIModalTransitionStyle)modalTransitionStyle {
+    return UIModalTransitionStyleFlipHorizontal;
+}
+
 #pragma mark - 初始化样式
 - (void)viewDidLoad {
     [super viewDidLoad];

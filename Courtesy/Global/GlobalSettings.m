@@ -23,11 +23,7 @@
 #define kCourtesyConfigPreferredPreviewStyleID @"kCourtesyConfigPreferredPreviewStyleID"
 #define kCourtesyConfigPreferredFontSize @"kCourtesyConfigPreferredFontSize"
 
-#ifdef WATCH_SUPPORT
-@interface GlobalSettings () <CourtesyFetchAccountInfoDelegate, WCSessionDelegate>
-#else
 @interface GlobalSettings () <CourtesyFetchAccountInfoDelegate>
-#endif
 
 @end
 
@@ -71,11 +67,6 @@
         if (!self.appStorage || !self.currentAccount) {
             @throw NSCustomException(kCourtesyAllocFailed, @"应用程序启动失败");
         }
-#ifdef WATCH_SUPPORT
-        // 初始化 Apple Watch 通信管理器
-        self.watchSessionManager = [CourtesyWatchSessionManager new];
-        [self.watchSessionManager startSession];
-#endif
         // 初始化账户信息
         if ([self sessionKey] != nil) {
             if ([self.appStorage containsObjectForKey:kCourtesyDBCurrentLoginAccount]) {
@@ -157,9 +148,6 @@
         }
         [NSNotificationCenter sendCTAction:kCourtesyActionLogout message:nil];
     }
-#ifdef WATCH_SUPPORT
-    [self.watchSessionManager notifyLoginStatus];
-#endif
 }
 
 #pragma mark - 获取用户信息

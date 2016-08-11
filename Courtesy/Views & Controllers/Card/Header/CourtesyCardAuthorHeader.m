@@ -10,6 +10,7 @@
 
 @interface CourtesyCardAuthorHeader ()
 @property (strong, nonatomic) UIView *avatarContainerView;
+@property (weak, nonatomic) UIActivityIndicatorView *loading;
 
 @end
 
@@ -33,6 +34,11 @@
     avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2;
     [avatarContainerView addSubview:avatarImageView];
     self.avatarImageView = avatarImageView;
+    
+    UIActivityIndicatorView *loading = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    loading.center = avatarImageView.center;
+    [avatarContainerView addSubview:loading];
+    self.loading = loading;
     
     UILabel *nickLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 24)];
     nickLabel.textAlignment = NSTextAlignmentCenter;
@@ -80,7 +86,20 @@
 
 - (void)setState:(MJRefreshState)state
 {
-
+    MJRefreshCheckState;
+    switch (state) {
+        case MJRefreshStateIdle:
+            [self.loading stopAnimating];
+            break;
+        case MJRefreshStatePulling:
+            [self.loading stopAnimating];
+            break;
+        case MJRefreshStateRefreshing:
+            [self.loading startAnimating];
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)setPullingPercent:(CGFloat)pullingPercent

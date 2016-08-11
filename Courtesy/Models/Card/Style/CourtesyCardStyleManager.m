@@ -260,7 +260,7 @@
         newStyle.cardElementShadowColor = [UIColor clearColor];
         
         newStyle.defaultAnimationDuration = 0.5;
-        newStyle.cardCreateTimeFormat = @"公元 yyyy年LLLd日 EEEE ah:mm";
+        newStyle.cardCreateTimeFormat = @"yy年LLLd日 EEEE ah:mm";
         newStyle.maxAudioNum = 3;
         newStyle.maxVideoNum = 3;
         newStyle.maxImageNum = 20;

@@ -117,6 +117,10 @@ CourtesyCardPreviewGeneratorDelegate
     return UIStatusBarStyleLightContent;
 }
 
+- (UIModalTransitionStyle)modalTransitionStyle {
+    return UIModalTransitionStyleFlipHorizontal;
+}
+
 - (instancetype)initWithCard:(nullable CourtesyCardModel *)card {
     if (self = [super init]) {
         _card = card;
@@ -653,10 +657,16 @@ CourtesyCardPreviewGeneratorDelegate
     }
     return _markdownParser;
 }
+- (void)pullAvatarSection {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+        [self.authorHeader endRefreshing];
+    });
+}
 - (CourtesyCardAuthorHeader *)authorHeader {
     if (!_authorHeader) {
         /* Init of header view */
-        CourtesyCardAuthorHeader *authorHeader = [CourtesyCardAuthorHeader headerWithRefreshingBlock:^{}];
+        CourtesyCardAuthorHeader *authorHeader = [CourtesyCardAuthorHeader headerWithRefreshingTarget:self
+                                                                                     refreshingAction:@selector(pullAvatarSection)];
         authorHeader.avatarImageView.imageURL = self.card.author.profile.avatar_url_medium;
         authorHeader.nickLabel.text = self.card.author.profile.nick;
         authorHeader.viewCountLabel.font =

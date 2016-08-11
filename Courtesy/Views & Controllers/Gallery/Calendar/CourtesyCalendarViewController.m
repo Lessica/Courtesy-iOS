@@ -10,6 +10,14 @@
 
 @implementation CourtesyCalendarViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+- (UIModalTransitionStyle)modalTransitionStyle {
+    return UIModalTransitionStyleFlipHorizontal;
+}
+
 - (void)setup {
     self.backgroundColor = [UIColor clearColor];
     [[PDTSimpleCalendarViewCell appearance] setCircleDefaultColor:[UIColor clearColor]];

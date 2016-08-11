@@ -12,10 +12,6 @@
 //#import "CourtesyCardPreviewStyleModel.h"
 #import <YYKit/YYReachability.h>
 
-#ifdef WATCH_SUPPORT
-#import "CourtesyWatchSessionManager.h"
-#endif
-
 #define kCourtesyQualityLow 0.33
 #define kCourtesyQualityMedium 0.66
 #define kCourtesyQualityBest 1.00
@@ -42,10 +38,6 @@
 @property (nonatomic, assign) float preferredImageQuality;
 @property (nonatomic, assign) UIImagePickerControllerQualityType preferredVideoQuality;
 @property (nonatomic, strong) NSMutableArray *addressArray;
-
-#ifdef WATCH_SUPPORT
-@property (nonatomic, strong) CourtesyWatchSessionManager *watchSessionManager;
-#endif
 
 - (void)fetchCurrentAccountInfo;
 - (void)reloadAccount;
