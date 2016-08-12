@@ -3,79 +3,79 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Liji icon.png",
+      "filename" : "Liji-large@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Liji icon 2.png",
+      "filename" : "Liji-large@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Liji icon 3.png",
+      "filename" : "Liji-large 2@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Liji icon 4.png",
+      "filename" : "Liji-large 2@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Liji icon 4-1.png",
+      "filename" : "Liji-large 5@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Liji icon 5.png",
+      "filename" : "Liji-large 5@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "Liji icon 6.png",
+      "filename" : "Liji-large 3.png",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "Liji icon-1.png",
+      "filename" : "Liji-large 3@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Liji icon 7.png",
+      "filename" : "Liji-large 6.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Liji icon 8.png",
+      "filename" : "Liji-large 6@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "Liji icon 9.png",
+      "filename" : "Liji-large 4.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "Liji icon 10.png",
+      "filename" : "Liji-large 4@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "Liji icon 11.png",
+      "filename" : "Liji-large 7.png",
       "scale" : "2x"
     }
   ],

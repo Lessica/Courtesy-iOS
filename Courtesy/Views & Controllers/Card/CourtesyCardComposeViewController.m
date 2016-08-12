@@ -326,13 +326,14 @@ CourtesyCardPreviewGeneratorDelegate
         [UIView setAnimationDelay:0.0f];
         [UIView setAnimationDuration:0.3f];
         self.textView.showsVerticalScrollIndicator = YES;
-        self.cardView.transform = CGAffineTransformMakeScale(1.0, 1.0);
         self.textView.contentInset = UIEdgeInsetsMake(kComposeTopBarInsectUpdated, 0, 0, 0);
         if (_firstAnimation) {
             self.fakeBar.alpha = self.style.standardAlpha;
             self.circleApproveBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
             self.circleCloseBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
             [self.textView scrollToTop];
+        } else {
+            self.cardView.transform = CGAffineTransformMakeScale(1.0, 1.0);
         }
         [UIView commitAnimations];
     } else {
@@ -553,9 +554,6 @@ CourtesyCardPreviewGeneratorDelegate
         cardView.layer.shadowColor = [UIColor blackColor].CGColor;
         cardView.layer.shouldRasterize = YES;
         cardView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        if (!_previewContext) {
-            cardView.transform = CGAffineTransformMakeScale(0.75, 0.75);
-        }
         
         _cardView = cardView;
     }
