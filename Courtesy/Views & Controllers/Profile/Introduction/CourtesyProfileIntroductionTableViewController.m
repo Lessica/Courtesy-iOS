@@ -17,6 +17,10 @@
 
 @implementation CourtesyProfileIntroductionTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     _introductionField.text = kProfile.introduction;

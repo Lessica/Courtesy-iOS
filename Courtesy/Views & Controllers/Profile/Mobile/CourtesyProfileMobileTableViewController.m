@@ -16,6 +16,10 @@
 
 @implementation CourtesyProfileMobileTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     _mobileField.text = kProfile.mobile;

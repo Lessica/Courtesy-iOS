@@ -21,6 +21,10 @@
 
 @implementation CourtesyProfileCityTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     __weak UITextField *field = _cityField;

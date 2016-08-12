@@ -17,6 +17,10 @@
 
 @implementation CourtesyProfileNickTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     _nickField.text = kProfile.nick;

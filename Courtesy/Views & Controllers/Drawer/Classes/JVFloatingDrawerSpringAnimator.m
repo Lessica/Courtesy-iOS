@@ -149,7 +149,7 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
     centerView.transform = CGAffineTransformIdentity;
 }
 
-- (void)moveWithTranslation:(CGPoint)trans sideView:(UIView *)sideView centerView:(UIView *)centerView {
+- (void)moveBackWithTranslation:(CGPoint)trans sideView:(UIView *)sideView centerView:(UIView *)centerView {
     CGFloat transX = trans.x;
     CGFloat transWidth = fabs(transX);
     BOOL toLeft = (transX >= 0.0);
@@ -161,7 +161,31 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
     
     if (ratio > 1.0) return;
     
-    CGFloat sideViewHorizontalOffset = direction * sideWidth * ratio;
+    CGFloat sideViewHorizontalOffset = direction * (transWidth - sideWidth);
+    CGFloat centerScaleValue = kJVCenterViewDestinationScale + (1.0 - kJVCenterViewDestinationScale) * ratio;
+    
+    CGFloat scaledCenterViewHorizontalOffset = sideViewHorizontalOffset * centerScaleValue;
+    
+    CGAffineTransform sideTranslate = CGAffineTransformMakeTranslation(sideViewHorizontalOffset, 0.0);
+    sideView.transform = sideTranslate;
+    
+    CGAffineTransform centerScale = CGAffineTransformMakeScale(centerScaleValue, centerScaleValue);
+    CGAffineTransform centerTranslate = CGAffineTransformMakeTranslation(scaledCenterViewHorizontalOffset, 0.0);
+    centerView.transform = CGAffineTransformConcat(centerScale, centerTranslate);
+}
+
+- (void)moveWithTranslation:(CGPoint)trans sideView:(UIView *)sideView centerView:(UIView *)centerView {
+    CGFloat transX = trans.x;
+    CGFloat transWidth = fabs(transX);
+    BOOL toLeft = (transX >= 0.0);
+    
+    CGFloat sideWidth   = sideView.bounds.size.width;
+    CGFloat direction = toLeft ? 1.0 : -1.0;
+    CGFloat ratio = (transWidth / sideWidth);
+    
+    if (ratio > 1.0) return;
+    
+    CGFloat sideViewHorizontalOffset = direction * transWidth;
     CGFloat centerScaleValue = 1.0 - (1.0 - kJVCenterViewDestinationScale) * ratio;
     
     CGFloat scaledCenterViewHorizontalOffset = sideViewHorizontalOffset - direction * (transWidth * (1 - centerScaleValue));

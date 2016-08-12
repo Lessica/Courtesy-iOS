@@ -17,6 +17,10 @@
 
 @implementation CourtesyProfileBirthdayTableViewController
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     _birthdayField.text = kProfile.birthday;

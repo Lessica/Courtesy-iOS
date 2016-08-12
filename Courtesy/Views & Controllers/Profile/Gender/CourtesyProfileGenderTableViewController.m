@@ -16,6 +16,10 @@
     NSIndexPath *lastIndexPath;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     lastIndexPath = [NSIndexPath indexPathForItem:kProfile.gender inSection:0];

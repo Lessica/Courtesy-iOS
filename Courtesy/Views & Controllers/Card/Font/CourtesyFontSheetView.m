@@ -10,11 +10,13 @@
 #import "CourtesyFontSheetView.h"
 #import "CourtesyFontTableViewCell.h"
 #import "CourtesyFontModel.h"
+#import "CourtesyFontSheetViewHeader.h"
 
 #define kMaxFontSize 22
 #define kMinFontSize 14
 
 @interface CourtesyFontSheetView () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
+@property (nonatomic, strong) CourtesyFontSheetViewHeader *fontSheetHeader;
 @property (nonatomic, strong) UITableView *fontTableView;
 
 @end
@@ -32,6 +34,19 @@
 
 - (CourtesyCardStyleModel *)style {
     return self.delegate.card.local_template.style;
+}
+
+- (void)fontSheetHeaderPulled {
+    
+}
+
+- (CourtesyFontSheetViewHeader *)fontSheetHeader {
+    if (!_fontSheetHeader) {
+        CourtesyFontSheetViewHeader *header = [CourtesyFontSheetViewHeader headerWithRefreshingTarget:self
+                                                                                     refreshingAction:@selector(fontSheetHeaderPulled)];
+        _fontSheetHeader = header;
+    }
+    return _fontSheetHeader;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame

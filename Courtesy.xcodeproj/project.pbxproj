@@ -38,6 +38,7 @@
 		0F2F3C7C1CF012AF00DF5E70 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2F3C7B1CF012AF00DF5E70 /* AMapSearchKit.framework */; };
 		0F30298E1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F30298D1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m */; };
 		0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F305C981C93222D0052882A /* StoreKit.framework */; };
+		0F3839C71D5D51FE00E96102 /* CourtesyFontSheetViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3839C61D5D51FE00E96102 /* CourtesyFontSheetViewHeader.m */; };
 		0F3CECB91CC4808C0073848F /* CourtesyRsyncHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0F3CEC471CC4808C0073848F /* CourtesyRsyncHelper.mm */; };
 		0F3CECBA1CC4808C0073848F /* libacrosync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3CECB61CC4808C0073848F /* libacrosync.a */; };
 		0F3CECBB1CC4808C0073848F /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3CECB71CC4808C0073848F /* libcrypto.a */; };
@@ -335,6 +336,8 @@
 		0F30298C1CCE46A700161BA7 /* CourtesyCardAuthorHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAuthorHeader.h; sourceTree = "<group>"; };
 		0F30298D1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAuthorHeader.m; sourceTree = "<group>"; };
 		0F305C981C93222D0052882A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		0F3839C51D5D51FE00E96102 /* CourtesyFontSheetViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyFontSheetViewHeader.h; sourceTree = "<group>"; };
+		0F3839C61D5D51FE00E96102 /* CourtesyFontSheetViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyFontSheetViewHeader.m; sourceTree = "<group>"; };
 		0F3844F61CF8504800163C36 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		0F3844F81CF8510F00163C36 /* CourtesyDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDebug.h; sourceTree = "<group>"; };
 		0F3844F91CF8510F00163C36 /* CourtesyException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyException.h; sourceTree = "<group>"; };
@@ -2055,6 +2058,8 @@
 				0FFE03FF1C93F45800E99DCC /* CourtesyFontSheetView.m */,
 				0F5064E71C95327F00F818AD /* CourtesyFontTableViewCell.h */,
 				0F5064E81C95327F00F818AD /* CourtesyFontTableViewCell.m */,
+				0F3839C51D5D51FE00E96102 /* CourtesyFontSheetViewHeader.h */,
+				0F3839C61D5D51FE00E96102 /* CourtesyFontSheetViewHeader.m */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -2796,6 +2801,7 @@
 				0FDEFBB51C97D5C2007BE8D2 /* NSDate+Astro.m in Sources */,
 				0FFE046A1C93F45800E99DCC /* CourtesyPortraitViewController.m in Sources */,
 				0FB0A55A1C9AD9E6004B06F3 /* CourtesyImageSheetView.m in Sources */,
+				0F3839C71D5D51FE00E96102 /* CourtesyFontSheetViewHeader.m in Sources */,
 				0F13F53B1CC9088F00793FB9 /* CourtesyCardResourceModel.m in Sources */,
 				0F489EA81CD8FE030038D27D /* CourtesyCardPreviewStyleManager.m in Sources */,
 				0FFC2F201CCB14F000676097 /* CourtesyDraftTableViewController.m in Sources */,

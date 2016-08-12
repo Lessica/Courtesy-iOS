@@ -79,6 +79,11 @@
                    sideView:(UIView *)sideView
                  centerView:(UIView *)centerView;
 
+@optional
+- (void)moveBackWithTranslation:(CGPoint)trans
+                       sideView:(UIView *)sideView
+                     centerView:(UIView *)centerView;
+
 @end
 
 
