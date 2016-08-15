@@ -53,7 +53,6 @@ MPMediaPickerControllerDelegate,
 UIPreviewActionItem,
 UIScrollViewDelegate,
 LGAlertViewDelegate,
-UMSocialUIDelegate,
 YYTextViewDelegate,
 YYTextKeyboardObserver,
 WechatShortVideoDelegate,
@@ -1426,7 +1425,7 @@ CourtesyCardPreviewGeneratorDelegate
                                               shareText:[NSString stringWithFormat:WEIBO_CARD_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", shareUrl]
                                              shareImage:result
                                         shareToSnsNames:UMENG_SHARE_CARD_PLATFORMS
-                                               delegate:self];
+                                               delegate:nil];
         });
     }
 }

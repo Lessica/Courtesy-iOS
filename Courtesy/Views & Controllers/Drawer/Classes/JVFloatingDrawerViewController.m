@@ -268,7 +268,11 @@ static BOOL canMove = NO;
             } else if (toLeft && self.currentlyOpenedSide == JVFloatingDrawerSideRight) {
                 [self moveBackCenterViewWithSide:JVFloatingDrawerSideRight translation:trans];
             }
-        } else if (gesture.state == UIGestureRecognizerStateEnded) {
+        } else if (
+                   gesture.state == UIGestureRecognizerStateEnded ||
+                   gesture.state == UIGestureRecognizerStateCancelled ||
+                   gesture.state == UIGestureRecognizerStateFailed
+                   ) {
             if (!canMove) {
                 return;
             }

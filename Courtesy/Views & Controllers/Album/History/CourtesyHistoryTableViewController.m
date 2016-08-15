@@ -19,6 +19,7 @@ static NSString * const kCourtesyHistoryTableViewCellReuseIdentifier = @"Courtes
 @property (nonatomic, assign) BOOL isRefreshing;
 @property (nonatomic, assign) double lastUpdated;
 @property (weak, nonatomic) IBOutlet UITabBarItem *inboxTabItem;
+@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 
 @end
 
@@ -42,18 +43,7 @@ static NSString * const kCourtesyHistoryTableViewCellReuseIdentifier = @"Courtes
     
     // 设置底部 Tabbar 边距
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
-    
-    /* Init of MJRefresh */
-    MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadTableView)];
-    [normalHeader setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
-    [normalHeader setTitle:@"释放更新" forState:MJRefreshStatePulling];
-    [normalHeader setTitle:@"加载中……" forState:MJRefreshStateRefreshing];
-    normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
-    normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
-    normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0];
-    normalHeader.lastUpdatedTimeLabel.textColor = [UIColor lightGrayColor];
-    [normalHeader beginRefreshing];
-    self.tableView.mj_header = normalHeader;
+    self.tableView.mj_header = self.refreshHeader;
     
     // 注册接收通知
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -62,6 +52,23 @@ static NSString * const kCourtesyHistoryTableViewCellReuseIdentifier = @"Courtes
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveCardStatusUpdated:)
                                                  name:kCourtesyCardStatusUpdated object:nil];
+}
+
+- (MJRefreshNormalHeader *)refreshHeader {
+    if (!_refreshHeader) {
+        /* Init of MJRefresh */
+        MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadTableView)];
+        [normalHeader setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
+        [normalHeader setTitle:@"释放更新" forState:MJRefreshStatePulling];
+        [normalHeader setTitle:@"加载中……" forState:MJRefreshStateRefreshing];
+        normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
+        normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
+        normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0];
+        normalHeader.lastUpdatedTimeLabel.textColor = [UIColor lightGrayColor];
+        [normalHeader beginRefreshing];
+        _refreshHeader = normalHeader;
+    }
+    return _refreshHeader;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

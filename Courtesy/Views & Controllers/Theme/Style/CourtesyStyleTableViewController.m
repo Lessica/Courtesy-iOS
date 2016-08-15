@@ -9,11 +9,13 @@
 #import "CourtesyStyleTableViewController.h"
 #import "CourtesyStyleTableViewCell.h"
 #import "CourtesyCardStyleManager.h"
+#import <MJRefresh/MJRefresh.h>
 
 static NSString * const kCourtesyStyleTableViewCellReuseIdentifier = @"CourtesyStyleTableViewCellReuseIdentifier";
 
 @interface CourtesyStyleTableViewController ()
 @property (nonatomic, assign) NSUInteger preferredStyleID;
+@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 
 @end
 
@@ -43,8 +45,34 @@ static NSString * const kCourtesyStyleTableViewCellReuseIdentifier = @"CourtesyS
     
     // 设置底部 Tabbar 边距
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
-    
+    self.tableView.mj_header = self.refreshHeader;
     self.preferredStyleID = [sharedSettings preferredStyleID];
+}
+
+
+- (MJRefreshNormalHeader *)refreshHeader {
+    if (!_refreshHeader) {
+        /* Init of MJRefresh */
+        MJRefreshNormalHeader *normalHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadTableView)];
+        [normalHeader setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
+        [normalHeader setTitle:@"释放更新" forState:MJRefreshStatePulling];
+        [normalHeader setTitle:@"加载中……" forState:MJRefreshStateRefreshing];
+        normalHeader.stateLabel.font = [UIFont systemFontOfSize:12.0];
+        normalHeader.stateLabel.textColor = [UIColor lightGrayColor];
+        normalHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12.0];
+        normalHeader.lastUpdatedTimeLabel.textColor = [UIColor lightGrayColor];
+        [normalHeader beginRefreshing];
+        _refreshHeader = normalHeader;
+    }
+    return _refreshHeader;
+}
+
+- (void)reloadTableView {
+    [self performSelector:@selector(endRefresh) withObject:nil afterDelay:1.0];
+}
+
+- (void)endRefresh {
+    [self.refreshHeader endRefreshing];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -24,12 +24,13 @@
         
         BOOL needShadows = [sharedSettings switchPreviewNeedsShadows];
         
+        __block
         UIImage *preview_head   = self.previewStyle.previewHeader,
                 *preview_body   = self.previewStyle.previewBody,
                 *preview_footer = self.previewStyle.previewFooter,
-                *finalImage     = nil;
-        __block UIImage *header         = nil,
-                        *content        = nil;
+                *finalImage     = nil,
+                *header         = nil,
+                *content        = nil;
         
         CGSize contentSize      = self.contentView.bounds.size,                                        // 内容尺寸
                headerSize       = self.headerView.bounds.size;                                         // 作者信息头部尺寸
@@ -92,27 +93,31 @@
         
         if (self.previewStyle.bodyMethod == kCourtesyCardPreviewBodyStretch)
         {
-            UIGraphicsBeginImageContextWithOptions(CGSizeMake(screenWidth, totalHeight), NO, 0.0);
-            [preview_head drawInRect:CGRectMake(0, 0, screenWidth, headHeight)];
-            [preview_body drawInRect:CGRectMake(0, headHeight, screenWidth, headerHeight + contentHeight)];
-            [preview_footer drawInRect:CGRectMake(0, headHeight + headerHeight + contentHeight, screenWidth, footerHeight)];
-            if (header) [header drawInRect:CGRectMake(headerX, headHeight, headerWidth, headerHeight)];
-            if (content) [content drawInRect:CGRectMake(contentX, headHeight + headerHeight, contentWidth, contentHeight)];
-            finalImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
+            dispatch_sync_on_main_queue(^{
+                UIGraphicsBeginImageContextWithOptions(CGSizeMake(screenWidth, totalHeight), NO, 0.0);
+                [preview_head drawInRect:CGRectMake(0, 0, screenWidth, headHeight)];
+                [preview_body drawInRect:CGRectMake(0, headHeight, screenWidth, headerHeight + contentHeight)];
+                [preview_footer drawInRect:CGRectMake(0, headHeight + headerHeight + contentHeight, screenWidth, footerHeight)];
+                if (header) [header drawInRect:CGRectMake(headerX, headHeight, headerWidth, headerHeight)];
+                if (content) [content drawInRect:CGRectMake(contentX, headHeight + headerHeight, contentWidth, contentHeight)];
+                finalImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+            });
         }
         else if (self.previewStyle.bodyMethod == kCourtesyCardPreviewBodyRepeat)
         {
             totalHeight = (CGFloat)(bodyHeight * bodyRepeatTimes + headHeight + footerHeight);
-            UIGraphicsBeginImageContextWithOptions(CGSizeMake(screenWidth, totalHeight), NO, 0.0);
-            [preview_head drawInRect:CGRectMake(0, 0, screenWidth, headHeight)];
-            for (int i = 0; i < bodyRepeatTimes; i++)
-                [preview_body drawInRect:CGRectMake(0, startY + i * bodyHeight, screenWidth, bodyHeight + 0.25f)];
-            [preview_footer drawInRect:CGRectMake(0, finalY, screenWidth, footerHeight)];
-            if (header) [header drawInRect:CGRectMake(headerX, headHeight, headerWidth, headerHeight)];
-            if (content) [content drawInRect:CGRectMake(contentX, headHeight + headerHeight, contentWidth, contentHeight)];
-            finalImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
+            dispatch_sync_on_main_queue(^{
+                UIGraphicsBeginImageContextWithOptions(CGSizeMake(screenWidth, totalHeight), NO, 0.0);
+                [preview_head drawInRect:CGRectMake(0, 0, screenWidth, headHeight)];
+                for (int i = 0; i < bodyRepeatTimes; i++)
+                    [preview_body drawInRect:CGRectMake(0, startY + i * bodyHeight, screenWidth, bodyHeight + 0.25f)];
+                [preview_footer drawInRect:CGRectMake(0, finalY, screenWidth, footerHeight)];
+                if (header) [header drawInRect:CGRectMake(headerX, headHeight, headerWidth, headerHeight)];
+                if (content) [content drawInRect:CGRectMake(contentX, headHeight + headerHeight, contentWidth, contentHeight)];
+                finalImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+            });
         }
         
         if (

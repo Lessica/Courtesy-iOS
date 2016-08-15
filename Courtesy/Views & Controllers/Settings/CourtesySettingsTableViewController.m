@@ -7,41 +7,45 @@
 //
 
 #import "AppDelegate.h"
+#import "UMSocial.h"
 #import "FCFileManager.h"
-#import "CourtesySettingsTableViewController.h"
 #import <MessageUI/MessageUI.h>
+#import "CourtesySettingsTableViewController.h"
 
 #define kCourtesyImageCachePath ([[[UIApplication sharedApplication] cachesPath] stringByAppendingPathComponent:@"com.ibireme.yykit"])
 #define kCourtesyFontsPath ([[[UIApplication sharedApplication] libraryPath] stringByAppendingPathComponent:@"Fonts"])
 #define kCourtesySavedAttachmentsPath ([[[UIApplication sharedApplication] libraryPath] stringByAppendingPathComponent:@"SavedAttachments"])
 
-// 表格分区及索引设置
 enum {
     kCustomizeSection         = 0,
-    kServiceSection           = 1,
-    kLogoutSection            = 2
+    kConfigSection            = 1,
+    kServiceSection           = 2,
+    kLogoutSection            = 3
 };
 
 enum {
     kMessageNotificationIndex = 0,
+    kAutoPublicSwitchIndex    = 1,
+    kUserCleanCacheIndex      = 2
 };
 
 enum {
-    kUserFeedbackIndex        = 0,
-    kAboutCourtesyIndex       = 1,
-    kUserAgreementIndex       = 2,
-    kUserCleanCacheIndex      = 3
+    kFeedbackIndex            = 0,
+    kUserAgreementIndex       = 1,
+    kOpenSourceCreditIndex    = 2,
 };
 
 enum {
     kUserLogoutIndex          = 0
 };
 
-@interface CourtesySettingsTableViewController () <MFMailComposeViewControllerDelegate, JVFloatingDrawerCenterViewController>
+@interface CourtesySettingsTableViewController () <JVFloatingDrawerCenterViewController, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UISwitch *autoPublicSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *cleanCacheTitleLabel;
 @property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;
-@property (weak, nonatomic) IBOutlet UILabel *aboutLabel;
+@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
+@property (weak, nonatomic) IBOutlet UILabel *appLabel;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
 
 @end
 
@@ -53,10 +57,17 @@ enum {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _aboutLabel.text = [NSString stringWithFormat:@"关于礼记 (V%@)", VERSION_STRING];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveLocalNotification:)
                                                  name:kCourtesyNotificationInfo object:nil];
+    
+    // 跳转到官方网站的手势
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(detailLabelClicked:)];
+    tapGesture.delegate = self;
+    [_detailLabel addGestureRecognizer:tapGesture];
+    
+    // 应用展示标签
+    _appLabel.text = [NSString stringWithFormat:@"%@\nV%@ (%@)", APP_NAME_CN, VERSION_STRING, VERSION_BUILD];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -89,11 +100,11 @@ enum {
 #pragma mark - 全局设置表格数据源
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == kServiceSection && indexPath.row == kUserCleanCacheIndex) {
+    if (indexPath.section == kConfigSection && indexPath.row == kUserCleanCacheIndex) {
         [self.navigationController.view makeToast:[NSString stringWithFormat:@"设备可用空间：%@\n设备总空间：%@",
                                                    [FCFileManager sizeFormatted:[NSNumber numberWithLongLong:[[UIDevice currentDevice] diskSpaceFree]]],
                                                    [FCFileManager sizeFormatted:[NSNumber numberWithLongLong:[[UIDevice currentDevice] diskSpace]]]
@@ -107,19 +118,15 @@ enum {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     switch (indexPath.section) {
         case kCustomizeSection:
-            if (indexPath.row == kMessageNotificationIndex) {
-                
+            break;
+        case kConfigSection:
+            if (indexPath.row == kUserCleanCacheIndex) {
+                [self cleanCacheClicked];
             }
             break;
         case kServiceSection:
-            if (indexPath.row == kUserFeedbackIndex) {
+            if (indexPath.row == kFeedbackIndex) {
                 [self displayComposerSheet];
-            } else if (indexPath.row == kAboutCourtesyIndex) {
-                
-            } else if (indexPath.row == kUserAgreementIndex) {
-                
-            } else if (indexPath.row == kUserCleanCacheIndex) {
-                [self cleanCacheClicked];
             }
             break;
         case kLogoutSection:
@@ -133,6 +140,51 @@ enum {
 }
 
 #pragma mark - 相关功能性方法
+
+- (IBAction)shareButtonClicked:(id)sender {
+    if (sender == _shareButton) {
+        UIImage *shareImage = [UIImage imageNamed:@"courtesy-share-qrcode"];
+        NSString *shareUrl = APP_DOWNLOAD_URL;
+        UmengSetShareType(shareUrl, shareImage)
+        [UMSocialSnsService presentSnsIconSheetView:self
+                                             appKey:UMENG_APP_KEY
+                                          shareText:[NSString stringWithFormat:WEIBO_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", APP_DOWNLOAD_URL]
+                                         shareImage:shareImage
+                                    shareToSnsNames:UMENG_SHARE_PLATFORMS
+                                           delegate:nil];
+    }
+}
+
+- (void)detailLabelClicked:(UITapGestureRecognizer *)sender {
+#if DEBUG
+    // This could also live in a handler for a keyboard shortcut, debug menu item, etc.
+    [self.navigationController.view makeToast:@"启动调试模式"
+                                     duration:kStatusBarNotificationTime position:CSToastPositionCenter];
+    [[FLEXManager sharedManager] showExplorer];
+#else
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:SERVICE_INDEX]];
+#endif
+}
+
+// 发送邮件
+- (void)displayComposerSheet {
+    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+    if (!picker) return;
+    picker.mailComposeDelegate = self;
+    [picker setSubject:@"关于「礼记」我有些话想说……"];
+    NSArray *toRecipients = [NSArray arrayWithObject:SERVICE_EMAIL];
+    [picker setToRecipients:toRecipients];
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+#pragma mark - 邮件代理
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError*)error
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 // 清理缓存
 - (void)cleanCacheClicked {
@@ -167,17 +219,6 @@ enum {
     }
 }
 
-// 发送邮件
-- (void)displayComposerSheet {
-    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
-    if (!picker) return;
-    picker.mailComposeDelegate = self;
-    [picker setSubject:@"关于「礼记」我有些话想说……"];
-    NSArray *toRecipients = [NSArray arrayWithObject:SERVICE_EMAIL];
-    [picker setToRecipients:toRecipients];
-    [self presentViewController:picker animated:YES completion:nil];
-}
-
 // 退出登录
 - (void)logoutClicked {
     [sharedSettings setHasLogin:NO];
@@ -192,15 +233,6 @@ enum {
     if (sender == _autoPublicSwitch) {
         [sharedSettings setSwitchAutoPublic:_autoPublicSwitch.on];
     }
-}
-
-#pragma mark - 邮件代理
-
-- (void)mailComposeController:(MFMailComposeViewController*)controller
-          didFinishWithResult:(MFMailComposeResult)result
-                        error:(NSError*)error
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - JVFloatingDrawerCenterViewController

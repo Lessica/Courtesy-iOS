@@ -223,7 +223,7 @@ static SystemSoundID shake_sound_male_id = 0;
         || ![[url path] isEqualToString:API_QRCODE_PATH]) {
         if ([[UIApplication sharedApplication] canOpenURL:url]) {
             dispatch_async_on_main_queue(^{
-            __weak typeof(self) weakSelf = self;
+                __weak typeof(self) weakSelf = self;
                 LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"跳转提示"
                                                                     message:str
                                                                       style:LGAlertViewStyleActionSheet
@@ -330,12 +330,34 @@ static SystemSoundID shake_sound_male_id = 0;
             return;
         }
         dispatch_async_on_main_queue(^{
+            __weak typeof(self) weakSelf = self;
+            LGAlertView *alertView = [[LGAlertView alloc] initWithTitle:@"空白卡片"
+                                                                message:@"这是一张空白「礼记」卡片"
+                                                                  style:LGAlertViewStyleActionSheet
+                                                           buttonTitles:@[@"立即编辑"]
+                                                      cancelButtonTitle:@"取消"
+                                                 destructiveButtonTitle:nil
+                                                          actionHandler:^(LGAlertView *alertView, NSString *title, NSUInteger index) {
+                                                              if (index == 0) {
+                                                                  // 发布新卡片界面并设置二维码数据
+                                                                  CourtesyCardModel *newCard = [[CourtesyCardManager sharedManager] composeNewCardWithViewController:weakSelf];
+                                                                  newCard.qr_id = qrcode.unique_id;
+                                                              }
+                                                              [weakSelf performSelector:@selector(restartCapture) withObject:nil afterDelay:kStatusBarNotificationTime];
+                                                          }
+                                                          cancelHandler:^(LGAlertView *alertView) {
+                                                              [weakSelf performSelector:@selector(restartCapture) withObject:nil afterDelay:kStatusBarNotificationTime];
+                                                          }
+                                                     destructiveHandler:nil];
+            alertView.delegate = self;
+            SetCourtesyAleryViewStyle(alertView)
+            
             if (self.currentAlert && self.currentAlert.isShowing) {
-                [self.currentAlert dismissAnimated:YES completionHandler:nil];
+                [self.currentAlert transitionToAlertView:alertView completionHandler:nil];
+            } else {
+                [alertView showAnimated:YES completionHandler:nil];
             }
-            // 发布新卡片界面并设置二维码数据
-            CourtesyCardModel *newCard = [[CourtesyCardManager sharedManager] composeNewCardWithViewController:self];
-            newCard.qr_id = qrcode.unique_id;
+            self.currentAlert = alertView;
         });
     } else {
         if (!qrcode.card_token) {

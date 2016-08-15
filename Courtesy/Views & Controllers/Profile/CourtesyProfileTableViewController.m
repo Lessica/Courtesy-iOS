@@ -52,8 +52,7 @@ RSKImageCropViewControllerDelegate,
 JVFloatingDrawerCenterViewController,
 JTSImageViewControllerInteractionsDelegate,
 JTSImageViewControllerDismissalDelegate,
-UIScrollViewDelegate,
-UMSocialUIDelegate>
+UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
@@ -172,7 +171,7 @@ UMSocialUIDelegate>
                                       shareText:[NSString stringWithFormat:WEIBO_SHARE_CONTENT, kAccount.profile.nick ? kAccount.profile.nick : @"", APP_DOWNLOAD_URL]
                                      shareImage:shareImage
                                 shareToSnsNames:UMENG_SHARE_PLATFORMS
-                                       delegate:self];
+                                       delegate:nil];
 }
 
 #pragma mark - 自定义选择器

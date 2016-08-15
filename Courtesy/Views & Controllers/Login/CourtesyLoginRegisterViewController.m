@@ -331,6 +331,10 @@
 #pragma mark - 第三方登录事件通知
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
+    [self performSelector:@selector(cancelDetectAction) withObject:nil afterDelay:2.0];
+}
+
+- (void)cancelDetectAction {
     if (self.isRedirected) {
         self.isRedirected = NO;
         [self.view setUserInteractionEnabled:YES];

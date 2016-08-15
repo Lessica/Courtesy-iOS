@@ -46,7 +46,6 @@
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
-      "filename" : "Liji-iPad-portrait 3.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "1x"
@@ -54,7 +53,6 @@
     {
       "orientation" : "landscape",
       "idiom" : "ipad",
-      "filename" : "Liji-iPad 3.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "1x"
@@ -62,7 +60,6 @@
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
-      "filename" : "Liji-iPad-portrait 2.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "2x"
@@ -70,7 +67,6 @@
     {
       "orientation" : "landscape",
       "idiom" : "ipad",
-      "filename" : "Liji-iPad 2.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "2x"

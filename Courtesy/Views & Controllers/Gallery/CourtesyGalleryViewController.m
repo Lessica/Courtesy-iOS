@@ -48,8 +48,7 @@ PDTSimpleCalendarViewDelegate,
 UIScrollViewDelegate,
 CourtesyGalleryDailyRequestDelegate,
 JTSImageViewControllerInteractionsDelegate,
-JTSImageViewControllerDismissalDelegate,
-UMSocialUIDelegate
+JTSImageViewControllerDismissalDelegate
 >
 
 @property (nonatomic, assign) CourtesyStarViewControllerStatus currentStatus;
@@ -316,7 +315,7 @@ UMSocialUIDelegate
                                           shareText:[NSString stringWithFormat:WEIBO_DAILY_SHARE_CONTENT, shareContent]
                                          shareImage:shareImage
                                     shareToSnsNames:UMENG_SHARE_PLATFORMS
-                                           delegate:self];
+                                           delegate:nil];
     }
 }
 

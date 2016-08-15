@@ -37,7 +37,6 @@
 		0F2F3C781CF0064A00DF5E70 /* CourtesyCardLocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2F3C771CF0064A00DF5E70 /* CourtesyCardLocationTableViewController.m */; };
 		0F2F3C7C1CF012AF00DF5E70 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F2F3C7B1CF012AF00DF5E70 /* AMapSearchKit.framework */; };
 		0F30298E1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F30298D1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m */; };
-		0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F305C981C93222D0052882A /* StoreKit.framework */; };
 		0F3839C71D5D51FE00E96102 /* CourtesyFontSheetViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3839C61D5D51FE00E96102 /* CourtesyFontSheetViewHeader.m */; };
 		0F3CECB91CC4808C0073848F /* CourtesyRsyncHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0F3CEC471CC4808C0073848F /* CourtesyRsyncHelper.mm */; };
 		0F3CECBA1CC4808C0073848F /* libacrosync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3CECB61CC4808C0073848F /* libacrosync.a */; };
@@ -199,7 +198,6 @@
 		0FF2D2A81C95DAC7007C23DE /* SCRecordSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D29A1C95DAC7007C23DE /* SCRecordSessionManager.m */; };
 		0FF2D2A91C95DAC7007C23DE /* WechatShortVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF2D29D1C95DAC7007C23DE /* WechatShortVideoController.m */; };
 		0FF2D2AA1C95DAC7007C23DE /* WechatShortVideoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF2D29E1C95DAC7007C23DE /* WechatShortVideoController.xib */; };
-		0FF2D2B01C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF2D2AE1C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a */; };
 		0FFC2F201CCB14F000676097 /* CourtesyDraftTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFC2F1E1CCB14F000676097 /* CourtesyDraftTableViewController.m */; };
 		0FFC2F231CCB1EFC00676097 /* CourtesyCardPublicRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFC2F221CCB1EFC00676097 /* CourtesyCardPublicRequestModel.m */; };
 		0FFE04621C93F45800E99DCC /* CourtesyAudioFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE03F81C93F45800E99DCC /* CourtesyAudioFrameView.m */; };
@@ -224,8 +222,6 @@
 		0FFE04801C93F45800E99DCC /* CourtesyProfileIntroductionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04451C93F45800E99DCC /* CourtesyProfileIntroductionTableViewController.m */; };
 		0FFE04811C93F45800E99DCC /* CourtesyProfileMobileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04481C93F45800E99DCC /* CourtesyProfileMobileTableViewController.m */; };
 		0FFE04821C93F45800E99DCC /* CourtesyProfileNickTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE044B1C93F45800E99DCC /* CourtesyProfileNickTableViewController.m */; };
-		0FFE04831C93F45800E99DCC /* CourtesyAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE044F1C93F45800E99DCC /* CourtesyAboutViewController.m */; };
-		0FFE04841C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04521C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.m */; };
 		0FFE04851C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04551C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m */; };
 		0FFE04861C93F45800E99DCC /* tos.html in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE04561C93F45800E99DCC /* tos.html */; };
 		0FFE04871C93F45800E99DCC /* CourtesySettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFE04581C93F45800E99DCC /* CourtesySettingsTableViewController.m */; };
@@ -335,7 +331,6 @@
 		0F2F3C7B1CF012AF00DF5E70 /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapSearchKit.framework; sourceTree = "<group>"; };
 		0F30298C1CCE46A700161BA7 /* CourtesyCardAuthorHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardAuthorHeader.h; sourceTree = "<group>"; };
 		0F30298D1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardAuthorHeader.m; sourceTree = "<group>"; };
-		0F305C981C93222D0052882A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0F3839C51D5D51FE00E96102 /* CourtesyFontSheetViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyFontSheetViewHeader.h; sourceTree = "<group>"; };
 		0F3839C61D5D51FE00E96102 /* CourtesyFontSheetViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyFontSheetViewHeader.m; sourceTree = "<group>"; };
 		0F3844F61CF8504800163C36 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
@@ -450,7 +445,6 @@
 		0F3CECBF1CC481570073848F /* CourtesyCardPublishPendRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishPendRequest.m; sourceTree = "<group>"; };
 		0F4315171D140B60006DA981 /* CourtesyCardLocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardLocationTableViewCell.h; sourceTree = "<group>"; };
 		0F4315181D140B60006DA981 /* CourtesyCardLocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardLocationTableViewCell.m; sourceTree = "<group>"; };
-		0F43151A1D14262A006DA981 /* Courtesy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Courtesy.entitlements; sourceTree = "<group>"; };
 		0F43151D1D142904006DA981 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UMSocialLocalizable.strings; sourceTree = "<group>"; };
 		0F43151F1D142904006DA981 /* UMSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocial.h; sourceTree = "<group>"; };
 		0F4315201D142904006DA981 /* UMSocialAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialAccountManager.h; sourceTree = "<group>"; };
@@ -744,8 +738,6 @@
 		0FF2D29C1C95DAC7007C23DE /* WechatShortVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatShortVideoController.h; sourceTree = "<group>"; };
 		0FF2D29D1C95DAC7007C23DE /* WechatShortVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WechatShortVideoController.m; sourceTree = "<group>"; };
 		0FF2D29E1C95DAC7007C23DE /* WechatShortVideoController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WechatShortVideoController.xib; sourceTree = "<group>"; };
-		0FF2D2AE1C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
-		0FF2D2AF1C95DB9E007C23DE /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		0FFC2F1D1CCB14F000676097 /* CourtesyDraftTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDraftTableViewController.h; sourceTree = "<group>"; };
 		0FFC2F1E1CCB14F000676097 /* CourtesyDraftTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyDraftTableViewController.m; sourceTree = "<group>"; };
 		0FFC2F211CCB1EFC00676097 /* CourtesyCardPublicRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublicRequestModel.h; sourceTree = "<group>"; };
@@ -793,10 +785,6 @@
 		0FFE04481C93F45800E99DCC /* CourtesyProfileMobileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyProfileMobileTableViewController.m; sourceTree = "<group>"; };
 		0FFE044A1C93F45800E99DCC /* CourtesyProfileNickTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyProfileNickTableViewController.h; sourceTree = "<group>"; };
 		0FFE044B1C93F45800E99DCC /* CourtesyProfileNickTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyProfileNickTableViewController.m; sourceTree = "<group>"; };
-		0FFE044E1C93F45800E99DCC /* CourtesyAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAboutViewController.h; sourceTree = "<group>"; };
-		0FFE044F1C93F45800E99DCC /* CourtesyAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAboutViewController.m; sourceTree = "<group>"; };
-		0FFE04511C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyAccountSettingsTableViewController.h; sourceTree = "<group>"; };
-		0FFE04521C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyAccountSettingsTableViewController.m; sourceTree = "<group>"; };
 		0FFE04541C93F45800E99DCC /* CourtesyUserAgreementWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyUserAgreementWebViewController.h; sourceTree = "<group>"; };
 		0FFE04551C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyUserAgreementWebViewController.m; sourceTree = "<group>"; };
 		0FFE04561C93F45800E99DCC /* tos.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tos.html; sourceTree = "<group>"; };
@@ -880,13 +868,11 @@
 				0FD3EE261C95CD2200DE5347 /* WatchConnectivity.framework in Frameworks */,
 				0F43155B1D142904006DA981 /* libUMSocial_Sdk_5.2.1.a in Frameworks */,
 				0F3CECBA1CC4808C0073848F /* libacrosync.a in Frameworks */,
-				0F305C991C93222D0052882A /* StoreKit.framework in Frameworks */,
 				0F4315671D142904006DA981 /* libSocialSinaSSO.a in Frameworks */,
 				0FC365AA1CCA51EB007FFEF6 /* PreTools.framework in Frameworks */,
 				0F3CECBB1CC4808C0073848F /* libcrypto.a in Frameworks */,
 				0F2A36751C8D397D00028E96 /* MobileCoreServices.framework in Frameworks */,
 				0F3CECBC1CC4808C0073848F /* libssh2.a in Frameworks */,
-				0FF2D2B01C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a in Frameworks */,
 				0F2A36731C8D325200028E96 /* AVKit.framework in Frameworks */,
 				0FD43FCF1C846CAF00D6C564 /* MediaPlayer.framework in Frameworks */,
 				0F2F3C7C1CF012AF00DF5E70 /* AMapSearchKit.framework in Frameworks */,
@@ -1523,7 +1509,6 @@
 				0F2F3C7B1CF012AF00DF5E70 /* AMapSearchKit.framework */,
 				0F56AAA01CE195B100934625 /* AMapLocationKit.framework */,
 				0F56AAA11CE195B100934625 /* MAMapKit.framework */,
-				0FF2D2AD1C95DB9E007C23DE /* UMessage */,
 			);
 			path = External;
 			sourceTree = SOURCE_ROOT;
@@ -1686,7 +1671,6 @@
 		0FBBF7111C78BD4700A0A2D1 /* Courtesy */ = {
 			isa = PBXGroup;
 			children = (
-				0F43151A1D14262A006DA981 /* Courtesy.entitlements */,
 				0F3844ED1CF8504800163C36 /* Prefix */,
 				0FFE04DC1C93F4D800E99DCC /* Global */,
 				0FFE04D41C93F4C600E99DCC /* Resources */,
@@ -1978,15 +1962,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		0FF2D2AD1C95DB9E007C23DE /* UMessage */ = {
-			isa = PBXGroup;
-			children = (
-				0FF2D2AE1C95DB9E007C23DE /* libUMessage_Sdk_1.2.6.a */,
-				0FF2D2AF1C95DB9E007C23DE /* UMessage.h */,
-			);
-			path = UMessage;
-			sourceTree = "<group>";
-		};
 		0FFC2F1A1CCB14F000676097 /* Draft */ = {
 			isa = PBXGroup;
 			children = (
@@ -2214,32 +2189,12 @@
 			isa = PBXGroup;
 			children = (
 				0F7792C31CE1DB39009B36A0 /* Open */,
-				0FFE044D1C93F45800E99DCC /* About */,
-				0FFE04501C93F45800E99DCC /* Account */,
 				0FFE04531C93F45800E99DCC /* Agreement */,
 				0FFE04591C93F45800E99DCC /* Notification */,
 				0FFE04571C93F45800E99DCC /* CourtesySettingsTableViewController.h */,
 				0FFE04581C93F45800E99DCC /* CourtesySettingsTableViewController.m */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		0FFE044D1C93F45800E99DCC /* About */ = {
-			isa = PBXGroup;
-			children = (
-				0FFE044E1C93F45800E99DCC /* CourtesyAboutViewController.h */,
-				0FFE044F1C93F45800E99DCC /* CourtesyAboutViewController.m */,
-			);
-			path = About;
-			sourceTree = "<group>";
-		};
-		0FFE04501C93F45800E99DCC /* Account */ = {
-			isa = PBXGroup;
-			children = (
-				0FFE04511C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.h */,
-				0FFE04521C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.m */,
-			);
-			path = Account;
 			sourceTree = "<group>";
 		};
 		0FFE04531C93F45800E99DCC /* Agreement */ = {
@@ -2498,7 +2453,6 @@
 				0F71365E1CBBB36900341AC9 /* libiconv.tbd */,
 				0F603CF71C96D68B0067AB00 /* AssetsLibrary.framework */,
 				0FD3EE251C95CD2200DE5347 /* WatchConnectivity.framework */,
-				0F305C981C93222D0052882A /* StoreKit.framework */,
 				0F2A36741C8D397D00028E96 /* MobileCoreServices.framework */,
 				0F2A36721C8D325200028E96 /* AVKit.framework */,
 				0FD43FCE1C846CAF00D6C564 /* MediaPlayer.framework */,
@@ -2563,7 +2517,7 @@
 								enabled = 0;
 							};
 							com.apple.InAppPurchase = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.InterAppAudio = {
 								enabled = 0;
@@ -2572,7 +2526,7 @@
 								enabled = 0;
 							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -2753,7 +2707,6 @@
 				0FFE04BD1C93F47400E99DCC /* CourtesyCardAttachmentModel.m in Sources */,
 				0F4B12E71CAE1D3900650996 /* CourtesyParallaxHeaderView.m in Sources */,
 				0FDEFBD81C97D70A007BE8D2 /* CNCityPickerView.m in Sources */,
-				0FFE04831C93F45800E99DCC /* CourtesyAboutViewController.m in Sources */,
 				0F760A281CD8481D002CBE60 /* CourtesyAlbumTableViewCell.m in Sources */,
 				0FF2D2A91C95DAC7007C23DE /* WechatShortVideoController.m in Sources */,
 				0FFE04C61C93F47400E99DCC /* CourtesyCommonRequestModel.m in Sources */,
@@ -2782,7 +2735,6 @@
 				0FAF2A751CD3363A006FF48A /* CourtesyTencentAccountModel.m in Sources */,
 				0FFE04CB1C93F47400E99DCC /* CourtesyAccountProfileModel.m in Sources */,
 				0F28516E1C97D8AD0066F5C5 /* JotTouchPoint.m in Sources */,
-				0FFE04841C93F45800E99DCC /* CourtesyAccountSettingsTableViewController.m in Sources */,
 				0FBCFA261CD4CB2C0003ECEB /* CourtesyGalleryDailyCardView.m in Sources */,
 				0F2744F61CB55C6D00BCF173 /* CourtesyGalleryDailyCardStyleModel.m in Sources */,
 				0F6D380F1CD100BA001155DF /* CGContextObjectConfig.m in Sources */,
@@ -2941,7 +2893,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "e3775e23-4e3c-436b-a51b-b1e09d6f8f6a";
+				PROVISIONING_PROFILE = "e1d11c03-6ed9-4f46-9f82-2ba62f3beaee";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2983,7 +2935,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "e3775e23-4e3c-436b-a51b-b1e09d6f8f6a";
+				PROVISIONING_PROFILE = "e1d11c03-6ed9-4f46-9f82-2ba62f3beaee";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -3003,9 +2955,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Courtesy/Courtesy.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Zheng Wu (GXZ23M5TP2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zheng Wu (GXZ23M5TP2)";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
@@ -3033,7 +2985,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(PROJECT_DIR)/External/UMessage\"",
 					"\"$(PROJECT_DIR)/Courtesy/Models/Compose Queue/Rsync/libs\"",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_5.2.1",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_Extra_Frameworks/SinaSSO",
@@ -3045,7 +2996,7 @@
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = Courtesy;
-				PROVISIONING_PROFILE = "e3775e23-4e3c-436b-a51b-b1e09d6f8f6a";
+				PROVISIONING_PROFILE = "e1d11c03-6ed9-4f46-9f82-2ba62f3beaee";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;
@@ -3067,9 +3018,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Courtesy/Courtesy.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Zheng Wu (GXZ23M5TP2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zheng Wu (GXZ23M5TP2)";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zheng Wu (253D9QR4TP)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
@@ -3098,7 +3049,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(PROJECT_DIR)/External/UMessage\"",
 					"\"$(PROJECT_DIR)/Courtesy/Models/Compose Queue/Rsync/libs\"",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_5.2.1",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_Extra_Frameworks/SinaSSO",
@@ -3110,7 +3060,7 @@
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = Courtesy;
-				PROVISIONING_PROFILE = "e3775e23-4e3c-436b-a51b-b1e09d6f8f6a";
+				PROVISIONING_PROFILE = "e1d11c03-6ed9-4f46-9f82-2ba62f3beaee";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;

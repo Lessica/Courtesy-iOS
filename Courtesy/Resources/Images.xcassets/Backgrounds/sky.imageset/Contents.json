@@ -2,7 +2,6 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "filename" : "sky.jpg",
       "scale" : "1x"
     },
     {
@@ -14,16 +13,6 @@
       "idiom" : "iphone",
       "filename" : "sky@3x.jpg",
       "scale" : "3x"
-    },
-    {
-      "idiom" : "ipad",
-      "filename" : "sky~ipad.jpg",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "ipad",
-      "filename" : "sky@2x~ipad.jpg",
-      "scale" : "2x"
     }
   ],
   "info" : {
