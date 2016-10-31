@@ -331,9 +331,8 @@ CourtesyCardPreviewGeneratorDelegate
             self.circleApproveBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
             self.circleCloseBtn.alpha = (CGFloat) (self.style.standardAlpha - 0.2);
             [self.textView scrollToTop];
-        } else {
-            self.cardView.transform = CGAffineTransformMakeScale(1.0, 1.0);
         }
+        self.cardView.transform = CGAffineTransformMakeScale(1.0, 1.0);
         [UIView commitAnimations];
     } else {
         self.canScroll = YES;

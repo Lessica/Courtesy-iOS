@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "UMSocial.h"
+#import "UMessage.h"
 #import "UMSocialQQHandler.h"
 #import "UMSocialSinaSSOHandler.h"
 #import "UMSocialWechatHandler.h"
@@ -35,9 +36,6 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
 
 @synthesize drawersStoryboard = _drawersStoryboard;
 
-#pragma mark - 继承应用状态响应方法
-
-#pragma mark - 注册友盟SDK及推送消息
 - (void)globalInit {
     if (IS_IOS_9) {
         // Thanks: http://stackoverflow.com/questions/33331758/uiimagepickercontroller-crashing-on-force-touch
@@ -54,19 +52,29 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // 友盟分享
-    // 添加自定义平台
+    
+    [UMessage startWithAppkey:UMENG_APP_KEY launchOptions:launchOptions];
+    [UMessage setChannel:@"App Store"];
+#ifdef DEBUG
+    [UMessage setLogEnabled:YES];
+#endif
+    [UMessage registerForRemoteNotifications:[[sharedSettings requestedNotifications] categories]];
+    
+    [UMSocialData setAppKey:UMENG_APP_KEY];
     [UMSocialConfig addSocialSnsPlatform:@[self.pasteboardPlatform, self.albumPlatform]];
     [UMSocialConfig setSnsPlatformNames:UMENG_SHARE_CARD_PLATFORMS];
-    [UMSocialData setAppKey:UMENG_APP_KEY];
     [UMSocialQQHandler setQQWithAppId:TENCENT_APP_ID appKey:TENCENT_APP_KEY url:SERVICE_INDEX];
     [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:WEIBO_APP_ID secret:WEIBO_APP_KEY RedirectURL:SERVICE_INDEX];
     [UMSocialWechatHandler setWXAppId:WEIXIN_APP_ID appSecret:WEIXIN_APP_SECRET url:SERVICE_INDEX];
     [UMSocialConfig setFinishToastIsHidden:NO position:UMSocialiToastPositionCenter];
+    [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ, UMShareToQzone, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToSina]];
     
     [self globalInit];
     if ([launchOptions hasKey:UIApplicationLaunchOptionsShortcutItemKey]) {
         // Some thing that should not respond to immediately...
+    } else if ([launchOptions hasKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        [self handleRemoteNotification:userInfo];
     }
     return YES;
 }
@@ -118,7 +126,12 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
     return _albumPlatform;
 }
 
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {}
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [UMessage registerDeviceToken:deviceToken];
+    CYLog(@"%@", [[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+                  stringByReplacingOccurrencesOfString: @">" withString: @""]
+                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
+}
 
 // 快捷方式
 // Thanks: http://www.jianshu.com/p/74fe6cbc542b
@@ -169,12 +182,22 @@ static NSString * const kCourtesyThemeViewControllerStoryboardID = @"CourtesyThe
     return result;
 }
 
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [UMessage didReceiveRemoteNotification:userInfo];
+    [self handleRemoteNotification:userInfo];
+}
+
 // Bug: http://stackoverflow.com/questions/32344082/error-handlenonlaunchspecificactions-in-ios9
 - (void)applicationDidBecomeActive:(UIApplication *)application {}
 - (void)applicationWillTerminate:(UIApplication *)application {}
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {}
 - (void)applicationWillResignActive:(UIApplication *)application {}
 - (void)applicationDidEnterBackground:(UIApplication *)application {}
+
+
+- (void)handleRemoteNotification:(NSDictionary *)userInfo {
+    CYLog(@"%@", userInfo);
+}
 
 #pragma mark - 注册框架故事板
 

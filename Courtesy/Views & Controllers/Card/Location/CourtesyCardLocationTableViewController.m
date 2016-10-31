@@ -273,7 +273,6 @@ AMapLocationManagerDelegate
         [locationManager setDelegate:self];
         [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
         [locationManager setPausesLocationUpdatesAutomatically:YES];
-        [locationManager setAllowsBackgroundLocationUpdates:YES];
         [locationManager setLocationTimeout:kCourtesyLocationTimeout];
         [locationManager setReGeocodeTimeout:kCourtesyReGeocodeTimeout];
         _locationManager = locationManager;

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0F0DC07D1CBC9E8500DDFE36 /* CourtesyCardPublishTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0DC07C1CBC9E8500DDFE36 /* CourtesyCardPublishTask.m */; };
+		0F0FCB641D65A6A900388FEB /* libUMessage_Sdk_1.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F0FCB621D65A6A900388FEB /* libUMessage_Sdk_1.3.0.a */; };
+		0F0FCB691D65A7B800388FEB /* libacrosync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F0FCB661D65A7B800388FEB /* libacrosync.a */; };
+		0F0FCB6A1D65A7B800388FEB /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F0FCB671D65A7B800388FEB /* libcrypto.a */; };
+		0F0FCB6B1D65A7B800388FEB /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F0FCB681D65A7B800388FEB /* libssh2.a */; };
 		0F13F5371CC8F61900793FB9 /* CourtesyCardResourcesVerificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13F5361CC8F61900793FB9 /* CourtesyCardResourcesVerificationModel.m */; };
 		0F13F53B1CC9088F00793FB9 /* CourtesyCardResourceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13F53A1CC9088F00793FB9 /* CourtesyCardResourceModel.m */; };
 		0F13F53E1CC90BC000793FB9 /* NSString+Mime.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F13F53D1CC90BC000793FB9 /* NSString+Mime.m */; };
@@ -39,9 +43,6 @@
 		0F30298E1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F30298D1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m */; };
 		0F3839C71D5D51FE00E96102 /* CourtesyFontSheetViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3839C61D5D51FE00E96102 /* CourtesyFontSheetViewHeader.m */; };
 		0F3CECB91CC4808C0073848F /* CourtesyRsyncHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0F3CEC471CC4808C0073848F /* CourtesyRsyncHelper.mm */; };
-		0F3CECBA1CC4808C0073848F /* libacrosync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3CECB61CC4808C0073848F /* libacrosync.a */; };
-		0F3CECBB1CC4808C0073848F /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3CECB71CC4808C0073848F /* libcrypto.a */; };
-		0F3CECBC1CC4808C0073848F /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3CECB81CC4808C0073848F /* libssh2.a */; };
 		0F3CECC01CC481570073848F /* CourtesyCardPublishPendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3CECBF1CC481570073848F /* CourtesyCardPublishPendRequest.m */; };
 		0F4315191D140B60006DA981 /* CourtesyCardLocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4315181D140B60006DA981 /* CourtesyCardLocationTableViewCell.m */; };
 		0F43155A1D142904006DA981 /* UMSocialLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F43151C1D142904006DA981 /* UMSocialLocalizable.strings */; };
@@ -278,6 +279,11 @@
 /* Begin PBXFileReference section */
 		0F0DC07B1CBC9E8500DDFE36 /* CourtesyCardPublishTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublishTask.h; sourceTree = "<group>"; };
 		0F0DC07C1CBC9E8500DDFE36 /* CourtesyCardPublishTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishTask.m; sourceTree = "<group>"; };
+		0F0FCB621D65A6A900388FEB /* libUMessage_Sdk_1.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.3.0.a; sourceTree = "<group>"; };
+		0F0FCB631D65A6A900388FEB /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
+		0F0FCB661D65A7B800388FEB /* libacrosync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libacrosync.a; sourceTree = "<group>"; };
+		0F0FCB671D65A7B800388FEB /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		0F0FCB681D65A7B800388FEB /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssh2.a; sourceTree = "<group>"; };
 		0F13F5351CC8F61900793FB9 /* CourtesyCardResourcesVerificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardResourcesVerificationModel.h; sourceTree = "<group>"; };
 		0F13F5361CC8F61900793FB9 /* CourtesyCardResourcesVerificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardResourcesVerificationModel.m; sourceTree = "<group>"; };
 		0F13F5391CC9088F00793FB9 /* CourtesyCardResourceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardResourceModel.h; sourceTree = "<group>"; };
@@ -291,6 +297,12 @@
 		0F1EF8D01CCB68EE00090830 /* CourtesyCardQueryRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardQueryRequestModel.m; sourceTree = "<group>"; };
 		0F1EF8D61CCB9A7400090830 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		0F1EF8D81CCB9A8A00090830 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		0F239D281DC7345400B6CBC3 /* CourtesyDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDebug.h; sourceTree = "<group>"; };
+		0F239D291DC7345400B6CBC3 /* CourtesyException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyException.h; sourceTree = "<group>"; };
+		0F239D2A1DC7345400B6CBC3 /* CourtesyInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyInterface.h; sourceTree = "<group>"; };
+		0F239D2B1DC7345400B6CBC3 /* CourtesyNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyNotification.h; sourceTree = "<group>"; };
+		0F239D2C1DC7345400B6CBC3 /* CourtesyShortcuts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyShortcuts.h; sourceTree = "<group>"; };
+		0F239D2D1DC7345400B6CBC3 /* CourtesyTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyTarget.h; sourceTree = "<group>"; };
 		0F2744C91CB559FB00BCF173 /* CourtesyCommonResourceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCommonResourceModel.h; sourceTree = "<group>"; };
 		0F2744CA1CB559FB00BCF173 /* CourtesyCommonResourceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCommonResourceModel.m; sourceTree = "<group>"; };
 		0F2744E71CB55C6D00BCF173 /* CourtesyGalleryDailyCardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyGalleryDailyCardModel.h; sourceTree = "<group>"; };
@@ -334,12 +346,6 @@
 		0F3839C51D5D51FE00E96102 /* CourtesyFontSheetViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyFontSheetViewHeader.h; sourceTree = "<group>"; };
 		0F3839C61D5D51FE00E96102 /* CourtesyFontSheetViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyFontSheetViewHeader.m; sourceTree = "<group>"; };
 		0F3844F61CF8504800163C36 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
-		0F3844F81CF8510F00163C36 /* CourtesyDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyDebug.h; sourceTree = "<group>"; };
-		0F3844F91CF8510F00163C36 /* CourtesyException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyException.h; sourceTree = "<group>"; };
-		0F3844FA1CF8510F00163C36 /* CourtesyInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyInterface.h; sourceTree = "<group>"; };
-		0F3844FB1CF8510F00163C36 /* CourtesyNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyNotification.h; sourceTree = "<group>"; };
-		0F3844FC1CF8510F00163C36 /* CourtesyShortcuts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyShortcuts.h; sourceTree = "<group>"; };
-		0F3844FD1CF8510F00163C36 /* CourtesyTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyTarget.h; sourceTree = "<group>"; };
 		0F3CEC461CC4808C0073848F /* CourtesyRsyncHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyRsyncHelper.h; sourceTree = "<group>"; };
 		0F3CEC471CC4808C0073848F /* CourtesyRsyncHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CourtesyRsyncHelper.mm; sourceTree = "<group>"; };
 		0F3CEC4C1CC4808C0073848F /* block_out.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = block_out.h; sourceTree = "<group>"; };
@@ -438,9 +444,6 @@
 		0F3CECB01CC4808C0073848F /* libssh2_sftp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libssh2_sftp.h; sourceTree = "<group>"; };
 		0F3CECB31CC4808C0073848F /* zconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zconf.h; sourceTree = "<group>"; };
 		0F3CECB41CC4808C0073848F /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
-		0F3CECB61CC4808C0073848F /* libacrosync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libacrosync.a; sourceTree = "<group>"; };
-		0F3CECB71CC4808C0073848F /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		0F3CECB81CC4808C0073848F /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssh2.a; sourceTree = "<group>"; };
 		0F3CECBE1CC481570073848F /* CourtesyCardPublishPendRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardPublishPendRequest.h; sourceTree = "<group>"; };
 		0F3CECBF1CC481570073848F /* CourtesyCardPublishPendRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtesyCardPublishPendRequest.m; sourceTree = "<group>"; };
 		0F4315171D140B60006DA981 /* CourtesyCardLocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtesyCardLocationTableViewCell.h; sourceTree = "<group>"; };
@@ -849,13 +852,16 @@
 				0F43156B1D142904006DA981 /* TencentOpenAPI.framework in Frameworks */,
 				0FC365B51CCA5221007FFEF6 /* Security.framework in Frameworks */,
 				0F43156D1D142904006DA981 /* libSocialWechat.a in Frameworks */,
+				0F0FCB6A1D65A7B800388FEB /* libcrypto.a in Frameworks */,
 				0FC365AD1CCA520E007FFEF6 /* SystemConfiguration.framework in Frameworks */,
 				0F1684081CD38BE100F4AFAB /* Foundation.framework in Frameworks */,
 				0F1EF8D91CCB9A8A00090830 /* libstdc++.tbd in Frameworks */,
+				0F0FCB691D65A7B800388FEB /* libacrosync.a in Frameworks */,
 				0F43156A1D142904006DA981 /* libSocialQQ.a in Frameworks */,
 				0F4315681D142904006DA981 /* libWeiboSDK.a in Frameworks */,
 				0F1EF8D71CCB9A7400090830 /* CoreGraphics.framework in Frameworks */,
 				0F56AAA31CE195B100934625 /* MAMapKit.framework in Frameworks */,
+				0F0FCB6B1D65A7B800388FEB /* libssh2.a in Frameworks */,
 				0FC365B31CCA521D007FFEF6 /* AudioToolbox.framework in Frameworks */,
 				0F43156E1D142904006DA981 /* libWeChatSDK.a in Frameworks */,
 				0FC365B11CCA5219007FFEF6 /* QuartzCore.framework in Frameworks */,
@@ -867,13 +873,11 @@
 				0F56AAA21CE195B100934625 /* AMapLocationKit.framework in Frameworks */,
 				0FD3EE261C95CD2200DE5347 /* WatchConnectivity.framework in Frameworks */,
 				0F43155B1D142904006DA981 /* libUMSocial_Sdk_5.2.1.a in Frameworks */,
-				0F3CECBA1CC4808C0073848F /* libacrosync.a in Frameworks */,
 				0F4315671D142904006DA981 /* libSocialSinaSSO.a in Frameworks */,
 				0FC365AA1CCA51EB007FFEF6 /* PreTools.framework in Frameworks */,
-				0F3CECBB1CC4808C0073848F /* libcrypto.a in Frameworks */,
 				0F2A36751C8D397D00028E96 /* MobileCoreServices.framework in Frameworks */,
-				0F3CECBC1CC4808C0073848F /* libssh2.a in Frameworks */,
 				0F2A36731C8D325200028E96 /* AVKit.framework in Frameworks */,
+				0F0FCB641D65A6A900388FEB /* libUMessage_Sdk_1.3.0.a in Frameworks */,
 				0FD43FCF1C846CAF00D6C564 /* MediaPlayer.framework in Frameworks */,
 				0F2F3C7C1CF012AF00DF5E70 /* AMapSearchKit.framework in Frameworks */,
 				0FD43FCD1C846CA700D6C564 /* AVFoundation.framework in Frameworks */,
@@ -885,6 +889,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F0FCB611D65A6A900388FEB /* UMessage_Sdk_1.3.0 */ = {
+			isa = PBXGroup;
+			children = (
+				0F0FCB621D65A6A900388FEB /* libUMessage_Sdk_1.3.0.a */,
+				0F0FCB631D65A6A900388FEB /* UMessage.h */,
+			);
+			path = UMessage_Sdk_1.3.0;
+			sourceTree = "<group>";
+		};
+		0F0FCB651D65A7B800388FEB /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				0F0FCB661D65A7B800388FEB /* libacrosync.a */,
+				0F0FCB671D65A7B800388FEB /* libcrypto.a */,
+				0F0FCB681D65A7B800388FEB /* libssh2.a */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
 		0F13F5381CC9087D00793FB9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -892,6 +915,19 @@
 				0F13F53A1CC9088F00793FB9 /* CourtesyCardResourceModel.m */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		0F239D271DC7345400B6CBC3 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				0F239D281DC7345400B6CBC3 /* CourtesyDebug.h */,
+				0F239D291DC7345400B6CBC3 /* CourtesyException.h */,
+				0F239D2A1DC7345400B6CBC3 /* CourtesyInterface.h */,
+				0F239D2B1DC7345400B6CBC3 /* CourtesyNotification.h */,
+				0F239D2C1DC7345400B6CBC3 /* CourtesyShortcuts.h */,
+				0F239D2D1DC7345400B6CBC3 /* CourtesyTarget.h */,
+			);
+			path = Headers;
 			sourceTree = "<group>";
 		};
 		0F2744BF1CB53B5E00BCF173 /* Gallery */ = {
@@ -994,24 +1030,10 @@
 		0F3844ED1CF8504800163C36 /* Prefix */ = {
 			isa = PBXGroup;
 			children = (
-				0F3844F71CF8510F00163C36 /* Headers */,
+				0F239D271DC7345400B6CBC3 /* Headers */,
 				0F3844F61CF8504800163C36 /* PrefixHeader.pch */,
 			);
 			path = Prefix;
-			sourceTree = "<group>";
-		};
-		0F3844F71CF8510F00163C36 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				0F3844F81CF8510F00163C36 /* CourtesyDebug.h */,
-				0F3844F91CF8510F00163C36 /* CourtesyException.h */,
-				0F3844FA1CF8510F00163C36 /* CourtesyInterface.h */,
-				0F3844FB1CF8510F00163C36 /* CourtesyNotification.h */,
-				0F3844FC1CF8510F00163C36 /* CourtesyShortcuts.h */,
-				0F3844FD1CF8510F00163C36 /* CourtesyTarget.h */,
-			);
-			name = Headers;
-			path = ../../../Headers;
 			sourceTree = "<group>";
 		};
 		0F388DFE1CC87617009D3659 /* Verification */ = {
@@ -1029,7 +1051,6 @@
 				0F3CEC461CC4808C0073848F /* CourtesyRsyncHelper.h */,
 				0F3CEC471CC4808C0073848F /* CourtesyRsyncHelper.mm */,
 				0F3CEC481CC4808C0073848F /* headers */,
-				0F3CECB51CC4808C0073848F /* libs */,
 			);
 			path = Rsync;
 			sourceTree = "<group>";
@@ -1231,16 +1252,6 @@
 				0F3CECB41CC4808C0073848F /* zlib.h */,
 			);
 			path = include;
-			sourceTree = "<group>";
-		};
-		0F3CECB51CC4808C0073848F /* libs */ = {
-			isa = PBXGroup;
-			children = (
-				0F3CECB61CC4808C0073848F /* libacrosync.a */,
-				0F3CECB71CC4808C0073848F /* libcrypto.a */,
-				0F3CECB81CC4808C0073848F /* libssh2.a */,
-			);
-			path = libs;
 			sourceTree = "<group>";
 		};
 		0F3CECBD1CC480F40073848F /* ACK */ = {
@@ -1504,6 +1515,8 @@
 		0F7424451C8FCD98002C6241 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				0F0FCB651D65A7B800388FEB /* libs */,
+				0F0FCB611D65A6A900388FEB /* UMessage_Sdk_1.3.0 */,
 				0F43151B1D142904006DA981 /* UMSocial_Sdk_5.2.1 */,
 				0F4315361D142904006DA981 /* UMSocial_Sdk_Extra_Frameworks */,
 				0F2F3C7B1CF012AF00DF5E70 /* AMapSearchKit.framework */,
@@ -2505,7 +2518,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = Courtesy;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = 82Flex;
 				TargetAttributes = {
 					2CE7E65C1A62D8470072121A = {
@@ -2514,6 +2527,9 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+							com.apple.GameCenter = {
 								enabled = 0;
 							};
 							com.apple.InAppPurchase = {
@@ -2526,7 +2542,7 @@
 								enabled = 0;
 							};
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -2863,8 +2879,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
@@ -2893,7 +2911,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "e1d11c03-6ed9-4f46-9f82-2ba62f3beaee";
+				PROVISIONING_PROFILE = "a8264568-0e3f-4910-b54b-17a3d45db76e";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2913,8 +2931,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Zheng Wu (253D9QR4TP)";
@@ -2935,7 +2955,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "e1d11c03-6ed9-4f46-9f82-2ba62f3beaee";
+				PROVISIONING_PROFILE = "a8264568-0e3f-4910-b54b-17a3d45db76e";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2985,18 +3005,19 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(PROJECT_DIR)/Courtesy/Models/Compose Queue/Rsync/libs\"",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_5.2.1",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_Extra_Frameworks/SinaSSO",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"$(PROJECT_DIR)/External/UMessage_Sdk_1.3.0",
+					"$(PROJECT_DIR)/External/libs",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = Courtesy;
-				PROVISIONING_PROFILE = "e1d11c03-6ed9-4f46-9f82-2ba62f3beaee";
+				PROVISIONING_PROFILE = "a8264568-0e3f-4910-b54b-17a3d45db76e";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;
@@ -3049,18 +3070,19 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(PROJECT_DIR)/Courtesy/Models/Compose Queue/Rsync/libs\"",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_5.2.1",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_Extra_Frameworks/SinaSSO",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/External/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"$(PROJECT_DIR)/External/UMessage_Sdk_1.3.0",
+					"$(PROJECT_DIR)/External/libs",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwin.courtesy;
 				PRODUCT_NAME = Courtesy;
-				PROVISIONING_PROFILE = "e1d11c03-6ed9-4f46-9f82-2ba62f3beaee";
+				PROVISIONING_PROFILE = "a8264568-0e3f-4910-b54b-17a3d45db76e";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SKIP_INSTALL = NO;

@@ -8,6 +8,9 @@
 
 //#import "AppDelegate.h"
 #import "UMSocial.h"
+#import "WeiboSDK.h"
+#import "WXApi.h"
+#import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <TencentOpenAPI/TencentApiInterface.h>
 #import <TencentOpenAPI/TencentOAuthObject.h>
@@ -16,6 +19,7 @@
 #import "CourtesyLoginRegisterViewController.h"
 #import "CourtesyLoginRegisterTextField.h"
 #import "CourtesyLoginRegisterModel.h"
+#import "CourtesyQuickLoginButton.h"
 
 @interface CourtesyLoginRegisterViewController () <CourtesyLoginRegisterDelegate, CourtesyEditProfileDelegate, CourtesyUploadAvatarDelegate>
 
@@ -37,6 +41,10 @@
 @property (nonatomic, assign) BOOL isRedirected;
 @property (nonatomic, weak) NSTimer *countTimer;
 @property (nonatomic, assign) NSUInteger seconds;
+
+@property (weak, nonatomic) IBOutlet CourtesyQuickLoginButton *qqLoginBtn;
+@property (weak, nonatomic) IBOutlet CourtesyQuickLoginButton *wechatLoginBtn;
+@property (weak, nonatomic) IBOutlet CourtesyQuickLoginButton *weiboLoginBtn;
 
 @end
 
@@ -64,6 +72,15 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    if ([QQApiInterface isQQInstalled]) {
+        self.qqLoginBtn.hidden = NO;
+    }
+    if ([WXApi isWXAppInstalled]) {
+        self.wechatLoginBtn.hidden = NO;
+    }
+    if ([WeiboSDK isWeiboAppInstalled]) {
+        self.weiboLoginBtn.hidden = NO;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
