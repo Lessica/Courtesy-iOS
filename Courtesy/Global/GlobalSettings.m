@@ -182,7 +182,7 @@
             return [cookie value];
         }
     }
-    return nil;
+    return @"";
 }
 
 // 移除 CookieJar 中所有 Cookie

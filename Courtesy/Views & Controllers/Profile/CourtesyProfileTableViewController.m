@@ -385,6 +385,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"资料更新失败 - %@", message]
                                dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleError];
+    [NSNotificationCenter sendCTAction:kCourtesyActionProfileEdited message:nil];
+    [[GlobalSettings sharedInstance] reloadAccount];
 }
 
 #pragma mark - 上传头像请求回调
@@ -403,6 +405,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     [JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"头像上传失败 - %@", message]
                                dismissAfter:kStatusBarNotificationTime
                                   styleName:JDStatusBarStyleError];
+    _avatarImageView.imageURL = kProfile.avatar_url_medium;
+    [NSNotificationCenter sendCTAction:kCourtesyActionProfileEdited message:nil];
+    last_hash = [[kProfile toDictionary] mutableCopy]; // 头像更新以后需要更新备份
+    [[GlobalSettings sharedInstance] reloadAccount];
 }
 
 #pragma mark - JVFloatingDrawerCenterViewController

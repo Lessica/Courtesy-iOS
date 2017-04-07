@@ -32,6 +32,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         _profile = [CourtesyAccountProfileModel new];
+        _email = @"i.82@me.com";
         isFetching = NO;
     }
     return self;

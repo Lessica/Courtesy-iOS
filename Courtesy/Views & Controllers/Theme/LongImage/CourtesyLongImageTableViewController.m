@@ -45,7 +45,7 @@ static NSString * const kCourtesyLongImageTableViewCellReuseIdentifier = @"Court
     
     // 设置底部 Tabbar 边距
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.tabBarController.tabBar.frame.size.height, 0);
-    self.tableView.mj_header = self.refreshHeader;
+//    self.tableView.mj_header = self.refreshHeader;
     self.preferredPreviewStyleType = [sharedSettings preferredPreviewStyleType];
 }
 

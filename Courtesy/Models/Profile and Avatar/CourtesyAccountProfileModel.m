@@ -199,20 +199,24 @@
 
 #pragma mark - 组合远程头像地址
 
+- (NSString *)avatar {
+    return @"";
+}
+
 - (NSURL *)avatar_url_small {
-    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_AVATAR, [self.avatar stringByAppendingString:kAvatarSizeSmall]]];
+    return [NSURL URLWithString:@"https://apt.82flex.com/resources/repository-icons/IMG_0111_UMpw4hr.JPG"];
 }
 
 - (NSURL *)avatar_url_medium {
-    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_AVATAR, [self.avatar stringByAppendingString:kAvatarSizeMiddle]]];
+    return [NSURL URLWithString:@"https://apt.82flex.com/resources/repository-icons/IMG_0111_UMpw4hr.JPG"];
 }
 
 - (NSURL *)avatar_url_large {
-    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_AVATAR, [self.avatar stringByAppendingString:kAvatarSizeLarge]]];
+    return [NSURL URLWithString:@"https://apt.82flex.com/resources/repository-icons/IMG_0111_UMpw4hr.JPG"];
 }
 
 - (NSURL *)avatar_url_original {
-    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", API_DOWNLOAD_AVATAR, [self.avatar stringByAppendingString:kAvatarSizeOriginal]]];
+    return [NSURL URLWithString:@"https://apt.82flex.com/resources/repository-icons/IMG_0111_UMpw4hr.JPG"];
 }
 
 - (void)dealloc {

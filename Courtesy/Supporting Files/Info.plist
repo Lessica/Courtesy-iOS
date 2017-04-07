@@ -121,6 +121,12 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>为了给卡片添加位置信息，「礼记」需要获取您的地理位置。</string>
+	<key>NSCameraUsageDescription</key>
+	<string>「礼记」需要使用您的相机扫描卡片二维码。</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>「礼记」想要访问您的相册获取卡片二维码。</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>「礼记」需要使用您的麦克风录制音频。</string>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>

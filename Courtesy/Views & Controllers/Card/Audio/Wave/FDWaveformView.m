@@ -10,7 +10,7 @@
 // DO SEE http://stackoverflow.com/questions/1191868/uiimageview-scaling-interpolation
 // see http://stackoverflow.com/questions/3514066/how-to-tint-a-transparent-png-image-in-iphone
 
-#import "FDWaveFormView.h"
+#import "FDWaveformView.h"
 #import <UIKit/UIKit.h>
 
 #define absX(x) ((x)<0?0-(x):(x))
