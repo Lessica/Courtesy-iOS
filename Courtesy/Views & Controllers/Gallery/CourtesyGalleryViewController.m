@@ -255,11 +255,11 @@ JTSImageViewControllerDismissalDelegate
     {
         [self.dailyCardView setTargetDate:self.selectedDate];
         [self.dailyCardView setDailyCard:nil];
-        [self.dailyCardView setErrorMessage:msg];
+//        [self.dailyCardView setErrorMessage:msg];
     }
     if (self.linkCardView) {
         [self.linkCardView setDailyCard:nil];
-        [self.linkCardView setErrorMessage:msg];
+//        [self.linkCardView setErrorMessage:msg];
     }
 }
 

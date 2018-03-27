@@ -13,6 +13,6 @@
 @property (nonatomic, strong) UIImageView *rightImageView;
 @property (nonatomic, strong) CourtesyGalleryDailyCardModel *dailyCard;
 
-- (void)setErrorMessage:(NSString *)errorMessage;
+//- (void)setErrorMessage:(NSString *)errorMessage;
 
 @end

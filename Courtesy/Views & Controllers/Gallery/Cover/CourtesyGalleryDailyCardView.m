@@ -7,14 +7,14 @@
 //
 
 #import "CourtesyGalleryDailyCardView.h"
-#import "LazyFadeInView.h"
+//#import "LazyFadeInView.h"
 
 @interface CourtesyGalleryDailyCardView ()
 @property (nonatomic, strong) UIView *vLabelContainerView;
 @property (nonatomic, strong) YYLabel *vLabel;
 @property (nonatomic, strong) UILabel *hSmallLabel;
 @property (nonatomic, strong) UIView *hLabelContainerView;
-@property (nonatomic, strong) LazyFadeInView *hLabel;
+//@property (nonatomic, strong) LazyFadeInView *hLabel;
 @property (nonatomic, strong) NSDictionary *hLabelAttributes;
 
 @end
@@ -91,12 +91,12 @@
                                        };
     self.hLabelAttributes = hLabelAttributes;
     
-    LazyFadeInView *hLabel = [[LazyFadeInView alloc] initWithFrame:hLabelContainerView.bounds];
-    hLabel.textColor = vLabelColor;
-    hLabel.textFont = [UIFont systemFontOfSize:16.0 weight:UIFontWeightUltraLight];
-    hLabel.attributes = hLabelAttributes;
-    self.hLabel = hLabel;
-    [hLabelContainerView addSubview:hLabel];
+//    LazyFadeInView *hLabel = [[LazyFadeInView alloc] initWithFrame:hLabelContainerView.bounds];
+//    hLabel.textColor = vLabelColor;
+//    hLabel.textFont = [UIFont systemFontOfSize:16.0 weight:UIFontWeightUltraLight];
+//    hLabel.attributes = hLabelAttributes;
+//    self.hLabel = hLabel;
+//    [hLabelContainerView addSubview:hLabel];
 }
 
 - (void)updateConstraints {
@@ -194,31 +194,31 @@
                               completion:nil];
     }
     if (dailyCard.string) {
-        [self setLabelText:dailyCard.string];
+//        [self setLabelText:dailyCard.string];
     }
 }
 
-- (void)setLabelText:(NSString *)text {
-    if (text.length == 0) {
-        _hLabel.hidden = YES;
-    } else {
-        _hLabel.hidden = NO;
-        CGSize textSize = [text boundingRectWithSize:CGSizeMake(_hLabelContainerView.bounds.size.width, CGFLOAT_MAX)
-                                             options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                          attributes:_hLabelAttributes
-                                             context:nil].size;
-        textSize = CGSizeMake(textSize.width + 16.f, textSize.height);
-        _hLabel.frame = CGRectMake((_hLabelContainerView.size.width - textSize.width) / 2, (_hLabelContainerView.size.height - textSize.height) / 2, textSize.width, textSize.height);
-        _hLabel.text = text;
-    }
-}
+//- (void)setLabelText:(NSString *)text {
+//    if (text.length == 0) {
+//        _hLabel.hidden = YES;
+//    } else {
+//        _hLabel.hidden = NO;
+//        CGSize textSize = [text boundingRectWithSize:CGSizeMake(_hLabelContainerView.bounds.size.width, CGFLOAT_MAX)
+//                                             options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+//                                          attributes:_hLabelAttributes
+//                                             context:nil].size;
+//        textSize = CGSizeMake(textSize.width + 16.f, textSize.height);
+//        _hLabel.frame = CGRectMake((_hLabelContainerView.size.width - textSize.width) / 2, (_hLabelContainerView.size.height - textSize.height) / 2, textSize.width, textSize.height);
+//        _hLabel.text = text;
+//    }
+//}
 
-- (void)setErrorMessage:(NSString *)errorMessage {
-    if (errorMessage == nil) {
-        errorMessage = @"无可用卡片数据";
-    }
-    [self setLabelText:[errorMessage stringByAppendingString:@"\n轻按以重新拉取"]];
-}
+//- (void)setErrorMessage:(NSString *)errorMessage {
+//    if (errorMessage == nil) {
+//        errorMessage = @"无可用卡片数据";
+//    }
+//    [self setLabelText:[errorMessage stringByAppendingString:@"\n轻按以重新拉取"]];
+//}
 
 - (void)dealloc {
     CYLog(@"");

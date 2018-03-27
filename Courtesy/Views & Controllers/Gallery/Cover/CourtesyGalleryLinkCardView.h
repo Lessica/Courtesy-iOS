@@ -12,5 +12,5 @@
 @property (nonatomic, strong) UIImageView *middleImageView;
 @property (nonatomic, strong) CourtesyGalleryDailyCardModel *dailyCard;
 
-- (void)setErrorMessage:(NSString *)errorMessage;
+//- (void)setErrorMessage:(NSString *)errorMessage;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "CourtesyGalleryLinkCardView.h"
-#import "LazyFadeInView.h"
+//#import "LazyFadeInView.h"
 
 @interface CourtesyGalleryLinkCardView ()
 @property (nonatomic, strong) UIView *bodyContainerView;
@@ -17,7 +17,7 @@
 @property (nonatomic, strong) UILabel *footerLabel;
 
 @property (nonatomic, strong) YYLabel *topLabel;
-@property (nonatomic, strong) LazyFadeInView *bottomLabel;
+//@property (nonatomic, strong) LazyFadeInView *bottomLabel;
 
 @property (nonatomic, strong) NSDictionary *hLabelAttributes;
 @property (nonatomic, strong) NSDictionary *vLabelAttributes;
@@ -128,12 +128,12 @@
     self.hLabelAttributes = hLabelAttributes;
     
     /* Init of bottom label */
-    LazyFadeInView *bottomLabel = [[LazyFadeInView alloc] initWithFrame:bottomLabelContainerView.bounds];
-    bottomLabel.textColor = vLabelColor;
-    bottomLabel.textFont = [UIFont systemFontOfSize:16.0 weight:UIFontWeightUltraLight];
-    bottomLabel.attributes = hLabelAttributes;
-    self.bottomLabel = bottomLabel;
-    [bottomLabelContainerView addSubview:bottomLabel];
+//    LazyFadeInView *bottomLabel = [[LazyFadeInView alloc] initWithFrame:bottomLabelContainerView.bounds];
+//    bottomLabel.textColor = vLabelColor;
+//    bottomLabel.textFont = [UIFont systemFontOfSize:16.0 weight:UIFontWeightUltraLight];
+//    bottomLabel.attributes = hLabelAttributes;
+//    self.bottomLabel = bottomLabel;
+//    [bottomLabelContainerView addSubview:bottomLabel];
     
     /* Init of footer label */
     UILabel *footerLabel = [[UILabel alloc] initWithFrame:CGRectMake(secondMargin, containerHeight - footerHeight, areaWidth, footerHeight)];
@@ -210,7 +210,7 @@
         [self setTopText:dailyCard.type];
     }
     if (dailyCard.string) {
-        [self setBottomText:dailyCard.string];
+//        [self setBottomText:dailyCard.string];
     }
 }
 
@@ -218,27 +218,27 @@
     _topLabel.text = topString;
 }
 
-- (void)setBottomText:(NSString *)bottomString {
-    if (bottomString.length == 0) {
-        _bottomLabel.hidden = YES;
-    } else {
-        _bottomLabel.hidden = NO;
-        CGSize bottomTextSize = [bottomString boundingRectWithSize:CGSizeMake(_bottomLabelContainerView.bounds.size.width, CGFLOAT_MAX)
-                                                           options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                                        attributes:_hLabelAttributes
-                                                           context:nil].size;
-        _bottomLabel.frame = CGRectMake((_bottomLabelContainerView.size.width - bottomTextSize.width) / 2, (_bottomLabelContainerView.size.height - bottomTextSize.height) / 2, bottomTextSize.width, bottomTextSize.height);
-        _bottomLabel.text = bottomString;
-    }
-}
+//- (void)setBottomText:(NSString *)bottomString {
+//    if (bottomString.length == 0) {
+//        _bottomLabel.hidden = YES;
+//    } else {
+//        _bottomLabel.hidden = NO;
+//        CGSize bottomTextSize = [bottomString boundingRectWithSize:CGSizeMake(_bottomLabelContainerView.bounds.size.width, CGFLOAT_MAX)
+//                                                           options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+//                                                        attributes:_hLabelAttributes
+//                                                           context:nil].size;
+//        _bottomLabel.frame = CGRectMake((_bottomLabelContainerView.size.width - bottomTextSize.width) / 2, (_bottomLabelContainerView.size.height - bottomTextSize.height) / 2, bottomTextSize.width, bottomTextSize.height);
+//        _bottomLabel.text = bottomString;
+//    }
+//}
 
-- (void)setErrorMessage:(NSString *)errorMessage {
-    if (errorMessage == nil) {
-        errorMessage = @"无可用卡片数据";
-    }
-    [self setTopText:@""];
-    [self setBottomText:[errorMessage stringByAppendingString:@"\n轻按以重新拉取"]];
-}
+//- (void)setErrorMessage:(NSString *)errorMessage {
+//    if (errorMessage == nil) {
+//        errorMessage = @"无可用卡片数据";
+//    }
+//    [self setTopText:@""];
+//    [self setBottomText:[errorMessage stringByAppendingString:@"\n轻按以重新拉取"]];
+//}
 
 - (void)dealloc {
     CYLog(@"");

@@ -112,9 +112,6 @@
 		0F947D241D5B2A29008E7392 /* UINavigationController+StatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F947D231D5B2A29008E7392 /* UINavigationController+StatusBar.m */; };
 		0F9A74371CE03EE2007F3CA5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F9A74361CE03EE2007F3CA5 /* libsqlite3.tbd */; };
 		0F9A743A1CE05A0E007F3CA5 /* CourtesyWeiboUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9A74391CE05A0E007F3CA5 /* CourtesyWeiboUserModel.m */; };
-		0F9BF8411CE5967E00C91F00 /* LazyFadeInLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9BF83C1CE5967E00C91F00 /* LazyFadeInLayer.m */; };
-		0F9BF8421CE5967E00C91F00 /* LazyFadeInView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9BF83E1CE5967E00C91F00 /* LazyFadeInView.m */; };
-		0F9BF8431CE5967E00C91F00 /* NSString+LFEmoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9BF8401CE5967E00C91F00 /* NSString+LFEmoji.m */; };
 		0F9BF8461CE5B16200C91F00 /* CourtesyGalleryLinkCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9BF8451CE5B16200C91F00 /* CourtesyGalleryLinkCardView.m */; };
 		0F9BF84A1CE5C67800C91F00 /* CourtesyGalleryLinkWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F9BF8491CE5C67800C91F00 /* CourtesyGalleryLinkWebViewController.m */; };
 		0FA726611CAAB32B00315E09 /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0FA7265E1CAAB32B00315E09 /* CodeScan.bundle */; };
@@ -2542,7 +2539,7 @@
 								enabled = 0;
 							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -2680,7 +2677,6 @@
 				0F6D38111CD100BA001155DF /* GradientColor.m in Sources */,
 				0FFE04741C93F45800E99DCC /* CourtesyQuickLoginButton.m in Sources */,
 				0FEFDBBE1C97D17500952522 /* NSTimer+AFSoundManager.m in Sources */,
-				0F9BF8421CE5967E00C91F00 /* LazyFadeInView.m in Sources */,
 				0FFE04651C93F45800E99DCC /* CourtesyFontSheetView.m in Sources */,
 				0F6E65D41CDB883300D3BB84 /* CourtesyPaddingLabel.m in Sources */,
 				0FFE04C31C93F47400E99DCC /* CourtesyCardDataModel.m in Sources */,
@@ -2714,7 +2710,6 @@
 				0F28516D1C97D8AD0066F5C5 /* JotTouchBezier.m in Sources */,
 				0F947D241D5B2A29008E7392 /* UINavigationController+StatusBar.m in Sources */,
 				0F2851701C97D8AD0066F5C5 /* UIImage+Jot.m in Sources */,
-				0F9BF8431CE5967E00C91F00 /* NSString+LFEmoji.m in Sources */,
 				0FB0A5571C9ABDD0004B06F3 /* CourtesyAudioSheetView.m in Sources */,
 				0FEFDBBD1C97D17500952522 /* AFSoundRecord.m in Sources */,
 				0FF2D29F1C95DAC7007C23DE /* CALayer+AddUIColor.m in Sources */,
@@ -2781,7 +2776,6 @@
 				0F30298E1CCE46A700161BA7 /* CourtesyCardAuthorHeader.m in Sources */,
 				0FFE6A411CDC851B00C825C7 /* CourtesyThemeSettingsTableViewController.m in Sources */,
 				0F5064E61C951DDD00F818AD /* CourtesyFontManager.m in Sources */,
-				0F9BF8411CE5967E00C91F00 /* LazyFadeInLayer.m in Sources */,
 				0F5064E91C95327F00F818AD /* CourtesyFontTableViewCell.m in Sources */,
 				0FFE04851C93F45800E99DCC /* CourtesyUserAgreementWebViewController.m in Sources */,
 				0F1EF8D11CCB68EE00090830 /* CourtesyCardQueryRequestModel.m in Sources */,
